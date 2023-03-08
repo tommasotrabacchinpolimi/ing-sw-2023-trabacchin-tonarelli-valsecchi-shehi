@@ -1,4 +1,6 @@
-public class BoardView {
+package view;
+
+public class BoardTUI {
     private static final int DIM = 9;
     private static final char EMPTY = '-';
     private static final char[][] test = {
