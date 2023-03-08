@@ -15,7 +15,7 @@ public class BoardTUI {
             {' ',' ',' ',' ','c','c',' ',' ',' '},};
 
     public static void main( String[] args ) {
-        printInSquare();
+       // printInSquare();
         printFitBoard();
     }
 
@@ -71,7 +71,7 @@ public class BoardTUI {
         int c; //starting column
         int i;
 
-        System.out.print( (r + 1) + "  " );
+        System.out.print( (char)(r + 'A' ) + "  " );
 
         switch (r) {
             case 0, 1, 7 -> {
