@@ -1,30 +1,30 @@
 package model;
 
 public class Tile {
-    private TileType type;
+    private TileSubject tileSubject;
     private int subType;
 
     public Tile(){
-        type = null;
+        tileSubject = null;
         subType = 0;
     }
 
     public Tile(Tile t){
-        this.type = t.getType();
+        this.tileSubject = t.getTileSubject();
         this.subType = t.getSubType();
     }
 
-    public Tile(TileType type, int subType) {
-        this.type = type;
+    public Tile(TileSubject tileSubject, int subType) {
+        this.tileSubject = tileSubject;
         this.subType = subType;
     }
 
-    public void setType(TileType type ){
-        this.type = type;
+    public void setTileSubject(TileSubject tileSubject ){
+        this.tileSubject = tileSubject;
     }
 
-    public TileType getType() {
-        return type;
+    public TileSubject getTileSubject() {
+        return tileSubject;
     }
 
     public void setSubType(int subType ){
