@@ -4,8 +4,7 @@
  */
 public class App 
 {
-    public static void main( String[] args )
-    {
-        System.out.println( "This is a second test!" );
+    public static void main( String[] args ) {
+        System.out.println( "Il mio git" );
     }
 }
