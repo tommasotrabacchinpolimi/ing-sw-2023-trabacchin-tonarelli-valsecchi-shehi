@@ -1,15 +1,17 @@
 package model;
 
-import java.util.Set;
+import java.util.*;
 
 import static model.BoardSquareType.THREE_DOTS;
 import static model.BoardSquareType.FOUR_DOTS;
 import static model.BoardSquareType.NO_DOTS;
-public class Board {
+public class Board implements Iterable<BoardSquare>{
 
 
     private static final int DIM = 9;
+    private static final int NUMBER_OF_BOARDSQUARE = 45;
     final private BoardSquare livingRoomBoard;
+    final private Set<Tile> bag;
     private static final BoardSquareType[][] init_matrix = {
             {null,null,null,THREE_DOTS,FOUR_DOTS,null,null,null,null},
             {null,null,null,NO_DOTS,NO_DOTS,FOUR_DOTS,null,null,null},
@@ -21,7 +23,7 @@ public class Board {
             {null,null,null,FOUR_DOTS,NO_DOTS,NO_DOTS,null,null,null},
             {null,null,null,null,FOUR_DOTS,THREE_DOTS,null,null,null}};
     public Board(Set<Tile> bag){
-
+        this.bag = bag;
         BoardSquare[][] temp = new BoardSquare[DIM][DIM];
         for(int i = 0;i<temp.length;i++){
             for(int j = 0;j<temp[0].length;j++){
@@ -50,12 +52,22 @@ public class Board {
                 }
             }
         }
-        this.livingRoomBoard = temp[0][3];
+        this.livingRoomBoard = temp[0][4];
     }
 
 
     public BoardSquare getLivingRoomBoard() {
         return livingRoomBoard;
+    }
+
+
+    @Override
+    public Iterator<BoardSquare> iterator() {
+        return new BoardIterator(this);
+    }
+
+    public int getNumberOfBoardsquare(){
+        return NUMBER_OF_BOARDSQUARE;
     }
 
 
