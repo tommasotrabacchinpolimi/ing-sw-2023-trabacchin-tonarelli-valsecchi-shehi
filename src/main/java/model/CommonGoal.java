@@ -19,4 +19,20 @@ public enum CommonGoal{
     private int availableScore;
     //descrizione del gioco
     private String description;
+
+    public int getAvailableScore() {
+        return availableScore;
+    }
+
+    public void setAvailableScore(int availableScore) {
+        this.availableScore = availableScore;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }
