@@ -2,9 +2,10 @@ package model;
 
 import java.util.*;
 
+import static model.BoardSquareType.NO_DOTS;
 import static model.BoardSquareType.THREE_DOTS;
 import static model.BoardSquareType.FOUR_DOTS;
-import static model.BoardSquareType.NO_DOTS;
+
 public class Board implements Iterable<BoardSquare>{
 
 

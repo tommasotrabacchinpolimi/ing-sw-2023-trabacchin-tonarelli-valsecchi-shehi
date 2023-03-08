@@ -1,7 +1,8 @@
 package model;
 
-import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Iterator;
+
 
 public class BoardIterator implements Iterator<BoardSquare> {
     private enum Direction{
