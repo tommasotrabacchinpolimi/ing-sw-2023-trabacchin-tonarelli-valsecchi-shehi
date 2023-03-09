@@ -1,14 +1,14 @@
 package model;
 
 public class PersonalGoal {
-    private int[][] referenceMatrix;
+    private final TileType[][] referenceMatrix;
 
     //costruttore
-    public PersonalGoal(int[][] matrix){
+    public PersonalGoal( TileType[][] matrix ){
         referenceMatrix = matrix;
     }
 
-    public int[][] getReferenceMatrix() {
+    public TileType[][] getReferenceMatrix() {
         return referenceMatrix;
     }
 

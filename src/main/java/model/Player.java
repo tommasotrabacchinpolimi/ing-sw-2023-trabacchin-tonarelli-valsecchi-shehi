@@ -4,7 +4,7 @@ public class Player {
     private String nickName;
     private PersonalGoal personalGoal;
 
-    public Player(String  nickName, PersonalGoal personalGoal){
+    public Player( String  nickName, PersonalGoal personalGoal ){
         this.nickName = nickName;
         this.personalGoal = personalGoal;
     }

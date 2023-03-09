@@ -21,12 +21,12 @@ public enum TileSubject {
     final private TileType tileType;
     final private int occurrence;
 
-    TileSubject(TileType tileType, int occurrence) {
+    TileSubject( TileType tileType, int occurrence ) {
         this.tileType = tileType;
         this.occurrence = occurrence;
     }
 
-    TileSubject(TileType tileType ) {
+    TileSubject( TileType tileType ) {
         this.tileType = tileType;
         this.occurrence = 3;
     }
