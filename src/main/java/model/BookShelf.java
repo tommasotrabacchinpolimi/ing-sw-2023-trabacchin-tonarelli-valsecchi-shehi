@@ -3,17 +3,17 @@ package model;
 public class BookShelf {
     private static final int R = 6;
     private static final int C = 5;
-    private Tile[][] tiletaken;
+    private TileSubject[][] tiletaken;
 
     public BookShelf() {
-        this.tiletaken = new Tile[R][C];
+        this.tiletaken = new TileSubject[R][C];
     }
 
-    public void setTiletaken(Tile[][] tiletaken) {
+    public void setTiletaken(TileSubject[][] tiletaken) {
         this.tiletaken = tiletaken;
     }
 
-    public Tile[][] getTiletaken() {
+    public TileSubject[][] getTiletaken() {
         return tiletaken;
     }
 
