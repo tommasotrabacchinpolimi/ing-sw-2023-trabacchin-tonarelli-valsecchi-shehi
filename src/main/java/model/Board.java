@@ -86,4 +86,6 @@ public class Board implements Iterable<BoardSquare>{
         Collections.shuffle(this.bag);
         return this.bag.remove(0);
     }
+
+
 }

@@ -42,4 +42,9 @@ public enum TileSubject {
     public String getTileTypeName(){
         return this.tileType.toString();
     }
+
+    @Override
+    public String toString() {
+        return this.name();
+    }
 }

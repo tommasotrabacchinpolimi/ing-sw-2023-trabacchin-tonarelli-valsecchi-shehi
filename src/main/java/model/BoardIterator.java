@@ -4,7 +4,9 @@ import java.util.NoSuchElementException;
 import java.util.Iterator;
 
 
+
 public class BoardIterator implements Iterator<BoardSquare> {
+
     private enum Direction{
         LEFT,
         RIGHT
@@ -34,6 +36,8 @@ public class BoardIterator implements Iterator<BoardSquare> {
     public BoardSquare next() {
         if( last == null ) {
             this.last = this.board.getLivingRoomBoard();
+            this.number_of_iterated_squares++;
+            return this.last;
         }
         switch( this.direction  ){
             case LEFT -> {
