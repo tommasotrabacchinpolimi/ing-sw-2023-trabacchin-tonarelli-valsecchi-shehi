@@ -25,7 +25,7 @@ public class BoardIterator implements Iterator<BoardSquare> {
     }
     @Override
     public boolean hasNext() {
-        return this.number_of_iterated_squares != this.board.getNumberOfBoardsquare();
+        return this.number_of_iterated_squares != this.board.getNumberOfBoardSquares();
     }
 
     @Override
