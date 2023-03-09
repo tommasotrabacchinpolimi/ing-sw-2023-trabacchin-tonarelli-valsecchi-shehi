@@ -1,6 +1,9 @@
 package model;
 
-public class BookShelf {
+import java.io.Serializable;
+
+public class BookShelf implements Serializable {
+    private static final long serialVersionUID = 9828497462L;
     private static final int R = 6;
     private static final int C = 5;
     private TileSubject[][] tileSubjectTaken;

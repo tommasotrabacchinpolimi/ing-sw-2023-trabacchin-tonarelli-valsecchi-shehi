@@ -1,6 +1,9 @@
 package model;
 
-public class PersonalGoal {
+import java.io.Serializable;
+
+public class PersonalGoal implements Serializable {
+    private static final long serialVersionUID = 52353836745724632L;
     private final TileType[][] referenceMatrix;
 
     //costruttore

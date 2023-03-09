@@ -1,9 +1,11 @@
 package model;
 
+import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.List;
 
-public class ChatMessage {
+public class ChatMessage implements Serializable {
+    private static final long serialVersionUID = 82642348L;
     private Player from;
     private List<Player> to;
     private String text;

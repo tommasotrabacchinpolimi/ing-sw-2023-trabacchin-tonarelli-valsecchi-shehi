@@ -1,6 +1,9 @@
 package model;
 
-public class Player {
+import java.io.Serializable;
+
+public class Player implements Serializable {
+    private static final long serialVersionUID = 97354642643274L;
     private String nickName;
     private PersonalGoal personalGoal;
 

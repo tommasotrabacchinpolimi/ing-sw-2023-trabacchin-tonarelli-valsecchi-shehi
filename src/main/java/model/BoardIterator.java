@@ -1,20 +1,24 @@
 package model;
 
+import java.io.Serializable;
 import java.util.NoSuchElementException;
 import java.util.Iterator;
 
 
-public class BoardIterator implements Iterator<BoardSquare> {
-    private enum Direction{
+public class BoardIterator implements Iterator<BoardSquare>, Serializable {
+    private static final long serialVersionUID = 18052001L;
+
+    private enum Direction implements Serializable{
         LEFT,
-        RIGHT
+        RIGHT;
+
+        private static final long serialVersionUID = 784386346274L;
     }
+
     final private Board board;
     private BoardSquare last;
     private BoardSquare middle;
-
     private Direction direction;
-
     private int number_of_iterated_squares;
 
     public BoardIterator( Board board ){
@@ -47,7 +51,6 @@ public class BoardIterator implements Iterator<BoardSquare> {
                     searchDown();
                 }
             }
-
             case RIGHT -> {
                 this.last = this.last.getRight();
                 searchDown();
@@ -67,4 +70,5 @@ public class BoardIterator implements Iterator<BoardSquare> {
             }
         }
     }
+
 }
