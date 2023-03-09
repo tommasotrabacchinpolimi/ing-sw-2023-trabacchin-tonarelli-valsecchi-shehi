@@ -19,24 +19,24 @@ public enum TileSubject {
     COMIC_BOOK( TileType.BOOK );
 
     final private TileType tileType;
-    final private int occurrency;
+    final private int occurrence;
 
-    TileSubject(TileType tileType, int occurrency) {
+    TileSubject(TileType tileType, int occurrence) {
         this.tileType = tileType;
-        this.occurrency = occurrency;
+        this.occurrence = occurrence;
     }
 
     TileSubject(TileType tileType ) {
         this.tileType = tileType;
-        this.occurrency = 3;
+        this.occurrence = 3;
     }
 
     public TileType getTileType() {
         return tileType;
     }
 
-    public int getOccurrency() {
-        return occurrency;
+    public int getOccurrence() {
+        return occurrence;
     }
 
     public String getTileTypeName(){

@@ -1,10 +1,11 @@
 package model;
 
 import java.lang.reflect.Type;
+import java.util.List;
 
 public class ChatMessage {
     private Player from;
-    private Player[] to;
+    private List<Player> to;
     private String text;
 
     public Player getFrom() {
@@ -15,7 +16,7 @@ public class ChatMessage {
         return text;
     }
 
-    public Player[] getTo() {
+    public List<Player> getTo() {
         return to;
     }
 
@@ -23,8 +24,12 @@ public class ChatMessage {
         this.from = from;
     }
 
-    public void setTo(Player[] to) {
-        this.to = to;
+    public void setTo(Player to) {
+        this.to.add(to);
+    }
+
+    public void setToAll(List<Player> to){
+        this.to.addAll(to);
     }
 
     public void setText(String text) {

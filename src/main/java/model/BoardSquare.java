@@ -47,11 +47,11 @@ public class BoardSquare {
         this.left = left;
     }
 
-    public TileSubject getTile() {
+    public TileSubject getTileSubject() {
         return tileSubject;
     }
 
-    public void setTile(TileSubject tileSubject) {
+    public void setTileSubject(TileSubject tileSubject) {
         this.tileSubject = tileSubject;
     }
 

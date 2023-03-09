@@ -16,6 +16,7 @@ public class BoardIterator implements Iterator<BoardSquare> {
     private Direction direction;
 
     private int number_of_iterated_squares;
+
     public BoardIterator(Board board){
         this.board = board;
         this.last = null;
@@ -23,6 +24,7 @@ public class BoardIterator implements Iterator<BoardSquare> {
         this.direction = Direction.LEFT;
         this.number_of_iterated_squares = 0;
     }
+
     @Override
     public boolean hasNext() {
         return this.number_of_iterated_squares != this.board.getNumberOfBoardSquares();
@@ -30,13 +32,13 @@ public class BoardIterator implements Iterator<BoardSquare> {
 
     @Override
     public BoardSquare next() {
-        if(last==null){
+        if( last == null ) {
             this.last = this.board.getLivingRoomBoard();
         }
-        switch(this.direction){
+        switch( this.direction  ){
             case LEFT -> {
                 this.last = this.last.getLeft();
-                if(this.last==null){
+                if( this.last==null ) {
                     this.last = this.middle.getRight();
                     this.direction = Direction.RIGHT;
                     searchDown();
@@ -53,11 +55,11 @@ public class BoardIterator implements Iterator<BoardSquare> {
     }
 
     private void searchDown() {
-        if(this.last==null){
+        if( this.last == null ){
             this.last = this.middle.getBottom();
             this.middle = this.last;
             this.direction = Direction.LEFT;
-            if(this.last==null){
+            if( this.last == null ){
                 throw new NoSuchElementException("No more BoardSquare in the Board");
             }
         }
