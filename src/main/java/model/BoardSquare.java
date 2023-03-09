@@ -5,7 +5,7 @@ public class BoardSquare {
     private BoardSquare bottom;
     private BoardSquare right;
     private BoardSquare left;
-    private Tile tile;
+    private TileSubject tileSubject;
     final private BoardSquareType boardSquareType;
     public BoardSquare(BoardSquareType boardSquareType){
         this.boardSquareType = boardSquareType;
@@ -47,12 +47,12 @@ public class BoardSquare {
         this.left = left;
     }
 
-    public Tile getTile() {
-        return tile;
+    public TileSubject getTile() {
+        return tileSubject;
     }
 
-    public void setTile(Tile tile) {
-        this.tile = tile;
+    public void setTile(TileSubject tileSubject) {
+        this.tileSubject = tileSubject;
     }
 
 

@@ -12,7 +12,7 @@ public class Board implements Iterable<BoardSquare>{
     private static final int DIM = 9;
     private static final int NUMBER_OF_BOARDSQUARE = 45;
     final private BoardSquare livingRoomBoard;
-    final private Set<Tile> bag;
+    final private List<TileSubject> bag;
     private static final BoardSquareType[][] init_matrix = {
             {null,null,null,THREE_DOTS,FOUR_DOTS,null,null,null,null},
             {null,null,null,NO_DOTS,NO_DOTS,FOUR_DOTS,null,null,null},
@@ -23,8 +23,8 @@ public class Board implements Iterable<BoardSquare>{
             {null,null,THREE_DOTS,NO_DOTS,NO_DOTS,NO_DOTS,THREE_DOTS,null,null},
             {null,null,null,FOUR_DOTS,NO_DOTS,NO_DOTS,null,null,null},
             {null,null,null,null,FOUR_DOTS,THREE_DOTS,null,null,null}};
-    public Board(Set<Tile> bag){
-        this.bag = bag;
+    public Board(){
+        this.bag = null;
         BoardSquare[][] temp = new BoardSquare[DIM][DIM];
         for(int i = 0;i<temp.length;i++){
             for(int j = 0;j<temp[0].length;j++){
@@ -67,7 +67,7 @@ public class Board implements Iterable<BoardSquare>{
         return new BoardIterator(this);
     }
 
-    public int getNumberOfBoardsquare(){
+    public int getNumberOfBoardSquares(){
         return NUMBER_OF_BOARDSQUARE;
     }
 
