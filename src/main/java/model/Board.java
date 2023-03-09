@@ -48,17 +48,17 @@ public class Board implements Iterable<BoardSquare>{
         for( int i = 0; i < temp.length; i++ ){
             for( int j = 0; j < temp.length; j++ ){
                 if( temp[i][j] != null ){
-                    if( i-1 >= 0 && temp[i][j] != null ){
-                        temp[i][j].setTop(temp[i-1][j]);
+                    if( i - 1 >= 0 && temp[i][j] != null ){
+                        temp[i][j].setTop( temp[i-1][j] );
                     }
                     if( j-1 >= 0 && temp[i][j] != null ){
-                        temp[i][j].setLeft(temp[i][j-1]);
+                        temp[i][j].setLeft( temp[i][j-1] );
                     }
                     if( i+1 < DIM && temp[i][j] != null ){
-                        temp[i][j].setBottom(temp[i+1][j]);
+                        temp[i][j].setBottom( temp[i+1][j] );
                     }
                     if( j+1 < DIM && temp[i][j] != null ){
-                        temp[i][j].setRight(temp[i][j+1]);
+                        temp[i][j].setRight( temp[i][j+1] );
                     }
                 }
             }
@@ -74,7 +74,7 @@ public class Board implements Iterable<BoardSquare>{
 
     @Override
     public Iterator<BoardSquare> iterator() {
-        return new BoardIterator(this);
+        return new BoardIterator( this );
     }
 
     public int getNumberOfBoardSquares(){
@@ -83,7 +83,7 @@ public class Board implements Iterable<BoardSquare>{
 
     // method for extracting a casual TileSubject from bag
     public TileSubject getRandomTileSubject() {
-        Collections.shuffle(this.bag);
-        return this.bag.remove(0);
+        Collections.shuffle( this.bag );
+        return this.bag.remove( 0 );
     }
 }

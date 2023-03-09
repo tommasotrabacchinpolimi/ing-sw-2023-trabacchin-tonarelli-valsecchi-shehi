@@ -12,7 +12,7 @@ public class BoardTUI {
             {'c','c','c',EMPTY,EMPTY,'c',EMPTY,EMPTY,' '},
             {' ',' ',EMPTY,EMPTY,EMPTY,'c',EMPTY,' ',' '},
             {' ',' ',' ',EMPTY,'c',EMPTY,' ',' ',' '},
-            {' ',' ',' ',' ','c','c',' ',' ',' '},};
+            {' ',' ',' ',' ','c','c',' ',' ',' '}};
 
     public static void main( String[] args ) {
        // printInSquare();

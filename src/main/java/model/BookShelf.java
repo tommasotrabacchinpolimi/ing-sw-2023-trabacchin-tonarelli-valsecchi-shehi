@@ -9,7 +9,7 @@ public class BookShelf {
         this.tileSubjectTaken = new TileSubject[R][C];
     }
 
-    public void setTileSubjectTaken(TileSubject[][] tileSubjectTaken) {
+    public void setTileSubjectTaken( TileSubject[][] tileSubjectTaken ) {
         this.tileSubjectTaken = tileSubjectTaken;
     }
 

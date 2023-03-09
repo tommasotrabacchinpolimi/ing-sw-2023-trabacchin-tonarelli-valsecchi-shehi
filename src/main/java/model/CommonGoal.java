@@ -24,7 +24,7 @@ public enum CommonGoal{
         return availableScore;
     }
 
-    public void setAvailableScore(int availableScore) {
+    public void setAvailableScore( int availableScore ) {
         this.availableScore = availableScore;
     }
 
@@ -32,7 +32,7 @@ public enum CommonGoal{
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription( String description ) {
         this.description = description;
     }
 }

@@ -7,7 +7,7 @@ public class BoardSquare {
     private BoardSquare left;
     private TileSubject tileSubject;
     final private BoardSquareType boardSquareType;
-    public BoardSquare(BoardSquareType boardSquareType){
+    public BoardSquare( BoardSquareType boardSquareType ){
         this.boardSquareType = boardSquareType;
     }
     public BoardSquareType getBoardSquareType() {
@@ -19,7 +19,7 @@ public class BoardSquare {
         return top;
     }
 
-    public void setTop(BoardSquare top) {
+    public void setTop( BoardSquare top ) {
         this.top = top;
     }
 
@@ -27,7 +27,7 @@ public class BoardSquare {
         return bottom;
     }
 
-    public void setBottom(BoardSquare bottom) {
+    public void setBottom( BoardSquare bottom ) {
         this.bottom = bottom;
     }
 
@@ -35,7 +35,7 @@ public class BoardSquare {
         return right;
     }
 
-    public void setRight(BoardSquare right) {
+    public void setRight( BoardSquare right ) {
         this.right = right;
     }
 
@@ -43,7 +43,7 @@ public class BoardSquare {
         return left;
     }
 
-    public void setLeft(BoardSquare left) {
+    public void setLeft( BoardSquare left) {
         this.left = left;
     }
 
@@ -51,10 +51,7 @@ public class BoardSquare {
         return tileSubject;
     }
 
-    public void setTileSubject(TileSubject tileSubject) {
+    public void setTileSubject( TileSubject tileSubject ) {
         this.tileSubject = tileSubject;
     }
-
-
-
 }
