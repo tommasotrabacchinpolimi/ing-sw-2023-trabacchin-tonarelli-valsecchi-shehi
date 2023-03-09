@@ -10,7 +10,7 @@ public enum TileSubject {
     LOVE_FRAME( TileType.FRAME ),
     MONUMENT_FRAME( TileType.FRAME );
 
-    private TileType tileType;
+    final private TileType tileType;
 
     TileSubject(TileType tileType) {
         this.tileType = tileType;
