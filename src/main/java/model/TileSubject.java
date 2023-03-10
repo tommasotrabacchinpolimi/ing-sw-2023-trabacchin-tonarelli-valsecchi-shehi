@@ -1,6 +1,8 @@
 package model;
 
-public enum TileSubject {
+import java.io.Serializable;
+
+public enum TileSubject implements Serializable {
     GRAY_CAT( TileType.CAT ),
     ORANGE_CAT( TileType.CAT ),
     BLACK_CAT( TileType.CAT ),
@@ -18,6 +20,7 @@ public enum TileSubject {
     DICTIONARY_BOOK( TileType.BOOK ),
     COMIC_BOOK( TileType.BOOK );
 
+    private static final long serialVersionUID = 5341537492L;
     final private TileType tileType;
     final private int occurrence;
 

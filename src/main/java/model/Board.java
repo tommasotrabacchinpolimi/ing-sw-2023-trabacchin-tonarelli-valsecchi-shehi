@@ -1,14 +1,14 @@
 package model;
 
+import java.io.Serializable;
 import java.util.*;
 
 import static model.BoardSquareType.NO_DOTS;
 import static model.BoardSquareType.THREE_DOTS;
 import static model.BoardSquareType.FOUR_DOTS;
 
-public class Board implements Iterable<BoardSquare>{
-
-
+public class Board implements Iterable<BoardSquare>, Serializable {
+    private static final long serialVersionUID = 27112000L;
     private static final int DIM = 9;
     private static final int NUMBER_OF_BOARDSQUARE = 45;
     final private BoardSquare livingRoomBoard;

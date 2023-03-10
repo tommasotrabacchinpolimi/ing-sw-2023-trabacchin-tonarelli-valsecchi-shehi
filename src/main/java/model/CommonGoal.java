@@ -1,6 +1,8 @@
 package model;
 
-public enum CommonGoal{
+import java.io.Serializable;
+
+public enum CommonGoal implements Serializable {
     //nomi da assegnare in modo più significativo
     COMMON_GOAL1,
     COMMON_GOAL2,
@@ -15,6 +17,7 @@ public enum CommonGoal{
     COMMON_GOAL11,
     COMMON_GOAL12;
 
+    private static final long serialVersionUID = 285236373L;
     //attributo per memorizzare il punteggio assegnato dal goal
     private int availableScore;
     //descrizione del gioco

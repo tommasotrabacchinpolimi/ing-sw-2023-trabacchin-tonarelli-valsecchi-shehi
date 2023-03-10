@@ -1,6 +1,9 @@
 package model;
 
-public class BoardSquare {
+import java.io.Serializable;
+
+public class BoardSquare implements Serializable {
+    private static final long serialVersionUID = 22012000L;
     private BoardSquare top;
     private BoardSquare bottom;
     private BoardSquare right;
