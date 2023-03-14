@@ -1,16 +1,92 @@
 package controller;
 
+import model.BookShelf;
+
 public enum CommonGoalFunction {
-    CG1_FUNCTION,
-    CG2_FUCNTION,
-    CG3_FUNCTION,
-    CG4_FUNCTION,
-    CG5_FUNCTION,
-    CG6_FUNCTION,
-    CG7_FUNCTION,
-    CG8_FUCNTION,
-    CG9_FUNCTION,
-    CG10_FUNCTION,
-    CG11_FUCNTION,
-    CG12_FUNCTION;
+
+    CG1_FUNCTION{
+        @Override
+        public boolean execute( BookShelf bookShelf ){
+            return true;
+        }
+    },
+
+    CG2_FUCNTION{
+        @Override
+        public boolean execute( BookShelf bookShelf ){
+            return true;
+        }
+    },
+
+    CG3_FUNCTION{
+        @Override
+        public boolean execute( BookShelf bookShelf ){
+            return true;
+        }
+    },
+
+    CG4_FUNCTION{
+        @Override
+        public boolean execute( BookShelf bookShelf ){
+            return true;
+        }
+    },
+
+    CG5_FUNCTION{
+        @Override
+        public boolean execute( BookShelf bookShelf ){
+            return true;
+        }
+    },
+
+    CG6_FUNCTION{
+        @Override
+        public boolean execute( BookShelf bookShelf ){
+            return true;
+        }
+    },
+
+    CG7_FUNCTION{
+        @Override
+        public boolean execute( BookShelf bookShelf ){
+            return true;
+        }
+    },
+
+    CG8_FUCNTION{
+        @Override
+        public boolean execute( BookShelf bookShelf ){
+            return true;
+        }
+    },
+
+    CG9_FUNCTION{
+        @Override
+        public boolean execute( BookShelf bookShelf ){
+            return true;
+        }
+    },
+
+    CG10_FUNCTION{
+        @Override
+        public boolean execute( BookShelf bookShelf ){
+            return true;
+        }
+    },
+
+    CG11_FUCNTION{
+        @Override
+        public boolean execute( BookShelf bookShelf ){
+            return true;
+        }
+    },
+
+    CG12_FUNCTION{
+        @Override
+        public boolean execute( BookShelf bookShelf ){
+            return true;
+        }
+    };
+
+    abstract boolean execute( BookShelf bookShelf );
 }
