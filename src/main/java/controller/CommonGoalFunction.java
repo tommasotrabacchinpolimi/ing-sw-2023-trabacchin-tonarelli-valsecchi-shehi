@@ -21,6 +21,7 @@ public enum CommonGoalFunction {
     CG3_FUNCTION{
         @Override
         public boolean execute( BookShelf bookShelf ){
+            System.out.println("common3");
             return true;
         }
     },
