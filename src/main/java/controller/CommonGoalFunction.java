@@ -1,0 +1,16 @@
+package controller;
+
+public enum CommonGoalFunction {
+    CG1_FUNCTION,
+    CG2_FUCNTION,
+    CG3_FUNCTION,
+    CG4_FUNCTION,
+    CG5_FUNCTION,
+    CG6_FUNCTION,
+    CG7_FUNCTION,
+    CG8_FUCNTION,
+    CG9_FUNCTION,
+    CG10_FUNCTION,
+    CG11_FUCNTION,
+    CG12_FUNCTION;
+}
