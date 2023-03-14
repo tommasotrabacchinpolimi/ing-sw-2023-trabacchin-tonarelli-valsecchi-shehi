@@ -20,7 +20,7 @@ public enum CommonGoal implements Serializable {
     private static final long serialVersionUID = 285236373L;
     //attributo per memorizzare il punteggio assegnato dal goal
     private int availableScore;
-    //descrizione del gioco
+    //descrizione della common goal
     private String description;
 
     public int getAvailableScore() {
