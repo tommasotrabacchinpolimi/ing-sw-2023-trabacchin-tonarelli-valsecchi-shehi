@@ -17,7 +17,6 @@ public class BoardSquare implements Serializable {
         return boardSquareType;
     }
 
-
     public BoardSquare getTop() {
         return top;
     }
@@ -46,7 +45,7 @@ public class BoardSquare implements Serializable {
         return left;
     }
 
-    public void setLeft( BoardSquare left) {
+    public void setLeft( BoardSquare left ) {
         this.left = left;
     }
 

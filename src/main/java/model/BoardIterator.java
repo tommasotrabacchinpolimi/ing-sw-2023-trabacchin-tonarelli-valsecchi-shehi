@@ -19,27 +19,27 @@ public class BoardIterator implements Iterator<BoardSquare>, Serializable {
     private BoardSquare last;
     private BoardSquare middle;
     private Direction direction;
-    private int number_of_iterated_squares;
+    private int numberOfIteratedSquares;
 
     public BoardIterator( Board board ){
         this.board = board;
         this.last = null;
         this.middle = board.getLivingRoomBoard();
         this.direction = Direction.LEFT;
-        this.number_of_iterated_squares = 0;
+        this.numberOfIteratedSquares = 0;
     }
 
     @Override
     public boolean hasNext() {
         //check if the number of iterated square are the number of the square on the board
-        return this.number_of_iterated_squares != this.board.getNumberOfBoardSquares();
+        return this.numberOfIteratedSquares != this.board.getNumberOfBoardSquares();
     }
 
     @Override
     public BoardSquare next() {
         if( last == null ) {
             this.last = this.board.getLivingRoomBoard();
-            this.number_of_iterated_squares++;
+            this.numberOfIteratedSquares++;
             return this.last;
         }
         switch( this.direction  ){
@@ -56,7 +56,7 @@ public class BoardIterator implements Iterator<BoardSquare>, Serializable {
                 searchDown();
             }
         }
-        this.number_of_iterated_squares++;
+        this.numberOfIteratedSquares++;
         return this.last;
     }
 
