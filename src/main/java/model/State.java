@@ -10,11 +10,13 @@ public class State implements Serializable {
     private Board board;
     private CommonGoal commonGoal1, commonGoal2;
     private List<Player> players;
+    private Player currentPlayer;
     transient List<ChatMessage> messages; //excluded from serialization
 
     public State(){
         board = new Board();
         players = new ArrayList<>();
+        currentPlayer = null;
         messages = new LinkedList<>();
     }
 
@@ -52,6 +54,14 @@ public class State implements Serializable {
 
     public void addPlayer(Player player){
         this.players.add(player);
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
     }
 
     public List<ChatMessage> getMessages() {
