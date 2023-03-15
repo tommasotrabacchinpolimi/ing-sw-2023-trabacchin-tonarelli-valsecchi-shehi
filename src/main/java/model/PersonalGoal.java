@@ -1,18 +1,25 @@
 package model;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class PersonalGoal implements Serializable {
     private static final long serialVersionUID = 52353836745724632L;
-    private final TileType[][] referenceMatrix;
+    private List<Triplet> goalPattern;
 
-    //costruttore
-    public PersonalGoal( TileType[][] matrix ){
-        referenceMatrix = matrix;
+    public PersonalGoal(){
+
     }
 
-    public TileType[][] getReferenceMatrix() {
-        return referenceMatrix;
+    public PersonalGoal(List<Triplet> goalPattern) {
+        this.goalPattern = goalPattern;
     }
 
+    public List<Triplet> getGoalPattern() {
+        return goalPattern;
+    }
+
+    public void setGoalPattern(List<Triplet> goalPattern) {
+        this.goalPattern = goalPattern;
+    }
 }
