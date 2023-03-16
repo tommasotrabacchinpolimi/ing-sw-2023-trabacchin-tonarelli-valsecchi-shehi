@@ -2,6 +2,7 @@ package model;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.io.FileReader;
@@ -16,7 +17,11 @@ public class PersonalGoal implements Serializable {
     private List<EntryPatternGoal> goalPattern;
 
     public PersonalGoal(){
-        createGoalPattern();
+        goalPattern = new ArrayList<>();
+    }
+
+    public PersonalGoal(String fileName){
+        fillFromJSONGoalPattern( fileName );
     }
 
     public PersonalGoal(List<EntryPatternGoal> goalPattern) {
@@ -31,7 +36,7 @@ public class PersonalGoal implements Serializable {
         this.goalPattern = goalPattern;
     }
 
-    private void createGoalPattern(){
+    private void fillFromJSONGoalPattern(String fileName){
         JSONObject jo = getJSONFile();
 
         Map map;

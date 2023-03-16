@@ -1,14 +1,15 @@
 import com.google.gson.Gson;
 import model.EntryPatternGoal;
+import model.PersonalGoal;
 import model.TileType;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class JSONCreationTest {
     private final static int TILE_NUMBER = 6; //number of TileType per pattern
@@ -17,24 +18,78 @@ public class JSONCreationTest {
 
     public static void main(String[] args){
         JSONCreationTest jCT = new JSONCreationTest();
-        jCT.workingWithGSON( jCT );
+        jCT.personalGoalGSON( jCT );
+    }
+
+    private void personalGoalGSON( JSONCreationTest jCT ){
+        Gson gson = new Gson();
+
+        for(int i = 0; i < PATTERN_NUMBER; i++) {
+            PrintWriter pw = jCT.getPrintWriter(i);
+
+            PersonalGoal personalGoal = new PersonalGoal();
+
+            consistentGoalPattern(personalGoal.getGoalPattern());
+
+            assert pw != null;
+            pw.write(gson.toJson(personalGoal));
+
+            pw.flush();
+            pw.close();
+        }
+    }
+
+    private void consistentGoalPattern(List<EntryPatternGoal> goalPattern) {
+        EntryPatternGoal entryPatternGoal = getRandomEntry();
+        goalPattern.add(entryPatternGoal);
+
+        for(int i = 0; i < TILE_NUMBER; i++) {
+            entryPatternGoal = getRandomEntry();
+
+            if(!hasSamePosition(goalPattern, entryPatternGoal)) {
+                goalPattern.add(entryPatternGoal);
+            }else {
+                --i;
+            }
+        }
+    }
+
+    public boolean hasSamePosition(List<EntryPatternGoal> goalPattern, EntryPatternGoal entryPatternGoal){
+        for( EntryPatternGoal epg : goalPattern ) {
+            if( epg.getColumn() == entryPatternGoal.getColumn() &&
+                    epg.getRow() == entryPatternGoal.getRow()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void workingWithGSON( JSONCreationTest jCT ){
-        PrintWriter pw = jCT.getPrintWriter();
+        PrintWriter pw = jCT.getPrintWriter(0);
 
         Gson gson = new Gson();
 
+        pw.write("{\"goalPattern\":[\n");
+
         for(int i = 0; i < PATTERN_NUMBER; ++i) {
-            EntryPatternGoal entryPatternGoal = new EntryPatternGoal(
-                    RANDOM.nextInt(6),
-                    RANDOM.nextInt(7),
-                    TileType.values()[RANDOM.nextInt(TileType.values().length)]);
-            pw.write(gson.toJson(entryPatternGoal) + "\n");
+            pw.write("\t" + gson.toJson(getRandomEntry()) );
+
+            if(i < PATTERN_NUMBER - 1)
+                pw.write(",\n");
         }
+
+        pw.write("]\n}");
 
         pw.flush();
         pw.close();
+    }
+
+    private EntryPatternGoal getRandomEntry() {
+        return new EntryPatternGoal(
+                RANDOM.nextInt(6),
+                RANDOM.nextInt(7),
+                TileType.values()[RANDOM.nextInt(TileType.values().length)]);
     }
 
     private void workingWithJsonSimple( JSONCreationTest jCT ){
@@ -42,7 +97,7 @@ public class JSONCreationTest {
         // creating JSONObject
         JSONObject jo = new JSONObject();
 
-        PrintWriter pw = jCT.getPrintWriter();
+        PrintWriter pw = jCT.getPrintWriter(2);
 
         for(int j = 0; j < PATTERN_NUMBER; j++){
             // the pattern is store as JSONArray
@@ -62,10 +117,10 @@ public class JSONCreationTest {
         pw.close();
     }
 
-    private PrintWriter getPrintWriter(){
+    private PrintWriter getPrintWriter(int index){
         try {
-            return new PrintWriter("JSONPersonalGoalPatternExample.json");
-        } catch (FileNotFoundException e) {
+            return new PrintWriter("./src/JSONTestFile/PersonalGoalPattern" + index + ".json");
+        } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
