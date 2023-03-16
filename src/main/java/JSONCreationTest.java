@@ -5,8 +5,6 @@ import model.TileType;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
@@ -21,11 +19,13 @@ public class JSONCreationTest {
         jCT.personalGoalGSON( jCT );
     }
 
+    // metodo che converte l'entità PersonalGoal (lista di EntryPatternGoal) in formato Json,
+    // nel caso in cui ci sia una corrispondenza biunivoca tra file Json e Personal Goal
     private void personalGoalGSON( JSONCreationTest jCT ){
         Gson gson = new Gson();
 
         for(int i = 0; i < PATTERN_NUMBER; i++) {
-            PrintWriter pw = jCT.getPrintWriter(i);
+            PrintWriter pw = jCT.getPrintWriter( i + 1 );
 
             PersonalGoal personalGoal = new PersonalGoal();
 
@@ -39,21 +39,24 @@ public class JSONCreationTest {
         }
     }
 
+    // metodo che controlla che non ci siano due EntryPatternGoal con la stessa posizione nel file Json
     private void consistentGoalPattern(List<EntryPatternGoal> goalPattern) {
         EntryPatternGoal entryPatternGoal = getRandomEntry();
         goalPattern.add(entryPatternGoal);
 
-        for(int i = 0; i < TILE_NUMBER; i++) {
+        for(int i = 1; i < TILE_NUMBER; i++) {
             entryPatternGoal = getRandomEntry();
 
             if(!hasSamePosition(goalPattern, entryPatternGoal)) {
                 goalPattern.add(entryPatternGoal);
-            }else {
+            } else {
                 --i;
             }
         }
     }
 
+    // metodo che verifica se ci sono due EntryPatternGoal con la stessa posizione,
+    // nel caso in cui ogni PersonalGoal sia in un unico file Json (corrispondenza biunivoca tra file Json e Personal Goal)
     public boolean hasSamePosition(List<EntryPatternGoal> goalPattern, EntryPatternGoal entryPatternGoal){
         for( EntryPatternGoal epg : goalPattern ) {
             if( epg.getColumn() == entryPatternGoal.getColumn() &&
@@ -65,6 +68,7 @@ public class JSONCreationTest {
         return false;
     }
 
+    // analogo al metodo personalGoalGSON ma nel caso in cui tutti i PersonalGoal sono specificati in un unico file JSON
     private void workingWithGSON( JSONCreationTest jCT ){
         PrintWriter pw = jCT.getPrintWriter(0);
 
@@ -85,6 +89,7 @@ public class JSONCreationTest {
         pw.close();
     }
 
+    // metodo che crea una EntryPatternGoal randomica
     private EntryPatternGoal getRandomEntry() {
         return new EntryPatternGoal(
                 RANDOM.nextInt(6),
@@ -92,6 +97,8 @@ public class JSONCreationTest {
                 TileType.values()[RANDOM.nextInt(TileType.values().length)]);
     }
 
+    @Deprecated
+    // metodo analogo a workingWithGSON, ma converte gli oggetti EntryPatternGoal in array di elementi
     private void workingWithJsonSimple( JSONCreationTest jCT ){
 
         // creating JSONObject
@@ -107,7 +114,7 @@ public class JSONCreationTest {
                 ja.add(jCT.randomPersonalGoalPatternEntry());
             }
             // putting phoneNumbers to JSONObject
-            jo.put("patternEntry" + j, ja );
+            jo.put("patternEntry" + (j + 1), ja );
         }
 
         pw.write(jo.toJSONString()
@@ -117,6 +124,8 @@ public class JSONCreationTest {
         pw.close();
     }
 
+    // metodo che ottiene il path dove salvare il file JSON e restituisce un oggetto PrintWriter per scrivere
+    // nel file JSON (nb: il file JSON non è ancora salvato)
     private PrintWriter getPrintWriter(int index){
         try {
             return new PrintWriter("./src/JSONTestFile/PersonalGoalPattern" + index + ".json");
@@ -126,6 +135,8 @@ public class JSONCreationTest {
         }
     }
 
+    @Deprecated
+    // genera un EntryPatternGoal randomico (serve per il metodo workingWithJsonSimple, non usato)
     private Map randomPersonalGoalPatternEntry(){
         return createPersonalGoalPatternEntry(
                 RANDOM.nextInt(6),
@@ -134,6 +145,7 @@ public class JSONCreationTest {
         );
     }
 
+    @Deprecated
     // creation of LinkedHashMap for EntryPattenGoal attributes
     private Map createPersonalGoalPatternEntry(int column, int row, TileType tileType){
         Map m = new LinkedHashMap(3);
