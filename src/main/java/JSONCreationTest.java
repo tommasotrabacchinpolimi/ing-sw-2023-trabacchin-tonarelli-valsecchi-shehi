@@ -68,6 +68,7 @@ public class JSONCreationTest {
         return false;
     }
 
+    @Deprecated
     // analogo al metodo personalGoalGSON ma nel caso in cui tutti i PersonalGoal sono specificati in un unico file JSON
     private void workingWithGSON( JSONCreationTest jCT ){
         PrintWriter pw = jCT.getPrintWriter(0);
