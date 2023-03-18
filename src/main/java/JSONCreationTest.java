@@ -2,8 +2,6 @@ import com.google.gson.Gson;
 import model.EntryPatternGoal;
 import model.PersonalGoal;
 import model.TileType;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -68,61 +66,12 @@ public class JSONCreationTest {
         return false;
     }
 
-    @Deprecated
-    // analogo al metodo personalGoalGSON ma nel caso in cui tutti i PersonalGoal sono specificati in un unico file JSON
-    private void workingWithGSON( JSONCreationTest jCT ){
-        PrintWriter pw = jCT.getPrintWriter(0);
-
-        Gson gson = new Gson();
-
-        pw.write("{\"goalPattern\":[\n");
-
-        for(int i = 0; i < PATTERN_NUMBER; ++i) {
-            pw.write("\t" + gson.toJson(getRandomEntry()) );
-
-            if(i < PATTERN_NUMBER - 1)
-                pw.write(",\n");
-        }
-
-        pw.write("]\n}");
-
-        pw.flush();
-        pw.close();
-    }
-
     // metodo che crea una EntryPatternGoal randomica
     private EntryPatternGoal getRandomEntry() {
         return new EntryPatternGoal(
                 RANDOM.nextInt(6),
                 RANDOM.nextInt(7),
                 TileType.values()[RANDOM.nextInt(TileType.values().length)]);
-    }
-
-    @Deprecated
-    // metodo analogo a workingWithGSON, ma converte gli oggetti EntryPatternGoal in array di elementi
-    private void workingWithJsonSimple( JSONCreationTest jCT ){
-
-        // creating JSONObject
-        JSONObject jo = new JSONObject();
-
-        PrintWriter pw = jCT.getPrintWriter(2);
-
-        for(int j = 0; j < PATTERN_NUMBER; j++){
-            // the pattern is store as JSONArray
-            JSONArray ja = new JSONArray();
-
-            for(int i = 0; i < TILE_NUMBER; i++) {
-                ja.add(jCT.randomPersonalGoalPatternEntry());
-            }
-            // putting phoneNumbers to JSONObject
-            jo.put("patternEntry" + (j + 1), ja );
-        }
-
-        pw.write(jo.toJSONString()
-                /*.replaceAll("}],","}],\n\n")
-                .replaceAll("},", "},\n")*/);
-        pw.flush();
-        pw.close();
     }
 
     // metodo che ottiene il path dove salvare il file JSON e restituisce un oggetto PrintWriter per scrivere
@@ -134,27 +83,5 @@ public class JSONCreationTest {
             e.printStackTrace();
             return null;
         }
-    }
-
-    @Deprecated
-    // genera un EntryPatternGoal randomico (serve per il metodo workingWithJsonSimple, non usato)
-    private Map randomPersonalGoalPatternEntry(){
-        return createPersonalGoalPatternEntry(
-                RANDOM.nextInt(6),
-                RANDOM.nextInt(7),
-                TileType.values()[RANDOM.nextInt(TileType.values().length)]
-        );
-    }
-
-    @Deprecated
-    // creation of LinkedHashMap for EntryPattenGoal attributes
-    private Map createPersonalGoalPatternEntry(int column, int row, TileType tileType){
-        Map m = new LinkedHashMap(3);
-
-        m.put("column", column);
-        m.put("row", row);
-        m.put("TileType", tileType.toString());
-
-        return m;
     }
 }
