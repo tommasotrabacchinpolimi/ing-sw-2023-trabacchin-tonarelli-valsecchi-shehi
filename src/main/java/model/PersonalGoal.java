@@ -77,18 +77,16 @@ public class PersonalGoal implements Serializable {
     }
 
     private void fillFromJSONGoalPattern(Iterator entryPatternIterator){
-        Iterator<Map.Entry> entryPatternAttributesIterator;
+        Map entryPatternAttributes;
 
         while(entryPatternIterator.hasNext()){
-            entryPatternAttributesIterator = ((Map) entryPatternIterator.next()).entrySet().iterator();
-
-            Map.Entry pair = entryPatternAttributesIterator.next();
+            entryPatternAttributes = (Map) entryPatternIterator.next();
 
             this.goalPattern.add(
                     new EntryPatternGoal(
-                            Integer.parseInt(pair.getValue().toString()),
-                            Integer.parseInt(pair.getValue().toString()),
-                            pair.getValue().toString()
+                            Integer.parseInt(entryPatternAttributes.get("column").toString()),
+                            Integer.parseInt(entryPatternAttributes.get("row").toString()),
+                            entryPatternAttributes.get("tileType").toString()
                     )
             );
         }
@@ -101,7 +99,7 @@ public class PersonalGoal implements Serializable {
             Map.Entry pair = entryScoreMapAttributes.next();
 
             scoreMap.put(
-                    Integer.parseInt(pair.getValue().toString()),
+                    Integer.parseInt(pair.getKey().toString()),
                     Integer.parseInt(pair.getValue().toString())
             );
         }
