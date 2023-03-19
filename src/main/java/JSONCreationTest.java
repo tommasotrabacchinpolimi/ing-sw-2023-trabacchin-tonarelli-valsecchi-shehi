@@ -8,26 +8,31 @@ import java.io.PrintWriter;
 import java.util.*;
 
 public class JSONCreationTest {
-    private final static int TILE_NUMBER = 6; //number of TileType per pattern
     private final static int PATTERN_NUMBER = 10; //number of total pattern
     private final static Random RANDOM = new Random();
+    private final String inputFileName = "./src/JSONTestFile/PersonalGoalPattern" + RANDOM.nextInt(1,11) + ".json";
 
     public static void main(String[] args){
         JSONCreationTest jCT = new JSONCreationTest();
-        jCT.personalGoalGSON( jCT );
+
+        PersonalGoal example = new PersonalGoal( jCT.getInputFileName() );
+
+        //jCT.createPersonalGoalGSON();
+
+        System.out.println("From File:" + jCT.inputFileName.replace("./src/JSONTestFile/", " "));
+        System.out.println(example.toString());
     }
 
     // metodo che converte l'entità PersonalGoal (lista di EntryPatternGoal) in formato Json,
     // nel caso in cui ci sia una corrispondenza biunivoca tra file Json e Personal Goal
-    private void personalGoalGSON( JSONCreationTest jCT ){
+    private void createPersonalGoalGSON(){
         Gson gson = new Gson();
 
         for(int i = 0; i < PATTERN_NUMBER; i++) {
-            PrintWriter pw = jCT.getPrintWriter( i + 1 );
+            PrintWriter pw = this.getPrintWriter( i + 1 );
 
             PersonalGoal personalGoal = new PersonalGoal();
-
-            consistentGoalPattern(personalGoal.getGoalPattern());
+            createGoalPattern(personalGoal.getGoalPattern());
 
             assert pw != null;
             pw.write(gson.toJson(personalGoal));
@@ -37,12 +42,23 @@ public class JSONCreationTest {
         }
     }
 
-    // metodo che controlla che non ci siano due EntryPatternGoal con la stessa posizione nel file Json
-    private void consistentGoalPattern(List<EntryPatternGoal> goalPattern) {
+    // metodo che ottiene il path dove salvare il file JSON e restituisce un oggetto PrintWriter per scrivere
+    // nel file JSON (nb: il file JSON non è ancora salvato)
+    private PrintWriter getPrintWriter(int index){
+        try {
+            return new PrintWriter("./src/JSONTestFile/PersonalGoalPattern" + index + ".json");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // metodo che crea le EntryPatternGoal per il file Json
+    private void createGoalPattern(List<EntryPatternGoal> goalPattern) {
         EntryPatternGoal entryPatternGoal = getRandomEntry();
         goalPattern.add(entryPatternGoal);
 
-        for(int i = 1; i < TILE_NUMBER; i++) {
+        for(int i = 1; i < PersonalGoal.DEF_NUM_TILE_PATTERN; i++) {
             entryPatternGoal = getRandomEntry();
 
             if(!hasSamePosition(goalPattern, entryPatternGoal)) {
@@ -74,14 +90,7 @@ public class JSONCreationTest {
                 TileType.values()[RANDOM.nextInt(TileType.values().length)]);
     }
 
-    // metodo che ottiene il path dove salvare il file JSON e restituisce un oggetto PrintWriter per scrivere
-    // nel file JSON (nb: il file JSON non è ancora salvato)
-    private PrintWriter getPrintWriter(int index){
-        try {
-            return new PrintWriter("./src/JSONTestFile/PersonalGoalPattern" + index + ".json");
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public String getInputFileName() {
+        return inputFileName;
     }
 }

@@ -1,31 +1,54 @@
 package model;
 
 import java.io.IOException;
+import java.io.Serial;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.io.FileReader;
-import java.util.Map;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
 
 public class PersonalGoal implements Serializable {
+    @Serial
     private static final long serialVersionUID = 52353836745724632L;
+    public static final int DEF_NUM_TILE_PATTERN = 6; //Hash Table Capacity & number of Tile in the pattern Goal store
     private List<EntryPatternGoal> goalPattern;
+    private Map<Integer, Integer> scoreMap;
 
+    // Default Constructor set the goalPattern and scoreMap capacity to 6 (default value)
+    // Also fill in the scoreMap with default value
     public PersonalGoal(){
-        goalPattern = new ArrayList<>();
+        goalPattern = new ArrayList<>(DEF_NUM_TILE_PATTERN);
+        scoreMap = new Hashtable<>(DEF_NUM_TILE_PATTERN);
+        defaultSetScoreMap();
+    }
+
+    //Constructor set the goalPattern and scoreMap capacity to numTilePattern value
+    public PersonalGoal( int numTilePattern ){
+        goalPattern = new ArrayList<>(numTilePattern);
+        scoreMap = new Hashtable<>(numTilePattern);
     }
 
     public PersonalGoal(String fileName){
-        fillFromJSONGoalPattern( fileName );
-    }
+        JSONObject jo;
 
-    public PersonalGoal(List<EntryPatternGoal> goalPattern) {
-        this.goalPattern = goalPattern;
+        // getting and parsing file "*.json"
+        try {
+            jo = (JSONObject) new JSONParser().parse(new FileReader(fileName));
+        } catch (IOException | ParseException e) {
+            throw new RuntimeException(e);
+        }
+
+        this.goalPattern = new ArrayList<>();
+        this.scoreMap = new Hashtable<>();
+
+        fillFromJSONGoalPattern(((JSONArray) jo.get("goalPattern")).iterator());
+
+        fillFromJSONScoreMap((Map) jo.get("scoreMap"));
     }
 
     public List<EntryPatternGoal> getGoalPattern() {
@@ -36,39 +59,66 @@ public class PersonalGoal implements Serializable {
         this.goalPattern = goalPattern;
     }
 
-    private void fillFromJSONGoalPattern(String fileName){
-        JSONObject jo = getJSONFile();
+    public Map<Integer, Integer> getScoreMap() {
+        return scoreMap;
+    }
 
-        Map map;
+    public void setScoreMap(Map<Integer, Integer> scoreMap) {
+        this.scoreMap = scoreMap;
+    }
 
-        JSONArray entries = (JSONArray) jo.get( "pattern" );
+    public void defaultSetScoreMap(){
+        scoreMap.put(1, 1);
+        scoreMap.put(2, 2);
+        scoreMap.put(3, 4);
+        scoreMap.put(4, 6);
+        scoreMap.put(5, 9);
+        scoreMap.put(6, 12);
+    }
 
-        for(Iterator itr = entries.iterator();
-            itr.hasNext(); ){
+    private void fillFromJSONGoalPattern(Iterator entryPatternIterator){
+        Iterator<Map.Entry> entryPatternAttributesIterator;
 
-            for(Iterator itrMap = ((Map) itr.next()).entrySet().iterator();
-                itrMap.hasNext(); ){
+        while(entryPatternIterator.hasNext()){
+            entryPatternAttributesIterator = ((Map) entryPatternIterator.next()).entrySet().iterator();
 
-                Map.Entry pair = (Map.Entry) itrMap.next();
+            Map.Entry pair = entryPatternAttributesIterator.next();
 
-                goalPattern.add( new EntryPatternGoal(
-                        (int) pair.getValue(),
-                        (int) pair.getValue(),
-                        (String) pair.getValue()
-                ) );
-
-            }
+            this.goalPattern.add(
+                    new EntryPatternGoal(
+                            Integer.parseInt(pair.getValue().toString()),
+                            Integer.parseInt(pair.getValue().toString()),
+                            pair.getValue().toString()
+                    )
+            );
         }
     }
 
-    private JSONObject getJSONFile() {
-        try {
-            return (JSONObject) new JSONParser().parse(new FileReader("JSONExample.json"));
-        } catch (IOException | ParseException e) {
-            throw new RuntimeException(e);
-        } catch (Exception e) {
-            System.err.print( "Not handled Exception" );
-            return null;
+    private void fillFromJSONScoreMap(Map scoreMapData){
+        Iterator<Map.Entry> entryScoreMapAttributes = scoreMapData.entrySet().iterator();
+
+        while(entryScoreMapAttributes.hasNext()){
+            Map.Entry pair = entryScoreMapAttributes.next();
+
+            scoreMap.put(
+                    Integer.parseInt(pair.getValue().toString()),
+                    Integer.parseInt(pair.getValue().toString())
+            );
         }
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder res = new StringBuilder("Pattern:\n");
+        for( EntryPatternGoal epg : goalPattern ){
+            res.append("\t{ Column: ").append(epg.getColumn()).append("\n")
+                    .append("\t  Row: ").append(epg.getRow()).append("\n")
+                    .append("\t  TileType: ").append(epg.getTileType().toString()).append("}\n\n");
+        }
+
+        res.append("scoreMap:\n")
+                .append(scoreMap.toString());
+
+        return res.toString();
     }
 }
