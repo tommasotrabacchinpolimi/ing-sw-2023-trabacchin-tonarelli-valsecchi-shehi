@@ -84,12 +84,28 @@ public class PersonalGoal implements Serializable {
 
             this.goalPattern.add(
                     new EntryPatternGoal(
-                            Integer.parseInt(entryPatternAttributes.get("column").toString()),
-                            Integer.parseInt(entryPatternAttributes.get("row").toString()),
-                            entryPatternAttributes.get("tileType").toString()
+                            getColumnConfig(entryPatternAttributes),
+                            getRowConfig(entryPatternAttributes),
+                            getTileTypeConfig(entryPatternAttributes)
                     )
             );
         }
+    }
+
+    private String getAttributeConfig(Map map, String attributeName){
+        return map.get(attributeName).toString();
+    }
+
+    private int getColumnConfig(Map map){
+        return Integer.parseInt(getAttributeConfig(map, "column"));
+    }
+
+    private int getRowConfig(Map map){
+        return Integer.parseInt(getAttributeConfig(map, "row"));
+    }
+
+    private String getTileTypeConfig(Map map){
+        return getAttributeConfig(map, "tileType");
     }
 
     private void fillFromJSONScoreMap(Map scoreMapData){
