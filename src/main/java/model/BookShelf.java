@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 public class BookShelf implements Serializable {
     private static final long serialVersionUID = 9828497462L;
-    private static final int R = 6;
-    private static final int C = 5;
+    public static final int R = 6;
+    public static final int C = 5;
     private TileSubject[][] tileSubjectTaken;
 
     public BookShelf() {
@@ -28,5 +28,20 @@ public class BookShelf implements Serializable {
             }
         }
         return true;
+    }
+
+    private TileType getTypeFromSubject(int r, int c){
+        return this.getTileSubjectTaken()[r][c].getTileType();
+    }
+
+    public TileType[][] convertToTileTypeMatrix(){
+        TileType[][] matrix = new TileType[R][C];
+
+        for (int i = 0; i < R; i++ ){
+            for (int j = 0; j < C; j++) {
+                matrix[i][j] = this.getTypeFromSubject(i, j);
+            }
+        }
+        return matrix;
     }
 }

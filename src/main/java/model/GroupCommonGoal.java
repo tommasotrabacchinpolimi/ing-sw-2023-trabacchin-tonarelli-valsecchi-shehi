@@ -25,7 +25,13 @@ public class GroupCommonGoal extends CommonGoal implements Serializable {
     }
 
     @Override
-    public List<EntryPatternGoal> rule(){
+    public List<EntryPatternGoal> rule(TileType[][] bookShelf){
+        int occurencyTile = 0;
+        int numberGrourps = 0;
+
+        for (int i = 0; i < bookShelf.length; i++){
+
+        }
 
         return null;
     }

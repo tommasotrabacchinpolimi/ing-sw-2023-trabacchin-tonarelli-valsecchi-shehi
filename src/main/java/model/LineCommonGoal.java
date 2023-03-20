@@ -43,7 +43,7 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
     }
 
     @Override
-    public List<EntryPatternGoal> rule() {
+    public List<EntryPatternGoal> rule(TileType[][] bookShelf) {
         return null;
     }
 }

@@ -26,6 +26,6 @@ public abstract class CommonGoal implements Serializable {
         this.description = description;
     }
 
-    public abstract List<EntryPatternGoal> rule();
+    public abstract List<EntryPatternGoal> rule(TileType[][] bookShelf);
 
 }
