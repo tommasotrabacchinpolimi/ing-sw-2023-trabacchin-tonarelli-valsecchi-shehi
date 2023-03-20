@@ -8,6 +8,11 @@ public class GroupCommonGoal extends CommonGoal implements Serializable {
     private int groupsNumber;
     private int adjacentTiles;
 
+    public GroupCommonGoal(int groupsNumber, int adjacentTiles){
+        this.groupsNumber = groupsNumber;
+        this.adjacentTiles = adjacentTiles;
+    }
+
     public int getAdjacentTiles() {
         return adjacentTiles;
     }

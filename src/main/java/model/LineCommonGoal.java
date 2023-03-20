@@ -10,6 +10,13 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
     private int linesNumber;
     private int[] differentTiles;
 
+    public LineCommonGoal(int incRow, int incCol, int linesNumber, int[] differentTiles){
+        this.incRow = incRow;
+        this.incCol = incCol;
+        this.linesNumber = linesNumber;
+        this.differentTiles = differentTiles;
+    }
+
     public int getIncRow() {
         return incRow;
     }

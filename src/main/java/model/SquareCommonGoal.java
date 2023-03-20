@@ -9,6 +9,12 @@ public class SquareCommonGoal extends CommonGoal implements Serializable {
     private int squareDim;
     private GroupCommonGoal groupCommonGoal;
 
+    public SquareCommonGoal(int groupsNumber, int squareDim){
+        this.groupsNumber = groupsNumber;
+        this.squareDim = squareDim;
+        groupCommonGoal = new GroupCommonGoal(groupsNumber,squareDim*squareDim);
+    }
+
     public GroupCommonGoal getGroupCommonGoal() {
         return groupCommonGoal;
     }

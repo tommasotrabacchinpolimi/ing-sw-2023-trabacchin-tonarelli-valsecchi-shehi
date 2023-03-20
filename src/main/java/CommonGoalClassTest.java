@@ -98,4 +98,29 @@ public class CommonGoalClassTest {
         this.commonGoal = new StairCommonGoal();
     }
 
+    private void createGroupCommonGoal(){
+        int  groupsNumber = 6;
+        int adjacentTiles = 2;
+        this.commonGoal = new GroupCommonGoal(groupsNumber, adjacentTiles);
+    }
+
+    private void createShapeCommonGoal(){
+        int tileNumber = 2;
+        List<Integer> incrementRuleShape = new ArrayList<Integer>();
+        this.commonGoal = new ShapeCommonGoal(tileNumber, incrementRuleShape);
+    }
+
+    private void createSquareCommonGoal(){
+        int groupsNumber = 3;
+        int squareDim = 2;
+        this.commonGoal = new SquareCommonGoal(groupsNumber, squareDim);
+    }
+
+    private void createLineCommonGoal(){
+        int incRow = 1; // 1 to test rows or 0 to test columns
+        int incCol = 0; // 1 to test columns or 0 to test rows
+        int linesNumber = 2; //number of column or rows to test
+        int[] differentTiles = {1,2,3};  //number of different tile types {1,2,3} or {5}
+        this.commonGoal = new LineCommonGoal(incRow, incCol, linesNumber, differentTiles);
+    }
 }
