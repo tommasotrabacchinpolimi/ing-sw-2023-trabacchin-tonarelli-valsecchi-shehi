@@ -11,14 +11,14 @@ public class CommonGoalClassTest {
     CommonGoal commonGoal;
 
     public static void main(String[] args){
-        List<EntryPatternGoal> list = new ArrayList<EntryPatternGoal>();
+        List<EntryPatternGoal> list = new ArrayList<>();
         CommonGoalClassTest commonGoalClassTest = new CommonGoalClassTest();
-        commonGoalClassTest.createStairDesign();
-        commonGoalClassTest.createStairCommonGoal();
+        commonGoalClassTest.createLineDesign();
+        commonGoalClassTest.createLineCommonGoal();
         list = commonGoalClassTest.getCommonGoal().rule(commonGoalClassTest.getMatrix());
         if (list != null)
-            System.out.println("Stair Common Goal verified!");
-        else System.out.println("Stair Common Goal not verified!");
+            System.out.println("Common Goal verified!");
+        else System.out.println("Common Goal not verified!");
     }
 
     public TileType[][] getMatrix() {
@@ -94,6 +94,36 @@ public class CommonGoalClassTest {
 
     }
 
+    private void createLineDesign(){
+        /*matrix = new TileType[][]{
+                {null,  null, null, null, null},
+                {null, TileType.CAT, null, null, null},
+                {null, TileType.CAT, TileType.TROPHY, null, null},
+                {TileType.TROPHY, TileType.PLANT, TileType.FRAME, TileType.CAT, TileType.GAME},
+                {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT},
+                {TileType.GAME, TileType.FRAME, TileType.PLANT, TileType.BOOK, TileType.CAT}
+        };*/
+
+        /*matrix = new TileType[][]{
+                {null,  null, null, null, null},
+                {null, TileType.CAT, null, null, null},
+                {null, TileType.CAT, TileType.TROPHY, null, null},
+                {TileType.TROPHY, TileType.PLANT, TileType.FRAME, TileType.CAT, TileType.GAME},
+                {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT},
+                {TileType.GAME, TileType.GAME, TileType.PLANT, TileType.BOOK, TileType.CAT}
+        };*/
+
+        matrix = new TileType[][]{
+                {TileType.PLANT,  TileType.PLANT, TileType.GAME, null, null},
+                {TileType.TROPHY, TileType.CAT, TileType.CAT, null, null},
+                {TileType.BOOK, TileType.FRAME, TileType.TROPHY, null, null},
+                {TileType.CAT, TileType.PLANT, TileType.PLANT, TileType.CAT, TileType.GAME},
+                {TileType.FRAME, TileType.CAT, TileType.FRAME, TileType.CAT, TileType.CAT},
+                {TileType.GAME, TileType.GAME, TileType.BOOK, TileType.BOOK, TileType.CAT}
+        };
+
+    }
+
     private void createStairCommonGoal(){
         this.commonGoal = new StairCommonGoal();
     }
@@ -117,10 +147,10 @@ public class CommonGoalClassTest {
     }
 
     private void createLineCommonGoal(){
-        int incRow = 1; // 1 to test rows or 0 to test columns
-        int incCol = 0; // 1 to test columns or 0 to test rows
-        int linesNumber = 2; //number of column or rows to test
-        int[] differentTiles = {1,2,3};  //number of different tile types {1,2,3} or {5}
+        int incRow = 0; // 1 to test rows or 0 to test columns
+        int incCol = 1; // 1 to test columns or 0 to test rows
+        int linesNumber = 3; //number of column or rows to test
+        int[] differentTiles = {6};  //number of different tile types {1,2,3} or {5}/{6}
         this.commonGoal = new LineCommonGoal(incRow, incCol, linesNumber, differentTiles);
     }
 }
