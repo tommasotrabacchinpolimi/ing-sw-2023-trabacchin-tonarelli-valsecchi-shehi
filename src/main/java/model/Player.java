@@ -11,6 +11,7 @@ public class Player implements Serializable {
     public Player( String  nickName, PersonalGoal personalGoal ){
         this.nickName = nickName;
         this.personalGoal = personalGoal;
+        this.score = 0;
     }
 
     public String getNickName(){

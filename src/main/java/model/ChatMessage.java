@@ -1,42 +1,45 @@
 package model;
 
 import java.io.Serializable;
-import java.lang.reflect.Type;
 import java.util.List;
 
 public class ChatMessage implements Serializable {
     private static final long serialVersionUID = 82642348L;
-    private Player from;
-    private List<Player> to;
+    private Player sender;
+    private List<Player> receivers;
     private String text;
 
-    public Player getFrom() {
-        return from;
+    public ChatMessage(Player sender, List<Player> receivers, String text) {
+        this.sender = sender;
+        this.receivers = receivers;
+        this.text = text;
+    }
+
+    public Player getSender() {
+        return sender;
     }
 
     public String getText() {
         return text;
     }
 
-    public List<Player> getTo() {
-        return to;
+    public List<Player> getReceivers() {
+        return receivers;
     }
 
-    public void setFrom(Player from) {
-        this.from = from;
+    public void setSender(Player sender) {
+        this.sender = sender;
     }
 
-    public void setTo(Player to) {
-        this.to.add(to);
+    public void setReceivers(Player receivers) {
+        this.receivers.add(receivers);
     }
 
     public void setToAll(List<Player> to){
-        this.to.addAll(to);
+        this.receivers.addAll(to);
     }
 
     public void setText(String text) {
         this.text = text;
     }
-
-
 }
