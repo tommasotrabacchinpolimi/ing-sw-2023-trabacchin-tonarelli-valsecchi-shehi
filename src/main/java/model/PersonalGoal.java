@@ -33,6 +33,10 @@ public class PersonalGoal implements Serializable {
         scoreMap = new Hashtable<>(numTilePattern);
     }
 
+    /**
+     * 
+     * @param fileName
+     */
     public PersonalGoal(String fileName){
         JSONObject jo;
 
