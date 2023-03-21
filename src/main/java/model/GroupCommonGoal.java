@@ -10,6 +10,17 @@ public class GroupCommonGoal extends CommonGoal implements Serializable {
     private int adjacentTiles;
 
 
+    /*public static void main(String[] args){
+        TileType[][] bookShelf = new TileType[][]{
+                {TileType.PLANT,TileType.PLANT,TileType.PLANT,null,null},
+                {TileType.BOOK,TileType.PLANT,TileType.PLANT,TileType.CAT,null},
+                {TileType.FRAME,TileType.BOOK,TileType.FRAME,TileType.BOOK,null},
+                {TileType.TROPHY,TileType.GAME,TileType.TROPHY,TileType.GAME,null},
+                {TileType.TROPHY,TileType.TROPHY,TileType.CAT,TileType.CAT,TileType.CAT},
+                {TileType.TROPHY,TileType.TROPHY,TileType.TROPHY,TileType.CAT,TileType.CAT}};
+        GroupCommonGoal g = new GroupCommonGoal(6,2);
+        g.findGroups(bookShelf).forEach(System.out::println);
+        }*/
 
     public GroupCommonGoal(int groupsNumber, int adjacentTiles){
         this.groupsNumber = groupsNumber;
@@ -56,6 +67,9 @@ public class GroupCommonGoal extends CommonGoal implements Serializable {
     }
 
     private Optional<Set<EntryPatternGoal>> findSingleGroup(int i, int j, TileType[][] bookShelf, boolean[][] alreadyTaken, TileType tileType){
+        if(tileType==null){
+            return Optional.empty();
+        }
         if (i<0||i>=bookShelf.length||j<0||j>=bookShelf[0].length){// nothing is to be returned if arguments are illegal
             return Optional.empty();
         }
