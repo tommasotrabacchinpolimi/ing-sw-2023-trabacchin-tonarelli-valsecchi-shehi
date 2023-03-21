@@ -19,20 +19,34 @@ public class PersonalGoal implements Serializable {
     private List<EntryPatternGoal> goalPattern;
     private Map<Integer, Integer> scoreMap;
 
-    // Default Constructor set the goalPattern and scoreMap capacity to 6 (default value)
-    // Also fill in the scoreMap with default value
+    /**
+     * Default Constructor set the goalPattern and scoreMap capacity to 6 (default value)
+     * Also fill in the scoreMap with default value
+     */
     public PersonalGoal(){
         goalPattern = new ArrayList<>(DEF_NUM_TILE_PATTERN);
         scoreMap = new Hashtable<>(DEF_NUM_TILE_PATTERN);
         defaultSetScoreMap();
     }
 
-    //Constructor set the goalPattern and scoreMap capacity to numTilePattern value
+    /**
+     * Constructor set the goalPattern and scoreMap capacity to numTilePattern value
+     * Also fill in the scoreMap with default value
+     *
+     * @param numTilePattern the initial capacity for goalPattern and scoreMap
+     */
     public PersonalGoal( int numTilePattern ){
         goalPattern = new ArrayList<>(numTilePattern);
         scoreMap = new Hashtable<>(numTilePattern);
+        defaultSetScoreMap();
     }
 
+    /**
+     * This constructor is used to set the goalPattern and scoreMap to the configuration specified inside the fileName
+     * passed as parameter.
+     *
+     * @param fileName the path to the file .json that contains PersonalGoal configuration
+     */
     public PersonalGoal(String fileName){
         JSONObject jo;
 
@@ -51,6 +65,9 @@ public class PersonalGoal implements Serializable {
         fillFromJSONScoreMap((Map) jo.get("scoreMap"));
     }
 
+    /**
+     * @return goalPattern attribute
+     */
     public List<EntryPatternGoal> getGoalPattern() {
         return goalPattern;
     }

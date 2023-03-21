@@ -12,7 +12,11 @@ public class Board implements Iterable<BoardSquare>, Serializable {
     private static final int DIM = 9;
     private static final int NUMBER_OF_BOARDSQUARE = 45;
     final private BoardSquare livingRoomBoard;
+
     final private List<TileSubject> bag;
+    private static final int NUMBER_OF_TILE = 7; //the default number of tile
+    private static final int RESERVE_TILE = 8; //the tile that has one object more than others
+
     private static final BoardSquareType[][] init_matrix = {
             { null, null, null, THREE_DOTS, FOUR_DOTS, null, null, null, null },
             { null, null, null, NO_DOTS, NO_DOTS, FOUR_DOTS, null, null, null },
@@ -28,12 +32,8 @@ public class Board implements Iterable<BoardSquare>, Serializable {
     //costruttore
     public Board(){
         this.bag = new ArrayList<>();
-        for( TileSubject tileSubject : TileSubject.values() ){
-            for(int i = 0; i < tileSubject.getOccurrence(); i++ ){
-                this.bag.add(tileSubject);
-            }
-        }
-
+        this.createBag();
+        Collections.shuffle(bag);
 
         BoardSquare[][] temp = new BoardSquare[DIM][DIM];
         for( int i = 0; i < temp.length ; i++ ){
@@ -85,6 +85,38 @@ public class Board implements Iterable<BoardSquare>, Serializable {
     public TileSubject getRandomTileSubject() {
         Collections.shuffle( this.bag );
         return this.bag.remove( 0 );
+    }
+
+    private void createBag(){
+        int[] occurence = {NUMBER_OF_TILE, NUMBER_OF_TILE, RESERVE_TILE};
+        int k = 0;
+        for (TileSubject el : TileSubject.values()) {
+            if (k % 3 == 0) shuffleArray(occurence);
+            for (int i = 0; i < occurence[k%3]; i++){
+                bag.add(el);
+            }
+            k++;
+        }
+    }
+
+    public String bagToString(){
+        StringBuilder result = new StringBuilder("BAG: \n");
+        for (TileSubject el: bag){
+            result.append(el.name()).append("\n");
+        }
+        return result.toString();
+    }
+
+    private void shuffleArray(int[] occurence){
+        Random rnd = new Random();
+        for (int i = occurence.length - 1; i > 0; i--)
+        {
+            int index = rnd.nextInt(i + 1);
+            // Simple swap
+            int a = occurence[index];
+            occurence[index] = occurence[i];
+            occurence[i] = a;
+        }
     }
 
 
