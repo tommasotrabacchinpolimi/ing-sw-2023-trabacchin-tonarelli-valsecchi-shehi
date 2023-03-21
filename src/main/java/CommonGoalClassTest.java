@@ -16,8 +16,10 @@ public class CommonGoalClassTest {
         commonGoalClassTest.createStairDesign();
         commonGoalClassTest.createStairCommonGoal();
         list = commonGoalClassTest.getCommonGoal().rule(commonGoalClassTest.getMatrix());
-        if (list != null)
+        if (list != null) {
             System.out.println("Common Goal verified!");
+            commonGoalClassTest.printResult(list);
+        }
         else System.out.println("Common Goal not verified!");
     }
 
@@ -39,24 +41,24 @@ public class CommonGoalClassTest {
 
     private void createStairDesign(){
         // verified
-        matrix = new TileType[][]{
+        /*matrix = new TileType[][]{
                 {null,  null, null, null, null},
                 {TileType.CAT, null, null, null, null},
                 {TileType.CAT, TileType.CAT, null, null, null},
                 {TileType.CAT, TileType.CAT, TileType.CAT, null, null},
                 {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, null},
                 {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT}
-        };
+        };*/
 
         //verified
-         /*matrix = new TileType[][]{
+         matrix = new TileType[][]{
                 {null,  null, null, null, null},
                 {null, null, null, null, TileType.CAT},
                 {null, null, null, TileType.CAT, TileType.CAT},
                 {null, null, TileType.CAT, TileType.CAT, TileType.CAT},
                 {null, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT},
                 {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT}
-        };*/
+        };
 
         // verified
         /*matrix = new TileType[][]{
@@ -257,5 +259,27 @@ public class CommonGoalClassTest {
         int linesNumber = 3; //number of column or rows to test
         int[] differentTiles = {6};  //number of different tile types {1,2,3} or {5}/{6}
         this.commonGoal = new LineCommonGoal(incRow, incCol, linesNumber, differentTiles);
+    }
+
+
+    private void printResult(List<EntryPatternGoal> list){
+        TileType[][] matrix = new TileType[6][5];
+        for (int i = 0; i < 6; i++){
+            for (int j = 0; j < 5; j++){
+                matrix[i][j] = null;
+            }
+        }
+
+        for (EntryPatternGoal element : list) {
+            matrix[element.getRow()][element.getColumn()] = element.getTileType();
+        }
+
+        for (int i = 0; i < 6; i++){
+            for (int j = 0; j < 5; j++){
+                if (matrix[i][j]==null) System.out.print("___ ");
+                else System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println();
+        }
     }
 }
