@@ -124,6 +124,105 @@ public class CommonGoalClassTest {
 
     }
 
+    private void createShapeDesign(){
+        // edges design verified
+        matrix = new TileType[][]{
+                {TileType.PLANT,  TileType.PLANT, TileType.GAME, null, TileType.PLANT},
+                {TileType.TROPHY, TileType.CAT, TileType.CAT, null, TileType.GAME},
+                {TileType.BOOK, TileType.FRAME, TileType.TROPHY, null, TileType.FRAME},
+                {TileType.CAT, TileType.PLANT, TileType.PLANT, TileType.CAT, TileType.GAME},
+                {TileType.FRAME, TileType.CAT, TileType.FRAME, TileType.CAT, TileType.CAT},
+                {TileType.PLANT, TileType.GAME, TileType.BOOK, TileType.BOOK, TileType.PLANT}
+        };
+
+        // edges design not verified and diagonal design verified
+        /*matrix = new TileType[][]{
+                {TileType.PLANT,  TileType.PLANT, TileType.GAME, null, TileType.GAME},
+                {TileType.PLANT, TileType.CAT, TileType.CAT, null, TileType.GAME},
+                {TileType.BOOK, TileType.PLANT, TileType.TROPHY, null, TileType.FRAME},
+                {TileType.CAT, TileType.PLANT, TileType.PLANT, TileType.CAT, TileType.GAME},
+                {TileType.FRAME, TileType.CAT, TileType.FRAME, TileType.PLANT, TileType.CAT},
+                {TileType.PLANT, TileType.GAME, TileType.BOOK, TileType.BOOK, TileType.PLANT}
+        }; */
+
+        // edges design not verified and x design not verified
+        /*matrix = new TileType[][]{
+                {null,  TileType.PLANT, TileType.GAME, null, null},
+                {TileType.TROPHY, TileType.CAT, TileType.CAT, null, TileType.GAME},
+                {TileType.BOOK, TileType.FRAME, TileType.TROPHY, null, TileType.FRAME},
+                {TileType.CAT, TileType.PLANT, TileType.PLANT, TileType.CAT, TileType.GAME},
+                {TileType.FRAME, TileType.CAT, TileType.FRAME, TileType.CAT, TileType.CAT},
+                {TileType.PLANT, TileType.GAME, TileType.BOOK, TileType.BOOK, TileType.PLANT}
+        }; */
+
+        // x design verified and diagonal design not verified
+        /*matrix = new TileType[][]{
+                {null,  TileType.PLANT, TileType.GAME, null, null},
+                {TileType.TROPHY, TileType.CAT, TileType.CAT, null, TileType.GAME},
+                {TileType.BOOK, TileType.TROPHY, TileType.TROPHY, null, TileType.FRAME},
+                {TileType.CAT, TileType.PLANT, TileType.TROPHY, TileType.CAT, TileType.GAME},
+                {TileType.FRAME, TileType.CAT, TileType.FRAME, TileType.TROPHY, TileType.CAT},
+                {TileType.CAT, TileType.GAME, TileType.CAT, TileType.BOOK, TileType.PLANT}
+        }; */
+
+    }
+
+    private void createGroupDesign(){
+        // 6 groups of 2 tiles each
+        matrix = new TileType[][]{
+                {TileType.PLANT,  TileType.PLANT, TileType.GAME, null, TileType.PLANT},
+                {TileType.TROPHY, TileType.CAT, TileType.CAT, null, TileType.PLANT},
+                {TileType.PLANT, TileType.FRAME, TileType.TROPHY, null, TileType.FRAME},
+                {TileType.PLANT, TileType.BOOK, TileType.PLANT, TileType.CAT, TileType.GAME},
+                {TileType.FRAME, TileType.CAT, TileType.PLANT, TileType.CAT, TileType.CAT},
+                {TileType.PLANT, TileType.PLANT, TileType.BOOK, TileType.PLANT, TileType.PLANT}
+        };
+
+        // 4 groups of 4 tiles each; 2 squares group of dim=2; 8 tiles of one type
+        /* matrix = new TileType[][]{
+                {TileType.PLANT,  TileType.PLANT, TileType.GAME, null, TileType.PLANT},
+                {TileType.PLANT, TileType.CAT, TileType.CAT, TileType.PLANT, TileType.PLANT},
+                {TileType.PLANT, TileType.FRAME, TileType.BOOK, TileType.PLANT, TileType.FRAME},
+                {TileType.BOOK, TileType.BOOK, TileType.FRAME, TileType.CAT, TileType.GAME},
+                {TileType.PLANT, TileType.PLANT, TileType.CAT, TileType.PLANT, TileType.PLANT},
+                {TileType.PLANT, TileType.PLANT, TileType.BOOK, TileType.PLANT, TileType.PLANT}
+        }; */
+
+        // 8 tiles of one type not verified, 2 squares group of dim=2 not verified,
+        // 6 groups of 2 tiles each not verified
+        /* matrix = new TileType[][]{
+                {null, null , null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {TileType.PLANT, TileType.PLANT, TileType.CAT, TileType.FRAME, TileType.PLANT},
+                {TileType.PLANT, TileType.PLANT, TileType.BOOK, TileType.PLANT, TileType.PLANT}
+        }; */
+    }
+
+    private void createSquareDesign(){
+        // 4 groups of 4 tiles each; 2 squares group of dim=2; 8 tiles of one type
+        matrix = new TileType[][]{
+                {TileType.PLANT,  TileType.PLANT, TileType.GAME, null, TileType.PLANT},
+                {TileType.PLANT, TileType.CAT, TileType.CAT, TileType.PLANT, TileType.PLANT},
+                {TileType.PLANT, TileType.FRAME, TileType.BOOK, TileType.PLANT, TileType.FRAME},
+                {TileType.BOOK, TileType.BOOK, TileType.FRAME, TileType.CAT, TileType.GAME},
+                {TileType.PLANT, TileType.PLANT, TileType.CAT, TileType.PLANT, TileType.PLANT},
+                {TileType.PLANT, TileType.PLANT, TileType.BOOK, TileType.PLANT, TileType.PLANT}
+        };
+
+        // 8 tiles of one type not verified, 2 squares group of dim=2 not verified,
+        // 6 groups of 2 tiles each not verified
+        /* matrix = new TileType[][]{
+                {null, null , null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {TileType.PLANT, TileType.PLANT, TileType.CAT, TileType.FRAME, TileType.PLANT},
+                {TileType.PLANT, TileType.PLANT, TileType.BOOK, TileType.PLANT, TileType.PLANT}
+        }; */
+    }
+
     private void createStairCommonGoal(){
         this.commonGoal = new StairCommonGoal();
     }

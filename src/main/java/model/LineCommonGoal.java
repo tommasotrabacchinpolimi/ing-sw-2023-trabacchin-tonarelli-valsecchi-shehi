@@ -74,7 +74,7 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
                 }
             }
 
-            if (counterTile == 5 && containsNumber(alreadyFoundType.size())) {
+            if (counterTile == matrix[0].length && containsNumber(alreadyFoundType.size())) {
                 counterRows++;
                 for(int j = 0; j < matrix[i].length; j++){
                     element = new EntryPatternGoal(j, i, matrix[i][j]);
@@ -108,7 +108,7 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
                 }
             }
 
-            if (counterTile == 6 && containsNumber(alreadyFoundType.size())) {
+            if (counterTile == matrix.length && containsNumber(alreadyFoundType.size())) {
                 counterColumns++;
                 for(int j = 0; j < matrix.length; j++){
                     element = new EntryPatternGoal(i, j, matrix[j][i]);
