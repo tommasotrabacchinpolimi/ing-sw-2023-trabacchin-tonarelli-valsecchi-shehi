@@ -16,20 +16,25 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
         //System.out.println("Starting rule method...");
         for (int i = numRows-1; i >= numRows-1-diff; i--){
             for (int j = 0; j <= diff; j++) {
-                //System.out.println("Verifying from (" + i + ","+ j + ")");
+               /* //System.out.println("Verifying from (" + i + ","+ j + ")");
                 result = this.verifyNew(i, j, bookShelf);
                 if (result != null) {
                     //System.out.println("RESULT NOT NULL");
                     return result;
-                }
+                }*/
+                result = rightStair(i, j, bookShelf);
+                if (result != null) return result;
             }
             for (int j = numColumns-1; j >= numColumns-1-diff; j--){
-                //System.out.println("Verifying from (" + i + ","+ j + ")");
+                /*//System.out.println("Verifying from (" + i + ","+ j + ")");
                 result = this.verifyNew(i, j, bookShelf);
                 if (result != null) {
                     //System.out.println("RESULT NOT NULL");
                     return result;
                 }
+            }*/
+                 result = leftStair(i, j, bookShelf);
+                 if (result != null) return result;
             }
         }
 
@@ -37,6 +42,63 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
     }
 
 
+    private List<EntryPatternGoal> rightStair(int startIndexRow, int startIndexColumn, TileType[][] matrix){
+        List<EntryPatternGoal> result = new ArrayList<>();
+        EntryPatternGoal element = new EntryPatternGoal();
+        int numRows = matrix.length, numColumns = matrix[0].length, counter = startIndexRow, i =0;
+
+        for ( i = 0; i < startIndexColumn; i++ ){   //controllo che le colonne precedenti siano vuote
+            if(matrix[numRows-1][i]==null) return null;
+        }
+        // row counter
+        // column i
+
+        for ( i = startIndexColumn; i < numColumns ; i++ ){
+            if (controlColumn(i, counter, matrix)==null) return null;
+            result.addAll(controlColumn(i, counter, matrix));
+            counter--;
+        }
+
+        if ( i == numColumns ) return result;
+        return null;
+    }
+
+
+    private List<EntryPatternGoal> leftStair(int startIndexRow, int startIndexColumn, TileType[][] matrix){
+        List<EntryPatternGoal> result = new ArrayList<>();
+        EntryPatternGoal element = new EntryPatternGoal();
+        int numRows = matrix.length, numColumns = matrix[0].length, counter = startIndexRow, i =0;
+
+        for ( i = numColumns-1; i > startIndexColumn; i-- ){   //controllo che le colonne precedenti siano vuote
+            if(matrix[numRows-1][i]==null) return null;
+        }
+
+        for ( i = startIndexColumn; i >= 0 ; i-- ){
+            if ( controlColumn(i, counter, matrix) == null ) return null;
+            result.addAll(controlColumn(i, counter, matrix));
+            counter--;
+        }
+
+        if ( i == -1 ) return result;
+        return null;
+    }
+
+    private List<EntryPatternGoal> controlColumn(int indexColumn,int indexMaxRow, TileType[][] matrix){
+        List<EntryPatternGoal> result = new ArrayList<>();
+        EntryPatternGoal element = new EntryPatternGoal();
+
+        if (matrix[indexMaxRow][indexColumn]==null) return null;
+        if (indexMaxRow>0){
+            if (matrix[indexMaxRow-1][indexColumn]!=null) return null;
+        }
+        for (int j=matrix.length-1; j >= indexMaxRow; j--){
+            element = new EntryPatternGoal(indexColumn, j, matrix[j][indexColumn]);
+            result.add(element);
+        }
+        return result;
+    }
+
+    @Deprecated
     private List<EntryPatternGoal> verifyNew(int startIndexRow, int startIndexColumn, TileType[][] matrix){
         List<EntryPatternGoal> result = new ArrayList<>();
         EntryPatternGoal element = new EntryPatternGoal();

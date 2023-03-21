@@ -13,8 +13,8 @@ public class CommonGoalClassTest {
     public static void main(String[] args){
         List<EntryPatternGoal> list = new ArrayList<>();
         CommonGoalClassTest commonGoalClassTest = new CommonGoalClassTest();
-        commonGoalClassTest.createLineDesign();
-        commonGoalClassTest.createLineCommonGoal();
+        commonGoalClassTest.createStairDesign();
+        commonGoalClassTest.createStairCommonGoal();
         list = commonGoalClassTest.getCommonGoal().rule(commonGoalClassTest.getMatrix());
         if (list != null)
             System.out.println("Common Goal verified!");
@@ -38,15 +38,17 @@ public class CommonGoalClassTest {
     }
 
     private void createStairDesign(){
-        /*matrix = new TileType[][]{
+        // verified
+        matrix = new TileType[][]{
                 {null,  null, null, null, null},
                 {TileType.CAT, null, null, null, null},
                 {TileType.CAT, TileType.CAT, null, null, null},
                 {TileType.CAT, TileType.CAT, TileType.CAT, null, null},
                 {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, null},
                 {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT}
-        };*/
+        };
 
+        //verified
          /*matrix = new TileType[][]{
                 {null,  null, null, null, null},
                 {null, null, null, null, TileType.CAT},
@@ -56,6 +58,7 @@ public class CommonGoalClassTest {
                 {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT}
         };*/
 
+        // verified
         /*matrix = new TileType[][]{
                 {null,  null, null, null, TileType.CAT},
                 {null, null, null, TileType.CAT, TileType.CAT},
@@ -65,16 +68,18 @@ public class CommonGoalClassTest {
                 {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT}
         };*/
 
-        matrix = new TileType[][]{
+        //verified
+       /* matrix = new TileType[][]{
                 {TileType.CAT,  null, null, null, null},
                 {TileType.CAT, TileType.CAT, null, null, null},
                 {TileType.CAT, TileType.CAT, TileType.CAT, null, null},
                 {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, null},
                 {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT},
                 {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT}
-        };
+        }; */
 
-       /* matrix = new TileType[][]{
+        // not verified
+       /*matrix = new TileType[][]{
                 {null,  null, null, null, null},
                 {null, TileType.CAT, null, null, null},
                 {null, TileType.CAT, null, null, null},
@@ -83,6 +88,7 @@ public class CommonGoalClassTest {
                 {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT}
         };*/
 
+       //not verified
        /*matrix = new TileType[][]{
                 {TileType.CAT,  null, null, null, null},
                 {TileType.CAT, TileType.CAT, null, null, null},
