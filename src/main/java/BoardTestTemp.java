@@ -1,3 +1,4 @@
+import model.Board;
 import model.BoardSquare;
 
 import static model.BoardSquareType.NO_DOTS;
@@ -11,6 +12,12 @@ public class BoardTestTemp {
         }
         return b;
     }
+
+    public static void main(String[] args){
+        Board b = new Board();
+        System.out.println(b.bagToString());
+    }
+
     public boolean test1(BoardSquare root){
         BoardSquare middle = root.getRight();
         while(true){
