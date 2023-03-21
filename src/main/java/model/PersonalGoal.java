@@ -65,6 +65,9 @@ public class PersonalGoal implements Serializable {
         fillFromJSONScoreMap((Map) jo.get("scoreMap"));
     }
 
+    /**
+     * @return goalPattern attribute
+     */
     public List<EntryPatternGoal> getGoalPattern() {
         return goalPattern;
     }
