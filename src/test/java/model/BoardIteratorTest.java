@@ -4,9 +4,13 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class StairCommonGoalTest {
+class BoardIteratorTest {
 
     @Test
-    void rule() {
+    void hasNext() {
+    }
+
+    @Test
+    void next() {
     }
 }
