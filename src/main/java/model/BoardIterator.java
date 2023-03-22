@@ -16,7 +16,7 @@ public class BoardIterator implements Iterator<BoardSquare>, Serializable {
 
     final private Board board;
     private BoardSquare last;
-    private BoardSquare middle;
+    private BoardSquare middle; //root
     private Direction direction;
     private int numberOfIteratedSquares;
 
@@ -28,43 +28,52 @@ public class BoardIterator implements Iterator<BoardSquare>, Serializable {
         this.numberOfIteratedSquares = 0;
     }
 
+    /**
+     * Check if the number of iterated square is the number of the square on the board
+     *
+     * @return True if the number of iterated squares is different according to number of board square.
+     *         False otherwise
+     */
     @Override
     public boolean hasNext() {
-        //check if the number of iterated square are the number of the square on the board
         return this.numberOfIteratedSquares != this.board.getNumberOfBoardSquares();
     }
 
     @Override
     public BoardSquare next() {
-        if( last == null ) {
+        if(last == null) {
             this.last = this.board.getLivingRoomBoard();
             this.numberOfIteratedSquares++;
             return this.last;
         }
-        switch( this.direction  ){
+
+        switch(this.direction){
             case LEFT -> {
                 this.last = this.last.getLeft();
-                if( this.last == null ) {
+                if(this.last == null) {
                     this.last = this.middle.getRight();
                     this.direction = Direction.RIGHT;
                     searchDown();
                 }
             }
+
             case RIGHT -> {
                 this.last = this.last.getRight();
                 searchDown();
             }
         }
+
         this.numberOfIteratedSquares++;
         return this.last;
     }
 
     private void searchDown() {
-        if( this.last == null ){
+        if(this.last == null){
             this.last = this.middle.getBottom();
             this.middle = this.last;
             this.direction = Direction.LEFT;
-            if( this.last == null ){
+
+            if(this.last == null){
                 throw new NoSuchElementException( "No more BoardSquare in the Board" );
             }
         }
