@@ -76,7 +76,7 @@ public class SquareCommonGoal extends CommonGoal implements Serializable {
     @Override
     public List<EntryPatternGoal> rule(TileType[][] bookShelf) {
         Set<Set<EntryPatternGoal>> groups = findGroups(bookShelf);
-        Set<Set<EntryPatternGoal>> candidateGroups = groups.stream().filter(g-> isSquare(g, bookShelf.length, bookShelf[0].length).map(d->d==squareDim).isPresent()).collect(Collectors.toSet());
+        Set<Set<EntryPatternGoal>> candidateGroups = groups.stream().filter(g-> isSquare(g, bookShelf.length, bookShelf[0].length).filter(d->d==squareDim).isPresent()).collect(Collectors.toSet());
         if(candidateGroups.size()==groupsNumber){
             return candidateGroups.stream().flatMap(Collection::stream).collect(Collectors.toList());
         }
