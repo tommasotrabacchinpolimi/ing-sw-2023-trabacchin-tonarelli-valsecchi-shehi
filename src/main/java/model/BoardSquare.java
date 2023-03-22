@@ -10,7 +10,7 @@ public class BoardSquare implements Serializable {
     private BoardSquare left;
     private TileSubject tileSubject;
     final private BoardSquareType boardSquareType;
-    public BoardSquare( BoardSquareType boardSquareType ){
+    public BoardSquare(BoardSquareType boardSquareType){
         this.boardSquareType = boardSquareType;
     }
     public BoardSquareType getBoardSquareType() {
@@ -21,7 +21,7 @@ public class BoardSquare implements Serializable {
         return top;
     }
 
-    public void setTop( BoardSquare top ) {
+    public void setTop(BoardSquare top) {
         this.top = top;
     }
 
@@ -29,7 +29,7 @@ public class BoardSquare implements Serializable {
         return bottom;
     }
 
-    public void setBottom( BoardSquare bottom ) {
+    public void setBottom(BoardSquare bottom) {
         this.bottom = bottom;
     }
 
@@ -37,7 +37,7 @@ public class BoardSquare implements Serializable {
         return right;
     }
 
-    public void setRight( BoardSquare right ) {
+    public void setRight(BoardSquare right) {
         this.right = right;
     }
 
@@ -45,7 +45,7 @@ public class BoardSquare implements Serializable {
         return left;
     }
 
-    public void setLeft( BoardSquare left ) {
+    public void setLeft(BoardSquare left) {
         this.left = left;
     }
 
@@ -53,7 +53,7 @@ public class BoardSquare implements Serializable {
         return tileSubject;
     }
 
-    public void setTileSubject( TileSubject tileSubject ) {
+    public void setTileSubject(TileSubject tileSubject) {
         this.tileSubject = tileSubject;
     }
 }
