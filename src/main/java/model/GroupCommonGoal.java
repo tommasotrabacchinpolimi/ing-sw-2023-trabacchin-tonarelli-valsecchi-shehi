@@ -47,7 +47,7 @@ public class GroupCommonGoal extends CommonGoal implements Serializable {
     public List<EntryPatternGoal> rule(TileType[][] bookShelf){
         Set<Set<EntryPatternGoal>> groups = findGroups(bookShelf);
         Set<Set<EntryPatternGoal>> candidateGroups = groups.stream().filter(g -> g.size()==adjacentTiles).collect(Collectors.toSet());
-        if(candidateGroups.size()>=groupsNumber)
+        if(candidateGroups.size()==groupsNumber)
         {
             return candidateGroups.stream().flatMap(Collection::stream).collect(Collectors.toList());
         }
