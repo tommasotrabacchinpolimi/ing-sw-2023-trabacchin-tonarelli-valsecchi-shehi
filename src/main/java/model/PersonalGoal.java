@@ -6,8 +6,6 @@ import java.io.Serializable;
 import java.util.*;
 import java.io.FileReader;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
