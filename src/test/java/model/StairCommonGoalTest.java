@@ -31,24 +31,25 @@ class StairCommonGoalTest {
     @Test
     void rule() {
         int numberOfColumns, index;
-        Random rnd = new Random();
-        numberOfColumns = rnd.nextInt(2,5);
-        StairCommonGoal goal = new StairCommonGoal(numberOfColumns);
-        index = rnd.nextInt(1,7);
 
-
-        if (index == 4 || index == 5 || (index == 6 && numberOfColumns == 5)) {
-            assertNull(getExpectedResult(index,numberOfColumns));
-        } else {
-            for (int i = 0; i < getExpectedResult(index, numberOfColumns).size(); i++) {
-                assertEquals(getExpectedResult(index, numberOfColumns).get(i).toString(),
-                        goal.rule(createStairDesign(index)).get(i).toString());
+       for(index = 1; index <= 6; index++){
+            for(numberOfColumns = 2; numberOfColumns <= 5; numberOfColumns++){
+                if ( (index == 4 && numberOfColumns !=2) || index == 5 || (index == 6 && numberOfColumns == 5)) {
+                    StairCommonGoal goal = new StairCommonGoal(numberOfColumns);
+                    assertNull(getExpectedResult(index,numberOfColumns));
+                } else {
+                    for (int i = 0; i < getExpectedResult(index, numberOfColumns).size(); i++) {
+                        StairCommonGoal goal = new StairCommonGoal(numberOfColumns);
+                        assertEquals(getExpectedResult(index, numberOfColumns).get(i).toString(),
+                                goal.rule(createStairDesign(index)).get(i).toString());
+                    }
+                }
             }
         }
+
     }
 
     private TileType[][] createStairDesign(int number){
-        // case 1
         switch(number){
             case 1 -> {
                 return new TileType[][]{
