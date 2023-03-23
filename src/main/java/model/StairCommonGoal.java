@@ -24,6 +24,21 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
         this.numberOfColumns = numberOfColumns;
     }
 
+    /**
+     * Get the number of columns that forms the staircase
+     * @return the number of columns that forms the staircase
+     */
+    public int getNumberOfColumns() {
+        return numberOfColumns;
+    }
+
+    /**
+     * Set the number of columns that forms the staircase
+     * @param numberOfColumns the number of columns that forms the staircase
+     */
+    public void setNumberOfColumns(int numberOfColumns) {
+        this.numberOfColumns = numberOfColumns;
+    }
 
     /**
      * Method that return null if and only if the StairCommonGoal is not satisfied for the BookShelf passes as argument.
@@ -53,7 +68,6 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
 
         return null;
     }
-
 
     /**
      * Method that checks if starting from the cell indicated in the matrix there is a staircase

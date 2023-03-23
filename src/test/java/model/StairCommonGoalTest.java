@@ -12,6 +12,23 @@ import static org.junit.jupiter.api.Assertions.*;
 class StairCommonGoalTest {
 
     @Test
+    void getNumberOfColumns() {
+        Random rnd = new Random();
+        int numberOfColumns = rnd.nextInt();
+        StairCommonGoal goal = new StairCommonGoal(numberOfColumns);
+        assertEquals(numberOfColumns, goal.getNumberOfColumns());
+    }
+
+    @Test
+    void setNumberOfColumns() {
+        Random rnd = new Random();
+        int numberOfColumns = rnd.nextInt();
+        StairCommonGoal goal = new StairCommonGoal(1);
+        goal.setNumberOfColumns(numberOfColumns);
+        assertEquals(numberOfColumns, goal.getNumberOfColumns());
+    }
+
+    @Test
     void rule() {
         int numberOfColumns, index;
         Random rnd = new Random();
