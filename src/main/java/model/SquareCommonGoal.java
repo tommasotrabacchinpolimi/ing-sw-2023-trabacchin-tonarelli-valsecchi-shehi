@@ -60,23 +60,7 @@ public class SquareCommonGoal extends CommonGoal implements Serializable {
     }
 
 
-    public static void main(String[] args){
-        TileType[][] matrix  = new TileType[][]{
-                {null, null , null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {TileType.PLANT, TileType.PLANT, TileType.CAT, TileType.FRAME, TileType.PLANT},
-                {TileType.PLANT, TileType.PLANT, TileType.BOOK, TileType.PLANT, TileType.PLANT}
-        };
-        SquareCommonGoal squareCommonGoal = new SquareCommonGoal(8,1);
-        if(squareCommonGoal.rule(matrix)!=null){
-            System.out.println("ok");
-        }
-        else{
-            System.out.println("ko");
-        }
-    }
+
     @Override
     public List<EntryPatternGoal> rule(TileType[][] bookShelf) {
         for(TileType tileType : TileType.values()){
