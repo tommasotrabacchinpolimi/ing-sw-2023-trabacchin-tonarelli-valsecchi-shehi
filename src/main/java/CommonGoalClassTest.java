@@ -41,7 +41,7 @@ public class CommonGoalClassTest {
 
     private void createStairDesign(){
         // verified
-        /*matrix = new TileType[][]{
+       /*matrix = new TileType[][]{
                 {null,  null, null, null, null},
                 {TileType.CAT, null, null, null, null},
                 {TileType.CAT, TileType.CAT, null, null, null},
@@ -50,15 +50,14 @@ public class CommonGoalClassTest {
                 {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT}
         };*/
 
-        //verified
-         matrix = new TileType[][]{
+         /*matrix = new TileType[][]{
                 {null,  null, null, null, null},
-                {null, null, null, null, TileType.CAT},
-                {null, null, null, TileType.CAT, TileType.CAT},
-                {null, null, TileType.CAT, TileType.CAT, TileType.CAT},
+                {null, TileType.CAT, null, null, null},
+                {null, TileType.CAT, null, TileType.CAT, TileType.CAT},
+                {null, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT},
                 {null, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT},
                 {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT}
-        };
+        };*/
 
         // verified
         /*matrix = new TileType[][]{
@@ -71,7 +70,7 @@ public class CommonGoalClassTest {
         };*/
 
         //verified
-       /* matrix = new TileType[][]{
+        /*matrix = new TileType[][]{
                 {TileType.CAT,  null, null, null, null},
                 {TileType.CAT, TileType.CAT, null, null, null},
                 {TileType.CAT, TileType.CAT, TileType.CAT, null, null},
@@ -81,17 +80,17 @@ public class CommonGoalClassTest {
         }; */
 
         // not verified
-       /*matrix = new TileType[][]{
+       matrix = new TileType[][]{
                 {null,  null, null, null, null},
                 {null, TileType.CAT, null, null, null},
                 {null, TileType.CAT, null, null, null},
                 {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, null},
                 {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT},
                 {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT}
-        };*/
+        };
 
        //not verified
-       /*matrix = new TileType[][]{
+      /* matrix = new TileType[][]{
                 {TileType.CAT,  null, null, null, null},
                 {TileType.CAT, TileType.CAT, null, null, null},
                 {TileType.CAT, TileType.CAT, TileType.CAT, null, null},
@@ -232,7 +231,8 @@ public class CommonGoalClassTest {
     }
 
     private void createStairCommonGoal(){
-        this.commonGoal = new StairCommonGoal();
+        int numberOfColumns = 3;
+        this.commonGoal = new StairCommonGoal(numberOfColumns);
     }
 
     private void createGroupCommonGoal(){
@@ -256,9 +256,10 @@ public class CommonGoalClassTest {
     private void createLineCommonGoal(){
         int incRow = 0; // 1 to test rows or 0 to test columns
         int incCol = 1; // 1 to test columns or 0 to test rows
-        int linesNumber = 3; //number of column or rows to test
-        int[] differentTiles = {6};  //number of different tile types {1,2,3} or {5}/{6}
-        this.commonGoal = new LineCommonGoal(incRow, incCol, linesNumber, differentTiles);
+        int linesNumber = 2; //number of column or rows to test
+        int numberOfTiles = 2;
+        int[] differentTiles = {2,3};  //number of different tile types {1,2,3} or {5}/{6}
+        this.commonGoal = new LineCommonGoal(incRow, incCol, linesNumber, numberOfTiles, differentTiles);
     }
 
 

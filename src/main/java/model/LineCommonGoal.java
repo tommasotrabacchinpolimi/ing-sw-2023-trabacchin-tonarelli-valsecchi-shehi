@@ -152,13 +152,11 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
         List<EntryPatternGoal> result = new ArrayList<EntryPatternGoal>();
         EntryPatternGoal element = null;
 
-        System.out.println("Starting new rule method...");
         for (int i = 0; i < bookShelf.length; i += incCol) {
             alreadyFoundType.clear();
             counterTile = 0;
 
             for (int j = 0; j < bookShelf[0].length; j += incRow) {
-                System.out.println("i=" + i + " j=" + j);
                 if (bookShelf[i][j] != null) {
                     counterTile++;
                     element = new EntryPatternGoal(j, i, bookShelf[i][j]);

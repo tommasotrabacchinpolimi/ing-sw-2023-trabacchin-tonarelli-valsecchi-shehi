@@ -4,37 +4,50 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * StairCommonGoal is a class that represents a generic CommonGoal which is satisfied if the BookShelf contains
+ * a given number of columns (in ours case 5) of increasing or decreasing height. Starting from the first column on the left or on the right,
+ * each next column must be made of exactly one more tile. In the BookShelf, tiles can be of any type.
+ */
 public class StairCommonGoal extends CommonGoal implements Serializable {
     private static final long serialVersionUID = 142749503L;
+    /**
+     * Number of columns that forms the staircase
+     */
+    private int numberOfColumns;
 
+    /**
+     * The method used for creating the SquareCommonGoal
+     * @param numberOfColumns number of columns that forms the staircase
+     */
+    public StairCommonGoal(int numberOfColumns){
+        this.numberOfColumns = numberOfColumns;
+    }
+
+
+    /**
+     * Method that return null if and only if the StairCommonGoal is not satisfied for the BookShelf passes as argument.
+     * If the SquareCommonGoal is satisfied then the method returns the list of the EntryPatternGoals representing the
+     * tiles in the BookShelf that satisfy the SquareCommonGoal. In particular, the method control if there are five columns
+     * of increasing or decreasing height; starting from the first column on the left or on the right, each next column must
+     * be made of exactly one more tile.
+     * @param bookShelf matrix of TileType referring to the player's bookshelf
+     * @return list of EntryPatternGoal that verify the rule of the StairCommonGoal
+     */
     @Override
     public List<EntryPatternGoal> rule(TileType[][] bookShelf) {
         int numRows = bookShelf.length, numColumns = bookShelf[0].length;
-        int diff = Math.abs(numRows - numColumns);
         List<EntryPatternGoal> result = new ArrayList<>();
 
-        //System.out.println("Starting rule method...");
-        for (int i = numRows-1; i >= numRows-1-diff; i--){
-            for (int j = 0; j <= diff; j++) {
-               /* //System.out.println("Verifying from (" + i + ","+ j + ")");
-                result = this.verifyNew(i, j, bookShelf);
-                if (result != null) {
-                    //System.out.println("RESULT NOT NULL");
-                    return result;
-                }*/
-                result = rightStair(i, j, bookShelf);
-                if (result != null) return result;
-            }
-            for (int j = numColumns-1; j >= numColumns-1-diff; j--){
-                /*//System.out.println("Verifying from (" + i + ","+ j + ")");
-                result = this.verifyNew(i, j, bookShelf);
-                if (result != null) {
-                    //System.out.println("RESULT NOT NULL");
-                    return result;
+        for (int i = numRows-1; i >= 0; i--){
+            for (int j = numColumns-1; j >= 0; j--){
+                if (wellFormedIndex(i, j, bookShelf)){
+                    result = rightStair(i, j, bookShelf);
+                    if (result != null) return result;
+
+                    result = leftStair(i, j, bookShelf);
+                    if (result != null) return result;
                 }
-            }*/
-                 result = leftStair(i, j, bookShelf);
-                 if (result != null) return result;
             }
         }
 
@@ -42,60 +55,107 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
     }
 
 
+    /**
+     * Method that checks if starting from the cell indicated in the matrix there is a staircase
+     * from right to left corner (the lowest step of the staircase to the right and the highest one to the left).
+     * It returns null if there aren't any groups of tiles forming a staircase pattern, otherwise it return a
+     * list of EntryPatterGoal that forms the staircase in the bookshelf
+     * @param startIndexRow index of the row where the first rung of the stair is positioned
+     * @param startIndexColumn index of the column where the first rung of the stair is positioned
+     * @param matrix matrix of TileType referring to the player's bookshelf
+     * @return list of EntryPatternGoal that forms the staircase in the bookshelf
+     */
     private List<EntryPatternGoal> rightStair(int startIndexRow, int startIndexColumn, TileType[][] matrix){
         List<EntryPatternGoal> result = new ArrayList<>();
-        EntryPatternGoal element = new EntryPatternGoal();
-        int numRows = matrix.length, numColumns = matrix[0].length, counter = startIndexRow, i =0;
+        int numRows = matrix.length, numColumns = matrix[0].length, counter = startIndexRow ;
 
-        for ( i = 0; i < startIndexColumn; i++ ){   //controllo che le colonne precedenti siano vuote
-            if(matrix[numRows-1][i]==null) return null;
+        if (startIndexColumn + numberOfColumns > numColumns) { //Not enough columns for right stair
+            return null;
         }
-        // row counter
-        // column i
 
-        for ( i = startIndexColumn; i < numColumns ; i++ ){
+        for (int i = startIndexColumn; i < startIndexColumn+numberOfColumns && counter >= 0 && counter <= numRows; i++){
             if (controlColumn(i, counter, matrix)==null) return null;
             result.addAll(controlColumn(i, counter, matrix));
             counter--;
         }
 
-        if ( i == numColumns ) return result;
-        return null;
+        return result;
+
     }
 
 
+    /**
+     * Method that checks if starting from the cell indicated in the matrix there is a staircase
+     * from left to right (the lowest step of the staircase to the left and the highest one to the right).
+     * It returns null if there aren't any groups of tiles forming a staircase pattern, otherwise it return a
+     * list of EntryPatterGoal that forms the staircase in the bookshelf
+     * @param startIndexRow index of the row where the first rung of the stair is positioned
+     * @param startIndexColumn index of the column where the first rung of the stair is positioned
+     * @param matrix matrix of TileType referring to the player's bookshelf
+     * @return list of EntryPatternGoal that forms the staircase in the bookshelf
+     */
     private List<EntryPatternGoal> leftStair(int startIndexRow, int startIndexColumn, TileType[][] matrix){
         List<EntryPatternGoal> result = new ArrayList<>();
-        EntryPatternGoal element = new EntryPatternGoal();
-        int numRows = matrix.length, numColumns = matrix[0].length, counter = startIndexRow, i =0;
+        int numRows = matrix.length, numColumns = matrix[0].length, counter = startIndexRow;
 
-        for ( i = numColumns-1; i > startIndexColumn; i-- ){   //controllo che le colonne precedenti siano vuote
-            if(matrix[numRows-1][i]==null) return null;
+        if (startIndexColumn-numberOfColumns+1 < 0) { //Not enough columns for left stair
+            return null;
         }
 
-        for ( i = startIndexColumn; i >= 0 ; i-- ){
+        for (int i = startIndexColumn; i >= startIndexColumn-numberOfColumns+1 && counter >= 0 && counter <= numRows; i--){
             if ( controlColumn(i, counter, matrix) == null ) return null;
             result.addAll(controlColumn(i, counter, matrix));
             counter--;
         }
 
-        if ( i == -1 ) return result;
-        return null;
+        return result;
     }
 
-    private List<EntryPatternGoal> controlColumn(int indexColumn,int indexMaxRow, TileType[][] matrix){
+    /**
+     * Method that checks if in the indicated column of the matrix, the cell of indices (indexMinRow,indexColumn)
+     * is the first cell having a tile starting from the top downwards.
+     * The method returns true if and only if the condition described above is satisfied by the passed parameters.
+     * @param indexColumn index of the column which is considered in the matrix
+     * @param indexMinRow index of the possible highest row containing a tile
+     * @param matrix matrix of TileType referring to the player's bookshelf
+     * @return null if the column satisfied the condition described, otherwise the list of EntryPatterGoal
+     */
+    private List<EntryPatternGoal> controlColumn(int indexColumn,int indexMinRow, TileType[][] matrix){
         List<EntryPatternGoal> result = new ArrayList<>();
         EntryPatternGoal element = new EntryPatternGoal();
 
-        if (matrix[indexMaxRow][indexColumn]==null) return null;
-        if (indexMaxRow>0){
-            if (matrix[indexMaxRow-1][indexColumn]!=null) return null;
+        if (matrix[indexMinRow][indexColumn]==null) return null;
+        if (indexMinRow>0){
+            if (matrix[indexMinRow-1][indexColumn]!=null) return null;
         }
-        for (int j=matrix.length-1; j >= indexMaxRow; j--){
+        for (int j=matrix.length-1; j >= indexMinRow; j--){
             element = new EntryPatternGoal(indexColumn, j, matrix[j][indexColumn]);
             result.add(element);
         }
         return result;
+    }
+
+    /**
+     * Method that return true if and only if a matrix of dimensione numRows*numColumns can contain a staircase
+     * made of a given number of columns and having the first rung in the cell of indices (startIndexRow,startIndexColumn)
+     * @param startIndexRow index of the row where the first rung of the stair is positioned
+     * @param startIndexColumn index of the column where the first rung of the stair is positioned
+     * @param matrix matrix of TileType referring to the player's bookshelf
+     * @return true if and only if the matrix has the right dimension to contain a staircase starting from
+     */
+    private boolean wellFormedIndex(int startIndexRow, int startIndexColumn, TileType[][] matrix){
+        int numRows = matrix.length, numColumns = matrix[0].length;
+
+        //there aren't enough rows above startIndexRow to create a staircase
+        if (startIndexRow-numberOfColumns+1 < 0){
+            return false;
+        }
+        //there aren't enough columns from startIndexColumn to create both a left staircase and a right staircase
+        if (startIndexColumn+numberOfColumns > numColumns && startIndexColumn-numberOfColumns+1 < 0){
+            return false;
+        }
+
+        return true;
     }
 
     @Deprecated
@@ -129,18 +189,14 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
         }
 
         for (int i = startIndexRow; i >= Math.abs(startIndexRow-index+1) && flag != -1; i--) {
-            //System.out.println("i="+i);
-            //System.out.println("...checking matrix["+i+","+counter+"] tile");
             if (matrix[i][counter] != null) {
-                if ( i > 0 ){ //new
-                    if (matrix[i-1][counter] != null) {
-                        //System.out.println("..flag = 1, not highest tile");
+                if ( i > 0 ){
+                    if (matrix[i-1][counter] != null){
                         flag = -1;
                     }
                 }
 
                 for (int j = numRows-1; j <= i && j >= 0 && flag != -1; j--){
-                    //System.out.println("...Adding element (j=" + j + ",counter=" + counter + ")");
                     element = new EntryPatternGoal(counter, j, matrix[j][counter]);
                     result.add(element);
                 }
@@ -148,16 +204,13 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
                 counter += add;
             }
             else {
-                //System.out.println("...flag=-1");
                 flag = -1;
             }
         }
 
-        //System.out.println("counter="+counter+" flag="+flag);
         if (flag != -1 && ( counter == numColumns-1 || counter == 0 || counter == -1 || counter == numColumns))
             return result;
 
-        //System.out.println("...returning null");
         return null;
     }
 }
