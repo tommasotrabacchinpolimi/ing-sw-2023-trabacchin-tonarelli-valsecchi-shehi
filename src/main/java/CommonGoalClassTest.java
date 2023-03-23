@@ -20,7 +20,9 @@ public class CommonGoalClassTest {
             System.out.println("Common Goal verified!");
             commonGoalClassTest.printResult(list);
         }
-        else System.out.println("Common Goal not verified!");
+        else {
+            System.out.println("Common Goal not verified!");
+        }
     }
 
     public TileType[][] getMatrix() {
@@ -41,14 +43,14 @@ public class CommonGoalClassTest {
 
     private void createStairDesign(){
         // verified
-       /*matrix = new TileType[][]{
+       matrix = new TileType[][]{
                 {null,  null, null, null, null},
-                {TileType.CAT, null, null, null, null},
+                {TileType.PLANT, null, null, null, null},
                 {TileType.CAT, TileType.CAT, null, null, null},
                 {TileType.CAT, TileType.CAT, TileType.CAT, null, null},
-                {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, null},
-                {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT}
-        };*/
+                {TileType.CAT, TileType.CAT, TileType.PLANT, TileType.CAT, null},
+                {TileType.CAT, TileType.FRAME, TileType.CAT, TileType.CAT, TileType.CAT}
+        };
 
          /*matrix = new TileType[][]{
                 {null,  null, null, null, null},
@@ -60,14 +62,14 @@ public class CommonGoalClassTest {
         };*/
 
         // verified
-        /*matrix = new TileType[][]{
+       /* matrix = new TileType[][]{
                 {null,  null, null, null, TileType.CAT},
                 {null, null, null, TileType.CAT, TileType.CAT},
                 {null, null, TileType.CAT, TileType.CAT, TileType.CAT},
                 {null, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT},
                 {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT},
                 {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT}
-        };*/
+        }; */
 
         //verified
         /*matrix = new TileType[][]{
@@ -77,25 +79,25 @@ public class CommonGoalClassTest {
                 {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, null},
                 {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT},
                 {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT}
-        }; */
+        };*/
 
         // not verified
-       matrix = new TileType[][]{
+       /*matrix = new TileType[][]{
                 {null,  null, null, null, null},
                 {null, TileType.CAT, null, null, null},
                 {null, TileType.CAT, null, null, null},
                 {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, null},
                 {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT},
                 {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT}
-        };
+        }; */
 
        //not verified
-      /* matrix = new TileType[][]{
-                {TileType.CAT,  null, null, null, null},
+       /*matrix = new TileType[][]{
+                {null,  null, null, null, null},
                 {TileType.CAT, TileType.CAT, null, null, null},
                 {TileType.CAT, TileType.CAT, TileType.CAT, null, null},
                 {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, null},
-                {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, null},
+                {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT},
                 {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT}
         };*/
 
@@ -231,7 +233,7 @@ public class CommonGoalClassTest {
     }
 
     private void createStairCommonGoal(){
-        int numberOfColumns = 3;
+        int numberOfColumns = 5;
         this.commonGoal = new StairCommonGoal(numberOfColumns);
     }
 
@@ -264,21 +266,37 @@ public class CommonGoalClassTest {
 
 
     private void printResult(List<EntryPatternGoal> list){
+
+            System.out.println(list.toString());
+
+
         TileType[][] matrix = new TileType[6][5];
+        int[][] index = new int[6][5];
         for (int i = 0; i < 6; i++){
             for (int j = 0; j < 5; j++){
                 matrix[i][j] = null;
+                index[i][j] = 0;
             }
         }
 
         for (EntryPatternGoal element : list) {
             matrix[element.getRow()][element.getColumn()] = element.getTileType();
+            index[element.getRow()][element.getColumn()] = list.indexOf(element)+1;
         }
 
+        System.out.print("\t");
+        for (int i = 0; i < 5; i++){
+            System.out.print(i+ "\t\t");
+        }
+        System.out.println();
         for (int i = 0; i < 6; i++){
+            System.out.print(i+ "\t");
             for (int j = 0; j < 5; j++){
-                if (matrix[i][j]==null) System.out.print("___ ");
-                else System.out.print(matrix[i][j] + " ");
+                if (matrix[i][j]==null) System.out.print("----\t");
+                else {
+                    System.out.print( index[i][j] +"."+ matrix[i][j]  + "\t");
+
+                }
             }
             System.out.println();
         }
