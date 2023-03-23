@@ -33,7 +33,7 @@ public class PersonalGoal implements Serializable {
      *
      * @param numTilePattern the initial capacity for goalPattern and scoreMap
      */
-    public PersonalGoal( int numTilePattern ){
+    public PersonalGoal(int numTilePattern){
         goalPattern = new ArrayList<>(numTilePattern);
         scoreMap = new Hashtable<>(numTilePattern);
         defaultSetScoreMap();
