@@ -91,7 +91,9 @@ public class Board implements Iterable<BoardSquare>, Serializable {
         int[] occurence = {NUMBER_OF_TILE, NUMBER_OF_TILE, RESERVE_TILE};
         int k = 0;
         for (TileSubject el : TileSubject.values()) {
-            if (k % 3 == 0) shuffleArray(occurence);
+            if (k % 3 == 0)
+                shuffleArray(occurence);
+
             for (int i = 0; i < occurence[k%3]; i++){
                 bag.add(el);
             }
@@ -107,17 +109,24 @@ public class Board implements Iterable<BoardSquare>, Serializable {
         return result.toString();
     }
 
-    private void shuffleArray(int[] occurence){
+    private void shuffleArray(int[] occurrence){
         Random rnd = new Random();
-        for (int i = occurence.length - 1; i > 0; i--)
-        {
-            int index = rnd.nextInt(i + 1);
-            // Simple swap
-            int a = occurence[index];
-            occurence[index] = occurence[i];
-            occurence[i] = a;
+        for (int i = occurrence.length - 1; i > 0; i--) {
+            //Simple swap with random position
+            swapArrayElement(occurrence, rnd.nextInt(i + 1), i);
         }
     }
 
-
+    /**
+     * Simple swap function for array int
+     *
+     * @param array the array that needs to swap its elements
+     * @param i position in the array that will contain the array[j] element
+     * @param j position in the array that will contain the array[i] element
+     */
+    private void swapArrayElement(int[] array, int i, int j){
+        int a = array[i];
+        array[i] = array[j];
+        array[j] = a;
+    }
 }

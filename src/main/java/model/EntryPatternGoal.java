@@ -37,6 +37,19 @@ public class EntryPatternGoal implements Serializable {
         return tileType;
     }
 
+    public int[] getArrayIndexes() {
+        return new int[]{row, column};
+    }
+
+    @Override
+    public String toString() {
+        return "EntryPatternGoal{" +
+                "column=" + column + "," +
+                "row=" + row + "," +
+                "tileType=" + tileType +
+                '}';
+    }
+
     private TileType fromStringToTileType(String tileTypeName){
         try {
             return TileType.valueOf(tileTypeName);

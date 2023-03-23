@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PersonalGoalTest {
 
+
     @Test
     void getGoalPattern() {
     }
@@ -28,5 +29,6 @@ class PersonalGoalTest {
 
     @Test
     void testToString() {
+        PersonalGoal personalGoal = new PersonalGoal();
     }
 }
