@@ -43,36 +43,28 @@ public class CommonGoalClassTest {
 
     private void createStairDesign(){
         // verified
-       matrix = new TileType[][]{
+      /* matrix = new TileType[][]{
                 {null,  null, null, null, null},
                 {TileType.PLANT, null, null, null, null},
                 {TileType.CAT, TileType.CAT, null, null, null},
                 {TileType.CAT, TileType.CAT, TileType.CAT, null, null},
                 {TileType.CAT, TileType.CAT, TileType.PLANT, TileType.CAT, null},
                 {TileType.CAT, TileType.FRAME, TileType.CAT, TileType.CAT, TileType.CAT}
-        };
-
-         /*matrix = new TileType[][]{
-                {null,  null, null, null, null},
-                {null, TileType.CAT, null, null, null},
-                {null, TileType.CAT, null, TileType.CAT, TileType.CAT},
-                {null, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT},
-                {null, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT},
-                {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT}
         };*/
 
+
         // verified
-       /* matrix = new TileType[][]{
+       /*matrix = new TileType[][]{
                 {null,  null, null, null, TileType.CAT},
                 {null, null, null, TileType.CAT, TileType.CAT},
                 {null, null, TileType.CAT, TileType.CAT, TileType.CAT},
                 {null, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT},
                 {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT},
                 {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT}
-        }; */
+        };*/
 
-        //verified
-        /*matrix = new TileType[][]{
+        //verified, 3
+       /* matrix = new TileType[][]{
                 {TileType.CAT,  null, null, null, null},
                 {TileType.CAT, TileType.CAT, null, null, null},
                 {TileType.CAT, TileType.CAT, TileType.CAT, null, null},
@@ -81,17 +73,27 @@ public class CommonGoalClassTest {
                 {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT}
         };*/
 
-        // not verified
-       /*matrix = new TileType[][]{
+        //4
+        /*matrix = new TileType[][]{
+                {null,  null, null, null, null},
+                {null, TileType.CAT, null, null, null},
+                {null, TileType.CAT, null, TileType.CAT, TileType.CAT},
+                {null, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT},
+                {null, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT},
+                {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT}
+        };*/
+
+        // 5
+       matrix = new TileType[][]{
                 {null,  null, null, null, null},
                 {null, TileType.CAT, null, null, null},
                 {null, TileType.CAT, null, null, null},
-                {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, null},
-                {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT},
-                {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT}
-        }; */
+                {TileType.CAT, TileType.CAT, TileType.CAT, /*TileType.CAT*/ null, null},
+                {TileType.CAT, TileType.CAT, TileType.CAT, /*TileType.CAT*/ null, TileType.CAT},
+                {TileType.CAT, TileType.CAT, TileType.CAT, /*TileType.CAT*/ null, TileType.CAT}
+        };
 
-       //not verified
+       //6
        /*matrix = new TileType[][]{
                 {null,  null, null, null, null},
                 {TileType.CAT, TileType.CAT, null, null, null},
@@ -267,7 +269,7 @@ public class CommonGoalClassTest {
 
     private void printResult(List<EntryPatternGoal> list){
 
-            System.out.println(list.toString());
+        System.out.println(list.toString());
 
 
         TileType[][] matrix = new TileType[6][5];

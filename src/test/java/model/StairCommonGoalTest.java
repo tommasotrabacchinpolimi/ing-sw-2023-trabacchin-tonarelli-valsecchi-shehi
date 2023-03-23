@@ -13,16 +13,18 @@ class StairCommonGoalTest {
 
     @Test
     void rule() {
-        int numberOfColumns = 5, index;
+        int numberOfColumns, index;
         Random rnd = new Random();
+        numberOfColumns = rnd.nextInt(2,5);
         StairCommonGoal goal = new StairCommonGoal(numberOfColumns);
         index = rnd.nextInt(1,7);
 
-        if (index >= 4) {
-            assertNull(getExpectedResult(index));
+
+        if (index == 4 || index == 5 || (index == 6 && numberOfColumns == 5)) {
+            assertNull(getExpectedResult(index,numberOfColumns));
         } else {
-            for (int i = 0; i < getExpectedResult(index).size(); i++) {
-                assertEquals(getExpectedResult(index).get(i).toString(),
+            for (int i = 0; i < getExpectedResult(index, numberOfColumns).size(); i++) {
+                assertEquals(getExpectedResult(index, numberOfColumns).get(i).toString(),
                         goal.rule(createStairDesign(index)).get(i).toString());
             }
         }
@@ -40,7 +42,6 @@ class StairCommonGoalTest {
                         {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, null},
                         {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT}};
             }
-
 
             case 2 ->{
                 return new TileType[][]{
@@ -63,6 +64,7 @@ class StairCommonGoalTest {
                         {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT}
                 };
             }
+
             case 4 -> {
                 return new TileType[][]{
                         {null,  null, null, null, null},
@@ -79,9 +81,9 @@ class StairCommonGoalTest {
                         {null,  null, null, null, null},
                         {null, TileType.CAT, null, null, null},
                         {null, TileType.CAT, null, null, null},
-                        {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, null},
-                        {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT},
-                        {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT}
+                        {TileType.CAT, TileType.CAT, TileType.CAT, null, null},
+                        {TileType.CAT, TileType.CAT, TileType.CAT, null, TileType.CAT},
+                        {TileType.CAT, TileType.CAT, TileType.CAT, null, TileType.CAT}
                 };
             }
 
@@ -103,78 +105,280 @@ class StairCommonGoalTest {
 
     }
 
-    private List<EntryPatternGoal> getExpectedResult(int number){
+    private List<EntryPatternGoal> getExpectedResult(int number, int numberOfColumns){
         List<EntryPatternGoal> result = new ArrayList<>();
 
         switch(number){
             case 1 -> {
-                result.add(new EntryPatternGoal(4,5,TileType.CAT));
-                result.add(new EntryPatternGoal(3,5,TileType.CAT));
-                result.add(new EntryPatternGoal(3,4,TileType.CAT));
-                result.add(new EntryPatternGoal(2,5,TileType.CAT));
-                result.add(new EntryPatternGoal(2,4,TileType.CAT));
-                result.add(new EntryPatternGoal(2,3,TileType.CAT));
-                result.add(new EntryPatternGoal(1,5,TileType.CAT));
-                result.add(new EntryPatternGoal(1,4,TileType.CAT));
-                result.add(new EntryPatternGoal(1,3,TileType.CAT));
-                result.add(new EntryPatternGoal(1,2,TileType.CAT));
-                result.add(new EntryPatternGoal(0,5,TileType.CAT));
-                result.add(new EntryPatternGoal(0,4,TileType.CAT));
-                result.add(new EntryPatternGoal(0,3,TileType.CAT));
-                result.add(new EntryPatternGoal(0,2,TileType.CAT));
-                result.add(new EntryPatternGoal(0,1,TileType.CAT));
-                return result;
+                switch (numberOfColumns){
+                    case 5 ->{
+                        result.add(new EntryPatternGoal(4,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(3,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(3,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,3,TileType.CAT));
+                        result.add(new EntryPatternGoal(1,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(1,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(1,3,TileType.CAT));
+                        result.add(new EntryPatternGoal(1,2,TileType.CAT));
+                        result.add(new EntryPatternGoal(0,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(0,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(0,3,TileType.CAT));
+                        result.add(new EntryPatternGoal(0,2,TileType.CAT));
+                        result.add(new EntryPatternGoal(0,1,TileType.CAT));
+                        return result;
+                    }
+
+                    case 4 -> {
+                        result.add(new EntryPatternGoal(4,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(3,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(3,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,3,TileType.CAT));
+                        result.add(new EntryPatternGoal(1,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(1,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(1,3,TileType.CAT));
+                        result.add(new EntryPatternGoal(1,2,TileType.CAT));
+                        return result;
+                    }
+
+                    case 3 -> {
+                        result.add(new EntryPatternGoal(4,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(3,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(3,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,3,TileType.CAT));
+                        return result;
+                    }
+
+                    case 2 -> {
+                        result.add(new EntryPatternGoal(4,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(3,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(3,4,TileType.CAT));
+                        return result;
+                    }
+
+                    default ->{
+                        return null;
+                    }
+                }
             }
 
             case 2 ->{
-                result.add(new EntryPatternGoal(0,5,TileType.CAT));
-                result.add(new EntryPatternGoal(0,4,TileType.CAT));
-                result.add(new EntryPatternGoal(1,5,TileType.CAT));
-                result.add(new EntryPatternGoal(1,4,TileType.CAT));
-                result.add(new EntryPatternGoal(1,3,TileType.CAT));
-                result.add(new EntryPatternGoal(2,5,TileType.CAT));
-                result.add(new EntryPatternGoal(2,4,TileType.CAT));
-                result.add(new EntryPatternGoal(2,3,TileType.CAT));
-                result.add(new EntryPatternGoal(2,2,TileType.CAT));
-                result.add(new EntryPatternGoal(3,5,TileType.CAT));
-                result.add(new EntryPatternGoal(3,4,TileType.CAT));
-                result.add(new EntryPatternGoal(3,3,TileType.CAT));
-                result.add(new EntryPatternGoal(3,2,TileType.CAT));
-                result.add(new EntryPatternGoal(3,1,TileType.CAT));
-                result.add(new EntryPatternGoal(4,5,TileType.CAT));
-                result.add(new EntryPatternGoal(4,4,TileType.CAT));
-                result.add(new EntryPatternGoal(4,3,TileType.CAT));
-                result.add(new EntryPatternGoal(4,2,TileType.CAT));
-                result.add(new EntryPatternGoal(4,1,TileType.CAT));
-                result.add(new EntryPatternGoal(4,0,TileType.CAT));
-                return result;
+                switch (numberOfColumns){
+                    case 5 ->{
+                        result.add(new EntryPatternGoal(0,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(0,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(1,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(1,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(1,3,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,3,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,2,TileType.CAT));
+                        result.add(new EntryPatternGoal(3,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(3,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(3,3,TileType.CAT));
+                        result.add(new EntryPatternGoal(3,2,TileType.CAT));
+                        result.add(new EntryPatternGoal(3,1,TileType.CAT));
+                        result.add(new EntryPatternGoal(4,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(4,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(4,3,TileType.CAT));
+                        result.add(new EntryPatternGoal(4,2,TileType.CAT));
+                        result.add(new EntryPatternGoal(4,1,TileType.CAT));
+                        result.add(new EntryPatternGoal(4,0,TileType.CAT));
+                        return result;
+                    }
+
+                    case 4 ->{
+                        result.add(new EntryPatternGoal(0,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(0,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(1,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(1,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(1,3,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,3,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,2,TileType.CAT));
+                        result.add(new EntryPatternGoal(3,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(3,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(3,3,TileType.CAT));
+                        result.add(new EntryPatternGoal(3,2,TileType.CAT));
+                        result.add(new EntryPatternGoal(3,1,TileType.CAT));
+                        return result;
+                    }
+
+                    case 3 ->{
+                        result.add(new EntryPatternGoal(0,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(0,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(1,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(1,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(1,3,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,3,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,2,TileType.CAT));
+                        return result;
+                    }
+
+                    case 2 ->{
+                        result.add(new EntryPatternGoal(0,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(0,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(1,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(1,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(1,3,TileType.CAT));
+                        return result;
+                    }
+
+                    default -> {
+                        return null;
+                    }
+                }
             }
 
             case 3 -> {
-                result.add(new EntryPatternGoal(4,5,TileType.CAT));
-                result.add(new EntryPatternGoal(4,4,TileType.CAT));
-                result.add(new EntryPatternGoal(3,5,TileType.CAT));
-                result.add(new EntryPatternGoal(3,4,TileType.CAT));
-                result.add(new EntryPatternGoal(3,3,TileType.CAT));
-                result.add(new EntryPatternGoal(2,5,TileType.CAT));
-                result.add(new EntryPatternGoal(2,4,TileType.CAT));
-                result.add(new EntryPatternGoal(2,3,TileType.CAT));
-                result.add(new EntryPatternGoal(2,2,TileType.CAT));
-                result.add(new EntryPatternGoal(1,5,TileType.CAT));
-                result.add(new EntryPatternGoal(1,4,TileType.CAT));
-                result.add(new EntryPatternGoal(1,3,TileType.CAT));
-                result.add(new EntryPatternGoal(1,2,TileType.CAT));
-                result.add(new EntryPatternGoal(1,1,TileType.CAT));
-                result.add(new EntryPatternGoal(0,5,TileType.CAT));
-                result.add(new EntryPatternGoal(0,4,TileType.CAT));
-                result.add(new EntryPatternGoal(0,3,TileType.CAT));
-                result.add(new EntryPatternGoal(0,2,TileType.CAT));
-                result.add(new EntryPatternGoal(0,1,TileType.CAT));
-                result.add(new EntryPatternGoal(0,0,TileType.CAT));
-                return result;
+                switch (numberOfColumns){
+                    case 5 ->{
+                        result.add(new EntryPatternGoal(4,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(4,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(3,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(3,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(3,3,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,3,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,2,TileType.CAT));
+                        result.add(new EntryPatternGoal(1,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(1,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(1,3,TileType.CAT));
+                        result.add(new EntryPatternGoal(1,2,TileType.CAT));
+                        result.add(new EntryPatternGoal(1,1,TileType.CAT));
+                        result.add(new EntryPatternGoal(0,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(0,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(0,3,TileType.CAT));
+                        result.add(new EntryPatternGoal(0,2,TileType.CAT));
+                        result.add(new EntryPatternGoal(0,1,TileType.CAT));
+                        result.add(new EntryPatternGoal(0,0,TileType.CAT));
+                        return result;
+                    }
+
+                    case 4 ->{
+                        result.add(new EntryPatternGoal(4,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(4,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(3,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(3,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(3,3,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,3,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,2,TileType.CAT));
+                        result.add(new EntryPatternGoal(1,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(1,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(1,3,TileType.CAT));
+                        result.add(new EntryPatternGoal(1,2,TileType.CAT));
+                        result.add(new EntryPatternGoal(1,1,TileType.CAT));
+                        return result;
+                    }
+
+                    case 3->{
+                        result.add(new EntryPatternGoal(4,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(4,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(3,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(3,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(3,3,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,3,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,2,TileType.CAT));
+                        return result;
+                    }
+
+                    case 2 ->{
+                        result.add(new EntryPatternGoal(4,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(4,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(3,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(3,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(3,3,TileType.CAT));
+                        return result;
+                    }
+
+                    default -> {
+                        return null;
+                    }
+                }
             }
 
-            // 4, 5 and 6 are mapped to default
+            case 4 ->{
+                switch (numberOfColumns){
+                    case 2 ->{
+                        result.add(new EntryPatternGoal(2, 5, TileType.CAT));
+                        result.add(new EntryPatternGoal(2, 4, TileType.CAT));
+                        result.add(new EntryPatternGoal(2, 3, TileType.CAT));
+                        result.add(new EntryPatternGoal(3, 5, TileType.CAT));
+                        result.add(new EntryPatternGoal(3, 4, TileType.CAT));
+                        result.add(new EntryPatternGoal(3, 3, TileType.CAT));
+                        result.add(new EntryPatternGoal(3, 2, TileType.CAT));
+                        return result;
+                    }
+                    default -> {
+                        return null;
+                    }
+                }
+            }
+
+            case 6 ->{
+                switch (numberOfColumns){
+                    case 4 -> {
+                        result.add(new EntryPatternGoal(4,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(4,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(3,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(3,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(3,3,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,3,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,2,TileType.CAT));
+                        result.add(new EntryPatternGoal(1,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(1,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(1,3,TileType.CAT));
+                        result.add(new EntryPatternGoal(1,2,TileType.CAT));
+                        result.add(new EntryPatternGoal(1,1,TileType.CAT));
+                        return result;
+                    }
+
+                    case 3 -> {
+                        result.add(new EntryPatternGoal(4,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(4,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(3,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(3,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(3,3,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,3,TileType.CAT));
+                        result.add(new EntryPatternGoal(2,2,TileType.CAT));
+                        return result;
+                    }
+
+                    case 2 -> {
+                        result.add(new EntryPatternGoal(4,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(4,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(3,5,TileType.CAT));
+                        result.add(new EntryPatternGoal(3,4,TileType.CAT));
+                        result.add(new EntryPatternGoal(3,3,TileType.CAT));
+                        return result;
+                    }
+
+                    // case 5 is mapped to default
+                    default -> {
+                        return null;
+                    }
+                }
+            }
+
+            // 5 (all null) are mapped to default
             default -> {
                 return null;
             }
