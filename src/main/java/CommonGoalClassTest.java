@@ -13,8 +13,8 @@ public class CommonGoalClassTest {
     public static void main(String[] args){
         List<EntryPatternGoal> list = new ArrayList<>();
         CommonGoalClassTest commonGoalClassTest = new CommonGoalClassTest();
-        commonGoalClassTest.createStairDesign();
-        commonGoalClassTest.createStairCommonGoal();
+        commonGoalClassTest.createLineDesign();
+        commonGoalClassTest.createLineCommonGoal();
         list = commonGoalClassTest.getCommonGoal().rule(commonGoalClassTest.getMatrix());
         if (list != null) {
             System.out.println("Common Goal verified!");
@@ -106,32 +106,35 @@ public class CommonGoalClassTest {
     }
 
     private void createLineDesign(){
+        //number = 1
         /*matrix = new TileType[][]{
-                {null,  null, null, null, null},
-                {null, TileType.CAT, null, null, null},
-                {null, TileType.CAT, TileType.TROPHY, null, null},
-                {TileType.TROPHY, TileType.PLANT, TileType.FRAME, TileType.CAT, TileType.GAME},
+                {TileType.CAT,  TileType.CAT, TileType.CAT, TileType.CAT, TileType.PLANT},
                 {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT},
-                {TileType.GAME, TileType.FRAME, TileType.PLANT, TileType.BOOK, TileType.CAT}
+                {TileType.CAT, TileType.CAT, TileType.TROPHY, TileType.CAT, TileType.BOOK},
+                {TileType.TROPHY, TileType.PLANT, TileType.FRAME, TileType.CAT, TileType.GAME}, //NO
+                {TileType.CAT, TileType.CAT, TileType.CAT, TileType.BOOK, TileType.CAT},
+                {TileType.GAME, TileType.FRAME, TileType.PLANT, TileType.BOOK, TileType.CAT} //NO
         };*/
 
-        /*matrix = new TileType[][]{
-                {null,  null, null, null, null},
-                {null, TileType.CAT, null, null, null},
-                {null, TileType.CAT, TileType.TROPHY, null, null},
-                {TileType.TROPHY, TileType.PLANT, TileType.FRAME, TileType.CAT, TileType.GAME},
+        // number = 2
+      matrix = new TileType[][]{
+                {null,TileType.CAT , null, TileType.CAT,TileType.CAT},
+                {null, TileType.CAT, null, TileType.CAT ,  TileType.CAT},
+                {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, TileType.GAME},
+                {TileType.PLANT, TileType.PLANT, TileType.PLANT, TileType.CAT, TileType.GAME},
                 {TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT, TileType.CAT},
-                {TileType.GAME, TileType.GAME, TileType.PLANT, TileType.BOOK, TileType.CAT}
-        };*/
+                {TileType.GAME, TileType.GAME, TileType.PLANT, TileType.BOOK, TileType.GAME}
+        };
 
-        matrix = new TileType[][]{
+        //number = 3
+       /*matrix = new TileType[][]{
                 {TileType.PLANT,  TileType.PLANT, TileType.GAME, null, null},
                 {TileType.TROPHY, TileType.CAT, TileType.CAT, null, null},
                 {TileType.BOOK, TileType.FRAME, TileType.TROPHY, null, null},
                 {TileType.CAT, TileType.PLANT, TileType.PLANT, TileType.CAT, TileType.GAME},
                 {TileType.FRAME, TileType.CAT, TileType.FRAME, TileType.CAT, TileType.CAT},
                 {TileType.GAME, TileType.GAME, TileType.BOOK, TileType.BOOK, TileType.CAT}
-        };
+        }; */
 
     }
 
@@ -258,11 +261,11 @@ public class CommonGoalClassTest {
     }
 
     private void createLineCommonGoal(){
-        int incRow = 0; // 1 to test rows or 0 to test columns
-        int incCol = 1; // 1 to test columns or 0 to test rows
-        int linesNumber = 2; //number of column or rows to test
-        int numberOfTiles = 2;
-        int[] differentTiles = {2,3};  //number of different tile types {1,2,3} or {5}/{6}
+        int incRow = 1; // 1 to test rows or 0 to test columns
+        int incCol = 0; // 1 to test columns or 0 to test rows
+        int linesNumber = 4; //number of column or rows to test
+        int numberOfTiles = 5;
+        int[] differentTiles = {1,2,3};  //number of different tile types {1,2,3} or {5}/{6}
         this.commonGoal = new LineCommonGoal(incRow, incCol, linesNumber, numberOfTiles, differentTiles);
     }
 
