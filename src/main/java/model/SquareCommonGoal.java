@@ -64,7 +64,8 @@ public class SquareCommonGoal extends CommonGoal implements Serializable {
     @Override
     public List<EntryPatternGoal> rule(TileType[][] bookShelf) {
         for(TileType tileType : TileType.values()){
-            Set<Set<EntryPatternGoal>> result = findNSquareGroup(bookShelf,groupsNumber,squareDim,tileType);
+            TileType[][] copied_bookshelf =  Arrays.stream(bookShelf).map(TileType[]::clone).toArray(TileType[][]::new);
+            Set<Set<EntryPatternGoal>> result = findNSquareGroup(copied_bookshelf,groupsNumber,squareDim,tileType);
             if(!result.isEmpty()){
                 return result.stream().flatMap(Collection::stream).collect(Collectors.toList());
             }
