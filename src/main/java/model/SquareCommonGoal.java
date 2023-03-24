@@ -4,15 +4,7 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- SquareCommonGoal is a class that represents a generic CommonGoal which is satisfied if the BookShelf contains a given number
- of groups each being arranged as a square of a given dimension.
- In the context of this class, with a little abuse of terminology, the circumscribed rectangle of a given group is defined to be the smallest rectangle-shape
- group that contains all the tiles of the given group. (A group is defined to be rectangle-shaped if and only if there are two coordinates (i1,j1) and (i2,j2)
- such that j2>=j1 and i2>=i1 and for all BookShelf's coordinates (i3,j3) then, (i3,j3) belongs to the group iff i1<=i3<=i2 and j1<=j3<=j2. Moreover, a rectangle-shaped group is said to be square-shaped
- iff i2-i1=j2-j1)
- Therefore, a group is defined to be a square if and ond if its circumscribed rectangle is formed only by the group's tiles and is square-shaped.
- */
+
 public class SquareCommonGoal extends CommonGoal implements Serializable {
     private static final long serialVersionUID = 625473943L;
     /**
@@ -67,23 +59,105 @@ public class SquareCommonGoal extends CommonGoal implements Serializable {
         this.squareDim = squareDim;
     }
 
-    /**
-     * The method returns null if the SquareCommonGoal is not satisfied for the BookShelf passes as argument.
-     * If the SquareCommonGoal is satisfied then the method returns the list of the EntryPatternGoals representing the tiles in the BookShelf that satisfy the SquareCommonGoal
-     * @param bookShelf the BookShelf to check for the SquareCommonGoal
-     * @return  null if the SquareCommonGoal is satisfied, otherwise the list of the EntryPatternGoals representing the tiles in the BookShelf that satisfy the SquareCommonGoal
-     */
+
+
     @Override
     public List<EntryPatternGoal> rule(TileType[][] bookShelf) {
-        Set<Set<EntryPatternGoal>> groups = findGroups(bookShelf);
-        Set<Set<EntryPatternGoal>> candidateGroups = groups.stream().filter(g-> isSquare(g, bookShelf.length, bookShelf[0].length).filter(d->d==squareDim).isPresent()).collect(Collectors.toSet());
-        if(candidateGroups.size()==groupsNumber){
-            return candidateGroups.stream().flatMap(Collection::stream).collect(Collectors.toList());
+        for(TileType tileType : TileType.values()){
+            TileType[][] copied_bookshelf =  Arrays.stream(bookShelf).map(TileType[]::clone).toArray(TileType[][]::new);
+            Set<Set<EntryPatternGoal>> result = findNSquareGroup(copied_bookshelf,groupsNumber,squareDim,tileType);
+            if(!result.isEmpty()){
+                return result.stream().flatMap(Collection::stream).collect(Collectors.toList());
+            }
         }
-        else{
-            return null;
+        return null;
+    }
+
+    private Set<Set<EntryPatternGoal>> findNSquareGroup(TileType[][] bookshelf, int groupsToFind, int dim, TileType tileType){
+        Set<Set<EntryPatternGoal>> result = new HashSet<>();
+        for(int i = 0;i<bookshelf.length;i++){
+            for(int j = 0;j<bookshelf[0].length;j++){
+                Set<EntryPatternGoal> group = getGroupFromUpperLeft(i,j,dim,bookshelf,tileType);
+                if(!group.isEmpty()){
+                    if(groupsToFind!=1){
+                        Set<Set<EntryPatternGoal>> others = findNSquareGroup(bookshelf,groupsToFind-1,dim,tileType);
+                        restoreBookShelf(bookshelf,group);
+                        if(!others.isEmpty()){
+                            result.add(group);
+                            result.addAll(others);
+                            return result;
+                        }
+                    }
+                    else{
+                        restoreBookShelf(bookshelf,group);
+                        result.add(group);
+                        return result;
+                    }
+                }
+            }
+        }
+        return new HashSet<>();
+    }
+
+    private Set<EntryPatternGoal> getGroupFromUpperLeft(int row, int column, int dim, TileType[][] bookShelf, TileType tileType){
+        Set<EntryPatternGoal> group = new HashSet<>();
+        if(row+dim>bookShelf.length||column+dim>bookShelf[0].length){
+            return group;
+        }
+        for(int i = row;i<row+dim;i++){
+            for(int j = column;j<column+dim;j++){
+                if(bookShelf[i][j]!=tileType){
+                    return new HashSet<>();
+                }
+                group.add(new EntryPatternGoal(j,i,bookShelf[i][j]));
+            }
+        }
+        for(EntryPatternGoal e : group){
+            bookShelf[e.getRow()][e.getColumn()] = null;
+        }
+        return group;
+    }
+
+    private void restoreBookShelf(TileType[][] bookShelf, Set<EntryPatternGoal> group){
+        for(EntryPatternGoal e : group){
+            bookShelf[e.getRow()][e.getColumn()] = e.getTileType();
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * The method takes in input a group (along with the rows number and columns number of the BookShelf) and return an optional of its dimension if it is a square,
@@ -127,7 +201,7 @@ public class SquareCommonGoal extends CommonGoal implements Serializable {
      * @param bookShelf the BookShelf to check
      * @return the Set of all groups in the BookShelf
      */
-    private Set<Set<EntryPatternGoal>> findGroups(TileType[][] bookShelf){
+    private Set<Set<EntryPatternGoal>> findGroups(TileType[][] bookShelf, int maxGroupSize){
         boolean[][] alreadyTaken = new boolean[bookShelf.length][bookShelf[0].length];//initialized to false
         Set<Set<EntryPatternGoal>> result = new HashSet<Set<EntryPatternGoal>>();
         for(int i = 0;i<bookShelf.length;i++){
@@ -158,6 +232,7 @@ public class SquareCommonGoal extends CommonGoal implements Serializable {
         if (alreadyTaken[i][j]){ //if this bookShelf is already part of another group then it should not be considered for another group
             return Optional.empty();
         }
+
         Set<EntryPatternGoal> result = new HashSet<>();// Java documentation recommends using HashSet, unless otherwise required
         if (bookShelf[i][j]!=tileType){//we want only entries whose type is tileType
             return Optional.empty();
@@ -166,7 +241,6 @@ public class SquareCommonGoal extends CommonGoal implements Serializable {
             result.add(new EntryPatternGoal(j,i,tileType));//if the type is correct then the (i,j)-entry can be added to the group
             alreadyTaken[i][j] = true;
         }
-
         findSingleGroup(i-1,j,bookShelf,alreadyTaken,tileType).ifPresent(result::addAll);
         findSingleGroup(i+1,j,bookShelf,alreadyTaken,tileType).ifPresent(result::addAll);
         findSingleGroup(i,j-1,bookShelf,alreadyTaken,tileType).ifPresent(result::addAll);
