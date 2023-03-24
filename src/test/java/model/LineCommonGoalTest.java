@@ -13,6 +13,25 @@ import static org.junit.jupiter.api.Assertions.*;
 class LineCommonGoalTest {
 
     @Test
+    void getNumberOfTiles() {
+        int incRow = 1, incCol = 0, numberLines = 2, numberTiles = 4;
+        int[] differentTiles = {6};
+        LineCommonGoal goal = new LineCommonGoal(incRow, incCol, numberLines, numberTiles, differentTiles, "Description");
+        assertEquals(numberTiles, goal.getNumberOfTiles());
+    }
+
+    @Test
+    void setNumberOfTiles() {
+        int incRow = 1, incCol = 0, numberLines = 2, numberTiles = 4;
+        int[] differentTiles = {6};
+        LineCommonGoal goal = new LineCommonGoal(incRow, incCol, numberLines, numberTiles, differentTiles, "Description");
+        assertEquals(numberTiles, goal.getNumberOfTiles());
+        numberTiles = 6;
+        goal.setNumberOfTiles(numberTiles);
+        assertEquals(numberTiles, goal.getNumberOfTiles());
+    }
+
+    @Test
     void getIncRow() {
         int incRow, incCol = 0, numberLines = 2, numberTiles = 4;
         int[] differentTiles = {6};
