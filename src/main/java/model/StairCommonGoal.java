@@ -21,6 +21,7 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
      * @param numberOfColumns number of columns that forms the staircase
      */
     public StairCommonGoal(int numberOfColumns){
+        this.setAvailableScore(8);
         this.numberOfColumns = numberOfColumns;
     }
 
@@ -88,7 +89,7 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
         }
 
         for (int i = startIndexColumn; i < startIndexColumn+numberOfColumns && counter >= 0 && counter <= numRows; i++){
-            if (controlColumn(i, counter, matrix)==null) return null;
+            if (controlColumn(i, counter, matrix) == null) return null;
             result.addAll(controlColumn(i, counter, matrix));
             counter--;
         }
@@ -136,15 +137,13 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
      */
     private List<EntryPatternGoal> controlColumn(int indexColumn,int indexMinRow, TileType[][] matrix){
         List<EntryPatternGoal> result = new ArrayList<>();
-        EntryPatternGoal element = new EntryPatternGoal();
 
         if (matrix[indexMinRow][indexColumn]==null) return null;
         if (indexMinRow>0){
             if (matrix[indexMinRow-1][indexColumn]!=null) return null;
         }
         for (int j=matrix.length-1; j >= indexMinRow; j--){
-            element = new EntryPatternGoal(indexColumn, j, matrix[j][indexColumn]);
-            result.add(element);
+            result.add(new EntryPatternGoal(indexColumn, j, matrix[j][indexColumn]));
         }
         return result;
     }
