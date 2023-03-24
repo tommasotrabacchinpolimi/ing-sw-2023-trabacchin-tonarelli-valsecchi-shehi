@@ -9,7 +9,8 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
     private int tileNumber;
     private List<Integer[]> incrementRuleShape;
 
-    public ShapeCommonGoal(int tileNumber, List<Integer[]> ruleShape) {
+    public ShapeCommonGoal(int tileNumber, List<Integer[]> ruleShape, String description) {
+        super(description);
         this.tileNumber = tileNumber;
         this.incrementRuleShape = ruleShape;
     }

@@ -20,7 +20,8 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
      * The method used for creating the SquareCommonGoal
      * @param numberOfColumns number of columns that forms the staircase
      */
-    public StairCommonGoal(int numberOfColumns){
+    public StairCommonGoal(int numberOfColumns, String description){
+        super(description);
         this.setAvailableScore(8);
         this.numberOfColumns = numberOfColumns;
     }

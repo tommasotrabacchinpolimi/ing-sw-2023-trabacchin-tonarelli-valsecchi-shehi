@@ -40,7 +40,8 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
      * @param numberOfTiles  The minimum number of tiles that must be found in the lines to satisfy the goal
      * @param differentTiles The array that contains the number of different TileType that each lines needs to have in order to satisfy the Goal
      */
-    public LineCommonGoal(int incRow, int incCol, int linesNumber, int numberOfTiles, int[] differentTiles) {
+    public LineCommonGoal(int incRow, int incCol, int linesNumber, int numberOfTiles, int[] differentTiles, String description) {
+        super(description);
         this.incRow = incRow;
         this.incCol = incCol;
         this.linesNumber = linesNumber;

@@ -21,7 +21,8 @@ public class SquareCommonGoal extends CommonGoal implements Serializable {
      * @param groupsNumber the number of square-shaped groups that needs to be found in order to complete the Goal
      * @param squareDim the dimension required for the groups, that is the groups must be squareDim x squareDim squares
      */
-    public SquareCommonGoal(int groupsNumber, int squareDim){
+    public SquareCommonGoal(int groupsNumber, int squareDim, String description){
+        super(description);
         this.groupsNumber = groupsNumber;
         this.squareDim = squareDim;
     }
