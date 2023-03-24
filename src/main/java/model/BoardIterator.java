@@ -8,6 +8,9 @@ import java.util.Iterator;
 public class BoardIterator implements Iterator<BoardSquare>, Serializable {
     private static final long serialVersionUID = 18052001L;
 
+
+
+
     private enum Direction implements Serializable{
         LEFT,
         RIGHT;
@@ -39,6 +42,10 @@ public class BoardIterator implements Iterator<BoardSquare>, Serializable {
         return this.numberOfIteratedSquares != this.board.getNumberOfBoardSquares();
     }
 
+    /**
+     * The method is used to iterate over a Board. It returns the next BoardSquare in the iteration sequence.
+     * @return the next BoardSquare in the iteration sequence
+     */
     @Override
     public BoardSquare next() {
         if(last == null) {
@@ -67,6 +74,9 @@ public class BoardIterator implements Iterator<BoardSquare>, Serializable {
         return this.last;
     }
 
+    /**
+     * The method set middle to the middle BoardSquare of the row below the current one.
+     */
     private void searchDown() {
         if(this.last == null){
             this.last = this.middle.getBottom();
