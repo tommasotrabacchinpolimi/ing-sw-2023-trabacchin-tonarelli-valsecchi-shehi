@@ -150,7 +150,6 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
         int counterLines = 0, counterTile;
         List<TileType> alreadyFoundType = new ArrayList<>();
         List<EntryPatternGoal> result = new ArrayList<EntryPatternGoal>();
-        EntryPatternGoal element = null;
 
         if ((incRow==1 && incCol==1)||(incRow==0 && incCol==0)) return null;
 
@@ -161,8 +160,7 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
             for (int j = 0; j < bookShelf[0].length; j += incRow) {
                 if (bookShelf[i][j] != null) {
                     counterTile++;
-                    element = new EntryPatternGoal(j, i, bookShelf[i][j]);
-                    result.add(element);
+                    result.add(new EntryPatternGoal(j, i, bookShelf[i][j]));
                     if (!alreadyFoundType.contains(bookShelf[i][j]))
                         alreadyFoundType.add(bookShelf[i][j]);
                 }
