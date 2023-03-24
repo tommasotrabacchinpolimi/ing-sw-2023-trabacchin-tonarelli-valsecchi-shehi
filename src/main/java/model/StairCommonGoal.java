@@ -5,9 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * StairCommonGoal is a class that represents a generic CommonGoal which is satisfied if the BookShelf contains
+ * {@link StairCommonGoal#StairCommonGoal StairCommonGoal} is a class that represents a generic {@link CommonGoal#CommonGoal CommonGoal} which is satisfied if the BookShelf contains
  * a given number of columns (in ours case 5) of increasing or decreasing height. Starting from the first column on the left or on the right,
  * each next column must be made of exactly one more tile. In the BookShelf, tiles can be of any type.
+ *
+ *  @author Melanie Tonarelli
+ *  @version 1.0, 24/04/23
+ *  @see CommonGoal
  */
 public class StairCommonGoal extends CommonGoal implements Serializable {
     private static final long serialVersionUID = 142749503L;
@@ -17,7 +21,7 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
     private int numberOfColumns;
 
     /**
-     * The method used for creating the SquareCommonGoal
+     * The method used for creating the {@link SquareCommonGoal#SquareCommonGoal SquareCommonGoal}
      * @param numberOfColumns number of columns that forms the staircase
      */
     public StairCommonGoal(int numberOfColumns, String description){
@@ -42,13 +46,12 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
     }
 
     /**
-     * Method that return null if and only if the StairCommonGoal is not satisfied for the BookShelf passes as argument.
-     * If the SquareCommonGoal is satisfied then the method returns the list of the EntryPatternGoals representing the
-     * tiles in the BookShelf that satisfy the SquareCommonGoal. In particular, the method control if there are five columns
-     * of increasing or decreasing height; starting from the first column on the left or on the right, each next column must
-     * be made of exactly one more tile.
-     * @param bookShelf matrix of TileType referring to the player's bookshelf
-     * @return list of EntryPatternGoal that verify the rule of the StairCommonGoal
+     * Method that return null if and only if the {@link StairCommonGoal#StairCommonGoal StairCommonGoal} is not satisfied for the <code>bookShelf</code> passes as argument.
+     * If the {@link StairCommonGoal#StairCommonGoal StairCommonGoal} is satisfied then the method returns the list of the {@link EntryPatternGoal#EntryPatternGoal EntryPatterGoal} representing the
+     * tiles in the <code>bookShelf</code> that satisfy the {@link StairCommonGoal#StairCommonGoal StairCommonGoal}. In particular, the method control if there are <code>numberOfColumns</code> columns
+     * of increasing or decreasing height; starting from the first column on the left or on the right, each next column must be made of exactly one more tile.
+     * @param bookShelf matrix of {@link TileType} referring to the player's <code>bookShelf</code>
+     * @return <code>null</code> if the <code>bookShelf</code> doesn't satisfy the condition, otherwise the list of {@link EntryPatternGoal#EntryPatternGoal EntryPatterGoal} that verify the rule of the {@link StairCommonGoal#StairCommonGoal StairCommonGoal}
      */
     @Override
     public List<EntryPatternGoal> rule(TileType[][] bookShelf) {
@@ -71,14 +74,14 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
     }
 
     /**
-     * Method that checks if starting from the cell indicated in the matrix there is a staircase
+     * Method that checks if starting from the cell indicated in the <code>matrix</code> there is a staircase
      * from right to left corner (the lowest step of the staircase to the right and the highest one to the left).
-     * It returns null if there aren't any groups of tiles forming a staircase pattern, otherwise it return a
-     * list of EntryPatterGoal that forms the staircase in the bookshelf
+     * It returns <code>null</code> if there aren't any groups of tiles forming a staircase pattern, otherwise it returns a
+     * list of {@link EntryPatternGoal#EntryPatternGoal EntryPatterGoal} that forms the staircase in the <code>bookShelf</code>
      * @param startIndexRow index of the row where the first rung of the stair is positioned
      * @param startIndexColumn index of the column where the first rung of the stair is positioned
-     * @param matrix matrix of TileType referring to the player's bookshelf
-     * @return list of EntryPatternGoal that forms the staircase in the bookshelf
+     * @param matrix matrix of {@link TileType} referring to the player's <code>bookShelf</code>
+     * @return <code>null</code> if  <code>bookShelf</code> doesn't have a right stair, otherwise the list of {@link EntryPatternGoal#EntryPatternGoal EntryPatterGoal} that forms the staircase in the <code>bookshelf</code>
      */
     private List<EntryPatternGoal> rightStair(int startIndexRow, int startIndexColumn, TileType[][] matrix){
         List<EntryPatternGoal> result = new ArrayList<>();
@@ -98,16 +101,15 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
 
     }
 
-
     /**
-     * Method that checks if starting from the cell indicated in the matrix there is a staircase
+     * Method that checks if starting from the cell indicated in the <code>matrix</code> there is a staircase
      * from left to right (the lowest step of the staircase to the left and the highest one to the right).
-     * It returns null if there aren't any groups of tiles forming a staircase pattern, otherwise it return a
-     * list of EntryPatterGoal that forms the staircase in the bookshelf
+     * It returns <code>null</code> if there aren't any groups of tiles forming a staircase pattern, otherwise it returns a
+     * list of {@link EntryPatternGoal#EntryPatternGoal EntryPatterGoal} that forms the staircase in the <code>bookShelf</code>
      * @param startIndexRow index of the row where the first rung of the stair is positioned
      * @param startIndexColumn index of the column where the first rung of the stair is positioned
-     * @param matrix matrix of TileType referring to the player's bookshelf
-     * @return list of EntryPatternGoal that forms the staircase in the bookshelf
+     * @param matrix matrix of {@link TileType} referring to the player's <code>bookShelf</code>
+     * @return <code>null</code> if  <code>bookShelf</code> doesn't have a left stair, otherwise list of {@link EntryPatternGoal#EntryPatternGoal EntryPatterGoal} that forms the staircase in the <code>bookShelf</code>
      */
     private List<EntryPatternGoal> leftStair(int startIndexRow, int startIndexColumn, TileType[][] matrix){
         List<EntryPatternGoal> result = new ArrayList<>();
@@ -127,13 +129,13 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
     }
 
     /**
-     * Method that checks if in the indicated column of the matrix, the cell of indices (indexMinRow,indexColumn)
+     * Method that checks if in the indicated column of the matrix, the cell of indexes (<code>indexMinRow</code>,<code>indexColumn</code>)
      * is the first cell having a tile starting from the top downwards.
-     * The method returns true if and only if the condition described above is satisfied by the passed parameters.
-     * @param indexColumn index of the column which is considered in the matrix
+     * The method returns <code>true</code> if and only if the condition described above is satisfied by the passed parameters.
+     * @param indexColumn index of the column which is considered in the <code>matrix</code>
      * @param indexMinRow index of the possible highest row containing a tile
-     * @param matrix matrix of TileType referring to the player's bookshelf
-     * @return null if the column satisfied the condition described, otherwise the list of EntryPatterGoal
+     * @param matrix matrix of {@link TileType} referring to the player's <code>bookShelf</code>
+     * @return <code>null</code> if the column doesn't satisfy the condition described, otherwise the list of {@link EntryPatternGoal#EntryPatternGoal EntryPatterGoal} in the given column
      */
     private List<EntryPatternGoal> controlColumn(int indexColumn,int indexMinRow, TileType[][] matrix){
         List<EntryPatternGoal> result = new ArrayList<>();
@@ -149,12 +151,12 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
     }
 
     /**
-     * Method that return true if and only if a matrix of dimensione numRows*numColumns can contain a staircase
-     * made of a given number of columns and having the first rung in the cell of indices (startIndexRow,startIndexColumn)
+     * Method that return <code>true</code> if and only if a <code>matrix</code> of dimensione <code>numRows*numColumns</code> can contain a staircase
+     * made of a given number of columns and having the first rung in the cell of indexes (<code>startIndexRow</code>, <code>startIndexColumn</code>)
      * @param startIndexRow index of the row where the first rung of the stair is positioned
      * @param startIndexColumn index of the column where the first rung of the stair is positioned
-     * @param matrix matrix of TileType referring to the player's bookshelf
-     * @return true if and only if the matrix has the right dimension to contain a staircase starting from
+     * @param matrix matrix of {@link TileType} referring to the player's <code>bookshelf</code>
+     * @return <code>true</code> if and only if the matrix has the right dimension to contain a staircase having the first rung in (<code>startIndexRow</code>, <code>startIndexColumn</code>)
      */
     private boolean wellFormedIndex(int startIndexRow, int startIndexColumn, TileType[][] matrix){
         int numRows = matrix.length, numColumns = matrix[0].length;

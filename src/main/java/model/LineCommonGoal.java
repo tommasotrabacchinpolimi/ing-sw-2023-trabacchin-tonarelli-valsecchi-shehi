@@ -11,7 +11,7 @@ import java.util.List;
 public class LineCommonGoal extends CommonGoal implements Serializable {
     private static final long serialVersionUID = 83625649L;
     /**
-     * Increment of row, that is set to 1 iff the lines that have to satisfy the condition are rows of a matrix
+     * Increment of row, that is set to 1 if and only if the lines that have to satisfy the condition are rows of a matrix
      */
     private int incRow;
     /**
@@ -37,8 +37,8 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
      * @param incRow         Increment of row, that is set to 1 iff the lines that have to satisfy the condition are rows of a matrix
      * @param incCol         Increment of column, that is set to 1 iff the lines that have to satisfy the condition are columns of a matrix
      * @param linesNumber    The number of lines that needs to satisfy the condition in order to complete the Goal
-     * @param numberOfTiles  The minimum number of tiles that must be found in the lines to satisfy the goal
-     * @param differentTiles The array that contains the number of different TileType that each lines needs to have in order to satisfy the Goal
+     * @param numberOfTiles  The minimum number of tiles that must be found in the lines to satisfy the Goal
+     * @param differentTiles The array that contains the number of different {@link TileType} that each lines needs to have in order to satisfy the Goal
      */
     public LineCommonGoal(int incRow, int incCol, int linesNumber, int numberOfTiles, int[] differentTiles, String description) {
         super(description);
@@ -65,7 +65,6 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
         this.numberOfTiles = numberOfTiles;
     }
 
-
     /**
      * Get the increment of row, that is set to 1 iff the lines that have to satisfy the condition are rows of a matrix
      * @return incRow value
@@ -73,7 +72,6 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
     public int getIncRow() {
         return incRow;
     }
-
 
     /**
      * Sets the increment of row, that is set to 1 iff the lines that have to satisfy the condition are rows of a matrix
@@ -83,7 +81,6 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
         this.incRow = incRow;
     }
 
-
     /**
      * Get the increment of row, that is set to 1 iff the lines that have to satisfy the condition are columns of a matrix
      * @return incCol value
@@ -91,7 +88,6 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
     public int getIncCol() {
         return incCol;
     }
-
 
     /**
      * Sets the increment of row, that is set to 1 iff the lines that have to satisfy the condition are columns of a matrix
@@ -101,7 +97,6 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
         this.incCol = incCol;
     }
 
-
     /**
      * Get the number of lines that needs to satisfy the condition in order to complete the Goal
      * @return the number of lines that needs to satisfy the condition in order to complete the Goal
@@ -109,7 +104,6 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
     public int getLinesNumber() {
         return linesNumber;
     }
-
 
     /**
      * Set the number of lines that needs to satisfy the condition in order to complete the Goal
@@ -119,32 +113,29 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
         this.linesNumber = linesNumber;
     }
 
-
     /**
-     * Get The array that contains the number of different TileType that each lines needs to have in order to satisfy the Goal
-     * @return The array that contains the number of different TileType that each lines needs to have in order to satisfy the Goal
+     * Get The array that contains the number of different {@link TileType} that each lines needs to have in order to satisfy the Goal
+     * @return The array that contains the number of different {@link TileType} that each lines needs to have in order to satisfy the Goal
      */
     public int[] getDifferentTiles() {
         return differentTiles;
     }
 
-
     /**
-     * Set the array that contains the number of different TileType that each lines needs to have in order to satisfy the Goal
-     * @param differentTiles The array that contains the number of different TileType that each lines needs to have in order to satisfy the Goal
+     * Set the array that contains the number of different {@link TileType} that each lines needs to have in order to satisfy the Goal
+     * @param differentTiles The array that contains the number of different {@link TileType} that each lines needs to have in order to satisfy the Goal
      */
     public void setDifferentTiles(int[] differentTiles) {
         this.differentTiles = differentTiles;
     }
 
-
     /**
-     * The method returns null if the LineCommonGoal is not satisfied for the bookShelf passes as argument.
-     * If the LineCommonGoal is satisfied then the method returns the list of the EntryPatternGoals representing
-     * the tiles in the BookShelf that satisfy the LineCommonGoal.
-     * @param bookShelf the BookShelf to check for the LineCommonGoal
-     * @return null if the LineCommonGoal is satisfied, otherwise the list of the EntryPatternGoals representing
-     * the tiles in the BookShelf that satisfy the LineCommonGoal
+     * The method returns {@code null} if the {@link LineCommonGoal#LineCommonGoal LineCommonGoal} is not satisfied for the {@code bookShelf} passes as argument.
+     * If the {@link LineCommonGoal#LineCommonGoal LineCommonGoal} is satisfied then the method returns the list of the {@link EntryPatternGoal#EntryPatternGoal EntryPatternGoal} representing
+     * the tiles in the <code>bookShelf</code> that satisfy the {@link LineCommonGoal#LineCommonGoal LineCommonGoal}.
+     * @param bookShelf the bookShelf to check for the goal
+     * @return <code>null</code> if the goal is satisfied, otherwise the list of the {@link EntryPatternGoal#EntryPatternGoal EntryPatternGoal} representing
+     * the tiles in the {@code bookShelf} that satisfy the Goal
      */
     @Override
     public List<EntryPatternGoal> rule(TileType[][] bookShelf) {
@@ -200,13 +191,13 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
     }
 
     /**
-     * Method that return true iff the parameter count is contained in the array differentTiles
-     * @param count
-     * @return true iff the parameter count is contained in the array differentTiles
+     * Method that return true if and only if the parameter {@code count} is contained in the array {@link LineCommonGoal#differentTiles differentTiles}.
+     * @param count searched value inside {@link LineCommonGoal#differentTiles differentTiles}.
+     * @return {@code true} if and only if the parameter {@code count} is contained in the array {@link LineCommonGoal#differentTiles differentTiles}.
      */
     private boolean containsNumber(int count) {
-        for (int i = 0; i < differentTiles.length; i++) {
-            if (differentTiles[i] == count)
+        for (int differentTile : differentTiles) {
+            if (differentTile == count)
                 return true;
         }
         return false;
