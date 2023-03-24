@@ -22,7 +22,6 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
      */
     public StairCommonGoal(int numberOfColumns, String description){
         super(description);
-        this.setAvailableScore(8);
         this.numberOfColumns = numberOfColumns;
     }
 

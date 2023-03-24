@@ -239,25 +239,25 @@ public class CommonGoalClassTest {
 
     private void createStairCommonGoal(){
         int numberOfColumns = 5;
-        this.commonGoal = new StairCommonGoal(numberOfColumns);
+        this.commonGoal = new StairCommonGoal(numberOfColumns, "Description");
     }
 
     private void createGroupCommonGoal(){
         int  groupsNumber = 6;
         int adjacentTiles = 2;
-        this.commonGoal = new GroupCommonGoal(groupsNumber, adjacentTiles);
+        this.commonGoal = new GroupCommonGoal(groupsNumber, adjacentTiles, "Description");
     }
 
     private void createShapeCommonGoal(){
         int tileNumber = 2;
         List<Integer[]> incrementRuleShape = new ArrayList<Integer[]>();
-        this.commonGoal = new ShapeCommonGoal(tileNumber, incrementRuleShape);
+        this.commonGoal = new ShapeCommonGoal(tileNumber, incrementRuleShape, "Description");
     }
 
     private void createSquareCommonGoal(){
         int groupsNumber = 3;
         int squareDim = 2;
-        this.commonGoal = new SquareCommonGoal(groupsNumber, squareDim);
+        this.commonGoal = new SquareCommonGoal(groupsNumber, squareDim, "Description");
     }
 
     private void createLineCommonGoal(){
@@ -266,7 +266,7 @@ public class CommonGoalClassTest {
         int linesNumber = 4; //number of column or rows to test
         int numberOfTiles = 5;
         int[] differentTiles = {1,2,3};  //number of different tile types {1,2,3} or {5}/{6}
-        this.commonGoal = new LineCommonGoal(incRow, incCol, linesNumber, numberOfTiles, differentTiles);
+        this.commonGoal = new LineCommonGoal(incRow, incCol, linesNumber, numberOfTiles, differentTiles, "Description");
     }
 
 
