@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -71,12 +72,14 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
     @Override
     public List<EntryPatternGoal> rule(TileType[][] bookShelf) {
         int numRows, numColumns;
+        TileType[][] copied_bookshelf;
         List<EntryPatternGoal> result = new ArrayList<>();
 
         if (bookShelf == null) return null;
         else {
-            numRows = bookShelf.length;
-            numColumns = bookShelf[0].length;
+            copied_bookshelf =  Arrays.stream(bookShelf).map(TileType[]::clone).toArray(TileType[][]::new); //added to make this thread safe
+            numRows = copied_bookshelf.length;
+            numColumns = copied_bookshelf[0].length;
         }
         if(numberOfColumns <= 0) return null; // nothing is to be returned if arguments are illegal
         if (numColumns < numberOfColumns || numRows < numberOfColumns){ // nothing is to be returned if arguments are illegal
@@ -85,11 +88,11 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
 
         for (int i = numRows-1; i >= 0; i--){
             for (int j = numColumns-1; j >= 0; j--){
-                if (wellFormedIndex(i, j, bookShelf)){
-                    result = rightStair(i, j, bookShelf);
+                if (wellFormedIndex(i, j, copied_bookshelf)){
+                    result = rightStair(i, j, copied_bookshelf);
                     if (result != null) return result;
 
-                    result = leftStair(i, j, bookShelf);
+                    result = leftStair(i, j, copied_bookshelf);
                     if (result != null) return result;
                 }
             }

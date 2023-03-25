@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -186,40 +187,43 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
      */
     @Override
     public List<EntryPatternGoal> rule(TileType[][] bookShelf) {
+        TileType[][] copied_bookshelf;
         int counterLines = 0, counterTile;
         List<TileType> alreadyFoundType = new ArrayList<>();
         List<EntryPatternGoal> result = new ArrayList<EntryPatternGoal>();
 
         //illegal arguments
         if(bookShelf==null) return null;
+        else copied_bookshelf = Arrays.stream(bookShelf).map(TileType[]::clone).toArray(TileType[][]::new); //added to make this thread-safe
+
         if((incCol!=1 && incCol!=0) || (incRow!=0 && incRow!=1)) return null; //nothing is to be returned if argument incCol and incRow doesn't have value 0 or 1.
         if((incRow==1 && incCol==1)||(incRow==0 && incCol==0)) return null; // nothing is to be returned if arguments incCol and incRow have the same values
         if(linesNumber <= 0) return null; //the argument linesNumber is illegal because it is zero or negative
-        if(linesNumber>bookShelf.length && incRow==1) return null; //the argument linesNumber is illegal because it is bigger then the number of rows found in the bookshelf
-        if(linesNumber>bookShelf[0].length && incCol==1) return null; //the argument linesNumber is illegal because it is bigger then the number of columns found in the bookshelf
+        if(linesNumber>copied_bookshelf.length && incRow==1) return null; //the argument linesNumber is illegal because it is bigger then the number of rows found in the bookshelf
+        if(linesNumber>copied_bookshelf[0].length && incCol==1) return null; //the argument linesNumber is illegal because it is bigger then the number of columns found in the bookshelf
         for(int i = 0; i < differentTiles.length; i++){
             if(differentTiles[i] <= 0) return null; //the argument differentTiles is illegal, because it can only have positive value elements
         }
         if(differentTiles[differentTiles.length-1] > TileType.values().length || differentTiles[differentTiles.length-1] > numberOfTiles) return null; //the argument differentTiles is illegal, this condition needs to be discussed with the other colleagues
         if(numberOfTiles<=0)return null; //the argument numberOfTiles is illegal, because it can only have positive values
-        if(numberOfTiles>bookShelf.length && incCol==1) return null;
-        if(numberOfTiles>bookShelf[0].length && incRow==1) return null;
+        if(numberOfTiles>copied_bookshelf.length && incCol==1) return null;
+        if(numberOfTiles>copied_bookshelf[0].length && incRow==1) return null;
 
         //checking the condition
-        for (int i = 0; i < bookShelf.length; i += incCol) {
+        for (int i = 0; i < copied_bookshelf.length; i += incCol) {
             alreadyFoundType.clear();
             counterTile = 0;
 
-            for (int j = 0; j < bookShelf[0].length; j += incRow) {
-                if (bookShelf[i][j] != null) {
+            for (int j = 0; j < copied_bookshelf[0].length; j += incRow) {
+                if (copied_bookshelf[i][j] != null) {
                     counterTile++;
-                    result.add(new EntryPatternGoal(j, i, bookShelf[i][j]));
-                    if (!alreadyFoundType.contains(bookShelf[i][j]))
-                        alreadyFoundType.add(bookShelf[i][j]);
+                    result.add(new EntryPatternGoal(j, i, copied_bookshelf[i][j]));
+                    if (!alreadyFoundType.contains(copied_bookshelf[i][j]))
+                        alreadyFoundType.add(copied_bookshelf[i][j]);
                 }
 
                 if (incRow == 0) i++;
-                if (incRow == 0 && i == bookShelf.length) {
+                if (incRow == 0 && i == copied_bookshelf.length) {
                     if (counterTile >= numberOfTiles && containsNumber(alreadyFoundType.size())) {
                         counterLines++;
                         if (counterLines == linesNumber) return result;
@@ -230,7 +234,7 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
                     }
                     i = 0;
                     j++;
-                    if (j == bookShelf[0].length) return null;
+                    if (j == copied_bookshelf[0].length) return null;
                     counterTile = 0;
                     alreadyFoundType.clear();
                 }
