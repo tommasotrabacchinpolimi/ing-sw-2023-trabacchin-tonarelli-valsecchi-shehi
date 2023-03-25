@@ -31,15 +31,22 @@ class StairCommonGoalTest {
     @Test
     void rule() {
         int numberOfColumns, index;
+        numberOfColumns = 7;
+        StairCommonGoal goal = new StairCommonGoal(numberOfColumns, "Description");
+        assertNull(goal.rule(createStairDesign(1))); //testing illegal parameter
+
+        numberOfColumns = 6;
+        goal = new StairCommonGoal(numberOfColumns, "Description");
+        assertNull(goal.rule(createStairDesign(1))); //testing illegal parameter
 
        for(index = 1; index <= 6; index++){
             for(numberOfColumns = 2; numberOfColumns <= 5; numberOfColumns++){
                 if ( (index == 4 && numberOfColumns !=2) || index == 5 || (index == 6 && numberOfColumns == 5)) {
-                    StairCommonGoal goal = new StairCommonGoal(numberOfColumns, "Description");
+                    goal = new StairCommonGoal(numberOfColumns, "Description");
                     assertNull(getExpectedResult(index,numberOfColumns));
                 } else {
                     for (int i = 0; i < getExpectedResult(index, numberOfColumns).size(); i++) {
-                        StairCommonGoal goal = new StairCommonGoal(numberOfColumns, "Description");
+                        goal = new StairCommonGoal(numberOfColumns, "Description");
                         assertEquals(getExpectedResult(index, numberOfColumns).get(i).toString(),
                                 goal.rule(createStairDesign(index)).get(i).toString());
                     }
@@ -47,6 +54,7 @@ class StairCommonGoalTest {
             }
         }
 
+       assertNull(goal.rule(null));
     }
 
     private TileType[][] createStairDesign(int number){

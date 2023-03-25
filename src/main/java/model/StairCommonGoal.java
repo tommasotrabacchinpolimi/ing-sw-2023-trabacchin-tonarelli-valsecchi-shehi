@@ -3,6 +3,7 @@ package model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * {@link StairCommonGoal#StairCommonGoal StairCommonGoal} is a class that represents a generic {@link CommonGoal#CommonGoal CommonGoal} which is satisfied if the {@link BookShelf#BookShelf BookShelf}
@@ -69,8 +70,18 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
      */
     @Override
     public List<EntryPatternGoal> rule(TileType[][] bookShelf) {
-        int numRows = bookShelf.length, numColumns = bookShelf[0].length;
+        int numRows, numColumns;
         List<EntryPatternGoal> result = new ArrayList<>();
+
+        if (bookShelf == null) return null;
+        else {
+            numRows = bookShelf.length;
+            numColumns = bookShelf[0].length;
+        }
+        if(numberOfColumns <= 0) return null; // nothing is to be returned if arguments are illegal
+        if (numColumns < numberOfColumns || numRows < numberOfColumns){ // nothing is to be returned if arguments are illegal
+            return null;
+        }
 
         for (int i = numRows-1; i >= 0; i--){
             for (int j = numColumns-1; j >= 0; j--){
@@ -111,7 +122,7 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
 
         for (int i = startIndexColumn; i < startIndexColumn+numberOfColumns && counter >= 0 && counter <= numRows; i++){
             if (controlColumn(i, counter, matrix) == null) return null;
-            result.addAll(controlColumn(i, counter, matrix));
+            result.addAll(Objects.requireNonNull(controlColumn(i, counter, matrix)));
             counter--;
         }
 
@@ -142,8 +153,9 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
 
         for (int i = startIndexColumn; i >= startIndexColumn-numberOfColumns+1 && counter >= 0 && counter <= numRows; i--){
             if ( controlColumn(i, counter, matrix) == null ) return null;
-            result.addAll(controlColumn(i, counter, matrix));
+            result.addAll(Objects.requireNonNull(controlColumn(i, counter, matrix)));
             counter--;
+
         }
 
         return result;
@@ -186,18 +198,20 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
      * @see TileType
      */
     private boolean wellFormedIndex(int startIndexRow, int startIndexColumn, TileType[][] matrix){
-        int numRows = matrix.length, numColumns = matrix[0].length;
+        int numRows, numColumns;
+
+        if(matrix == null) return false;
+
+        numRows = matrix.length;
+        numColumns = matrix[0].length;
+        if(startIndexColumn < 0 || startIndexRow < 0) return false;
 
         //there aren't enough rows above startIndexRow to create a staircase
         if (startIndexRow-numberOfColumns+1 < 0){
             return false;
         }
         //there aren't enough columns from startIndexColumn to create both a left staircase and a right staircase
-        if (startIndexColumn+numberOfColumns > numColumns && startIndexColumn-numberOfColumns+1 < 0){
-            return false;
-        }
-
-        return true;
+        return startIndexColumn + numberOfColumns <= numColumns || startIndexColumn - numberOfColumns + 1 >= 0;
     }
 
 }

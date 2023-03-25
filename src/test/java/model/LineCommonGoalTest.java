@@ -104,13 +104,16 @@ class LineCommonGoalTest {
     }
 
     @Test
-    void setDifferentTiles() {
+    void setDifferentTiles() { //tests also the method removeDuplicateAndSort
         int incRow = 0, incCol = 1, numberLines = 2, numberTiles = 4;
-        int[] differentTiles = {6};
+        int[] differentTiles = {2,1,2,6};
+        int[] expectedDifferentTiles = {1,2,6};
         Random rnd = new Random();
         LineCommonGoal goal = new LineCommonGoal(incRow, incCol, numberLines, numberTiles, differentTiles, "Description");
         goal.setDifferentTiles(differentTiles);
-        assertEquals(differentTiles, goal.getDifferentTiles());
+        for(int i = 0; i < goal.getDifferentTiles().length; i++ ){
+            assertEquals(expectedDifferentTiles[i], goal.getDifferentTiles()[i]);
+        }
     }
 
     @Test
@@ -120,6 +123,50 @@ class LineCommonGoalTest {
         int numberLines; //numero di righe che devono soddisfare la condizione: 2 o 3
         int numberTiles; //per colonne sei, per righe 5
         LineCommonGoal goal;
+
+        incCol = 5; incRow = 0;
+        goal = new LineCommonGoal(incRow,incCol, 1, 1, new int[]{6}, "Description");
+        assertNull(goal.rule(createLineDesign(1)));
+
+        incCol = 1; incRow = 7;
+        goal = new LineCommonGoal(incRow,incCol, 1, 1, new int[]{6}, "Description");
+        assertNull(goal.rule(createLineDesign(1)));
+
+        incCol = 1; incRow = 0;
+        numberLines = 7;
+        goal = new LineCommonGoal(incRow,incCol, numberLines, 1, new int[]{6}, "Description");
+        assertNull(goal.rule(createLineDesign(1)));
+
+        incCol = 1; incRow = 0;
+        numberLines = -1;
+        goal = new LineCommonGoal(incRow,incCol, numberLines, 1, new int[]{6}, "Description");
+        assertNull(goal.rule(createLineDesign(1)));
+
+        incCol = 1; incRow = 0;
+        numberLines = 3;
+        numberTiles = 9;
+        goal = new LineCommonGoal(incRow,incCol, numberLines, numberTiles, new int[]{6}, "Description");
+        assertNull(goal.rule(createLineDesign(1)));
+
+        incCol = 1; incRow = 0;
+        numberLines = 3;
+        numberTiles = -4;
+        goal = new LineCommonGoal(incRow,incCol, numberLines, numberTiles, new int[]{6}, "Description");
+        assertNull(goal.rule(createLineDesign(1)));
+
+        incCol = 1; incRow = 0;
+        numberLines = 3;
+        numberTiles = 3;
+        differentTiles = new int[]{-1,2};
+        goal = new LineCommonGoal(incRow,incCol, numberLines, numberTiles, differentTiles, "Description");
+        assertNull(goal.rule(createLineDesign(1)));
+
+        incCol = 1; incRow = 0;
+        numberLines = 3;
+        numberTiles = 3;
+        differentTiles = new int[]{1,6};
+        goal = new LineCommonGoal(incRow,incCol, numberLines, numberTiles, differentTiles, "Description");
+        assertNull(goal.rule(createLineDesign(1)));
 
         incCol = 0; incRow = 0;
         for(int i = 1; i <= 3; i++){
@@ -169,6 +216,8 @@ class LineCommonGoalTest {
             assertEquals(getExpectedResult(incRow,incCol,numberLines,numberTiles,differentTiles,2).get(i).toString(),
                     goal.rule(createLineDesign(2)).get(i).toString());
         }
+
+        assertNull(goal.rule(null));
 
     }
 

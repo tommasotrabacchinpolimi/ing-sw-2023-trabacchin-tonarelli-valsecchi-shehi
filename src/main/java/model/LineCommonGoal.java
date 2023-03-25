@@ -47,7 +47,7 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
      */
     private int numberOfTiles;
     /**
-     * The array that contains the number of different {@link TileType tile types} that each lines needs to have in order to satisfy the Goal.
+     * The array that contains the number of different {@link TileType tile types} that each lines needs to have in order to satisfy the Goal. The array of int is ordered.
      * @apiNote If <code>differentTiles = {6}</code> then in the lines there has to be 6 different {@link TileType tile type} in order to satisfy the given condition.
      * If <code>differentTiles = {1, 2, 3}</code> then in the lines there has to be maximum 3 different {@link TileType tile type} in order to satisfy the given condition; in other words,the lines must be formed of 1, 2 or 3 different {@link TileType tile types}.
      */
@@ -62,6 +62,7 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
      * @param differentTiles The array that contains the number of different {@link TileType} that each lines needs to have.
      * @param description    The textual description of the goal.
      *
+     * @apiNote The array differentTiles is sorted automatically and doesn't have duplicate elements.
      * @see LineCommonGoal#incRow
      * @see LineCommonGoal#incCol
      * @see LineCommonGoal#linesNumber
@@ -74,7 +75,7 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
         this.incCol = incCol;
         this.linesNumber = linesNumber;
         this.numberOfTiles = numberOfTiles;
-        this.differentTiles = differentTiles;
+        this.differentTiles = removeDuplicateAndSort(differentTiles);
     }
 
     /**
@@ -164,11 +165,12 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
     /**
      * Set the array that contains the number of different {@link TileType} that each lines needs to have.
      * @param differentTiles The array that contains the number of different {@link TileType} that each lines needs to have.
+     * @apiNote The array differentTiles passed as parameter is sorted automatically and the duplicate element are deleted automatically.
      * @see LineCommonGoal#differentTiles
      * @see TileType
      */
     public void setDifferentTiles(int[] differentTiles) {
-        this.differentTiles = differentTiles;
+        this.differentTiles = removeDuplicateAndSort(differentTiles);
     }
 
     /**
@@ -188,8 +190,22 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
         List<TileType> alreadyFoundType = new ArrayList<>();
         List<EntryPatternGoal> result = new ArrayList<EntryPatternGoal>();
 
-        if ((incRow==1 && incCol==1)||(incRow==0 && incCol==0)) return null;
+        //illegal arguments
+        if(bookShelf==null) return null;
+        if((incCol!=1 && incCol!=0) || (incRow!=0 && incRow!=1)) return null; //nothing is to be returned if argument incCol and incRow doesn't have value 0 or 1.
+        if((incRow==1 && incCol==1)||(incRow==0 && incCol==0)) return null; // nothing is to be returned if arguments incCol and incRow have the same values
+        if(linesNumber <= 0) return null; //the argument linesNumber is illegal because it is zero or negative
+        if(linesNumber>bookShelf.length && incRow==1) return null; //the argument linesNumber is illegal because it is bigger then the number of rows found in the bookshelf
+        if(linesNumber>bookShelf[0].length && incCol==1) return null; //the argument linesNumber is illegal because it is bigger then the number of columns found in the bookshelf
+        for(int i = 0; i < differentTiles.length; i++){
+            if(differentTiles[i] <= 0) return null; //the argument differentTiles is illegal, because it can only have positive value elements
+        }
+        if(differentTiles[differentTiles.length-1] > TileType.values().length || differentTiles[differentTiles.length-1] > numberOfTiles) return null; //the argument differentTiles is illegal, this condition needs to be discussed with the other colleagues
+        if(numberOfTiles<=0)return null; //the argument numberOfTiles is illegal, because it can only have positive values
+        if(numberOfTiles>bookShelf.length && incCol==1) return null;
+        if(numberOfTiles>bookShelf[0].length && incRow==1) return null;
 
+        //checking the condition
         for (int i = 0; i < bookShelf.length; i += incCol) {
             alreadyFoundType.clear();
             counterTile = 0;
@@ -250,6 +266,27 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
                 return true;
         }
         return false;
+    }
+
+    /**
+     * Method that sort and delete duplicate elements from the given array of {@code int}.
+     * @param array Array that need to be sorted and whose duplicate elements need to be deleted.
+     * @return Array of {@code int} that contains all the sorted and distinct elements of the given {@code array}.
+     *
+     * @apiNote This method is used to sort and delete duplicates form {@link LineCommonGoal#differentTiles}.
+     * @see LineCommonGoal#differentTiles
+     */
+    private int[] removeDuplicateAndSort(int[] array){
+        List<Integer> temp = new ArrayList<>();
+
+        for(int i: array){
+            temp.add(i);
+        }
+        return temp.stream()
+                .mapToInt(Integer::intValue)
+                .distinct()
+                .sorted()
+                .toArray();
     }
 
 
