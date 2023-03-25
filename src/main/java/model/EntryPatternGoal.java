@@ -115,7 +115,7 @@ public class EntryPatternGoal implements Serializable {
     }
 
     /**
-     * Constract and return an array containing value pair: [{@link EntryPatternGoal#row row}, {@link EntryPatternGoal#column column}]
+     * Construct and return an array containing value pair: [{@link EntryPatternGoal#row row}, {@link EntryPatternGoal#column column}]
      *
      * @return An array that contains two elements that refers to the position of the entry in the {@link PersonalGoal PersonalGoal} card
      *
