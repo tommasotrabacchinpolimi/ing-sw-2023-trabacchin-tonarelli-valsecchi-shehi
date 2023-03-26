@@ -10,7 +10,7 @@ import java.util.List;
  *  of lines (rows or columns) each having a given number of different {@link TileType tile type}.
  *
  *  @author Melanie Tonarelli
- *  @version 1.0, 25/04/23
+ *  @version 1.0, 25/03/23
  *  @see CommonGoal
  *  @see BookShelf
  *  @see EntryPatternGoal

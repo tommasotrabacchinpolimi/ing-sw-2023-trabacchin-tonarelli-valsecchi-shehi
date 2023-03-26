@@ -6,7 +6,7 @@ import java.io.Serializable;
  * This class represent a single entry to construct the "pattern" for a {@link PersonalGoal PersonalGoal} card.
  *
  * @author Emanuele Valsecchi
- * @version 1.0, 15/04/23
+ * @version 1.0, 15/03/23
  * @see PersonalGoal
  * @see TileType
  */
