@@ -39,10 +39,6 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
         this.numberOfColumns = numberOfColumns;
     }
 
-    public static void main(String[] args) {
-        System.out.println("World Hello!");
-    }
-
     /**
      * Return the number of columns that forms the staircase
      * @return Number of columns that forms the staircase
