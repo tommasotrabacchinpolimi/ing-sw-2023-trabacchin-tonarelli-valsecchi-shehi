@@ -2,38 +2,27 @@ package model;
 
 import java.io.Serializable;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class GroupCommonGoal extends CommonGoal implements Serializable {
     private static final long serialVersionUID = 98478359933L;
     private int groupsNumber;
-    private int adjacentTiles;
+    private int adjacentTilesPo2;
 
 
-    /*public static void main(String[] args){
-        TileType[][] bookShelf = new TileType[][]{
-                {TileType.PLANT,TileType.PLANT,TileType.PLANT,null,null},
-                {TileType.BOOK,TileType.PLANT,TileType.PLANT,TileType.CAT,null},
-                {TileType.FRAME,TileType.BOOK,TileType.FRAME,TileType.BOOK,null},
-                {TileType.TROPHY,TileType.GAME,TileType.TROPHY,TileType.GAME,null},
-                {TileType.TROPHY,TileType.TROPHY,TileType.CAT,TileType.CAT,TileType.CAT},
-                {TileType.TROPHY,TileType.TROPHY,TileType.TROPHY,TileType.CAT,TileType.CAT}};
-        GroupCommonGoal g = new GroupCommonGoal(6,2);
-        g.findGroups(bookShelf).forEach(System.out::println);
-        }*/
 
-    public GroupCommonGoal(int groupsNumber, int adjacentTiles, String description){
+
+    public GroupCommonGoal(int groupsNumber, int adjacentTilesPo2, String description){
         super(description);
         this.groupsNumber = groupsNumber;
-        this.adjacentTiles = adjacentTiles;
+        this.adjacentTilesPo2 = adjacentTilesPo2;
     }
 
-    public int getAdjacentTiles() {
-        return adjacentTiles;
+    public int getAdjacentTilesPo2() {
+        return adjacentTilesPo2;
     }
 
-    public void setAdjacentTiles(int adjacentTiles) {
-        this.adjacentTiles = adjacentTiles;
+    public void setAdjacentTilesPo2(int adjacentTilesPo2) {
+        this.adjacentTilesPo2 = adjacentTilesPo2;
     }
 
     public int getGroupsNumber() {
@@ -46,54 +35,115 @@ public class GroupCommonGoal extends CommonGoal implements Serializable {
 
     @Override
     public List<EntryPatternGoal> rule(TileType[][] bookShelf){
-        Set<Set<EntryPatternGoal>> groups = findGroups(bookShelf);
-        Set<Set<EntryPatternGoal>> candidateGroups = groups.stream().filter(g -> g.size()==adjacentTiles).collect(Collectors.toSet());
-        if(candidateGroups.size()==groupsNumber)
-        {
-            return candidateGroups.stream().flatMap(Collection::stream).collect(Collectors.toList());
+        List<List<Set<EntryPatternGoal>>> result = new ArrayList<>();
+        for(TileType tileType : TileType.values()){
+            List<EntryPatternGoal> entries = new ArrayList<>();
+            for(int i = 0;i<bookShelf.length;i++){
+                for(int j = 0;j<bookShelf[0].length;j++){
+                    if(bookShelf[i][j]==tileType){
+                        entries.add(new EntryPatternGoal(j,i,tileType));
+                    }
+                }
+            }
+            result.add(getGroups(generateGroups(this.adjacentTilesPo2,entries),this.groupsNumber,true));
+        }
+        List<Set<EntryPatternGoal>> groups = result.stream().flatMap(Collection::stream).toList();
+        if(groups.size()>=groupsNumber){
+            return groups.stream().limit(groupsNumber).flatMap(Collection::stream).toList();
+        }
+        return null;
+    }
+
+    private List<Set<EntryPatternGoal>> getGroups(List<Set<EntryPatternGoal>> allGroups, int groupsNumber, boolean noAdj){
+        return _getGroups_(allGroups,groupsNumber,0,new ArrayList<>(),0,noAdj);
+    }
+
+    private List<Set<EntryPatternGoal>> _getGroups_(List<Set<EntryPatternGoal>> allGroups, int groupsNumber, int startingFromGroup, List<Set<EntryPatternGoal>> alreadyFoundGroups, int currentNumberOfGroups, boolean noAdj){
+        if(startingFromGroup==allGroups.size()||currentNumberOfGroups==groupsNumber){
+            return alreadyFoundGroups;
+        }
+        if(alreadyFoundGroups.stream().anyMatch(g->areIncompatible(g,allGroups.get(startingFromGroup),noAdj))){
+            return _getGroups_(allGroups,groupsNumber,startingFromGroup+1,alreadyFoundGroups,currentNumberOfGroups,noAdj);
         }
         else{
-            return null;
-        }
-    }
-    private Set<Set<EntryPatternGoal>> findGroups(TileType[][] bookShelf){
-        boolean[][] alreadyTaken = new boolean[bookShelf.length][bookShelf[0].length];//initialized to false
-        Set<Set<EntryPatternGoal>> result = new HashSet<Set<EntryPatternGoal>>();
-        for(int i = 0;i<bookShelf.length;i++){
-            for(int j = 0;j<bookShelf[0].length;j++){
-                findSingleGroup(i,j,bookShelf,alreadyTaken,bookShelf[i][j]).ifPresent(result::add);
+            List<Set<EntryPatternGoal>> resultGroupNotAdded = _getGroups_(allGroups,groupsNumber,startingFromGroup+1,alreadyFoundGroups,currentNumberOfGroups,noAdj);
+            List<Set<EntryPatternGoal>> newAlreadyFoundGroups = new ArrayList<>(alreadyFoundGroups);
+            newAlreadyFoundGroups.add(allGroups.get(startingFromGroup));
+            List<Set<EntryPatternGoal>> resultGroupAdded = _getGroups_(allGroups,groupsNumber,startingFromGroup+1,newAlreadyFoundGroups,currentNumberOfGroups+1,noAdj);
+            if(resultGroupAdded.size()>=resultGroupNotAdded.size()){
+                return resultGroupAdded;
+            }
+
+            else{
+                return resultGroupNotAdded;
             }
         }
-        return result;
     }
 
-    private Optional<Set<EntryPatternGoal>> findSingleGroup(int i, int j, TileType[][] bookShelf, boolean[][] alreadyTaken, TileType tileType){
-        if(tileType==null){
-            return Optional.empty();
-        }
-        if (i<0||i>=bookShelf.length||j<0||j>=bookShelf[0].length){// nothing is to be returned if arguments are illegal
-            return Optional.empty();
-        }
-        if (alreadyTaken[i][j]){ //if this bookShelf is already part of another group then it should not be considered for another group
-            return Optional.empty();
-        }
-        Set<EntryPatternGoal> result = new HashSet<>();// Java documentation recommends using HashSet, unless otherwise required
-        if (bookShelf[i][j]!=tileType){//we want only entries whose type is tileType
-            return Optional.empty();
+    private List<Set<EntryPatternGoal>> generateGroups(int dim, List<EntryPatternGoal> tiles){
+        List<Set<EntryPatternGoal>> allGroups = new ArrayList<>();
+        if(dim==0){
+            for(EntryPatternGoal tile : tiles){
+                Set<EntryPatternGoal> newSingleElementSet = new HashSet<>();
+                newSingleElementSet.add(tile);
+                allGroups.add(newSingleElementSet);
+            }
         }
         else{
-            result.add(new EntryPatternGoal(j,i,tileType));//if the type is correct then the (i,j)-entry can be added to the group
-            alreadyTaken[i][j] = true;
+            List<Set<EntryPatternGoal>> subGroups = generateGroups(dim-1,tiles);
+            for(Set<EntryPatternGoal> group1 : subGroups){
+                for(Set<EntryPatternGoal> group2 : subGroups){
+                    if(areAdjacent(group1, group2)){
+                        Set<EntryPatternGoal> fusedGroup = fuseGroups(group1,group2);
+                        if(!allGroups.contains(fusedGroup))
+                        {
+                            allGroups.add(fusedGroup);
+                        }
+                    }
+                }
+            }
         }
+        return allGroups;
+    }
 
-        findSingleGroup(i-1,j,bookShelf,alreadyTaken,tileType).ifPresent(result::addAll);
-        findSingleGroup(i+1,j,bookShelf,alreadyTaken,tileType).ifPresent(result::addAll);
-        findSingleGroup(i,j-1,bookShelf,alreadyTaken,tileType).ifPresent(result::addAll);
-        findSingleGroup(i,j+1,bookShelf,alreadyTaken,tileType).ifPresent(result::addAll);
-        return Optional.of(result);
+    private int getManhattanDistance(EntryPatternGoal e1, EntryPatternGoal e2){
+        return Math.abs(e1.getColumn()-e2.getColumn()) + Math.abs(e1.getRow()-e2.getRow());
+    }
 
+    private boolean areIncompatible(Set<EntryPatternGoal> group1, Set<EntryPatternGoal> group2, boolean noAdj) {
+        for (EntryPatternGoal e1 : group1) {
+            for (EntryPatternGoal e2 : group2) {
+                if (e1.getRow() == e2.getRow() && e1.getColumn() == e2.getColumn()) {
+                    return true;
+                }
+                if(getManhattanDistance(e1,e2)==1&&noAdj){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
+    private boolean areAdjacent(Set<EntryPatternGoal> group1, Set<EntryPatternGoal> group2){
+        boolean areThereAdjacentTiles = false;
+        for(EntryPatternGoal e1 : group1){
+            for(EntryPatternGoal e2 : group2){
+                if(e1.getRow()==e2.getRow()&&e1.getColumn()==e2.getColumn()){
+                    return false;
+                }
+                if(getManhattanDistance(e1,e2)==1){
+                    areThereAdjacentTiles = true;
+                }
+            }
+        }
+        return areThereAdjacentTiles;
+    }
 
+    private Set<EntryPatternGoal> fuseGroups(Set<EntryPatternGoal> group1, Set<EntryPatternGoal> group2){
+        Set<EntryPatternGoal> fusedGroup = new HashSet<>();
+        fusedGroup.addAll(group1);
+        fusedGroup.addAll(group2);
+        return fusedGroup;
     }
 }
 
