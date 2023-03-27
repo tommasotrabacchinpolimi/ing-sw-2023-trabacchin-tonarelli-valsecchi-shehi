@@ -96,7 +96,7 @@ class ChatMessageTest {
         listReceivers.add(playerReceiver1);
         listReceivers.add(playerReceiver2);
         ChatMessage message = new ChatMessage(playerSender, listReceivers, "Hello World!");
-        message.setReceivers(playerReceiver3);
+        message.addReceiver(playerReceiver3);
         for (int i = 0; i < message.getReceivers().size()-1; i++){
             assertEquals(listReceivers.get(i).toString(), message.getReceivers().get(i).toString());
         }
