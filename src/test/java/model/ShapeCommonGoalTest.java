@@ -8,6 +8,8 @@ class ShapeCommonGoalTest {
 
     @Test
     void getTileNumber() {
+        ShapeCommonGoal shape = new ShapeCommonGoal();
+        shape.getTileNumber();
     }
 
     @Test
@@ -25,4 +27,10 @@ class ShapeCommonGoalTest {
     @Test
     void rule() {
     }
+
+    @Test
+    void notInShape(){
+
+    }
+
 }
