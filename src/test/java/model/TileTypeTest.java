@@ -8,5 +8,6 @@ class TileTypeTest {
 
     @Test
     void testToString() {
+        assertEquals("CAT", TileType.CAT.toString());
     }
 }

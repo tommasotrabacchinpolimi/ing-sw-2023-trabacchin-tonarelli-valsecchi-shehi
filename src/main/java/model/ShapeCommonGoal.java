@@ -10,7 +10,7 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
     /**
      * the a list of array elements needed to this class to implement the Shape-CommonGoal
      *
-     * @see ShapeCommonGoal#getIncrementRuleShape() getIncrementRuleShape()
+     * @see #getIncrementRuleShape() getIncrementRuleShape()
      *
      * @apiNote The key of this class is this parameter that contains offsets needed
      * to finds if there is a common-goal. This class makes the check of 3 candidate
@@ -25,6 +25,8 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
      */
 
     public ShapeCommonGoal(int tileNumber, List<Integer[]> ruleShape) {
+    public ShapeCommonGoal(int tileNumber, List<Integer[]> ruleShape, String description) {
+        super(description);
         this.tileNumber = tileNumber;
         this.incrementRuleShape = ruleShape;
     }
@@ -34,25 +36,19 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
      *
      * @return the number of Tiles,taken from input.
      */
-    /*
+
     public int getTileNumber() {
         return tileNumber;
     }
-    */
-     */
-/*
 
     /**
      *
      * @param tileNumber Needed to set the corrent value of [{@link ShapeCommonGoal#tileNumber tileNumber}]
      */
 
-    /*
     public void setTileNumber(int tileNumber) {
         this.tileNumber = tileNumber;
     }
-       /*
-        */
 
     /**
      *
@@ -64,7 +60,7 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
      */
 
     public List<Integer[]> getIncrementRuleShape() {
-        return incrementRuleShape;
+        return this.incrementRuleShape;
     }
 
     /**
@@ -218,7 +214,7 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
 
 
 
-  /*
+    /*
     public List<EntryPatternGoal> VerifyDiagonal(TileType[][] matrice) {
         List<EntryPatternGoal> result = new ArrayList<EntryPatternGoal>();
         int conta=1;
@@ -329,7 +325,7 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
         }
 
     }
-
+    */
 
 
 

@@ -22,7 +22,8 @@ public class GroupCommonGoal extends CommonGoal implements Serializable {
         g.findGroups(bookShelf).forEach(System.out::println);
         }*/
 
-    public GroupCommonGoal(int groupsNumber, int adjacentTiles){
+    public GroupCommonGoal(int groupsNumber, int adjacentTiles, String description){
+        super(description);
         this.groupsNumber = groupsNumber;
         this.adjacentTiles = adjacentTiles;
     }

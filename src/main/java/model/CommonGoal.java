@@ -5,6 +5,7 @@ import java.util.List;
 
 public abstract class CommonGoal implements Serializable {
     private static final long serialVersionUID = 285236373L;
+    private static final int INITIAL_VALUE = 8;
 
     /**
      * Values of the available score that will be assigned to the next player that will satisfy that exact CommonGoal
@@ -14,6 +15,16 @@ public abstract class CommonGoal implements Serializable {
      * Textual description of the Common Goal
      */
     private String description;
+
+    public CommonGoal(int availableScore, String description) {
+        this.availableScore = availableScore;
+        this.description = description;
+    }
+
+    public CommonGoal(String description){
+        this.availableScore = INITIAL_VALUE;
+        this.description = description;
+    }
 
     /**
      * Get the values of the available score that will be assigned to the next player that will satisfy that exact CommonGoal

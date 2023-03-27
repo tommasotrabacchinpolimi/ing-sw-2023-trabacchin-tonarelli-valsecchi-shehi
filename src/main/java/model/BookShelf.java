@@ -31,6 +31,7 @@ public class BookShelf implements Serializable {
     }
 
     private TileType getTypeFromSubject(int r, int c){
+        if(this.getTileSubjectTaken()[r][c] == null) return null;
         return this.getTileSubjectTaken()[r][c].getTileType();
     }
 

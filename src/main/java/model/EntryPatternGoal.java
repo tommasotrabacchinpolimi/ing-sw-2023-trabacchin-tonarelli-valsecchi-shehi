@@ -6,7 +6,7 @@ import java.io.Serializable;
  * This class represent a single entry to construct the "pattern" for a {@link PersonalGoal PersonalGoal} card.
  *
  * @author Emanuele Valsecchi
- * @version 1.0, 15/04/23
+ * @version 1.0, 15/03/23
  * @see PersonalGoal
  * @see TileType
  */
@@ -115,7 +115,7 @@ public class EntryPatternGoal implements Serializable {
     }
 
     /**
-     * Constract and return an array containing value pair: [{@link EntryPatternGoal#row row}, {@link EntryPatternGoal#column column}]
+     * Construct and return an array containing value pair: [{@link EntryPatternGoal#row row}, {@link EntryPatternGoal#column column}]
      *
      * @return An array that contains two elements that refers to the position of the entry in the {@link PersonalGoal PersonalGoal} card
      *

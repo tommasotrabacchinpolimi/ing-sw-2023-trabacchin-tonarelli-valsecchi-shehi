@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ *SquareCommonGoal is a class that represents a generic CommonGoal which is satisfied iff is possible to find in the BookShelf a given number
+ * of square-shaped groups of a given dimension. The tiles of each group must be of the same type.
+ */
 
 public class SquareCommonGoal extends CommonGoal implements Serializable {
     private static final long serialVersionUID = 625473943L;
@@ -20,8 +24,10 @@ public class SquareCommonGoal extends CommonGoal implements Serializable {
      * The method used for creating the SquareCommonGoal
      * @param groupsNumber the number of square-shaped groups that needs to be found in order to complete the Goal
      * @param squareDim the dimension required for the groups, that is the groups must be squareDim x squareDim squares
+     * @param description Textual description of the Common Goal
      */
-    public SquareCommonGoal(int groupsNumber, int squareDim){
+    public SquareCommonGoal(int groupsNumber, int squareDim, String description){
+        super(description);
         this.groupsNumber = groupsNumber;
         this.squareDim = squareDim;
     }
@@ -60,7 +66,12 @@ public class SquareCommonGoal extends CommonGoal implements Serializable {
     }
 
 
-
+    /**
+     * The method returns a list of the EntryPatternGoals that satisfy the SquareCommonGoal for the BookShelf passed as argument.*
+     * If the SquareCommonGoal is not satisfied for the BookShelf passed as arguments it returns null
+     * @param bookShelf the BookShelf to check for the SquareCommonGoal
+     * @return  list of the EntryPatternGoals that satisfy the SquareCommonGoal, null otherwise
+     */
     @Override
     public List<EntryPatternGoal> rule(TileType[][] bookShelf) {
         for(TileType tileType : TileType.values()){
@@ -73,11 +84,20 @@ public class SquareCommonGoal extends CommonGoal implements Serializable {
         return null;
     }
 
+    /**
+     * The method searches bookshelf for groupsToFind dim x dim square-shaped groups of tileType type.
+     * It returns the set of the found groups, or null, if such groups cannot be found.
+     * @param bookshelf the BookShelf to check
+     * @param groupsToFind the number of square-shaped groups to find
+     * @param dim the required dimension for the groups
+     * @param tileType the TileType of the groups
+     * @return the set of the found groups, or null, if such groups cannot be found
+     */
     private Set<Set<EntryPatternGoal>> findNSquareGroup(TileType[][] bookshelf, int groupsToFind, int dim, TileType tileType){
         Set<Set<EntryPatternGoal>> result = new HashSet<>();
         for(int i = 0;i<bookshelf.length;i++){
             for(int j = 0;j<bookshelf[0].length;j++){
-                Set<EntryPatternGoal> group = getGroupFromUpperLeft(i,j,dim,bookshelf,tileType);
+                Set<EntryPatternGoal> group = getSquareGroupFromUpperLeft(i,j,dim,bookshelf,tileType);
                 if(!group.isEmpty()){
                     if(groupsToFind!=1){
                         Set<Set<EntryPatternGoal>> others = findNSquareGroup(bookshelf,groupsToFind-1,dim,tileType);
@@ -99,7 +119,19 @@ public class SquareCommonGoal extends CommonGoal implements Serializable {
         return new HashSet<>();
     }
 
-    private Set<EntryPatternGoal> getGroupFromUpperLeft(int row, int column, int dim, TileType[][] bookShelf, TileType tileType){
+    /**
+     * The method returns, if it exists, the dim x dim square group , whose upper-left tile is located at (row,column) in the bookshelf and whose type is tileType.
+     * If such group can be found then the corresponding tiles in the bookshelf are set to null.
+     * If no such group can be found the method returns null, leaving the bookshelf unchanged.
+     * @param row   the row of the upper-left tile
+     * @param column    the column of the upper-left tile
+     * @param dim   the desired dimension of the group
+     * @param bookShelf     the bookshelf to search for the group
+     * @param tileType  the type of the tile of the group
+     *
+     * @return if it exists, the dim x dim square group , whose upper-left tile is located at (row,column) in the bookshelf and whose type is tileType. If no such group can be found the method returns null.
+     */
+    private Set<EntryPatternGoal> getSquareGroupFromUpperLeft(int row, int column, int dim, TileType[][] bookShelf, TileType tileType){
         Set<EntryPatternGoal> group = new HashSet<>();
         if(row+dim>bookShelf.length||column+dim>bookShelf[0].length){
             return group;
@@ -118,6 +150,11 @@ public class SquareCommonGoal extends CommonGoal implements Serializable {
         return group;
     }
 
+    /**
+     * The method sets the bookshelf so that it matches the EntryPatternGoals contained in group
+     * @param bookShelf the bookshelf to restore
+     * @param group the group the bookshelf must match after calling this method
+     */
     private void restoreBookShelf(TileType[][] bookShelf, Set<EntryPatternGoal> group){
         for(EntryPatternGoal e : group){
             bookShelf[e.getRow()][e.getColumn()] = e.getTileType();
