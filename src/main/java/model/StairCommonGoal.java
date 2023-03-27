@@ -12,7 +12,7 @@ import java.util.Objects;
  * each next column must be made of exactly one more tile. In the {@link BookShelf#BookShelf BookShelf}, {@link TileSubject tile} can be of any {@link TileType type}.
  *
  *  @author Melanie Tonarelli
- *  @version 1.0, 24/04/23
+ *  @version 1.0, 24/03/23
  *  @see CommonGoal
  *  @see BookShelf
  *  @see EntryPatternGoal
