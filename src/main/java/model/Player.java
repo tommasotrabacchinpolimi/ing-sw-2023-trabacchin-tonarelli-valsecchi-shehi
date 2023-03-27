@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,6 +18,7 @@ public class Player implements Serializable {
     private final String nickName;
     private final PersonalGoal personalGoal;
     private int score;
+    private List<CommonGoal> achievedCommonGoals;
 
     /**
      * Constructor hat sets the fields of the class to the parameter passed.
@@ -29,6 +31,7 @@ public class Player implements Serializable {
         this.nickName = nickName;
         this.personalGoal = personalGoal;
         this.score = 0;
+        achievedCommonGoals = new ArrayList<>();
     }
 
     /**
@@ -63,6 +66,18 @@ public class Player implements Serializable {
      */
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public List<CommonGoal> getAchievedCommonGoals() {
+        return achievedCommonGoals;
+    }
+
+    public void setAchievedCommonGoals(List<CommonGoal> achievedCommonGoals) {
+        this.achievedCommonGoals = achievedCommonGoals;
+    }
+
+    public void addAchievedCommonGoals(CommonGoal achievedCommonGoal) {
+        this.achievedCommonGoals.add(achievedCommonGoal);
     }
 
     /**

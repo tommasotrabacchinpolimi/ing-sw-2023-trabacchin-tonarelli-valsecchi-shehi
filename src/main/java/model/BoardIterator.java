@@ -9,8 +9,6 @@ public class BoardIterator implements Iterator<BoardSquare>, Serializable {
     private static final long serialVersionUID = 18052001L;
 
 
-
-
     private enum Direction implements Serializable{
         LEFT,
         RIGHT;

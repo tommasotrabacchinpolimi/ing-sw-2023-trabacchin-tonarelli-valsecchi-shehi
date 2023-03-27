@@ -101,6 +101,10 @@ public class Board implements Iterable<BoardSquare>, Serializable {
         }
     }
 
+    public List<TileSubject> getBag() {
+        return bag;
+    }
+
     public String bagToString(){
         StringBuilder result = new StringBuilder("BAG: \n");
         for (TileSubject el: bag){
@@ -129,4 +133,12 @@ public class Board implements Iterable<BoardSquare>, Serializable {
         array[i] = array[j];
         array[j] = a;
     }
+
+    //aggiungere metodo per rimuovere le tile dalla board quando vengono prese da un giocatore
+    // public void removeSelectedTileSubject(int[] taken);
+    // taken deve contenere le posizioni delle tile prese secondo lo schema d'iterator.
+
+    //aggiungere metodo per fare il refill della board
+    // public void refillBoard()
+    // prenderà le tile dalla bag (quindi tra le tile restanti) e in base al numero di giocatori inserisce le tile nella board
 }
