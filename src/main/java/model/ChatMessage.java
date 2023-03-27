@@ -93,7 +93,7 @@ public class ChatMessage implements Serializable {
      *
      * @see Player
      */
-    public void setReceivers(Player receiver) {
+    public void addReceiver(Player receiver) {
         this.receivers.add(receiver);
     }
 

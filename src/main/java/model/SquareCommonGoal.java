@@ -11,16 +11,18 @@ import java.util.stream.Collectors;
 
 public class SquareCommonGoal extends CommonGoal implements Serializable {
     private static final long serialVersionUID = 4715442695L;
-
+    /**
+     *
+     */
     private int groupsNumber;
-
-    private int squareDimPo2;//numero di tiles nei gruppi, espresso come potenza di due. Per esempio, se il numero è 1 allora questo attributo deve essere impostato a 0.
-
+    /**
+     *
+     */
+    private int squareDimPo2;//Numero di tiles nei gruppi, espresso come potenza di due. Per esempio, se il numero è 1 allora questo attributo deve essere impostato a 0.
     /**
      * flag che indica se i gruppi devono essere separati. In pratica è falso solo nel caso degli 8 gruppi da 1 tile.
      */
     private boolean noAdj;
-
 
     public SquareCommonGoal(int groupsNumber, int squareDimPo2, boolean noAdj, String description){
         super(description);
@@ -30,21 +32,17 @@ public class SquareCommonGoal extends CommonGoal implements Serializable {
     }
 
 
-
     public int getGroupsNumber() {
         return groupsNumber;
     }
-
 
     public void setGroupsNumber(int groupsNumber) {
         this.groupsNumber = groupsNumber;
     }
 
-
     public int getSquareDimPo2() {
         return squareDimPo2;
     }
-
 
     public void setSquareDimPo2(int squareDimPo2) {
         this.squareDimPo2 = squareDimPo2;
@@ -168,6 +166,7 @@ public class SquareCommonGoal extends CommonGoal implements Serializable {
         fusedGroup.addAll(group2);
         return fusedGroup;
     }
+
     private Optional<Integer> isSquare(Set<EntryPatternGoal> group, int numRows, int numCols){
         int max_row,min_row,max_col,min_col;
         Comparator<EntryPatternGoal> rowComparator = Comparator.comparingInt(EntryPatternGoal::getRow);

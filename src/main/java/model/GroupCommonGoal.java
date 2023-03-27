@@ -6,10 +6,7 @@ import java.util.*;
 public class GroupCommonGoal extends CommonGoal implements Serializable {
     private static final long serialVersionUID = 4656354678637L;
     private int groupsNumber;
-    private int adjacentTilesPo2;//numero di tiles nei gruppi, espresso come potenza di due. Per esempio, se il numero è 4 allora questo attributo deve essere impostato a 2.
-
-
-
+    private int adjacentTilesPo2;//Numero di tiles nei gruppi, espresso come potenza di due. Per esempio, se il numero è 4 allora questo attributo deve essere impostato a 2.
 
     public GroupCommonGoal(int groupsNumber, int adjacentTilesPo2, String description){
         super(description);

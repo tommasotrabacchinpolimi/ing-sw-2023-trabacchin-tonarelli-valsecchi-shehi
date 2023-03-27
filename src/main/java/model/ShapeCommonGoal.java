@@ -8,7 +8,7 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
     private static final long serialVersionUID = 746524795L;
     private int tileNumber;
     /**
-     * the a list of array elements needed to this class to implement the Shape-CommonGoal
+     * the list of array elements needed to this class to implement the Shape-CommonGoal
      *
      * @see #getIncrementRuleShape()
      *
@@ -23,19 +23,16 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
      * @param tileNumber it is the number of the array in the list of arrays.
      * @param ruleShape It is the list of arrays that permit to implement the function rule.
      */
-
     public ShapeCommonGoal(int tileNumber, List<Integer[]> ruleShape, String description) {
         super(description);
         this.tileNumber = tileNumber;
         this.incrementRuleShape = ruleShape;
     }
 
-
     /**
      *
      * @return the number of Tiles,taken from input.
      */
-
     public int getTileNumber() {
         return tileNumber;
     }
@@ -44,7 +41,6 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
      *
      * @param tileNumber Needed to set the corrent value of [{@link ShapeCommonGoal#tileNumber tileNumber}]
      */
-
     public void setTileNumber(int tileNumber) {
         this.tileNumber = tileNumber;
     }
@@ -57,7 +53,6 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
      * For more click here: [{@link ShapeCommonGoal#incrementRuleShape incrementRuleShape}]
      *
      */
-
     public List<Integer[]> getIncrementRuleShape() {
         return this.incrementRuleShape;
     }
@@ -119,7 +114,6 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
         return null;
     }
 
-
     /**
      *
      * @param maxColumnDim It is the length of the bookshelf, tells where is the vertical limit to check
@@ -150,7 +144,6 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
      * @apiNote It is very important to verify that because for example a diagonal of 6 elements does not
      *          score commongoal.
      */
-
     private boolean verifySurrounding(List<EntryPatternGoal> candidate, TileType[][] bookShelf){
 
         for(EntryPatternGoal e : candidate) {
@@ -171,7 +164,6 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
         }
         return  true;
     }
-
 
     /**
      *
@@ -198,7 +190,6 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
      * @param maxWidth It is the maximum row index being allowed (Bookshelf Width)
      * @return If an element with index row, column is or not part of the bookshelf
      */
-
     private boolean insideBookshelfBound(int row, int column, int maxHeight, int maxWidth){
         return ((row > 0 &&  row < maxHeight) && (column > 0  && column < maxWidth));
     }

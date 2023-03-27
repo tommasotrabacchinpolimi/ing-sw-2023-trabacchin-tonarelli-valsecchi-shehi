@@ -293,5 +293,4 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
                 .toArray();
     }
 
-
 }

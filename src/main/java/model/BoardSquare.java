@@ -10,9 +10,11 @@ public class BoardSquare implements Serializable {
     private BoardSquare left;
     private TileSubject tileSubject;
     final private BoardSquareType boardSquareType;
+
     public BoardSquare(BoardSquareType boardSquareType){
         this.boardSquareType = boardSquareType;
     }
+
     public BoardSquareType getBoardSquareType() {
         return boardSquareType;
     }
