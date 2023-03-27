@@ -10,13 +10,13 @@ import java.util.stream.Collectors;
  */
 
 public class SquareCommonGoal extends CommonGoal implements Serializable {
-    private static final long serialVersionUID = 625473943L;
+    private static final long serialVersionUID = 4715442695L;
 
     private int groupsNumber;
 
-    private int squareDimPo2;
+    private int squareDimPo2;//numero di tiles nei gruppi, espresso come potenza di due. Per esempio, se il numero è 1 allora questo attributo deve essere impostato a 0.
 
-    private boolean noAdj;
+    private boolean noAdj;//flag che indica se i gruppi devono essere separati. In pratica è falso solo nel caso degli 8 gruppi da 1 tile.
 
 
     public SquareCommonGoal(int groupsNumber, int squareDimPo2, boolean noAdj, String description){

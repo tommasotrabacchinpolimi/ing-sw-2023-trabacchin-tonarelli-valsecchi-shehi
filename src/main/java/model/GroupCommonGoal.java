@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.util.*;
 
 public class GroupCommonGoal extends CommonGoal implements Serializable {
-    private static final long serialVersionUID = 98478359933L;
+    private static final long serialVersionUID = 4656354678637L;
     private int groupsNumber;
-    private int adjacentTilesPo2;
+    private int adjacentTilesPo2;//numero di tiles nei gruppi, espresso come potenza di due. Per esempio, se il numero è 4 allora questo attributo deve essere impostato a 2.
 
 
 
