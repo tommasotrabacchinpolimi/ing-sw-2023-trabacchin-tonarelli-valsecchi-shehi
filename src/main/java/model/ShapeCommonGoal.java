@@ -10,13 +10,13 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
     /**
      * the a list of array elements needed to this class to implement the Shape-CommonGoal
      *
-     * @see #getIncrementRuleShape()
+     * @see #getRuleShape()
      *
      * @apiNote The key of this class is this parameter that contains offsets needed
      * to finds if there is a common-goal. This class makes the check of 3 candidate
      * common-goals (Common-goal 2, 3, 10).
      */
-    private List<Integer[]> incrementRuleShape;
+    private List<Integer[]> ruleShape;
 
     /**
      *
@@ -27,7 +27,7 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
     public ShapeCommonGoal(int tileNumber, List<Integer[]> ruleShape, String description) {
         super(description);
         this.tileNumber = tileNumber;
-        this.incrementRuleShape = ruleShape;
+        this.ruleShape = ruleShape;
     }
 
 
@@ -54,20 +54,20 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
      * @return the list of arrays that contains the offsets that permit to implement
      * for more detailed explanation
      *
-     * For more click here: [{@link ShapeCommonGoal#incrementRuleShape incrementRuleShape}]
+     * For more click here: [{@link ShapeCommonGoal#ruleShape incrementRuleShape}]
      *
      */
 
-    public List<Integer[]> getIncrementRuleShape() {
-        return this.incrementRuleShape;
+    public List<Integer[]> getRuleShape() {
+        return this.ruleShape;
     }
 
     /**
      *
-     * @param incrementRuleShape needed to set the value of [{@link ShapeCommonGoal#incrementRuleShape incrementRuleshape}]
+     * @param ruleShape needed to set the value of [{@link ShapeCommonGoal#ruleShape incrementRuleshape}]
      */
-    public void setIncrementRuleShape(List<Integer[]> incrementRuleShape) {
-        this.incrementRuleShape = incrementRuleShape;
+    public void setRuleShape(List<Integer[]> ruleShape) {
+        this.ruleShape = ruleShape;
     }
 
     /**
@@ -82,7 +82,7 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
     public List<EntryPatternGoal> rule(TileType[][] bookShelf) {
         boolean check = true;
         TileType type;
-        List<EntryPatternGoal> result = new ArrayList<EntryPatternGoal>(incrementRuleShape.size()+1);
+        List<EntryPatternGoal> result = new ArrayList<EntryPatternGoal>(ruleShape.size()+1);
 
         for(int i = 0; i < bookShelf.length; i++) {
             for(int j = 0; j < bookShelf[0].length; j++) {
@@ -90,7 +90,7 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
                 if(!check)
                     result.clear();
 
-                result.add( new EntryPatternGoal(j, i, bookShelf[j][i]) );
+                result.add( new EntryPatternGoal(j, i, bookShelf[i][j]) );
 
                 check = true;
 
@@ -98,11 +98,11 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
                     break;
                 } else {
                     type = bookShelf[i][j];
-                    for(Integer[] temp : incrementRuleShape) {
+                    for(Integer[] temp : ruleShape) {
                         int rowProcessed = i + temp[0];
                         int columnProcessed = j + temp[1];
 
-                        if(!(type.equals(bookShelf[rowProcessed][columnProcessed]))) {
+                        if( (type!=null) && !(type.equals(bookShelf[rowProcessed][columnProcessed]))) {
                             check = false;
                             break;
                         }
@@ -129,11 +129,11 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
      * @param indexColumn  It is the index of column of the current element being verified
      * @param indexRow It is the index of row of the current element being verified
      * @return If an element with indexes (i,j), added to the correspective array of the list incrementRuleShape
-     * @see ShapeCommonGoal#incrementRuleShape
+     * @see #ruleShape
      *
      */
     private boolean verifyInField(int maxColumnDim, int maxRowDim, int indexColumn, int indexRow) {
-        for(Integer[] temp : incrementRuleShape) {
+        for(Integer[] temp : ruleShape) {
             if(!((indexColumn + temp[1] < maxColumnDim) &&
                     (indexRow + temp[0] < maxRowDim)))
                 return false;
@@ -201,6 +201,17 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
 
     private boolean insideBookshelfBound(int row, int column, int maxHeight, int maxWidth){
         return ((row > 0 &&  row < maxHeight) && (column > 0  && column < maxWidth));
+    }
+
+    private boolean verifyTileType(TileType[][] bookshelff, List<Integer[]> list) {
+        boolean result = true;
+        TileType type = bookshelff[0][0];
+        for (int i=1; i<list.size(); i++)
+        {
+            if(!(type.equals(bookshelff[list.get(i)[0]][list.get(i)[1]])));
+            //ho una lista di posizioni.
+        }
+        return false;
     }
 
 }
