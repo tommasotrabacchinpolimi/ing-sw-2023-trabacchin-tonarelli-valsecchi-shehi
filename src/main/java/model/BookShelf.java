@@ -186,10 +186,10 @@ public class BookShelf implements Serializable {
                 matrix[i][j] = this.getTypeCell(i, j);
             }
         }
+
         return matrix;
     }
 
     public void addTileSubjectTaken(TileSubject[][] taken){
-
     }
 }
