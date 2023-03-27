@@ -188,4 +188,8 @@ public class BookShelf implements Serializable {
         }
         return matrix;
     }
+
+    public void addTileSubjectTaken(TileSubject[][] taken){
+
+    }
 }
