@@ -10,7 +10,7 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
     /**
      * the a list of array elements needed to this class to implement the Shape-CommonGoal
      *
-     * @see #getIncrementRuleShape() getIncrementRuleShape()
+     * @see #getIncrementRuleShape()
      *
      * @apiNote The key of this class is this parameter that contains offsets needed
      * to finds if there is a common-goal. This class makes the check of 3 candidate
@@ -24,7 +24,6 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
      * @param ruleShape It is the list of arrays that permit to implement the function rule.
      */
 
-    public ShapeCommonGoal(int tileNumber, List<Integer[]> ruleShape) {
     public ShapeCommonGoal(int tileNumber, List<Integer[]> ruleShape, String description) {
         super(description);
         this.tileNumber = tileNumber;
