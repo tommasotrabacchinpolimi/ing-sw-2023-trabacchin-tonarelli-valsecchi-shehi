@@ -52,21 +52,21 @@ public class GroupCommonGoal extends CommonGoal implements Serializable {
     }
 
     private List<Set<EntryPatternGoal>> getGroups(List<Set<EntryPatternGoal>> allGroups, int groupsNumber, boolean noAdj){
-        return _getGroups_(allGroups,groupsNumber,0,new ArrayList<>(),0,noAdj);
+        return getGroupsRecursive(allGroups,groupsNumber,0,new ArrayList<>(),0,noAdj);
     }
 
-    private List<Set<EntryPatternGoal>> _getGroups_(List<Set<EntryPatternGoal>> allGroups, int groupsNumber, int startingFromGroup, List<Set<EntryPatternGoal>> alreadyFoundGroups, int currentNumberOfGroups, boolean noAdj){
+    private List<Set<EntryPatternGoal>> getGroupsRecursive(List<Set<EntryPatternGoal>> allGroups, int groupsNumber, int startingFromGroup, List<Set<EntryPatternGoal>> alreadyFoundGroups, int currentNumberOfGroups, boolean noAdj){
         if(startingFromGroup==allGroups.size()||currentNumberOfGroups==groupsNumber){
             return alreadyFoundGroups;
         }
         if(alreadyFoundGroups.stream().anyMatch(g->areIncompatible(g,allGroups.get(startingFromGroup),noAdj))){
-            return _getGroups_(allGroups,groupsNumber,startingFromGroup+1,alreadyFoundGroups,currentNumberOfGroups,noAdj);
+            return getGroupsRecursive(allGroups,groupsNumber,startingFromGroup+1,alreadyFoundGroups,currentNumberOfGroups,noAdj);
         }
         else{
-            List<Set<EntryPatternGoal>> resultGroupNotAdded = _getGroups_(allGroups,groupsNumber,startingFromGroup+1,alreadyFoundGroups,currentNumberOfGroups,noAdj);
+            List<Set<EntryPatternGoal>> resultGroupNotAdded = getGroupsRecursive(allGroups,groupsNumber,startingFromGroup+1,alreadyFoundGroups,currentNumberOfGroups,noAdj);
             List<Set<EntryPatternGoal>> newAlreadyFoundGroups = new ArrayList<>(alreadyFoundGroups);
             newAlreadyFoundGroups.add(allGroups.get(startingFromGroup));
-            List<Set<EntryPatternGoal>> resultGroupAdded = _getGroups_(allGroups,groupsNumber,startingFromGroup+1,newAlreadyFoundGroups,currentNumberOfGroups+1,noAdj);
+            List<Set<EntryPatternGoal>> resultGroupAdded = getGroupsRecursive(allGroups,groupsNumber,startingFromGroup+1,newAlreadyFoundGroups,currentNumberOfGroups+1,noAdj);
             if(resultGroupAdded.size()>=resultGroupNotAdded.size()){
                 return resultGroupAdded;
             }
