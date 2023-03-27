@@ -153,25 +153,6 @@ public class BookShelf implements Serializable {
     }
 
     /**
-     * This method is used to retrieve the {@link TileType} according to param {@code r} and {@code c} passed
-     *
-     * @param r the row position to which retrieve the {@link TileType}
-     * @param c the row position to which retrieve the {@link TileType}
-     * @return {@link TileType} at {@code r}, {@code c} position inside {@link #tileSubjectTaken}
-     * @deprecated since version 1.0 it was replaced with {@link #getTypeCell(int row, int column) getTypeCell(row, column)}
-     * @see BookShelf
-     * @see TileType
-     * @see #getTypeCell(int row, int column) getTypeCell(row, column)
-     */
-    @Deprecated
-    private TileType getTypeFromSubject(int r, int c){
-        if(this.getTileSubjectTaken()[r][c] == null)
-            return null;
-
-        return this.getTileSubjectTaken()[r][c].getTileType();
-    }
-
-    /**
      * This method returns {@link TileType} contained at position {@code row} and {@code column} specified as parameter.
      *
      * @param row the row index in {@link #tileSubjectTaken} to which retrieve the {@link TileType}
