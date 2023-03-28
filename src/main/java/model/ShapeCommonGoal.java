@@ -224,7 +224,7 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
 
 
 
-    /*
+
     public List<EntryPatternGoal> VerifyDiagonal(TileType[][] matrice) {
         List<EntryPatternGoal> result = new ArrayList<EntryPatternGoal>();
         int conta=1;
@@ -335,7 +335,7 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
         }
 
     }
-    */
+
 
 
 

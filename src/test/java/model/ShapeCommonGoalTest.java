@@ -65,24 +65,67 @@ class ShapeCommonGoalTest {
     //la lista degli elementi della bookshelf che sono parte del common-goal
     @Test
     void rule() {
+        ArrayList<EntryPatternGoal> llLL = new ArrayList<EntryPatternGoal>();
         EntryPatternGoal gProvvisorio = new EntryPatternGoal();
         ArrayList<Integer[]> lProvvisoria = new ArrayList<>();
         lProvvisoria.addAll(getRuleShape(1));
         Random random = new Random();
         int index = random.nextInt(1,2);
-        //questo è il costruttore, prende in ingresso una bookshelf e costruisco una una ShapeCommonGoal
         ShapeCommonGoal shape = new ShapeCommonGoal(3, getRuleShape(1), "Description");
         //assertNotNull(shape.rule(getRandomShapeBookshelf(index)));
         TileType[][] book;
 
         book = getRandomShapeBookshelf(1);
+        llLL.addAll(shape.rule(book));
+        System.out.println("%d", );
 
-        for(int i=0; i<3; i++)
+
+
+
+        for(int i=0; i< llLL.size(); i++)
         {
-            gProvvisorio = shape.rule(book).get(i);
-            assertEquals(shape.rule(book).get(i).getRow(), lProvvisoria.get(i)[0]);
-            assertEquals(shape.rule(book).get(i).getColumn(), lProvvisoria.get(i)[1]);
+            assertEquals(getRuleShape(1).get(i)[0], llLL.get(i).getRow());
+
         }
+    }
+    private boolean compareObjects(List<EntryPatternGoal> l1, List<EntryPatternGoal> l2)
+    {
+        if(l1.size() != l2.size()) {
+            return false;
+        }
+        for (int i=0; i< l1.size(); i++) {
+            if(!(l1.get(i).equals(l2.get(i))))
+                return false;
+
+        }
+        return true;
+    }
+
+    private List<EntryPatternGoal> getExpected(int index) {
+        List<EntryPatternGoal> result = new ArrayList<EntryPatternGoal>();
+        switch (index) {
+            case 1 -> {
+                result.add(new EntryPatternGoal(0,0,TileType.PLANT));
+                result.add(new EntryPatternGoal(4,0,TileType.PLANT));
+                result.add(new EntryPatternGoal(4,5,TileType.PLANT));
+                result.add(new EntryPatternGoal(5,0,TileType.PLANT));
+            }
+            case 2 -> {
+                result.add(new EntryPatternGoal(0,0,TileType.PLANT));
+                result.add(new EntryPatternGoal(1,1,TileType.PLANT));
+                result.add(new EntryPatternGoal(2,2,TileType.PLANT));
+                result.add(new EntryPatternGoal(3,3,TileType.PLANT));
+                result.add(new EntryPatternGoal(4,4,TileType.PLANT));
+            }
+            case 3 -> {
+                result.add(new EntryPatternGoal(0,1,TileType.PLANT));
+                result.add(new EntryPatternGoal(1,2,TileType.PLANT));
+                result.add(new EntryPatternGoal(2,3,TileType.PLANT));
+                result.add(new EntryPatternGoal(3,4,TileType.PLANT));
+                result.add(new EntryPatternGoal(4,5,TileType.PLANT));
+            }
+        }
+        return  result;
     }
 
 
