@@ -190,6 +190,12 @@ public class BookShelf implements Serializable {
         return matrix;
     }
 
-    public void addTileSubjectTaken(TileSubject[][] taken){
+    public void addTileSubjectTaken(TileSubject[][] taken, int column){
+        if(isFull())
+            return;
+
+        for(int i = 0; i < taken.length; i++){
+
+        }
     }
 }

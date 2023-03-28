@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * This class represent a single entry to construct the "pattern" for a {@link PersonalGoal PersonalGoal} card.
@@ -159,5 +160,22 @@ public class EntryPatternGoal implements Serializable {
             e.printStackTrace();
             throw e;
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        EntryPatternGoal that = (EntryPatternGoal) o;
+        return (column == that.column && row == that.row && tileType.equals(that.tileType));
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(column, row, tileType);
     }
 }
