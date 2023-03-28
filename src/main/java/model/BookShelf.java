@@ -2,21 +2,22 @@ package model;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Class used to represent personal BookShelf for each player.
  * This class is unique per {@link Player} entity.<br>
  * BookShelf is formed using a matrix of {@link TileSubject}.
- * It's standard dimension are: <br>
- * • <code>6</code>: for rows<br>
- * • <code>5</code>: for columns<br>
+ * It's standard dimension are:
+ * <ul><li>{@code 6}: for rows</li>
+ * <li>{@code 5}: for columns</li></ul>
  * Dimension are set according to {@link BookShelf#STANDARD_ROW}, {@link BookShelf#STANDARD_COLUMN} constant.
  * To declare a BookShelf with other dimension use
- * {@link BookShelf#BookShelf(int row, int column) BookShelf(row, column)} constructor. <br>
- * This class is used by:<br>
- * • {@link CommonGoal} subclass to assign CommonGoal points to the corresponding player;<br>
- * • {@link PersonalGoal} to assign PersonalGoal points referring to the pattern inside the card<br>
- *
+ * {@link BookShelf#BookShelf(int row, int column) BookShelf(row, column)} constructor.
+ * This class is used by:<ul>
+ * <li>{@link CommonGoal} subclass to assign CommonGoal points to the corresponding player;</li>
+ * <li>{@link PersonalGoal} to assign PersonalGoal points referring to the pattern inside the card</li>
+ * </ul>
  * @author Emanuele Valsecchi
  * @version 1.0, 15/04/23
  * @see Player
@@ -65,9 +66,9 @@ public class BookShelf implements Serializable {
     /**
      * Standard constructor will set:
      * <pre><code>{@link #row} = {@link #STANDARD_ROW}<br>{@link #column} = {@link #STANDARD_COLUMN}</code></pre>
-     * In the end <code>{@link #tileSubjectTaken}</code> will have:<br>
-     * • <code>6</code>: rows<br>
-     * • <code>7</code>: columns<br>
+     * In the end <code>{@link #tileSubjectTaken}</code> will have:
+     * <ul><li>{@code 6}: rows</li>
+     * <li>{@code 7}: columns<br></li> </ul>
      *
      * @see BookShelf
      * @see #initTileSubjectTaken()
@@ -190,12 +191,60 @@ public class BookShelf implements Serializable {
         return matrix;
     }
 
-    public void addTileSubjectTaken(TileSubject[][] taken, int column){
-        if(isFull())
+    /**
+     * This method is used to put the {@link TileSubject} taken from the {@link Board} inside the {@link BookShelf}.
+     *
+     * @param taken is a List of {@link TileSubject} that contains the tiles dragged from the {@link Board}
+     * @param column is the column of {@link #tileSubjectTaken} (contained in {@link #column} field)
+     * @apiNote Note that in case <ul>
+     *     <li>the parameter {@code column} is negative or exceed the maximum {@link #column} dimension an exception is thrown.</li>
+     *     <li>the parameter {@code taken} is {@code null} an exception is thrown</li>
+     *     <li>the {@link BookShelf} is full an exception is thrown</li>
+     *     <li>the number of cells empty in the {@code column} is insufficient an exception is thrown</li>
+     * </ul>
+     * @see BookShelf
+     * @see #isFull()
+     * @see Board
+     */
+    public void addTileSubjectTaken(List<TileSubject> taken, int column) {
+        if(column < 0 || column >= this.column) //Throwing Exception Column out of Bound
             return;
 
-        for(int i = 0; i < taken.length; i++){
+        if(taken == null) //throwing Exception no Tiles taken
+            return;
 
+        if(isFull()) //Throwing Exception BookShelf is already full
+            return;
+
+        int row = getFirstEmptyRowFromBottom(column);
+
+        if((row + 1) < taken.size()) //throwing Exception insufficient cells in column
+            return;
+
+        for(TileSubject t : taken) {
+            tileSubjectTaken[row][column] = t;
+            ++row;
         }
+    }
+
+    /**
+     * Retrieve the first cell inside the {@link #tileSubjectTaken BookShelf matrix} that is empty according to {@code column} param.
+     * The {@code row} is chosen starting from the {@link #column bottom} of the {@link #tileSubjectTaken matrix}.
+     * The {@code column} is set by the parameter.
+     *
+     * @param column the column in which the {@link TileSubject tiles} must be insered
+     * @return number between 0 and {@link #row row dimension} representing first cell in
+     * {@link #tileSubjectTaken BookShelf matrix} that is empty.<br>
+     *         In case that the {@link #column} is full {@code -1} is returned.
+     * @see BookShelf
+     * @see TileSubject
+     */
+    private int getFirstEmptyRowFromBottom(int column) {
+        for(int i = this.column - 1; i > 0; i--) {
+            if(tileSubjectTaken[i][column] == null)
+                return i;
+        }
+
+        return -1;
     }
 }
