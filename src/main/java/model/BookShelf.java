@@ -227,6 +227,18 @@ public class BookShelf implements Serializable {
         }
     }
 
+    /**
+     * Retrieve the first cell inside the {@link #tileSubjectTaken BookShelf matrix} that is empty according to {@code column} param.
+     * The {@code row} is chosen starting from the {@link #column bottom} of the {@link #tileSubjectTaken matrix}.
+     * The {@code column} is set by the parameter.
+     *
+     * @param column the column in which the {@link TileSubject tiles} must be insered
+     * @return number between 0 and {@link #row row dimension} representing first cell in
+     * {@link #tileSubjectTaken BookShelf matrix} that is empty.<br>
+     *         In case that the {@link #column} is full {@code -1} is returned.
+     * @see BookShelf
+     * @see TileSubject
+     */
     private int getFirstEmptyRowFromBottom(int column) {
         for(int i = this.column - 1; i > 0; i--) {
             if(tileSubjectTaken[i][column] == null)
