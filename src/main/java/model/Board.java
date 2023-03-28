@@ -11,7 +11,7 @@ public class Board implements Iterable<BoardSquare>, Serializable {
     private static final long serialVersionUID = 27112000L;
     private static final int DIM = 9;
     private static final int NUMBER_OF_BOARDSQUARE = 45;
-    final private BoardSquare livingRoomBoard;
+    final private BoardSquare livingRoomBoard; //root della board
 
     final private List<TileSubject> bag;
     private static final int NUMBER_OF_TILE = 7; //the default number of tile
@@ -141,4 +141,19 @@ public class Board implements Iterable<BoardSquare>, Serializable {
     //aggiungere metodo per fare il refill della board
     // public void refillBoard()
     // prenderà le tile dalla bag (quindi tra le tile restanti) e in base al numero di giocatori inserisce le tile nella board
+
+
+    //metodo che prende in ingresso un intero che rappresenta l'indice della board square (utilizzando lo schema dell'iterator)
+    // e restituisce il riferimento al board square corrispondente, null se la board square è vuota
+    private BoardSquare fromIntToBoardSquare(int index){
+        int cont = 0;
+
+        for(BoardSquare b : this){
+            if(cont == index) return b;
+            cont++;
+        }
+        return null;
+    }
+
+
 }
