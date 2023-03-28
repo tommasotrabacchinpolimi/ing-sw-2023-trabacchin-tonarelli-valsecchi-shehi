@@ -162,15 +162,26 @@ public class EntryPatternGoal implements Serializable {
         }
     }
 
+    /**
+     * This method checks if the {@code object} passed as parameter is equals to the instance that is calling the method
+     * {@inheritDoc}
+     *
+     * @param object the Object to be compared with the {@link EntryPatternGoal} instance
+     * @return <ul><li>{@code true} if:</li>
+     *          <ul><li>{@code object} parameter is not {@code null}</li>
+     *          <li>{@code object} parameter is {@link EntryPatternGoal} type</li>
+     *          <li>{@code object} has fields value equals to {@code this} istance of {@link EntryPatternGoal}</li></ul>
+     *         <li>{@code false} otherwise</li></ul>
+     */
     @Override
-    public boolean equals(Object o) {
-        if (this == o)
+    public boolean equals(Object object) {
+        if (this == object)
             return true;
 
-        if (o == null || getClass() != o.getClass())
+        if (object == null || getClass() != object.getClass())
             return false;
 
-        EntryPatternGoal that = (EntryPatternGoal) o;
+        EntryPatternGoal that = (EntryPatternGoal) object;
         return (column == that.column && row == that.row && tileType.equals(that.tileType));
     }
 
