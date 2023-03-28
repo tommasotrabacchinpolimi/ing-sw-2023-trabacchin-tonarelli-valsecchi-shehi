@@ -20,6 +20,28 @@ public class Player implements Serializable {
     private int score;
     private List<CommonGoal> achievedCommonGoals;
 
+    public BookShelf getBookShelf() {
+        return bookShelf;
+    }
+
+    public void setBookShelf(BookShelf bookShelf) {
+        this.bookShelf = bookShelf;
+    }
+
+    public boolean isEndGameCard() {
+        return endGameCard;
+    }
+
+    public void setEndGameCard(boolean endGameCard) {
+        this.endGameCard = endGameCard;
+    }
+
+    private BookShelf bookShelf;
+
+
+
+    private boolean endGameCard;
+
     /**
      * Constructor hat sets the fields of the class to the parameter passed.
      * @param nickName A {@link String} representing the nickname of the player.
