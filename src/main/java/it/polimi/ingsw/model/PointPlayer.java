@@ -1,7 +1,11 @@
 package it.polimi.ingsw.model;
 
 public class PointPlayer {
-    private int scoreCommonGoal1, scoreCommonGoal2, scoreEndGame, scorePersonalGoal, scoreAdjacentGoal;
+    private int scoreCommonGoal1;
+    private int scoreCommonGoal2;
+    private int scoreEndGame;
+    private int scorePersonalGoal;
+    private int scoreAdjacentGoal;
 
     public PointPlayer(){
         scoreAdjacentGoal = 0;
