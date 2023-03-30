@@ -38,7 +38,7 @@ public class GroupCommonGoal extends CommonGoal implements Serializable {
             for(int i = 0;i<bookShelf.length;i++){
                 for(int j = 0;j<bookShelf[0].length;j++){
                     if(bookShelf[i][j]==tileType){
-                        entries.add(new EntryPatternGoal(j,i,tileType));
+                        entries.add(new EntryPatternGoal(i,j,tileType));
                     }
                 }
             }

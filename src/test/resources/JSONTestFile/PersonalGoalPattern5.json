@@ -1,1 +1,42 @@
-{"goalPattern":[{"column":1,"row":6,"tileType":"TROPHY"},{"column":0,"row":5,"tileType":"FRAME"},{"column":5,"row":3,"tileType":"GAME"},{"column":2,"row":0,"tileType":"BOOK"},{"column":1,"row":1,"tileType":"BOOK"},{"column":5,"row":4,"tileType":"TROPHY"}],"scoreMap":{"6":12,"5":9,"4":6,"3":4,"2":2,"1":1}}
+{
+  "goalPattern": [
+    {
+      "row": 1,
+      "column": 1,
+      "tileType": "TROPHY"
+    },
+    {
+      "row": 3,
+      "column": 1,
+      "tileType": "FRAME"
+    },
+    {
+      "row": 3,
+      "column": 2,
+      "tileType": "BOOK"
+    },
+    {
+      "row": 4,
+      "column": 4,
+      "tileType": "PLANT"
+    },
+    {
+      "row": 5,
+      "column": 0,
+      "tileType": "GAME"
+    },
+    {
+      "row": 5,
+      "column": 3,
+      "tileType": "CAT"
+    }
+  ],
+  "scoreMap": {
+    "6": 12,
+    "5": 9,
+    "4": 6,
+    "3": 4,
+    "2": 2,
+    "1": 1
+  }
+}

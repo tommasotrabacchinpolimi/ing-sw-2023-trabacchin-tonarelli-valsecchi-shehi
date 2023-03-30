@@ -99,8 +99,8 @@ public class PersonalGoal implements Serializable {
 
             this.goalPattern.add(
                     new EntryPatternGoal(
-                            getColumnConfig(entryPatternAttributes),
                             getRowConfig(entryPatternAttributes),
+                            getColumnConfig(entryPatternAttributes),
                             getTileTypeConfig(entryPatternAttributes)
                     )
             );
