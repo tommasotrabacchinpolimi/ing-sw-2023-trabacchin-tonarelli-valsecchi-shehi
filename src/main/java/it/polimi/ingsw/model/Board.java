@@ -189,4 +189,33 @@ public class Board implements Iterable<BoardSquare>, Serializable {
         return (init_matrix[i][j]==NO_DOTS || (init_matrix[i][j]==THREE_DOTS && numPlayers >=3) || (init_matrix[i][j]==FOUR_DOTS && numPlayers==4));
     }
 
+    //aggiungere metodo per fare il refill della board
+    //versione con il grafo
+    public void refillBoard(int numberOfPlayers){
+        for(BoardSquare b : this){
+            if(b.getTileSubject() == null){
+                if(b.getBoardSquareType()==NO_DOTS || (b.getBoardSquareType()==THREE_DOTS && numberOfPlayers >=3) || (b.getBoardSquareType()==FOUR_DOTS && numberOfPlayers==4)) {
+                    b.setTileSubject(getRandomTileSubject());
+                }
+            }
+        }
+    }
+
+    public void printBoard(int numPlayer){
+        TileSubject[][] matrix = fromBoardToMatrix();
+        for(int i = 0; i < matrix[0].length; i++){
+            for(int j = 0; j < matrix.length; j++){
+                if(init_matrix[i][j]==null) System.out.print("---\t\t\t");
+                else{
+                    if(isOkay(i,j,numPlayer)){
+                        if(matrix[i][j]==null) System.out.print("***\t\t\t");
+                        else System.out.print(matrix[i][j].toString()+"\t\t");
+                    } else {
+                        System.out.print("xxx\t\t\t");
+                    }
+                }
+            }
+            System.out.println();
+        }
+    }
 }
