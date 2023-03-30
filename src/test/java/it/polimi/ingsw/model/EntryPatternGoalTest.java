@@ -22,11 +22,11 @@ class EntryPatternGoalTest {
 
     @Test
     void getRow() {
-        int row, col;
+        int row, column;
         Random rnd = new Random();
         row = rnd.nextInt(6);
-        col = rnd.nextInt(5);
-        EntryPatternGoal cell = new EntryPatternGoal(col, row, "CAT");
+        column = rnd.nextInt(5);
+        EntryPatternGoal cell = new EntryPatternGoal(row, column, "CAT");
         assertEquals(row, cell.getRow());
         EntryPatternGoal cell1 = new EntryPatternGoal();
         assertEquals(0, cell1.getRow());
