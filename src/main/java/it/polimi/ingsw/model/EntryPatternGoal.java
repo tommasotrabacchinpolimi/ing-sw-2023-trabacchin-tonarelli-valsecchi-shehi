@@ -15,6 +15,7 @@ import java.util.Objects;
 public class EntryPatternGoal implements Serializable {
     @Serial
     private static final long serialVersionUID = 73856129837219L;
+
     /**
      * The row in which the entry is inserted.
      *

@@ -10,7 +10,12 @@ package it.polimi.ingsw.model;
  * @see TileSubject
  */
 public enum TileType {
-    CAT("C"), BOOK("B"), GAME("G"), FRAME("F"), TROPHY("T"), PLANT("P");
+    CAT("C"),
+    BOOK("B"),
+    GAME("G"),
+    FRAME("F"),
+    TROPHY("T"),
+    PLANT("P");
 
     /**
      * This String represent the TileType with only one letter, that correspond to the first letter of each Tile type name
