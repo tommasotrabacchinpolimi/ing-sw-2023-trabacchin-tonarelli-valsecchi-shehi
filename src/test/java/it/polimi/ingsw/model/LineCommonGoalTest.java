@@ -98,7 +98,9 @@ class LineCommonGoalTest {
         int[] differentTiles = {6};
         Random rnd = new Random();
         LineCommonGoal goal = new LineCommonGoal(incRow, incCol, numberLines, numberTiles, differentTiles, "Description");
-        assertEquals(differentTiles, goal.getDifferentTiles());
+        for(int i = 0; i < goal.getDifferentTiles().length; i++ ){
+            assertEquals(differentTiles[i], goal.getDifferentTiles()[i]);
+        }
     }
 
     @Test

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -12,6 +13,8 @@ import java.util.Objects;
  * @see TileType
  */
 public class EntryPatternGoal implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 73856129837219L;
     /**
      * The row in which the entry is inserted.
      *
