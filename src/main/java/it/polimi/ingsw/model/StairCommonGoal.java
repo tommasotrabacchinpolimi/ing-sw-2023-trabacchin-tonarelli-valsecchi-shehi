@@ -185,7 +185,7 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
             if (matrix[indexMinRow-1][indexColumn]!=null) return null;
         }
         for (int j=matrix.length-1; j >= indexMinRow; j--){
-            result.add(new EntryPatternGoal(indexColumn, j, matrix[j][indexColumn]));
+            result.add(new EntryPatternGoal(j, indexColumn, matrix[j][indexColumn]));
         }
         return result;
     }

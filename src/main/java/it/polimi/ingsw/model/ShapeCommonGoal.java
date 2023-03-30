@@ -89,7 +89,7 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
                 if(!check)
                     result.clear();
 
-                result.add( new EntryPatternGoal(j, i, bookShelf[i][j]) );
+                result.add( new EntryPatternGoal(i, j, bookShelf[i][j]) );
 
                 check = true;
 
@@ -107,7 +107,7 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
                             break;
                         }
 
-                        result.add(new EntryPatternGoal(columnProcessed, rowProcessed, bookShelf[rowProcessed][columnProcessed]));
+                        result.add(new EntryPatternGoal(rowProcessed, columnProcessed, bookShelf[rowProcessed][columnProcessed]));
                     }
 
                     if (check && verifySurrounding(result, bookShelf)) {

@@ -14,7 +14,7 @@ class EntryPatternGoalTest {
         Random rnd = new Random();
         row = rnd.nextInt(6);
         col = rnd.nextInt(5);
-        EntryPatternGoal cell = new EntryPatternGoal(col, row, TileType.CAT);
+        EntryPatternGoal cell = new EntryPatternGoal(row, col, TileType.CAT);
         assertEquals(col, cell.getColumn());
         EntryPatternGoal cell1 = new EntryPatternGoal();
         assertEquals(0, cell1.getColumn());
@@ -38,7 +38,7 @@ class EntryPatternGoalTest {
         Random rnd = new Random();
         row = rnd.nextInt(6);
         col = rnd.nextInt(5);
-        EntryPatternGoal cell = new EntryPatternGoal(col, row, TileType.CAT);
+        EntryPatternGoal cell = new EntryPatternGoal(row, col, TileType.CAT);
         assertEquals(TileType.CAT, cell.getTileType());
         EntryPatternGoal cell1 = new EntryPatternGoal();
         assertNull(cell1.getTileType());
@@ -50,7 +50,7 @@ class EntryPatternGoalTest {
         Random rnd = new Random();
         row = rnd.nextInt(6);
         col = rnd.nextInt(5);
-        EntryPatternGoal cell = new EntryPatternGoal(col, row, TileType.CAT);
+        EntryPatternGoal cell = new EntryPatternGoal(row, col, TileType.CAT);
         assertArrayEquals(new int[]{row, col}, cell.getArrayIndexes());
     }
 }

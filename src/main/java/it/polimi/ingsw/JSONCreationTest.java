@@ -87,8 +87,8 @@ public class JSONCreationTest {
     // metodo che crea una EntryPatternGoal randomica
     private EntryPatternGoal getRandomEntry() {
         return new EntryPatternGoal(
-                RANDOM.nextInt(6),
                 RANDOM.nextInt(7),
+                RANDOM.nextInt(6),
                 TileType.values()[RANDOM.nextInt(TileType.values().length)]);
     }
 

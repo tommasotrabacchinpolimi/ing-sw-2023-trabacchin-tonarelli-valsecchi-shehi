@@ -13,74 +13,81 @@ import java.util.Objects;
  */
 public class EntryPatternGoal implements Serializable {
     /**
-     * The column in which the entry is inserted
+     * The row in which the entry is inserted.
      *
-     * @see EntryPatternGoal#getColumn() getColumn()
-     */
-    private final int column;
-    /**
-     * The row in which the entry is inserted
-     *
-     * @see EntryPatternGoal#getRow() getRow()
+     * @apiNote Default value {@code 0}. Once set can't be overwritten
+     * @see #EntryPatternGoal()
+     * @see #EntryPatternGoal(int, int, TileType) EntryPatternGoal(row, column, tileType)
+     * @see #EntryPatternGoal(int, int, String) EntryPatternGoal(row, column, tileTypeName)
      */
     private final int row;
+
+    /**
+     * The column in which the entry is inserted.
+     *
+     * @apiNote Default value {@code 0}. Once set can't be overwritten
+     * @see #EntryPatternGoal()
+     * @see #EntryPatternGoal(int, int, TileType) EntryPatternGoal(row, column, tileType)
+     * @see #EntryPatternGoal(int, int, String) EntryPatternGoal(row, column, tileTypeName)
+     */
+    private final int column;
+
     /**
      * The TileType contained in position specified by the value pair: [{@link EntryPatternGoal#row row}, {@link EntryPatternGoal#column column}]
      *
-     * @see EntryPatternGoal#getTileType()
+     * @apiNote Default value {@code null}. Once set can't be overwritten
+     * @see #getTileType()
      * @see TileType
+     * @see #EntryPatternGoal()
+     * @see #EntryPatternGoal(int, int, TileType) EntryPatternGoal(row, column, tileType)
+     * @see #EntryPatternGoal(int, int, String) EntryPatternGoal(row, column, tileTypeName)
      */
     private final TileType tileType;
 
     /**
-     * Empty parameter constructor that sets the fields of the class to:
-     * <pre>{@code
-     * column = 0;
-     * row = 0;
-     * tileType = null;}
-     * </pre>
+     * Empty parameter constructor that sets the fields of the class to default value.
      *
      * @see EntryPatternGoal#row
      * @see EntryPatternGoal#column
      * @see EntryPatternGoal#tileType
      */
     public EntryPatternGoal(){
-        column = 0;
         row = 0;
+        column = 0;
         tileType = null;
     }
 
     /**
      * Constructor that sets the fields of the class to the parameter passed
      *
-     * @param column the column that would be set to the entry
-     * @param row the column that would be set to the entry
-     * @param tileType the TileType that would be set to the entry
+     * @param row       the column that would be set to the entry
+     * @param column    the column that would be set to the entry
+     * @param tileType  the TileType that would be set to the entry
      *
      * @see EntryPatternGoal#row
      * @see EntryPatternGoal#column
      * @see EntryPatternGoal#tileType
      */
-    public EntryPatternGoal(int column, int row, TileType tileType) {
-        this.column = column;
+    public EntryPatternGoal(int row, int column, TileType tileType) {
         this.row = row;
+        this.column = column;
         this.tileType = tileType;
     }
 
     /**
      * Constructor that sets the fields of the class to the parameter passed
      *
-     * @param column the column that would be set to the entry
      * @param row the column that would be set to the entry
+     * @param column the column that would be set to the entry
      * @param tileTypeName the TileType name that would be converted to the corresponding {@link TileType TileType}
      * @see EntryPatternGoal#row
      * @see EntryPatternGoal#column
      * @see EntryPatternGoal#tileType
      * @see TileType
      */
-    public EntryPatternGoal(int column, int row, String tileTypeName) {
-        this.column = column;
+    public EntryPatternGoal(int row, int column, String tileTypeName) {
         this.row = row;
+        this.column = column;
         this.tileType = fromStringToTileType(tileTypeName);
     }
 
@@ -139,8 +146,8 @@ public class EntryPatternGoal implements Serializable {
     @Override
     public String toString() {
         return "EntryPatternGoal{" +
-                "column=" + column +
-                ", row=" + row +
+                "row=" + row +
+                ", column=" + column +
                 ", tileType=" + tileType +
                 '}';
     }
@@ -167,11 +174,11 @@ public class EntryPatternGoal implements Serializable {
      * {@inheritDoc}
      *
      * @param object the Object to be compared with the {@link EntryPatternGoal} instance
-     * @return <ul><li>{@code true} if:</li>
+     * @return {@code true} if:
      *          <ul><li>{@code object} parameter is not {@code null}</li>
      *          <li>{@code object} parameter is {@link EntryPatternGoal} type</li>
      *          <li>{@code object} has fields value equals to {@code this} istance of {@link EntryPatternGoal}</li></ul>
-     *         <li>{@code false} otherwise</li></ul>
+     *         {@code false} otherwise
      */
     @Override
     public boolean equals(Object object) {

@@ -217,7 +217,7 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
             for (int j = 0; j < copied_bookshelf[0].length; j += incRow) {
                 if (copied_bookshelf[i][j] != null) {
                     counterTile++;
-                    result.add(new EntryPatternGoal(j, i, copied_bookshelf[i][j]));
+                    result.add(new EntryPatternGoal(i, j, copied_bookshelf[i][j]));
                     if (!alreadyFoundType.contains(copied_bookshelf[i][j]))
                         alreadyFoundType.add(copied_bookshelf[i][j]);
                 }
