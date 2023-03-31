@@ -78,7 +78,11 @@ public class GameManager<R extends RemoteInterface> {
     }
 
     public void dragTilesToBookShelf(User<R> user, int[] chosenTiles, int chosenColumn){
+
         Player player = getController().getState().getPlayers().stream().filter(p->p.getNickName().equals(user.getNickName())).toList().get(0);
+        if(!player.equals(getController().getPlayerPlaying())){
+            return;
+        }
         Board board = getController().getState().getBoard();
         List<TileSubject> tiles = new ArrayList<>();
         for(Integer tile : chosenTiles){
