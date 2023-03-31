@@ -49,8 +49,8 @@ class ShapeCommonGoalTest {
 
 
     @Test
-    void setIncrementRuleShape() {
-        /*int arr[] = new int[2];
+    void setRuleShape() {
+        Integer arr[] = new Integer[2];
         int a;
         Random ran = new Random();
         int numTail = ran.nextInt();
@@ -60,13 +60,15 @@ class ShapeCommonGoalTest {
         a = ran.nextInt();
         arr[1] = a;
         inc.add(arr);
-        ShapeCommonGoal shape = new ShapeCommonGoal(3, inc, "Description");
+        ShapeCommonGoal shape = new ShapeCommonGoal(numTail, inc, "Description");
         a = ran.nextInt();
         arr[0] = a;
         a = ran.nextInt();
         arr[1] = a;
         inc.add(arr);
-        shape.setRuleShape(arr);*/
+        shape.setRuleShape(inc);
+
+        assertEquals(shape.getRuleShape(), inc);
     }
 
     //devo testare il metodo rule che prende in ingresso una bookshelf e se c'è uno dei common goal restituisce

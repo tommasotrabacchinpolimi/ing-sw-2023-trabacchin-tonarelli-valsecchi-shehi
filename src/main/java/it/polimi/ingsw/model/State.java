@@ -220,4 +220,10 @@ public class State implements Serializable {
     public void addMessage(ChatMessage message){
         this.messages.add(message);
     }
+
+    public int numPlayers ()
+    {
+        return players.size();
+    }
+
 }
