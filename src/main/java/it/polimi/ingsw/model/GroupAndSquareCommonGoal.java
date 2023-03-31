@@ -26,7 +26,23 @@ public class GroupAndSquareCommonGoal extends CommonGoal implements Serializable
     private boolean separated;//flag per indicare se i gruppi devono essere separati
     private boolean sameTypeOnly;//flag per indicare se i gruppi trovati devono essere tutti dello stesso tipo
 
+    public GroupAndSquareCommonGoal(String description, int groupsNumber, int adjacentTilesPo2, boolean square, boolean separated, boolean sameTypeOnly) {
+        super(description);
+        this.groupsNumber = groupsNumber;
+        this.adjacentTilesPo2 = adjacentTilesPo2;
+        this.square = square;
+        this.separated = separated;
+        this.sameTypeOnly = sameTypeOnly;
+    }
 
+    public GroupAndSquareCommonGoal(int numberPlayer, String description, int groupsNumber, int adjacentTilesPo2, boolean square, boolean separated, boolean sameTypeOnly) {
+        super(numberPlayer, description);
+        this.groupsNumber = groupsNumber;
+        this.adjacentTilesPo2 = adjacentTilesPo2;
+        this.square = square;
+        this.separated = separated;
+        this.sameTypeOnly = sameTypeOnly;
+    }
     public int getGroupsNumber() {
         return groupsNumber;
     }
@@ -66,14 +82,7 @@ public class GroupAndSquareCommonGoal extends CommonGoal implements Serializable
     public void setSameTypeOnly(boolean sameTypeOnly) {
         this.sameTypeOnly = sameTypeOnly;
     }
-    public GroupAndSquareCommonGoal(int availableScore, String description, int groupsNumber, int adjacentTilesPo2, boolean square, boolean separated, boolean sameTypeOnly) {
-        super(availableScore, description);
-        this.groupsNumber = groupsNumber;
-        this.adjacentTilesPo2 = adjacentTilesPo2;
-        this.square = square;
-        this.separated = separated;
-        this.sameTypeOnly = sameTypeOnly;
-    }
+
     @Override
     public List<EntryPatternGoal> rule(TileType[][] bookShelf) {
         List<List<Set<EntryPatternGoal>>> result = new ArrayList<>();
