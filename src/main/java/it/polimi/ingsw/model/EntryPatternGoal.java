@@ -15,6 +15,7 @@ import java.util.Objects;
 public class EntryPatternGoal implements Serializable {
     @Serial
     private static final long serialVersionUID = 73856129837219L;
+
     /**
      * The row in which the entry is inserted.
      *
@@ -102,7 +103,7 @@ public class EntryPatternGoal implements Serializable {
      */
     public int getColumn() {
         return column;
-    }
+    } //
 
     /**
      * Returns the row referred to the EntryPatternGoal instance
@@ -112,7 +113,7 @@ public class EntryPatternGoal implements Serializable {
      */
     public int getRow() {
         return row;
-    }
+    } //
 
     /**
      * Returns the TileType referred to the EntryPatternGoal instance
@@ -123,7 +124,7 @@ public class EntryPatternGoal implements Serializable {
      */
     public TileType getTileType() {
         return tileType;
-    }
+    } //
 
     /**
      * Construct and return an array containing value pair: [{@link EntryPatternGoal#row row}, {@link EntryPatternGoal#column column}]
@@ -136,7 +137,7 @@ public class EntryPatternGoal implements Serializable {
      */
     public int[] getArrayIndexes() {
         return new int[]{row, column};
-    }
+    } //
 
     /**
      * Overriding toString() default method.
@@ -192,6 +193,10 @@ public class EntryPatternGoal implements Serializable {
             return false;
 
         EntryPatternGoal that = (EntryPatternGoal) object;
+
+        if(this.tileType == null)
+            return (column == that.column && row == that.row);
+
         return (column == that.column && row == that.row && tileType.equals(that.tileType));
     }
 

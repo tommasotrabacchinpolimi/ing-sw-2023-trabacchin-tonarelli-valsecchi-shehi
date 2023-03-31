@@ -132,7 +132,7 @@ public class Board implements Iterable<BoardSquare>, Serializable {
         array[j] = a;
     }
 
-    //metodo che trasforma il grafo in una matrice
+
     private TileSubject[][] fromBoardToMatrix() {
         TileSubject[][] matrix = new TileSubject[DIM][DIM];
         int counter = 0;
@@ -175,13 +175,16 @@ public class Board implements Iterable<BoardSquare>, Serializable {
         return null;
     }
 
+
     //aggiungere metodo per rimuovere le tile dalla board quando vengono prese da un giocatore
-    // public void removeSelectedTileSubject(int[] taken);
     // taken deve contenere le posizioni delle tile prese secondo lo schema d'iterator.
-    public void removeSelectedTileSubject(int[] taken) {
+    public List<TileSubject> removeSelectedTileSubject(int[] taken) {
+        List<TileSubject> result = new ArrayList<>();
         for(int i = 0; i < taken.length; i++){
+            result.add(fromIntToBoardSquare(taken[i]).getTileSubject());
             fromIntToBoardSquare(taken[i]).setTileSubject(null);
         }
+        return result;
     }
 
     //metodo che ritorna true se init_matrix[i][j] è usata in funzione del numero di giocatori !!
@@ -189,9 +192,22 @@ public class Board implements Iterable<BoardSquare>, Serializable {
         return (init_matrix[i][j]==NO_DOTS || (init_matrix[i][j]==THREE_DOTS && numPlayers >=3) || (init_matrix[i][j]==FOUR_DOTS && numPlayers==4));
     }
 
-    //aggiungere metodo per fare il refill della board
-    //versione con il grafo
+    /**
+     * Method that refills the board. The method puts the {@link TileSubject tiles} left on the {@link Board} back into the {@link Board#bag}.
+     * Then, draw new item tiles from the bag and place them randomly in all the spaces of the board according to their type and the number of player.
+     * @param numberOfPlayers Number of players in the game.
+     *
+     * @see TileSubject
+     * @see BoardSquare
+     */
     public void refillBoard(int numberOfPlayers){
+        for(BoardSquare b : this){
+            if(b.getTileSubject()!=null){
+                bag.add(b.getTileSubject());
+                b.setTileSubject(null);
+            }
+        }
+
         for(BoardSquare b : this){
             if(b.getTileSubject() == null){
                 if(b.getBoardSquareType()==NO_DOTS || (b.getBoardSquareType()==THREE_DOTS && numberOfPlayers >=3) || (b.getBoardSquareType()==FOUR_DOTS && numberOfPlayers==4)) {

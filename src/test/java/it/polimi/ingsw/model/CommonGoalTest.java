@@ -2,13 +2,20 @@ package it.polimi.ingsw.model;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Stack;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class CommonGoalTest {
 
     @Test
     void getAvailableScore() {
+        int numberPlayer = 2;
+        Stack<Integer> stack = new Stack<>();
+        stack.push(4);
+        stack.push(8);
         CommonGoal goal = new StairCommonGoal(5, "Description");
+        goal.initScoringTokens(numberPlayer);
         assertEquals(8, goal.getAvailableScore());
     }
 
@@ -16,7 +23,7 @@ class CommonGoalTest {
     void setAvailableScore() {
         CommonGoal goal = new StairCommonGoal(5, "Description");
         goal.setAvailableScore(6);
-        assertEquals(6, goal.getAvailableScore());
+        assertEquals(6, goal.getScoringTokens());
     }
 
     @Test

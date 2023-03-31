@@ -79,6 +79,15 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
         this.differentTiles = removeDuplicateAndSort(differentTiles);
     }
 
+    public LineCommonGoal(int numberPlayer, int incRow, int incCol, int linesNumber, int numberOfTiles, int[] differentTiles, String description) {
+        super(numberPlayer,description);
+        this.incRow = incRow;
+        this.incCol = incCol;
+        this.linesNumber = linesNumber;
+        this.numberOfTiles = numberOfTiles;
+        this.differentTiles = removeDuplicateAndSort(differentTiles);
+    }
+
     /**
      * Get the minimum number of tiles that must be found in the lines to satisfy the goal.
      * @return the minimum number of tiles that must be found in the lines to satisfy the goal.

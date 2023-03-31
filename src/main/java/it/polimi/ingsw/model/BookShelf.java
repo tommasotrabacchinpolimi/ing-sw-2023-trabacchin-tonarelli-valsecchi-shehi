@@ -27,6 +27,7 @@ import java.util.List;
 public class BookShelf implements Serializable {
     @Serial
     private static final long serialVersionUID = 9828497462L;
+
     /**
      * Standard number of row for {@link #tileSubjectTaken} matrix
      *
@@ -34,6 +35,7 @@ public class BookShelf implements Serializable {
      * @see BookShelf
      */
     public static final int STANDARD_ROW = 6;
+
     /**
      * Standard number of column for {@link #tileSubjectTaken} matrix
      *
@@ -41,6 +43,7 @@ public class BookShelf implements Serializable {
      * @see BookShelf
      */
     public static final int STANDARD_COLUMN = 5;
+
     /**
      * Matrix used to represent the BookShelf for each {@link Player}. Type is set to {@link TileSubject} because
      * is necessary to show not only the type of card taken from the {@link Board} but also the image.
@@ -56,6 +59,7 @@ public class BookShelf implements Serializable {
      * @see BookShelf
      */
     private final int row;
+
     /**
      * This variable is used to set the column dimension for {@link #tileSubjectTaken}
      *
@@ -223,7 +227,7 @@ public class BookShelf implements Serializable {
 
         for(TileSubject t : taken) {
             tileSubjectTaken[row][column] = t;
-            ++row;
+            --row;
         }
     }
 

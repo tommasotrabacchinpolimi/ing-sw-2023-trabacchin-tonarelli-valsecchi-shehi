@@ -6,6 +6,7 @@ import java.util.List;
 /**
 * ChatMessage is a class that represents a message sent from a {@link Player player} to another
  * or to all {@link Player player} in the game.
+ *
  * @author Melanie Tonarelli
  * @version 1.0, 15/03/23
  * @see Player
