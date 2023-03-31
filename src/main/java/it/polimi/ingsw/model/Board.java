@@ -192,6 +192,16 @@ public class Board implements Iterable<BoardSquare>, Serializable {
         return (init_matrix[i][j]==NO_DOTS || (init_matrix[i][j]==THREE_DOTS && numPlayers >=3) || (init_matrix[i][j]==FOUR_DOTS && numPlayers==4));
     }
 
+    public void refillBoardIta(int numberOfPlayers){
+        for(BoardSquare b : this){
+            if(b.getTileSubject() == null){
+                if(b.getBoardSquareType()==NO_DOTS || (b.getBoardSquareType()==THREE_DOTS && numberOfPlayers >=3) || (b.getBoardSquareType()==FOUR_DOTS && numberOfPlayers==4)) {
+                    b.setTileSubject(getRandomTileSubject());
+                }
+            }
+        }
+    }
+
     /**
      * Method that refills the board. The method puts the {@link TileSubject tiles} left on the {@link Board} back into the {@link Board#bag}.
      * Then, draw new item tiles from the bag and place them randomly in all the spaces of the board according to their type and the number of player.
@@ -200,21 +210,14 @@ public class Board implements Iterable<BoardSquare>, Serializable {
      * @see TileSubject
      * @see BoardSquare
      */
-    public void refillBoard(int numberOfPlayers){
+    public void refillBoardEng(int numberOfPlayers){
         for(BoardSquare b : this){
             if(b.getTileSubject()!=null){
                 bag.add(b.getTileSubject());
                 b.setTileSubject(null);
             }
         }
-
-        for(BoardSquare b : this){
-            if(b.getTileSubject() == null){
-                if(b.getBoardSquareType()==NO_DOTS || (b.getBoardSquareType()==THREE_DOTS && numberOfPlayers >=3) || (b.getBoardSquareType()==FOUR_DOTS && numberOfPlayers==4)) {
-                    b.setTileSubject(getRandomTileSubject());
-                }
-            }
-        }
+        this.refillBoardIta(numberOfPlayers);
     }
 
     public void printBoard(int numPlayer){
