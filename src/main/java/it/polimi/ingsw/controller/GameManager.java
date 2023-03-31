@@ -53,4 +53,10 @@ public class GameManager {
         }
         return true;
     }
+
+    public void setNextCurrentPlayer(){
+        Player oldCurrentPlayer = controller.getState().getCurrentPlayer();
+        int index = (controller.getState().getPlayers().indexOf(oldCurrentPlayer) + 1) % 4;
+        controller.getState().setCurrentPlayer(controller.getState().getPlayers().get(index));
+    }
 }
