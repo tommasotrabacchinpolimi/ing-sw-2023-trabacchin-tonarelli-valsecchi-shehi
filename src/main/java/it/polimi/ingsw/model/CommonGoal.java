@@ -59,11 +59,13 @@ public abstract class CommonGoal implements Serializable {
     }
 
     /**
-     * The method returns null if the CommonGoal is not satisfied for the bookShelf passes as argument.
-     * If the CommonGoal is satisfied then the method returns the list of the EntryPatternGoals representing
-     * the tiles in the BookShelf that satisfy the CommonGoal.
-     * @param bookShelf the BookShelf to check for the LineCommonGoal
-     * @return null if the CommonGoal is not satisfied, otherwise the list of EntryPatternGoal that satisfied the CommonGoal
+     * The method returns {@code null} if the {@link CommonGoal} is not satisfied for the {@code bookShelf} argument.
+     * If the common goal is satisfied then the method returns a list of the {@link EntryPatternGoal EntryPatternGoals}
+     * representing the {@link TileType tiles} in the {@link BookShelf} that satisfy the {@link CommonGoal}.
+     *
+     * @param bookShelf the {@link BookShelf bookshelf} to be checked
+     * @return <ul><li>{@code null} if the {@link CommonGoal} is not satisfied</li>
+     * <li>list of {@link EntryPatternGoal} that satisfied the {@link CommonGoal} otherwise</li></ul>
      */
     public abstract List<EntryPatternGoal> rule(TileType[][] bookShelf);
 

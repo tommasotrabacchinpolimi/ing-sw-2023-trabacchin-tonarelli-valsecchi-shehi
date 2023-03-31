@@ -5,19 +5,18 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Class used to represent personal BookShelf for each player.
+ * Class used to represent personal {@link BookShelf} for each player.<br>
  * This class is unique per {@link Player} entity.<br>
- * BookShelf is formed using a matrix of {@link TileSubject}.
- * It's standard dimension are:
+ * Standard {@link #tileSubjectTaken bookshelf} dimension are:
  * <ul><li>{@code 6}: for rows</li>
  * <li>{@code 5}: for columns</li></ul>
- * Dimension are set according to {@link BookShelf#STANDARD_ROW}, {@link BookShelf#STANDARD_COLUMN} constant.
+ * according to the <a href="https://www.craniocreations.it/storage/media/product_downloads/48/538/MyShelfie_Ruleboo_ENG_lowres_new.pdf">
+ *     Rulebook</a>.<br>
  * To declare a BookShelf with other dimension use
- * {@link BookShelf#BookShelf(int row, int column) BookShelf(row, column)} constructor.
- * This class is used by:<ul>
- * <li>{@link CommonGoal} subclass to assign CommonGoal points to the corresponding player;</li>
- * <li>{@link PersonalGoal} to assign PersonalGoal points referring to the pattern inside the card</li>
- * </ul>
+ * {@link BookShelf#BookShelf(int, int) BookShelf(row, column)} constructor.<br>
+ * {@link CommonGoal Common goal} and {@link PersonalGoal personal goal}
+ * are assigned based on the content of {@link #tileSubjectTaken bookshelf}
+ *
  * @author Emanuele Valsecchi
  * @version 1.0, 15/04/23
  * @see Player

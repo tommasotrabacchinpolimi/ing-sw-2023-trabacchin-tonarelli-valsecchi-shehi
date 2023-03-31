@@ -5,12 +5,20 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * This class represent a single entry to construct the "pattern" for a {@link PersonalGoal PersonalGoal} card.
+ * This class was design to represent a single {@link TileType} entry in a "pattern" for a {@link PersonalGoal PersonalGoal} card.
+ * Its usage was then extended to retrieve cards in a {@link BookShelf bookshelf} that satisfy a {@link CommonGoal}
  *
  * @author Emanuele Valsecchi
  * @version 1.0, 15/03/23
  * @see PersonalGoal
  * @see TileType
+ * @see CommonGoal
+ * @see GroupAndSquareCommonGoal
+ * @see GroupCommonGoal
+ * @see ShapeCommonGoal
+ * @see SquareCommonGoal
+ * @see StairCommonGoal
+ * @see LineCommonGoal
  */
 public class EntryPatternGoal implements Serializable {
     @Serial
@@ -200,6 +208,11 @@ public class EntryPatternGoal implements Serializable {
         return (column == that.column && row == that.row && tileType.equals(that.tileType));
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return hash code for this objects
+     */
     @Override
     public int hashCode() {
         return Objects.hash(column, row, tileType);
