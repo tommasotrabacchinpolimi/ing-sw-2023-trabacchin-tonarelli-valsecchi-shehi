@@ -82,6 +82,13 @@ public class GameManager<R extends RemoteInterface> {
         }
         BookShelf bookShelf = player.getBookShelf();
         bookShelf.addTileSubjectTaken(tiles,chosenColumn);
+        verifyEndGame(user);
+        if(verifyRefillBoard()){
+            getController().getState().getBoard().refillBoard(getController().getState().getPlayersNumber());
+        }
+        evaluateFinalScore(player);
+        verifyCommonGoal(user);
+        setNextCurrentPlayer();
     }
 
 

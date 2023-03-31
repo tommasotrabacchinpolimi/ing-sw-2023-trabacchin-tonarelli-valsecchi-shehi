@@ -52,6 +52,19 @@ public class State implements Serializable {
      * @see Player
      */
     private Player currentPlayer;
+
+    public int getPlayersNumber() {
+        return playersNumber;
+    }
+
+    public void setPlayersNumber(int playersNumber) {
+        this.playersNumber = playersNumber;
+    }
+
+    /**
+     * The number of {@link Player} that have been chosen
+     */
+    private int playersNumber;
     /**
      * List of {@link ChatMessage messages} sent between {@link Player players}.
      *
