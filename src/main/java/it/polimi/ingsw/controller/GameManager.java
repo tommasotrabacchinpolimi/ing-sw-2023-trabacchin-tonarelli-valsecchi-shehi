@@ -11,6 +11,7 @@ import static it.polimi.ingsw.model.BoardSquareType.THREE_DOTS;
 
 public class GameManager<R extends RemoteInterface> {
     private Controller controller;
+    private Function<Integer,Integer> fromGroupSizeToScore;
 
     public Function<Integer, Integer> getFromGroupSizeToScore() {
         return fromGroupSizeToScore;
@@ -20,37 +21,31 @@ public class GameManager<R extends RemoteInterface> {
         this.fromGroupSizeToScore = fromGroupSizeToScore;
     }
 
-    private Function<Integer,Integer> fromGroupSizeToScore;
-
     public Controller getController() {
 
         return controller;
     }
 
     public void setController(Controller controller) {
-
         this.controller = controller;
     }
 
     private void verifyCommonGoal(User<R> user){
         Player player = controller.getPlayerPlaying();
         CommonGoal commonGoal1, commonGoal2;
-
         BookShelf bookShelf = player.getBookShelf();
         commonGoal1 = controller.getActiveCommonGoal1();
         commonGoal2 = controller.getActiveCommonGoal2();
 
-        TileType[][] matrix = bookShelf.toTileTypeMatrix();
-
-        if(commonGoal1.rule(matrix) != null){
+        if(commonGoal1.rule(bookShelf.toTileTypeMatrix()) != null){
             player.getPointPlayer().setScoreCommonGoal1(commonGoal1.getAvailableScore());
         }
 
-        if(commonGoal2.rule(matrix) != null){
-            player.getPointPlayer().setScoreCommonGoal1(commonGoal2.getAvailableScore());
+        if(commonGoal2.rule(bookShelf.toTileTypeMatrix()) != null){
+            player.getPointPlayer().setScoreCommonGoal2(commonGoal2.getAvailableScore());
         }
-
     }
+
     private void verifyEndGame(User<R> user){
         Player player = controller.getPlayerPlaying();
 
@@ -58,6 +53,7 @@ public class GameManager<R extends RemoteInterface> {
             player.assignScoreEndGame(1);
         }
     }
+
     private void evaluateFinalScore(Player player){
         int scoreAdjacentGoal = 0;
         int personalGoalMatches = 0;
@@ -145,8 +141,6 @@ public class GameManager<R extends RemoteInterface> {
         findSingleGroup(i,j-1,bookShelf,alreadyTaken,tileType).ifPresent(result::addAll);
         findSingleGroup(i,j+1,bookShelf,alreadyTaken,tileType).ifPresent(result::addAll);
         return Optional.of(result);
-
-
-
     }
+
 }
