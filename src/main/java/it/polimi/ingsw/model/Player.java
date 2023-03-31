@@ -18,8 +18,6 @@ public class Player implements Serializable {
     private final String nickName;
     private final PersonalGoal personalGoal;
     private BookShelf bookShelf;
-    private boolean endGameCard;
-
     private PointPlayer pointPlayer;
 
     /**
@@ -32,7 +30,6 @@ public class Player implements Serializable {
     public Player( String  nickName, PersonalGoal personalGoal ){
         this.nickName = nickName;
         this.personalGoal = personalGoal;
-        endGameCard = false;
         pointPlayer = new PointPlayer();
 
     }
@@ -45,13 +42,11 @@ public class Player implements Serializable {
         this.bookShelf = bookShelf;
     }
 
-    public boolean isEndGameCard() {
-        return endGameCard;
+
+    public void assignScoreEndGame(int endGameScore) {
+        this.pointPlayer.setScoreEndGame(endGameScore);
     }
 
-    public void setEndGameCard(boolean endGameCard) {
-        this.endGameCard = endGameCard;
-    }
 
     public PointPlayer getPointPlayer() {
         return pointPlayer;
