@@ -149,16 +149,16 @@ public class EntryPatternGoal implements Serializable {
 
     /**
      * Overriding toString() default method.
+     * {@inheritDoc}
      *
      * @return {@link String} that represent the {@link EntryPatternGoal} class
      *
      * @apiNote Resulting String will be displayed on a single line with as follows:
-     * "<code>EntryPatternGoal{column, row, tileType}</code>"
+     * "<code>{column, row, tileType}</code>"
      */
     @Override
     public String toString() {
-        return "EntryPatternGoal{" +
-                "row=" + row +
+        return "row=" + row +
                 ", column=" + column +
                 ", tileType=" + tileType +
                 '}';
