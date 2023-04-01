@@ -22,21 +22,18 @@ import java.util.List;
  */
 public class State implements Serializable {
     private static final long serialVersionUID = 26202152145454545L;
-
     /**
      * The living room {@link Board} in which the game is played.
      *
      * @see Board
      */
     private Board board;
-
     /**
      * The {@link CommonGoal common goals} that the players can achieve in order to earn more points.
      *
      * @see CommonGoal
      */
     private CommonGoal commonGoal1, commonGoal2;
-
     /**
      * List of {@link Player players} sorted from first logged in to last logged in.
      *
@@ -48,7 +45,6 @@ public class State implements Serializable {
      * @see Player
      */
     private List<Player> players;
-
     /**
      * The {@link Player} who will play in the current round of the Game.
      *
@@ -56,18 +52,6 @@ public class State implements Serializable {
      * @see Player
      */
     private Player currentPlayer;
-
-    public int getPlayersNumber() {
-        return playersNumber;
-    }
-
-    public void setPlayersNumber(int playersNumber) {
-        this.playersNumber = playersNumber;
-    }
-
-    /**
-     * The number of {@link Player} that have been chosen for the game
-     */
     private int playersNumber;
     /**
      * List of {@link ChatMessage messages} sent between {@link Player players}.
@@ -92,6 +76,18 @@ public class State implements Serializable {
         currentPlayer = null;
         messages = new LinkedList<>();
     }
+
+    public int getPlayersNumber() {
+        return playersNumber;
+    }
+
+    public void setPlayersNumber(int playersNumber) {
+        this.playersNumber = playersNumber;
+    }
+
+    /**
+     * The number of {@link Player} that have been chosen for the game
+     */
 
     /**
      * Method that gets the living room board of the game.
@@ -241,7 +237,7 @@ public class State implements Serializable {
         this.messages.add(message);
     }
 
-    public int numPlayers ()
+    public int numPlayers()
     {
         return players.size();
     }

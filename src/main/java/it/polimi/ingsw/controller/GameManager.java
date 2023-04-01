@@ -168,4 +168,8 @@ public class GameManager<R extends RemoteInterface> {
         }
     }
 
+    public void setPlayersNumber(User<R> user, int playersNumber){
+        controller.getState().setPlayersNumber(playersNumber);
+    }
+
 }
