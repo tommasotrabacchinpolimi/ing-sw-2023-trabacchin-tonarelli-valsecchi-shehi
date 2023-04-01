@@ -88,7 +88,7 @@ public class GameManager<R extends RemoteInterface> {
         bookShelf.addTileSubjectTaken(tiles,chosenColumn);
         verifyEndGame(user);
         if(verifyRefillBoard()){
-            getController().getState().getBoard().refillBoard(getController().getState().getPlayersNumber());
+            getController().getState().getBoard().refillBoardIta(getController().getState().getPlayersNumber());
         }
         evaluateFinalScore(player);
         verifyCommonGoal(user);
@@ -110,6 +110,13 @@ public class GameManager<R extends RemoteInterface> {
         return true;
     }
 
+    /**
+     * Method that sets the next player who will play.
+     *
+     * @see Controller
+     * @see State
+     * @see Player
+     */
     public void setNextCurrentPlayer(){
         Player oldCurrentPlayer = controller.getState().getCurrentPlayer();
         int index = (controller.getState().getPlayers().indexOf(oldCurrentPlayer) + 1) % 4;
