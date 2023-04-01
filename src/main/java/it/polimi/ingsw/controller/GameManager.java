@@ -161,4 +161,11 @@ public class GameManager<R extends RemoteInterface> {
         return Optional.of(result);
     }
 
+    public void registerPlayer(User<R> user, String nickname){
+        Player player = new Player(nickname, new PersonalGoal("personal goal path"));
+        if (controller.getState().addPlayer(player)){
+            user.setPlayer(player);
+        }
+    }
+
 }

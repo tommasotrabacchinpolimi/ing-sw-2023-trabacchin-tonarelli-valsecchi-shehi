@@ -1,9 +1,11 @@
 package it.polimi.ingsw.net;
 
+import it.polimi.ingsw.model.Player;
+
 import java.rmi.Remote;
 
 public class User<R extends RemoteInterface> {
-    String nickName;
+    Player player;
     ConnectionManager<? extends RemoteInterface,R> connectionManager;
     public void setConnectionManager(ConnectionManager<? extends RemoteInterface,R> connectionManager){
         this.connectionManager = connectionManager;
@@ -13,11 +15,11 @@ public class User<R extends RemoteInterface> {
         return connectionManager;
     }
 
-    public String getNickName() {
-        return nickName;
+    public Player getPlayer() {
+        return player;
     }
 
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }

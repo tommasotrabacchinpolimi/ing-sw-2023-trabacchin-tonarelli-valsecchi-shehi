@@ -3,10 +3,12 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.CommonGoal;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.State;
+import it.polimi.ingsw.net.RemoteInterface;
+import it.polimi.ingsw.net.User;
 
-public class Controller {
-
+public class Controller<R extends RemoteInterface> {
     private State state;
+    private GameManager gameManager;
 
     public State getState() {
         return state;
@@ -26,5 +28,9 @@ public class Controller {
 
     public CommonGoal getActiveCommonGoal2(){
         return state.getCommonGoal2();
+    }
+
+    public void registerPlayer(User<R> user, String nickname){
+        gameManager.registerPlayer(user, nickname);
     }
 }

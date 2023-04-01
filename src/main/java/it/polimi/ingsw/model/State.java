@@ -182,8 +182,11 @@ public class State implements Serializable {
      * players.get(players.size()-1) is the last player logged into the game.
      * @see Player
      */
-    public void addPlayer(Player player){
+    public boolean addPlayer(Player player){
+        if(players.stream().anyMatch(p-> p.getNickName().equals(player.getNickName())))
+            return false;
         this.players.add(player);
+        return true;
     }
 
     /**
