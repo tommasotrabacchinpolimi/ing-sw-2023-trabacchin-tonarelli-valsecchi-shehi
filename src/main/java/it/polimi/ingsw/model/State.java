@@ -22,18 +22,21 @@ import java.util.List;
  */
 public class State implements Serializable {
     private static final long serialVersionUID = 26202152145454545L;
+
     /**
      * The living room {@link Board} in which the game is played.
      *
      * @see Board
      */
     private Board board;
+
     /**
      * The {@link CommonGoal common goals} that the players can achieve in order to earn more points.
      *
      * @see CommonGoal
      */
     private CommonGoal commonGoal1, commonGoal2;
+
     /**
      * List of {@link Player players} sorted from first logged in to last logged in.
      *
@@ -45,6 +48,7 @@ public class State implements Serializable {
      * @see Player
      */
     private List<Player> players;
+
     /**
      * The {@link Player} who will play in the current round of the Game.
      *
@@ -62,7 +66,7 @@ public class State implements Serializable {
     }
 
     /**
-     * The number of {@link Player} that have been chosen
+     * The number of {@link Player} that have been chosen for the game
      */
     private int playersNumber;
     /**
@@ -72,7 +76,7 @@ public class State implements Serializable {
      * @see ChatMessage
      * @see Player
      */
-    transient List<ChatMessage> messages; //excluded from serialization
+    private transient List<ChatMessage> messages;
 
     /**
      * Construct of the class that creates the fields of the class.
@@ -239,4 +243,17 @@ public class State implements Serializable {
         return players.size();
     }
 
+    /**
+     * Retrieve the Player that has the {@code nickName} chosen from the total players in a game
+     *
+     * @apiNote This method assume that each player has unique nickname inside a game
+     * @param nickName the nickname of the player
+     * @return the player that has the {@code nickName} passed as parameter
+     */
+    public Player getPlayerFromNick(String nickName){
+        return players.stream()
+                .filter( player -> nickName.equals(player.getNickName()))
+                .toList()
+                .get(0);
+    }
 }
