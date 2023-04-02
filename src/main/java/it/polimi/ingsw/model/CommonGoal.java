@@ -51,7 +51,6 @@ public abstract class CommonGoal implements Serializable {
         return description;
     }
 
-
     /**
      * The method returns {@code null} if the {@link CommonGoal} is not satisfied for the {@code bookShelf} argument.
      * If the common goal is satisfied then the method returns a list of the {@link EntryPatternGoal EntryPatternGoals}

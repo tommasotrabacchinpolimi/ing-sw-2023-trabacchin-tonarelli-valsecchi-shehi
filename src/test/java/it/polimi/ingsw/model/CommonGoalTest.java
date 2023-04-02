@@ -16,27 +16,37 @@ class CommonGoalTest {
         stack.push(8);
         CommonGoal goal = new StairCommonGoal(5, "Description");
         goal.initScoringTokens(numberPlayer);
-        assertEquals(8, goal.getAvailableScore());
-    }
-
-    @Test
-    void setAvailableScore() {
-        CommonGoal goal = new StairCommonGoal(5, "Description");
-        goal.setAvailableScore(6);
-        assertEquals(6, goal.getScoringTokens());
+        assertEquals(stack.pop(), goal.getAvailableScore());
+        assertEquals(stack.pop(), goal.getAvailableScore());
     }
 
     @Test
     void getDescription() {
         CommonGoal goal = new StairCommonGoal(5, "Description added.");
-        goal.setAvailableScore(6);
+        goal.initScoringTokens(4);
         assertEquals("Description added.", goal.getDescription());
     }
 
     @Test
-    void setDescription() {
+    void initScoringTokens() {
+        int numberPlayer = 3;
+        Stack<Integer> stack = new Stack<>();
+        stack.push(4);
+        stack.push(6);
+        stack.push(8);
         CommonGoal goal = new StairCommonGoal(5, "Description");
-        goal.setDescription("Made-Up Description");
-        assertEquals("Made-Up Description", goal.getDescription());
+        goal.initScoringTokens(numberPlayer);
+        for(int i = 0; i < numberPlayer; i++){
+            assertEquals(stack.pop(), goal.getAvailableScore());
+        }
+        numberPlayer = 4;
+        stack.push(2);
+        stack.push(4);
+        stack.push(6);
+        stack.push(8);
+        goal.initScoringTokens(numberPlayer);
+        for(int i = 0; i < numberPlayer; i++){
+            assertEquals(stack.pop(), goal.getAvailableScore());
+        }
     }
 }
