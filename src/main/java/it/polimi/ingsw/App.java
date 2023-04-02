@@ -13,7 +13,7 @@ public class App {
         int index = 2;
 
         System.out.println("REFILLING THE BOARD");
-        board.refillBoard(index);
+        board.refillBoardIta(index);
         board.printBoard(index);
 
         System.out.println("Removing tiles form board...");

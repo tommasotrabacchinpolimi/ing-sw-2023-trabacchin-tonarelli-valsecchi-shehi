@@ -75,7 +75,7 @@ public class GameManager<R extends RemoteInterface> {
 
     public void dragTilesToBookShelf(User<R> user, int[] chosenTiles, int chosenColumn){
 
-        Player player = getController().getState().getPlayers().stream().filter(p->p.getNickName().equals(user.getNickName())).toList().get(0);
+        Player player = getController().getState().getPlayers().stream().filter(p->p.getNickName().equals(user.getPlayer().getNickName())).toList().get(0);
         if(!player.equals(getController().getPlayerPlaying())){
             return;
         }
