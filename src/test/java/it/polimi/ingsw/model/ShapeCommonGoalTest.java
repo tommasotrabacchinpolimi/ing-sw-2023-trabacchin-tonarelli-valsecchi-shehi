@@ -23,9 +23,10 @@ class ShapeCommonGoalTest {
     void getTileNumber() {
         Random ran = new Random();
         int numTile = ran.nextInt();
+        int numPlayer = 2;
         ArrayList<Integer[]> inc = new ArrayList<Integer[]>(2);
         inc.add(getRandomRuleShapeEntry());
-        ShapeCommonGoal shape = new ShapeCommonGoal(numTile, inc, "description");
+        ShapeCommonGoal shape = new ShapeCommonGoal(numPlayer,numTile, inc, "description");
         assertEquals(numTile, shape.getTileNumber());
     }
 
@@ -33,6 +34,7 @@ class ShapeCommonGoalTest {
     void setTileNumber() {
         Random ran = new Random();
         int numTile = ran.nextInt();
+        int numPlayer = 2;
         int a;
         ArrayList<Integer[]> inc = new ArrayList<Integer[]>(2);
         Integer arr[];
@@ -42,7 +44,7 @@ class ShapeCommonGoalTest {
         a = ran.nextInt();
         arr [1] = a;
         inc.add(arr);
-        ShapeCommonGoal shape = new ShapeCommonGoal(3, inc, "Description");
+        ShapeCommonGoal shape = new ShapeCommonGoal(numPlayer, 3, inc, "Description");
         shape.setTileNumber(numTile);
         assertEquals(numTile, shape.getTileNumber());
     }
@@ -51,6 +53,7 @@ class ShapeCommonGoalTest {
     @Test
     void setRuleShape() {
         Integer arr[] = new Integer[2];
+        int numPlayer = 2;
         int a;
         Random ran = new Random();
         int numTail = ran.nextInt();
@@ -60,7 +63,7 @@ class ShapeCommonGoalTest {
         a = ran.nextInt();
         arr[1] = a;
         inc.add(arr);
-        ShapeCommonGoal shape = new ShapeCommonGoal(numTail, inc, "Description");
+        ShapeCommonGoal shape = new ShapeCommonGoal(numPlayer, numTail, inc, "Description");
         a = ran.nextInt();
         arr[0] = a;
         a = ran.nextInt();
@@ -75,23 +78,24 @@ class ShapeCommonGoalTest {
     //la lista degli elementi della bookshelf che sono parte del common-goal
     @Test
     void rule() {
+        int numPlayer = 3;
         Random random = new Random();
         int index = random.nextInt(1,16);
         Random rand = new Random();
         int index2 = rand.nextInt(1,5);
         if(index==1){
-            ShapeCommonGoal shape = new ShapeCommonGoal(3, getRuleShape(1), "Description");
+            ShapeCommonGoal shape = new ShapeCommonGoal(numPlayer, 3, getRuleShape(1), "Description");
             assert getRandomShapeBookshelf(index) != null;
             assertTrue(compareObjects(getExpected(1),shape.rule(getRandomShapeBookshelf(1))));
         } else if ((index > 1) && (index < 4)) {
 
         }
-        ShapeCommonGoal shape = new ShapeCommonGoal(3, getRuleShape(3), "Description");
+        ShapeCommonGoal shape = new ShapeCommonGoal(numPlayer, 3, getRuleShape(3), "Description");
         assert getRandomShapeBookshelf(index) != null;
         assertTrue(compareObjects(getExpected(15),shape.rule(getRandomShapeBookshelf(15))));
     }
-    private boolean compareObjects(List<EntryPatternGoal> l1, List<EntryPatternGoal> l2)
-    {
+
+    private boolean compareObjects(List<EntryPatternGoal> l1, List<EntryPatternGoal> l2) {
         if(l1.size() != l2.size()) {
             return false;
         }

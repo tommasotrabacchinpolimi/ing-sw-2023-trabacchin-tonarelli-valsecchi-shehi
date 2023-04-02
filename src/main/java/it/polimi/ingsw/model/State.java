@@ -48,7 +48,7 @@ public class State implements Serializable {
     /**
      * The {@link Player} who will play in the current round of the Game.
      *
-     * @apiNote The Player {@link State#currentPlayer} must be contained in the list {@link State#players}.
+     * @apiNote The Player {@code currentPlayer} must be contained in the list {@link State#players}.
      * @see Player
      */
     private Player currentPlayer;
@@ -85,9 +85,6 @@ public class State implements Serializable {
         this.playersNumber = playersNumber;
     }
 
-    /**
-     * The number of {@link Player} that have been chosen for the game
-     */
 
     /**
      * Method that gets the living room board of the game.

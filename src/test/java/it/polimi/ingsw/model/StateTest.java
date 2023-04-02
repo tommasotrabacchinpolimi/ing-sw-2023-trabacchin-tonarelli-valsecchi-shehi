@@ -5,6 +5,14 @@ import org.junit.jupiter.api.Test;
 class StateTest {
 
     @Test
+    void getPlayersNumber() {
+    }
+
+    @Test
+    void setPlayersNumber() {
+    }
+
+    @Test
     void getBoard() {
     }
 
@@ -58,5 +66,13 @@ class StateTest {
 
     @Test
     void addMessage() {
+    }
+
+    @Test
+    void numPlayers() {
+    }
+
+    @Test
+    void getPlayerFromNick() {
     }
 }
