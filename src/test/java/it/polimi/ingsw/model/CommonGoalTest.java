@@ -39,6 +39,7 @@ class CommonGoalTest {
         for(int i = 0; i < numberPlayer; i++){
             assertEquals(stack.pop(), goal.getAvailableScore());
         }
+        assertEquals(0, goal.getAvailableScore());
         numberPlayer = 4;
         stack.push(2);
         stack.push(4);
@@ -48,5 +49,6 @@ class CommonGoalTest {
         for(int i = 0; i < numberPlayer; i++){
             assertEquals(stack.pop(), goal.getAvailableScore());
         }
+        assertEquals(0, goal.getAvailableScore());
     }
 }
