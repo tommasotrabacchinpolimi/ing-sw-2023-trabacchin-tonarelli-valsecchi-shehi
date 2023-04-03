@@ -33,6 +33,7 @@ public abstract class CommonGoal implements Serializable {
     }
 
     public int getAvailableScore() {
+        if(scoringTokens.size()==0) return 0;
         return scoringTokens.pop();
     }
 
