@@ -9,6 +9,7 @@ import it.polimi.ingsw.net.User;
 public class Controller<R extends RemoteInterface> {
     private State state;
     private GameManager gameManager;
+    private ChatManager chatManager;
 
     public State getState() {
         return state;
@@ -32,5 +33,9 @@ public class Controller<R extends RemoteInterface> {
 
     public void registerPlayer(User<R> user, String nickname){
         gameManager.registerPlayer(user, nickname);
+    }
+
+    public void addMessageToState() {
+        //chatManager.sentMessage();
     }
 }

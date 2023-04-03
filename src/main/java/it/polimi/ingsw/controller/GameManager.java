@@ -17,17 +17,12 @@ public class GameManager<R extends RemoteInterface> {
         return fromGroupSizeToScore;
     }
 
-    public void setFromGroupSizeToScore(Function<Integer, Integer> fromGroupSizeToScore) {
+    private void setFromGroupSizeToScore(Function<Integer, Integer> fromGroupSizeToScore) {
         this.fromGroupSizeToScore = fromGroupSizeToScore;
     }
 
-    public Controller getController() {
-
+    private Controller getController() {
         return controller;
-    }
-
-    public void setController(Controller controller) {
-        this.controller = controller;
     }
 
     private void verifyCommonGoal(User<R> user){
@@ -75,7 +70,7 @@ public class GameManager<R extends RemoteInterface> {
 
     public void dragTilesToBookShelf(User<R> user, int[] chosenTiles, int chosenColumn){
 
-        Player player = getController().getState().getPlayers().stream().filter(p->p.getNickName().equals(user.getNickName())).toList().get(0);
+        Player player = getController().getState().getPlayers().stream().filter(p->p.getNickName().equals(user.getPlayer().getNickName())).toList().get(0);
         if(!player.equals(getController().getPlayerPlaying())){
             return;
         }
@@ -88,20 +83,18 @@ public class GameManager<R extends RemoteInterface> {
         bookShelf.addTileSubjectTaken(tiles,chosenColumn);
         verifyEndGame(user);
         if(verifyRefillBoard()){
-            getController().getState().getBoard().refillBoardIta(getController().getState().getPlayersNumber());
+            getController().getState().getBoard().refillBoard(getController().getState().getPlayersNumber());
         }
         evaluateFinalScore(player);
         verifyCommonGoal(user);
         setNextCurrentPlayer();
     }
 
-
-
     /**
      * Method that returns true if and only if the Board needs to be refilled with tiles.
      * @return true if and only if the Board needs to be refilled with tiles.
      */
-    public boolean verifyRefillBoard(){
+    private boolean verifyRefillBoard(){
         int numberOfPlayers = controller.getState().getPlayers().size();
         for(BoardSquare b : controller.getState().getBoard()){
             if(b.getBottom().getTileSubject()!=null || b.getRight().getTileSubject()!=null ||
@@ -117,12 +110,11 @@ public class GameManager<R extends RemoteInterface> {
      * @see State
      * @see Player
      */
-    public void setNextCurrentPlayer(){
+    private void setNextCurrentPlayer(){
         Player oldCurrentPlayer = controller.getState().getCurrentPlayer();
         int index = (controller.getState().getPlayers().indexOf(oldCurrentPlayer) + 1) % 4;
         controller.getState().setCurrentPlayer(controller.getState().getPlayers().get(index));
     }
-
 
     private Set<Set<EntryPatternGoal>> findGroups(TileType[][] bookShelf){
         boolean[][] alreadyTaken = new boolean[bookShelf.length][bookShelf[0].length];//initialized to false
@@ -172,4 +164,18 @@ public class GameManager<R extends RemoteInterface> {
         controller.getState().setPlayersNumber(playersNumber);
     }
 
+    public void initScoringTokens(){
+        Stack<Integer> scoringTokens = new Stack<>();
+
+        int numberOfPlayers = controller.getState().getPlayersNumber();
+
+        if(numberOfPlayers == 4)
+            scoringTokens.push(2);
+
+        scoringTokens.push(4);
+        if (numberOfPlayers >= 3)
+            scoringTokens.push(6);
+
+        scoringTokens.push(8);
+    }
 }

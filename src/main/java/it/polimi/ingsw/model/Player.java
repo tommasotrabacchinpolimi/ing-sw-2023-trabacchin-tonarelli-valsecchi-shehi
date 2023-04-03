@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.JSONExclusionStrategy.ExcludedFromJSON;
+
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Player is a class that represent a player of the game. Players are identified by a {@link Player#nickName}, which is unique within the game.
@@ -16,9 +16,19 @@ import java.util.List;
 public class Player implements Serializable {
     private static final long serialVersionUID = 97354642643274L;
     private final String nickName;
+    @ExcludedFromJSON
     private final PersonalGoal personalGoal;
+    @ExcludedFromJSON
     private BookShelf bookShelf;
+    @ExcludedFromJSON
     private PointPlayer pointPlayer;
+
+    public Player(String nickName) {
+        this.nickName = nickName;
+        this.personalGoal = null;
+        this.bookShelf = new BookShelf();
+        this.pointPlayer = new PointPlayer();
+    }
 
     /**
      * Constructor hat sets the fields of the class to the parameter passed.
@@ -30,8 +40,8 @@ public class Player implements Serializable {
     public Player( String  nickName, PersonalGoal personalGoal ){
         this.nickName = nickName;
         this.personalGoal = personalGoal;
-        pointPlayer = new PointPlayer();
-
+        this.bookShelf = new BookShelf();
+        this.pointPlayer = new PointPlayer();
     }
 
     public BookShelf getBookShelf() {

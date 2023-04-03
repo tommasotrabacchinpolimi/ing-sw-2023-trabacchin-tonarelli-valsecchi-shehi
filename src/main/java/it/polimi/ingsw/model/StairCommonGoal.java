@@ -1,15 +1,13 @@
 package it.polimi.ingsw.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
- * {@link StairCommonGoal#StairCommonGoal StairCommonGoal} is a class that represents a generic {@link CommonGoal#CommonGoal CommonGoal} which is satisfied if the {@link BookShelf#BookShelf BookShelf}
- * contains a given number of columns of increasing or decreasing height. Starting from the first column on the left or on the right,
- * each next column must be made of exactly one more tile. In the {@link BookShelf#BookShelf BookShelf}, {@link TileSubject tile} can be of any {@link TileType type}.
+ * StairCommonGoal is a class that represents a generic {@link CommonGoal CommonGoal} which is satisfied if the
+ * {@link BookShelf BookShelf} contains a given number of columns of increasing or decreasing height.
+ * Starting from the first column on the left or on the right, each next column must be made of exactly one more tile.
+ * In the {@link BookShelf}, {@link TileSubject tile} can be of any {@link TileType type}.
  *
  *  @author Melanie Tonarelli
  *  @version 1.0, 24/03/23
@@ -26,6 +24,11 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
      */
     private int numberOfColumns;
 
+    public StairCommonGoal(int numberOfColumns) {
+        super();
+        this.numberOfColumns = numberOfColumns;
+    }
+
     /**
      * Constructor that sets the fields of the class to the parameter passed
      * @param numberOfColumns Number of columns that forms the staircase
@@ -34,13 +37,13 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
      * @see StairCommonGoal#numberOfColumns
      * @see CommonGoal#CommonGoal(String) CommonGoal(String description)
      */
-    public StairCommonGoal(int numberOfColumns, String description){
+    public StairCommonGoal(String description, int numberOfColumns){
         super(description);
         this.numberOfColumns = numberOfColumns;
     }
 
-    public StairCommonGoal(int numberPlayer, int numberOfColumns, String description){
-        super(numberPlayer, description);
+    public StairCommonGoal(Stack<Integer> scoringTokens, String description, int numberOfColumns) {
+        super(scoringTokens, description);
         this.numberOfColumns = numberOfColumns;
     }
 
@@ -63,7 +66,7 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
     }
 
     /**
-     * Method that return <code>null</code> if and only if the {@link StairCommonGoal#StairCommonGoal StairCommonGoal} is not satisfied for the <code>bookShelf</code> passes as argument.
+     * Method that return <code>null</code> if and only if the {@link StairCommonGoal StairCommonGoal} is not satisfied for the <code>bookShelf</code> passes as argument.
      * If the goal is satisfied then the method returns the list of {@link EntryPatternGoal#EntryPatternGoal EntryPatterGoal} representing the
      * cell in the <code>bookShelf</code> forming the staircase made up of {@link StairCommonGoal#numberOfColumns} columns.
      * @param bookShelf Matrix of {@link TileType} referring to the player's <code>bookShelf</code>

@@ -6,7 +6,7 @@ import java.rmi.Remote;
 
 public class User<R extends RemoteInterface> {
     Player player;
-    ConnectionManager<? extends RemoteInterface,R> connectionManager;
+    ConnectionManager<? extends RemoteInterface, R> connectionManager;
     public void setConnectionManager(ConnectionManager<? extends RemoteInterface,R> connectionManager){
         this.connectionManager = connectionManager;
     }

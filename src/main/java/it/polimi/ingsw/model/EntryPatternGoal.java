@@ -158,7 +158,7 @@ public class EntryPatternGoal implements Serializable {
      */
     @Override
     public String toString() {
-        return "row=" + row +
+        return "EntryPatternGoal{row=" + row +
                 ", column=" + column +
                 ", tileType=" + tileType +
                 '}';

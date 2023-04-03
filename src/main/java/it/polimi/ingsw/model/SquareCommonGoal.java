@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
  *SquareCommonGoal is a class that represents a generic CommonGoal which is satisfied iff is possible to find in the BookShelf a given number
  * of square-shaped groups of a given dimension. The tiles of each group must be of the same type.
  */
-
+@Deprecated
 public class SquareCommonGoal extends CommonGoal implements Serializable {
     private static final long serialVersionUID = 4715442695L;
     /**
@@ -24,13 +24,19 @@ public class SquareCommonGoal extends CommonGoal implements Serializable {
      */
     private boolean noAdj;
 
-    public SquareCommonGoal(int groupsNumber, int squareDimPo2, boolean noAdj, String description) {
-        super(description);
+    public SquareCommonGoal(Stack<Integer> scoringTokens, String description, int groupsNumber, int squareDimPo2, boolean noAdj) {
+        super(scoringTokens, description);
         this.groupsNumber = groupsNumber;
         this.squareDimPo2 = squareDimPo2;
         this.noAdj = noAdj;
     }
 
+    public SquareCommonGoal(String description, int groupsNumber, int squareDimPo2, boolean noAdj) {
+        super(description);
+        this.groupsNumber = groupsNumber;
+        this.squareDimPo2 = squareDimPo2;
+        this.noAdj = noAdj;
+    }
 
     public int getGroupsNumber() {
         return groupsNumber;
