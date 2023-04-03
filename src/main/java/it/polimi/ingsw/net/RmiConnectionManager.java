@@ -11,7 +11,6 @@ public class RmiConnectionManager<L extends RemoteInterface,R extends RemoteInte
     private R remoteTarget;
     private NetworkMonitor<R> networkMonitor;
     private User<R> user;
-    private R remoteObject;
     private L localRemoteObject;
 
 
@@ -24,7 +23,6 @@ public class RmiConnectionManager<L extends RemoteInterface,R extends RemoteInte
         UnicastRemoteObject.exportObject(localRemoteObject,portNumber);
         this.user = user;
         this.networkMonitor = networkMonitor;
-        this.remoteObject = remoteObject;
         RmiHeartBeater<L,R> rmiHeartBeater = new RmiHeartBeater<>(remoteObject,5000,this);
         new Thread(rmiHeartBeater).start();
     }
@@ -36,7 +34,6 @@ public class RmiConnectionManager<L extends RemoteInterface,R extends RemoteInte
         this.localRemoteObject = localRemoteObject;
         this.networkMonitor = networkMonitor;
         this.user = null;
-        this.remoteObject = remoteObject;
         RmiHeartBeater<L,R> rmiHeartBeater = new RmiHeartBeater<>(remoteObject,5000,this);
         new Thread(rmiHeartBeater).start();
     }

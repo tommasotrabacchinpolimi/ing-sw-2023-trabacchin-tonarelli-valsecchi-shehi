@@ -3,7 +3,7 @@ package it.polimi.ingsw.net;
 import java.beans.Statement;
 import java.lang.reflect.Method;
 
-public class UserAdapter<R extends ClientInterface> implements UserAdapterInterface<R>{
+public class UserAdapter<R extends RemoteInterface> implements UserAdapterInterface<R>{
     private User<R> user;
     private Object target;
     @Override

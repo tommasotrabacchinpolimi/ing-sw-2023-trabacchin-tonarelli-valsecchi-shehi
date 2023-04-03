@@ -9,7 +9,7 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.function.Supplier;
 
-public class SocketAccepter<L extends ServerInterface<R>, R extends ClientInterface> implements Runnable{
+public class SocketAccepter<L extends RemoteInterface, R extends RemoteInterface> implements Runnable{
     private final int portNumber;
     private final NetworkMonitor<R> networkMonitor;
     private final Object localTarget;
