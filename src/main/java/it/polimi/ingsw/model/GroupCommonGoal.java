@@ -3,13 +3,23 @@ package it.polimi.ingsw.model;
 import java.io.Serializable;
 import java.util.*;
 
+/**
+ *
+ */
+@Deprecated
 public class GroupCommonGoal extends CommonGoal implements Serializable {
     private static final long serialVersionUID = 4656354678637L;
     private int groupsNumber;
     private int adjacentTilesPo2;//Numero di tiles nei gruppi, espresso come potenza di due. Per esempio, se il numero è 4 allora questo attributo deve essere impostato a 2.
 
-    public GroupCommonGoal(int groupsNumber, int adjacentTilesPo2, String description){
+    public GroupCommonGoal(String description, int groupsNumber, int adjacentTilesPo2){
         super(description);
+        this.groupsNumber = groupsNumber;
+        this.adjacentTilesPo2 = adjacentTilesPo2;
+    }
+
+    public GroupCommonGoal(Stack<Integer> scoringTokens, String description, int groupsNumber, int adjacentTilesPo2){
+        super(scoringTokens, description);
         this.groupsNumber = groupsNumber;
         this.adjacentTilesPo2 = adjacentTilesPo2;
     }

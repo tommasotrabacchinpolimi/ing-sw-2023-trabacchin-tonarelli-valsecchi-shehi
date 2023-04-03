@@ -1,47 +1,85 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.JSONExclusionStrategy.ExcludedFromJSON;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.Stack;
 
+/**
+ * <p>Default value for:
+ * <ul>
+ *     <li>{@link #scoringTokens scoring tokens stack} is not a {@code null} reference, but an empty sets of element</li>
+ *     <li>{@link #description description} is "Empty description"</li>
+ * </ul>
+ * </p>
+ */
 public abstract class CommonGoal implements Serializable {
     private static final long serialVersionUID = 285236373L;
 
     /**
-     * Values of the available score that will be assigned to the next player that will satisfy that exact CommonGoal
+     * Values of the available score that will be assigned to the next player that will satisfy that exact CommonGoal.
+     * This field represent the scoring tokens associated with the common goal card.
+     *
+     * @see CommonGoal
      */
+    @ExcludedFromJSON
     private final Stack<Integer> scoringTokens;
+
     /**
-     * Textual description of the Common Goal
+     * Explanation for the Common Goal Card
+     *
+     * @see CommonGoal
      */
     private final String description;
 
-    public CommonGoal(Stack<Integer> scoringTokens, String description) {
-        this.scoringTokens = scoringTokens;
-        this.description = description;
+    /**
+     * <p>Create a common goal with default values for both {@linkplain #scoringTokens scoring tokens stack} and
+     * {@linkplain #description explanation of the card}</p>
+     *
+     * @see CommonGoal
+     */
+    public CommonGoal() {
+        this.scoringTokens = new Stack<>();
+        this.description = "Empty Description";
     }
 
+    /**
+     * <p>Create a common goal with default values for {@linkplain #scoringTokens scoring tokens stack}. On the other
+     * hand the {@linkplain #description explanation of the card} is set according to the parameter</p>
+     *
+     * @param description explanation of common goal card
+     */
     public CommonGoal(String description){
         this.scoringTokens = new Stack<>();
         this.description = description;
     }
 
-    public CommonGoal(int numberPlayer, String description){
-        this.scoringTokens = new Stack<>();
-        initScoringTokens(numberPlayer);
+    /**
+     * <p>Create a common goal with default values for {@linkplain #description explanation of the card}.
+     * On the other hand the {@linkplain #scoringTokens scoring tokens stack} is set according to the parameter</p>
+     *
+     * @param scoringTokens scoring tokens stack
+     */
+    public CommonGoal(Stack<Integer> scoringTokens) {
+        this.scoringTokens = scoringTokens;
+        this.description = "Empty Description";
+    }
+
+    /**
+     * <p>Create a common goal with values corresponding to the parameter for both
+     * {@linkplain #scoringTokens scoring tokens stack} and {@linkplain #description explanation of the card}</p>
+     *
+     * @param scoringTokens scoring tokens stack
+     * @param description explanation of common goal card
+     */
+    public CommonGoal(Stack<Integer> scoringTokens, String description) {
+        this.scoringTokens = scoringTokens;
         this.description = description;
     }
 
     public int getAvailableScore() {
-        if(scoringTokens.size()==0) return 0;
-        return scoringTokens.pop();
-    }
-
-    public void initScoringTokens(int numberOfPlayers){
-        if(numberOfPlayers == 4) this.scoringTokens.push(2);
-        this.scoringTokens.push(4);
-        if (numberOfPlayers >= 3) this.scoringTokens.push(6);
-        this.scoringTokens.push(8);
+        return (scoringTokens.size() == 0) ? 0 : scoringTokens.pop();
     }
 
     /**
@@ -53,14 +91,13 @@ public abstract class CommonGoal implements Serializable {
     }
 
     /**
-     * The method returns {@code null} if the {@link CommonGoal} is not satisfied for the {@code bookShelf} argument.
-     * If the common goal is satisfied then the method returns a list of the {@link EntryPatternGoal EntryPatternGoals}
-     * representing the {@link TileType tiles} in the {@link BookShelf} that satisfy the {@link CommonGoal}.
+     * <p>The method returns {@code null} if the {@link CommonGoal} is not satisfied for the {@code bookShelf} argument.</p>
+     * <p>If the common goal is satisfied then the method returns a list of the {@link EntryPatternGoal EntryPatternGoals}
+     * representing the {@link TileType tiles} in the {@link BookShelf} that satisfy the {@link CommonGoal}.</p>
      *
      * @param bookShelf the {@link BookShelf bookshelf} to be checked
      * @return <ul><li>{@code null} if the {@link CommonGoal} is not satisfied</li>
      * <li>list of {@link EntryPatternGoal} that satisfied the {@link CommonGoal} otherwise</li></ul>
      */
     public abstract List<EntryPatternGoal> rule(TileType[][] bookShelf);
-
 }

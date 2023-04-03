@@ -14,8 +14,7 @@ class StairCommonGoalTest {
     void getNumberOfColumns() {
         Random rnd = new Random();
         int numberOfColumns = rnd.nextInt();
-        int numberPlayer = 3;
-        StairCommonGoal goal = new StairCommonGoal(numberPlayer, numberOfColumns, "Description");
+        StairCommonGoal goal = new StairCommonGoal(numberOfColumns);
         assertEquals(numberOfColumns, goal.getNumberOfColumns());
     }
 
@@ -23,8 +22,7 @@ class StairCommonGoalTest {
     void setNumberOfColumns() {
         Random rnd = new Random();
         int numberOfColumns = rnd.nextInt();
-        int numberPlayer = 2;
-        StairCommonGoal goal = new StairCommonGoal(numberPlayer, 1, "Description");
+        StairCommonGoal goal = new StairCommonGoal(1);
         goal.setNumberOfColumns(numberOfColumns);
         assertEquals(numberOfColumns, goal.getNumberOfColumns());
     }
@@ -32,23 +30,22 @@ class StairCommonGoalTest {
     @Test
     void rule() {
         int numberOfColumns, index, numberPlayer;
-        numberPlayer = 3;
         numberOfColumns = 7;
-        StairCommonGoal goal = new StairCommonGoal(numberPlayer, numberOfColumns, "Description");
+        StairCommonGoal goal = new StairCommonGoal(numberOfColumns);
         assertNull(goal.rule(createStairDesign(1))); //testing illegal parameter
 
         numberOfColumns = 6;
-        goal = new StairCommonGoal(numberPlayer, numberOfColumns, "Description");
+        goal = new StairCommonGoal(numberOfColumns);
         assertNull(goal.rule(createStairDesign(1))); //testing illegal parameter
 
        for(index = 1; index <= 6; index++){
             for(numberOfColumns = 2; numberOfColumns <= 5; numberOfColumns++){
                 if ( (index == 4 && numberOfColumns !=2) || index == 5 || (index == 6 && numberOfColumns == 5)) {
-                    goal = new StairCommonGoal(numberPlayer, numberOfColumns, "Description");
+                    goal = new StairCommonGoal(numberOfColumns);
                     assertNull(getExpectedResult(index,numberOfColumns));
                 } else {
                     for (int i = 0; i < getExpectedResult(index, numberOfColumns).size(); i++) {
-                        goal = new StairCommonGoal(numberPlayer,numberOfColumns, "Description");
+                        goal = new StairCommonGoal(numberOfColumns);
                         assertEquals(getExpectedResult(index, numberOfColumns).get(i).toString(),
                                 goal.rule(createStairDesign(index)).get(i).toString());
                     }

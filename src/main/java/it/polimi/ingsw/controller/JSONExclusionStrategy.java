@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 public class JSONExclusionStrategy implements ExclusionStrategy {
     @Override
     public boolean shouldSkipField(FieldAttributes f) {
-        return f.getAnnotation(ExcludeInJSON.class) != null;
+        return f.getAnnotation(ExcludedFromJSON.class) != null;
     }
 
     @Override
@@ -28,6 +28,6 @@ public class JSONExclusionStrategy implements ExclusionStrategy {
      */
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.FIELD)
-    public @interface ExcludeInJSON {}
+    public @interface ExcludedFromJSON {}
 }
 

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Stack;
 
 /**
  *  {@link LineCommonGoal} is a class that represents a generic {@link CommonGoal} which is satisfied if the {@link BookShelf} contains a given number
@@ -54,8 +55,17 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
      */
     private int[] differentTiles;
 
+    public LineCommonGoal(int incRow, int incCol, int linesNumber, int numberOfTiles, int[] differentTiles) {
+        super();
+        this.incRow = incRow;
+        this.incCol = incCol;
+        this.linesNumber = linesNumber;
+        this.numberOfTiles = numberOfTiles;
+        this.differentTiles = removeDuplicateAndSort(differentTiles);
+    }
+
     /**
-     * The method used for creating the SquareCommonGoal.
+     * Used to create the SquareCommonGoal.
      * @param incRow         Increment of row, that is set to 1 if and only if the lines that have to satisfy the condition are rows of a matrix.
      * @param incCol         Increment of column, that is set to 1 if and only if the lines that have to satisfy the condition are columns of a matrix.
      * @param linesNumber    The number of lines that needs to satisfy the condition.
@@ -70,7 +80,7 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
      * @see LineCommonGoal#numberOfTiles
      * @see LineCommonGoal#differentTiles
      */
-    public LineCommonGoal(int incRow, int incCol, int linesNumber, int numberOfTiles, int[] differentTiles, String description) {
+    public LineCommonGoal(String description, int incRow, int incCol, int linesNumber, int numberOfTiles, int[] differentTiles) {
         super(description);
         this.incRow = incRow;
         this.incCol = incCol;
@@ -79,8 +89,8 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
         this.differentTiles = removeDuplicateAndSort(differentTiles);
     }
 
-    public LineCommonGoal(int numberPlayer, int incRow, int incCol, int linesNumber, int numberOfTiles, int[] differentTiles, String description) {
-        super(numberPlayer,description);
+    public LineCommonGoal(Stack<Integer> scoringTokens, String description, int incRow, int incCol, int linesNumber, int numberOfTiles, int[] differentTiles) {
+        super(scoringTokens, description);
         this.incRow = incRow;
         this.incCol = incCol;
         this.linesNumber = linesNumber;
@@ -184,15 +194,18 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
     }
 
     /**
-     * The method returns {@code null} if the {@link LineCommonGoal#LineCommonGoal LineCommonGoal} is not satisfied for the {@code bookShelf} passes as argument.
-     * If the {@link LineCommonGoal#LineCommonGoal LineCommonGoal} is satisfied then the method returns the list of the {@link EntryPatternGoal#EntryPatternGoal EntryPatternGoal} representing
-     * the cell in the <code>bookShelf</code> that satisfy the {@link LineCommonGoal#LineCommonGoal LineCommonGoal}.
+     * The method returns {@code null} if the {@link LineCommonGoal} is not satisfied for
+     * the {@code bookShelf} passes as argument.
+     * If the {@link LineCommonGoal} is satisfied then the method returns the list of the
+     * {@link EntryPatternGoal EntryPatternGoal} representing
+     * the cell in the <code>bookShelf</code> that satisfy the {@link LineCommonGoal LineCommonGoal}.
+     *
      * @param bookShelf The bookShelf to check for the goal.
      * @return <code>null</code> if the goal is not satisfied, otherwise the list of the {@link EntryPatternGoal#EntryPatternGoal EntryPatternGoal} representing
      * the cell in the {@code bookShelf} that satisfy the goal.
      *
      * @see EntryPatternGoal
-     * @see LineCommonGoal#containsNumber(int)
+     * @see LineCommonGoal#containsNumber(int count)
      */
     @Override
     public List<EntryPatternGoal> rule(TileType[][] bookShelf) {

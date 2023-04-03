@@ -6,6 +6,7 @@ import java.util.*;
 public class ShapeCommonGoal extends CommonGoal implements Serializable {
     private static final long serialVersionUID = 746524795L;
     private int tileNumber;
+
     /**
      * the list of array elements needed to this class to implement the Shape-CommonGoal
      *
@@ -17,19 +18,25 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
      */
     private List<Integer[]> ruleShape;
 
+    public ShapeCommonGoal(int tileNumber, List<Integer[]> ruleShape) {
+        super();
+        this.tileNumber = tileNumber;
+        this.ruleShape = ruleShape;
+    }
+
     /**
      *
      * @param tileNumber it is the number of the array in the list of arrays.
      * @param ruleShape It is the list of arrays that permit to implement the function rule.
      */
-    public ShapeCommonGoal(int tileNumber, List<Integer[]> ruleShape, String description) {
+    public ShapeCommonGoal(String description, int tileNumber, List<Integer[]> ruleShape) {
         super(description);
         this.tileNumber = tileNumber;
         this.ruleShape = ruleShape;
     }
 
-    public ShapeCommonGoal(int numberPlayer, int tileNumber, List<Integer[]> ruleShape, String description) {
-        super(numberPlayer, description);
+    public ShapeCommonGoal(Stack<Integer> scoringTokens, String description, int tileNumber, List<Integer[]> ruleShape) {
+        super(scoringTokens, description);
         this.tileNumber = tileNumber;
         this.ruleShape = ruleShape;
     }

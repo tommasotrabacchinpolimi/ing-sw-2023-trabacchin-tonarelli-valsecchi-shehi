@@ -22,7 +22,6 @@ public class GameManager<R extends RemoteInterface> {
     }
 
     private Controller getController() {
-
         return controller;
     }
 
@@ -165,4 +164,18 @@ public class GameManager<R extends RemoteInterface> {
         controller.getState().setPlayersNumber(playersNumber);
     }
 
+    public void initScoringTokens(){
+        Stack<Integer> scoringTokens = new Stack<>();
+
+        int numberOfPlayers = controller.getState().getPlayersNumber();
+
+        if(numberOfPlayers == 4)
+            scoringTokens.push(2);
+
+        scoringTokens.push(4);
+        if (numberOfPlayers >= 3)
+            scoringTokens.push(6);
+
+        scoringTokens.push(8);
+    }
 }

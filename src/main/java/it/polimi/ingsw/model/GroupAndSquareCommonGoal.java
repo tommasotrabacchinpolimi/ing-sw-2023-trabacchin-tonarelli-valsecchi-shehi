@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ *
+ */
 public class GroupAndSquareCommonGoal extends CommonGoal implements Serializable {
 
     /**
@@ -26,6 +29,15 @@ public class GroupAndSquareCommonGoal extends CommonGoal implements Serializable
     private boolean separated;//flag per indicare se i gruppi devono essere separati
     private boolean sameTypeOnly;//flag per indicare se i gruppi trovati devono essere tutti dello stesso tipo
 
+    public GroupAndSquareCommonGoal(int groupsNumber, int adjacentTilesPo2, boolean square, boolean separated, boolean sameTypeOnly) {
+        super();
+        this.groupsNumber = groupsNumber;
+        this.adjacentTilesPo2 = adjacentTilesPo2;
+        this.square = square;
+        this.separated = separated;
+        this.sameTypeOnly = sameTypeOnly;
+    }
+
     public GroupAndSquareCommonGoal(String description, int groupsNumber, int adjacentTilesPo2, boolean square, boolean separated, boolean sameTypeOnly) {
         super(description);
         this.groupsNumber = groupsNumber;
@@ -35,14 +47,24 @@ public class GroupAndSquareCommonGoal extends CommonGoal implements Serializable
         this.sameTypeOnly = sameTypeOnly;
     }
 
-    public GroupAndSquareCommonGoal(int numberPlayer, String description, int groupsNumber, int adjacentTilesPo2, boolean square, boolean separated, boolean sameTypeOnly) {
-        super(numberPlayer, description);
+    public GroupAndSquareCommonGoal(Stack<Integer> scoringTokens, int groupsNumber, int adjacentTilesPo2, boolean square, boolean separated, boolean sameTypeOnly) {
+        super(scoringTokens);
         this.groupsNumber = groupsNumber;
         this.adjacentTilesPo2 = adjacentTilesPo2;
         this.square = square;
         this.separated = separated;
         this.sameTypeOnly = sameTypeOnly;
     }
+
+    public GroupAndSquareCommonGoal(Stack<Integer> scoringTokens, String description, int groupsNumber, int adjacentTilesPo2, boolean square, boolean separated, boolean sameTypeOnly) {
+        super(scoringTokens, description);
+        this.groupsNumber = groupsNumber;
+        this.adjacentTilesPo2 = adjacentTilesPo2;
+        this.square = square;
+        this.separated = separated;
+        this.sameTypeOnly = sameTypeOnly;
+    }
+
     public int getGroupsNumber() {
         return groupsNumber;
     }

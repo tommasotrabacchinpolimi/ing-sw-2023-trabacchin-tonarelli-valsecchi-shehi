@@ -11,19 +11,20 @@ class CommonGoalTest {
     @Test
     void getAvailableScore() {
         int numberPlayer = 2;
+
         Stack<Integer> stack = new Stack<>();
         stack.push(4);
         stack.push(8);
-        CommonGoal goal = new StairCommonGoal(5, "Description");
-        goal.initScoringTokens(numberPlayer);
+
+        CommonGoal goal = new StairCommonGoal(5);
+
         assertEquals(stack.pop(), goal.getAvailableScore());
         assertEquals(stack.pop(), goal.getAvailableScore());
     }
 
     @Test
     void getDescription() {
-        CommonGoal goal = new StairCommonGoal(5, "Description added.");
-        goal.initScoringTokens(4);
+        CommonGoal goal = new StairCommonGoal("Description added.", 5);
         assertEquals("Description added.", goal.getDescription());
     }
 
@@ -34,18 +35,19 @@ class CommonGoalTest {
         stack.push(4);
         stack.push(6);
         stack.push(8);
-        CommonGoal goal = new StairCommonGoal(5, "Description");
-        goal.initScoringTokens(numberPlayer);
+        CommonGoal goal = new StairCommonGoal(5);
+
         for(int i = 0; i < numberPlayer; i++){
             assertEquals(stack.pop(), goal.getAvailableScore());
         }
+
         assertEquals(0, goal.getAvailableScore());
         numberPlayer = 4;
         stack.push(2);
         stack.push(4);
         stack.push(6);
         stack.push(8);
-        goal.initScoringTokens(numberPlayer);
+        //goal.initScoringTokens(numberPlayer);
         for(int i = 0; i < numberPlayer; i++){
             assertEquals(stack.pop(), goal.getAvailableScore());
         }

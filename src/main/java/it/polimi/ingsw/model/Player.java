@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.controller.JSONExclusionStrategy.ExcludeInJSON;
+import it.polimi.ingsw.controller.JSONExclusionStrategy.ExcludedFromJSON;
 
 import java.io.Serializable;
 
@@ -16,11 +16,11 @@ import java.io.Serializable;
 public class Player implements Serializable {
     private static final long serialVersionUID = 97354642643274L;
     private final String nickName;
-    @ExcludeInJSON
+    @ExcludedFromJSON
     private final PersonalGoal personalGoal;
-    @ExcludeInJSON
+    @ExcludedFromJSON
     private BookShelf bookShelf;
-    @ExcludeInJSON
+    @ExcludedFromJSON
     private PointPlayer pointPlayer;
 
     public Player(String nickName) {
