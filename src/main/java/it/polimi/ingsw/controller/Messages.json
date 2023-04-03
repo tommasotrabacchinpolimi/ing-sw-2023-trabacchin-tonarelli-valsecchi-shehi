@@ -1,0 +1,58 @@
+[
+  {
+    "sender": {
+      "nickName": "nick"
+    },
+    "receivers": [
+      {
+        "nickName": "nick1"
+      },
+      {
+        "nickName": "nick2"
+      },
+      {
+        "nickName": "nick3"
+      }
+    ],
+    "text": "message content 762587033"
+  },
+  {
+    "sender": {
+      "nickName": "nick"
+    },
+    "receivers": [
+      {
+        "nickName": "nick1"
+      }
+    ],
+    "text": "message content -943688870"
+  },
+  {
+    "sender": {
+      "nickName": "nick"
+    },
+    "receivers": [
+      {
+        "nickName": "nick1"
+      },
+      {
+        "nickName": "nick2"
+      }
+    ],
+    "text": "message content -181488335"
+  },
+  {
+    "sender": {
+      "nickName": "nick"
+    },
+    "receivers": [
+      {
+        "nickName": "nick1"
+      },
+      {
+        "nickName": "nick2"
+      }
+    ],
+    "text": "message content 982825033"
+  }
+]
