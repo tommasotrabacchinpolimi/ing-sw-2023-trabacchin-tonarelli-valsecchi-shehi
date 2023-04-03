@@ -84,7 +84,7 @@ public class GameManager<R extends RemoteInterface> {
         bookShelf.addTileSubjectTaken(tiles,chosenColumn);
         verifyEndGame(user);
         if(verifyRefillBoard()){
-            getController().getState().getBoard().refillBoardIta(getController().getState().getPlayersNumber());
+            getController().getState().getBoard().refillBoard(getController().getState().getPlayersNumber());
         }
         evaluateFinalScore(player);
         verifyCommonGoal(user);
