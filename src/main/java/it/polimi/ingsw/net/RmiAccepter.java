@@ -6,7 +6,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.function.Supplier;
 
 import com.google.gson.reflect.TypeToken;
-public class RmiAccepter<L extends ServerInterface<R>,R extends ClientInterface> implements RemoteAccepterInterface<L,R>{
+public class RmiAccepter<L extends RemoteInterface,R extends RemoteInterface> implements RemoteAccepterInterface<L,R>{
     private final NetworkMonitor<R> networkMonitor;
     private final ExecutorService executorService;
     private final UserAccepter<R> userAccepter;

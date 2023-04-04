@@ -10,11 +10,11 @@ import java.util.concurrent.Executors;
 public class ClientTest<R extends RemoteInterface> implements TestClientInterface, NetworkMonitor<R>{
 
     public static void main(String[] args) throws IOException {
-        ClientTest<TestServerInterface<TestClientInterface>> clientTest = new ClientTest<>();
+        ClientTest<TestServerInterface> clientTest = new ClientTest<>();
         ExecutorService executorService = Executors.newCachedThreadPool();
-        TypeToken<TestServerInterface<TestClientInterface>> typeToken = new TypeToken<>(){};
-        SocketConnectionManager<TestClientInterface,TestServerInterface<TestClientInterface>> socketConnectionManager = ConnectionBuilder.buildSocketConnection("localhost",2147,clientTest,clientTest,typeToken,executorService);
-        TestServerInterface<TestClientInterface> serverInterface = socketConnectionManager.getRemoteTarget();
+        TypeToken<TestServerInterface> typeToken = new TypeToken<>(){};
+        SocketConnectionManager<TestClientInterface,TestServerInterface> socketConnectionManager = ConnectionBuilder.buildSocketConnection("localhost",2147,clientTest,clientTest,typeToken,executorService);
+        TestServerInterface serverInterface = socketConnectionManager.getRemoteTarget();
         serverInterface.check("ciao!!!!");
     }
 

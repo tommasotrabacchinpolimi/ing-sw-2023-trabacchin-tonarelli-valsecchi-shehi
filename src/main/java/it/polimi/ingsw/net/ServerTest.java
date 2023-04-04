@@ -13,9 +13,9 @@ public class ServerTest<R extends RemoteInterface> implements NetworkMonitor<R>,
         ServerTest<TestClientInterface> serverTest = new ServerTest<>();
         ExecutorService executorService = Executors.newCachedThreadPool();
         TypeToken<TestClientInterface> typeToken = new TypeToken<>(){};
-        TypeToken<TestServerInterface<TestClientInterface>> typeToken1 = new TypeToken<>(){};
+        TypeToken<TestServerInterface> typeToken1 = new TypeToken<>(){};
         Supplier<UserAdapterInterface<TestClientInterface>> userAdapterInterfaceSupplier = UserAdapter::new;
-        SocketAccepter<TestServerInterface<TestClientInterface>,TestClientInterface> socketAccepter = new SocketAccepter<TestServerInterface<TestClientInterface>,TestClientInterface>(2147,serverTest,serverTest,serverTest,typeToken,executorService,userAdapterInterfaceSupplier,typeToken1);
+        SocketAccepter<TestServerInterface,TestClientInterface> socketAccepter = new SocketAccepter<TestServerInterface,TestClientInterface>(2147,serverTest,serverTest,serverTest,typeToken,executorService,userAdapterInterfaceSupplier,typeToken1);
         new Thread(socketAccepter).start();
         System.out.println("Server pronto");
     }
