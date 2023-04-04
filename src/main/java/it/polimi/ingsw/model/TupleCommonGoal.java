@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 /**
  *
+ * @apiNote Valid combination of the parameters values are the following : (groupsNumber = 6, adjacentTilesPo2 = 1, square = false, separate = true, sameTypeOnly = false), (groupsNumber = 4, adjacentTilesPo2 = 2, square = false, separate = true, sameTypeOnly = false), (groupsNumber = 2, adjacentTilesPo2 = 2, square = true, separate = true, sameTypeOnly = true), (groupsNumber = 8, adjacentTilesPo2 = 0, square = true, separate = false, sameTypeOnly = true)
  */
 public class TupleCommonGoal extends CommonGoal implements Serializable {
 
