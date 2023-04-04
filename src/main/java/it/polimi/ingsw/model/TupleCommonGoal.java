@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.JSONExclusionStrategy.ExcludedFromJSON;
+
 import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -13,20 +15,25 @@ public class TupleCommonGoal extends CommonGoal implements Serializable {
      * Group number: number of groups searched
      * Its values can be 2, 4, 6 and 8
      */
+    @ExcludedFromJSON
     private int groupsNumber;
 
     /**
      * AdjacentTilesPo2: Cardinality of a single group as power of 2
      * Its values can be 1, 2 and 4
      */
+    @ExcludedFromJSON
     private int adjacentTilesPo2;//numero, come potenza di due, delle tessere in ogni gruppo
 
     /**
      * Square: flag to identify a square-shape of a group
      * @apiNote true value checks for square shape
      */
+    @ExcludedFromJSON
     private boolean square;//flag per indicare se i gruppi devono essere quadrati
+    @ExcludedFromJSON
     private boolean separated;//flag per indicare se i gruppi devono essere separati
+    @ExcludedFromJSON
     private boolean sameTypeOnly;//flag per indicare se i gruppi trovati devono essere tutti dello stesso tipo
 
     public TupleCommonGoal(int groupsNumber, int adjacentTilesPo2, boolean square, boolean separated, boolean sameTypeOnly) {

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.JSONExclusionStrategy.ExcludedFromJSON;
+
 import java.io.Serializable;
 import java.util.*;
 
@@ -22,6 +24,7 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
      * @see StairCommonGoal#getNumberOfColumns()  getNumberOfColumns()
      * @see StairCommonGoal#setNumberOfColumns(int) setNumberOfColumns(int)
      */
+    @ExcludedFromJSON
     private int numberOfColumns;
 
     public StairCommonGoal(int numberOfColumns) {

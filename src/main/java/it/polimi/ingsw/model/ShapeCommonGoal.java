@@ -1,10 +1,13 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.JSONExclusionStrategy.ExcludedFromJSON;
+
 import java.io.Serializable;
 import java.util.*;
 
 public class ShapeCommonGoal extends CommonGoal implements Serializable {
     private static final long serialVersionUID = 746524795L;
+    @ExcludedFromJSON
     private int tileNumber;
 
     /**
@@ -16,6 +19,7 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
      * to finds if there is a common-goal. This class makes the check of 3 candidate
      * common-goals (Common-goal 2, 3, 10).
      */
+    @ExcludedFromJSON
     private List<Integer[]> ruleShape;
 
     public ShapeCommonGoal(int tileNumber, List<Integer[]> ruleShape) {

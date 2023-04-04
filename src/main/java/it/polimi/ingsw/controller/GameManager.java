@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.net.RemoteInterface;
@@ -10,8 +11,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.*;
 import java.util.function.Function;
-
-import static it.polimi.ingsw.model.BoardSquareType.THREE_DOTS;
 
 public class GameManager<R extends RemoteInterface> {
     private Controller controller;
@@ -187,6 +186,7 @@ public class GameManager<R extends RemoteInterface> {
     public void initCommonGoalDescription() {
         Gson gson = new Gson();
         JsonReader reader;
+        TypeToken<ShapeCommonGoal> typeToken = new TypeToken<ShapeCommonGoal>(){};
 
         try {
             reader = new JsonReader(new FileReader(COMMON_GOAL_DESCRIPTION));
@@ -194,8 +194,6 @@ public class GameManager<R extends RemoteInterface> {
             throw new RuntimeException(e);
         }
 
-        String description = gson.fromJson(reader, String.class);
-
-        System.out.println(description);
+        CommonGoal commonGoal = gson.fromJson(reader, typeToken);
     }
 }
