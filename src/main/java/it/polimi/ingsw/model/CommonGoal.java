@@ -7,6 +7,11 @@ import java.util.List;
 import java.util.Stack;
 
 /**
+ * <p>This class is used to define a generic standard structure for all common goal cards.
+ * Each common goal card have its own {@link #description explanation} and a set of {@link #scoringTokens points} associated.
+ * The set of points associated to the card are ordered from the higher to the lower and only the higher number present can be
+ * retrieved, which is also the top-leve number. Then the functioning of the points is a sort of stack.</p>
+ *
  * <p>Default value for:
  * <ul>
  *     <li>{@link #scoringTokens scoring tokens stack} is not a {@code null} reference, but an empty sets of element</li>
