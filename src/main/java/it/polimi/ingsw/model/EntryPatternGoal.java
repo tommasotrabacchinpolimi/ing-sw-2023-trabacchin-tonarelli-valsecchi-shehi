@@ -13,7 +13,7 @@ import java.util.Objects;
  * @see PersonalGoal
  * @see TileType
  * @see CommonGoal
- * @see GroupAndSquareCommonGoal
+ * @see TupleCommonGoal
  * @see GroupCommonGoal
  * @see ShapeCommonGoal
  * @see SquareCommonGoal

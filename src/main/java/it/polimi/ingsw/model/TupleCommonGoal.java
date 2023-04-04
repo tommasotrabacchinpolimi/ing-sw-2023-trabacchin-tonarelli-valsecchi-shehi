@@ -7,13 +7,13 @@ import java.util.stream.Collectors;
 /**
  *
  */
-public class GroupAndSquareCommonGoal extends CommonGoal implements Serializable {
+public class TupleCommonGoal extends CommonGoal implements Serializable {
 
     /**
      * Group number: number of groups searched
      * Its values can be 2, 4, 6 and 8
      */
-    private int groupsNumber;//numero dei gruppi cercati
+    private int groupsNumber;
 
     /**
      * AdjacentTilesPo2: Cardinality of a single group as power of 2
@@ -29,7 +29,7 @@ public class GroupAndSquareCommonGoal extends CommonGoal implements Serializable
     private boolean separated;//flag per indicare se i gruppi devono essere separati
     private boolean sameTypeOnly;//flag per indicare se i gruppi trovati devono essere tutti dello stesso tipo
 
-    public GroupAndSquareCommonGoal(int groupsNumber, int adjacentTilesPo2, boolean square, boolean separated, boolean sameTypeOnly) {
+    public TupleCommonGoal(int groupsNumber, int adjacentTilesPo2, boolean square, boolean separated, boolean sameTypeOnly) {
         super();
         this.groupsNumber = groupsNumber;
         this.adjacentTilesPo2 = adjacentTilesPo2;
@@ -38,7 +38,7 @@ public class GroupAndSquareCommonGoal extends CommonGoal implements Serializable
         this.sameTypeOnly = sameTypeOnly;
     }
 
-    public GroupAndSquareCommonGoal(String description, int groupsNumber, int adjacentTilesPo2, boolean square, boolean separated, boolean sameTypeOnly) {
+    public TupleCommonGoal(String description, int groupsNumber, int adjacentTilesPo2, boolean square, boolean separated, boolean sameTypeOnly) {
         super(description);
         this.groupsNumber = groupsNumber;
         this.adjacentTilesPo2 = adjacentTilesPo2;
@@ -47,7 +47,7 @@ public class GroupAndSquareCommonGoal extends CommonGoal implements Serializable
         this.sameTypeOnly = sameTypeOnly;
     }
 
-    public GroupAndSquareCommonGoal(Stack<Integer> scoringTokens, int groupsNumber, int adjacentTilesPo2, boolean square, boolean separated, boolean sameTypeOnly) {
+    public TupleCommonGoal(Stack<Integer> scoringTokens, int groupsNumber, int adjacentTilesPo2, boolean square, boolean separated, boolean sameTypeOnly) {
         super(scoringTokens);
         this.groupsNumber = groupsNumber;
         this.adjacentTilesPo2 = adjacentTilesPo2;
@@ -56,7 +56,7 @@ public class GroupAndSquareCommonGoal extends CommonGoal implements Serializable
         this.sameTypeOnly = sameTypeOnly;
     }
 
-    public GroupAndSquareCommonGoal(Stack<Integer> scoringTokens, String description, int groupsNumber, int adjacentTilesPo2, boolean square, boolean separated, boolean sameTypeOnly) {
+    public TupleCommonGoal(Stack<Integer> scoringTokens, String description, int groupsNumber, int adjacentTilesPo2, boolean square, boolean separated, boolean sameTypeOnly) {
         super(scoringTokens, description);
         this.groupsNumber = groupsNumber;
         this.adjacentTilesPo2 = adjacentTilesPo2;
