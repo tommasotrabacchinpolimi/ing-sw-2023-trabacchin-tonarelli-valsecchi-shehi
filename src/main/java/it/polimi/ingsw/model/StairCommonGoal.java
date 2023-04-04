@@ -13,6 +13,7 @@ import java.util.*;
  *
  *  @author Melanie Tonarelli
  *  @version 1.0, 24/03/23
+ *  @apiNote Valid combination of the parameters values are the following : (numberOfColumns = 5)
  *  @see CommonGoal
  *  @see BookShelf
  *  @see EntryPatternGoal

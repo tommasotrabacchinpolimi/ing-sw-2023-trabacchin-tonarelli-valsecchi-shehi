@@ -14,6 +14,11 @@ import java.util.Stack;
  *
  *  @author Melanie Tonarelli
  *  @version 1.0, 25/03/23
+ *  @apiNote Valid combination of the parameters values are the following :
+ *          (incRow = 1, incCol = 0, linesNumber = 4, numberOfTiles = 5, differentTiles = {1,2,3}),
+ *          (incRow = 1, incCol = 0, linesNumber = 2, numberOfTiles = 5, differentTiles = {5}),
+ *          (incRow = 0, incCol = 1, linesNumber = 3, numberOfTiles = 6, differentTiles = {1,2,3}) e
+ *          (incRow = 0, incCol = 1, linesNumber = 2, numberOfTiles = 6, differentTiles = {6})
  *  @see CommonGoal
  *  @see BookShelf
  *  @see EntryPatternGoal
