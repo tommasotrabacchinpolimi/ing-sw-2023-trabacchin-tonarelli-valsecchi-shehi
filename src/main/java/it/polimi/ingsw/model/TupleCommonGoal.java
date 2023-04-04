@@ -17,28 +17,36 @@ public class TupleCommonGoal extends CommonGoal implements Serializable {
     private static final long serialVersionUID = 1427495031L;
 
     /**
-     * Group number: number of groups searched
-     * Its values can be 2, 4, 6 and 8
+     * Number of groups searched
+     * @apiNote Its values can be 2, 4, 6 or 8
      */
-    @ExcludedFromJSON
     private int groupsNumber;
 
     /**
-     * AdjacentTilesPo2: Cardinality of a single group as power of 2
-     * Its values can be 1, 2 and 4
+     * Cardinality of a single group as power of 2
+     * @apiNote Its values can be 1, 2 and 4
      */
-    @ExcludedFromJSON
-    private int adjacentTilesPo2;//numero, come potenza di due, delle tessere in ogni gruppo
+    private int adjacentTilesPo2;
 
     /**
-     * Square: flag to identify a square-shape of a group
-     * @apiNote true value checks for square shape
+     * Flag to identify a square-shape of a group
+     *
+     * @apiNote true value checks for square shape. On the other hand false value does not
      */
-    @ExcludedFromJSON
-    private boolean square;//flag per indicare se i gruppi devono essere quadrati
-    @ExcludedFromJSON
-    private boolean separated;//flag per indicare se i gruppi devono essere separati
-    @ExcludedFromJSON
+    private boolean square;
+
+    /**
+     * Flag used to check for separated groups or not
+     *
+     * @apiNote true value checks for separated. On the other hand false does not
+     */
+    private boolean separated;
+
+    /**
+     * Flag used to check for tile of the same {@link TileType type}
+     *
+     * @apiNote true value checks for same type only. On the other hand a false value means {@link TileType type} can be different
+     */
     private boolean sameTypeOnly;//flag per indicare se i gruppi trovati devono essere tutti dello stesso tipo
 
     public TupleCommonGoal(int groupsNumber, int adjacentTilesPo2, boolean square, boolean separated, boolean sameTypeOnly) {
@@ -137,7 +145,7 @@ public class TupleCommonGoal extends CommonGoal implements Serializable {
                         generateGroups(this.adjacentTilesPo2,entries).stream()
                                 .filter(g -> !square || isSquare(g, bookShelf.length, bookShelf[0].length).isPresent())
                                 .collect(Collectors.toList()),
-                        this.groupsNumber,this.separated);
+                        this.groupsNumber, this.separated);
 
             if(sameTypeResult.size()>=this.groupsNumber&&sameTypeOnly){
                 return sameTypeResult.stream().limit(groupsNumber).flatMap(Collection::stream).collect(Collectors.toList());
@@ -216,7 +224,7 @@ public class TupleCommonGoal extends CommonGoal implements Serializable {
                     return true;
                 }
 
-                if(getManhattanDistance(e1,e2)==1&&noAdj){
+                if(getManhattanDistance(e1,e2) == 1 && noAdj){
                     return true;
                 }
             }
