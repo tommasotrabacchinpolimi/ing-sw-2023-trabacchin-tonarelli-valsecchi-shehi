@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 public class ShapeCommonGoal extends CommonGoal implements Serializable {
+    @ExcludedFromJSON
     private static final long serialVersionUID = 746524795L;
     @ExcludedFromJSON
     private int tileNumber;

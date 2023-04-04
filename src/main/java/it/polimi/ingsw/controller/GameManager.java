@@ -1,7 +1,6 @@
 package it.polimi.ingsw.controller;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.net.RemoteInterface;
@@ -9,13 +8,31 @@ import it.polimi.ingsw.net.User;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 public class GameManager<R extends RemoteInterface> {
     private Controller controller;
     private Function<Integer,Integer> fromGroupSizeToScore;
-    private static final String COMMON_GOAL_DESCRIPTION = "./src/main/java/it/polimi/ingsw/controller/CommonGoal1.json";
+    private static final String COMMON_GOAL_CONFIGURATION = "./src/main/CommonGoalConfiguration/";
+
+    public static void main(String[] args) {
+        /*GameManager gameManager = new GameManager();
+
+        gameManager.initCommonGoal(StairCommonGoal.class, 1);*/
+
+        try {
+            List<Path> commonGoalConfigFileList = Files.walk(Paths.get(COMMON_GOAL_CONFIGURATION)).toList();
+            commonGoalConfigFileList.stream().forEach(System.out::println);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public Function<Integer, Integer> getFromGroupSizeToScore() {
         return fromGroupSizeToScore;
@@ -183,17 +200,18 @@ public class GameManager<R extends RemoteInterface> {
         scoringTokens.push(8);
     }
 
-    public void initCommonGoalDescription() {
+    public void initCommonGoal(Class<? extends CommonGoal> c, int i) {
         Gson gson = new Gson();
         JsonReader reader;
-        TypeToken<ShapeCommonGoal> typeToken = new TypeToken<ShapeCommonGoal>(){};
 
         try {
-            reader = new JsonReader(new FileReader(COMMON_GOAL_DESCRIPTION));
+            reader = new JsonReader(new FileReader(COMMON_GOAL_CONFIGURATION+c.getSimpleName()+i+".json"));
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
 
-        CommonGoal commonGoal = gson.fromJson(reader, typeToken);
+        CommonGoal commonGoal = gson.fromJson(reader, c);
+
+        System.out.println(commonGoal.toString());
     }
 }

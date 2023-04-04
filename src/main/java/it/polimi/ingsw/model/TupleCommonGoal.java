@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.JSONExclusionStrategy.ExcludedFromJSON;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -10,6 +11,10 @@ import java.util.stream.Collectors;
  *
  */
 public class TupleCommonGoal extends CommonGoal implements Serializable {
+
+    @Serial
+    @ExcludedFromJSON
+    private static final long serialVersionUID = 1427495031L;
 
     /**
      * Group number: number of groups searched

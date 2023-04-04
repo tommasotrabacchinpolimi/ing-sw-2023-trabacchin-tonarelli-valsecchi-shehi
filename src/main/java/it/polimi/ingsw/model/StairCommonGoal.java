@@ -18,13 +18,13 @@ import java.util.*;
  *  @see EntryPatternGoal
  */
 public class StairCommonGoal extends CommonGoal implements Serializable {
+    @ExcludedFromJSON
     private static final long serialVersionUID = 142749503L;
     /**
      * Number of columns that forms the staircase
      * @see StairCommonGoal#getNumberOfColumns()  getNumberOfColumns()
      * @see StairCommonGoal#setNumberOfColumns(int) setNumberOfColumns(int)
      */
-    @ExcludedFromJSON
     private int numberOfColumns;
 
     public StairCommonGoal(int numberOfColumns) {
@@ -228,4 +228,11 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
         return startIndexColumn + numberOfColumns <= numColumns || startIndexColumn - numberOfColumns + 1 >= 0;
     }
 
+    @Override
+    public String toString() {
+        return "StairCommonGoal{\n" +
+                "\tnumberOfColumns=" + numberOfColumns +
+                "\n\tdescription=" + super.getDescription() +
+                "\n}";
+    }
 }

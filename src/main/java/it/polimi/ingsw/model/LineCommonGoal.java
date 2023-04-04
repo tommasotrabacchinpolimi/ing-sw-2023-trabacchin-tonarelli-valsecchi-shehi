@@ -20,6 +20,7 @@ import java.util.Stack;
  *  @see TileType
  */
 public class LineCommonGoal extends CommonGoal implements Serializable {
+    @ExcludedFromJSON
     private static final long serialVersionUID = 83625649L;
     /**
      * Increment of row, that is set to 1 if and only if the lines that have to satisfy the given condition are rows of a matrix.
