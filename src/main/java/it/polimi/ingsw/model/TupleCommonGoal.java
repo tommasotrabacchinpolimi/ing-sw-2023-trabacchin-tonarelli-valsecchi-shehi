@@ -9,7 +9,13 @@ import java.util.stream.Collectors;
 
 /**
  *
- * @apiNote Valid combination of the parameters values are the following : (groupsNumber = 6, adjacentTilesPo2 = 1, square = false, separate = true, sameTypeOnly = false), (groupsNumber = 4, adjacentTilesPo2 = 2, square = false, separate = true, sameTypeOnly = false), (groupsNumber = 2, adjacentTilesPo2 = 2, square = true, separate = true, sameTypeOnly = true), (groupsNumber = 8, adjacentTilesPo2 = 0, square = true, separate = false, sameTypeOnly = true)
+ * @apiNote Valid combination of the parameters values are the following :
+ * <ul>
+ *     <li>groupsNumber = 6, adjacentTilesPo2 = 1, square = false, separate = true, sameTypeOnly = false</li>
+ *     <li>groupsNumber = 4, adjacentTilesPo2 = 2, square = false, separate = true, sameTypeOnly = false</li>
+ *     <li>groupsNumber = 2, adjacentTilesPo2 = 2, square = true, separate = true, sameTypeOnly = true</li>
+ *     <li>groupsNumber = 8, adjacentTilesPo2 = 0, square = true, separate = false, sameTypeOnly = true</li>
+ * </ul>
  */
 public class TupleCommonGoal extends CommonGoal implements Serializable {
 
@@ -25,7 +31,7 @@ public class TupleCommonGoal extends CommonGoal implements Serializable {
 
     /**
      * Cardinality of a single group as power of 2
-     * @apiNote Its values can be 1, 2 and 4
+     * @apiNote Its values can be 0, 1 and 2
      */
     private int adjacentTilesPo2;
 
