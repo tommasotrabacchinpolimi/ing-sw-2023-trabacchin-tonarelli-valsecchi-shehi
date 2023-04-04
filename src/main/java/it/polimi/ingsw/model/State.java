@@ -28,6 +28,9 @@ public class State implements Serializable {
      * @see Board
      */
     private Board board;
+
+    private GameState gameState;
+
     /**
      * The {@link CommonGoal common goals} that the players can achieve in order to earn more points.
      *
@@ -71,10 +74,19 @@ public class State implements Serializable {
      * @see CommonGoal
      */
     public State(){
+        gameState = GameState.INIT;
         board = new Board();
         players = new ArrayList<>();
         currentPlayer = null;
         messages = new LinkedList<>();
+    }
+
+    public GameState getGameState() {
+        return gameState;
+    }
+
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
     }
 
     public int getPlayersNumber() {
