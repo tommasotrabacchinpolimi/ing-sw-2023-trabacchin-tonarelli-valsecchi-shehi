@@ -1,9 +1,13 @@
 package it.polimi.ingsw.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.net.RemoteInterface;
 import it.polimi.ingsw.net.User;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.*;
 import java.util.function.Function;
 
@@ -12,6 +16,7 @@ import static it.polimi.ingsw.model.BoardSquareType.THREE_DOTS;
 public class GameManager<R extends RemoteInterface> {
     private Controller controller;
     private Function<Integer,Integer> fromGroupSizeToScore;
+    private static final String COMMON_GOAL_DESCRIPTION = "./src/main/java/it/polimi/ingsw/controller/CommonGoal1.json";
 
     public Function<Integer, Integer> getFromGroupSizeToScore() {
         return fromGroupSizeToScore;
@@ -177,5 +182,20 @@ public class GameManager<R extends RemoteInterface> {
             scoringTokens.push(6);
 
         scoringTokens.push(8);
+    }
+
+    public void initCommonGoalDescription() {
+        Gson gson = new Gson();
+        JsonReader reader;
+
+        try {
+            reader = new JsonReader(new FileReader(COMMON_GOAL_DESCRIPTION));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        String description = gson.fromJson(reader, String.class);
+
+        System.out.println(description);
     }
 }

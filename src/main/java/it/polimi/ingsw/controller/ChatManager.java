@@ -12,11 +12,10 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 public class ChatManager<R extends RemoteInterface> {
     private Controller controller;
-    private static final String FILE_PATH = "./src/main/java/it/polimi/ingsw/controller/Messages.json";
+    private static final String MESSAGES_FILE = "./src/main/java/it/polimi/ingsw/controller/Messages.json";
 
     /**
      * Creating Gson object parser that exclude fields with {@link JSONExclusionStrategy @ExcludeFromJSON} annotations
@@ -90,7 +89,7 @@ public class ChatManager<R extends RemoteInterface> {
      */
     private PrintWriter getPrintWriter(){
         try {
-            return new PrintWriter(FILE_PATH);
+            return new PrintWriter(MESSAGES_FILE);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
