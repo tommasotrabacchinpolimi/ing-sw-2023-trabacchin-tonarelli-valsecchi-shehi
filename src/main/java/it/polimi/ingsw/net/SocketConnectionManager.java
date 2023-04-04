@@ -28,13 +28,19 @@ public class SocketConnectionManager<L extends RemoteInterface, R extends Remote
 
     private void init_base(NetworkMonitor<R> networkMonitor, Socket socket, L localTarget, TypeToken<R> remoteTargetClass, ExecutorService executorService) throws IOException {
         this.socketReceiver = new SocketReceiver<L,R>(socket.getInputStream(),executorService, localTarget,this);
+
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+
         this.objectOutputStream = objectOutputStream;
-        SocketSender<L,R> socketSender = new SocketSender<L,R>(objectOutputStream,this);
+
+        SocketSender<L, R> socketSender = new SocketSender<L, R>(objectOutputStream, this, executorService);
+
         this.remoteTarget = (R) Proxy.newProxyInstance(remoteTargetClass.getRawType().getClassLoader(), new Class[] { remoteTargetClass.getRawType() }, socketSender);
         this.socket = socket;
         this.networkMonitor = networkMonitor;
+
         SocketHeartBeater<L, R> socketHeartBeater = new SocketHeartBeater<>(this.objectOutputStream, this, 5000);
+
         new Thread(socketHeartBeater).start();
         new Thread(this.socketReceiver).start();
     }

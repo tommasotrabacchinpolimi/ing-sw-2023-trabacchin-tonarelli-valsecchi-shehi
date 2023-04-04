@@ -36,7 +36,6 @@ public class SocketReceiver<L extends RemoteInterface, R extends RemoteInterface
                 }catch(Exception ex){
                     socketConnectionManager.connectionDown();
                     break;
-
                 }
             }
 

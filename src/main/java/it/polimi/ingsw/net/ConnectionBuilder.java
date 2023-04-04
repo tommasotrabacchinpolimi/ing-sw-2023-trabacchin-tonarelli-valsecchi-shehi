@@ -30,7 +30,7 @@ public class ConnectionBuilder {
         R remoteObject = remoteAccepterInterfaceInterface.register(localRemoteObject);
         RmiConnectionManager<L,R> rmiConnectionManager = new RmiConnectionManager<L,R>();
         rmiReceiver.setRmiConnectionManager(rmiConnectionManager);
-        rmiConnectionManager.init(networkMonitor,rmiReceiver, (Class<R>) remoteTargetClass.getRawType(),localRemoteObject,remoteObject);
+        rmiConnectionManager.init(networkMonitor,rmiReceiver, (Class<R>) remoteTargetClass.getRawType(),localRemoteObject,remoteObject, executorService);
         return rmiConnectionManager;
 
     }
