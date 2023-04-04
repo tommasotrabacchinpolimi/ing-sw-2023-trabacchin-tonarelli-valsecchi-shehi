@@ -73,8 +73,6 @@ public class GameManagerMid<R extends RemoteInterface> extends GameManager<R> {
         this.fromGroupSizeToScore = fromGroupSizeToScore;
     }
 
-
-
     private void verifyCommonGoal(User<R> user){
         Player player = getController().getPlayerPlaying();
         CommonGoal commonGoal1, commonGoal2;
@@ -117,9 +115,6 @@ public class GameManagerMid<R extends RemoteInterface> extends GameManager<R> {
         player.getPointPlayer().setScoreAdjacentGoal(scoreAdjacentGoal);
         player.getPointPlayer().setScorePersonalGoal(scorePersonalGoal);
     }
-
-
-
 
     /**
      * Method that returns true if and only if the Board needs to be refilled with tiles.
