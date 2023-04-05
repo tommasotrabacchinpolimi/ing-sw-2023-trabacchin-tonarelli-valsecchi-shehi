@@ -76,9 +76,17 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
         boolean check = true;
         TileType type;
         List<EntryPatternGoal> result = new ArrayList<EntryPatternGoal>(ruleShape.size()+1);
+        List<Integer[]> ruleCopy = new ArrayList<>(ruleShape);
 
         for(int i = 0; i < bookShelf.length; i++) {
+            if(i == bookShelf.length/2 + 1) {
+                for (Integer[] integers : ruleCopy) {
+                    integers[1] *= -1;
+                }
+
+            }
             for(int j = 0; j < bookShelf[0].length; j++) {
+
 
                 if(!check)
                     result.clear();
@@ -87,11 +95,11 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
 
                 check = true;
 
-                if (!(verifyInField(bookShelf[0].length, bookShelf.length, j, i))) {
+                if (!(verifyInField(bookShelf[0].length, bookShelf.length, j, i, ruleCopy))) {
                     check = false;
                 } else {
                     type = bookShelf[i][j];
-                    for(Integer[] temp : ruleShape) {
+                    for(Integer[] temp : ruleCopy) {
                         int rowProcessed = i + temp[0];
                         int columnProcessed = j + temp[1];
 
@@ -126,8 +134,8 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
      * @see #ruleShape
      *
      */
-    private boolean verifyInField(int maxColumnDim, int maxRowDim, int indexColumn, int indexRow) {
-        for(Integer[] temp : ruleShape) {
+    private boolean verifyInField(int maxColumnDim, int maxRowDim, int indexColumn, int indexRow, List<Integer[]> ruleCopy) {
+        for(Integer[] temp : ruleCopy) {
             if(!((indexColumn + temp[1] < maxColumnDim) &&
                     (indexRow + temp[0] < maxRowDim) && (indexColumn + temp[1] >= 0) && indexRow + temp[0] >= 0))
                 return false;

@@ -53,7 +53,7 @@ class ShapeCommonGoalTest {
         if(index==1){
             ShapeCommonGoal shape = new ShapeCommonGoal(getRuleShape(1));
             assert getRandomShapeBookshelf(index) != null;
-            assertTrue(compareObjects(getExpected(1),shape.rule(getRandomShapeBookshelf(1))));
+            assertTrue(compareObjects(getExpected(4),shape.rule(getRandomShapeBookshelf(2))));
         } else if ((index > 1) && (index < 4)) {
 
         }
@@ -98,14 +98,14 @@ class ShapeCommonGoalTest {
                 result.add(new EntryPatternGoal(4,3,TileType.PLANT));
                 result.add(new EntryPatternGoal(5,4,TileType.PLANT));
             }
-            case 4 -> {
+            case 4 -> { //<<<<<<<<<<<
                 result.add(new EntryPatternGoal(0,4,TileType.PLANT));
                 result.add(new EntryPatternGoal(1,3,TileType.PLANT));
                 result.add(new EntryPatternGoal(2,2,TileType.PLANT));
                 result.add(new EntryPatternGoal(3,1,TileType.PLANT));
                 result.add(new EntryPatternGoal(4,0,TileType.PLANT));
             }
-            case 5 -> {
+            case 5 -> {//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
                 result.add(new EntryPatternGoal(1,4,TileType.PLANT));
                 result.add(new EntryPatternGoal(2,3,TileType.PLANT));
                 result.add(new EntryPatternGoal(3,2,TileType.PLANT));
@@ -379,13 +379,6 @@ class ShapeCommonGoalTest {
                 result.add(getRuleShapeEntry(0,2));
                 result.add(getRuleShapeEntry(2,2));
             }
-            case 4 -> {//Diagonal NE-SW
-                result.add(getRuleShapeEntry(1,-1));
-                result.add(getRuleShapeEntry(2,-2));
-                result.add(getRuleShapeEntry(3,-3));
-                result.add(getRuleShapeEntry(4,-4));
-            }
-
             default -> {
                 result = null;
             }
