@@ -8,8 +8,6 @@ import java.util.*;
 public class ShapeCommonGoal extends CommonGoal implements Serializable {
     @ExcludedFromJSON
     private static final long serialVersionUID = 746524795L;
-    @ExcludedFromJSON
-    private int tileNumber;
 
     /**
      * the list of array elements needed to this class to implement the Shape-CommonGoal
@@ -23,44 +21,27 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
     @ExcludedFromJSON
     private List<Integer[]> ruleShape;
 
-    public ShapeCommonGoal(int tileNumber, List<Integer[]> ruleShape) {
+    public ShapeCommonGoal(List<Integer[]> ruleShape) {
         super();
-        this.tileNumber = tileNumber;
         this.ruleShape = ruleShape;
     }
 
     /**
      *
-     * @param tileNumber it is the number of the array in the list of arrays.
      * @param ruleShape It is the list of arrays that permit to implement the function rule.
      */
-    public ShapeCommonGoal(String description, int tileNumber, List<Integer[]> ruleShape) {
+    public ShapeCommonGoal(String description, List<Integer[]> ruleShape) {
         super(description);
-        this.tileNumber = tileNumber;
         this.ruleShape = ruleShape;
     }
 
-    public ShapeCommonGoal(Stack<Integer> scoringTokens, String description, int tileNumber, List<Integer[]> ruleShape) {
+    public ShapeCommonGoal(Stack<Integer> scoringTokens, String description, List<Integer[]> ruleShape) {
         super(scoringTokens, description);
-        this.tileNumber = tileNumber;
         this.ruleShape = ruleShape;
     }
 
-    /**
-     *
-     * @return the number of Tiles,taken from input.
-     */
-    public int getTileNumber() {
-        return tileNumber;
-    }
 
-    /**
-     *
-     * @param tileNumber Needed to set the corrent value of [{@link ShapeCommonGoal#tileNumber tileNumber}]
-     */
-    public void setTileNumber(int tileNumber) {
-        this.tileNumber = tileNumber;
-    }
+
 
     /**
      *
@@ -95,9 +76,17 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
         boolean check = true;
         TileType type;
         List<EntryPatternGoal> result = new ArrayList<EntryPatternGoal>(ruleShape.size()+1);
+        List<Integer[]> ruleCopy = new ArrayList<>(ruleShape);
 
         for(int i = 0; i < bookShelf.length; i++) {
+            if(i == bookShelf.length/2 + 1) {
+                for (Integer[] integers : ruleCopy) {
+                    integers[1] *= -1;
+                }
+
+            }
             for(int j = 0; j < bookShelf[0].length; j++) {
+
 
                 if(!check)
                     result.clear();
@@ -106,11 +95,11 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
 
                 check = true;
 
-                if (!(verifyInField(bookShelf[0].length, bookShelf.length, j, i))) {
+                if (!(verifyInField(bookShelf[0].length, bookShelf.length, j, i, ruleCopy))) {
                     check = false;
                 } else {
                     type = bookShelf[i][j];
-                    for(Integer[] temp : ruleShape) {
+                    for(Integer[] temp : ruleCopy) {
                         int rowProcessed = i + temp[0];
                         int columnProcessed = j + temp[1];
 
@@ -145,8 +134,8 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
      * @see #ruleShape
      *
      */
-    private boolean verifyInField(int maxColumnDim, int maxRowDim, int indexColumn, int indexRow) {
-        for(Integer[] temp : ruleShape) {
+    private boolean verifyInField(int maxColumnDim, int maxRowDim, int indexColumn, int indexRow, List<Integer[]> ruleCopy) {
+        for(Integer[] temp : ruleCopy) {
             if(!((indexColumn + temp[1] < maxColumnDim) &&
                     (indexRow + temp[0] < maxRowDim) && (indexColumn + temp[1] >= 0) && indexRow + temp[0] >= 0))
                 return false;
