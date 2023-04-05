@@ -38,7 +38,7 @@ public class GameManager<R extends RemoteInterface> {
     }
 
     public void dragTilesToBookShelf(User<R> user, int[] chosenTiles, int chosenColumn){
-        Player player = getController().getState().getPlayers().stream().filter(p->p.getNickName().equals(user.getNickName().toList().get(0);
+        Player player = getController().getState().getPlayers().stream().filter(p->p.getNickName().equals(user.getNickname())).toList().get(0);
         if(!player.equals(getController().getPlayerPlaying())){
             return;
         }
@@ -172,8 +172,6 @@ public class GameManager<R extends RemoteInterface> {
         return Optional.of(result);
     }
 
-
-
     public void initScoringTokens(){
         Stack<Integer> scoringTokens = new Stack<>();
 
@@ -205,6 +203,17 @@ public class GameManager<R extends RemoteInterface> {
     }
 
     public <R extends RemoteInterface> void registerPlayer(User<R> user, String nickname) {
-
+        Player player = new Player(nickname);
+        List<String> list = controller.getState().getPlayers().stream().map(Player::getNickName).toList();
+        if(list.contains(nickname)){ //nel caso in cui il giocatore ha avuto una disconnessione
+            for(Player p : controller.getState().getPlayers()){
+                if(nickname.equals(p.getNickName())){
+                    //p.getVirtualView()... si riaggiunge la virtual view al player
+                }
+            }
+        } else { //giocatore aggiunto per la prima volta
+            controller.getState().addPlayer(player);
+        }
     }
+
 }
