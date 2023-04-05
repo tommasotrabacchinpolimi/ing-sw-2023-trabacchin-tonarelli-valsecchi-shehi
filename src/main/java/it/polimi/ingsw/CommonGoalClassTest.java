@@ -248,9 +248,8 @@ public class CommonGoalClassTest {
     }
 
     private void createShapeCommonGoal(){
-        int tileNumber = 2;
         List<Integer[]> incrementRuleShape = new ArrayList<Integer[]>();
-        this.commonGoal = new ShapeCommonGoal(tileNumber, incrementRuleShape);
+        this.commonGoal = new ShapeCommonGoal(incrementRuleShape);
     }
 
     private void createSquareCommonGoal(){

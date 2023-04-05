@@ -8,8 +8,6 @@ import java.util.*;
 public class ShapeCommonGoal extends CommonGoal implements Serializable {
     @ExcludedFromJSON
     private static final long serialVersionUID = 746524795L;
-    @ExcludedFromJSON
-    private int tileNumber;
 
     /**
      * the list of array elements needed to this class to implement the Shape-CommonGoal
@@ -23,44 +21,27 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
     @ExcludedFromJSON
     private List<Integer[]> ruleShape;
 
-    public ShapeCommonGoal(int tileNumber, List<Integer[]> ruleShape) {
+    public ShapeCommonGoal(List<Integer[]> ruleShape) {
         super();
-        this.tileNumber = tileNumber;
         this.ruleShape = ruleShape;
     }
 
     /**
      *
-     * @param tileNumber it is the number of the array in the list of arrays.
      * @param ruleShape It is the list of arrays that permit to implement the function rule.
      */
-    public ShapeCommonGoal(String description, int tileNumber, List<Integer[]> ruleShape) {
+    public ShapeCommonGoal(String description, List<Integer[]> ruleShape) {
         super(description);
-        this.tileNumber = tileNumber;
         this.ruleShape = ruleShape;
     }
 
-    public ShapeCommonGoal(Stack<Integer> scoringTokens, String description, int tileNumber, List<Integer[]> ruleShape) {
+    public ShapeCommonGoal(Stack<Integer> scoringTokens, String description, List<Integer[]> ruleShape) {
         super(scoringTokens, description);
-        this.tileNumber = tileNumber;
         this.ruleShape = ruleShape;
     }
 
-    /**
-     *
-     * @return the number of Tiles,taken from input.
-     */
-    public int getTileNumber() {
-        return tileNumber;
-    }
 
-    /**
-     *
-     * @param tileNumber Needed to set the corrent value of [{@link ShapeCommonGoal#tileNumber tileNumber}]
-     */
-    public void setTileNumber(int tileNumber) {
-        this.tileNumber = tileNumber;
-    }
+
 
     /**
      *

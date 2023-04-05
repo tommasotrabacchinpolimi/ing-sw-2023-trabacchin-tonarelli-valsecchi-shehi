@@ -20,50 +20,17 @@ class ShapeCommonGoalTest {
     }
 
     @Test
-    void getTileNumber() {
-        Random ran = new Random();
-        int numTile = ran.nextInt();
-        int numPlayer = 2;
-        ArrayList<Integer[]> inc = new ArrayList<Integer[]>(2);
-        inc.add(getRandomRuleShapeEntry());
-        ShapeCommonGoal shape = new ShapeCommonGoal(numTile, inc );
-        assertEquals(numTile, shape.getTileNumber());
-    }
-
-    @Test
-    void setTileNumber() {
-        Random ran = new Random();
-        int numTile = ran.nextInt();
-        int numPlayer = 2;
-        int a;
-        ArrayList<Integer[]> inc = new ArrayList<Integer[]>(2);
-        Integer arr[];
-        arr = new Integer[2];
-        a = ran.nextInt();
-        arr[0] = a;
-        a = ran.nextInt();
-        arr [1] = a;
-        inc.add(arr);
-        ShapeCommonGoal shape = new ShapeCommonGoal(3, inc );
-        shape.setTileNumber(numTile);
-        assertEquals(numTile, shape.getTileNumber());
-    }
-
-
-    @Test
     void setRuleShape() {
         Integer arr[] = new Integer[2];
-        int numPlayer = 2;
         int a;
         Random ran = new Random();
-        int numTail = ran.nextInt();
         ArrayList<Integer[]> inc = new ArrayList<Integer[]>(2);
         a = ran.nextInt();
         arr[0] = a;
         a = ran.nextInt();
         arr[1] = a;
         inc.add(arr);
-        ShapeCommonGoal shape = new ShapeCommonGoal(numTail, inc);
+        ShapeCommonGoal shape = new ShapeCommonGoal(inc);
         a = ran.nextInt();
         arr[0] = a;
         a = ran.nextInt();
@@ -84,13 +51,13 @@ class ShapeCommonGoalTest {
         Random rand = new Random();
         int index2 = rand.nextInt(1,5);
         if(index==1){
-            ShapeCommonGoal shape = new ShapeCommonGoal(3, getRuleShape(1));
+            ShapeCommonGoal shape = new ShapeCommonGoal(getRuleShape(1));
             assert getRandomShapeBookshelf(index) != null;
             assertTrue(compareObjects(getExpected(1),shape.rule(getRandomShapeBookshelf(1))));
         } else if ((index > 1) && (index < 4)) {
 
         }
-        ShapeCommonGoal shape = new ShapeCommonGoal(3, getRuleShape(3));
+        ShapeCommonGoal shape = new ShapeCommonGoal(getRuleShape(3));
         assert getRandomShapeBookshelf(index) != null;
         assertTrue(compareObjects(getExpected(15),shape.rule(getRandomShapeBookshelf(15))));
     }
