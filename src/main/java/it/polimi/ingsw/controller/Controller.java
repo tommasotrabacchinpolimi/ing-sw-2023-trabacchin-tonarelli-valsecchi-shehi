@@ -3,10 +3,11 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.CommonGoal;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.State;
+import it.polimi.ingsw.net.OnConnectionLostListener;
 import it.polimi.ingsw.net.RemoteInterface;
 import it.polimi.ingsw.net.User;
 
-public class Controller<R extends RemoteInterface> {
+public class Controller<R extends RemoteInterface> implements OnConnectionLostListener<R> {
     private State state;
     private GameManager gameManager;
     private ChatManager chatManager;
@@ -38,4 +39,18 @@ public class Controller<R extends RemoteInterface> {
     public void addMessageToState() {
         //chatManager.sentMessage();
     }
+
+    public void setNumberPlayers(int numberOfPlayer) {
+    }
+
+    @Override
+    public void onConnectionLost(User<R> user) {
+        // toglie la virtual view del player e
+    }
+
+    public void quitGame(User<R> user){
+        //notifica la lobby controller di toglierlo dalla mappa
+        // togliamo la virtual view dal player
+    }
+
 }

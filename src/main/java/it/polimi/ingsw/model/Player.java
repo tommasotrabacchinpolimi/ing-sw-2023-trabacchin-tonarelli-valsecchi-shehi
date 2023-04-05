@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.JSONExclusionStrategy.ExcludedFromJSON;
+import it.polimi.ingsw.net.TestClientInterface;
 
 import java.io.Serializable;
 
@@ -22,6 +23,7 @@ public class Player implements Serializable {
     private BookShelf bookShelf;
     @ExcludedFromJSON
     private PointPlayer pointPlayer;
+    private TestClientInterface virtualView;
 
     public Player(String nickName) {
         this.nickName = nickName;
@@ -42,6 +44,14 @@ public class Player implements Serializable {
         this.personalGoal = personalGoal;
         this.bookShelf = new BookShelf();
         this.pointPlayer = new PointPlayer();
+    }
+
+    public TestClientInterface getVirtualView() {
+        return virtualView;
+    }
+
+    public void setVirtualView(TestClientInterface virtualView) {
+        this.virtualView = virtualView;
     }
 
     public BookShelf getBookShelf() {

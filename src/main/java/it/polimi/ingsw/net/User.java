@@ -5,8 +5,9 @@ import it.polimi.ingsw.model.Player;
 import java.rmi.Remote;
 
 public class User<R extends RemoteInterface> {
-    Player player;
+    String nickname;
     ConnectionManager<? extends RemoteInterface, R> connectionManager;
+
     public void setConnectionManager(ConnectionManager<? extends RemoteInterface,R> connectionManager){
         this.connectionManager = connectionManager;
     }
@@ -15,11 +16,11 @@ public class User<R extends RemoteInterface> {
         return connectionManager;
     }
 
-    public Player getPlayer() {
-        return player;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 }

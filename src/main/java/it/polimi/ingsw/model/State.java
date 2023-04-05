@@ -97,7 +97,6 @@ public class State implements Serializable {
         this.playersNumber = playersNumber;
     }
 
-
     /**
      * Method that gets the living room board of the game.
      * @return The {@link Board} in which the game is played.
@@ -244,11 +243,6 @@ public class State implements Serializable {
      */
     public void addMessage(ChatMessage message){
         this.messages.add(message);
-    }
-
-    public int numPlayers()
-    {
-        return players.size();
     }
 
     /**
