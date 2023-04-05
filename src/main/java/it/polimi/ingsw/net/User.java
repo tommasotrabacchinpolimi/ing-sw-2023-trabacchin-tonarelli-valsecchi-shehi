@@ -7,6 +7,15 @@ import java.rmi.Remote;
 public class User<R extends RemoteInterface> {
     String nickname;
     ConnectionManager<? extends RemoteInterface, R> connectionManager;
+    UserDispatcher userDispatcher;
+
+    public UserDispatcher getUserDispatcher() {
+        return userDispatcher;
+    }
+
+    public void setUserDispatcher(UserDispatcher userDispatcher) {
+        this.userDispatcher = userDispatcher;
+    }
 
     public void setConnectionManager(ConnectionManager<? extends RemoteInterface,R> connectionManager){
         this.connectionManager = connectionManager;

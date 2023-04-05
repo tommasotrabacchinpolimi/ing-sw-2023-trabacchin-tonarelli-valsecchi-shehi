@@ -18,7 +18,7 @@ public class LobbyController<R extends RemoteInterface> implements UserAccepter<
 
     @Override
     public boolean acceptUser(User<R> user) {
-        return false;
+        return true;
     }
 
     public Map<Controller<R>, List<User<R>>> getStateUserMap() {
