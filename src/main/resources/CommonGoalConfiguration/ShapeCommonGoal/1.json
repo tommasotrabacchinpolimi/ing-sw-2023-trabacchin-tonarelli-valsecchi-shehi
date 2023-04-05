@@ -1,0 +1,6 @@
+{
+  "description" : "Four tiles of the same type in the four corners of the bookshelf.",
+  "ruleShape": [
+    [0, 4], [5, 0], [5, 4]
+  ]
+}

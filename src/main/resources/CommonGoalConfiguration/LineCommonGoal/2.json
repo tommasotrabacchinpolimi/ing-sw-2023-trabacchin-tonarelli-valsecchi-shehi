@@ -1,0 +1,8 @@
+{
+  "description": "Two lines each formed by 5 different types of tiles. One line can show the same or a different combination of the other line.",
+  "incRow": 1,
+  "incCol": 0,
+  "linesNumber": 2,
+  "numberOfTiles": 5,
+  "differentTiles": [5]
+}

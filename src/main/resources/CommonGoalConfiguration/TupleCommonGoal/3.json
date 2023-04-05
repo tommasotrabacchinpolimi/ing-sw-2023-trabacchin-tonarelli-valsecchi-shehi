@@ -1,0 +1,8 @@
+{
+  "description": "Two groups each containing 4 tiles of the same type in a 2x2 square. The tiles of one square can be different from those of the other square.",
+  "groupsNumber": 2,
+  "adjacentTilesPo2": 2,
+  "square": true,
+  "separated": true,
+  "sameTypeOnly": true
+}

@@ -1,0 +1,6 @@
+{
+  "description" : "Five tiles of the same type forming an X.",
+  "ruleShape": [
+    [2, 0], [1, 1], [0, 2], [2, 2]
+  ]
+}
