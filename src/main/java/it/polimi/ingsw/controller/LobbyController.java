@@ -101,7 +101,6 @@ public class LobbyController<R extends RemoteInterface> implements UserAccepter<
                 for(R user: list){
                     viewControllerMap.remove(user);
                 }
-                //e rimuovo anche da viewControllerMap
             }
         }
     }
@@ -122,6 +121,9 @@ public class LobbyController<R extends RemoteInterface> implements UserAccepter<
     }
 
     public void onQuitGame(R user){
-        //bisogna rimuovere le associazioni controller - user
+        Controller<R> c = viewControllerMap.get(nicknameToViewMap.get(viewToNicknameMap.get(user)));
+        controllerViewMap.get(c).remove(user);
+        viewControllerMap.remove(user);
     }
+
 }
