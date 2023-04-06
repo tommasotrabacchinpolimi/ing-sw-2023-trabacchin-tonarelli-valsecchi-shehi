@@ -202,18 +202,11 @@ public class GameManager<R extends RemoteInterface> {
         System.out.println(commonGoal.toString());
     }
 
-    public <R extends RemoteInterface> void registerPlayer(User<R> user, String nickname) {
-        Player player = new Player(nickname);
-        List<String> list = controller.getState().getPlayers().stream().map(Player::getNickName).toList();
-        if(list.contains(nickname)){ //nel caso in cui il giocatore ha avuto una disconnessione
-            for(Player p : controller.getState().getPlayers()){
-                if(nickname.equals(p.getNickName())){
-                    //p.getVirtualView()... si riaggiunge la virtual view al player
-                }
-            }
-        } else { //giocatore aggiunto per la prima volta
-            controller.getState().addPlayer(player);
-        }
+    public void registerPlayer(R user, String nickname) {
+        //se esiste gia un player nello state con lo stesso nickname, aggiorno la view; altrimenti aggiungo il player da zero
+        Player<R> player = new Player<R>(nickname);
+        player.setVirtualView(user);
+        controller.getState().addPlayer(player);
     }
 
 }

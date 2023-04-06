@@ -1,5 +1,9 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.listeners.OnAchievedCommonGoalListener;
+import it.polimi.ingsw.controller.listeners.OnLastPlayerUpdatedListener;
+import it.polimi.ingsw.net.User;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -65,6 +69,8 @@ public class State implements Serializable {
      */
     private transient List<ChatMessage> messages;
 
+    private final List<OnAchievedCommonGoalListener> achievedCommonGoalListeners;
+
     /**
      * Construct of the class that creates the fields of the class.
      *
@@ -79,6 +85,16 @@ public class State implements Serializable {
         players = new ArrayList<>();
         currentPlayer = null;
         messages = new LinkedList<>();
+        achievedCommonGoalListeners = new ArrayList<>();
+
+    }
+
+    public void setAchievedCommonGoalListeners(OnAchievedCommonGoalListener listener) {
+        achievedCommonGoalListeners.add(listener);
+    }
+
+    public void removeAchievedCommonGoalListeners(OnAchievedCommonGoalListener listener) {
+         achievedCommonGoalListeners.remove(listener);
     }
 
     public GameState getGameState() {
@@ -258,4 +274,9 @@ public class State implements Serializable {
                 .toList()
                 .get(0);
     }
+
+    public void checkCommonGoal(){
+
+    }
+
 }

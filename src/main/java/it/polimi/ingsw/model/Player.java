@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.JSONExclusionStrategy.ExcludedFromJSON;
+import it.polimi.ingsw.net.RemoteInterface;
 import it.polimi.ingsw.net.TestClientInterface;
 
 import java.io.Serializable;
@@ -14,7 +15,7 @@ import java.io.Serializable;
  * @version 1.0, 26/03/23
  * @see PersonalGoal
  */
-public class Player implements Serializable {
+public class Player<R extends RemoteInterface> implements Serializable {
     private static final long serialVersionUID = 97354642643274L;
     private final String nickName;
     @ExcludedFromJSON
@@ -23,7 +24,8 @@ public class Player implements Serializable {
     private BookShelf bookShelf;
     @ExcludedFromJSON
     private PointPlayer pointPlayer;
-    private TestClientInterface virtualView;
+    private PlayerState playerState;
+    private R virtualView;
 
     public Player(String nickName) {
         this.nickName = nickName;
@@ -46,11 +48,19 @@ public class Player implements Serializable {
         this.pointPlayer = new PointPlayer();
     }
 
-    public TestClientInterface getVirtualView() {
+    public PlayerState getPlayerState() {
+        return playerState;
+    }
+
+    public void setPlayerState(PlayerState playerState) {
+        this.playerState = playerState;
+    }
+
+    public R getVirtualView() {
         return virtualView;
     }
 
-    public void setVirtualView(TestClientInterface virtualView) {
+    public void setVirtualView(R virtualView) {
         this.virtualView = virtualView;
     }
 

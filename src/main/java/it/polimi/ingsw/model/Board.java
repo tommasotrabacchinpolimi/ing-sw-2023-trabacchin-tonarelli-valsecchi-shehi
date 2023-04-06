@@ -213,33 +213,35 @@ public class Board implements Iterable<BoardSquare>, Serializable {
 
     public void refillBoard(int numberOfPlayers){
         int count = 0;
-
-        if(bag.size()==0) return;
-
-        for(BoardSquare b : this){ //conto il numero di tile presenti nella board
-            if(b.getTileSubject() != null)
-                count++;
-        }
-        if((numberOfPlayers==2 && count+bag.size()<getNumBoardSquareGivenType(NO_DOTS)) ||
-                (numberOfPlayers==3 && count+bag.size()<getNumBoardSquareGivenType(NO_DOTS)+getNumBoardSquareGivenType(THREE_DOTS))
-                || (numberOfPlayers==4 && count+ bag.size()<NUMBER_OF_BOARDSQUARE)){
-            while(bag.size()>0){
-                Random rnd = new Random();
-                int index = rnd.nextInt(0,NUMBER_OF_BOARDSQUARE+1);
-                if(fromIntToBoardSquare(index).getTileSubject()==null){
-                    fromIntToBoardSquare(index).setTileSubject(getRandomTileSubject());
+        Random rnd = new Random();
+        if(bag.size()!=0){
+            for(BoardSquare b : this){ //conto il numero di tile presenti nella board
+                if(b.getTileSubject() != null)
+                    count++;
+            }
+            if((numberOfPlayers==2 && count+bag.size()<getNumBoardSquareGivenType(NO_DOTS)) ||
+                    (numberOfPlayers==3 && count+bag.size()<getNumBoardSquareGivenType(NO_DOTS)+getNumBoardSquareGivenType(THREE_DOTS))
+                    || (numberOfPlayers==4 && count+ bag.size()<NUMBER_OF_BOARDSQUARE)){
+                while(bag.size()>0){
+                    int index = rnd.nextInt(0,NUMBER_OF_BOARDSQUARE+1);
+                    if(fromIntToBoardSquare(index).getTileSubject()==null && isOkay(fromIntToBoardSquare(index),numberOfPlayers)){
+                        fromIntToBoardSquare(index).setTileSubject(getRandomTileSubject());
+                    }
                 }
             }
-            return;
-        }
-
-        for(BoardSquare b : this){ //se ci sono abbastanza tile per riempire tutta la board
-            if(b.getTileSubject() == null){
-                if(b.getBoardSquareType()==NO_DOTS || (b.getBoardSquareType()==THREE_DOTS && numberOfPlayers >=3) || (b.getBoardSquareType()==FOUR_DOTS && numberOfPlayers==4)) {
-                    b.setTileSubject(getRandomTileSubject());
+            else {
+                for(BoardSquare b : this){ //se ci sono abbastanza tile per riempire tutta la board
+                    if(b.getTileSubject() == null){
+                        if(isOkay(b,numberOfPlayers)) {
+                            b.setTileSubject(getRandomTileSubject());
+                        }
+                    }
                 }
             }
         }
+
+        notifyOnBoardUpdated();
+        notifyOnBoardRefilled();
     }
 
     public void refillBoard_alternative(int numberOfPlayers){

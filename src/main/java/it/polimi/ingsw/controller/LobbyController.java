@@ -3,111 +3,125 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.State;
-import it.polimi.ingsw.net.OnConnectionLostListener;
-import it.polimi.ingsw.net.RemoteInterface;
-import it.polimi.ingsw.net.User;
-import it.polimi.ingsw.net.UserAccepter;
+import it.polimi.ingsw.net.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-import java.util.stream.Collectors;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class LobbyController<R extends RemoteInterface> implements UserAccepter<R>, OnConnectionLostListener<R> {
-    private Map<Controller<R>, List<User<R>>> controllerUserMap;
-    private List<User<R>> waitingUsers; //user che non sono ancora stati assegnati a nessuna partita
+    private final Map<Controller<R>, List<R>> controllerViewMap = new ConcurrentHashMap<>();
+    private final Map<R, Controller<R>> viewControllerMap = new ConcurrentHashMap<>();
+
+    private final List<R> waitingUsers = new ArrayList<>(); //user che non sono ancora stati assegnati a nessuna partita
+    private final Map<R,String> viewToNicknameMap = new ConcurrentHashMap<>();
+    private final Map<String,R> nicknameToViewMap = new ConcurrentHashMap<>();
+
+    private final List<String> disconnectedButInGame = new ArrayList<>();
 
     @Override
     public boolean acceptUser(User<R> user) {
         return true;
     }
 
-    public Map<Controller<R>, List<User<R>>> getControllerUserMap() {
-        return controllerUserMap;
-    }
 
-    public void setControllerUserMap(Map<Controller<R>, List<User<R>>> controllerUserMap) {
-        this.controllerUserMap = controllerUserMap;
-    }
-
-    public List<User<R>> getWaitingUsers() {
-        return waitingUsers;
-    }
-
-    public void setWaitingUsers(List<User<R>> waitingUsers) {
-        this.waitingUsers = waitingUsers;
-    }
-
-    public void joinGame(User<R> user, String nickname){
-        user.setNickname(nickname);
-        if(controllerUserMap.keySet().size() == 0){ //se non ci sono partite avviate
-            waitingUsers.add(user);
-        } else { //se ci sono già partite avviate
-            List<String> listNickname = new ArrayList<>();
-            for (Controller<R> controller: controllerUserMap.keySet()) {
-                listNickname.addAll(controllerUserMap.get(controller).stream().map(User::getNickname).toList());
-            }
-
-            if(listNickname.contains(nickname)){ //controllo se il giocatore è già associato a una partita (ossia si è disconnesso e si sta riconnettendo)
-                for (Controller<R> controller: controllerUserMap.keySet()){
-                    for(User<R>  u: controllerUserMap.get(controller)){
-                        if(u.getNickname().equals(nickname)){
-                            controllerUserMap.get(controller).remove(u);
-                            controllerUserMap.get(controller).add(user);
-                            controller.registerPlayer(user, nickname);
-                            return;
-                        }
-                    }
-                }
-            } else {// se il giocatore non era già presente in altre partite, lo aggiungo alla prima partita disponibile
-                for(Controller<R> controller: controllerUserMap.keySet()){
-                    if(controllerUserMap.get(controller).size() < controller.getState().getPlayersNumber()){
-                        controllerUserMap.get(controller).add(user);
-                        controller.registerPlayer(user, user.getNickname());
-                        return;
+    public void joinGame(R user, String nickname){
+        //controllo se c'è un'altra view con lo stesso nickname -> se c'è ed è in una partita, per ora si ignora
+        if(viewToNicknameMap.containsValue(nickname)){
+            if(disconnectedButInGame.contains(nickname)){
+                Controller<R> c = viewControllerMap.get(nicknameToViewMap.get(nickname));
+                for(Player p: c.getState().getPlayers()) {
+                    if (p.getVirtualView() == nicknameToViewMap.get(nickname)) {
+                        viewControllerMap.remove(nicknameToViewMap.get(nickname)); //togliamo quella vecchia
+                        viewControllerMap.put(user, c); //mettiamo quella nuova
+                        controllerViewMap.get(c).remove(nicknameToViewMap.get(nickname));
+                        controllerViewMap.get(c).add(user);
+                        viewToNicknameMap.remove(nicknameToViewMap.get(nickname));
+                        viewToNicknameMap.put(user, nickname);
+                        nicknameToViewMap.remove(nickname);
+                        nicknameToViewMap.put(nickname, user);
+                        disconnectedButInGame.remove(nickname);
+                        c.registerPlayer(user, nickname);
                     }
                 }
             }
-            //se non ci sono partite disponibili, il giocatore viene inserito in lista d'attesa
-            waitingUsers.add(user);
+            else {
+                //metodo nella textclient interface che dice al client che il nome è gia stato preso
+            }
+        } else {
+            Controller<R> c = firstGameAvailable();
+            if(c == null){ //se non ci sono partite disponibili o sono gia tutte piene metto lo user nella waiting
+                waitingUsers.add(user);
+                viewToNicknameMap.put(user, nickname);
+                nicknameToViewMap.put(nickname,user);
+            } else { //altrimenti lo inserisco nella prima partita disponibile
+
+                viewToNicknameMap.put(user, nickname);
+                nicknameToViewMap.put(nickname,user);
+                controllerViewMap.get(c).add(user);
+                viewControllerMap.put(user, c);
+                c.registerPlayer(user, nickname);
+            }
         }
-
     }
 
-    public void createGame(User<R> user, String nickname, int numberOfPlayer){
+    public void createGame(R user, String nickname, int numberOfPlayer){
+        //se arriva uno user che si era disconnesso, lo ignoro (da fare)
         Controller<R> controller = new Controller<>();
-        List<User<R>> list = new ArrayList<>();
-        user.setNickname(nickname);
-        controller.registerPlayer(user, user.getNickname());
+        State state = new State();
+        List<R> list = new ArrayList<>();
+        controller.setState(state);
+
+        viewToNicknameMap.put(user,nickname);
+        nicknameToViewMap.put(nickname,user);
+
+        controller.registerPlayer(user,nickname);
         controller.setNumberPlayers(numberOfPlayer);
         list.add(user);
         //se ci sono dei giocatori in attesa li aggiungo alla partita
         if(waitingUsers.size()!=0){
             for(int i = 1; i < numberOfPlayer; i++){
                 if(waitingUsers.size()!=0){
-                    User<R> u = waitingUsers.remove(0);
+                    R u = waitingUsers.remove(0);
                     list.add(u);
-                    controller.registerPlayer(u, u.getNickname());
+                    controller.registerPlayer(u, nickname);
                 }
             }
         }
-        controllerUserMap.put(controller, list);
+        controllerViewMap.put(controller, list);
+        for(R u: list){
+            viewControllerMap.put(u,controller);
+        }
     }
 
     public void onEndGame(Controller<R> controller){
-        if(controllerUserMap.containsKey(controller)){
+        if(controllerViewMap.containsKey(controller)){
             if(controller.getState().getGameState() == GameState.END){
-                controllerUserMap.remove(controller, controllerUserMap.get(controller));
+                List<R> list =  controllerViewMap.get(controller);
+                controllerViewMap.remove(controller);
+                for(R user: list){
+                    viewControllerMap.remove(user);
+                }
+                //e rimuovo anche da viewControllerMap
             }
         }
     }
 
+    private Controller<R> firstGameAvailable(){
+        for(Controller<R> c: controllerViewMap.keySet()){
+            if(c.getState().getPlayers().size() < c.getState().getPlayersNumber()){
+                return c;
+            }
+        }
+        return null;
+    }
+
     @Override
-    public void onConnectionLost(User<R> user) {
-        //toglio lo user dalla queue se presente
+    public void onConnectionLost(R user) {
+        disconnectedButInGame.add(viewToNicknameMap.get(user));
         waitingUsers.removeIf(u -> u.equals(user));
     }
 
-
+    public void onQuitGame(R user){
+        //bisogna rimuovere le associazioni controller - user
+    }
 }
