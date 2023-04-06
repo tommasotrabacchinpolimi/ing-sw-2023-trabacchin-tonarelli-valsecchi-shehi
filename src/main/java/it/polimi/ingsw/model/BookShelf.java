@@ -1,7 +1,12 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.listeners.OnBoardUpdatedListener;
+import it.polimi.ingsw.controller.listeners.OnBookShelfUpdatedListener;
+
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -67,6 +72,12 @@ public class BookShelf implements Serializable {
     private final int column;
 
     /**
+     * The player that is associated with the BookShelf
+     */
+    private Player player;
+
+    private final List<OnBookShelfUpdatedListener> onBookShelfUpdatedListeners;
+    /**
      * Standard constructor will set:
      * <pre><code>{@link #row} = {@link #STANDARD_ROW}<br>{@link #column} = {@link #STANDARD_COLUMN}</code></pre>
      * In the end <code>{@link #tileSubjectTaken}</code> will have:
@@ -79,6 +90,7 @@ public class BookShelf implements Serializable {
     public BookShelf() {
         row = STANDARD_ROW;
         column = STANDARD_COLUMN;
+        onBookShelfUpdatedListeners = new LinkedList<>();
         initTileSubjectTaken();
     }
 
@@ -97,6 +109,7 @@ public class BookShelf implements Serializable {
         this.row = row;
         this.column = column;
         initTileSubjectTaken();
+        onBookShelfUpdatedListeners = new LinkedList<>();
     }
 
     /**
@@ -228,6 +241,8 @@ public class BookShelf implements Serializable {
             tileSubjectTaken[row][column] = t;
             --row;
         }
+
+        notifyOnBookShelfUpdated();
     }
 
     /**
@@ -249,5 +264,48 @@ public class BookShelf implements Serializable {
         }
 
         return -1;
+    }
+
+    /**
+     * This method returns the player associated with the BookShelf
+     * @return the player associated with the BookShelf
+     * @see Player
+     */
+    public Player getPlayer() {
+        return player;
+    }
+
+    /**
+     * This method sets the player associated with the BookShelf
+     * @param player the players that must be associated with the BookShelf
+     * @see Player
+     */
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    /**
+     * Method to notify onBookShelfUpdated listeners
+     */
+    private void notifyOnBookShelfUpdated() {
+        TileSubject[][] tileSubjects = Arrays.stream(this.tileSubjectTaken).map(TileSubject[]::clone).toArray(TileSubject[][]::new);
+        for(OnBookShelfUpdatedListener onBookShelfUpdatedListener : onBookShelfUpdatedListeners) {
+            onBookShelfUpdatedListener.onBookShelfUpdated(player.getNickName(), tileSubjects);
+        }
+    }
+
+    /**
+     * Method to add a OnBookShelfUpdatedListener
+     * @param onBookShelfUpdatedListener the OnBookShelfUpdatedListener to add
+     */
+    public void setOnBookShelfUpdated(OnBookShelfUpdatedListener onBookShelfUpdatedListener) {
+        onBookShelfUpdatedListeners.add(onBookShelfUpdatedListener);
+    }
+    /**
+     * Method to remove a OnBookShelfUpdatedListener
+     * @param onBookShelfUpdatedListener the OnBookShelfUpdatedListener to remove
+     */
+    public void removeOnBookShelfUpdated(OnBookShelfUpdatedListener onBookShelfUpdatedListener) {
+        onBookShelfUpdatedListeners.remove(onBookShelfUpdatedListener);
     }
 }

@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.listeners.OnBoardRefilledListener;
+import it.polimi.ingsw.controller.listeners.OnBoardUpdatedListener;
+
 import java.io.Serializable;
 import java.util.*;
 
@@ -13,6 +16,8 @@ public class Board implements Iterable<BoardSquare>, Serializable {
     private static final int NUMBER_OF_BOARDSQUARE = 45;
     final private BoardSquare livingRoomBoard; //root della board
 
+    private final List<OnBoardRefilledListener> onBoardRefilledListeners;
+    private final List<OnBoardUpdatedListener> onBoardUpdatedListeners;
     final private List<TileSubject> bag;
     private static final int NUMBER_OF_TILE = 7; //the default number of tile
     private static final int RESERVE_TILE = 8; //the tile that has one object more than others
@@ -31,6 +36,8 @@ public class Board implements Iterable<BoardSquare>, Serializable {
 
     //costruttore
     public Board() {
+        this.onBoardRefilledListeners = new LinkedList<>();
+        this.onBoardUpdatedListeners = new LinkedList<>();
         this.bag = new ArrayList<>();
         this.createBag();
         Collections.shuffle(bag);
@@ -175,6 +182,13 @@ public class Board implements Iterable<BoardSquare>, Serializable {
         return null;
     }
 
+    private List<BoardSquare> getBoardSquareList() {
+        List<BoardSquare> boardSquares = new ArrayList<>();
+        for(BoardSquare boardSquare : this) {
+            boardSquares.add(boardSquare);
+        }
+        return boardSquares;
+    }
 
     //aggiungere metodo per rimuovere le tile dalla board quando vengono prese da un giocatore
     // taken deve contenere le posizioni delle tile prese secondo lo schema d'iterator.
@@ -184,12 +198,17 @@ public class Board implements Iterable<BoardSquare>, Serializable {
             result.add(fromIntToBoardSquare(taken[i]).getTileSubject());
             fromIntToBoardSquare(taken[i]).setTileSubject(null);
         }
+        notifyOnBoardUpdated();
         return result;
     }
 
     //metodo che ritorna true se init_matrix[i][j] è usata in funzione del numero di giocatori !!
     private boolean isOkay(int i, int j, int numPlayers){
         return (init_matrix[i][j]==NO_DOTS || (init_matrix[i][j]==THREE_DOTS && numPlayers >=3) || (init_matrix[i][j]==FOUR_DOTS && numPlayers==4));
+    }
+
+    private boolean isOkay(BoardSquare boardSquare, int numPlayers) {
+        return (boardSquare.getBoardSquareType() == NO_DOTS || (boardSquare.getBoardSquareType() == THREE_DOTS && numPlayers >=3) || (boardSquare.getBoardSquareType() == FOUR_DOTS && numPlayers==4));
     }
 
     public void refillBoard(int numberOfPlayers){
@@ -223,6 +242,21 @@ public class Board implements Iterable<BoardSquare>, Serializable {
         }
     }
 
+    public void refillBoard_alternative(int numberOfPlayers){
+        Random random = new Random();
+        List<BoardSquare> boardSquares = getBoardSquareList();
+        while(bag.size() > 0 && boardSquares.size() > 0) {
+            int index = random.nextInt(boardSquares.size());
+            BoardSquare randomBoardSquare = boardSquares.remove(index);
+            if(isOkay(randomBoardSquare, numberOfPlayers) && randomBoardSquare.getTileSubject() != null) {
+                randomBoardSquare.setTileSubject(bag.remove(0));
+            }
+        }
+
+        notifyOnBoardUpdated();
+        notifyOnBoardRefilled();
+    }
+
     private int getNumBoardSquareGivenType(BoardSquareType boardSquareType){
         int count = 0;
         for(BoardSquare b : this){
@@ -249,4 +283,37 @@ public class Board implements Iterable<BoardSquare>, Serializable {
             System.out.println();
         }
     }
+
+    public void notifyOnBoardUpdated() {
+        TileSubject[] tileSubjects = (TileSubject[]) getBoardSquareList().stream().map(BoardSquare::getTileSubject).toArray();
+        for(OnBoardUpdatedListener onBoardUpdatedListener : onBoardUpdatedListeners) {
+            if(onBoardUpdatedListener != null) {
+                onBoardUpdatedListener.onBoardUpdated(tileSubjects);
+            }
+        }
+    }
+
+    public void notifyOnBoardRefilled() {
+        for(OnBoardRefilledListener onBoardRefilledListener : onBoardRefilledListeners) {
+            if(onBoardRefilledListener != null) {
+                onBoardRefilledListener.onBoardRefilled();
+            }
+        }
+    }
+    public void setOnBoardRefilledListener(OnBoardRefilledListener onBoardRefilledListener) {
+        this.onBoardRefilledListeners.add(onBoardRefilledListener);
+    }
+
+    public void setOnBoardUpdatedListener(OnBoardUpdatedListener onBoardUpdatedListener) {
+        this.onBoardUpdatedListeners.add(onBoardUpdatedListener);
+    }
+
+    public void removeOnBoardRefilledListener(OnBoardRefilledListener onBoardRefilledListener) {
+        this.onBoardRefilledListeners.remove(onBoardRefilledListener);
+    }
+
+    public void removeOnBoardUpdatedListener(OnBoardUpdatedListener onBoardUpdatedListener) {
+        this.onBoardUpdatedListeners.remove(onBoardUpdatedListener);
+    }
+
 }

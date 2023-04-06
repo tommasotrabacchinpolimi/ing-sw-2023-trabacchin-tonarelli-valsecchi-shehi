@@ -9,8 +9,8 @@ import it.polimi.ingsw.net.User;
 
 public class Controller<R extends RemoteInterface> implements OnConnectionLostListener<R> {
     private State state;
-    private GameManager gameManager;
-    private ChatManager chatManager;
+    private GameManager<R> gameManager;
+    private ChatManager<R> chatManager;
 
     public State getState() {
         return state;
