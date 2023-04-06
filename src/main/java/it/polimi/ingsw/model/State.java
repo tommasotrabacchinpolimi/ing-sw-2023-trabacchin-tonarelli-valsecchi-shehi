@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.listeners.OnAchievedCommonGoalListener;
 import it.polimi.ingsw.controller.listeners.OnLastPlayerUpdatedListener;
+import it.polimi.ingsw.controller.listeners.OnStateChangedListener;
 import it.polimi.ingsw.net.RemoteInterface;
 import it.polimi.ingsw.net.User;
 
@@ -71,6 +72,7 @@ public class State<R extends RemoteInterface> implements Serializable {
     private transient List<ChatMessage<R>> messages;
 
     private final List<OnAchievedCommonGoalListener> achievedCommonGoalListeners;
+    private final List<OnStateChangedListener> stateChangedListeners;
 
     /**
      * Construct of the class that creates the fields of the class.
@@ -87,15 +89,23 @@ public class State<R extends RemoteInterface> implements Serializable {
         currentPlayer = null;
         messages = new LinkedList<>();
         achievedCommonGoalListeners = new ArrayList<>();
-
+        stateChangedListeners = new ArrayList<>();
     }
 
-    public void setAchievedCommonGoalListeners(OnAchievedCommonGoalListener listener) {
+    public void setAchievedCommonGoalListener(OnAchievedCommonGoalListener listener) {
         achievedCommonGoalListeners.add(listener);
     }
 
-    public void removeAchievedCommonGoalListeners(OnAchievedCommonGoalListener listener) {
+    public void removeAchievedCommonGoalListener(OnAchievedCommonGoalListener listener) {
          achievedCommonGoalListeners.remove(listener);
+    }
+
+    public void setStateChangedListener(OnStateChangedListener stateChangedListener){
+        this.stateChangedListeners.add(stateChangedListener);
+    }
+
+    public void removeStateChangedListener(OnStateChangedListener stateChangedListener){
+        this.stateChangedListeners.remove(stateChangedListener);
     }
 
     public GameState getGameState() {
@@ -308,6 +318,12 @@ public class State<R extends RemoteInterface> implements Serializable {
                     onAchievedCommonGoalListener.onAchievedCommonGoal(p.getNickName(), copy_result, n);
                 }
             }
+        }
+    }
+
+    public void notifyOnStateChanged(){
+        for(OnStateChangedListener stateChangedListener: stateChangedListeners){
+            stateChangedListener.onStateChanged(this.getGameState());
         }
     }
 
