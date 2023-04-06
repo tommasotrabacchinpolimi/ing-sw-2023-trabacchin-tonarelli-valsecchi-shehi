@@ -6,6 +6,7 @@ public enum GameState implements Serializable {
 
     INIT,
     MID,
+    FINAL,
     END;
 
     private static  final long serialVersionUID = 9582348944623L;

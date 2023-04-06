@@ -33,6 +33,10 @@ public class Controller<R extends RemoteInterface> implements OnConnectionLostLi
     }
 
     public void registerPlayer(User<R> user, String nickname){
+        if(this.state == null){
+            State state = new State();
+            this.state = state;
+        }
         gameManager.registerPlayer(user, nickname);
     }
 
@@ -41,11 +45,16 @@ public class Controller<R extends RemoteInterface> implements OnConnectionLostLi
     }
 
     public void setNumberPlayers(int numberOfPlayer) {
+        getState().setPlayersNumber(numberOfPlayer);
     }
 
     @Override
     public void onConnectionLost(User<R> user) {
-        // toglie la virtual view del player e
+        for(Player p : getState().getPlayers()){
+            if(p.getNickName().equals(user.getNickname())){
+                p.setVirtualView(null);
+            }
+        }
     }
 
     public void quitGame(User<R> user){
