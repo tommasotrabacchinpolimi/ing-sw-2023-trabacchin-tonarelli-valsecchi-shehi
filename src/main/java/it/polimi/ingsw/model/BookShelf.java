@@ -301,6 +301,7 @@ public class BookShelf implements Serializable {
     public void setOnBookShelfUpdated(OnBookShelfUpdatedListener onBookShelfUpdatedListener) {
         onBookShelfUpdatedListeners.add(onBookShelfUpdatedListener);
     }
+
     /**
      * Method to remove a OnBookShelfUpdatedListener
      * @param onBookShelfUpdatedListener the OnBookShelfUpdatedListener to remove

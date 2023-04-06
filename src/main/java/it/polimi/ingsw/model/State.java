@@ -276,8 +276,39 @@ public class State<R extends RemoteInterface> implements Serializable {
                 .get(0);
     }
 
-    public void checkCommonGoal(){
+    public int checkCommonGoal(Player<R> player){
+       BookShelf bookShelf = player.getBookShelf();
+       if(commonGoal1.rule(bookShelf.toTileTypeMatrix())!=null){
+           return 1;
+       } else if(commonGoal2.rule(bookShelf.toTileTypeMatrix())!=null){
+           return 2;
+       } else {
+           return 0;
+       }
+    }
 
+    public void notifyOnAchievedCommonGoal(){
+        for(OnAchievedCommonGoalListener onAchievedCommonGoalListener: achievedCommonGoalListeners){
+            for(Player<R> p: getPlayers()){
+                int n = checkCommonGoal(p);
+                if(n == 1 || n == 2){
+                    List<EntryPatternGoal> copy_result = new ArrayList<>();
+                    if(n == 1){
+                        List<EntryPatternGoal> result = commonGoal1.rule(p.getBookShelf().toTileTypeMatrix());
+                        for(EntryPatternGoal entry: result){
+                            copy_result.add(new EntryPatternGoal(entry.getRow(), entry.getColumn(), entry.getTileType()));
+                        }
+                    }
+                    if(n == 2){
+                        List<EntryPatternGoal> result = commonGoal2.rule(p.getBookShelf().toTileTypeMatrix());
+                        for(EntryPatternGoal entry: result){
+                            copy_result.add(new EntryPatternGoal(entry.getRow(), entry.getColumn(), entry.getTileType()));
+                        }
+                    }
+                    onAchievedCommonGoalListener.onAchievedCommonGoal(p.getNickName(), copy_result, n);
+                }
+            }
+        }
     }
 
 }
