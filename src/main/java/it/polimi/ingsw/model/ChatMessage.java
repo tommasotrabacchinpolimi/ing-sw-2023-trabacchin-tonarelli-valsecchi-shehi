@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.net.RemoteInterface;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -11,14 +13,14 @@ import java.util.List;
  * @version 1.0, 15/03/23
  * @see Player
  */
-public class ChatMessage implements Serializable {
+public class ChatMessage<R extends RemoteInterface> implements Serializable {
     private static final long serialVersionUID = 82642348L;
     /**
      * The {@link Player} that sends the message.
      *
      * @see Player
      */
-    private Player sender;
+    private Player<R> sender;
     /**
      * The list of {@link Player} that receives the message.
      *
@@ -26,7 +28,7 @@ public class ChatMessage implements Serializable {
      * a player other than the {@code sender} or the list of all players including the {@code sender}.
      * @see Player
      */
-    private List<Player> receivers;
+    private List<Player<R>> receivers;
 
     /**
      * The {@link String} containing the text of the message.
@@ -43,7 +45,7 @@ public class ChatMessage implements Serializable {
      * can only contain either a player other than the {@code sender} or the list of all players including the {@code sender}.
      * @see Player
      */
-    public ChatMessage(Player sender, List<Player> receivers, String text) {
+    public ChatMessage(Player<R> sender, List<Player<R>> receivers, String text) {
         this.sender = sender;
         this.receivers = receivers;
         this.text = text;
@@ -55,7 +57,7 @@ public class ChatMessage implements Serializable {
      *
      * @see Player
      */
-    public Player getSender() {
+    public Player<R> getSender() {
         return sender;
     }
 
@@ -74,7 +76,7 @@ public class ChatMessage implements Serializable {
      * @apiNote The returned value is never null. The method returns either a list of one player or a list of all players.
      * @see Player
      */
-    public List<Player> getReceivers() {
+    public List<Player<R>> getReceivers() {
         return receivers;
     }
 
@@ -84,7 +86,7 @@ public class ChatMessage implements Serializable {
      *
      * @see Player
      */
-    public void setSender(Player sender) {
+    public void setSender(Player<R> sender) {
         this.sender = sender;
     }
 
@@ -94,7 +96,7 @@ public class ChatMessage implements Serializable {
      *
      * @see Player
      */
-    public void addReceiver(Player receiver) {
+    public void addReceiver(Player<R> receiver) {
         this.receivers.add(receiver);
     }
 
@@ -104,7 +106,7 @@ public class ChatMessage implements Serializable {
      *
      * @see Player
      */
-    public void setToAll(List<Player> to){
+    public void setToAll(List<Player<R>> to){
         this.receivers.addAll(to);
     }
 

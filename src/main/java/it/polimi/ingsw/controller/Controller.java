@@ -9,20 +9,20 @@ import it.polimi.ingsw.net.RemoteInterface;
 import it.polimi.ingsw.net.User;
 
 public class Controller<R extends RemoteInterface> implements OnConnectionLostListener<R> {
-    private State state;
+    private State<R> state;
     private GameManager<R> gameManager;
     private ChatManager<R> chatManager;
     private LobbyController<R> lobbyController;
 
-    public State getState() {
+    public State<R> getState() {
         return state;
     }
 
-    public void setState(State state) {
+    public void setState(State<R> state) {
         this.state = state;
     }
 
-    public Player getPlayerPlaying(){
+    public Player<R> getPlayerPlaying(){
         return state.getCurrentPlayer();
     }
 
@@ -55,7 +55,7 @@ public class Controller<R extends RemoteInterface> implements OnConnectionLostLi
 
     @Override
     public void onConnectionLost(R user) {
-        for(Player p : getState().getPlayers()){
+        for(Player<R> p : getState().getPlayers()){
             if(p.getVirtualView() == user){
                 p.setPlayerState(PlayerState.DISCONNECTED);
             }

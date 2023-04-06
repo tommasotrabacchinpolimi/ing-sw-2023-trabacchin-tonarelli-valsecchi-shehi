@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ChatManager<R extends RemoteInterface> {
-    private Controller controller;
+    private Controller<R> controller;
     private static final String MESSAGES_FILE = "./src/main/java/it/polimi/ingsw/controller/Messages.json";
 
     /**
@@ -50,8 +50,8 @@ public class ChatManager<R extends RemoteInterface> {
      * @param text message body
      * @param receiversNickname players (nickname) that have to receive the message.
      */
-    public void sentMessage(User sender, String text,  String[] receiversNickname) {
-        List<Player> receivers = new ArrayList<Player>();
+    public void sentMessage(R sender, String text,  String[] receiversNickname) {
+        List<Player<R>> receivers = new ArrayList<>();
 
         Arrays.stream(receiversNickname)
                 .forEach(rec -> receivers.add(controller.getState().getPlayerFromNick(rec)));
@@ -60,8 +60,13 @@ public class ChatManager<R extends RemoteInterface> {
             System.err.println("Error in receivers creation");
         }
 
+        Player<R> senderPlayer = controller.getState().getPlayers()
+                .stream()
+                .filter(p -> p.getVirtualView() == sender)
+                .toList()
+                .get(0);
         ChatMessage chatMessage = new ChatMessage(
-                sender.getPlayer(),
+                senderPlayer,
                 receivers,
                 text
         );

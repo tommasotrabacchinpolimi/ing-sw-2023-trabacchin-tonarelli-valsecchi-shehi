@@ -16,7 +16,7 @@ import java.util.*;
 import java.util.function.Function;
 
 public class GameManager<R extends RemoteInterface> {
-    private Controller controller;
+    private Controller<R> controller;
     private Function<Integer,Integer> fromGroupSizeToScore;
     private static final String COMMON_GOAL_CONFIGURATION = "./src/main/CommonGoalConfiguration/";
 
@@ -33,12 +33,12 @@ public class GameManager<R extends RemoteInterface> {
         }
     }
 
-    public Controller getController() {
+    public Controller<R> getController() {
         return controller;
     }
 
     public void dragTilesToBookShelf(User<R> user, int[] chosenTiles, int chosenColumn){
-        Player player = getController().getState().getPlayers().stream().filter(p->p.getNickName().equals(user.getNickname())).toList().get(0);
+        Player<R> player = getController().getState().getPlayers().stream().filter(p->p.getNickName().equals(user.getNickname())).toList().get(0);
         if(!player.equals(getController().getPlayerPlaying())){
             return;
         }

@@ -7,13 +7,13 @@ import java.rmi.RemoteException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class ClientTest<R extends RemoteInterface> implements TestClientInterface, NetworkMonitor<R>{
+public class ClientTest<R extends RemoteInterface> implements TestClientInterface{
 
     public static void main(String[] args) throws IOException {
         ClientTest<TestServerInterface> clientTest = new ClientTest<>();
         ExecutorService executorService = Executors.newCachedThreadPool();
         TypeToken<TestServerInterface> typeToken = new TypeToken<>(){};
-        SocketConnectionManager<TestClientInterface,TestServerInterface> socketConnectionManager = ConnectionBuilder.buildSocketConnection("localhost",2147,clientTest,clientTest,typeToken,executorService);
+        SocketConnectionManager<TestClientInterface,TestServerInterface> socketConnectionManager = ConnectionBuilder.buildSocketConnection("localhost",2147,clientTest,typeToken,executorService);
         TestServerInterface serverInterface = socketConnectionManager.getRemoteTarget();
         serverInterface.check("ciao!!!!");
     }
@@ -35,11 +35,6 @@ public class ClientTest<R extends RemoteInterface> implements TestClientInterfac
     public void check(String string)throws RemoteException {
 
         System.out.println("ricevuto: "+string);
-    }
-
-    @Override
-    public void connectionDown(User<R> user) {
-        System.out.println("Connection down");
     }
 
     public void nop(){

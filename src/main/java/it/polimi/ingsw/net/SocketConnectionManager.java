@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.Proxy;
 import java.net.Socket;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 
 public class SocketConnectionManager<L extends RemoteInterface, R extends RemoteInterface>  extends ConnectionManager<L,R>{
@@ -13,20 +15,24 @@ public class SocketConnectionManager<L extends RemoteInterface, R extends Remote
     private R remoteTarget;
     private Socket socket;
     private ObjectOutputStream objectOutputStream;
-    private NetworkMonitor<R> networkMonitor;
     private User<R> user;
 
-    public void init(NetworkMonitor<R> networkMonitor, Socket socket, User<R> user, L localTarget, TypeToken<R> remoteTargetClass, ExecutorService executorService) throws IOException {
-        init_base((NetworkMonitor<R>) networkMonitor, socket, localTarget, (TypeToken<R>) remoteTargetClass, executorService);
+    private final List<OnConnectionLostListener<R>> onConnectionLostListeners;
+
+    public SocketConnectionManager() {
+        onConnectionLostListeners = new LinkedList<>();
+    }
+    public void init(Socket socket, User<R> user, L localTarget, TypeToken<R> remoteTargetClass, ExecutorService executorService) throws IOException {
+        init_base(socket, localTarget, (TypeToken<R>) remoteTargetClass, executorService);
         this.user = user;
     }
 
-    public void init(NetworkMonitor<R> networkMonitor, Socket socket, L localTarget, TypeToken<R> remoteTargetClass, ExecutorService executorService) throws IOException {
-        init_base((NetworkMonitor<R>) networkMonitor, socket, localTarget, (TypeToken<R>) remoteTargetClass, executorService);
+    public void init(Socket socket, L localTarget, TypeToken<R> remoteTargetClass, ExecutorService executorService) throws IOException {
+        init_base(socket, localTarget, (TypeToken<R>) remoteTargetClass, executorService);
         this.user = null;
     }
 
-    private void init_base(NetworkMonitor<R> networkMonitor, Socket socket, L localTarget, TypeToken<R> remoteTargetClass, ExecutorService executorService) throws IOException {
+    private void init_base(Socket socket, L localTarget, TypeToken<R> remoteTargetClass, ExecutorService executorService) throws IOException {
         this.socketReceiver = new SocketReceiver<L,R>(socket.getInputStream(),executorService, localTarget,this);
 
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
@@ -37,7 +43,6 @@ public class SocketConnectionManager<L extends RemoteInterface, R extends Remote
 
         this.remoteTarget = (R) Proxy.newProxyInstance(remoteTargetClass.getRawType().getClassLoader(), new Class[] { remoteTargetClass.getRawType() }, socketSender);
         this.socket = socket;
-        this.networkMonitor = networkMonitor;
 
         SocketHeartBeater<L, R> socketHeartBeater = new SocketHeartBeater<>(this.objectOutputStream, this, 5000);
 
@@ -50,15 +55,20 @@ public class SocketConnectionManager<L extends RemoteInterface, R extends Remote
     }
 
     synchronized public void connectionDown(){
-        try {
-            this.socket.close();
-        }catch(Exception ignored){}
-        finally {
-            if(this.networkMonitor!=null){
-                networkMonitor.connectionDown(this.user);
-                this.networkMonitor = null;
-            }
+        notifyConnectionLost();
+    }
+
+    private void notifyConnectionLost() {
+        for(OnConnectionLostListener<R> onConnectionLostListener : onConnectionLostListeners) {
+            onConnectionLostListener.onConnectionLost(this.user.connectionManager.getRemoteTarget());
         }
+    }
+    public void setOnConnectionLostListener(OnConnectionLostListener<R> onConnectionLostListener) {
+        this.onConnectionLostListeners.add(onConnectionLostListener);
+    }
+
+    public void removeOnConnectionLostListener(OnConnectionLostListener<R> onConnectionLostListener) {
+        this.onConnectionLostListeners.remove(onConnectionLostListener);
     }
 
 }

@@ -7,7 +7,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Supplier;
 
-public class ServerTest<R extends RemoteInterface> implements NetworkMonitor<R>, UserAccepter<R>{
+public class ServerTest<R extends RemoteInterface> implements UserAccepter<R>{
 
     public static void main(String[] args){
         ServerTest<TestClientInterface> serverTest = new ServerTest<>();
@@ -15,7 +15,7 @@ public class ServerTest<R extends RemoteInterface> implements NetworkMonitor<R>,
         TypeToken<TestClientInterface> typeToken = new TypeToken<>(){};
         TypeToken<TestServerInterface> typeToken1 = new TypeToken<>(){};
         Supplier<UserAdapterInterface<TestClientInterface>> userAdapterInterfaceSupplier = UserAdapter::new;
-        SocketAccepter<TestServerInterface,TestClientInterface> socketAccepter = new SocketAccepter<TestServerInterface,TestClientInterface>(2147,serverTest,serverTest,serverTest,typeToken,executorService,userAdapterInterfaceSupplier,typeToken1);
+        SocketAccepter<TestServerInterface,TestClientInterface> socketAccepter = new SocketAccepter<TestServerInterface,TestClientInterface>(2147,serverTest,serverTest,typeToken,executorService,userAdapterInterfaceSupplier,typeToken1);
         new Thread(socketAccepter).start();
         System.out.println("Server pronto");
     }
@@ -31,11 +31,6 @@ public class ServerTest<R extends RemoteInterface> implements NetworkMonitor<R>,
         registry.bind("default",stub);
         System.out.println("Server pronto");
     }*/
-
-    @Override
-    public void connectionDown(User<R> user) {
-        System.out.println("Connection down");
-    }
 
     @Override
     public boolean acceptUser(User<R> user) {

@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.listeners.OnAchievedCommonGoalListener;
 import it.polimi.ingsw.controller.listeners.OnLastPlayerUpdatedListener;
+import it.polimi.ingsw.net.RemoteInterface;
 import it.polimi.ingsw.net.User;
 
 import java.io.Serializable;
@@ -24,7 +25,7 @@ import java.util.List;
  * @see Player
  * @see ChatMessage
  */
-public class State implements Serializable {
+public class State<R extends RemoteInterface> implements Serializable {
     private static final long serialVersionUID = 26202152145454545L;
     /**
      * The living room {@link Board} in which the game is played.
@@ -51,14 +52,14 @@ public class State implements Serializable {
      * </pre>
      * @see Player
      */
-    private List<Player> players;
+    private List<Player<R>> players;
     /**
      * The {@link Player} who will play in the current round of the Game.
      *
      * @apiNote The Player {@code currentPlayer} must be contained in the list {@link State#players}.
      * @see Player
      */
-    private Player currentPlayer;
+    private Player<R> currentPlayer;
     private int playersNumber;
     /**
      * List of {@link ChatMessage messages} sent between {@link Player players}.
@@ -179,7 +180,7 @@ public class State implements Serializable {
      *
      * @see Player
      */
-    public List<Player> getPlayers() {
+    public List<Player<R>> getPlayers() {
         return players;
     }
 
@@ -189,7 +190,7 @@ public class State implements Serializable {
      *
      * @see Player
      */
-    public void setPlayers(List<Player> players) {
+    public void setPlayers(List<Player<R>> players) {
         this.players = players;
     }
 
@@ -202,7 +203,7 @@ public class State implements Serializable {
      * players.get(players.size()-1) is the last player logged into the game.
      * @see Player
      */
-    public boolean addPlayer(Player player){
+    public boolean addPlayer(Player<R> player){
         if(players.stream().anyMatch(p-> p.getNickName().equals(player.getNickName())))
             return false;
         this.players.add(player);
@@ -216,7 +217,7 @@ public class State implements Serializable {
      * @apiNote The Player {@link State#currentPlayer} must be contained in the list {@link State#players}.
      * @see Player
      */
-    public Player getCurrentPlayer() {
+    public Player<R> getCurrentPlayer() {
         return currentPlayer;
     }
 
@@ -227,7 +228,7 @@ public class State implements Serializable {
      * @apiNote The Player {@link State#currentPlayer} must be contained in the list {@link State#players}.
      * @see Player
      */
-    public void setCurrentPlayer(Player currentPlayer) {
+    public void setCurrentPlayer(Player<R> currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
 
@@ -268,7 +269,7 @@ public class State implements Serializable {
      * @param nickName the nickname of the player
      * @return the player that has the {@code nickName} passed as parameter
      */
-    public Player getPlayerFromNick(String nickName){
+    public Player<R> getPlayerFromNick(String nickName){
         return players.stream()
                 .filter( player -> nickName.equals(player.getNickName()))
                 .toList()
