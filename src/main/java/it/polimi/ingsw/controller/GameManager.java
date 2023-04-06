@@ -67,7 +67,7 @@ public class GameManager<R extends RemoteInterface> {
     }
 
     private void verifyCommonGoal(User<R> user){
-        Player player = getController().getPlayerPlaying();
+        Player<R> player = getController().getPlayerPlaying();
         CommonGoal commonGoal1, commonGoal2;
         BookShelf bookShelf = player.getBookShelf();
         commonGoal1 = getController().getActiveCommonGoal1();
@@ -83,14 +83,14 @@ public class GameManager<R extends RemoteInterface> {
     }
 
     private void verifyEndGame(User<R> user){
-        Player player = controller.getPlayerPlaying();
+        Player<R> player = controller.getPlayerPlaying();
 
         if(player.getBookShelf().isFull()) {
             player.assignScoreEndGame(1);
         }
     }
 
-    private void evaluateFinalScore(Player player){
+    private void evaluateFinalScore(Player<R> player){
         int scoreAdjacentGoal = 0;
         int personalGoalMatches = 0;
         int scorePersonalGoal = 0;
@@ -130,7 +130,7 @@ public class GameManager<R extends RemoteInterface> {
      * @see Player
      */
     private void setNextCurrentPlayer(){
-        Player oldCurrentPlayer = controller.getState().getCurrentPlayer();
+        Player<R> oldCurrentPlayer = controller.getState().getCurrentPlayer();
         int index = (controller.getState().getPlayers().indexOf(oldCurrentPlayer) + 1) % 4;
         controller.getState().setCurrentPlayer(controller.getState().getPlayers().get(index));
     }

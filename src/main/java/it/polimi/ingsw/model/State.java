@@ -68,7 +68,7 @@ public class State<R extends RemoteInterface> implements Serializable {
      * @see ChatMessage
      * @see Player
      */
-    private transient List<ChatMessage> messages;
+    private transient List<ChatMessage<R>> messages;
 
     private final List<OnAchievedCommonGoalListener> achievedCommonGoalListeners;
 
@@ -238,7 +238,7 @@ public class State<R extends RemoteInterface> implements Serializable {
      *
      * @see ChatMessage
      */
-    public List<ChatMessage> getMessages() {
+    public List<ChatMessage<R>> getMessages() {
         return messages;
     }
 
@@ -248,7 +248,7 @@ public class State<R extends RemoteInterface> implements Serializable {
      *
      * @see ChatMessage
      */
-    public void setMessages(List<ChatMessage> messages) { // eventualmente da eliminare
+    public void setMessages(List<ChatMessage<R>> messages) { // eventualmente da eliminare
         this.messages = messages;
     }
 
@@ -258,7 +258,7 @@ public class State<R extends RemoteInterface> implements Serializable {
      *
      * @see ChatMessage
      */
-    public void addMessage(ChatMessage message){
+    public void addMessage(ChatMessage<R> message){
         this.messages.add(message);
     }
 
