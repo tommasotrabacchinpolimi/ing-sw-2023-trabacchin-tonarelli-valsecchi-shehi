@@ -181,10 +181,15 @@ public class GameManager<R extends RemoteInterface> {
     }
 
     public void registerPlayer(R user, String nickname) {
-        //se esiste gia un player nello state con lo stesso nickname, aggiorno la view; altrimenti aggiungo il player da zero
-        Player<R> player = new Player<R>(nickname);
-        player.setVirtualView(user);
-        controller.getState().addPlayer(player);
+        Player<R> player = controller.getState().getPlayerFromNick(nickname);
+        if(player != null){ //Se il giocatore era già presente nella partita, allora si era disconnesso. Quindi aggiorno la view e cambio lo stato del player
+            player.setVirtualView(user);
+            player.setPlayerState(PlayerState.CONNECTED);
+        } else { //se il nickname non è già presente, allora aggiungo il player e gli setto la view
+            player = new Player<R>(nickname);
+            player.setVirtualView(user);
+            controller.getState().addPlayer(player);
+        }
     }
 
 }
