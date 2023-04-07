@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.net.RemoteInterface;
@@ -8,10 +9,6 @@ import it.polimi.ingsw.net.User;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.function.Function;
 
@@ -20,25 +17,13 @@ public class GameManager<R extends RemoteInterface> {
     private Function<Integer,Integer> fromGroupSizeToScore;
     private static final String COMMON_GOAL_CONFIGURATION = "./src/main/CommonGoalConfiguration/";
 
-    public static void main(String[] args) {
-        /*GameManager gameManager = new GameManager();
-
-        gameManager.initCommonGoal(StairCommonGoal.class, 1);*/
-
-        try {
-            List<Path> commonGoalConfigFileList = Files.walk(Paths.get(COMMON_GOAL_CONFIGURATION)).toList();
-            commonGoalConfigFileList.stream().forEach(System.out::println);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public Controller<R> getController() {
+    public Controller getController() {
         return controller;
     }
 
     public void dragTilesToBookShelf(User<R> user, int[] chosenTiles, int chosenColumn){
-        Player<R> player = getController().getState().getPlayers().stream().filter(p->p.getNickName().equals(user.getNickname())).toList().get(0);
+
+        Player<R> player = getController().getState().getPlayerFromNick(user.getNickname());
         if(!player.equals(getController().getPlayerPlaying())){
             return;
         }
@@ -172,23 +157,8 @@ public class GameManager<R extends RemoteInterface> {
         return Optional.of(result);
     }
 
-    public void initScoringTokens(){
-        Stack<Integer> scoringTokens = new Stack<>();
-
-        int numberOfPlayers = controller.getState().getPlayersNumber();
-
-        if(numberOfPlayers == 4)
-            scoringTokens.push(2);
-
-        scoringTokens.push(4);
-        if (numberOfPlayers >= 3)
-            scoringTokens.push(6);
-
-        scoringTokens.push(8);
-    }
-
     public void initCommonGoal(Class<? extends CommonGoal> c, int i) {
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setExclusionStrategies(new JSONExclusionStrategy()).create();
         JsonReader reader;
 
         try {
@@ -208,5 +178,4 @@ public class GameManager<R extends RemoteInterface> {
         player.setVirtualView(user);
         controller.getState().addPlayer(player);
     }
-
 }
