@@ -137,7 +137,7 @@ public class TupleCommonGoal extends CommonGoal implements Serializable {
         List<List<Set<EntryPatternGoal>>> result = new ArrayList<>();
 
         for(TileType tileType : TileType.values()){
-            List<EntryPatternGoal> entries = new ArrayList<EntryPatternGoal>();
+            List<EntryPatternGoal> entries = new ArrayList<>();
 
             for(int i = 0; i < bookShelf.length; i++){
                 for(int j = 0; j < bookShelf[0].length; j++){

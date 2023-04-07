@@ -29,15 +29,17 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
     @Serial
     @ExcludedFromJSON
     private static final long serialVersionUID = 83625649L;
+
     /**
      * Increment of row, that is set to 1 if and only if the lines that have to satisfy the given condition are rows of a matrix.
-     * @apiNote if <code>incRow</code> is set to 1, then {@link LineCommonGoal#incCol} must be set to 0.
+     *
+     * @apiNote if {@code incRow} is set to 1, then {@link LineCommonGoal#incCol} must be set to 0.
      * @see LineCommonGoal#getIncRow()
      * @see LineCommonGoal#setIncRow(int)
      * @see LineCommonGoal#incCol
      */
-    @ExcludedFromJSON
     private int incRow;
+
     /**
      * Increment of column, that is set to 1 if and only if the lines that have to satisfy the given condition are columns of a matrix.
      * @apiNote if <code>incCol</code> is set to 1, then {@link LineCommonGoal#incRow} must be set to 0.
@@ -45,14 +47,13 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
      * @see LineCommonGoal#setIncCol(int)
      * @see LineCommonGoal#incRow
      */
-    @ExcludedFromJSON
     private int incCol;
+
     /**
      * The number of lines that needs to satisfy the condition in order to complete the Goal
      * @see LineCommonGoal#getLinesNumber()
      * @see LineCommonGoal#setLinesNumber(int)
      */
-    @ExcludedFromJSON
     private int linesNumber;
 
     /**
@@ -60,14 +61,13 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
      * @see LineCommonGoal#getNumberOfTiles()
      * @see LineCommonGoal#setNumberOfTiles(int)
      */
-    @ExcludedFromJSON
     private int numberOfTiles;
+
     /**
      * The array that contains the number of different {@link TileType tile types} that each lines needs to have in order to satisfy the Goal. The array of int is ordered.
      * @apiNote If <code>differentTiles = {6}</code> then in the lines there has to be 6 different {@link TileType tile type} in order to satisfy the given condition.
      * If <code>differentTiles = {1, 2, 3}</code> then in the lines there has to be maximum 3 different {@link TileType tile type} in order to satisfy the given condition; in other words,the lines must be formed of 1, 2 or 3 different {@link TileType tile types}.
      */
-    @ExcludedFromJSON
     private int[] differentTiles;
 
     public LineCommonGoal(int incRow, int incCol, int linesNumber, int numberOfTiles, int[] differentTiles) {

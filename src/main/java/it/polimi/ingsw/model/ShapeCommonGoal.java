@@ -20,7 +20,6 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
      * to finds if there is a common-goal. This class makes the check of 3 candidate
      * common-goals (Common-goal 2, 3, 10).
      */
-    @ExcludedFromJSON
     private List<Integer[]> ruleShape;
 
     public ShapeCommonGoal(List<Integer[]> ruleShape) {
@@ -41,9 +40,6 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
         super(scoringTokens, description);
         this.ruleShape = ruleShape;
     }
-
-
-
 
     /**
      *
@@ -131,7 +127,7 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
      * @param maxRowDim    It is the width of the bookshelf, tells where is the horizontal limit to check
      *                     for tails.
      * @param indexColumn  It is the index of column of the current element being verified
-     * @param indexRow It is the index of row of the current element being verified
+     * @param indexRow     It is the index of row of the current element being verified
      * @return If an element with indexes (i,j), added to the correspective array of the list incrementRuleShape
      * @see #ruleShape
      *

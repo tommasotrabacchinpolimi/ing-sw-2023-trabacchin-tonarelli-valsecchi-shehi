@@ -32,6 +32,7 @@ import java.util.stream.Collectors;
 public class State<R extends RemoteInterface> implements Serializable {
     @Serial
     private static final long serialVersionUID = 26202152145454545L;
+
     /**
      * The living room {@link Board} in which the game is played.
      *
