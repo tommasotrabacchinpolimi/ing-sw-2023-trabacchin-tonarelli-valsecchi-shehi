@@ -1,5 +1,6 @@
 {
   "description" : "Five tiles of the same type forming a diagonal.",
+  "scoringTokens": [2, 4, 6, 8],
   "ruleShape": [
     [1, 1], [2, 2], [3, 3], [4, 4]
   ]
