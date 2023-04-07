@@ -231,9 +231,12 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
 
     @Override
     public String toString() {
-        return "StairCommonGoal{\n" +
-                "\tnumberOfColumns=" + numberOfColumns +
-                "\n\tdescription=" + super.getDescription() +
-                "\n}";
+        return "StairCommonGoal{" +
+                System.getProperty("line.separator") +
+                super.toString() +
+                System.getProperty("line.separator") +
+                "\tNumber of Columns: " + numberOfColumns +
+                System.getProperty("line.separator") +
+                '}';
     }
 }
