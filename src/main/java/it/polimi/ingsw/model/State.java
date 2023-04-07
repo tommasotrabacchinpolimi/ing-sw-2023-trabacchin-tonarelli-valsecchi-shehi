@@ -75,6 +75,7 @@ public class State<R extends RemoteInterface> implements Serializable {
 
     private final List<OnAchievedCommonGoalListener> achievedCommonGoalListeners;
     private final List<OnStateChangedListener> stateChangedListeners;
+    private final List<OnLastPlayerUpdatedListener> lastPlayerUpdatedListeners;
 
     /**
      * Construct of the class that creates the fields of the class.
@@ -93,6 +94,7 @@ public class State<R extends RemoteInterface> implements Serializable {
         achievedCommonGoalListeners = new ArrayList<>();
         stateChangedListeners = new ArrayList<>();
         lastPlayer = null;
+        lastPlayerUpdatedListeners = new ArrayList<>();
     }
 
     public void setAchievedCommonGoalListener(OnAchievedCommonGoalListener listener) {
@@ -109,6 +111,14 @@ public class State<R extends RemoteInterface> implements Serializable {
 
     public void removeStateChangedListener(OnStateChangedListener stateChangedListener){
         this.stateChangedListeners.remove(stateChangedListener);
+    }
+
+    public void setLastPlayerUpdatedListener(OnLastPlayerUpdatedListener lastPlayerUpdatedListener){
+        this.lastPlayerUpdatedListeners.add(lastPlayerUpdatedListener);
+    }
+
+    public void removeLastPlayerUpdatedListeners(OnLastPlayerUpdatedListener lastPlayerUpdatedListener){
+        this.stateChangedListeners.remove(lastPlayerUpdatedListener);
     }
 
     public Player<R> getLastPlayer() {
@@ -335,6 +345,14 @@ public class State<R extends RemoteInterface> implements Serializable {
     public void notifyOnStateChanged(){
         for(OnStateChangedListener stateChangedListener: stateChangedListeners){
             stateChangedListener.onStateChanged(this.getGameState());
+        }
+    }
+
+    public void notifyLastPlayerUpdated(){
+        if(lastPlayer!=null) {
+            for (OnLastPlayerUpdatedListener lastPlayerUpdatedListener : lastPlayerUpdatedListeners) {
+                lastPlayerUpdatedListener.onLastPlayerUpdated(lastPlayer.getNickName());
+            }
         }
     }
 
