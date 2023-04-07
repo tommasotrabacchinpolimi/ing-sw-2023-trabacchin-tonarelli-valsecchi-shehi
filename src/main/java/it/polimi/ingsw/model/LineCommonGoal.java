@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.JSONExclusionStrategy.ExcludedFromJSON;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,6 +26,7 @@ import java.util.Stack;
  *  @see TileType
  */
 public class LineCommonGoal extends CommonGoal implements Serializable {
+    @Serial
     @ExcludedFromJSON
     private static final long serialVersionUID = 83625649L;
     /**

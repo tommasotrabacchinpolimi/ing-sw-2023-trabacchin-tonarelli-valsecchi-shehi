@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.JSONExclusionStrategy.ExcludedFromJSON;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
 
@@ -19,6 +20,7 @@ import java.util.*;
  *  @see EntryPatternGoal
  */
 public class StairCommonGoal extends CommonGoal implements Serializable {
+    @Serial
     @ExcludedFromJSON
     private static final long serialVersionUID = 142749503L;
     /**

@@ -2,10 +2,12 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.JSONExclusionStrategy.ExcludedFromJSON;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
 
 public class ShapeCommonGoal extends CommonGoal implements Serializable {
+    @Serial
     @ExcludedFromJSON
     private static final long serialVersionUID = 746524795L;
 

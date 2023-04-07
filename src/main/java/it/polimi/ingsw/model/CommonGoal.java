@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.JSONExclusionStrategy.ExcludedFromJSON;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Stack;
@@ -20,6 +21,7 @@ import java.util.Stack;
  * </p>
  */
 public abstract class CommonGoal implements Serializable {
+    @Serial
     private static final long serialVersionUID = 285236373L;
 
     /**

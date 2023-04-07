@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.net.RemoteInterface;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
  * @see Player
  */
 public class ChatMessage<R extends RemoteInterface> implements Serializable {
+    @Serial
     private static final long serialVersionUID = 82642348L;
     /**
      * The {@link Player} that sends the message.

@@ -7,6 +7,7 @@ import it.polimi.ingsw.controller.listeners.OnStateChangedListener;
 import it.polimi.ingsw.net.RemoteInterface;
 import it.polimi.ingsw.net.User;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -29,6 +30,7 @@ import java.util.stream.Collectors;
  * @see ChatMessage
  */
 public class State<R extends RemoteInterface> implements Serializable {
+    @Serial
     private static final long serialVersionUID = 26202152145454545L;
     /**
      * The living room {@link Board} in which the game is played.
