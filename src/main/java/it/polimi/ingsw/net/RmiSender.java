@@ -7,15 +7,7 @@ import java.util.concurrent.ExecutorService;
 
 public class RmiSender<L extends RemoteInterface,R extends RemoteInterface> implements InvocationHandler {
 
-    public static final Method EQUALS;
 
-    static {
-        try {
-            EQUALS = Object.class.getDeclaredMethod("equals", Object.class);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
-    }
     private final R remoteObject;
     private final RmiConnectionManager<L,R> rmiConnectionManager;
     private final ExecutorService executorService;
@@ -28,9 +20,6 @@ public class RmiSender<L extends RemoteInterface,R extends RemoteInterface> impl
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) {
-        if(method.equals(EQUALS)) {
-            return proxy == args[0];
-        }
         try {
             java.beans.Statement st = new Statement(remoteObject, method.getName(), args);
             executorService.submit(() -> {
