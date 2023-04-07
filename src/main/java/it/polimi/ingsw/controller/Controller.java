@@ -49,8 +49,6 @@ public class Controller<R extends RemoteInterface> implements OnConnectionLostLi
 
     public void quitGame(R user){
         lobbyController.onQuitGame(user);
-        //notifica la lobby controller di toglierlo dalla mappa
-        // togliamo la virtual view dal player
     }
 
     @Override

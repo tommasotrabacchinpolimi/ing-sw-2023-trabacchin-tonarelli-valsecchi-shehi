@@ -2,10 +2,12 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.JSONExclusionStrategy.ExcludedFromJSON;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
 
 public class ShapeCommonGoal extends CommonGoal implements Serializable {
+    @Serial
     @ExcludedFromJSON
     private static final long serialVersionUID = 746524795L;
 
@@ -18,7 +20,6 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
      * to finds if there is a common-goal. This class makes the check of 3 candidate
      * common-goals (Common-goal 2, 3, 10).
      */
-    @ExcludedFromJSON
     private List<Integer[]> ruleShape;
 
     public ShapeCommonGoal(List<Integer[]> ruleShape) {
@@ -39,9 +40,6 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
         super(scoringTokens, description);
         this.ruleShape = ruleShape;
     }
-
-
-
 
     /**
      *
@@ -129,7 +127,7 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
      * @param maxRowDim    It is the width of the bookshelf, tells where is the horizontal limit to check
      *                     for tails.
      * @param indexColumn  It is the index of column of the current element being verified
-     * @param indexRow It is the index of row of the current element being verified
+     * @param indexRow     It is the index of row of the current element being verified
      * @return If an element with indexes (i,j), added to the correspective array of the list incrementRuleShape
      * @see #ruleShape
      *
@@ -209,6 +207,31 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
             //ho una lista di posizioni.
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder res = new StringBuilder();
+
+        res.append("ShapeCommonGoal{")
+                .append(System.getProperty("line.separator"))
+                .append(super.toString())
+                .append(System.getProperty("line.separator"))
+                .append("\tRule Shape:[");
+
+        ruleShape.forEach(x -> res
+                .append(System.getProperty("line.separator"))
+                .append("\t\t(")
+                .append(x[0])
+                .append(", ")
+                .append(x[1])
+                .append(")"));
+        res.append(System.getProperty("line.separator"))
+                .append("\t]")
+                .append(System.getProperty("line.separator"))
+                .append("}");
+
+        return res.toString();
     }
 
 }

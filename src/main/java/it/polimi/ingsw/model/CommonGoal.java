@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.JSONExclusionStrategy.ExcludedFromJSON;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Stack;
@@ -20,6 +21,7 @@ import java.util.Stack;
  * </p>
  */
 public abstract class CommonGoal implements Serializable {
+    @Serial
     private static final long serialVersionUID = 285236373L;
 
     /**
@@ -28,7 +30,6 @@ public abstract class CommonGoal implements Serializable {
      *
      * @see CommonGoal
      */
-    @ExcludedFromJSON
     private final Stack<Integer> scoringTokens;
 
     /**
@@ -83,6 +84,13 @@ public abstract class CommonGoal implements Serializable {
         this.description = description;
     }
 
+    /**
+     * @return all scoring tokens top to bottom ordered
+     */
+    public Stack<Integer> getScoringTokens() {
+        return scoringTokens;
+    }
+
     public int getAvailableScore() {
         return (scoringTokens.size() == 0) ? 0 : scoringTokens.pop();
     }
@@ -105,4 +113,16 @@ public abstract class CommonGoal implements Serializable {
      * <li>list of {@link EntryPatternGoal} that satisfied the {@link CommonGoal} otherwise</li></ul>
      */
     public abstract List<EntryPatternGoal> rule(TileType[][] bookShelf);
+    @Override
+    public String toString() {
+        StringBuilder res = new StringBuilder("\tScoring Tokens: ");
+
+        scoringTokens.forEach(s -> res.append(s).append(", "));
+
+        res.append(System.getProperty("line.separator"))
+                .append("\tDescription: ")
+                .append(description);
+
+        return res.toString();
+    }
 }

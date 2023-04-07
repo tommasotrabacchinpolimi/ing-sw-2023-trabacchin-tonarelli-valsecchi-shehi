@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.net.RemoteInterface;
@@ -8,10 +9,6 @@ import it.polimi.ingsw.net.User;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.function.Function;
 
@@ -20,42 +17,31 @@ public class GameManager<R extends RemoteInterface> {
     private Function<Integer,Integer> fromGroupSizeToScore;
     private static final String COMMON_GOAL_CONFIGURATION = "./src/main/CommonGoalConfiguration/";
 
-    public static void main(String[] args) {
-        /*GameManager gameManager = new GameManager();
-
-        gameManager.initCommonGoal(StairCommonGoal.class, 1);*/
-
-        try {
-            List<Path> commonGoalConfigFileList = Files.walk(Paths.get(COMMON_GOAL_CONFIGURATION)).toList();
-            commonGoalConfigFileList.stream().forEach(System.out::println);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public Controller<R> getController() {
+    public Controller getController() {
         return controller;
     }
 
-    public void dragTilesToBookShelf(User<R> user, int[] chosenTiles, int chosenColumn){
-        Player<R> player = getController().getState().getPlayers().stream().filter(p->p.getNickName().equals(user.getNickname())).toList().get(0);
-        if(!player.equals(getController().getPlayerPlaying())){
-            return;
+    public void dragTilesToBookShelf(R user, int[] chosenTiles, int chosenColumn){
+        if(controller.getState().getGameState() == GameState.MID || controller.getState().getGameState() == GameState.FINAL) {
+            Player<R> player = controller.getState().getPlayerFromView(user);
+            if (!player.equals(getController().getPlayerPlaying())) {
+                return;
+            }
+            Board board = getController().getState().getBoard();
+            List<TileSubject> tiles = new ArrayList<>();
+            for (Integer tile : chosenTiles) {
+                tiles.add(board.fromIntToBoardSquare(tile).getTileSubject());
+            }
+            BookShelf bookShelf = player.getBookShelf();
+            bookShelf.addTileSubjectTaken(tiles, chosenColumn);
+            verifyEndGame(user);
+            if (verifyRefillBoard() && controller.getState().getGameState()!=GameState.END) {
+                getController().getState().getBoard().refillBoard(controller.getState().getPlayersNumber());
+            }
+            evaluateFinalScore(player);
+            verifyCommonGoal(user);
+            setNextCurrentPlayer();
         }
-        Board board = getController().getState().getBoard();
-        List<TileSubject> tiles = new ArrayList<>();
-        for(Integer tile : chosenTiles){
-            tiles.add(board.fromIntToBoardSquare(tile).getTileSubject());
-        }
-        BookShelf bookShelf = player.getBookShelf();
-        bookShelf.addTileSubjectTaken(tiles,chosenColumn);
-        verifyEndGame(user);
-        if(verifyRefillBoard()){
-            getController().getState().getBoard().refillBoard(getController().getState().getPlayersNumber());
-        }
-        evaluateFinalScore(player);
-        verifyCommonGoal(user);
-        setNextCurrentPlayer();
     }
 
     public Function<Integer, Integer> getFromGroupSizeToScore() {
@@ -66,8 +52,8 @@ public class GameManager<R extends RemoteInterface> {
         this.fromGroupSizeToScore = fromGroupSizeToScore;
     }
 
-    private void verifyCommonGoal(User<R> user){
-        Player<R> player = getController().getPlayerPlaying();
+    private void verifyCommonGoal(R user){
+        Player<R> player = controller.getState().getPlayerFromView(user);
         CommonGoal commonGoal1, commonGoal2;
         BookShelf bookShelf = player.getBookShelf();
         commonGoal1 = getController().getActiveCommonGoal1();
@@ -82,11 +68,13 @@ public class GameManager<R extends RemoteInterface> {
         }
     }
 
-    private void verifyEndGame(User<R> user){
-        Player<R> player = controller.getPlayerPlaying();
+    private void verifyEndGame(R user){
+        Player<R> player = controller.getState().getPlayerFromView(user);
 
         if(player.getBookShelf().isFull()) {
             player.assignScoreEndGame(1);
+            controller.getState().setGameState(GameState.FINAL);
+            controller.getState().setLastPlayer(controller.getState().getPlayers().get(controller.getState().getPlayersNumber()-1)); //è l'ultimo giocatore della lista
         }
     }
 
@@ -131,6 +119,11 @@ public class GameManager<R extends RemoteInterface> {
      */
     private void setNextCurrentPlayer(){
         Player<R> oldCurrentPlayer = controller.getState().getCurrentPlayer();
+        if(controller.getState().getGameState() == GameState.FINAL){ //se sono nella fase FINAL del gioco e il prossimo giocatore è il lastPlayer, allora rendo il gioco END
+            if(oldCurrentPlayer.equals(controller.getState().getLastPlayer())){
+                controller.getState().setGameState(GameState.END);
+            }
+        }
         int index = (controller.getState().getPlayers().indexOf(oldCurrentPlayer) + 1) % 4;
         controller.getState().setCurrentPlayer(controller.getState().getPlayers().get(index));
     }
@@ -172,23 +165,8 @@ public class GameManager<R extends RemoteInterface> {
         return Optional.of(result);
     }
 
-    public void initScoringTokens(){
-        Stack<Integer> scoringTokens = new Stack<>();
-
-        int numberOfPlayers = controller.getState().getPlayersNumber();
-
-        if(numberOfPlayers == 4)
-            scoringTokens.push(2);
-
-        scoringTokens.push(4);
-        if (numberOfPlayers >= 3)
-            scoringTokens.push(6);
-
-        scoringTokens.push(8);
-    }
-
     public void initCommonGoal(Class<? extends CommonGoal> c, int i) {
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setExclusionStrategies(new JSONExclusionStrategy()).create();
         JsonReader reader;
 
         try {
@@ -203,10 +181,15 @@ public class GameManager<R extends RemoteInterface> {
     }
 
     public void registerPlayer(R user, String nickname) {
-        //se esiste gia un player nello state con lo stesso nickname, aggiorno la view; altrimenti aggiungo il player da zero
-        Player<R> player = new Player<R>(nickname);
-        player.setVirtualView(user);
-        controller.getState().addPlayer(player);
+        Player<R> player = controller.getState().getPlayerFromNick(nickname);
+        if(player != null){ //Se il giocatore era già presente nella partita, allora si era disconnesso. Quindi aggiorno la view e cambio lo stato del player
+            player.setVirtualView(user);
+            player.setPlayerState(PlayerState.CONNECTED);
+        } else { //se il nickname non è già presente, allora aggiungo il player e gli setto la view
+            player = new Player<R>(nickname);
+            player.setVirtualView(user);
+            controller.getState().addPlayer(player);
+        }
     }
 
 }

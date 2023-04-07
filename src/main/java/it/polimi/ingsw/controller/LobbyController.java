@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.PlayerState;
 import it.polimi.ingsw.model.State;
 import it.polimi.ingsw.net.*;
 
@@ -29,8 +30,8 @@ public class LobbyController<R extends RemoteInterface> implements UserAccepter<
         if(viewToNicknameMap.containsValue(nickname)){
             if(disconnectedButInGame.contains(nickname)){
                 Controller<R> c = viewControllerMap.get(nicknameToViewMap.get(nickname));
-                for(Player p: c.getState().getPlayers()) {
-                    if (p.getVirtualView() == nicknameToViewMap.get(nickname)) {
+                for(Player<R> p: c.getState().getPlayers()) {
+                    if (p.getVirtualView() == nicknameToViewMap.get(nickname) && p.getPlayerState()== PlayerState.DISCONNECTED) {
                         viewControllerMap.remove(nicknameToViewMap.get(nickname)); //togliamo quella vecchia
                         viewControllerMap.put(user, c); //mettiamo quella nuova
                         controllerViewMap.get(c).remove(nicknameToViewMap.get(nickname));

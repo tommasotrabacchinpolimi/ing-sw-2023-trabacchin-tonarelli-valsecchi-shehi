@@ -2,10 +2,14 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.listeners.OnPointsUpdatedListener;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-public class PointPlayer {
+public class PointPlayer implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 973546426438574L;
     private int scoreCommonGoal1;
     private int scoreCommonGoal2;
     private int scoreEndGame;

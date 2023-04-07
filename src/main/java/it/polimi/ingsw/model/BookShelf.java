@@ -10,17 +10,19 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Class used to represent personal {@link BookShelf} for each player.<br>
- * This class is unique per {@link Player} entity.<br>
- * Standard {@link #tileSubjectTaken bookshelf} dimension are:
- * <ul><li>{@code 6}: for rows</li>
- * <li>{@code 5}: for columns</li></ul>
+ * <p>Class used to represent personal bookshelf for each player.</p>
+ * <p>This class is unique per {@link Player} entity.</p>
+ * <p>Standard {@link #tileSubjectTaken bookshelf} dimension are:
+ * <ul>
+ *     <li>{@code 6}: for rows</li>
+ *     <li>{@code 5}: for columns</li>
+ * </ul>
  * according to the <a href="https://www.craniocreations.it/storage/media/product_downloads/48/538/MyShelfie_Ruleboo_ENG_lowres_new.pdf">
- *     Rulebook</a>.<br>
- * To declare a BookShelf with other dimension use
- * {@link BookShelf#BookShelf(int, int) BookShelf(row, column)} constructor.<br>
- * {@link CommonGoal Common goal} and {@link PersonalGoal personal goal}
- * are assigned based on the content of {@link #tileSubjectTaken bookshelf}
+ *     Rulebook</a>.</p>
+ * <p>To declare a BookShelf with other dimension use
+ * {@link BookShelf#BookShelf(int, int) BookShelf(row, column)} constructor.</p>
+ * <p>{@link CommonGoal Common goal} and {@link PersonalGoal personal goal}
+ * are assigned based on the content of {@link #tileSubjectTaken bookshelf}</p>
  *
  * @author Emanuele Valsecchi
  * @version 1.0, 15/04/23

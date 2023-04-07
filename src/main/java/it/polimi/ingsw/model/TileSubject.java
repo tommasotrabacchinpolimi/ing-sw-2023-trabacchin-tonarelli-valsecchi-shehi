@@ -30,7 +30,7 @@ public enum TileSubject implements Serializable {
     }
 
     public TileType getTileType() {
-        return tileType;
+        return this.tileType;
     }
 
     public String getTileTypeName(){

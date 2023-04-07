@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.JSONExclusionStrategy.ExcludedFromJSON;
 import it.polimi.ingsw.net.RemoteInterface;
 import it.polimi.ingsw.net.TestClientInterface;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -16,15 +17,23 @@ import java.io.Serializable;
  * @see PersonalGoal
  */
 public class Player<R extends RemoteInterface> implements Serializable {
+    @Serial
+    @ExcludedFromJSON
     private static final long serialVersionUID = 97354642643274L;
+
     private final String nickName;
+
     @ExcludedFromJSON
     private final PersonalGoal personalGoal;
+
     @ExcludedFromJSON
     private BookShelf bookShelf;
+
     @ExcludedFromJSON
     private PointPlayer pointPlayer;
+
     private PlayerState playerState;
+
     private R virtualView;
 
     public Player(String nickName) {
@@ -32,6 +41,7 @@ public class Player<R extends RemoteInterface> implements Serializable {
         this.personalGoal = null;
         this.bookShelf = new BookShelf();
         this.pointPlayer = new PointPlayer();
+        this.playerState = PlayerState.CONNECTED;
     }
 
     /**
@@ -46,6 +56,7 @@ public class Player<R extends RemoteInterface> implements Serializable {
         this.personalGoal = personalGoal;
         this.bookShelf = new BookShelf();
         this.pointPlayer = new PointPlayer();
+        this.playerState = PlayerState.CONNECTED;
     }
 
     public PlayerState getPlayerState() {
@@ -72,11 +83,9 @@ public class Player<R extends RemoteInterface> implements Serializable {
         this.bookShelf = bookShelf;
     }
 
-
     public void assignScoreEndGame(int endGameScore) {
         this.pointPlayer.setScoreEndGame(endGameScore);
     }
-
 
     public PointPlayer getPointPlayer() {
         return pointPlayer;
@@ -114,4 +123,5 @@ public class Player<R extends RemoteInterface> implements Serializable {
                 "nickname=" + getNickName() +
                 '}';
     }
+
 }

@@ -1,5 +1,6 @@
 {
   "description": "Two columns each formed by 6 different types of tiles.",
+  "scoringTokens": [2, 4, 6, 8],
   "incRow": 0,
   "incCol": 1,
   "linesNumber": 2,

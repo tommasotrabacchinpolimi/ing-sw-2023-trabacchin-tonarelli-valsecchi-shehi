@@ -1,8 +1,14 @@
 package it.polimi.ingsw.model;
 
-import com.google.gson.Gson;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import it.polimi.ingsw.controller.JSONExclusionStrategy;
+
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -12,97 +18,71 @@ class PersonalGoalTest {
 
     private final static int PATTERN_NUMBER = 10; //number of total pattern
     private final static Random RANDOM = new Random();
-    private final String inputFileName = "./src/JSONTestFile/PersonalGoalPattern" + RANDOM.nextInt(1,11) + ".json";
+    private final String inputFileName = "Pattern" + RANDOM.nextInt(1,13);
 
     @Test
-    void getGoalPattern() {
-    }
+    void getGoalPattern(){
+        PersonalGoal personalGoal;
+        PersonalGoal personalGoal1;
 
-    @Test
-    void setGoalPattern() {
+        try {
+            personalGoal = new PersonalGoal("Pattern1");
+            personalGoal1 = new PersonalGoal("Pattern2");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            personalGoal = new PersonalGoal();
+            personalGoal1 = null;
+        }
+
+        assertNotEquals(personalGoal1, personalGoal);
+
+        personalGoal1 = new PersonalGoal(personalGoal);
+
+        assertEquals(personalGoal1.getGoalPattern(), personalGoal.getGoalPattern());
     }
 
     @Test
     void getScoreMap() {
-    }
+        PersonalGoal personalGoal;
+        PersonalGoal personalGoal1;
 
-    @Test
-    void setScoreMap() {
-    }
+        try {
+            personalGoal = new PersonalGoal("Pattern1");
+            personalGoal1 = new PersonalGoal("Pattern2");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            personalGoal = new PersonalGoal();
+            personalGoal1 = null;
+        }
 
-    @Test
-    void defaultSetScoreMap() {
+        assertNotEquals(personalGoal1, personalGoal);
+
+        personalGoal1 = new PersonalGoal(personalGoal);
+
+        assertEquals(personalGoal1.getScoreMap(), personalGoal.getScoreMap());
     }
 
     @Test
     void testToString() {
-        PersonalGoal personalGoal = new PersonalGoal();
-    }
+        PersonalGoal personalGoal;
 
-    // metodo che converte l'entità PersonalGoal (lista di EntryPatternGoal) in formato Json,
-    // nel caso in cui ci sia una corrispondenza biunivoca tra file Json e Personal Goal
-    private void createPersonalGoalGSON(){
-        Gson gson = new Gson();
-
-        for(int i = 0; i < PATTERN_NUMBER; i++) {
-            PrintWriter pw = this.getPrintWriter( i + 1 );
-
-            PersonalGoal personalGoal = new PersonalGoal();
-            createGoalPattern(personalGoal.getGoalPattern());
-
-            assert pw != null;
-            pw.write(gson.toJson(personalGoal));
-
-            pw.flush();
-            pw.close();
-        }
-    }
-
-    // metodo che ottiene il path dove salvare il file JSON e restituisce un oggetto PrintWriter per scrivere
-    // nel file JSON (nb: il file JSON non è ancora salvato)
-    private PrintWriter getPrintWriter(int index){
         try {
-            return new PrintWriter("./src/JSONTestFile/PersonalGoalPattern" + index + ".json");
-        } catch (IOException e) {
+            personalGoal = new PersonalGoal("Pattern1");
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
-            return null;
-        }
-    }
-
-    // metodo che crea le EntryPatternGoal per il file Json
-    private void createGoalPattern(List<EntryPatternGoal> goalPattern) {
-        EntryPatternGoal entryPatternGoal = getRandomEntry();
-        goalPattern.add(entryPatternGoal);
-
-        for(int i = 1; i < PersonalGoal.DEF_NUM_TILE_PATTERN; i++) {
-            entryPatternGoal = getRandomEntry();
-
-            if(!hasSamePosition(goalPattern, entryPatternGoal)) {
-                goalPattern.add(entryPatternGoal);
-            } else {
-                --i;
-            }
-        }
-    }
-
-    // metodo che verifica se ci sono due EntryPatternGoal con la stessa posizione,
-    // nel caso in cui ogni PersonalGoal sia in un unico file Json (corrispondenza biunivoca tra file Json e Personal Goal)
-    public boolean hasSamePosition(List<EntryPatternGoal> goalPattern, EntryPatternGoal entryPatternGoal){
-        for( EntryPatternGoal epg : goalPattern ) {
-            if( epg.getColumn() == entryPatternGoal.getColumn() &&
-                    epg.getRow() == entryPatternGoal.getRow()) {
-                return true;
-            }
+            personalGoal = new PersonalGoal();
         }
 
-        return false;
-    }
+        assertNotNull(personalGoal);
 
-    // metodo che crea una EntryPatternGoal randomica
-    private EntryPatternGoal getRandomEntry() {
-        return new EntryPatternGoal(
-                RANDOM.nextInt(7),
-                RANDOM.nextInt(6),
-                TileType.values()[RANDOM.nextInt(TileType.values().length)]);
+        String excepted = "Pattern:{\n" +
+                "\tEntryPatternGoal{row=0, column=0, tileType=PLANT},\n" +
+                "\tEntryPatternGoal{row=0, column=2, tileType=FRAME},\n" +
+                "\tEntryPatternGoal{row=1, column=4, tileType=CAT},\n" +
+                "\tEntryPatternGoal{row=2, column=3, tileType=BOOK},\n" +
+                "\tEntryPatternGoal{row=3, column=1, tileType=GAME},\n" +
+                "\tEntryPatternGoal{row=5, column=2, tileType=TROPHY}\n}" +
+                "\nscoreMap:{6=12, 5=9, 4=6, 3=4, 2=2, 1=1}";
+        assertEquals(personalGoal.toString(), excepted);
     }
 }

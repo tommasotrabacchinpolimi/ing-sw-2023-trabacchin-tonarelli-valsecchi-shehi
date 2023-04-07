@@ -1,8 +1,10 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 public class BoardSquare implements Serializable {
+    @Serial
     private static final long serialVersionUID = 22012000L;
     private BoardSquare top;
     private BoardSquare bottom;

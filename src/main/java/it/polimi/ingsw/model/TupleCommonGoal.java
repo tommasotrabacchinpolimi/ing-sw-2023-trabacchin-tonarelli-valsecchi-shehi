@@ -137,7 +137,7 @@ public class TupleCommonGoal extends CommonGoal implements Serializable {
         List<List<Set<EntryPatternGoal>>> result = new ArrayList<>();
 
         for(TileType tileType : TileType.values()){
-            List<EntryPatternGoal> entries = new ArrayList<EntryPatternGoal>();
+            List<EntryPatternGoal> entries = new ArrayList<>();
 
             for(int i = 0; i < bookShelf.length; i++){
                 for(int j = 0; j < bookShelf[0].length; j++){
@@ -301,5 +301,23 @@ public class TupleCommonGoal extends CommonGoal implements Serializable {
         } else {
             return Optional.of(max_row - min_row + 1);
         }
+    }
+    @Override
+    public String toString() {
+        return "TupleCommonGoal{" +
+                System.getProperty("line.separator") +
+                super.toString() +
+                System.getProperty("line.separator") +
+                "\tGroups Number: " + groupsNumber +
+                System.getProperty("line.separator") +
+                "\tAdjacent Tiles Power 2: " + adjacentTilesPo2 +
+                System.getProperty("line.separator") +
+                "\tSquare: " + square +
+                System.getProperty("line.separator") +
+                "\tSeparated: " + separated +
+                System.getProperty("line.separator") +
+                "\tSame Type Only: " + sameTypeOnly +
+                System.getProperty("line.separator") +
+                '}';
     }
 }
