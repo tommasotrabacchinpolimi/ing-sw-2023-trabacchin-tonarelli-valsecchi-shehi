@@ -1,13 +1,18 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.controller.listeners.*;
+import it.polimi.ingsw.controller.listeners.OnAchievedCommonGoalListener;
+import it.polimi.ingsw.controller.listeners.OnLastPlayerUpdatedListener;
+import it.polimi.ingsw.controller.listeners.OnMessageSentListener;
+import it.polimi.ingsw.controller.listeners.OnStateChangedListener;
 import it.polimi.ingsw.net.RemoteInterface;
+import it.polimi.ingsw.net.User;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * State is a class that contains all the references necessary to modify and update the 'state' (hence the name of the class)
@@ -78,8 +83,6 @@ public class State<R extends RemoteInterface> implements Serializable {
     private final List<OnLastPlayerUpdatedListener> lastPlayerUpdatedListeners;
     private final List<OnMessageSentListener> messageSentListeners;
 
-    private final List<OnPlayerPlayingChangedListener> onPlayerPlayingChangedListeners;
-
     /**
      * Construct of the class that creates the fields of the class.
      *
@@ -99,7 +102,6 @@ public class State<R extends RemoteInterface> implements Serializable {
         lastPlayer = null;
         lastPlayerUpdatedListeners = new ArrayList<>();
         messageSentListeners = new ArrayList<>();
-        onPlayerPlayingChangedListeners = new ArrayList<>();
     }
 
     public void setAchievedCommonGoalListener(OnAchievedCommonGoalListener listener) {
@@ -274,7 +276,6 @@ public class State<R extends RemoteInterface> implements Serializable {
      */
     public void setCurrentPlayer(Player<R> currentPlayer) {
         this.currentPlayer = currentPlayer;
-
     }
 
     /**
@@ -325,36 +326,38 @@ public class State<R extends RemoteInterface> implements Serializable {
         return players.stream().filter(player -> user == player.getVirtualView()).toList().get(0);
     }
 
-    public int checkCommonGoal(Player<R> player){
-       BookShelf bookShelf = player.getBookShelf();
-       if(commonGoal1.rule(bookShelf.toTileTypeMatrix())!=null){
-           return 1;
-       } else if(commonGoal2.rule(bookShelf.toTileTypeMatrix())!=null){
-           return 2;
+    public List<EntryPatternGoal> checkCommonGoal(Player<R> player, int num){
+       List<EntryPatternGoal> copy_result = new ArrayList<>();
+       List<EntryPatternGoal> result = new ArrayList<>();
+       if(num == 1) {
+           result = commonGoal1.rule(player.getBookShelf().toTileTypeMatrix());
        } else {
-           return 0;
+           result = commonGoal2.rule(player.getBookShelf().toTileTypeMatrix());
        }
+
+       if (result == null ){
+           copy_result = null;
+       } else {
+           for (EntryPatternGoal entry : result) {
+               copy_result.add(new EntryPatternGoal(entry.getRow(), entry.getColumn(), entry.getTileType()));
+           }
+       }
+       return copy_result;
     }
 
     public void notifyOnAchievedCommonGoal(){
+        List<EntryPatternGoal> copy_result;
         for(OnAchievedCommonGoalListener onAchievedCommonGoalListener: achievedCommonGoalListeners){
             for(Player<R> p: getPlayers()){
-                int n = checkCommonGoal(p);
-                if(n == 1 || n == 2){
-                    List<EntryPatternGoal> copy_result = new ArrayList<>();
-                    if(n == 1){
-                        List<EntryPatternGoal> result = commonGoal1.rule(p.getBookShelf().toTileTypeMatrix());
-                        for(EntryPatternGoal entry: result){
-                            copy_result.add(new EntryPatternGoal(entry.getRow(), entry.getColumn(), entry.getTileType()));
-                        }
-                    }
-                    if(n == 2){
-                        List<EntryPatternGoal> result = commonGoal2.rule(p.getBookShelf().toTileTypeMatrix());
-                        for(EntryPatternGoal entry: result){
-                            copy_result.add(new EntryPatternGoal(entry.getRow(), entry.getColumn(), entry.getTileType()));
-                        }
-                    }
-                    onAchievedCommonGoalListener.onAchievedCommonGoal(p.getNickName(), copy_result, n);
+                if(p.getPointPlayer().getScoreCommonGoal1() == 0){
+                    copy_result = checkCommonGoal(p, 1);
+                    if(copy_result != null)
+                        onAchievedCommonGoalListener.onAchievedCommonGoal(p.getNickName(), copy_result, 1);
+                }
+                if(p.getPointPlayer().getScoreCommonGoal2() == 0){
+                    copy_result = checkCommonGoal(p, 2);
+                    if(copy_result != null)
+                        onAchievedCommonGoalListener.onAchievedCommonGoal(p.getNickName(), copy_result, 2);
                 }
             }
         }
@@ -381,20 +384,5 @@ public class State<R extends RemoteInterface> implements Serializable {
             listener.onMessageSent(message.getSender().getNickName(), nicknameReceivers, message.getText());
         }
     }
-
-    public void setOnPlayerPlayingChangedListener(OnPlayerPlayingChangedListener onPlayerPlayingChangedListener) {
-        onPlayerPlayingChangedListeners.add(onPlayerPlayingChangedListener);
-    }
-
-    public void removeOnPlayerPlayingChangedListener(OnPlayerPlayingChangedListener onPlayerPlayingChangedListener) {
-        onPlayerPlayingChangedListeners.remove(onPlayerPlayingChangedListener);
-    }
-
-    public void notifyOnPlayerPlayingUpdated() {
-        for(OnPlayerPlayingChangedListener onPlayerPlayingChangedListener : onPlayerPlayingChangedListeners) {
-            onPlayerPlayingChangedListener.onPlayerPlayingChanged(currentPlayer.getNickName());
-        }
-    }
-
 
 }
