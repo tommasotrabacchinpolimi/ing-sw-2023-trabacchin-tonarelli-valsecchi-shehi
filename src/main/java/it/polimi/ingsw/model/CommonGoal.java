@@ -28,7 +28,6 @@ public abstract class CommonGoal implements Serializable {
      *
      * @see CommonGoal
      */
-    @ExcludedFromJSON
     private final Stack<Integer> scoringTokens;
 
     /**
@@ -81,6 +80,13 @@ public abstract class CommonGoal implements Serializable {
     public CommonGoal(Stack<Integer> scoringTokens, String description) {
         this.scoringTokens = scoringTokens;
         this.description = description;
+    }
+
+    /**
+     * @return all scoring tokens top to bottom ordered
+     */
+    public Stack<Integer> getScoringTokens() {
+        return scoringTokens;
     }
 
     public int getAvailableScore() {

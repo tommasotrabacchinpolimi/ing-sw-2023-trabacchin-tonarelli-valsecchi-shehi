@@ -1,21 +1,30 @@
 package it.polimi.ingsw.model;
 
-import java.io.IOException;
-import java.io.Serial;
-import java.io.Serializable;
+import java.io.*;
 import java.util.*;
-import java.io.FileReader;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+import it.polimi.ingsw.controller.JSONExclusionStrategy;
+import it.polimi.ingsw.controller.JSONExclusionStrategy.ExcludedFromJSON;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
 
 /**
- * This class represent the personal goal card referring to the official
- * <a href="https://www.craniocreations.it/storage/media/product_downloads/48/538/MyShelfie_Ruleboo_ENG_lowres_new.pdf">RuleBook</a>.
- * The default number of Tile inside a personal goal pattern is {@value DEF_NUM_TILE_PATTERN}. To set a personal goal
- * with a number of tiles above this limit use  {@link #PersonalGoal(int) PersonalGoal(numberOfTileInPattern)} constructor.
- * The score map referred to each card have a standard configuration:
+ * <p>This class represent the personal goal card referring to the official
+ * <a href="https://www.craniocreations.it/storage/media/product_downloads/48/538/MyShelfie_Ruleboo_ENG_lowres_new.pdf">
+ *     RuleBook
+ *     </a>.
+ * </p>
+ * <p>The default number of Tile inside a personal goal pattern is {@value DEF_NUM_TILE_PATTERN}. To set a personal goal
+ * with a number of tiles above this limit use  {@link #PersonalGoal(int numberOfTileInPattern)} constructor.</p>
+ * <p>The score map referred to each card have a standard configuration:
  * <ul>
  *     <li>1 Tile match = 1 Point</li>
  *     <li>2 Tiles match = 2 Points</li>
@@ -25,18 +34,26 @@ import org.json.simple.parser.*;
  *     <li>6 Tiles match = 12 Points</li>
  * </ul>
  * To create a new type of score map associated with a personal goal
- * see {@link #PersonalGoal(String) PersonalGoal(fileName)} constructor
+ * see {@link #PersonalGoal(String fileName) PersonalGoal(fileName)} constructor</p>
  *
  * @author Emanuele Valsecchi
- * @version 2.3, 31/03/23
+ * @version 3.0, 31/03/23
  */
 public class PersonalGoal implements Serializable {
+    @ExcludedFromJSON
     @Serial
     private static final long serialVersionUID = 52353836745724632L;
 
     /**
+     * The complete path to get the Personal Goal configuration from a json file
+     */
+    @ExcludedFromJSON
+    private static final String PERSONAL_GOAL_CONFIG = "./src/main/resources/PersonalGoalConfiguration/";
+
+    /**
      * Constant that defines standard number of tiles inside a personal goal
      */
+    @ExcludedFromJSON
     public static final int DEF_NUM_TILE_PATTERN = 6;
 
     /**
@@ -52,7 +69,7 @@ public class PersonalGoal implements Serializable {
     private final Map<Integer, Integer> scoreMap;
 
     /**
-     * Default constructor set the pattern of the personal goal and score map capacity to default value.
+     * Default constructor set the pattern of the personal goal and score map capacity to {@link #DEF_NUM_TILE_PATTERN default value}.
      * Pattern created is random and the score map is set to default configuration value.
      *
      * @see PersonalGoal
@@ -78,9 +95,19 @@ public class PersonalGoal implements Serializable {
     }
 
     /**
-     * This constructor is used to set the pattern for the card and scoreMap to the configuration specified inside the file
-     * with name passed as parameter.<br>
-     * JSON file needs to be formatted as follows:
+     * Use this constructor to create a copy of the PersonalGoal passed as parameter
+     *
+     * @param that Personal goal configuration that needs to be copied in the new istance
+     */
+    public PersonalGoal(PersonalGoal that) {
+        this.goalPattern = that.goalPattern;
+        this.scoreMap = that.scoreMap;
+    }
+
+    /**
+     * <p>This constructor is used to set the pattern for the card and scoreMap to the configuration specified inside the file
+     * with name passed as parameter.</p>
+     * <p>JSON file needs to be formatted as follows:
      * <pre>{@code {"goalPattern": [{
      *      "row": int value,
      *      "column": int value,
@@ -89,15 +116,41 @@ public class PersonalGoal implements Serializable {
      * ],"scoreMap": {
      *      String tilesNumber: int value,
      *      ...
-     * }}}</pre>
+     * }}}</pre></p>
      *
      * @param fileName the path to the file ".json" that contains personal goal card configuration
-     * @apiNote If the number of Tiles entity that creates the pattern inside the personal goal card is not equals to the
-     * maximum number of tiles that needs to be checked the card is not accepted and random configuration is set for the
-     * personal goal pattern, while default configuration is set for score map.
+     * @throws FileNotFoundException in case that the configuration file name passed as parameter is not
+     *         found at the right configuration path
+     * @apiNote No check will be done on the number of Tiles entity that creates the pattern inside the personal goal card
+     *          and the maximum number of tiles that needs to be checked the card
      * @see PersonalGoal
      */
-    public PersonalGoal(String fileName){
+    public PersonalGoal(String fileName) throws FileNotFoundException{
+        this((PersonalGoal)  new GsonBuilder()
+                .setExclusionStrategies(new JSONExclusionStrategy())
+                .create()
+                .fromJson(
+                        new JsonReader(
+                                new FileReader(PERSONAL_GOAL_CONFIG + fileName + ".json")),
+                        PersonalGoal.class));
+    }
+
+    /**
+     * This method was used inside the {@link #PersonalGoal(String fileName)} constructor and read line ny line of the json file
+     * configuration to set the fields.
+     *
+     * @deprecated <p>since version 2.3, replaced by {@link #PersonalGoal(String fileName)} constructor</p>
+     *             <p>This method was deprecated due to performance, security and robustness of the code</p>
+     *
+     * @param fileName complete path to the configuration file
+     * @apiNote If the number of Tiles entity that creates the pattern inside the personal goal card is not equals to the
+     *          maximum number of tiles that needs to be checked the card is not accepted and random configuration is set for the
+     *          personal goal pattern, while default configuration is set for score map.
+     * @see PersonalGoal
+     * @see #PersonalGoal(String fileName)
+     */
+    @Deprecated
+    private void usingJSONParser(String fileName) {
         JSONObject jo;
 
         // getting and parsing file "*.json"
@@ -106,9 +159,6 @@ public class PersonalGoal implements Serializable {
         } catch (IOException | ParseException e) {
             throw new RuntimeException(e);
         }
-
-        this.goalPattern = new ArrayList<>();
-        this.scoreMap = new Hashtable<>();
 
         fillPersonalGoalFromJSON(((JSONArray) jo.get("goalPattern")).iterator());
 
@@ -161,9 +211,14 @@ public class PersonalGoal implements Serializable {
     /**
      * This method is used to create personal goal card configuration from a JSON file that respect the correct formatting
      *
+     * @deprecated <p>since version 2.3, replaced by {@link #PersonalGoal(String fileName)} constructor</p>
+     *             <p>This method was deprecated because with the new {@linkplain #PersonalGoal(String fileName) constructor}
+     *             it is no more necessary to call it</p>
+     *
      * @param entryPatternIterator iterator used to browse the json file configuration for the entries of the personal goal card
      * @see PersonalGoal
      */
+    @Deprecated
     private void fillPersonalGoalFromJSON(Iterator entryPatternIterator){
         Map entryPatternAttributes;
 
@@ -183,10 +238,15 @@ public class PersonalGoal implements Serializable {
     /**
      * This method is used to get the value (as a string) from a map representing a json file
      *
+     * @deprecated <p>since version 2.3, replaced by {@link #PersonalGoal(String fileName)} constructor</p>
+     *             <p>This method was deprecated because with the new {@linkplain #PersonalGoal(String fileName) constructor}
+     *             it is no more necessary to call it</p>
+     *
      * @param map reference to the map that contains the value of an attribute in JSON file
      * @param attributeName the attribute name to be searched throw the map
      * @return a string representing the value stored in the json file
      */
+    @Deprecated
     private String getAttributeConfig(Map map, String attributeName){
         return map.get(attributeName).toString();
     }
@@ -194,9 +254,14 @@ public class PersonalGoal implements Serializable {
     /**
      * Retrieve the column value from the map passed as parameter
      *
+     * @deprecated <p>since version 2.3, replaced by {@link #PersonalGoal(String fileName)} constructor</p>
+     *             <p>This method was deprecated because with the new {@linkplain #PersonalGoal(String fileName) constructor}
+     *             it is no more necessary to call it</p>
+     *
      * @param map the map in which search for the value
      * @return an integer representing the column of a single entry for the pattern goal configuration
      */
+    @Deprecated
     private int getColumnConfig(Map map){
         return Integer.parseInt(getAttributeConfig(map, "column"));
     }
@@ -204,9 +269,14 @@ public class PersonalGoal implements Serializable {
     /**
      * Retrieve the row value from the map passed as parameter
      *
+     * @deprecated <p>since version 2.3, replaced by {@link #PersonalGoal(String fileName)} constructor</p>
+     *             <p>This method was deprecated because with the new {@linkplain #PersonalGoal(String fileName) constructor}
+     *             it is no more necessary to call it</p>
+     *
      * @param map the map in which search for the value
      * @return an integer representing the row of a single entry for the pattern goal configuration
      */
+    @Deprecated
     private int getRowConfig(Map map){
         return Integer.parseInt(getAttributeConfig(map, "row"));
     }
@@ -214,9 +284,14 @@ public class PersonalGoal implements Serializable {
     /**
      * Retrieve the TileType value from the map passed as parameter
      *
+     * @deprecated <p>since version 2.3, replaced by {@link #PersonalGoal(String fileName)} constructor</p>
+     *             <p>This method was deprecated because with the new {@linkplain #PersonalGoal(String fileName) constructor}
+     *             it is no more necessary to call it</p>
+     *
      * @param map the map in which search for the value
      * @return a String representing the Tile type for a single entry for the pattern goal configuration
      */
+    @Deprecated
     private String getTileTypeConfig(Map map){
         return getAttributeConfig(map, "tileType");
     }
@@ -224,9 +299,14 @@ public class PersonalGoal implements Serializable {
     /**
      * This method is used to create score map configuration from a JSON file that respect the correct formatting
      *
+     * @deprecated <p>since version 2.3, replaced by {@link #PersonalGoal(String fileName)} constructor</p>
+     *             <p>This method was deprecated because with the new {@linkplain #PersonalGoal(String fileName) constructor}
+     *             it is no more necessary to call it</p>
+     *
      * @param scoreMapData map used to browse the json file configuration for the entries of the personal goal card
      * @see PersonalGoal
      */
+    @Deprecated
     private void fillScoreMapFromJSON(Map scoreMapData){
         Iterator<Map.Entry> entryScoreMapAttributes = scoreMapData.entrySet().iterator();
 
@@ -257,13 +337,19 @@ public class PersonalGoal implements Serializable {
     @Override
     public String toString() {
         StringBuilder res = new StringBuilder("Pattern:{\n");
-        for( EntryPatternGoal epg : goalPattern ){
-            res.append("\t").append(epg.toString()).append(",\n");
+
+        for(int i = 0; i < goalPattern.size(); i++) {
+            res.append("\t").append(goalPattern.get(i).toString());
+
+            if(i < goalPattern.size() - 1) {
+                res.append(',');
+            }
+
+            res.append("\n");
         }
 
-        res.append("}\nscoreMap:{")
-                .append(scoreMap.toString())
-                .append("}");
+        res.append("}\nscoreMap:")
+                .append(scoreMap.toString());
 
         return res.toString();
     }
@@ -357,5 +443,23 @@ public class PersonalGoal implements Serializable {
         }
 
         return max;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(this == o)
+            return true;
+
+        if(o == null || getClass() != o.getClass())
+            return false;
+
+        PersonalGoal that = (PersonalGoal) o;
+
+        return Objects.equals(goalPattern, that.goalPattern) &&
+                (scoreMap.keySet()
+                        .stream()
+                        .filter(k -> scoreMap.get(k).equals(that.scoreMap.get(k)))
+                        .collect(Collectors.toSet())
+                        .size() == scoreMap.size());
     }
 }

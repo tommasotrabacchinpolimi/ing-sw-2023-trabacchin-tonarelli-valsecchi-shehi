@@ -154,7 +154,7 @@ public class EntryPatternGoal implements Serializable {
      * @return {@link String} that represent the {@link EntryPatternGoal} class
      *
      * @apiNote Resulting String will be displayed on a single line with as follows:
-     * "<code>{column, row, tileType}</code>"
+     * <code>{column, row, tileType}</code>
      */
     @Override
     public String toString() {

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.net.RemoteInterface;
@@ -21,7 +22,11 @@ public class CommonGoalDeserializer<R extends RemoteInterface>{
 
     private static final String COMMON_GOAL_CONFIGURATION = "./src/main/resources/CommonGoalConfiguration/";
 
-    public void initScoringTokens(){
+    /**
+     * Initialize every common goal card with the scoring tokens according to the number of player connected to the game
+     */
+    @Deprecated
+    public Stack<Integer> initScoringTokens(){
         Stack<Integer> scoringTokens = new Stack<>();
 
         int numberOfPlayers = controller.getState().getPlayersNumber();
@@ -30,10 +35,13 @@ public class CommonGoalDeserializer<R extends RemoteInterface>{
             scoringTokens.push(2);
 
         scoringTokens.push(4);
+
         if (numberOfPlayers >= 3)
             scoringTokens.push(6);
 
         scoringTokens.push(8);
+
+        return scoringTokens;
     }
 
     /**
@@ -75,7 +83,7 @@ public class CommonGoalDeserializer<R extends RemoteInterface>{
      */
     private Set<CommonGoal> getCommonGoalConfig(Class<? extends CommonGoal> c) {
         Set<CommonGoal> res = new HashSet<>();
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setExclusionStrategies(new JSONExclusionStrategy()).create();
         JsonReader reader;
 
         for(String fullFilePath : getFullCommonGoalConfigPath(c)) {
@@ -84,6 +92,9 @@ public class CommonGoalDeserializer<R extends RemoteInterface>{
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }
+
+            //Uncomment when in state there will be a number of player between 2 and 4
+            //res.add(adjustScoringTokens(gson.fromJson(reader, c)));
 
             res.add(gson.fromJson(reader, c));
         }
@@ -179,7 +190,7 @@ public class CommonGoalDeserializer<R extends RemoteInterface>{
     private List<String> getFullCommonGoalConfigPath(Class<? extends CommonGoal> c){
         List<String> fullPathConfigFile = new ArrayList<>();
 
-        //Walking through each Directory contained in "COMMON_GOAL_CONFIGURATION"  to search for "file.json"
+        //Walking through each Directory contained in "COMMON_GOAL_CONFIGURATION"  to search for "*.json" file
         //representing a common goal class
         try (Stream<Path> path = Files.walk(Paths.get(COMMON_GOAL_CONFIGURATION + c.getSimpleName() + "/"))) {
 
@@ -190,5 +201,29 @@ public class CommonGoalDeserializer<R extends RemoteInterface>{
         }
 
         return fullPathConfigFile;
+    }
+
+    /**
+     * This method takes a {@linkplain CommonGoal common goal} and modify its scoring tokens according
+     * to the number of players in the game
+     *
+     * @param commonGoal the commonGoal to which modify the scoring tokens pattern
+     * @return the common goal with the stack modified
+     * @see CommonGoal
+     */
+    private CommonGoal adjustScoringTokens(CommonGoal commonGoal){
+        int numberOfPlayers = controller.getState().getPlayersNumber();
+
+        if(numberOfPlayers < 4)
+            commonGoal.getScoringTokens().removeElementAt(
+                    commonGoal.getScoringTokens().search(2)
+            );
+
+        if (numberOfPlayers < 3)
+            commonGoal.getScoringTokens().removeElementAt(
+                    commonGoal.getScoringTokens().search(6)
+            );
+
+        return commonGoal;
     }
 }
