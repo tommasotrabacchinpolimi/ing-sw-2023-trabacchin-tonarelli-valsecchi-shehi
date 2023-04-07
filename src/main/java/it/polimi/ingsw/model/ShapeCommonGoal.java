@@ -211,4 +211,29 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
         return false;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder res = new StringBuilder();
+
+        res.append("ShapeCommonGoal{")
+                .append(System.getProperty("line.separator"))
+                .append(super.toString())
+                .append(System.getProperty("line.separator"))
+                .append("\tRule Shape:[");
+
+        ruleShape.forEach(x -> res
+                .append(System.getProperty("line.separator"))
+                .append("\t\t(")
+                .append(x[0])
+                .append(", ")
+                .append(x[1])
+                .append(")"));
+        res.append(System.getProperty("line.separator"))
+                .append("\t]")
+                .append(System.getProperty("line.separator"))
+                .append("}");
+
+        return res.toString();
+    }
+
 }
