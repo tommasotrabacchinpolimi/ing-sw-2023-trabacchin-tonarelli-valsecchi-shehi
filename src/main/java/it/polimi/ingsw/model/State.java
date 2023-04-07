@@ -2,6 +2,8 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.listeners.OnAchievedCommonGoalListener;
 import it.polimi.ingsw.controller.listeners.OnLastPlayerUpdatedListener;
+import it.polimi.ingsw.controller.listeners.OnMessageSentListener;
+import it.polimi.ingsw.controller.listeners.OnStateChangedListener;
 import it.polimi.ingsw.net.RemoteInterface;
 import it.polimi.ingsw.net.User;
 
@@ -9,6 +11,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * State is a class that contains all the references necessary to modify and update the 'state' (hence the name of the class)
@@ -68,9 +71,14 @@ public class State<R extends RemoteInterface> implements Serializable {
      * @see ChatMessage
      * @see Player
      */
-    private transient List<ChatMessage> messages;
+    private transient List<ChatMessage<R>> messages;
+
+    private Player<R> lastPlayer;
 
     private final List<OnAchievedCommonGoalListener> achievedCommonGoalListeners;
+    private final List<OnStateChangedListener> stateChangedListeners;
+    private final List<OnLastPlayerUpdatedListener> lastPlayerUpdatedListeners;
+    private final List<OnMessageSentListener> messageSentListeners;
 
     /**
      * Construct of the class that creates the fields of the class.
@@ -87,15 +95,50 @@ public class State<R extends RemoteInterface> implements Serializable {
         currentPlayer = null;
         messages = new LinkedList<>();
         achievedCommonGoalListeners = new ArrayList<>();
-
+        stateChangedListeners = new ArrayList<>();
+        lastPlayer = null;
+        lastPlayerUpdatedListeners = new ArrayList<>();
+        messageSentListeners = new ArrayList<>();
     }
 
-    public void setAchievedCommonGoalListeners(OnAchievedCommonGoalListener listener) {
+    public void setAchievedCommonGoalListener(OnAchievedCommonGoalListener listener) {
         achievedCommonGoalListeners.add(listener);
     }
 
-    public void removeAchievedCommonGoalListeners(OnAchievedCommonGoalListener listener) {
+    public void removeAchievedCommonGoalListener(OnAchievedCommonGoalListener listener) {
          achievedCommonGoalListeners.remove(listener);
+    }
+
+    public void setStateChangedListener(OnStateChangedListener stateChangedListener){
+        this.stateChangedListeners.add(stateChangedListener);
+    }
+
+    public void removeStateChangedListener(OnStateChangedListener stateChangedListener){
+        this.stateChangedListeners.remove(stateChangedListener);
+    }
+
+    public void setLastPlayerUpdatedListener(OnLastPlayerUpdatedListener lastPlayerUpdatedListener){
+        this.lastPlayerUpdatedListeners.add(lastPlayerUpdatedListener);
+    }
+
+    public void removeLastPlayerUpdatedListeners(OnLastPlayerUpdatedListener lastPlayerUpdatedListener){
+        this.lastPlayerUpdatedListeners.remove(lastPlayerUpdatedListener);
+    }
+
+    public void setMessageSentListener(OnMessageSentListener listener){
+        messageSentListeners.add(listener);
+    }
+
+    public void removeMessageSentListener(OnMessageSentListener listener){
+        messageSentListeners.remove(listener);
+    }
+
+    public Player<R> getLastPlayer() {
+        return lastPlayer;
+    }
+
+    public void setLastPlayer(Player<R> lastPlayer) {
+        this.lastPlayer = lastPlayer;
     }
 
     public GameState getGameState() {
@@ -238,7 +281,7 @@ public class State<R extends RemoteInterface> implements Serializable {
      *
      * @see ChatMessage
      */
-    public List<ChatMessage> getMessages() {
+    public List<ChatMessage<R>> getMessages() {
         return messages;
     }
 
@@ -248,7 +291,7 @@ public class State<R extends RemoteInterface> implements Serializable {
      *
      * @see ChatMessage
      */
-    public void setMessages(List<ChatMessage> messages) { // eventualmente da eliminare
+    public void setMessages(List<ChatMessage<R>> messages) { // eventualmente da eliminare
         this.messages = messages;
     }
 
@@ -258,7 +301,7 @@ public class State<R extends RemoteInterface> implements Serializable {
      *
      * @see ChatMessage
      */
-    public void addMessage(ChatMessage message){
+    public void addMessage(ChatMessage<R> message){
         this.messages.add(message);
     }
 
@@ -276,8 +319,60 @@ public class State<R extends RemoteInterface> implements Serializable {
                 .get(0);
     }
 
-    public void checkCommonGoal(){
-
+    public int checkCommonGoal(Player<R> player){
+       BookShelf bookShelf = player.getBookShelf();
+       if(commonGoal1.rule(bookShelf.toTileTypeMatrix())!=null){
+           return 1;
+       } else if(commonGoal2.rule(bookShelf.toTileTypeMatrix())!=null){
+           return 2;
+       } else {
+           return 0;
+       }
     }
 
+    public void notifyOnAchievedCommonGoal(){
+        for(OnAchievedCommonGoalListener onAchievedCommonGoalListener: achievedCommonGoalListeners){
+            for(Player<R> p: getPlayers()){
+                int n = checkCommonGoal(p);
+                if(n == 1 || n == 2){
+                    List<EntryPatternGoal> copy_result = new ArrayList<>();
+                    if(n == 1){
+                        List<EntryPatternGoal> result = commonGoal1.rule(p.getBookShelf().toTileTypeMatrix());
+                        for(EntryPatternGoal entry: result){
+                            copy_result.add(new EntryPatternGoal(entry.getRow(), entry.getColumn(), entry.getTileType()));
+                        }
+                    }
+                    if(n == 2){
+                        List<EntryPatternGoal> result = commonGoal2.rule(p.getBookShelf().toTileTypeMatrix());
+                        for(EntryPatternGoal entry: result){
+                            copy_result.add(new EntryPatternGoal(entry.getRow(), entry.getColumn(), entry.getTileType()));
+                        }
+                    }
+                    onAchievedCommonGoalListener.onAchievedCommonGoal(p.getNickName(), copy_result, n);
+                }
+            }
+        }
+    }
+
+    public void notifyOnStateChanged(){
+        for(OnStateChangedListener stateChangedListener: stateChangedListeners){
+            stateChangedListener.onStateChanged(this.getGameState());
+        }
+    }
+
+    public void notifyLastPlayerUpdated(){
+        if(lastPlayer!=null) {
+            for (OnLastPlayerUpdatedListener lastPlayerUpdatedListener : lastPlayerUpdatedListeners) {
+                lastPlayerUpdatedListener.onLastPlayerUpdated(lastPlayer.getNickName());
+            }
+        }
+    }
+
+    public void notifyMessageSent(){
+        ChatMessage<R> message = messages.get(messages.size()-1);
+        List<String> nicknameReceivers = message.getReceivers().stream().map(Player<R>::getNickName).toList();
+        for(OnMessageSentListener listener : messageSentListeners){
+            listener.onMessageSent(message.getSender().getNickName(), nicknameReceivers, message.getText());
+        }
+    }
 }

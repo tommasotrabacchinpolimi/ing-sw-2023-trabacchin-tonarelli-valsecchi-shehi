@@ -30,7 +30,7 @@ public class ChatManager<R extends RemoteInterface> {
         initWriter();
     }
 
-    public ChatManager(Controller controller) {
+    public ChatManager(Controller<R> controller) {
         this.controller = controller;
         initWriter();
     }
@@ -65,7 +65,7 @@ public class ChatManager<R extends RemoteInterface> {
                 .filter(p -> p.getVirtualView() == sender)
                 .toList()
                 .get(0);
-        ChatMessage chatMessage = new ChatMessage(
+        ChatMessage<R> chatMessage = new ChatMessage<>(
                 senderPlayer,
                 receivers,
                 text
@@ -81,7 +81,7 @@ public class ChatManager<R extends RemoteInterface> {
      *
      * @param chat complete list of all messages
      */
-    public void storeMessagesAsListObject(List<ChatMessage> chat) {
+    public void storeMessagesAsListObject(List<ChatMessage<R>> chat) {
         pw.write(chatManagerGson.toJson(chat));
 
         pw.flush();
