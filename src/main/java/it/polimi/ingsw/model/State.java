@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.listeners.OnAchievedCommonGoalListener;
 import it.polimi.ingsw.controller.listeners.OnLastPlayerUpdatedListener;
+import it.polimi.ingsw.controller.listeners.OnMessageSentListener;
 import it.polimi.ingsw.controller.listeners.OnStateChangedListener;
 import it.polimi.ingsw.net.RemoteInterface;
 import it.polimi.ingsw.net.User;
@@ -10,6 +11,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * State is a class that contains all the references necessary to modify and update the 'state' (hence the name of the class)
@@ -76,6 +78,7 @@ public class State<R extends RemoteInterface> implements Serializable {
     private final List<OnAchievedCommonGoalListener> achievedCommonGoalListeners;
     private final List<OnStateChangedListener> stateChangedListeners;
     private final List<OnLastPlayerUpdatedListener> lastPlayerUpdatedListeners;
+    private final List<OnMessageSentListener> messageSentListeners;
 
     /**
      * Construct of the class that creates the fields of the class.
@@ -95,6 +98,7 @@ public class State<R extends RemoteInterface> implements Serializable {
         stateChangedListeners = new ArrayList<>();
         lastPlayer = null;
         lastPlayerUpdatedListeners = new ArrayList<>();
+        messageSentListeners = new ArrayList<>();
     }
 
     public void setAchievedCommonGoalListener(OnAchievedCommonGoalListener listener) {
@@ -118,7 +122,15 @@ public class State<R extends RemoteInterface> implements Serializable {
     }
 
     public void removeLastPlayerUpdatedListeners(OnLastPlayerUpdatedListener lastPlayerUpdatedListener){
-        this.stateChangedListeners.remove(lastPlayerUpdatedListener);
+        this.lastPlayerUpdatedListeners.remove(lastPlayerUpdatedListener);
+    }
+
+    public void setMessageSentListener(OnMessageSentListener listener){
+        messageSentListeners.add(listener);
+    }
+
+    public void removeMessageSentListener(OnMessageSentListener listener){
+        messageSentListeners.remove(listener);
     }
 
     public Player<R> getLastPlayer() {
@@ -356,4 +368,11 @@ public class State<R extends RemoteInterface> implements Serializable {
         }
     }
 
+    public void notifyMessageSent(){
+        ChatMessage<R> message = messages.get(messages.size()-1);
+        List<String> nicknameReceivers = message.getReceivers().stream().map(Player<R>::getNickName).toList();
+        for(OnMessageSentListener listener : messageSentListeners){
+            listener.onMessageSent(message.getSender().getNickName(), nicknameReceivers, message.getText());
+        }
+    }
 }
