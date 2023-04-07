@@ -22,8 +22,8 @@ public class RmiConnectionManager<L extends RemoteInterface,R extends RemoteInte
         this.rmiReceiver = new RmiReceiver<>(executorService,localTarget);
         this.rmiReceiver.setRmiConnectionManager(this);
         RmiSender<L,R> rmiSender = new RmiSender<>(remoteObject,this, executorService);
-        this.remoteTarget = (R) Proxy.newProxyInstance(remoteTargetClass.getRawType().getClassLoader(),new Class[] { remoteTargetClass.getRawType() },rmiSender);
-        this.localRemoteObject = (L)Proxy.newProxyInstance(localTarget.getClass().getClassLoader(), new Class[] { localTargetClass.getRawType() },rmiReceiver);
+        this.remoteTarget = (R) Proxy.newProxyInstance(remoteTargetClass.getRawType().getClassLoader(),new Class[] { remoteTargetClass.getRawType() },new BaseInvocationHandler(rmiSender));
+        this.localRemoteObject = (L)Proxy.newProxyInstance(localTarget.getClass().getClassLoader(), new Class[] { localTargetClass.getRawType() },new BaseInvocationHandler(rmiReceiver));
         UnicastRemoteObject.exportObject(localRemoteObject,portNumber);
         this.user = user;
         RmiHeartBeater<L,R> rmiHeartBeater = new RmiHeartBeater<>(remoteObject,5000,this);
@@ -33,7 +33,7 @@ public class RmiConnectionManager<L extends RemoteInterface,R extends RemoteInte
     public void init(RmiReceiver<L,R> rmiReceiver, Class<R> remoteTargetClass, L localRemoteObject, R remoteObject, ExecutorService executorService){
         RmiSender<L,R> rmiSender = new RmiSender<>(remoteObject,this, executorService);
         this.rmiReceiver = rmiReceiver;
-        this.remoteTarget = (R) Proxy.newProxyInstance(remoteTargetClass.getClassLoader(),new Class[] { remoteTargetClass },rmiSender);
+        this.remoteTarget = (R) Proxy.newProxyInstance(remoteTargetClass.getClassLoader(),new Class[] { remoteTargetClass },new BaseInvocationHandler(rmiSender));
         this.localRemoteObject = localRemoteObject;
         this.user = null;
         RmiHeartBeater<L,R> rmiHeartBeater = new RmiHeartBeater<>(remoteObject,5000,this);

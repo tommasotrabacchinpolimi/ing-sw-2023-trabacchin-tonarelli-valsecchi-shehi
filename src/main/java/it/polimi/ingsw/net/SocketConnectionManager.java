@@ -41,7 +41,7 @@ public class SocketConnectionManager<L extends RemoteInterface, R extends Remote
 
         SocketSender<L, R> socketSender = new SocketSender<L, R>(objectOutputStream, this, executorService);
 
-        this.remoteTarget = (R) Proxy.newProxyInstance(remoteTargetClass.getRawType().getClassLoader(), new Class[] { remoteTargetClass.getRawType() }, socketSender);
+        this.remoteTarget = (R) Proxy.newProxyInstance(remoteTargetClass.getRawType().getClassLoader(), new Class[] { remoteTargetClass.getRawType() }, new BaseInvocationHandler(socketSender));
         this.socket = socket;
 
         SocketHeartBeater<L, R> socketHeartBeater = new SocketHeartBeater<>(this.objectOutputStream, this, 5000);
