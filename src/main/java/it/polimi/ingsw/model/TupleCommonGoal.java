@@ -302,4 +302,22 @@ public class TupleCommonGoal extends CommonGoal implements Serializable {
             return Optional.of(max_row - min_row + 1);
         }
     }
+    @Override
+    public String toString() {
+        return "TupleCommonGoal{" +
+                System.getProperty("line.separator") +
+                super.toString() +
+                System.getProperty("line.separator") +
+                "\tGroups Number: " + groupsNumber +
+                System.getProperty("line.separator") +
+                "\tAdjacent Tiles Power 2: " + adjacentTilesPo2 +
+                System.getProperty("line.separator") +
+                "\tSquare: " + square +
+                System.getProperty("line.separator") +
+                "\tSeparated: " + separated +
+                System.getProperty("line.separator") +
+                "\tSame Type Only: " + sameTypeOnly +
+                System.getProperty("line.separator") +
+                '}';
+    }
 }
