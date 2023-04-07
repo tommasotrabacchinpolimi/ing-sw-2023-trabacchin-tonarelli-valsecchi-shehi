@@ -1,0 +1,42 @@
+{
+  "goalPattern": [
+    {
+      "row": 3,
+      "column": 3,
+      "tileType": "PLANT"
+    },
+    {
+      "row": 2,
+      "column": 2,
+      "tileType": "FRAME"
+    },
+    {
+      "row": 4,
+      "column": 2,
+      "tileType": "CAT"
+    },
+    {
+      "row": 4,
+      "column": 1,
+      "tileType": "BOOK"
+    },
+    {
+      "row": 0,
+      "column": 4,
+      "tileType": "GAME"
+    },
+    {
+      "row": 2,
+      "column": 0,
+      "tileType": "TROPHY"
+    }
+  ],
+  "scoreMap": {
+    "6": 12,
+    "5": 9,
+    "4": 6,
+    "3": 4,
+    "2": 2,
+    "1": 1
+  }
+}
