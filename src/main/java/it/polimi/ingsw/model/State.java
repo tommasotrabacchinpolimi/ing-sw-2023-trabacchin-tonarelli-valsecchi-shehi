@@ -71,6 +71,8 @@ public class State<R extends RemoteInterface> implements Serializable {
      */
     private transient List<ChatMessage<R>> messages;
 
+    private Player<R> lastPlayer;
+
     private final List<OnAchievedCommonGoalListener> achievedCommonGoalListeners;
     private final List<OnStateChangedListener> stateChangedListeners;
 
@@ -90,6 +92,7 @@ public class State<R extends RemoteInterface> implements Serializable {
         messages = new LinkedList<>();
         achievedCommonGoalListeners = new ArrayList<>();
         stateChangedListeners = new ArrayList<>();
+        lastPlayer = null;
     }
 
     public void setAchievedCommonGoalListener(OnAchievedCommonGoalListener listener) {
@@ -106,6 +109,14 @@ public class State<R extends RemoteInterface> implements Serializable {
 
     public void removeStateChangedListener(OnStateChangedListener stateChangedListener){
         this.stateChangedListeners.remove(stateChangedListener);
+    }
+
+    public Player<R> getLastPlayer() {
+        return lastPlayer;
+    }
+
+    public void setLastPlayer(Player<R> lastPlayer) {
+        this.lastPlayer = lastPlayer;
     }
 
     public GameState getGameState() {
