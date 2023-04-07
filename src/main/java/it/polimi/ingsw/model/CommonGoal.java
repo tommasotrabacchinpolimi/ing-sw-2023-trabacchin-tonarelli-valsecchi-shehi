@@ -111,4 +111,16 @@ public abstract class CommonGoal implements Serializable {
      * <li>list of {@link EntryPatternGoal} that satisfied the {@link CommonGoal} otherwise</li></ul>
      */
     public abstract List<EntryPatternGoal> rule(TileType[][] bookShelf);
+    @Override
+    public String toString() {
+        StringBuilder res = new StringBuilder("\tScoring Tokens: ");
+
+        scoringTokens.forEach(s -> res.append(s).append(", "));
+
+        res.append(System.getProperty("line.separator"))
+                .append("\tDescription: ")
+                .append(description);
+
+        return res.toString();
+    }
 }
