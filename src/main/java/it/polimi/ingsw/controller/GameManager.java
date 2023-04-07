@@ -22,24 +22,26 @@ public class GameManager<R extends RemoteInterface> {
     }
 
     public void dragTilesToBookShelf(R user, int[] chosenTiles, int chosenColumn){
-        Player<R> player = getController().getState().getPlayerFromView(user);
-        if(!player.equals(getController().getPlayerPlaying())){
-            return;
+        if(controller.getState().getGameState() == GameState.MID || controller.getState().getGameState() == GameState.FINAL) {
+            Player<R> player = controller.getState().getPlayerFromView(user);
+            if (!player.equals(getController().getPlayerPlaying())) {
+                return;
+            }
+            Board board = getController().getState().getBoard();
+            List<TileSubject> tiles = new ArrayList<>();
+            for (Integer tile : chosenTiles) {
+                tiles.add(board.fromIntToBoardSquare(tile).getTileSubject());
+            }
+            BookShelf bookShelf = player.getBookShelf();
+            bookShelf.addTileSubjectTaken(tiles, chosenColumn);
+            verifyEndGame(user);
+            if (verifyRefillBoard() && controller.getState().getGameState()!=GameState.END) {
+                getController().getState().getBoard().refillBoard(controller.getState().getPlayersNumber());
+            }
+            evaluateFinalScore(player);
+            verifyCommonGoal(user);
+            setNextCurrentPlayer();
         }
-        Board board = getController().getState().getBoard();
-        List<TileSubject> tiles = new ArrayList<>();
-        for(Integer tile : chosenTiles){
-            tiles.add(board.fromIntToBoardSquare(tile).getTileSubject());
-        }
-        BookShelf bookShelf = player.getBookShelf();
-        bookShelf.addTileSubjectTaken(tiles,chosenColumn);
-        verifyEndGame(user);
-        if(verifyRefillBoard()){
-            getController().getState().getBoard().refillBoard(getController().getState().getPlayersNumber());
-        }
-        evaluateFinalScore(player);
-        verifyCommonGoal(user);
-        setNextCurrentPlayer();
     }
 
     public Function<Integer, Integer> getFromGroupSizeToScore() {
@@ -51,7 +53,7 @@ public class GameManager<R extends RemoteInterface> {
     }
 
     private void verifyCommonGoal(R user){
-        Player<R> player = getController().getState().getPlayerFromView(user);
+        Player<R> player = controller.getState().getPlayerFromView(user);
         CommonGoal commonGoal1, commonGoal2;
         BookShelf bookShelf = player.getBookShelf();
         commonGoal1 = getController().getActiveCommonGoal1();
@@ -71,6 +73,8 @@ public class GameManager<R extends RemoteInterface> {
 
         if(player.getBookShelf().isFull()) {
             player.assignScoreEndGame(1);
+            controller.getState().setGameState(GameState.FINAL);
+            controller.getState().setLastPlayer(controller.getState().getPlayers().get(controller.getState().getPlayersNumber()-1)); //è l'ultimo giocatore della lista
         }
     }
 
@@ -115,6 +119,11 @@ public class GameManager<R extends RemoteInterface> {
      */
     private void setNextCurrentPlayer(){
         Player<R> oldCurrentPlayer = controller.getState().getCurrentPlayer();
+        if(controller.getState().getGameState() == GameState.FINAL){ //se sono nella fase FINAL del gioco e il prossimo giocatore è il lastPlayer, allora rendo il gioco END
+            if(oldCurrentPlayer.equals(controller.getState().getLastPlayer())){
+                controller.getState().setGameState(GameState.END);
+            }
+        }
         int index = (controller.getState().getPlayers().indexOf(oldCurrentPlayer) + 1) % 4;
         controller.getState().setCurrentPlayer(controller.getState().getPlayers().get(index));
     }
@@ -177,4 +186,5 @@ public class GameManager<R extends RemoteInterface> {
         player.setVirtualView(user);
         controller.getState().addPlayer(player);
     }
+
 }
