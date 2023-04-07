@@ -60,7 +60,7 @@ public class SocketConnectionManager<L extends RemoteInterface, R extends Remote
 
     private void notifyConnectionLost() {
         for(OnConnectionLostListener<R> onConnectionLostListener : onConnectionLostListeners) {
-            onConnectionLostListener.onConnectionLost(this.user.connectionManager.getRemoteTarget());
+            onConnectionLostListener.onConnectionLost(this.user.getConnectionManager().getRemoteTarget());
         }
     }
     public void setOnConnectionLostListener(OnConnectionLostListener<R> onConnectionLostListener) {

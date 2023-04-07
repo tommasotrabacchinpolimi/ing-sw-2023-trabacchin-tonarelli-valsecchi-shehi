@@ -21,7 +21,7 @@ public class UserAdapter<R extends RemoteInterface> implements UserAdapterInterf
         Object[] completeArgs;
         if(args!=null){
             completeArgs = new Object[args.length+1];
-            completeArgs[0] = user;
+            completeArgs[0] = user.getConnectionManager().getRemoteTarget();
             System.arraycopy(args, 0, completeArgs, 1, completeArgs.length - 1);
         }
         else{

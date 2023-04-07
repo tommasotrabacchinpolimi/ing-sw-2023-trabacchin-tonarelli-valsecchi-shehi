@@ -51,7 +51,7 @@ public class RmiConnectionManager<L extends RemoteInterface,R extends RemoteInte
 
     private void notifyConnectionLost() {
         for(OnConnectionLostListener<R> onConnectionLostListener : onConnectionLostListeners) {
-            onConnectionLostListener.onConnectionLost(this.user.connectionManager.getRemoteTarget());
+            onConnectionLostListener.onConnectionLost(this.user.getConnectionManager().getRemoteTarget());
         }
     }
     public void setOnConnectionLostListener(OnConnectionLostListener<R> onConnectionLostListener) {

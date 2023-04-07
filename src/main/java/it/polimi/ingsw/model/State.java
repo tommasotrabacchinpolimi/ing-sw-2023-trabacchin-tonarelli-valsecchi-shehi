@@ -1,18 +1,13 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.controller.listeners.OnAchievedCommonGoalListener;
-import it.polimi.ingsw.controller.listeners.OnLastPlayerUpdatedListener;
-import it.polimi.ingsw.controller.listeners.OnMessageSentListener;
-import it.polimi.ingsw.controller.listeners.OnStateChangedListener;
+import it.polimi.ingsw.controller.listeners.*;
 import it.polimi.ingsw.net.RemoteInterface;
-import it.polimi.ingsw.net.User;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * State is a class that contains all the references necessary to modify and update the 'state' (hence the name of the class)
@@ -83,6 +78,8 @@ public class State<R extends RemoteInterface> implements Serializable {
     private final List<OnLastPlayerUpdatedListener> lastPlayerUpdatedListeners;
     private final List<OnMessageSentListener> messageSentListeners;
 
+    private final List<OnPlayerPlayingChangedListener> onPlayerPlayingChangedListeners;
+
     /**
      * Construct of the class that creates the fields of the class.
      *
@@ -102,6 +99,7 @@ public class State<R extends RemoteInterface> implements Serializable {
         lastPlayer = null;
         lastPlayerUpdatedListeners = new ArrayList<>();
         messageSentListeners = new ArrayList<>();
+        onPlayerPlayingChangedListeners = new ArrayList<>();
     }
 
     public void setAchievedCommonGoalListener(OnAchievedCommonGoalListener listener) {
@@ -276,6 +274,7 @@ public class State<R extends RemoteInterface> implements Serializable {
      */
     public void setCurrentPlayer(Player<R> currentPlayer) {
         this.currentPlayer = currentPlayer;
+
     }
 
     /**
@@ -382,4 +381,20 @@ public class State<R extends RemoteInterface> implements Serializable {
             listener.onMessageSent(message.getSender().getNickName(), nicknameReceivers, message.getText());
         }
     }
+
+    public void setOnPlayerPlayingChangedListener(OnPlayerPlayingChangedListener onPlayerPlayingChangedListener) {
+        onPlayerPlayingChangedListeners.add(onPlayerPlayingChangedListener);
+    }
+
+    public void removeOnPlayerPlayingChangedListener(OnPlayerPlayingChangedListener onPlayerPlayingChangedListener) {
+        onPlayerPlayingChangedListeners.remove(onPlayerPlayingChangedListener);
+    }
+
+    public void notifyOnPlayerPlayingUpdated() {
+        for(OnPlayerPlayingChangedListener onPlayerPlayingChangedListener : onPlayerPlayingChangedListeners) {
+            onPlayerPlayingChangedListener.onPlayerPlayingChanged(currentPlayer.getNickName());
+        }
+    }
+
+
 }

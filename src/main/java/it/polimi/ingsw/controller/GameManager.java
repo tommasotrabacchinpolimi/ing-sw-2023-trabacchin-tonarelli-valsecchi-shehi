@@ -17,7 +17,7 @@ public class GameManager<R extends RemoteInterface> {
     private Function<Integer,Integer> fromGroupSizeToScore;
     private static final String COMMON_GOAL_CONFIGURATION = "./src/main/CommonGoalConfiguration/";
 
-    public Controller getController() {
+    public Controller<R> getController() {
         return controller;
     }
 
