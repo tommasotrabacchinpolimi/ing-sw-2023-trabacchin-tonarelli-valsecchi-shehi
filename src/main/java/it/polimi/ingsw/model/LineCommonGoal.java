@@ -290,6 +290,7 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
         return null;
     }
 
+
     /**
      * Method that return {@code true} if and only if the parameter {@code count} is contained in the array {@link LineCommonGoal#differentTiles differentTiles}.
      * @param count Searched value inside {@link LineCommonGoal#differentTiles differentTiles}.
@@ -328,4 +329,23 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
                 .toArray();
     }
 
+    @Override
+    public String toString() {
+        return "LineCommonGoal{" +
+                System.getProperty("line.separator") +
+                super.toString() +
+                System.getProperty("line.separator") +
+                "\tIncrement Row: " + incRow +
+                System.getProperty("line.separator") +
+                "\tIncrement Column: " + incCol +
+                System.getProperty("line.separator") +
+                "\tLines Number: " + linesNumber +
+                System.getProperty("line.separator") +
+                "\tNumber of Tiles: " + numberOfTiles +
+                System.getProperty("line.separator") +
+                "\tDifferent Tiles: " + Arrays.toString(differentTiles) +
+                System.getProperty("line.separator") +
+                '}';
+    }
 }
+
