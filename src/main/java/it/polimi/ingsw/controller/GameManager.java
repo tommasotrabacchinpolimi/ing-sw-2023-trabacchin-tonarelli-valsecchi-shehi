@@ -21,9 +21,8 @@ public class GameManager<R extends RemoteInterface> {
         return controller;
     }
 
-    public void dragTilesToBookShelf(User<R> user, int[] chosenTiles, int chosenColumn){
-
-        Player<R> player = getController().getState().getPlayerFromNick(user.getNickname());
+    public void dragTilesToBookShelf(R user, int[] chosenTiles, int chosenColumn){
+        Player<R> player = getController().getState().getPlayerFromView(user);
         if(!player.equals(getController().getPlayerPlaying())){
             return;
         }
@@ -51,8 +50,8 @@ public class GameManager<R extends RemoteInterface> {
         this.fromGroupSizeToScore = fromGroupSizeToScore;
     }
 
-    private void verifyCommonGoal(User<R> user){
-        Player<R> player = getController().getPlayerPlaying();
+    private void verifyCommonGoal(R user){
+        Player<R> player = getController().getState().getPlayerFromView(user);
         CommonGoal commonGoal1, commonGoal2;
         BookShelf bookShelf = player.getBookShelf();
         commonGoal1 = getController().getActiveCommonGoal1();
@@ -67,8 +66,8 @@ public class GameManager<R extends RemoteInterface> {
         }
     }
 
-    private void verifyEndGame(User<R> user){
-        Player<R> player = controller.getPlayerPlaying();
+    private void verifyEndGame(R user){
+        Player<R> player = controller.getState().getPlayerFromView(user);
 
         if(player.getBookShelf().isFull()) {
             player.assignScoreEndGame(1);

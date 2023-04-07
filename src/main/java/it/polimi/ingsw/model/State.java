@@ -322,6 +322,10 @@ public class State<R extends RemoteInterface> implements Serializable {
                 .get(0);
     }
 
+    public Player<R> getPlayerFromView(R user){
+        return players.stream().filter(player -> user == player.getVirtualView()).toList().get(0);
+    }
+
     public int checkCommonGoal(Player<R> player){
        BookShelf bookShelf = player.getBookShelf();
        if(commonGoal1.rule(bookShelf.toTileTypeMatrix())!=null){
