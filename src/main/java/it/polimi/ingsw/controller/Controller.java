@@ -1,9 +1,6 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.model.CommonGoal;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.PlayerState;
-import it.polimi.ingsw.model.State;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.net.OnConnectionLostListener;
 import it.polimi.ingsw.net.RemoteInterface;
 import it.polimi.ingsw.net.User;
@@ -34,22 +31,36 @@ public class Controller<R extends ClientInterface> implements OnConnectionLostLi
         return state.getCommonGoal2();
     }
 
-    public void registerPlayer(R user, String nickname){
-        gameManager.registerPlayer(user, nickname);
-    }
-
-    public void addMessageToState() {
-        //chatManager.sentMessage();
-    }
 
     public void setNumberPlayers(int numberOfPlayer) {
         getState().setPlayersNumber(numberOfPlayer);
     }
 
-
-    public void quitGame(R user){
-        lobbyController.onQuitGame(user);
+    public LobbyController<R> getLobbyController() {
+        return lobbyController;
     }
+
+    public void setLobbyController(LobbyController<R> lobbyController) {
+        this.lobbyController = lobbyController;
+    }
+
+
+
+    public void dragTilesToBookShelf(R view, int[] chosenTiles, int chosenColumn) {
+        gameManager.dragTilesToBookShelf(view, chosenTiles, chosenColumn);
+    }
+
+    public void registerPlayer(R view, String nickname) {
+        gameManager.registerPlayer(view, nickname);
+    }
+
+    public void quitGame(R view) {
+    }
+
+
+
+
+
 
     @Override
     public void onConnectionLost(R user) {
