@@ -28,6 +28,7 @@ public class MidGameManager<R extends ClientInterface> extends GameManager<R> {
         evaluateFinalScore(player);
         verifyCommonGoal(user);
         setNextCurrentPlayer();
+        verifyAllDisconnectedPlayer(user);
     }
 
     //se registerPlayer viene chiamata in fase di MID o FINAL della partita allora vuol dire che il giocatore
@@ -44,12 +45,23 @@ public class MidGameManager<R extends ClientInterface> extends GameManager<R> {
 
     @Override
     public void quitGame(R view){
-        Player<R> player = getController().getState().getPlayerFromView(view);
-        player.setPlayerState(PlayerState.QUITTED);
-        verifyAllDisconnectedPlayers();
+        getController().getState().getPlayerFromView(view).setPlayerState(PlayerState.QUITTED);
+        getController().getLobbyController().onQuitGame(view);
+        verifyAllQuitPlayers();
     }
 
-    private void verifyAllDisconnectedPlayers(){
+    //metodo che dice se tutti i player tranne quello passato per parametro sono disconnessi
+    private void verifyAllDisconnectedPlayer(R view){
+        Player<R> player = getController().getPlayerPlaying();
+        for(Player<R> p: getController().getState().getPlayers()){
+            if(p != player && p.getPlayerState() != PlayerState.DISCONNECTED){
+                return;
+            }
+        }
+        getController().getState().setGameState(GameState.SUSPENDED);
+    }
+
+    private void verifyAllQuitPlayers(){
         for(Player<R> player: getController().getState().getPlayers()){
             if(player.getPlayerState() != PlayerState.QUITTED){
                 return;
