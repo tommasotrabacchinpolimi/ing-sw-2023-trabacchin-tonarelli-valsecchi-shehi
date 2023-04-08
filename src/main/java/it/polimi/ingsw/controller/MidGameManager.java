@@ -42,7 +42,7 @@ public class MidGameManager<R extends ClientInterface> extends GameManager<R> {
 
     private void verifyCommonGoal(R user){
         Player<R> player = getController().getState().getPlayerFromView(user);
-        CommonGoal commonGoal1, commonGoal2;
+        /*CommonGoal commonGoal1, commonGoal2;
         BookShelf bookShelf = player.getBookShelf();
         commonGoal1 = getController().getActiveCommonGoal1();
         commonGoal2 = getController().getActiveCommonGoal2();
@@ -53,7 +53,8 @@ public class MidGameManager<R extends ClientInterface> extends GameManager<R> {
 
         if(commonGoal2.rule(bookShelf.toTileTypeMatrix()) != null){
             player.getPointPlayer().setScoreCommonGoal2(commonGoal2.getAvailableScore());
-        }
+        }*/
+        getController().getState().checkCommonGoal(player);
     }
 
     private void verifyEndGame(R user){
