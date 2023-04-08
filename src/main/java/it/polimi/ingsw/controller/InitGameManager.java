@@ -5,7 +5,10 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerState;
 
 public class InitGameManager<R extends ClientInterface> extends GameManager<R>{
-    private Controller<R> controller;
+
+    public InitGameManager(Controller<R> controller) {
+        super(controller);
+    }
 
     @Override
     public void dragTilesToBookShelf(R view, int[] chosenTiles, int chosenColumn) {
@@ -14,16 +17,16 @@ public class InitGameManager<R extends ClientInterface> extends GameManager<R>{
 
     @Override
     public void registerPlayer(R view, String nickname) {
-        controller.getState().addPlayer(new Player<>(nickname, view));
-        if(controller.getState().getPlayers().size() == controller.getState().getPlayersNumber()) {
-            controller.setGameManager(new MidGameManager<>());
-            controller.getState().setGameState(GameState.MID);
+        getController().getState().addPlayer(new Player<>(nickname, view));
+        if(getController().getState().getPlayers().size() == getController().getState().getPlayersNumber()) {
+            getController().setGameManager(new MidGameManager<>(getController()));
+            getController().getState().setGameState(GameState.MID);
         }
     }
 
     @Override
     public void quitGame(R view) {
-        controller.getState().getPlayers().stream().filter(p -> p.getVirtualView() == view).findFirst().ifPresent((p)->p.setPlayerState(PlayerState.DISCONNECTED));
-        controller.getLobbyController().onQuitGame(view);
+        getController().getState().getPlayers().stream().filter(p -> p.getVirtualView() == view).findFirst().ifPresent((p)->p.setPlayerState(PlayerState.DISCONNECTED));
+        getController().getLobbyController().onQuitGame(view);
     }
 }

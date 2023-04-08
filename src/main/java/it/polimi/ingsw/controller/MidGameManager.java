@@ -8,6 +8,10 @@ import java.util.function.Function;
 public class MidGameManager<R extends ClientInterface> extends GameManager<R> {
     private Function<Integer,Integer> fromGroupSizeToScore;
 
+    public MidGameManager(Controller<R> controller){
+        super(controller);
+    }
+
     @Override
     public void dragTilesToBookShelf(R user, int[] chosenTiles, int chosenColumn){
         Player<R> player = getController().getState().getPlayerFromView(user);
@@ -32,8 +36,8 @@ public class MidGameManager<R extends ClientInterface> extends GameManager<R> {
     }
 
     //se registerPlayer viene chiamata in fase di MID o FINAL della partita allora vuol dire che il giocatore
-    // si era disconnesso e ora sta cercando di riconettersi, quindi controllo che effettivamente ciò è vero e
-    // nel caso risetto la view del player corrispondente
+    // si era disconnesso e ora sta cercando di ri-connettersi, quindi controllo che effettivamente ciò è vero e
+    // nel caso ri-setto la view del player corrispondente
     @Override
     public void registerPlayer(R user, String nickname) {
         Player<R> player = getController().getState().getPlayerFromNick(nickname);
@@ -59,6 +63,7 @@ public class MidGameManager<R extends ClientInterface> extends GameManager<R> {
             }
         }
         getController().getState().setGameState(GameState.SUSPENDED);
+        getController().setGameManager(new SuspendedGameManager<>(getController()));
     }
 
     private void verifyAllQuitPlayers(){

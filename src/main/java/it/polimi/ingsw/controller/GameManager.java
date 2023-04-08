@@ -16,6 +16,10 @@ public abstract class GameManager<R extends ClientInterface> {
     private Controller<R> controller;
     private static final String COMMON_GOAL_CONFIGURATION = "./src/main/CommonGoalConfiguration/";
 
+    public GameManager(Controller<R> controller){
+        this.controller = controller;
+    }
+
     public Controller<R> getController() {
         return controller;
     }
