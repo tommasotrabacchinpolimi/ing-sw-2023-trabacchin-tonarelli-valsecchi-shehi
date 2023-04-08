@@ -143,6 +143,7 @@ public class State<R extends ClientInterface> implements Serializable {
 
     public void setLastPlayer(Player<R> lastPlayer) {
         this.lastPlayer = lastPlayer;
+        notifyLastPlayerUpdated();
     }
 
     public GameState getGameState() {
@@ -151,6 +152,7 @@ public class State<R extends ClientInterface> implements Serializable {
 
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
+        notifyStateChanged();
     }
 
     public int getPlayersNumber() {
@@ -307,6 +309,7 @@ public class State<R extends ClientInterface> implements Serializable {
      */
     public void addMessage(ChatMessage<R> message){
         this.messages.add(message);
+        notifyMessageSent();
     }
 
     /**
@@ -364,7 +367,7 @@ public class State<R extends ClientInterface> implements Serializable {
         }
     }
 
-    public void notifyOnStateChanged(){
+    public void notifyStateChanged(){
         for(OnStateChangedListener stateChangedListener: stateChangedListeners){
             stateChangedListener.onStateChanged(this.getGameState());
         }
