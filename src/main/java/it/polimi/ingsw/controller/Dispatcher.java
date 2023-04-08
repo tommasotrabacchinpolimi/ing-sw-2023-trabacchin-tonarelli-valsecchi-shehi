@@ -41,7 +41,10 @@ public class Dispatcher<R extends ClientInterface> implements InvocationHandler 
             method.invoke(lobbyController, args);
         }
         else if (Arrays.stream(Controller.class.getMethods()).map(Method::getName).anyMatch(n->n.equals(method.getName()))) {
-            method.invoke(viewToControllerMap.get(args[0]), args);
+            if(viewToControllerMap.get(args[0])!=null) {
+                method.invoke(viewToControllerMap.get(args[0]), args);
+            }
+
         }
         else {
             System.err.println("ignored call in dispatcher "+method.getName());
