@@ -279,6 +279,7 @@ public class State<R extends ClientInterface> implements Serializable {
      */
     public void setCurrentPlayer(Player<R> currentPlayer) {
         this.currentPlayer = currentPlayer;
+        notifyCurrentPlayerChanged();
     }
 
     /**
