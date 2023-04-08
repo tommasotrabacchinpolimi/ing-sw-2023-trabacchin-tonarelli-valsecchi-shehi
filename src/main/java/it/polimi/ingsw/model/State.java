@@ -330,40 +330,30 @@ public class State<R extends ClientInterface> implements Serializable {
         return players.stream().filter(player -> user == player.getVirtualView()).toList().get(0);
     }
 
-    public List<EntryPatternGoal> checkCommonGoal(Player<R> player, int num){
-       List<EntryPatternGoal> copy_result = new ArrayList<>();
+    public void checkCommonGoal(Player<R> player){
        List<EntryPatternGoal> result = new ArrayList<>();
-       if(num == 1) {
-           result = commonGoal1.rule(player.getBookShelf().toTileTypeMatrix());
-       } else {
-           result = commonGoal2.rule(player.getBookShelf().toTileTypeMatrix());
+
+       result = commonGoal1.rule(player.getBookShelf().toTileTypeMatrix());
+       if(result != null && player.getPointPlayer().getScoreCommonGoal1() == 0){
+           player.getPointPlayer().setScoreCommonGoal1(commonGoal1.getAvailableScore());
+           notifyOnAchievedCommonGoal(result, player, 1);
        }
 
-       if (result == null ){
-           copy_result = null;
-       } else {
-           for (EntryPatternGoal entry : result) {
-               copy_result.add(new EntryPatternGoal(entry.getRow(), entry.getColumn(), entry.getTileType()));
-           }
+       result = commonGoal2.rule(player.getBookShelf().toTileTypeMatrix());
+       if(result != null && player.getPointPlayer().getScoreCommonGoal2() == 0){
+           player.getPointPlayer().setScoreCommonGoal2(commonGoal2.getAvailableScore());
+           notifyOnAchievedCommonGoal(result, player, 2);
        }
-       return copy_result;
+
     }
 
-    public void notifyOnAchievedCommonGoal(){
-        List<EntryPatternGoal> copy_result;
-        for(OnAchievedCommonGoalListener onAchievedCommonGoalListener: achievedCommonGoalListeners){
-            for(Player<R> p: getPlayers()){
-                if(p.getPointPlayer().getScoreCommonGoal1() == 0){
-                    copy_result = checkCommonGoal(p, 1);
-                    if(copy_result != null)
-                        onAchievedCommonGoalListener.onAchievedCommonGoal(p.getNickName(), copy_result, 1);
-                }
-                if(p.getPointPlayer().getScoreCommonGoal2() == 0){
-                    copy_result = checkCommonGoal(p, 2);
-                    if(copy_result != null)
-                        onAchievedCommonGoalListener.onAchievedCommonGoal(p.getNickName(), copy_result, 2);
-                }
-            }
+    public void notifyOnAchievedCommonGoal(List<EntryPatternGoal> tiles, Player<R> player, int numberCommonGoal){
+        List<EntryPatternGoal> copy_result = new ArrayList<>();
+        for (EntryPatternGoal entry : tiles) {
+            copy_result.add(new EntryPatternGoal(entry.getRow(), entry.getColumn(), entry.getTileType()));
+        }
+        for(OnAchievedCommonGoalListener listener : achievedCommonGoalListeners){
+            listener.onAchievedCommonGoal(player.getNickName(), copy_result, numberCommonGoal);
         }
     }
 
