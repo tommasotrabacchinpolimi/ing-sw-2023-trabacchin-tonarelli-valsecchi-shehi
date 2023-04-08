@@ -20,9 +20,11 @@ public abstract class GameManager<R extends ClientInterface> {
         return controller;
     }
 
-    public abstract void dragTilesToBookShelf(R user, int[] chosenTiles, int chosenColumn);
+    public abstract void dragTilesToBookShelf(R view, int[] chosenTiles, int chosenColumn);
 
-    public abstract void registerPlayer(R user, String nickname);
+    public abstract void registerPlayer(R view, String nickname);
+
+    public abstract void quitGame(R view);
 
     public void initCommonGoal(Class<? extends CommonGoal> c, int i) {
         Gson gson = new GsonBuilder().setExclusionStrategies(new JSONExclusionStrategy()).create();

@@ -44,17 +44,24 @@ public class Controller<R extends ClientInterface> implements OnConnectionLostLi
         this.lobbyController = lobbyController;
     }
 
+    public GameManager<R> getGameManager() {
+        return gameManager;
+    }
 
+    public void setGameManager(GameManager<R> gameManager) {
+        this.gameManager = gameManager;
+    }
 
-    public void dragTilesToBookShelf(R view, int[] chosenTiles, int chosenColumn) {
+    public synchronized void dragTilesToBookShelf(R view, int[] chosenTiles, int chosenColumn) {
         gameManager.dragTilesToBookShelf(view, chosenTiles, chosenColumn);
     }
 
-    public void registerPlayer(R view, String nickname) {
+    public synchronized void registerPlayer(R view, String nickname) {
         gameManager.registerPlayer(view, nickname);
     }
 
-    public void quitGame(R view) {
+    public synchronized void quitGame(R view) {
+        gameManager.quitGame(view);
     }
 
 
@@ -63,7 +70,7 @@ public class Controller<R extends ClientInterface> implements OnConnectionLostLi
 
 
     @Override
-    public void onConnectionLost(R user) {
+    public synchronized void onConnectionLost(R user) {
         for(Player<R> p : getState().getPlayers()){
             if(p.getVirtualView() == user){
                 p.setPlayerState(PlayerState.DISCONNECTED);

@@ -4,17 +4,18 @@ import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerState;
 
-public class InitGameManager<R extends ClientInterface> {
+public class InitGameManager<R extends ClientInterface> extends GameManager<R>{
 
     private Controller<R> controller;
+    @Override
     public void dragTilesToBookShelf(R view, int[] chosenTiles, int chosenColumn) {
         System.err.println("dragTilesToBookShelf called in the wrong state");
     }
     public void registerPlayer(R view, String nickname) {
         controller.getState().addPlayer(new Player<>(nickname, view));
         if(controller.getState().getPlayers().size() == controller.getState().getPlayersNumber()) {
+            controller.setGameManager(new MidGameManager<>());
             controller.getState().setGameState(GameState.MID);
-            //cambio stato gamemanager
         }
     }
 
