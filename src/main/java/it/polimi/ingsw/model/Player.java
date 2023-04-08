@@ -37,6 +37,14 @@ public class Player<R extends ClientInterface> implements Serializable {
 
     private R virtualView;
 
+    public Player(String nickName, R virtualView) {
+        this.nickName = nickName;
+        this.personalGoal = null;
+        this.bookShelf = new BookShelf();
+        this.pointPlayer = new PointPlayer();
+        this.playerState = PlayerState.CONNECTED;
+        this.virtualView = virtualView;
+    }
     public Player(String nickName) {
         this.nickName = nickName;
         this.personalGoal = null;
