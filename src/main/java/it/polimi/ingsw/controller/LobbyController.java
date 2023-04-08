@@ -9,7 +9,7 @@ import it.polimi.ingsw.net.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class LobbyController<R extends RemoteInterface> implements UserAccepter<R>, OnConnectionLostListener<R> {
+public class LobbyController<R extends ClientInterface> implements UserAccepter<R>, OnConnectionLostListener<R> {
     private final Map<Controller<R>, List<R>> controllerViewMap = new ConcurrentHashMap<>();
     private final Map<R, Controller<R>> viewControllerMap = new ConcurrentHashMap<>();
 

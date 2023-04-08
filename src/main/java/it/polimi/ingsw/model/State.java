@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.ClientInterface;
 import it.polimi.ingsw.controller.listeners.*;
 import it.polimi.ingsw.net.RemoteInterface;
 import it.polimi.ingsw.net.User;
@@ -26,7 +27,7 @@ import java.util.stream.Collectors;
  * @see Player
  * @see ChatMessage
  */
-public class State<R extends RemoteInterface> implements Serializable {
+public class State<R extends ClientInterface> implements Serializable {
     @Serial
     private static final long serialVersionUID = 26202152145454545L;
 

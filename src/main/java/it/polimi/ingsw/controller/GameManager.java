@@ -12,7 +12,7 @@ import java.io.FileReader;
 import java.util.*;
 import java.util.function.Function;
 
-public class GameManager<R extends RemoteInterface> {
+public class GameManager<R extends ClientInterface> {
     private Controller<R> controller;
     private Function<Integer,Integer> fromGroupSizeToScore;
     private static final String COMMON_GOAL_CONFIGURATION = "./src/main/CommonGoalConfiguration/";

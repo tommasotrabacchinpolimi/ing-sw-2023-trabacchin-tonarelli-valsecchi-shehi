@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ChatManager<R extends RemoteInterface> {
+public class ChatManager<R extends ClientInterface> {
     private Controller<R> controller;
     private static final String MESSAGES_FILE = "./src/main/java/it/polimi/ingsw/controller/Messages.json";
 

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.ClientInterface;
 import it.polimi.ingsw.controller.JSONExclusionStrategy.ExcludedFromJSON;
 import it.polimi.ingsw.net.RemoteInterface;
 import it.polimi.ingsw.net.TestClientInterface;
@@ -16,7 +17,7 @@ import java.io.Serializable;
  * @version 1.0, 26/03/23
  * @see PersonalGoal
  */
-public class Player<R extends RemoteInterface> implements Serializable {
+public class Player<R extends ClientInterface> implements Serializable {
     @Serial
     @ExcludedFromJSON
     private static final long serialVersionUID = 97354642643274L;
