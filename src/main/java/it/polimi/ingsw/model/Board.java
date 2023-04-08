@@ -269,7 +269,6 @@ public class Board implements Iterable<BoardSquare>, Serializable {
         return count;
     }
 
-
     public void printBoard(int numPlayer){
         TileSubject[][] matrix = fromBoardToMatrix();
         for(int i = 0; i < matrix[0].length; i++){
