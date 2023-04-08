@@ -1,9 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.controller.listeners.OnAchievedCommonGoalListener;
-import it.polimi.ingsw.controller.listeners.OnLastPlayerUpdatedListener;
-import it.polimi.ingsw.controller.listeners.OnMessageSentListener;
-import it.polimi.ingsw.controller.listeners.OnStateChangedListener;
+import it.polimi.ingsw.controller.listeners.*;
 import it.polimi.ingsw.net.RemoteInterface;
 import it.polimi.ingsw.net.User;
 
@@ -83,6 +80,8 @@ public class State<R extends RemoteInterface> implements Serializable {
     private final List<OnLastPlayerUpdatedListener> lastPlayerUpdatedListeners;
     private final List<OnMessageSentListener> messageSentListeners;
 
+    private final List<OnCurrentPlayerChangedListener> onCurrentPlayerChangedListeners;
+
     /**
      * Construct of the class that creates the fields of the class.
      *
@@ -102,6 +101,7 @@ public class State<R extends RemoteInterface> implements Serializable {
         lastPlayer = null;
         lastPlayerUpdatedListeners = new ArrayList<>();
         messageSentListeners = new ArrayList<>();
+        onCurrentPlayerChangedListeners = new LinkedList<>();
     }
 
     public void setAchievedCommonGoalListener(OnAchievedCommonGoalListener listener) {
@@ -384,5 +384,21 @@ public class State<R extends RemoteInterface> implements Serializable {
             listener.onMessageSent(message.getSender().getNickName(), nicknameReceivers, message.getText());
         }
     }
+
+    public void setOnCurrentPlayerChangedListener(OnCurrentPlayerChangedListener onCurrentPlayerChangedListener) {
+        this.onCurrentPlayerChangedListeners.add(onCurrentPlayerChangedListener);
+    }
+
+    public void removeOnCurrentPlayerChangedListener(OnCurrentPlayerChangedListener onCurrentPlayerChangedListener) {
+        this.onCurrentPlayerChangedListeners.remove(onCurrentPlayerChangedListener);
+    }
+
+    public void notifyCurrentPlayerChanged() {
+        for(OnCurrentPlayerChangedListener onCurrentPlayerChangedListener :onCurrentPlayerChangedListeners) {
+            onCurrentPlayerChangedListener.onCurrentPlayerChangedListener(currentPlayer.getNickName());
+        }
+    }
+
+
 
 }
