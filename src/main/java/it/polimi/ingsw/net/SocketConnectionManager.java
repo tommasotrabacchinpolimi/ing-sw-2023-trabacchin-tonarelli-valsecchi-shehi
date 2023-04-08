@@ -32,7 +32,7 @@ public class SocketConnectionManager<L extends RemoteInterface, R extends Remote
         this.user = null;
     }
 
-    private void init_base(Socket socket, L localTarget, TypeToken<R> remoteTargetClass, ExecutorService executorService) throws IOException {
+    private synchronized void init_base(Socket socket, L localTarget, TypeToken<R> remoteTargetClass, ExecutorService executorService) throws IOException {
         this.socketReceiver = new SocketReceiver<L,R>(socket.getInputStream(),executorService, localTarget,this);
 
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
@@ -50,7 +50,7 @@ public class SocketConnectionManager<L extends RemoteInterface, R extends Remote
         new Thread(this.socketReceiver).start();
     }
 
-    public R getRemoteTarget(){
+    public synchronized R getRemoteTarget(){
         return remoteTarget;
     }
 
@@ -58,16 +58,16 @@ public class SocketConnectionManager<L extends RemoteInterface, R extends Remote
         notifyConnectionLost();
     }
 
-    private void notifyConnectionLost() {
+    private synchronized void notifyConnectionLost() {
         for(OnConnectionLostListener<R> onConnectionLostListener : onConnectionLostListeners) {
             onConnectionLostListener.onConnectionLost(this.user.getConnectionManager().getRemoteTarget());
         }
     }
-    public void setOnConnectionLostListener(OnConnectionLostListener<R> onConnectionLostListener) {
+    public synchronized void setOnConnectionLostListener(OnConnectionLostListener<R> onConnectionLostListener) {
         this.onConnectionLostListeners.add(onConnectionLostListener);
     }
 
-    public void removeOnConnectionLostListener(OnConnectionLostListener<R> onConnectionLostListener) {
+    public synchronized void removeOnConnectionLostListener(OnConnectionLostListener<R> onConnectionLostListener) {
         this.onConnectionLostListeners.remove(onConnectionLostListener);
     }
 
