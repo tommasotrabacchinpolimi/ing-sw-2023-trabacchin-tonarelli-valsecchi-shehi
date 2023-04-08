@@ -198,12 +198,12 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
         return ((row >= 0 &&  row < maxHeight) && (column >= 0  && column < maxWidth));
     }
 
-    private boolean verifyTileType(TileType[][] bookshelff, List<Integer[]> list) {
+    private boolean verifyTileType(TileType[][] bookshelf, List<Integer[]> list) {
         boolean result = true;
-        TileType type = bookshelff[0][0];
+        TileType type = bookshelf[0][0];
         for (int i=1; i<list.size(); i++)
         {
-            if(!(type.equals(bookshelff[list.get(i)[0]][list.get(i)[1]])));
+            if(!(type.equals(bookshelf[list.get(i)[0]][list.get(i)[1]])));
             //ho una lista di posizioni.
         }
         return false;
