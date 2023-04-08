@@ -8,6 +8,7 @@ import java.util.function.Function;
 public class MidGameManager<R extends ClientInterface> extends GameManager<R> {
     private Function<Integer,Integer> fromGroupSizeToScore;
 
+    @Override
     public void dragTilesToBookShelf(R user, int[] chosenTiles, int chosenColumn){
         Player<R> player = getController().getState().getPlayerFromView(user);
         if (!player.equals(getController().getPlayerPlaying())) {
@@ -32,12 +33,29 @@ public class MidGameManager<R extends ClientInterface> extends GameManager<R> {
     //se registerPlayer viene chiamata in fase di MID o FINAL della partita allora vuol dire che il giocatore
     // si era disconnesso e ora sta cercando di riconettersi, quindi controllo che effettivamente ciò è vero e
     // nel caso risetto la view del player corrispondente
+    @Override
     public void registerPlayer(R user, String nickname) {
         Player<R> player = getController().getState().getPlayerFromNick(nickname);
         if(player != null && player.getPlayerState() == PlayerState.DISCONNECTED){
             player.setVirtualView(user);
             player.setPlayerState(PlayerState.CONNECTED);
         }
+    }
+
+    @Override
+    public void quitGame(R view){
+        Player<R> player = getController().getState().getPlayerFromView(view);
+        player.setPlayerState(PlayerState.QUITTED);
+        verifyAllDisconnectedPlayers();
+    }
+
+    private void verifyAllDisconnectedPlayers(){
+        for(Player<R> player: getController().getState().getPlayers()){
+            if(player.getPlayerState() != PlayerState.QUITTED){
+                return;
+            }
+        }
+        getController().getState().setGameState(GameState.END);
     }
 
     private void verifyCommonGoal(R user){
@@ -119,7 +137,8 @@ public class MidGameManager<R extends ClientInterface> extends GameManager<R> {
 
         index = (getController().getState().getPlayers().indexOf(oldCurrentPlayer) + 1) % n;
         for(int i = 0; i < n; i++ ){
-            if(getController().getState().getPlayers().get(index).getPlayerState()==PlayerState.DISCONNECTED){
+            if(getController().getState().getPlayers().get(index).getPlayerState()==PlayerState.DISCONNECTED ||
+                    getController().getState().getPlayers().get(index).getPlayerState()==PlayerState.QUITTED){
                 index = (index + 1) % n;
             } else {
                 getController().getState().setCurrentPlayer(getController().getState().getPlayers().get(index));
