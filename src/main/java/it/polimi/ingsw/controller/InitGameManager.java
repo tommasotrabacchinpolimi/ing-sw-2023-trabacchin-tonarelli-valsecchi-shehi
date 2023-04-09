@@ -1,32 +1,58 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.model.GameState;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.PlayerState;
+import it.polimi.ingsw.model.*;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class InitGameManager<R extends ClientInterface> extends GameManager<R>{
 
+    private static final String PERSONAL_GOAL_CONFIGURATION = "./src/main/resources/PersonalGoalConfiguration/";
+    private List<PersonalGoal> personalGoalsDeck;
+    private List<CommonGoal> commonGoalsDeck;
     public InitGameManager(Controller<R> controller) {
         super(controller);
+        File rootFolder = new File(PERSONAL_GOAL_CONFIGURATION);
+        File[] files = rootFolder.listFiles(File::isFile);
+
+    }
+
+    private void initPersonalGoals() throws FileNotFoundException {
+        File rootFolder = new File(PERSONAL_GOAL_CONFIGURATION);
+        File[] files = rootFolder.listFiles(File::isFile);
+        personalGoalsDeck = new ArrayList<>();
+        for(File file : files) {
+            personalGoalsDeck.add(new PersonalGoal(file.getPath()));
+        }
+        Collections.shuffle(personalGoalsDeck);
+    }
+
+    private void initCommonGoals() {
+        CommonGoalDeserializer commonGoalDeserializer = new CommonGoalDeserializer();
+        commonGoalsDeck = commonGoalDeserializer.getCommonGoalsDeck().stream().toList();
+
+    }
+    @Override
+    public synchronized void dragTilesToBookShelf(R view, int[] chosenTiles, int chosenColumn) {
+        System.err.println("dragTilesToBookShelf called in INIT state");
     }
 
     @Override
-    public void dragTilesToBookShelf(R view, int[] chosenTiles, int chosenColumn) {
-        System.err.println("dragTilesToBookShelf called in the wrong state");
-    }
-
-    @Override
-    public void registerPlayer(R view, String nickname) {
-        getController().getState().addPlayer(new Player<>(nickname, view));
+    public synchronized void registerPlayer(R view, String nickname) {
+        Player<R> player = getController().getState().getPlayerFromNick(nickname);
+        if(player!=null && player.getPlayerState()== PlayerState.DISCONNECTED) {
+            player.setVirtualView(view);
+            player.setPlayerState(PlayerState.CONNECTED);
+        }
+        else {
+            getController().getState().addPlayer(new Player<R>(nickname,view));
+        }
         if(getController().getState().getPlayers().size() == getController().getState().getPlayersNumber()) {
             getController().setGameManager(new MidGameManager<>(getController()));
             getController().getState().setGameState(GameState.MID);
         }
-    }
-
-    @Override
-    public void quitGame(R view) {
-        getController().getState().getPlayers().stream().filter(p -> p.getVirtualView() == view).findFirst().ifPresent((p)->p.setPlayerState(PlayerState.DISCONNECTED));
-        getController().getLobbyController().onQuitGame(view);
     }
 }

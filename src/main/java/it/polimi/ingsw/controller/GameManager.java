@@ -28,7 +28,14 @@ public abstract class GameManager<R extends ClientInterface> {
 
     public abstract void registerPlayer(R view, String nickname);
 
-    public abstract void quitGame(R view);
+    public synchronized void quitGame(R view) {
+        getController().getState().getPlayerFromView(view).setPlayerState(PlayerState.QUITTED);
+        getController().getLobbyController().onQuitGame(view);
+        if(getController().getState().getPlayers().stream().noneMatch(p->p.getPlayerState()!=PlayerState.QUITTED)) {
+            getController().getState().setGameState(GameState.END);
+            getController().getLobbyController().onEndGame(getController());
+        }
+    }
 
     public void initCommonGoal(Class<? extends CommonGoal> c, int i) {
         Gson gson = new GsonBuilder().setExclusionStrategies(new JSONExclusionStrategy()).create();

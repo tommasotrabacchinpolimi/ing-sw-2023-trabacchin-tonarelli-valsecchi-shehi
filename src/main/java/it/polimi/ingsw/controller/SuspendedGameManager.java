@@ -16,16 +16,12 @@ public class SuspendedGameManager<R extends ClientInterface> extends GameManager
     }
 
     @Override
-    public void registerPlayer(R view, String nickname) {
-        getController().getState().addPlayer(new Player<>(nickname, view));
-        getController().getState().setCurrentPlayer(getController().getState().getPlayerFromView(view));
-        getController().setGameManager(new MidGameManager<>(getController()));
-        getController().getState().setGameState(GameState.MID);
+    public synchronized void registerPlayer(R view, String nickname) {
+        Player<R> player = getController().getState().getPlayerFromNick(nickname);
+        if(player!=null && player.getPlayerState()==PlayerState.DISCONNECTED) {
+            player.setVirtualView(view);
+            player.setPlayerState(PlayerState.CONNECTED);
+        }
     }
 
-    @Override
-    public synchronized void quitGame(R view) {
-        getController().getState().getPlayers().stream().filter(p -> p.getVirtualView() == view).findFirst().ifPresent((p)->p.setPlayerState(PlayerState.DISCONNECTED));
-        getController().getLobbyController().onQuitGame(view);
-    }
 }

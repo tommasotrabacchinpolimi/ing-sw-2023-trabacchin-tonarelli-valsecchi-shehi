@@ -1,7 +1,4 @@
 package it.polimi.ingsw.controller;
-
-import it.polimi.ingsw.net.RemoteInterface;
-
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

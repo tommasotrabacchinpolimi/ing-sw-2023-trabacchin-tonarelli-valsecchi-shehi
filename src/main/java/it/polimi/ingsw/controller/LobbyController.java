@@ -19,13 +19,19 @@ public class LobbyController<R extends ClientInterface> implements UserAccepter<
 
     private final List<String> disconnectedButInGame = new ArrayList<>();
 
+    private Dispatcher<R> dispatcher;
+
+
+    public void setDispatcher(Dispatcher<R> dispatcher) {
+        this.dispatcher = dispatcher;
+    }
     @Override
     public boolean acceptUser(User<R> user) {
         return true;
     }
 
 
-    public void joinGame(R user, String nickname){
+    public synchronized void joinGame(R user, String nickname){
         //controllo se c'è un'altra view con lo stesso nickname -> se c'è ed è in una partita, per ora si ignora
         if(viewToNicknameMap.containsValue(nickname)){
             if(disconnectedButInGame.contains(nickname)){
@@ -42,6 +48,7 @@ public class LobbyController<R extends ClientInterface> implements UserAccepter<
                         nicknameToViewMap.put(nickname, user);
                         disconnectedButInGame.remove(nickname);
                         c.registerPlayer(user, nickname);
+
                     }
                 }
             }
@@ -60,21 +67,22 @@ public class LobbyController<R extends ClientInterface> implements UserAccepter<
                 nicknameToViewMap.put(nickname,user);
                 controllerViewMap.get(c).add(user);
                 viewControllerMap.put(user, c);
+                dispatcher.setController(user, c);
                 c.registerPlayer(user, nickname);
             }
         }
     }
 
-    public void createGame(R user, String nickname, int numberOfPlayer){
+    public synchronized void createGame(R user, String nickname, int numberOfPlayer){
         //se arriva uno user che si era disconnesso, lo ignoro (da fare)
         Controller<R> controller = new Controller<>();
-        State state = new State();
+        State<R> state = new State<>();
         List<R> list = new ArrayList<>();
         controller.setState(state);
 
         viewToNicknameMap.put(user,nickname);
         nicknameToViewMap.put(nickname,user);
-
+        dispatcher.setController(user, controller);
         controller.registerPlayer(user,nickname);
         controller.setNumberPlayers(numberOfPlayer);
         list.add(user);
@@ -84,6 +92,7 @@ public class LobbyController<R extends ClientInterface> implements UserAccepter<
                 if(waitingUsers.size()!=0){
                     R u = waitingUsers.remove(0);
                     list.add(u);
+                    dispatcher.setController(user, controller);
                     controller.registerPlayer(u, nickname);
                 }
             }
@@ -94,13 +103,14 @@ public class LobbyController<R extends ClientInterface> implements UserAccepter<
         }
     }
 
-    public void onEndGame(Controller<R> controller){
+    public synchronized void onEndGame(Controller<R> controller){
         if(controllerViewMap.containsKey(controller)){
             if(controller.getState().getGameState() == GameState.END){
                 List<R> list =  controllerViewMap.get(controller);
                 controllerViewMap.remove(controller);
                 for(R user: list){
                     viewControllerMap.remove(user);
+                    dispatcher.removeController(user, controller);
                 }
             }
         }
@@ -116,15 +126,16 @@ public class LobbyController<R extends ClientInterface> implements UserAccepter<
     }
 
     @Override
-    public void onConnectionLost(R user) {
+    public synchronized void onConnectionLost(R user) {
         disconnectedButInGame.add(viewToNicknameMap.get(user));
         waitingUsers.removeIf(u -> u.equals(user));
     }
 
-    public void onQuitGame(R user){
+    public synchronized void onQuitGame(R user){
         Controller<R> c = viewControllerMap.get(nicknameToViewMap.get(viewToNicknameMap.get(user)));
         controllerViewMap.get(c).remove(user);
         viewControllerMap.remove(user);
+        dispatcher.removeController(user, c);
     }
 
 }

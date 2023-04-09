@@ -10,10 +10,11 @@ public class MidGameManager<R extends ClientInterface> extends GameManager<R> {
 
     public MidGameManager(Controller<R> controller){
         super(controller);
+        controller.getState().getBoard().refillBoard(controller.getState().getPlayersNumber());
     }
 
     @Override
-    public void dragTilesToBookShelf(R user, int[] chosenTiles, int chosenColumn){
+    public synchronized void dragTilesToBookShelf(R user, int[] chosenTiles, int chosenColumn){
         Player<R> player = getController().getState().getPlayerFromView(user);
         if (!player.equals(getController().getPlayerPlaying())) {
             return;
@@ -32,14 +33,14 @@ public class MidGameManager<R extends ClientInterface> extends GameManager<R> {
         evaluateFinalScore(player);
         verifyCommonGoal(user);
         setNextCurrentPlayer();
-        verifyAllDisconnectedPlayer(user);
+        verifyAllDisconnectedPlayer();
     }
 
     //se registerPlayer viene chiamata in fase di MID o FINAL della partita allora vuol dire che il giocatore
     // si era disconnesso e ora sta cercando di ri-connettersi, quindi controllo che effettivamente ciò è vero e
     // nel caso ri-setto la view del player corrispondente
     @Override
-    public void registerPlayer(R user, String nickname) {
+    public synchronized void registerPlayer(R user, String nickname) {
         Player<R> player = getController().getState().getPlayerFromNick(nickname);
         if(player != null && player.getPlayerState() == PlayerState.DISCONNECTED){
             player.setVirtualView(user);
@@ -47,15 +48,9 @@ public class MidGameManager<R extends ClientInterface> extends GameManager<R> {
         }
     }
 
-    @Override
-    public void quitGame(R view){
-        getController().getState().getPlayerFromView(view).setPlayerState(PlayerState.QUITTED);
-        getController().getLobbyController().onQuitGame(view);
-        verifyAllQuitPlayers();
-    }
 
     //metodo che dice se tutti i player tranne quello passato per parametro sono disconnessi
-    private void verifyAllDisconnectedPlayer(R view){
+    private synchronized void verifyAllDisconnectedPlayer(){
         Player<R> player = getController().getPlayerPlaying();
         for(Player<R> p: getController().getState().getPlayers()){
             if(p != player && p.getPlayerState() != PlayerState.DISCONNECTED){
@@ -64,15 +59,6 @@ public class MidGameManager<R extends ClientInterface> extends GameManager<R> {
         }
         getController().getState().setGameState(GameState.SUSPENDED);
         getController().setGameManager(new SuspendedGameManager<>(getController()));
-    }
-
-    private void verifyAllQuitPlayers(){
-        for(Player<R> player: getController().getState().getPlayers()){
-            if(player.getPlayerState() != PlayerState.QUITTED){
-                return;
-            }
-        }
-        getController().getState().setGameState(GameState.END);
     }
 
     private void verifyCommonGoal(R user){

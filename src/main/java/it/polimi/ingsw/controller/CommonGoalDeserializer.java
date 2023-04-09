@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.net.RemoteInterface;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -16,14 +15,14 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class CommonGoalDeserializer<R extends RemoteInterface>{
+public class CommonGoalDeserializer {
 
     private Controller controller;
 
     private static final String COMMON_GOAL_CONFIGURATION = "./src/main/resources/CommonGoalConfiguration/";
 
     public static void main(String[] args) {
-        CommonGoalDeserializer commonGoalDeserializer = new CommonGoalDeserializer<>();
+        CommonGoalDeserializer commonGoalDeserializer = new CommonGoalDeserializer();
 
         commonGoalDeserializer.getCommonGoalsDeck().forEach( commonGoal -> System.out.println("\n" + commonGoal.toString()));
     }
