@@ -1,7 +1,10 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.ClientInterface;
+import it.polimi.ingsw.controller.listeners.OnBoardRefilledListener;
 import it.polimi.ingsw.controller.listeners.OnBoardUpdatedListener;
 import it.polimi.ingsw.controller.listeners.OnBookShelfUpdatedListener;
+import it.polimi.ingsw.controller.listeners.localListeners.OnUpdateNeededListener;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -30,7 +33,7 @@ import java.util.List;
  * @see TileSubject
  * @see CommonGoal
  */
-public class BookShelf implements Serializable {
+public class BookShelf<R extends ClientInterface> implements Serializable, OnUpdateNeededListener<R> {
     @Serial
     private static final long serialVersionUID = 9828497462L;
 
@@ -76,7 +79,7 @@ public class BookShelf implements Serializable {
     /**
      * The player that is associated with the BookShelf
      */
-    private Player player;
+    private Player<R> player;
 
     private final List<OnBookShelfUpdatedListener> onBookShelfUpdatedListeners;
     /**
@@ -273,7 +276,7 @@ public class BookShelf implements Serializable {
      * @return the player associated with the BookShelf
      * @see Player
      */
-    public Player getPlayer() {
+    public Player<R> getPlayer() {
         return player;
     }
 
@@ -282,7 +285,7 @@ public class BookShelf implements Serializable {
      * @param player the players that must be associated with the BookShelf
      * @see Player
      */
-    public void setPlayer(Player player) {
+    public void setPlayer(Player<R> player) {
         this.player = player;
     }
 
@@ -310,5 +313,11 @@ public class BookShelf implements Serializable {
      */
     public void removeOnBookShelfUpdated(OnBookShelfUpdatedListener onBookShelfUpdatedListener) {
         onBookShelfUpdatedListeners.remove(onBookShelfUpdatedListener);
+    }
+
+    @Override
+    public void onUpdateNeededListener(Player<R> player) {
+        onBookShelfUpdatedListeners.stream().filter(v->player.getVirtualView() == v).findAny().ifPresentOrElse(v -> v.onBookShelfUpdated(player.getNickName(),Arrays.stream(this.tileSubjectTaken).map(TileSubject[]::clone).toArray(TileSubject[][]::new)),()->System.err.println("no one to update about bookshelf refilled"));
+
     }
 }

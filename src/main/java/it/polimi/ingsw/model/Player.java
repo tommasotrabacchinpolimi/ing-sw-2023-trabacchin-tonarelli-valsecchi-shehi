@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.ClientInterface;
 import it.polimi.ingsw.controller.JSONExclusionStrategy.ExcludedFromJSON;
 import it.polimi.ingsw.controller.listeners.OnPlayerStateChangedListener;
 import it.polimi.ingsw.controller.listeners.OnStateChangedListener;
+import it.polimi.ingsw.controller.listeners.localListeners.OnUpdateNeededListener;
 import it.polimi.ingsw.net.RemoteInterface;
 import it.polimi.ingsw.net.TestClientInterface;
 
@@ -21,7 +22,7 @@ import java.util.List;
  * @version 1.0, 26/03/23
  * @see PersonalGoal
  */
-public class Player<R extends ClientInterface> implements Serializable {
+public class Player<R extends ClientInterface> implements Serializable, OnUpdateNeededListener<R> {
     @Serial
     @ExcludedFromJSON
     private static final long serialVersionUID = 97354642643274L;
@@ -32,7 +33,7 @@ public class Player<R extends ClientInterface> implements Serializable {
     private final PersonalGoal personalGoal;
 
     @ExcludedFromJSON
-    private BookShelf bookShelf;
+    private BookShelf<R> bookShelf;
 
     @ExcludedFromJSON
     private PointPlayer pointPlayer;
@@ -46,7 +47,7 @@ public class Player<R extends ClientInterface> implements Serializable {
     public Player(String nickName, R virtualView) {
         this.nickName = nickName;
         this.personalGoal = null;
-        this.bookShelf = new BookShelf();
+        this.bookShelf = new BookShelf<R>();
         this.pointPlayer = new PointPlayer();
         this.playerState = PlayerState.CONNECTED;
         this.virtualView = virtualView;
@@ -55,7 +56,7 @@ public class Player<R extends ClientInterface> implements Serializable {
     public Player(String nickName) {
         this.nickName = nickName;
         this.personalGoal = null;
-        this.bookShelf = new BookShelf();
+        this.bookShelf = new BookShelf<R>();
         this.pointPlayer = new PointPlayer();
         this.playerState = PlayerState.CONNECTED;
         onPlayerStateChangedListeners = new LinkedList<>();
@@ -71,7 +72,7 @@ public class Player<R extends ClientInterface> implements Serializable {
     public Player( String  nickName, PersonalGoal personalGoal ){
         this.nickName = nickName;
         this.personalGoal = personalGoal;
-        this.bookShelf = new BookShelf();
+        this.bookShelf = new BookShelf<R>();
         this.pointPlayer = new PointPlayer();
         this.playerState = PlayerState.CONNECTED;
         onPlayerStateChangedListeners = new LinkedList<>();
@@ -94,11 +95,11 @@ public class Player<R extends ClientInterface> implements Serializable {
         this.virtualView = virtualView;
     }
 
-    public BookShelf getBookShelf() {
+    public BookShelf<R> getBookShelf() {
         return bookShelf;
     }
 
-    public void setBookShelf(BookShelf bookShelf) {
+    public void setBookShelf(BookShelf<R> bookShelf) {
         this.bookShelf = bookShelf;
     }
 
@@ -156,4 +157,8 @@ public class Player<R extends ClientInterface> implements Serializable {
         }
     }
 
+    @Override
+    public void onUpdateNeededListener(Player<R> player) {
+
+    }
 }
