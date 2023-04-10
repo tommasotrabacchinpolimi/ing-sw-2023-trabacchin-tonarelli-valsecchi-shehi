@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.ClientInterface;
 import it.polimi.ingsw.controller.listeners.*;
+import it.polimi.ingsw.controller.listeners.localListeners.OnUpdateNeededListener;
 import it.polimi.ingsw.net.RemoteInterface;
 import it.polimi.ingsw.net.User;
 
@@ -27,7 +28,7 @@ import java.util.stream.Collectors;
  * @see Player
  * @see ChatMessage
  */
-public class State<R extends ClientInterface> implements Serializable {
+public class State<R extends ClientInterface> implements Serializable, OnUpdateNeededListener<R> {
     @Serial
     private static final long serialVersionUID = 26202152145454545L;
 
@@ -36,7 +37,7 @@ public class State<R extends ClientInterface> implements Serializable {
      *
      * @see Board
      */
-    private Board board;
+    private Board<R> board;
 
     private GameState gameState;
 
@@ -93,7 +94,7 @@ public class State<R extends ClientInterface> implements Serializable {
      */
     public State(){
         gameState = GameState.INIT;
-        board = new Board();
+        board = new Board<R>();
         players = new ArrayList<>();
         currentPlayer = null;
         messages = new LinkedList<>();
@@ -169,7 +170,7 @@ public class State<R extends ClientInterface> implements Serializable {
      *
      * @see Board
      */
-    public Board getBoard() {
+    public Board<R> getBoard() {
         return board;
     }
 
@@ -179,7 +180,7 @@ public class State<R extends ClientInterface> implements Serializable {
      *
      * @see Board
      */
-    public void setBoard(Board board) {
+    public void setBoard(Board<R> board) {
         this.board = board;
     }
 
@@ -395,5 +396,16 @@ public class State<R extends ClientInterface> implements Serializable {
     }
 
 
+    @Override
+    public void onUpdateNeededListener(Player<R> player) {
+        stateChangedListeners.stream()
+                .filter(v->v==player.getVirtualView()).findAny().ifPresentOrElse(v->v.onStateChanged(gameState),()->System.err.println("unable to notify about state changed"));
 
+        onCurrentPlayerChangedListeners.stream()
+                .filter(v->v==player.getVirtualView()).findAny().ifPresentOrElse(v ->v.onCurrentPlayerChangedListener(currentPlayer.getNickName()),()->System.err.println("unable to notify about current player update"));
+
+        lastPlayerUpdatedListeners.stream()
+                .filter(v->v==player.getVirtualView()).findAny().ifPresentOrElse(v->v.onLastPlayerUpdated(lastPlayer.getNickName()),()->System.err.println("unable to notify about last player update"));
+
+    }
 }

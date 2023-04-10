@@ -159,6 +159,6 @@ public class Player<R extends ClientInterface> implements Serializable, OnUpdate
 
     @Override
     public void onUpdateNeededListener(Player<R> player) {
-
+        onPlayerStateChangedListeners.stream().filter(v-> player.getVirtualView() == v).findAny().ifPresentOrElse(v->v.onPlayerStateChanged(this.nickName,this.playerState),()->System.err.println("unable to update about player state changed"));
     }
 }
