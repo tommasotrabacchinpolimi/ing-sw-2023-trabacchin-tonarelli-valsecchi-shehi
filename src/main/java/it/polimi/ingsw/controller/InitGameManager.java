@@ -13,10 +13,10 @@ public class InitGameManager<R extends ClientInterface> extends GameManager<R>{
     private static final String PERSONAL_GOAL_CONFIGURATION = "./src/main/resources/PersonalGoalConfiguration/";
     private List<PersonalGoal> personalGoalsDeck;
     private List<CommonGoal> commonGoalsDeck;
-    public InitGameManager(Controller<R> controller) {
+    public InitGameManager(Controller<R> controller) throws FileNotFoundException {
         super(controller);
-        File rootFolder = new File(PERSONAL_GOAL_CONFIGURATION);
-        File[] files = rootFolder.listFiles(File::isFile);
+        initPersonalGoals();
+        initCommonGoals();
 
     }
 
@@ -33,7 +33,25 @@ public class InitGameManager<R extends ClientInterface> extends GameManager<R>{
     private void initCommonGoals() {
         CommonGoalDeserializer commonGoalDeserializer = new CommonGoalDeserializer();
         commonGoalsDeck = commonGoalDeserializer.getCommonGoalsDeck().stream().toList();
+        for(CommonGoal commonGoal : commonGoalsDeck) {
 
+            if (getController().getState().getPlayersNumber() == 4) {
+                commonGoal.getScoringTokens().push(2);
+                commonGoal.getScoringTokens().push(4);
+                commonGoal.getScoringTokens().push(6);
+                commonGoal.getScoringTokens().push(8);
+            }
+            else if(getController().getState().getPlayersNumber() == 3) {
+                commonGoal.getScoringTokens().push(4);
+                commonGoal.getScoringTokens().push(6);
+                commonGoal.getScoringTokens().push(8);
+            }
+            else {
+                commonGoal.getScoringTokens().push(4);
+                commonGoal.getScoringTokens().push(8);
+            }
+        }
+        Collections.shuffle(commonGoalsDeck);
     }
     @Override
     public synchronized void dragTilesToBookShelf(R view, int[] chosenTiles, int chosenColumn) {
