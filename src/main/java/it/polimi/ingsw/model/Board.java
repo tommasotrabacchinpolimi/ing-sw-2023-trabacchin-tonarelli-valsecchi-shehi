@@ -8,6 +8,7 @@ import it.polimi.ingsw.controller.listeners.localListeners.OnUpdateNeededListene
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.model.BoardSquareType.NO_DOTS;
 import static it.polimi.ingsw.model.BoardSquareType.THREE_DOTS;
@@ -290,7 +291,13 @@ public class Board<R extends ClientInterface> implements Iterable<BoardSquare>, 
     }
 
     public void notifyOnBoardUpdated() {
-        TileSubject[] tileSubjects = (TileSubject[]) getBoardSquareList().stream().map(BoardSquare::getTileSubject).toArray();
+       // TileSubject[] tileSubjects = (TileSubject[]) getBoardSquareList().stream().map(BoardSquare::getTileSubject).toArray();
+        TileSubject[] tileSubjects = new TileSubject[NUMBER_OF_BOARDSQUARE];
+        int count = 0;
+        for(BoardSquare b : this){
+            tileSubjects[count] = b.getTileSubject();
+            count++;
+        }
         for(OnBoardUpdatedListener onBoardUpdatedListener : onBoardUpdatedListeners) {
             if(onBoardUpdatedListener != null) {
                 onBoardUpdatedListener.onBoardUpdated(tileSubjects);
@@ -305,6 +312,7 @@ public class Board<R extends ClientInterface> implements Iterable<BoardSquare>, 
             }
         }
     }
+
     public void setOnBoardRefilledListener(OnBoardRefilledListener onBoardRefilledListener) {
         this.onBoardRefilledListeners.add(onBoardRefilledListener);
     }
