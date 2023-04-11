@@ -84,6 +84,8 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
 
     private final List<OnCurrentPlayerChangedListener> onCurrentPlayerChangedListeners;
 
+    private final List<OnAssignedCommonGoalListener> onAssignedCommonGoalListeners;
+
     /**
      * Construct of the class that creates the fields of the class.
      *
@@ -104,6 +106,7 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
         lastPlayerUpdatedListeners = new ArrayList<>();
         messageSentListeners = new ArrayList<>();
         onCurrentPlayerChangedListeners = new LinkedList<>();
+        onAssignedCommonGoalListeners = new LinkedList<>();
     }
 
     public void setAchievedCommonGoalListener(OnAchievedCommonGoalListener listener) {
@@ -202,6 +205,7 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
      */
     public void setCommonGoal1(CommonGoal commonGoal1) {
         this.commonGoal1 = commonGoal1;
+        notifyAssignedCommonGoal();
     }
 
     /**
@@ -222,6 +226,7 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
      */
     public void setCommonGoal2(CommonGoal commonGoal2) {
         this.commonGoal2 = commonGoal2;
+        notifyAssignedCommonGoal();
     }
 
     /**
@@ -389,6 +394,21 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
         this.onCurrentPlayerChangedListeners.remove(onCurrentPlayerChangedListener);
     }
 
+    public void setOnAssignedCommonGoalListener(OnAssignedCommonGoalListener onAssignedCommonGoalListener) {
+        this.onAssignedCommonGoalListeners.add(onAssignedCommonGoalListener);
+    }
+
+    public void removeOnAssignedCommonGoalListener(OnAssignedCommonGoalListener onAssignedCommonGoalListener) {
+        this.onAssignedCommonGoalListeners.remove(onAssignedCommonGoalListener);
+    }
+
+    public void notifyAssignedCommonGoal() {
+        for(OnAssignedCommonGoalListener onAssignedCommonGoalListener : onAssignedCommonGoalListeners) {
+            onAssignedCommonGoalListener.onAssignedCommonGoal(this.getCommonGoal1().getDescription(),1);
+            onAssignedCommonGoalListener.onAssignedCommonGoal(this.getCommonGoal2().getDescription(),2);
+        }
+    }
+
     public void notifyCurrentPlayerChanged() {
         for(OnCurrentPlayerChangedListener onCurrentPlayerChangedListener :onCurrentPlayerChangedListeners) {
             onCurrentPlayerChangedListener.onCurrentPlayerChangedListener(currentPlayer.getNickName());
@@ -406,6 +426,9 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
 
         lastPlayerUpdatedListeners.stream()
                 .filter(v->v==player.getVirtualView()).findAny().ifPresentOrElse(v->v.onLastPlayerUpdated(lastPlayer.getNickName()),()->System.err.println("unable to notify about last player update"));
+
+        onAssignedCommonGoalListeners.stream()
+                .filter(v -> v==player.getVirtualView()).findAny().ifPresentOrElse(v->{v.onAssignedCommonGoal(this.getCommonGoal1().getDescription(),1); v.onAssignedCommonGoal(this.getCommonGoal2().getDescription(),2);},()->System.err.println("unable to notify about common goal assigned"));
 
     }
 }

@@ -10,7 +10,7 @@ public class MidGameManager<R extends ClientInterface> extends GameManager<R> {
 
     public MidGameManager(Controller<R> controller){
         super(controller);
-        controller.getState().getBoard().refillBoard(controller.getState().getPlayersNumber());
+        //controller.getState().getBoard().refillBoard(controller.getState().getPlayersNumber());
     }
 
     @Override
@@ -19,12 +19,12 @@ public class MidGameManager<R extends ClientInterface> extends GameManager<R> {
         if (!player.equals(getController().getPlayerPlaying())) {
             return;
         }
-        Board board = getController().getState().getBoard();
+        Board<R> board = getController().getState().getBoard();
         List<TileSubject> tiles = new ArrayList<>();
         for (Integer tile : chosenTiles) {
             tiles.add(board.fromIntToBoardSquare(tile).getTileSubject());
         }
-        BookShelf bookShelf = player.getBookShelf();
+        BookShelf<R> bookShelf = player.getBookShelf();
         bookShelf.addTileSubjectTaken(tiles, chosenColumn);
         verifyEndGame(user);
         if (verifyRefillBoard() && getController().getState().getGameState()!=GameState.END) {
@@ -95,7 +95,7 @@ public class MidGameManager<R extends ClientInterface> extends GameManager<R> {
         TileType[][] bookShelf = player.getBookShelf().toTileTypeMatrix();
         Set<Set<EntryPatternGoal>> groups = findGroups(bookShelf);
         for(Set<EntryPatternGoal> group : groups){
-            scoreAdjacentGoal += fromGroupSizeToScore.apply(group.size());
+            scoreAdjacentGoal += adjacentGroupsScore(group.size());
         }
         for(EntryPatternGoal e : player.getPersonalGoal().getGoalPattern()){
             if(player.getBookShelf().toTileTypeMatrix()[e.getRow()][e.getColumn()]==e.getTileType()){
@@ -105,6 +105,24 @@ public class MidGameManager<R extends ClientInterface> extends GameManager<R> {
         scorePersonalGoal = player.getPersonalGoal().getScoreMap().get(personalGoalMatches);
         player.getPointPlayer().setScoreAdjacentGoal(scoreAdjacentGoal);
         player.getPointPlayer().setScorePersonalGoal(scorePersonalGoal);
+    }
+
+    private int adjacentGroupsScore(int size) {
+        if(size >= 6) {
+            return 8;
+        }
+        else if(size == 5) {
+            return 5;
+        }
+        else if(size == 4) {
+            return 3;
+        }
+        else if(size == 3) {
+            return 2;
+        }
+        else {
+            return 0;
+        }
     }
 
     /**

@@ -70,7 +70,13 @@ public class InitGameManager<R extends ClientInterface> extends GameManager<R>{
         }
         if(getController().getState().getPlayers().size() == getController().getState().getPlayersNumber()) {
             getController().setGameManager(new MidGameManager<>(getController()));
+            getController().getState().getBoard().refillBoard(getController().getState().getPlayersNumber());
             getController().getState().setGameState(GameState.MID);
+            for(Player<R> rPlayer : getController().getState().getPlayers()) {
+                rPlayer.setPersonalGoal(personalGoalsDeck.remove(0));
+            }
+            getController().getState().setCommonGoal1(commonGoalsDeck.remove(0));
+            getController().getState().setCommonGoal1(commonGoalsDeck.remove(0));
         }
     }
 }

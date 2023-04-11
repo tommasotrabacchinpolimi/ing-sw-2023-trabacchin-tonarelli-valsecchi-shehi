@@ -2,11 +2,9 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.ClientInterface;
 import it.polimi.ingsw.controller.JSONExclusionStrategy.ExcludedFromJSON;
+import it.polimi.ingsw.controller.listeners.OnAssignedPersonalGoalListener;
 import it.polimi.ingsw.controller.listeners.OnPlayerStateChangedListener;
-import it.polimi.ingsw.controller.listeners.OnStateChangedListener;
 import it.polimi.ingsw.controller.listeners.localListeners.OnUpdateNeededListener;
-import it.polimi.ingsw.net.RemoteInterface;
-import it.polimi.ingsw.net.TestClientInterface;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -29,41 +27,47 @@ public class Player<R extends ClientInterface> implements Serializable, OnUpdate
 
     private final String nickName;
 
+
+
     @ExcludedFromJSON
-    private final PersonalGoal personalGoal;
+    private PersonalGoal personalGoal;
 
     @ExcludedFromJSON
     private BookShelf<R> bookShelf;
 
     @ExcludedFromJSON
-    private PointPlayer pointPlayer;
+    private PointPlayer<R> pointPlayer;
 
     private PlayerState playerState;
 
     private R virtualView;
 
-    private List<OnPlayerStateChangedListener> onPlayerStateChangedListeners;
+    private final List<OnPlayerStateChangedListener> onPlayerStateChangedListeners;
+
+    private final List<OnAssignedPersonalGoalListener> onAssignedPersonalGoalListenerListeners;
 
     public Player(String nickName, R virtualView) {
         this.nickName = nickName;
         this.personalGoal = null;
         this.bookShelf = new BookShelf<R>();
-        this.pointPlayer = new PointPlayer();
+        this.pointPlayer = new PointPlayer<R>();
         this.playerState = PlayerState.CONNECTED;
         this.virtualView = virtualView;
         onPlayerStateChangedListeners = new LinkedList<>();
+        onAssignedPersonalGoalListenerListeners = new LinkedList<>();
     }
     public Player(String nickName) {
         this.nickName = nickName;
         this.personalGoal = null;
         this.bookShelf = new BookShelf<R>();
-        this.pointPlayer = new PointPlayer();
+        this.pointPlayer = new PointPlayer<R>();
         this.playerState = PlayerState.CONNECTED;
         onPlayerStateChangedListeners = new LinkedList<>();
+        onAssignedPersonalGoalListenerListeners = new LinkedList<>();
     }
 
     /**
-     * Constructor hat sets the fields of the class to the parameter passed.
+     * Constructor that sets the fields of the class to the parameter passed.
      * @param nickName A {@link String} representing the nickname of the player.
      * @param personalGoal The {@link PersonalGoal} that will be associated to the player.
      *
@@ -73,9 +77,10 @@ public class Player<R extends ClientInterface> implements Serializable, OnUpdate
         this.nickName = nickName;
         this.personalGoal = personalGoal;
         this.bookShelf = new BookShelf<R>();
-        this.pointPlayer = new PointPlayer();
+        this.pointPlayer = new PointPlayer<R>();
         this.playerState = PlayerState.CONNECTED;
         onPlayerStateChangedListeners = new LinkedList<>();
+        onAssignedPersonalGoalListenerListeners = new LinkedList<>();
     }
 
     public PlayerState getPlayerState() {
@@ -107,11 +112,11 @@ public class Player<R extends ClientInterface> implements Serializable, OnUpdate
         this.pointPlayer.setScoreEndGame(endGameScore);
     }
 
-    public PointPlayer getPointPlayer() {
+    public PointPlayer<R> getPointPlayer() {
         return pointPlayer;
     }
 
-    public void setPointPlayer(PointPlayer pointPlayer) {
+    public void setPointPlayer(PointPlayer<R> pointPlayer) {
         this.pointPlayer = pointPlayer;
     }
 
@@ -132,6 +137,10 @@ public class Player<R extends ClientInterface> implements Serializable, OnUpdate
     public PersonalGoal getPersonalGoal() {
         return personalGoal;
     }
+    public void setPersonalGoal(PersonalGoal personalGoal) {
+        this.personalGoal = personalGoal;
+        notifyOnAssignedPersonalGoal();
+    }
 
     /**
      * Method that returns a {@link String} representing the object {@link Player}.
@@ -151,6 +160,21 @@ public class Player<R extends ClientInterface> implements Serializable, OnUpdate
     public void removeOnPlayerStateChangedListener(OnPlayerStateChangedListener onPlayerStateChangedListener) {
         onPlayerStateChangedListeners.remove(onPlayerStateChangedListener);
     }
+
+    public void setOnAssignedPersonalGoalListener(OnAssignedPersonalGoalListener onAssignedPersonalGoalListener) {
+        onAssignedPersonalGoalListenerListeners.add(onAssignedPersonalGoalListener);
+    }
+
+    public void removeOnAssignedPersonalGoalListener(OnAssignedPersonalGoalListener onAssignedPersonalGoalListener) {
+        onAssignedPersonalGoalListenerListeners.remove(onAssignedPersonalGoalListener);
+    }
+
+    public void notifyOnAssignedPersonalGoal() {
+        for(OnAssignedPersonalGoalListener onAssignedPersonalGoalListener : onAssignedPersonalGoalListenerListeners) {
+            onAssignedPersonalGoalListener.onAssignedPersonalGoal(this.nickName, this.personalGoal.getGoalPattern(), this.personalGoal.getScoreMap());
+        }
+    }
+
     public void notifyOnPlayerStateChanged() {
         for(OnPlayerStateChangedListener onPlayerStateChangedListener : onPlayerStateChangedListeners) {
             onPlayerStateChangedListener.onPlayerStateChanged(this.nickName, this.playerState);
@@ -160,5 +184,6 @@ public class Player<R extends ClientInterface> implements Serializable, OnUpdate
     @Override
     public void onUpdateNeededListener(Player<R> player) {
         onPlayerStateChangedListeners.stream().filter(v-> player.getVirtualView() == v).findAny().ifPresentOrElse(v->v.onPlayerStateChanged(this.nickName,this.playerState),()->System.err.println("unable to update about player state changed"));
+        onAssignedPersonalGoalListenerListeners.stream().filter(v->player.getVirtualView() == v).findAny().ifPresentOrElse(v->v.onAssignedPersonalGoal(this.nickName,this.personalGoal.getGoalPattern(), this.personalGoal.getScoreMap()),()->System.err.println("unable to notify about assigned personal goal"));
     }
 }

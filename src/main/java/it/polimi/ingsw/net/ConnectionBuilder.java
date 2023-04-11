@@ -14,14 +14,14 @@ import java.lang.reflect.Proxy;
 
 public class ConnectionBuilder {
 
-    static <L extends RemoteInterface, R extends RemoteInterface> SocketConnectionManager<L,R> buildSocketConnection(String host, int portNumber, L localTarget, TypeToken<R> remoteTargetClass, ExecutorService executorService) throws IOException {
+    public static <L extends RemoteInterface, R extends RemoteInterface> SocketConnectionManager<L,R> buildSocketConnection(String host, int portNumber, L localTarget, TypeToken<R> remoteTargetClass, ExecutorService executorService) throws IOException {
         Socket socket = new Socket(host,portNumber);
         SocketConnectionManager<L,R> socketConnectionManager = new SocketConnectionManager<>();
         socketConnectionManager.init(socket,localTarget,remoteTargetClass,executorService);
         return socketConnectionManager;
     }
 
-    static <L extends RemoteInterface, R extends RemoteInterface> RmiConnectionManager<L,R> buildRmiConnection(String host, int portNumber, TypeToken<R> remoteTargetClass, TypeToken<L> localTargetClass, L localTarget, ExecutorService executorService) throws RemoteException, NotBoundException {
+    public static <L extends RemoteInterface, R extends RemoteInterface> RmiConnectionManager<L,R> buildRmiConnection(String host, int portNumber, TypeToken<R> remoteTargetClass, TypeToken<L> localTargetClass, L localTarget, ExecutorService executorService) throws RemoteException, NotBoundException {
         Registry registry = LocateRegistry.getRegistry(host,2147);
         RmiReceiver<L,R> rmiReceiver = new RmiReceiver<>(executorService,localTarget);
         RemoteAccepterInterface<R,L> remoteAccepterInterfaceInterface = (RemoteAccepterInterface<R,L>) registry.lookup("default");
