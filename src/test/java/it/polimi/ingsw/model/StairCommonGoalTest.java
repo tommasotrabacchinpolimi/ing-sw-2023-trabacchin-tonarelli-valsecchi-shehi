@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,7 +30,7 @@ class StairCommonGoalTest {
 
     @Test
     void rule() {
-        int numberOfColumns, index, numberPlayer;
+        int numberOfColumns, index;
         numberOfColumns = 7;
         StairCommonGoal goal = new StairCommonGoal(numberOfColumns);
         assertNull(goal.rule(createStairDesign(1))); //testing illegal parameter
@@ -44,9 +45,9 @@ class StairCommonGoalTest {
                     goal = new StairCommonGoal(numberOfColumns);
                     assertNull(getExpectedResult(index,numberOfColumns));
                 } else {
-                    for (int i = 0; i < getExpectedResult(index, numberOfColumns).size(); i++) {
+                    for (int i = 0; i < Objects.requireNonNull(getExpectedResult(index, numberOfColumns)).size(); i++) {
                         goal = new StairCommonGoal(numberOfColumns);
-                        assertEquals(getExpectedResult(index, numberOfColumns).get(i).toString(),
+                        assertEquals(Objects.requireNonNull(getExpectedResult(index, numberOfColumns)).get(i).toString(),
                                 goal.rule(createStairDesign(index)).get(i).toString());
                     }
                 }
@@ -337,21 +338,17 @@ class StairCommonGoalTest {
             }
 
             case 4 ->{
-                switch (numberOfColumns){
-                    case 2 ->{
-                        result.add(new EntryPatternGoal(5, 2, TileType.CAT));
-                        result.add(new EntryPatternGoal(4, 2, TileType.CAT));
-                        result.add(new EntryPatternGoal(3, 2, TileType.CAT));
-                        result.add(new EntryPatternGoal(5, 3, TileType.CAT));
-                        result.add(new EntryPatternGoal(4, 3, TileType.CAT));
-                        result.add(new EntryPatternGoal(3, 3, TileType.CAT));
-                        result.add(new EntryPatternGoal(2, 3, TileType.CAT));
-                        return result;
-                    }
-                    default -> {
-                        return null;
-                    }
+                if (numberOfColumns == 2) {
+                    result.add(new EntryPatternGoal(5, 2, TileType.CAT));
+                    result.add(new EntryPatternGoal(4, 2, TileType.CAT));
+                    result.add(new EntryPatternGoal(3, 2, TileType.CAT));
+                    result.add(new EntryPatternGoal(5, 3, TileType.CAT));
+                    result.add(new EntryPatternGoal(4, 3, TileType.CAT));
+                    result.add(new EntryPatternGoal(3, 3, TileType.CAT));
+                    result.add(new EntryPatternGoal(2, 3, TileType.CAT));
+                    return result;
                 }
+                return null;
             }
 
             case 6 ->{

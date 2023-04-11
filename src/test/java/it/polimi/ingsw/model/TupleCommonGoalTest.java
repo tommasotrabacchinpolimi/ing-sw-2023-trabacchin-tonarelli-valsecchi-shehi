@@ -143,7 +143,7 @@ class TupleCommonGoalTest {
     }
 
     private List<EntryPatternGoal> getExpected(int index) {
-        List<EntryPatternGoal> result = new ArrayList<EntryPatternGoal>();
+        List<EntryPatternGoal> result = new ArrayList<>();
         switch (index){
             case 1 -> {
                 result.add(new EntryPatternGoal(0, 0, TileType.TROPHY));
@@ -380,13 +380,11 @@ class TupleCommonGoalTest {
                 result.add(new EntryPatternGoal(5, 2, TileType.FRAME));
                 result.add(new EntryPatternGoal(5, 4, TileType.FRAME));
             }
-
-
-
-
+            default -> {
+                result = null;
+            }
         }
-
-        return null;
+        return result;
     }
 
     private TileType[][] getBookShelf(int index) {

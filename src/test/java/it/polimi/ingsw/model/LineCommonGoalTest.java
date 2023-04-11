@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -130,43 +131,34 @@ class LineCommonGoalTest {
         goal = new LineCommonGoal(incRow, incCol, 1, 1, new int[]{6} );
         assertNull(goal.rule(createLineDesign(1)));
 
-        incCol = 1; incRow = 0;
+        incRow = 0;
         numberLines = 7;
         goal = new LineCommonGoal(incRow, incCol, numberLines, 1, new int[]{6});
         assertNull(goal.rule(createLineDesign(1)));
 
-        incCol = 1; incRow = 0;
         numberLines = -1;
         goal = new LineCommonGoal(incRow, incCol, numberLines, 1, new int[]{6});
         assertNull(goal.rule(createLineDesign(1)));
 
-        incCol = 1; incRow = 0;
         numberLines = 3;
         numberTiles = 9;
         goal = new LineCommonGoal(incRow, incCol, numberLines, numberTiles, new int[]{6});
         assertNull(goal.rule(createLineDesign(1)));
 
-        incCol = 1; incRow = 0;
-        numberLines = 3;
         numberTiles = -4;
         goal = new LineCommonGoal(incRow, incCol, numberLines, numberTiles, new int[]{6});
         assertNull(goal.rule(createLineDesign(1)));
 
-        incCol = 1; incRow = 0;
-        numberLines = 3;
         numberTiles = 3;
         differentTiles = new int[]{-1,2};
         goal = new LineCommonGoal(incRow, incCol, numberLines, numberTiles, differentTiles);
         assertNull(goal.rule(createLineDesign(1)));
 
-        incCol = 1; incRow = 0;
-        numberLines = 3;
-        numberTiles = 3;
         differentTiles = new int[]{1,6};
         goal = new LineCommonGoal(incRow, incCol, numberLines, numberTiles, differentTiles);
         assertNull(goal.rule(createLineDesign(1)));
 
-        incCol = 0; incRow = 0;
+        incCol = 0;
         for(int i = 1; i <= 3; i++){
             goal = new LineCommonGoal(incRow, incCol, 1, 1, new int[]{6});
             assertNull(goal.rule(createLineDesign(i)));
@@ -179,10 +171,10 @@ class LineCommonGoalTest {
         }
 
         //incRow = 1
-        incRow = 1; incCol = 0; numberLines = 2; numberTiles = 5; differentTiles = new int[]{5};
+        incCol = 0; numberLines = 2; numberTiles = 5; differentTiles = new int[]{5};
         goal = new LineCommonGoal(incRow, incCol, numberLines, numberTiles, differentTiles);
-        for(int i = 0; i < getExpectedResult(incRow,incCol,numberLines,numberTiles,differentTiles,1).size(); i++){
-            assertEquals(getExpectedResult(incRow,incCol,numberLines,numberTiles,differentTiles,1).get(i).toString(),
+        for(int i = 0; i < Objects.requireNonNull(getExpectedResult(incRow, incCol, numberLines, numberTiles, differentTiles, 1)).size(); i++){
+            assertEquals(Objects.requireNonNull(getExpectedResult(incRow, incCol, numberLines, numberTiles, differentTiles, 1)).get(i).toString(),
                     goal.rule(createLineDesign(1)).get(i).toString());
         }
         assertNull(goal.rule(createLineDesign(2)));
@@ -190,12 +182,12 @@ class LineCommonGoalTest {
         numberLines = 4; differentTiles = new int[]{1,2,3};
         goal = new LineCommonGoal(incRow, incCol, numberLines, numberTiles, differentTiles);
 
-        for(int i = 0; i < getExpectedResult(incRow,incCol,numberLines,numberTiles,differentTiles,1).size(); i++){
-            assertEquals(getExpectedResult(incRow,incCol,numberLines,numberTiles,differentTiles,1).get(i).toString(),
+        for(int i = 0; i < Objects.requireNonNull(getExpectedResult(incRow, incCol, numberLines, numberTiles, differentTiles, 1)).size(); i++){
+            assertEquals(Objects.requireNonNull(getExpectedResult(incRow, incCol, numberLines, numberTiles, differentTiles, 1)).get(i).toString(),
                     goal.rule(createLineDesign(1)).get(i).toString());
         }
-        for(int i = 0; i < getExpectedResult(incRow,incCol,numberLines,numberTiles,differentTiles,2).size(); i++){
-            assertEquals(getExpectedResult(incRow,incCol,numberLines,numberTiles,differentTiles,2).get(i).toString(),
+        for(int i = 0; i < Objects.requireNonNull(getExpectedResult(incRow, incCol, numberLines, numberTiles, differentTiles, 2)).size(); i++){
+            assertEquals(Objects.requireNonNull(getExpectedResult(incRow, incCol, numberLines, numberTiles, differentTiles, 2)).get(i).toString(),
                     goal.rule(createLineDesign(2)).get(i).toString());
         }
 
@@ -208,13 +200,14 @@ class LineCommonGoalTest {
         numberLines = 3; differentTiles = new int[]{1,2,3};
         goal = new LineCommonGoal(incRow,incCol,numberLines,numberTiles,differentTiles);
 
-        for(int i = 0; i < getExpectedResult(incRow,incCol,numberLines,numberTiles,differentTiles,1).size(); i++){
-            assertEquals(getExpectedResult(incRow,incCol,numberLines,numberTiles,differentTiles,1).get(i).toString(),
+        for(int i = 0; i < Objects.requireNonNull(getExpectedResult(incRow, incCol, numberLines, numberTiles, differentTiles, 1)).size(); i++){
+            assertEquals(Objects.requireNonNull(getExpectedResult(incRow, incCol, numberLines, numberTiles, differentTiles, 1)).get(i).toString(),
                     goal.rule(createLineDesign(1)).get(i).toString());
         }
-        for(int i = 0; i < getExpectedResult(incRow,incCol,numberLines,numberTiles,differentTiles,2).size(); i++){
-            assertEquals(getExpectedResult(incRow,incCol,numberLines,numberTiles,differentTiles,2).get(i).toString(),
-                    goal.rule(createLineDesign(2)).get(i).toString());
+        for(int i = 0; i < Objects.requireNonNull(getExpectedResult(incRow, incCol, numberLines, numberTiles, differentTiles, 2)).size(); i++){
+            assertEquals(Objects.requireNonNull(getExpectedResult(incRow, incCol, numberLines, numberTiles, differentTiles, 2)).get(i).toString(),
+                    goal.rule(createLineDesign(2))
+                            .get(i).toString());
         }
 
         assertNull(goal.rule(null));
@@ -270,35 +263,31 @@ class LineCommonGoalTest {
             case 1 -> {
                 switch(incRow){
                     case 0 -> {
-                        switch(numberLines){
-                            case 3 -> {
-                                {
-                                    result.add(new EntryPatternGoal(0,0,TileType.CAT));
-                                    result.add(new EntryPatternGoal(1,0,TileType.CAT));
-                                    result.add(new EntryPatternGoal(2,0,TileType.CAT));
-                                    result.add(new EntryPatternGoal(3,0,TileType.TROPHY));
-                                    result.add(new EntryPatternGoal(4,0,TileType.CAT));
-                                    result.add(new EntryPatternGoal(5,0,TileType.GAME));
-                                    result.add(new EntryPatternGoal(0,1,TileType.CAT));
-                                    result.add(new EntryPatternGoal(1,1,TileType.CAT));
-                                    result.add(new EntryPatternGoal(2,1,TileType.CAT));
-                                    result.add(new EntryPatternGoal(3,1,TileType.PLANT));
-                                    result.add(new EntryPatternGoal(4,1,TileType.CAT));
-                                    result.add(new EntryPatternGoal(5,1,TileType.FRAME));
-                                    result.add(new EntryPatternGoal(0,3,TileType.CAT));
-                                    result.add(new EntryPatternGoal(1,3,TileType.CAT));
-                                    result.add(new EntryPatternGoal(2,3,TileType.CAT));
-                                    result.add(new EntryPatternGoal(3,3,TileType.CAT));
-                                    result.add(new EntryPatternGoal(4,3,TileType.BOOK));
-                                    result.add(new EntryPatternGoal(5,3,TileType.BOOK));
-                                    return result;
-                                }
-                            }
-
-                            default -> { // comprende numberLines == 2 && numberTiles == 6 && differentTiles.equals(new int[]{6})
-                                return null;
+                        if (numberLines == 3) {
+                            {
+                                result.add(new EntryPatternGoal(0, 0, TileType.CAT));
+                                result.add(new EntryPatternGoal(1, 0, TileType.CAT));
+                                result.add(new EntryPatternGoal(2, 0, TileType.CAT));
+                                result.add(new EntryPatternGoal(3, 0, TileType.TROPHY));
+                                result.add(new EntryPatternGoal(4, 0, TileType.CAT));
+                                result.add(new EntryPatternGoal(5, 0, TileType.GAME));
+                                result.add(new EntryPatternGoal(0, 1, TileType.CAT));
+                                result.add(new EntryPatternGoal(1, 1, TileType.CAT));
+                                result.add(new EntryPatternGoal(2, 1, TileType.CAT));
+                                result.add(new EntryPatternGoal(3, 1, TileType.PLANT));
+                                result.add(new EntryPatternGoal(4, 1, TileType.CAT));
+                                result.add(new EntryPatternGoal(5, 1, TileType.FRAME));
+                                result.add(new EntryPatternGoal(0, 3, TileType.CAT));
+                                result.add(new EntryPatternGoal(1, 3, TileType.CAT));
+                                result.add(new EntryPatternGoal(2, 3, TileType.CAT));
+                                result.add(new EntryPatternGoal(3, 3, TileType.CAT));
+                                result.add(new EntryPatternGoal(4, 3, TileType.BOOK));
+                                result.add(new EntryPatternGoal(5, 3, TileType.BOOK));
+                                return result;
                             }
                         }
+                        // comprende numberLines == 2 && numberTiles == 6 && differentTiles.equals(new int[]{6})
+                        return null;
 
                     }
 
@@ -359,69 +348,59 @@ class LineCommonGoalTest {
             case 2 -> {
                 switch(incRow){
                     case 0 -> {
-                        switch(numberLines){
-                            case 3 -> {
-                                {
-                                    result.add(new EntryPatternGoal(0,1,TileType.CAT));
-                                    result.add(new EntryPatternGoal(1,1,TileType.CAT));
-                                    result.add(new EntryPatternGoal(2,1,TileType.CAT));
-                                    result.add(new EntryPatternGoal(3,1,TileType.PLANT));
-                                    result.add(new EntryPatternGoal(4,1,TileType.CAT));
-                                    result.add(new EntryPatternGoal(5,1,TileType.GAME));
-                                    result.add(new EntryPatternGoal(0,3,TileType.CAT));
-                                    result.add(new EntryPatternGoal(1,3,TileType.CAT));
-                                    result.add(new EntryPatternGoal(2,3,TileType.CAT));
-                                    result.add(new EntryPatternGoal(3,3,TileType.CAT));
-                                    result.add(new EntryPatternGoal(4,3,TileType.CAT));
-                                    result.add(new EntryPatternGoal(5,3,TileType.BOOK));
-                                    result.add(new EntryPatternGoal(0,4,TileType.CAT));
-                                    result.add(new EntryPatternGoal(1,4,TileType.CAT));
-                                    result.add(new EntryPatternGoal(2,4,TileType.GAME));
-                                    result.add(new EntryPatternGoal(3,4,TileType.GAME));
-                                    result.add(new EntryPatternGoal(4,4,TileType.CAT));
-                                    result.add(new EntryPatternGoal(5,4,TileType.GAME));
-                                    return result;
-                                }
-                            }
-
-                            default -> {
-                                return null;
+                        if (numberLines == 3) {
+                            {
+                                result.add(new EntryPatternGoal(0, 1, TileType.CAT));
+                                result.add(new EntryPatternGoal(1, 1, TileType.CAT));
+                                result.add(new EntryPatternGoal(2, 1, TileType.CAT));
+                                result.add(new EntryPatternGoal(3, 1, TileType.PLANT));
+                                result.add(new EntryPatternGoal(4, 1, TileType.CAT));
+                                result.add(new EntryPatternGoal(5, 1, TileType.GAME));
+                                result.add(new EntryPatternGoal(0, 3, TileType.CAT));
+                                result.add(new EntryPatternGoal(1, 3, TileType.CAT));
+                                result.add(new EntryPatternGoal(2, 3, TileType.CAT));
+                                result.add(new EntryPatternGoal(3, 3, TileType.CAT));
+                                result.add(new EntryPatternGoal(4, 3, TileType.CAT));
+                                result.add(new EntryPatternGoal(5, 3, TileType.BOOK));
+                                result.add(new EntryPatternGoal(0, 4, TileType.CAT));
+                                result.add(new EntryPatternGoal(1, 4, TileType.CAT));
+                                result.add(new EntryPatternGoal(2, 4, TileType.GAME));
+                                result.add(new EntryPatternGoal(3, 4, TileType.GAME));
+                                result.add(new EntryPatternGoal(4, 4, TileType.CAT));
+                                result.add(new EntryPatternGoal(5, 4, TileType.GAME));
+                                return result;
                             }
                         }
+                        return null;
                     }
 
                     case 1 -> {
-                        switch (numberLines){
-                            case 4 -> {
-                                {
-                                    result.add(new EntryPatternGoal(2,0,TileType.CAT));
-                                    result.add(new EntryPatternGoal(2,1,TileType.CAT));
-                                    result.add(new EntryPatternGoal(2,2,TileType.CAT));
-                                    result.add(new EntryPatternGoal(2,3,TileType.CAT));
-                                    result.add(new EntryPatternGoal(2,4,TileType.GAME));
-                                    result.add(new EntryPatternGoal(3,0,TileType.PLANT));
-                                    result.add(new EntryPatternGoal(3,1,TileType.PLANT));
-                                    result.add(new EntryPatternGoal(3,2,TileType.PLANT));
-                                    result.add(new EntryPatternGoal(3,3,TileType.CAT));
-                                    result.add(new EntryPatternGoal(3,4,TileType.GAME));
-                                    result.add(new EntryPatternGoal(4,0,TileType.CAT));
-                                    result.add(new EntryPatternGoal(4,1,TileType.CAT));
-                                    result.add(new EntryPatternGoal(4,2,TileType.CAT));
-                                    result.add(new EntryPatternGoal(4,3,TileType.CAT));
-                                    result.add(new EntryPatternGoal(4,4,TileType.CAT));
-                                    result.add(new EntryPatternGoal(5,0,TileType.GAME));
-                                    result.add(new EntryPatternGoal(5,1,TileType.GAME));
-                                    result.add(new EntryPatternGoal(5,2,TileType.PLANT));
-                                    result.add(new EntryPatternGoal(5,3,TileType.BOOK));
-                                    result.add(new EntryPatternGoal(5,4,TileType.GAME));
-                                    return result;
-                                }
-                            }
-
-                            default -> {
-                                return null;
+                        if (numberLines == 4) {
+                            {
+                                result.add(new EntryPatternGoal(2, 0, TileType.CAT));
+                                result.add(new EntryPatternGoal(2, 1, TileType.CAT));
+                                result.add(new EntryPatternGoal(2, 2, TileType.CAT));
+                                result.add(new EntryPatternGoal(2, 3, TileType.CAT));
+                                result.add(new EntryPatternGoal(2, 4, TileType.GAME));
+                                result.add(new EntryPatternGoal(3, 0, TileType.PLANT));
+                                result.add(new EntryPatternGoal(3, 1, TileType.PLANT));
+                                result.add(new EntryPatternGoal(3, 2, TileType.PLANT));
+                                result.add(new EntryPatternGoal(3, 3, TileType.CAT));
+                                result.add(new EntryPatternGoal(3, 4, TileType.GAME));
+                                result.add(new EntryPatternGoal(4, 0, TileType.CAT));
+                                result.add(new EntryPatternGoal(4, 1, TileType.CAT));
+                                result.add(new EntryPatternGoal(4, 2, TileType.CAT));
+                                result.add(new EntryPatternGoal(4, 3, TileType.CAT));
+                                result.add(new EntryPatternGoal(4, 4, TileType.CAT));
+                                result.add(new EntryPatternGoal(5, 0, TileType.GAME));
+                                result.add(new EntryPatternGoal(5, 1, TileType.GAME));
+                                result.add(new EntryPatternGoal(5, 2, TileType.PLANT));
+                                result.add(new EntryPatternGoal(5, 3, TileType.BOOK));
+                                result.add(new EntryPatternGoal(5, 4, TileType.GAME));
+                                return result;
                             }
                         }
+                        return null;
                     }
 
                     default -> {

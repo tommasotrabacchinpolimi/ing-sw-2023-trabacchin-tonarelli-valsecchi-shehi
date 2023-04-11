@@ -75,14 +75,16 @@ class PersonalGoalTest {
 
         assertNotNull(personalGoal);
 
-        String excepted = "Pattern:{\n" +
-                "\tEntryPatternGoal{row=0, column=0, tileType=PLANT},\n" +
-                "\tEntryPatternGoal{row=0, column=2, tileType=FRAME},\n" +
-                "\tEntryPatternGoal{row=1, column=4, tileType=CAT},\n" +
-                "\tEntryPatternGoal{row=2, column=3, tileType=BOOK},\n" +
-                "\tEntryPatternGoal{row=3, column=1, tileType=GAME},\n" +
-                "\tEntryPatternGoal{row=5, column=2, tileType=TROPHY}\n}" +
-                "\nscoreMap:{6=12, 5=9, 4=6, 3=4, 2=2, 1=1}";
+        String excepted = """
+                Pattern:{
+                \tEntryPatternGoal{row=0, column=0, tileType=PLANT},
+                \tEntryPatternGoal{row=0, column=2, tileType=FRAME},
+                \tEntryPatternGoal{row=1, column=4, tileType=CAT},
+                \tEntryPatternGoal{row=2, column=3, tileType=BOOK},
+                \tEntryPatternGoal{row=3, column=1, tileType=GAME},
+                \tEntryPatternGoal{row=5, column=2, tileType=TROPHY}
+                }
+                scoreMap:{6=12, 5=9, 4=6, 3=4, 2=2, 1=1}""";
         assertEquals(personalGoal.toString(), excepted);
     }
 }

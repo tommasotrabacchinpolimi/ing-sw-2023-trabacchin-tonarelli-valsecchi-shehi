@@ -21,15 +21,13 @@ class BoardTest<R extends ClientInterface> {
         assertEquals(numberOfBoardSquare, board.getNumberOfBoardSquares());
     }
 
-
     @Test
     void fromIntToBoardSquare() {
         Board<R> board = new Board<>();
         boolean result = false;
         int count= 0;
         for(BoardSquare b : board){
-            if(b == board.fromIntToBoardSquare(count)) result = true;
-            else result = false;
+            result = b == board.fromIntToBoardSquare(count);
             assertTrue(result);
             count++;
         }

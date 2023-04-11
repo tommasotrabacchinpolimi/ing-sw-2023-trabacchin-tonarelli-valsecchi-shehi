@@ -25,7 +25,7 @@ public enum TileType {
     /**
      * Constructor that sets the enum to the correct value
      *
-     * @param abbreviation string that reppresent the single letter for each Tile type
+     * @param abbreviation string that represent the single letter for each Tile type
      */
     TileType(String abbreviation) {
         this.abbreviation = abbreviation;

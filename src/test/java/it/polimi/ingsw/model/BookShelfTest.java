@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.ClientInterface;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -7,7 +8,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class BookShelfTest {
+class BookShelfTest<R extends ClientInterface> {
 
     @Test
     void setTileSubjectTaken() {
@@ -20,7 +21,7 @@ class BookShelfTest {
                 {TileSubject.BASIL_PLANT, TileSubject.BLACK_CAT, TileSubject.CHAMPION_TROPHY, TileSubject.COMIC_BOOK, TileSubject.DEGREE_FRAME}
         };
 
-        BookShelf bookShelf = new BookShelf();
+        BookShelf<R> bookShelf = new BookShelf<>();
 
         bookShelf.setTileSubjectTaken(matrix);
 
@@ -42,7 +43,7 @@ class BookShelfTest {
                 {TileSubject.BASIL_PLANT, TileSubject.BLACK_CAT, TileSubject.CHAMPION_TROPHY, TileSubject.COMIC_BOOK, TileSubject.DEGREE_FRAME}
         };
 
-        BookShelf bookShelf = new BookShelf();
+        BookShelf<R> bookShelf = new BookShelf<R>();
 
         bookShelf.setTileSubjectTaken(matrix);
 
@@ -64,7 +65,7 @@ class BookShelfTest {
                 {TileSubject.BASIL_PLANT, TileSubject.BLACK_CAT, TileSubject.CHAMPION_TROPHY, TileSubject.COMIC_BOOK, TileSubject.DEGREE_FRAME}
         };
 
-        BookShelf bookShelf = new BookShelf();
+        BookShelf<R> bookShelf = new BookShelf<>();
         bookShelf.setTileSubjectTaken(matrix);
 
         assertTrue(bookShelf.isFull());
@@ -94,7 +95,7 @@ class BookShelfTest {
                 {TileSubject.BASIL_PLANT, TileSubject.BLACK_CAT, TileSubject.CHAMPION_TROPHY, TileSubject.COMIC_BOOK, TileSubject.DEGREE_FRAME}
         };
 
-        BookShelf bookShelf = new BookShelf();
+        BookShelf<R> bookShelf = new BookShelf<>();
 
         bookShelf.setTileSubjectTaken(matrix);
 
@@ -126,11 +127,11 @@ class BookShelfTest {
                 {TileSubject.BASIL_PLANT, TileSubject.BLACK_CAT, TileSubject.CHAMPION_TROPHY, TileSubject.COMIC_BOOK, TileSubject.DEGREE_FRAME}
         };
 
-        BookShelf bookShelf = new BookShelf();
+        BookShelf<R> bookShelf = new BookShelf<>();
 
         bookShelf.setTileSubjectTaken(matrix);
 
-        List<TileSubject> taken = new ArrayList<TileSubject>();
+        List<TileSubject> taken = new ArrayList<>();
         taken.add(TileSubject.LOVE_FRAME);
         taken.add(TileSubject.COMIC_BOOK);
         taken.add(TileSubject.ORANGE_CAT);

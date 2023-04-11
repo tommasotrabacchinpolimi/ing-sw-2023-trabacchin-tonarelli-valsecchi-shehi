@@ -11,8 +11,6 @@ class CommonGoalTest {
 
     @Test
     void getAvailableScore() {
-        int numberPlayer = 2;
-
         Stack<Integer> stack = new Stack<>();
         stack.push(8);
         stack.push(4);

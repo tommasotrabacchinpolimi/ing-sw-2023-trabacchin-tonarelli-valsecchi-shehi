@@ -31,7 +31,7 @@ public class ChatMessage<R extends ClientInterface> implements Serializable {
      * a player other than the {@code sender} or the list of all players including the {@code sender}.
      * @see Player
      */
-    private List<Player<R>> receivers;
+    private final List<Player<R>> receivers;
 
     /**
      * The {@link String} containing the text of the message.

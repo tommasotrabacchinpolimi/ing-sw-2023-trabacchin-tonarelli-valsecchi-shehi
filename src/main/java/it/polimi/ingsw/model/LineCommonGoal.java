@@ -227,7 +227,7 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
         TileType[][] copied_bookshelf;
         int counterLines = 0, counterTile;
         List<TileType> alreadyFoundType = new ArrayList<>();
-        List<EntryPatternGoal> result = new ArrayList<EntryPatternGoal>();
+        List<EntryPatternGoal> result = new ArrayList<>();
 
         //illegal arguments
         if(bookShelf==null) return null;
@@ -238,8 +238,9 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
         if(linesNumber <= 0) return null; //the argument linesNumber is illegal because it is zero or negative
         if(linesNumber>copied_bookshelf.length && incRow==1) return null; //the argument linesNumber is illegal because it is bigger then the number of rows found in the bookshelf
         if(linesNumber>copied_bookshelf[0].length && incCol==1) return null; //the argument linesNumber is illegal because it is bigger then the number of columns found in the bookshelf
-        for(int i = 0; i < differentTiles.length; i++){
-            if(differentTiles[i] <= 0) return null; //the argument differentTiles is illegal, because it can only have positive value elements
+        for (int differentTile : differentTiles) {
+            if (differentTile <= 0)
+                return null; //the argument differentTiles is illegal, because it can only have positive value elements
         }
         if(differentTiles[differentTiles.length-1] > TileType.values().length || differentTiles[differentTiles.length-1] > numberOfTiles) return null; //the argument differentTiles is illegal, this condition needs to be discussed with the other colleagues
         if(numberOfTiles<=0)return null; //the argument numberOfTiles is illegal, because it can only have positive values

@@ -21,10 +21,10 @@ class ShapeCommonGoalTest {
 
     @Test
     void setRuleShape() {
-        Integer arr[] = new Integer[2];
+        Integer[] arr = new Integer[2];
         int a;
         Random ran = new Random();
-        ArrayList<Integer[]> inc = new ArrayList<Integer[]>(2);
+        ArrayList<Integer[]> inc = new ArrayList<>(2);
         a = ran.nextInt();
         arr[0] = a;
         a = ran.nextInt();
@@ -76,7 +76,7 @@ class ShapeCommonGoalTest {
     }
 
     private List<EntryPatternGoal> getExpected(int index) {
-        List<EntryPatternGoal> result = new ArrayList<EntryPatternGoal>();
+        List<EntryPatternGoal> result = new ArrayList<>();
         switch (index) {
             case 1 -> {
                 result.add(new EntryPatternGoal(0,0,TileType.PLANT));
@@ -358,9 +358,9 @@ class ShapeCommonGoalTest {
     }
 
     //qui sto dando io le posizioni che devono essere giuste, ora rule dovrebbe ritornarmi una di queste liste
-    //o del case 1, 2, 3 oppure 4.
+    //o del caso numero uno, due, tre oppure quattro.
     private List<Integer[]> getRuleShape(int shape) {
-        List<Integer[]> result = new ArrayList<Integer[]>();
+        List<Integer[]> result = new ArrayList<>();
         switch (shape){
             case 1 -> { // Edge-rule
                 result.add(getRuleShapeEntry(0, 4));
