@@ -45,7 +45,7 @@ class PointPlayerTest<R extends ClientInterface> {
     void setScoreEndGame() {
         PointPlayer<R> pointPlayer = new PointPlayer<>();
         int score = 2;
-        pointPlayer.setScoreCommonGoal1(score);
+        pointPlayer.setScoreEndGame(score);
         assertEquals(score, pointPlayer.getScoreEndGame());
     }
 

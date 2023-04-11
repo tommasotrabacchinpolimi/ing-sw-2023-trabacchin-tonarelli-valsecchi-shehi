@@ -14,13 +14,16 @@ class CommonGoalTest {
         int numberPlayer = 2;
 
         Stack<Integer> stack = new Stack<>();
-        stack.push(4);
         stack.push(8);
+        stack.push(4);
+        Stack<Integer> expStack = new Stack<>();
+        expStack.push(8);
+        expStack.push(4);
 
-        CommonGoal goal = new StairCommonGoal(5);
+        CommonGoal goal = new StairCommonGoal(stack,"Description",5);
 
-        assertEquals(stack.pop(), goal.getAvailableScore());
-        assertEquals(stack.pop(), goal.getAvailableScore());
+        assertEquals(expStack.pop(), goal.getAvailableScore());
+        assertEquals(expStack.pop(), goal.getAvailableScore());
     }
 
     @Test
@@ -32,10 +35,16 @@ class CommonGoalTest {
     @Test
     void testGetScoringTokens() {
         Stack<Integer> stack = new Stack<>();
-        stack.push(2);
-        stack.push(4);
-        stack.push(6);
         stack.push(8);
+        stack.push(6);
+        stack.push(4);
+        stack.push(2);
+
+        Stack<Integer> expStack = new Stack<>();
+        expStack.push(8);
+        expStack.push(6);
+        expStack.push(4);
+        expStack.push(2);
 
         CommonGoal commonGoal = new CommonGoal(stack) {
             @Override
@@ -44,10 +53,10 @@ class CommonGoalTest {
             }
         };
 
-        assertEquals(4, commonGoal.getScoringTokens().size());
+        assertEquals(expStack.size(), commonGoal.getScoringTokens().size());
 
-        for(Integer i : commonGoal.getScoringTokens()) {
-            assertEquals(i, stack.pop());
+        for(int i = stack.size(); i > 0; i--) {
+            assertEquals(expStack.pop(), commonGoal.getAvailableScore());
         }
     }
 }
