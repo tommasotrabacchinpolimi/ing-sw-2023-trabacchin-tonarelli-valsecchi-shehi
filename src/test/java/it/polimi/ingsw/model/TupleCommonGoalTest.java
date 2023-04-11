@@ -4,50 +4,127 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.WeakHashMap;
+import java.util.Stack;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class GroupAndSquareCommonGoalTest {
+class TupleCommonGoalTest {
 
     @Test
     void getGroupsNumber() {
+        int groupsNumber = 2;
+        int adjacentTilesPo2 = 2;
+        boolean square = false;
+        boolean separated = false;
+        boolean sameTypeOnly = true;
+        TupleCommonGoal goal = new TupleCommonGoal("Description",groupsNumber,adjacentTilesPo2,square,separated,sameTypeOnly);
+        assertEquals(groupsNumber, goal.getGroupsNumber());
     }
 
     @Test
     void setGroupsNumber() {
+        int groupsNumber = 2;
+        int adjacentTilesPo2 = 2;
+        boolean square = false;
+        boolean separated = false;
+        boolean sameTypeOnly = true;
+        TupleCommonGoal goal = new TupleCommonGoal("Description",3,adjacentTilesPo2,square,separated,sameTypeOnly);
+        goal.setGroupsNumber(groupsNumber);
+        assertEquals(groupsNumber, goal.getGroupsNumber());
     }
 
     @Test
     void getAdjacentTilesPo2() {
+        int groupsNumber = 2;
+        int adjacentTilesPo2 = 2;
+        boolean square = false;
+        boolean separated = false;
+        boolean sameTypeOnly = true;
+        TupleCommonGoal goal = new TupleCommonGoal("Description",groupsNumber,adjacentTilesPo2,square,separated,sameTypeOnly);
+        assertEquals(adjacentTilesPo2, goal.getAdjacentTilesPo2());
     }
 
     @Test
     void setAdjacentTilesPo2() {
+        int groupsNumber = 2;
+        int adjacentTilesPo2 = 2;
+        boolean square = false;
+        boolean separated = false;
+        boolean sameTypeOnly = true;
+        TupleCommonGoal goal = new TupleCommonGoal("Description",groupsNumber,3,square,separated,sameTypeOnly);
+        goal.setAdjacentTilesPo2(adjacentTilesPo2);
+        assertEquals(adjacentTilesPo2, goal.getAdjacentTilesPo2());
     }
 
     @Test
     void isSquare() {
+        int groupsNumber = 2;
+        int adjacentTilesPo2 = 2;
+        boolean square = false;
+        boolean separated = false;
+        boolean sameTypeOnly = true;
+        TupleCommonGoal goal = new TupleCommonGoal("Description",groupsNumber,adjacentTilesPo2,square,separated,sameTypeOnly);
+        assertEquals(square, goal.isSquare());
     }
 
     @Test
     void setSquare() {
+        int groupsNumber = 2;
+        int adjacentTilesPo2 = 2;
+        boolean square = false;
+        boolean separated = false;
+        boolean sameTypeOnly = true;
+        Stack<Integer> stack = new Stack<>();
+        TupleCommonGoal goal = new TupleCommonGoal(stack,groupsNumber,adjacentTilesPo2, true,separated,sameTypeOnly);
+        goal.setSquare(square);
+        assertEquals(square, goal.isSquare());
     }
 
     @Test
     void isSeparated() {
+        int groupsNumber = 2;
+        int adjacentTilesPo2 = 2;
+        boolean square = false;
+        boolean separated = false;
+        boolean sameTypeOnly = true;
+        Stack<Integer> stack = new Stack<>();
+        TupleCommonGoal goal = new TupleCommonGoal(stack,"Description",groupsNumber,adjacentTilesPo2,square,separated,sameTypeOnly);
+        assertEquals(separated, goal.isSeparated());
     }
 
     @Test
     void setSeparated() {
+        int groupsNumber = 2;
+        int adjacentTilesPo2 = 2;
+        boolean square = false;
+        boolean separated = false;
+        boolean sameTypeOnly = true;
+        TupleCommonGoal goal = new TupleCommonGoal(groupsNumber,adjacentTilesPo2,square,true,sameTypeOnly);
+        goal.setSeparated(separated);
+        assertEquals(separated, goal.isSeparated());
     }
 
     @Test
     void isSameTypeOnly() {
+        int groupsNumber = 2;
+        int adjacentTilesPo2 = 2;
+        boolean square = false;
+        boolean separated = false;
+        boolean sameTypeOnly = true;
+        TupleCommonGoal goal = new TupleCommonGoal(groupsNumber,adjacentTilesPo2,square,separated,sameTypeOnly);
+        assertEquals(sameTypeOnly, goal.isSameTypeOnly());
     }
 
     @Test
     void setSameTypeOnly() {
+        int groupsNumber = 2;
+        int adjacentTilesPo2 = 2;
+        boolean square = false;
+        boolean separated = false;
+        boolean sameTypeOnly = true;
+        TupleCommonGoal goal = new TupleCommonGoal(groupsNumber,adjacentTilesPo2,square,separated,false);
+        goal.setSameTypeOnly(sameTypeOnly);
+        assertEquals(sameTypeOnly, goal.isSameTypeOnly());
     }
 
     @Test
@@ -533,17 +610,16 @@ class GroupAndSquareCommonGoalTest {
         return null;
     }
 
-        private boolean compareObjects (List < EntryPatternGoal > l1, List < EntryPatternGoal > l2){
-            if (l1.size() != l2.size()) {
-                return false;
-            }
-
-            for (int i = 0; i < l1.size(); i++) {
-                if (!(l1.get(i).equals(l2.get(i))))
-                    return false;
-            }
-
-            return true;
+    private boolean compareObjects (List < EntryPatternGoal > l1, List < EntryPatternGoal > l2){
+        if (l1.size() != l2.size()) {
+            return false;
         }
+        for (int i = 0; i < l1.size(); i++) {
+            if (!(l1.get(i).equals(l2.get(i))))
+                return false;
+        }
+
+        return true;
+    }
 
 }

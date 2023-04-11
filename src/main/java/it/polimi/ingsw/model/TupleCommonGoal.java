@@ -165,6 +165,7 @@ public class TupleCommonGoal extends CommonGoal implements Serializable {
         }
         return null;
     }
+
     private List<Set<EntryPatternGoal>> getGroups(List<Set<EntryPatternGoal>> allGroups, int groupsNumber, boolean noAdj){
         return getGroupsRecursive(allGroups,groupsNumber,0,new ArrayList<>(),0,noAdj);
     }

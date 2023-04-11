@@ -12,8 +12,8 @@ public class CommonGoalClassTest {
     public static void main(String[] args){
         List<EntryPatternGoal> list = new ArrayList<>();
         CommonGoalClassTest commonGoalClassTest = new CommonGoalClassTest();
-        commonGoalClassTest.createLineDesign();
-        commonGoalClassTest.createLineCommonGoal();
+        commonGoalClassTest.createGroupDesign();
+        commonGoalClassTest.createGroupCommonGoal();
         list = commonGoalClassTest.getCommonGoal().rule(commonGoalClassTest.getMatrix());
         if (list != null) {
             System.out.println("Common Goal verified!");
@@ -22,6 +22,59 @@ public class CommonGoalClassTest {
         else {
             System.out.println("Common Goal not verified!");
         }
+    }
+
+    /**
+     *
+     * @apiNote Valid combination of the parameters values are the following :
+     * <ul>
+     *     <li>groupsNumber = 6, adjacentTilesPo2 = 1, square = false, separate = true, sameTypeOnly = false</li>
+     *     <li>groupsNumber = 4, adjacentTilesPo2 = 2, square = false, separate = true, sameTypeOnly = false</li>
+     *     <li>groupsNumber = 2, adjacentTilesPo2 = 2, square = true, separate = true, sameTypeOnly = true</li>
+     *     <li>groupsNumber = 8, adjacentTilesPo2 = 0, square = true, separate = false, sameTypeOnly = true</li>
+     * </ul>
+     */
+    private void createGroupCommonGoal(){
+        int  groupsNumber = 4;
+        int adjacentTilesPo2 = 2;
+        boolean square = false;
+        boolean separate = true;
+        boolean sameTypeOnly = false;
+        this.commonGoal = new TupleCommonGoal("Description", groupsNumber, adjacentTilesPo2, square,separate, sameTypeOnly);
+    }
+
+    private void createGroupDesign(){
+        // 6 groups of 2 tiles each
+        // 4 groups of 4 tiles each
+        matrix = new TileType[][]{
+                {TileType.PLANT,  TileType.PLANT, TileType.GAME, TileType.GAME, TileType.FRAME},
+                {TileType.GAME, TileType.PLANT, TileType.PLANT, TileType.CAT, TileType.FRAME},
+                {TileType.GAME, TileType.TROPHY, TileType.TROPHY, TileType.TROPHY, TileType.FRAME},
+                {TileType.CAT, TileType.CAT, TileType.PLANT, TileType.TROPHY, TileType.FRAME},
+                {TileType.BOOK, TileType.FRAME, TileType.FRAME, TileType.CAT, TileType.CAT},
+                {TileType.BOOK, TileType.BOOK, TileType.BOOK, TileType.PLANT, TileType.PLANT}
+        };
+
+        // 4 groups of 4 tiles each; 2 squares group of dim=2; 8 tiles of one type
+        /* matrix = new TileType[][]{
+                {TileType.PLANT,  TileType.PLANT, TileType.GAME, null, TileType.PLANT},
+                {TileType.PLANT, TileType.CAT, TileType.CAT, TileType.PLANT, TileType.PLANT},
+                {TileType.PLANT, TileType.FRAME, TileType.BOOK, TileType.PLANT, TileType.FRAME},
+                {TileType.BOOK, TileType.BOOK, TileType.FRAME, TileType.CAT, TileType.GAME},
+                {TileType.PLANT, TileType.PLANT, TileType.CAT, TileType.PLANT, TileType.PLANT},
+                {TileType.PLANT, TileType.PLANT, TileType.BOOK, TileType.PLANT, TileType.PLANT}
+        }; */
+
+        // 8 tiles of one type not verified, 2 squares group of dim=2 not verified,
+        // 6 groups of 2 tiles each not verified
+        /* matrix = new TileType[][]{
+                {null, null , null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {TileType.PLANT, TileType.PLANT, TileType.CAT, TileType.FRAME, TileType.PLANT},
+                {TileType.PLANT, TileType.PLANT, TileType.BOOK, TileType.PLANT, TileType.PLANT}
+        }; */
     }
 
     public TileType[][] getMatrix() {
@@ -180,38 +233,7 @@ public class CommonGoalClassTest {
 
     }
 
-    private void createGroupDesign(){
-        // 6 groups of 2 tiles each
-        matrix = new TileType[][]{
-                {TileType.PLANT,  TileType.PLANT, TileType.GAME, null, TileType.PLANT},
-                {TileType.TROPHY, TileType.CAT, TileType.CAT, null, TileType.PLANT},
-                {TileType.PLANT, TileType.FRAME, TileType.TROPHY, null, TileType.FRAME},
-                {TileType.PLANT, TileType.BOOK, TileType.PLANT, TileType.CAT, TileType.GAME},
-                {TileType.FRAME, TileType.CAT, TileType.PLANT, TileType.CAT, TileType.CAT},
-                {TileType.PLANT, TileType.PLANT, TileType.BOOK, TileType.PLANT, TileType.PLANT}
-        };
 
-        // 4 groups of 4 tiles each; 2 squares group of dim=2; 8 tiles of one type
-        /* matrix = new TileType[][]{
-                {TileType.PLANT,  TileType.PLANT, TileType.GAME, null, TileType.PLANT},
-                {TileType.PLANT, TileType.CAT, TileType.CAT, TileType.PLANT, TileType.PLANT},
-                {TileType.PLANT, TileType.FRAME, TileType.BOOK, TileType.PLANT, TileType.FRAME},
-                {TileType.BOOK, TileType.BOOK, TileType.FRAME, TileType.CAT, TileType.GAME},
-                {TileType.PLANT, TileType.PLANT, TileType.CAT, TileType.PLANT, TileType.PLANT},
-                {TileType.PLANT, TileType.PLANT, TileType.BOOK, TileType.PLANT, TileType.PLANT}
-        }; */
-
-        // 8 tiles of one type not verified, 2 squares group of dim=2 not verified,
-        // 6 groups of 2 tiles each not verified
-        /* matrix = new TileType[][]{
-                {null, null , null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {TileType.PLANT, TileType.PLANT, TileType.CAT, TileType.FRAME, TileType.PLANT},
-                {TileType.PLANT, TileType.PLANT, TileType.BOOK, TileType.PLANT, TileType.PLANT}
-        }; */
-    }
 
     private void createSquareDesign(){
         // 4 groups of 4 tiles each; 2 squares group of dim=2; 8 tiles of one type
@@ -241,11 +263,6 @@ public class CommonGoalClassTest {
         this.commonGoal = new StairCommonGoal(numberOfColumns);
     }
 
-    private void createGroupCommonGoal(){
-        int  groupsNumber = 6;
-        int adjacentTiles = 2;
-        this.commonGoal = new GroupCommonGoal("Description", groupsNumber, adjacentTiles);
-    }
 
     private void createShapeCommonGoal(){
         List<Integer[]> incrementRuleShape = new ArrayList<Integer[]>();
