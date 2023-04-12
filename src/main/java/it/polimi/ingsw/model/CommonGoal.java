@@ -1,9 +1,12 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.JSONExclusionStrategy.ExcludedFromJSON;
+import it.polimi.ingsw.controller.listeners.OnChangedCommonGoalAvailableScore;
+import it.polimi.ingsw.controller.listeners.OnStateChangedListener;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
@@ -39,6 +42,8 @@ public abstract class CommonGoal implements Serializable {
      */
     private final String description;
 
+    private List<OnChangedCommonGoalAvailableScore> listeners;
+
     /**
      * <p>Create a common goal with default values for both {@linkplain #scoringTokens scoring tokens stack} and
      * {@linkplain #description explanation of the card}</p>
@@ -48,6 +53,7 @@ public abstract class CommonGoal implements Serializable {
     public CommonGoal() {
         this.scoringTokens = new Stack<>();
         this.description = "Empty Description";
+        listeners = new ArrayList<>();
     }
 
     /**
@@ -59,6 +65,7 @@ public abstract class CommonGoal implements Serializable {
     public CommonGoal(String description){
         this.scoringTokens = new Stack<>();
         this.description = description;
+        listeners = new ArrayList<>();
     }
 
     /**
@@ -70,6 +77,7 @@ public abstract class CommonGoal implements Serializable {
     public CommonGoal(Stack<Integer> scoringTokens) {
         this.scoringTokens = scoringTokens;
         this.description = "Empty Description";
+        listeners = new ArrayList<>();
     }
 
     /**
@@ -82,6 +90,21 @@ public abstract class CommonGoal implements Serializable {
     public CommonGoal(Stack<Integer> scoringTokens, String description) {
         this.scoringTokens = scoringTokens;
         this.description = description;
+        listeners = new ArrayList<>();
+    }
+
+    public void setOnChangedCommonGoalAvailableScoreListener(OnChangedCommonGoalAvailableScore listener) {
+        this.listeners.add(listener);
+    }
+
+    public void removeOnChangedCommonGoalAvailableScoreListener(OnChangedCommonGoalAvailableScore listener) {
+        this.listeners.remove(listener);
+    }
+
+    public void notifyChangedCommonGoalAvailableScore(){
+        for(OnChangedCommonGoalAvailableScore listener: listeners){
+            listener.onChangedCommonGoalAvailableScore();
+        }
     }
 
     /**
@@ -92,7 +115,13 @@ public abstract class CommonGoal implements Serializable {
     }
 
     public int getAvailableScore() {
-        return (scoringTokens.size() == 0) ? 0 : scoringTokens.pop();
+        if(scoringTokens.size()==0)
+            return 0;
+        else {
+            int newScore = scoringTokens.pop();
+            notifyChangedCommonGoalAvailableScore();
+            return newScore;
+        }
     }
 
     /**
