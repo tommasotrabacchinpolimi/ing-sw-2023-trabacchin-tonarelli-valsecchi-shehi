@@ -5,6 +5,8 @@ import it.polimi.ingsw.controller.listeners.OnBoardRefilledListener;
 import it.polimi.ingsw.controller.listeners.OnBoardUpdatedListener;
 import it.polimi.ingsw.controller.listeners.OnBookShelfUpdatedListener;
 import it.polimi.ingsw.controller.listeners.localListeners.OnUpdateNeededListener;
+import it.polimi.ingsw.personalexceptions.NoTileTakenException;
+import it.polimi.ingsw.personalexceptions.NotEnoughSpaceInBookShelfException;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -14,19 +16,19 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * <p>Class used to represent personal bookshelf for each player.</p>
+ * <p>Class used to represent bookshelf for each player.</p>
  * <p>This class is unique per {@link Player} entity.</p>
  * <p>Standard {@link #tileSubjectTaken bookshelf} dimension are:
  * <ul>
- *     <li>{@code 6}: for rows</li>
- *     <li>{@code 5}: for columns</li>
+ *     <li>{@value #STANDARD_ROW}: for rows</li>
+ *     <li>{@value #STANDARD_COLUMN}: for columns</li>
  * </ul>
- * according to the <a href="https://www.craniocreations.it/storage/media/product_downloads/48/538/MyShelfie_Ruleboo_ENG_lowres_new.pdf">
+ * According to the <a href="https://www.craniocreations.it/storage/media/product_downloads/48/538/MyShelfie_Ruleboo_ENG_lowres_new.pdf">
  *     Rulebook</a>.</p>
  * <p>To declare a BookShelf with other dimension use
- * {@link BookShelf#BookShelf(int, int) BookShelf(row, column)} constructor.</p>
+ * {@link BookShelf#BookShelf(int row, int column)} constructor.</p>
  * <p>{@link CommonGoal Common goal} and {@link PersonalGoal personal goal}
- * are assigned based on the content of {@link #tileSubjectTaken bookshelf}</p>
+ * are assigned based on {@link #tileSubjectTaken bookshelf} field of this class</p>
  *
  * @author Emanuele Valsecchi
  * @version 1.0, 15/04/23
@@ -39,24 +41,27 @@ public class BookShelf<R extends ClientInterface> implements Serializable, OnUpd
     private static final long serialVersionUID = 9828497462L;
 
     /**
-     * Standard number of row for {@link #tileSubjectTaken} matrix
+     * Standard number of row for {@link #tileSubjectTaken bookshelf} matrix
      *
-     * @apiNote To write method in this class please remember to use {@link #row} and not {@code STANDARD_ROW}
+     * @apiNote All logic of the class is based on {@link #row} field and not to this constant
      * @see BookShelf
+     * @see #row
      */
     public static final int STANDARD_ROW = 6;
 
     /**
-     * Standard number of column for {@link #tileSubjectTaken} matrix
+     * Standard number of column for {@link #tileSubjectTaken bookshelf} matrix
      *
-     * @apiNote To write method in this class please remember to use {@link #row} and not {@code STANDARD_ROW}
+     * @apiNote All logic of the class is based on {@link #row} field and not to this constant
      * @see BookShelf
+     * @see #column
      */
     public static final int STANDARD_COLUMN = 5;
 
     /**
-     * Matrix used to represent the BookShelf for each {@link Player}. Type is set to {@link TileSubject} because
-     * is necessary to show not only the type of card taken from the {@link Board} but also the image.
+     * Matrix used to represent the BookShelf for each {@link Player}.
+     * This field will contain {@link TileSubject tile objects} to show not only the type of card taken
+     * from the {@link Board} but also a specific image.
      *
      * @see BookShelf
      * @see TileSubject
@@ -64,32 +69,34 @@ public class BookShelf<R extends ClientInterface> implements Serializable, OnUpd
     private TileSubject[][] tileSubjectTaken;
 
     /**
-     * This variable is used to set the row dimension for {@link #tileSubjectTaken}
+     * Row dimension for {@link #tileSubjectTaken bookshelf}
      *
      * @see BookShelf
      */
     private final int row;
 
     /**
-     * This variable is used to set the column dimension for {@link #tileSubjectTaken}
+     * Column dimension for {@link #tileSubjectTaken bookshelf}
      *
      * @see BookShelf
      */
     private final int column;
 
     /**
-     * The player that is associated with the BookShelf
+     * The {@linkplain Player player} associated with the BookShelf instance
      */
     private Player<R> player;
 
+    /**
+     * A List of listener of the bookshelf object.
+     */
     private final List<OnBookShelfUpdatedListener> onBookShelfUpdatedListeners;
 
     /**
-     * Standard constructor will set:
-     * <pre><code>{@link #row} = {@value #STANDARD_ROW}<br>{@link #column} = {@value #STANDARD_COLUMN}</code></pre>
-     * In the end <code>{@link #tileSubjectTaken}</code> will have:
-     * <ul><li>{@code 6}: rows</li>
-     * <li>{@code 7}: columns<br></li> </ul>
+     * Standard constructor will set dimension of the {@link #tileSubjectTaken bookshelf} to default value.
+     *
+     * @apiNote {@linkplain Player player} is not set and
+     * {@linkplain #onBookShelfUpdatedListeners listeners} are allocated but not set
      *
      * @see BookShelf
      * @see #initTileSubjectTaken()
@@ -97,18 +104,21 @@ public class BookShelf<R extends ClientInterface> implements Serializable, OnUpd
     public BookShelf() {
         row = STANDARD_ROW;
         column = STANDARD_COLUMN;
+        player = null;
         onBookShelfUpdatedListeners = new LinkedList<>();
         initTileSubjectTaken();
     }
 
     /**
-     * This constructor will set the number of row and the number of columns for {@link #tileSubjectTaken BookShelf matrix}
-     * according to the param of the constructor.
+     * This constructor create a {@link #tileSubjectTaken bookshelf} matrix with the specified
+     * number of row and number of columns passed as parameters.
      *
-     * @apiNote Default value {@link #STANDARD_ROW}, {@link #STANDARD_COLUMN} are ignored.<br>
-     * {@link #row} is set to the value of first parameter; {@link #column} is set to the value of second parameter
-     * @param row number of rows for {@link #tileSubjectTaken}
-     * @param column number of columns for {@link #tileSubjectTaken}
+     * @apiNote <p>Default value {@value #STANDARD_ROW}, {@value #STANDARD_COLUMN} are ignored.</p>
+     * <p>{@linkplain Player player} is not set and
+     * {@linkplain #onBookShelfUpdatedListeners listeners} are allocated but not set</p>
+     *
+     * @param row    number of rows for {@link #tileSubjectTaken bookshelf}
+     * @param column number of columns for {@link #tileSubjectTaken bookshelf}
      * @see BookShelf
      * @see #initTileSubjectTaken()
      */
@@ -116,33 +126,45 @@ public class BookShelf<R extends ClientInterface> implements Serializable, OnUpd
         this.row = row;
         this.column = column;
         initTileSubjectTaken();
+        this.player = null;
         onBookShelfUpdatedListeners = new LinkedList<>();
     }
 
+    /**
+     * Use this constructor to create a copy of the {@linkplain BookShelf bookshelf} passed as parameter
+     *
+     * @param that the {@linkplain BookShelf bookshelf} object to copy
+     */
     public BookShelf(BookShelf<R> that) {
         this.row = that.row;
         this.column = that.column;
+        initTileSubjectTaken();
         this.player = that.player;
-        this.tileSubjectTaken = that.tileSubjectTaken;
+
+        this.tileSubjectTaken = Arrays.stream(that.tileSubjectTaken)
+                .map(TileSubject[]::clone)
+                .toArray(TileSubject[][]::new);
+
         this.onBookShelfUpdatedListeners = that.onBookShelfUpdatedListeners;
     }
 
     /**
-     * This function is used inside constructors to set the dimension of {@link #tileSubjectTaken} to the {@link #row}
-     * and {@link #column} value without caring about the constructor called.
-     * @apiNote Inside the method only {@link #row} and {@link #column} are used
+     * Used to create a {@link #tileSubjectTaken bookshelf} matrix to chosen dimension
+     *
+     * @apiNote Dimensions are set according to {@link #row} and {@link #column} values
      *
      * @see BookShelf
      * @see #BookShelf()
-     * @see #BookShelf(int row, int column) BookShelf(row, column)
+     * @see #BookShelf(int row, int column)
      */
     private void initTileSubjectTaken(){
         this.tileSubjectTaken = new TileSubject[row][column];
     }
 
     /**
-     * Used to set {@link #tileSubjectTaken}
-     * @param tileSubjectTaken value to be set at the {@link #tileSubjectTaken} field
+     * Used to set {@link #tileSubjectTaken bookshelf} matrix
+     *
+     * @param tileSubjectTaken matrix that will be assigned to the {@link #tileSubjectTaken} field
      * @see BookShelf
      * @see #tileSubjectTaken
      */
@@ -153,10 +175,11 @@ public class BookShelf<R extends ClientInterface> implements Serializable, OnUpd
     /**
      * This method return the {@link #tileSubjectTaken BookShelf matrix} contained inside the {@link BookShelf}.
      *
-     * @return {@link #tileSubjectTaken} field
      * @apiNote Type of matrix returned is {@link TileSubject} and not {@link TileType},
-     * use {@link #toTileTypeMatrix()} method to obtain the same matrix as the one contained inside {@link #tileSubjectTaken}
-     * but with {@link TileType} entry.
+     * use {@link #toTileTypeMatrix()} method to obtain the same matrix as the one contained inside
+     * {@linkplain #tileSubjectTaken bookshelf} but with {@link TileType} entry.
+     *
+     * @return {@link #tileSubjectTaken bookshelf} matrix
      *
      * @see BookShelf
      * @see TileType
@@ -181,17 +204,18 @@ public class BookShelf<R extends ClientInterface> implements Serializable, OnUpd
                     return false;
             }
         }
+
         return true;
     }
 
     /**
      * This method returns {@link TileType} contained at position {@code row} and {@code column} specified as parameter.
      *
-     * @param row the row index in {@link #tileSubjectTaken} to which retrieve the {@link TileType}
-     * @param column the column index in {@link #tileSubjectTaken} to which retrieve the {@link TileType}
-     * @return {@link TileType} of {@link TileSubject} stored at <code>{@link #tileSubjectTaken}[{@link #row}][{@link #column}]</code>,
+     * @param row    the row index in {@link #tileSubjectTaken bookshelf} matrix to which retrieve the {@link TileType}
+     * @param column the column index in {@link #tileSubjectTaken bookshelf} matrix to which retrieve the {@link TileType}
+     * @return {@link TileType} of {@link TileSubject} stored at the position referred at the parameter passed,
      *         {@code null} if the cells doesn't contain an element
-     * @apiNote Please note that no {@code Exception} will be thrown if the cell does not contain an element,
+     * @apiNote Please note that no {@code error}, nor {@code Exception} will be thrown if the cell does not contain an element,
      *          but {@code null} value will be returned</pre>
      * @see BookShelf
      * @see TileType
@@ -225,32 +249,36 @@ public class BookShelf<R extends ClientInterface> implements Serializable, OnUpd
     /**
      * This method is used to put the {@link TileSubject} taken from the {@link Board} inside the {@link BookShelf}.
      *
-     * @param taken is a List of {@link TileSubject} that contains the tiles dragged from the {@link Board}
-     * @param column is the column of {@link #tileSubjectTaken} (contained in {@link #column} field)
-     * @apiNote Note that in case <ul>
-     *     <li>the parameter {@code column} is negative or exceed the maximum {@link #column} dimension an exception is thrown.</li>
-     *     <li>the parameter {@code taken} is {@code null} an exception is thrown</li>
-     *     <li>the {@link BookShelf} is full an exception is thrown</li>
-     *     <li>the number of cells empty in the {@code column} is insufficient an exception is thrown</li>
-     * </ul>
+     * @param taken  is a List of {@link TileSubject} that contains the tiles dragged from the {@link Board board}
+     * @param column is the column of {@link #tileSubjectTaken bookshelf} in which insert the tile's taken
+     * @throws ArrayIndexOutOfBoundsException if {@code column} parameter is negative or exceed the
+     *         maximum {@link #column} dimension
+     * @throws NoTileTakenException if the parameter {@code taken} is {@code null} or its size is 0
+     * @throws NotEnoughSpaceInBookShelfException if {@link BookShelf} is full and can't contain all element passed
+     *         as parameter
+     * @throws NotEnoughSpaceInBookShelfException if the number of cells empty in the {@code column} is not enough to
+     *         hold all tiles object passed as parameter
+     *
      * @see BookShelf
      * @see #isFull()
      * @see Board
+     * @see NotEnoughSpaceInBookShelfException
+     * @see NoTileTakenException
      */
     public void addTileSubjectTaken(List<TileSubject> taken, int column) {
-        if(column < 0 || column >= this.column) //Throwing Exception Column out of Bound
-            return;
+        if(column < 0 || column >= this.column)
+            throw new ArrayIndexOutOfBoundsException();
 
-        if(taken == null) //throwing Exception no Tiles taken
-            return;
+        if(taken == null || taken.size() == 0)
+            throw new NoTileTakenException(new NullPointerException());
 
         if(isFull()) //Throwing Exception BookShelf is already full
-            return;
+            throw new NotEnoughSpaceInBookShelfException("BookShelf is full");
 
         int row = getFirstEmptyRowFromBottom(column);
 
         if((row + 1) < taken.size()) //throwing Exception insufficient cells in column
-            return;
+            throw new NotEnoughSpaceInBookShelfException();
 
         for(TileSubject t : taken) {
             tileSubjectTaken[row][column] = t;
@@ -303,7 +331,10 @@ public class BookShelf<R extends ClientInterface> implements Serializable, OnUpd
      * Method to notify onBookShelfUpdated listeners
      */
     private void notifyOnBookShelfUpdated() {
-        TileSubject[][] tileSubjects = Arrays.stream(this.tileSubjectTaken).map(TileSubject[]::clone).toArray(TileSubject[][]::new);
+        TileSubject[][] tileSubjects = Arrays.stream(this.tileSubjectTaken)
+                .map(TileSubject[]::clone)
+                .toArray(TileSubject[][]::new);
+
         for(OnBookShelfUpdatedListener onBookShelfUpdatedListener : onBookShelfUpdatedListeners) {
             onBookShelfUpdatedListener.onBookShelfUpdated(player.getNickName(), tileSubjects);
         }
