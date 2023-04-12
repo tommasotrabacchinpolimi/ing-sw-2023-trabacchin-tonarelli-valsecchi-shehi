@@ -270,12 +270,12 @@ public class BookShelf<R extends ClientInterface> implements Serializable, OnUpd
         if(taken == null || taken.size() == 0)
             throw new NoTileTakenException(new NullPointerException());
 
-        if(isFull()) //Throwing Exception BookShelf is already full
+        if(isFull())
             throw new NotEnoughSpaceInBookShelfException("BookShelf is full");
 
         int row = getFirstEmptyRowFromBottom(column);
 
-        if((row + 1) < taken.size()) //throwing Exception insufficient cells in column
+        if((row + 1) < taken.size())
             throw new NotEnoughSpaceInBookShelfException();
 
         for(TileSubject t : taken) {
@@ -287,11 +287,13 @@ public class BookShelf<R extends ClientInterface> implements Serializable, OnUpd
     }
 
     /**
-     * Retrieve the first cell inside the {@link #tileSubjectTaken BookShelf matrix} that is empty according to {@code column} param.
-     * The {@code row} is chosen starting from the {@link #column bottom} of the {@link #tileSubjectTaken matrix}.
-     * The {@code column} is set by the parameter.
+     * <p>Retrieve the first "row cell" in {@code column} inside the {@link #tileSubjectTaken bookshelf matrix}
+     * that is empty.</p>
+     * <p>The {@code row} is chosen starting from the {@link #column bottom} of the {@link #tileSubjectTaken matrix}.
+     * The {@code column} is set by the parameter.</p>
      *
-     * @param column the column in which the {@link TileSubject tiles} must be insered
+     * @param column the column in which the {@link TileSubject tiles} must be inserted
+     *
      * @return number between 0 and {@link #row row dimension} representing first cell in
      * {@link #tileSubjectTaken BookShelf matrix} that is empty.<br>
      *         In case that the {@link #column} is full {@code -1} is returned.
@@ -309,7 +311,7 @@ public class BookShelf<R extends ClientInterface> implements Serializable, OnUpd
 
     /**
      * This method returns the player associated with the BookShelf
-     * @return the player associated with the BookShelf
+     * @return the player which belong to BookShelf
      * @see Player
      */
     public Player<R> getPlayer() {
@@ -318,7 +320,7 @@ public class BookShelf<R extends ClientInterface> implements Serializable, OnUpd
 
     /**
      * This method sets the player associated with the BookShelf
-     * @param player the players that must be associated with the BookShelf
+     * @param player the players that has to belong to BookShelf
      * @see Player
      */
     public void setPlayer(Player<R> player) {
@@ -326,7 +328,7 @@ public class BookShelf<R extends ClientInterface> implements Serializable, OnUpd
     }
 
     /**
-     * Method to notify onBookShelfUpdated listeners
+     * Notify all {@linkplain #onBookShelfUpdatedListeners BookShelf listeners}
      */
     private void notifyOnBookShelfUpdated() {
         TileSubject[][] tileSubjects = Arrays.stream(this.tileSubjectTaken)
@@ -339,21 +341,29 @@ public class BookShelf<R extends ClientInterface> implements Serializable, OnUpd
     }
 
     /**
-     * Method to add a OnBookShelfUpdatedListener
-     * @param onBookShelfUpdatedListener the OnBookShelfUpdatedListener to add
+     * Method to add a {@linkplain OnBookShelfUpdatedListener bookshelf listener}
+     *
+     * @param onBookShelfUpdatedListener the {@linkplain OnBookShelfUpdatedListener bookshelf listener} to add
      */
     public void setOnBookShelfUpdated(OnBookShelfUpdatedListener onBookShelfUpdatedListener) {
         onBookShelfUpdatedListeners.add(onBookShelfUpdatedListener);
     }
 
     /**
-     * Method to remove a OnBookShelfUpdatedListener
-     * @param onBookShelfUpdatedListener the OnBookShelfUpdatedListener to remove
+     * Method to remove a {@linkplain OnBookShelfUpdatedListener bookshelf listener}
+     * @param onBookShelfUpdatedListener the {@linkplain OnBookShelfUpdatedListener bookshelf listener} to remove
      */
     public void removeOnBookShelfUpdated(OnBookShelfUpdatedListener onBookShelfUpdatedListener) {
         onBookShelfUpdatedListeners.remove(onBookShelfUpdatedListener);
     }
 
+    /**
+     * Method to verify if two bookshelf instance are equals
+     * {@inheritDoc}
+     *
+     * @param o the object that needs to be compared with the instance calling the method
+     * @return <pre>{@code true} if the two objects are identical, {@code false} otherwise</pre>
+     */
     @Override
     public boolean equals(Object o) {
         if(this == o)
@@ -370,6 +380,11 @@ public class BookShelf<R extends ClientInterface> implements Serializable, OnUpd
                 Objects.equals(onBookShelfUpdatedListeners, thatBookShelf.onBookShelfUpdatedListeners);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return BookShelf instance hash code
+     */
     @Override
     public int hashCode() {
         int result = Objects.hash(row, column, player, onBookShelfUpdatedListeners);
@@ -377,17 +392,22 @@ public class BookShelf<R extends ClientInterface> implements Serializable, OnUpd
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param player
+     */
     @Override
     public void onUpdateNeededListener(Player<R> player) {
         onBookShelfUpdatedListeners.stream()
-                .filter(v->player.getVirtualView() == v)
+                .filter(v -> player.getVirtualView() == v)
                 .findAny()
                 .ifPresentOrElse(v ->
                         v.onBookShelfUpdated(player.getNickName(),
                                 Arrays.stream(this.tileSubjectTaken)
                                         .map(TileSubject[]::clone)
                                         .toArray(TileSubject[][]::new)),
-                        ()->System.err.println("no one to update about bookshelf refilled"));
+                        () -> System.err.println("no one to update about bookshelf refilled"));
 
     }
 }
