@@ -8,6 +8,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class PointPlayer<R extends ClientInterface> implements Serializable, OnUpdateNeededListener<R> {
     @Serial
@@ -97,6 +98,29 @@ public class PointPlayer<R extends ClientInterface> implements Serializable, OnU
 
     public void removeOnPointsUpdatedListener(OnPointsUpdatedListener onPointsUpdatedListener) {
         onPointsUpdatedListeners.remove(onPointsUpdatedListener);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(this == o)
+            return true;
+
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        PointPlayer<?> that = (PointPlayer<?>) o;
+
+        return scoreCommonGoal1 == that.scoreCommonGoal1 &&
+                scoreCommonGoal2 == that.scoreCommonGoal2 &&
+                scoreEndGame == that.scoreEndGame &&
+                scorePersonalGoal == that.scorePersonalGoal &&
+                scoreAdjacentGoal == that.scoreAdjacentGoal &&
+                Objects.equals(onPointsUpdatedListeners, that.onPointsUpdatedListeners) && Objects.equals(player, that.player);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(scoreCommonGoal1, scoreCommonGoal2, scoreEndGame, scorePersonalGoal, scoreAdjacentGoal, onPointsUpdatedListeners, player);
     }
 
     @Override

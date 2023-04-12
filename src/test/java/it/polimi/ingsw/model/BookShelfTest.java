@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.controller.ClientInterface;
 import org.junit.jupiter.api.Test;
 
+import java.awt.print.Book;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -152,5 +153,48 @@ class BookShelfTest<R extends ClientInterface> {
 
         assertEquals(taken.get(0).getTileType(), bookShelf.getTileSubjectTaken()[1][0].getTileType());
         assertEquals(taken.get(1).getTileType(), bookShelf.getTileSubjectTaken()[0][0].getTileType());
+    }
+
+    @Test
+    void getPlayer(){
+        BookShelf<R> bookShelf = new BookShelf<>();
+        Player<R> player = new Player<>("nick");
+
+        bookShelf.setPlayer(player);
+
+        assertNotNull(bookShelf.getPlayer());
+        assertEquals(player, bookShelf.getPlayer());
+    }
+
+    @Test
+    void setPlayer() {
+        BookShelf<R> bookShelf = new BookShelf<>();
+        Player<R> player = new Player<>("nick");
+
+        bookShelf.setPlayer(player);
+
+        assertNotNull(bookShelf.getPlayer());
+        assertEquals(player, bookShelf.getPlayer());
+
+        Player<R> player1 = new Player<>("nick1");
+        bookShelf.setPlayer(player1);
+        assertNotEquals(player, bookShelf.getPlayer());
+    }
+
+    @Test
+    void testEquals() {
+        BookShelf<R> bookShelf = new BookShelf<>();
+        BookShelf<R> bookShelf1 = new BookShelf<>(bookShelf);
+
+        assertEquals(bookShelf, bookShelf1);
+    }
+
+
+    @Test
+    void testHashCode() {
+        BookShelf<R> bookShelf = new BookShelf<>();
+        BookShelf<R> bookShelf1 = new BookShelf<>(bookShelf);
+
+        assertEquals(bookShelf.hashCode(), bookShelf1.hashCode());
     }
 }

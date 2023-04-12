@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * <p>Class used to represent personal bookshelf for each player.</p>
@@ -82,9 +83,10 @@ public class BookShelf<R extends ClientInterface> implements Serializable, OnUpd
     private Player<R> player;
 
     private final List<OnBookShelfUpdatedListener> onBookShelfUpdatedListeners;
+
     /**
      * Standard constructor will set:
-     * <pre><code>{@link #row} = {@link #STANDARD_ROW}<br>{@link #column} = {@link #STANDARD_COLUMN}</code></pre>
+     * <pre><code>{@link #row} = {@value #STANDARD_ROW}<br>{@link #column} = {@value #STANDARD_COLUMN}</code></pre>
      * In the end <code>{@link #tileSubjectTaken}</code> will have:
      * <ul><li>{@code 6}: rows</li>
      * <li>{@code 7}: columns<br></li> </ul>
@@ -115,6 +117,14 @@ public class BookShelf<R extends ClientInterface> implements Serializable, OnUpd
         this.column = column;
         initTileSubjectTaken();
         onBookShelfUpdatedListeners = new LinkedList<>();
+    }
+
+    public BookShelf(BookShelf<R> that) {
+        this.row = that.row;
+        this.column = that.column;
+        this.player = that.player;
+        this.tileSubjectTaken = that.tileSubjectTaken;
+        this.onBookShelfUpdatedListeners = that.onBookShelfUpdatedListeners;
     }
 
     /**
@@ -316,8 +326,39 @@ public class BookShelf<R extends ClientInterface> implements Serializable, OnUpd
     }
 
     @Override
+    public boolean equals(Object o) {
+        if(this == o)
+            return true;
+
+        if(o == null || getClass() != o.getClass())
+            return false;
+
+        BookShelf<?> thatBookShelf = (BookShelf<?>) o;
+
+        return row == thatBookShelf.row && column == thatBookShelf.column &&
+                Arrays.deepEquals(tileSubjectTaken, thatBookShelf.tileSubjectTaken) &&
+                Objects.equals(player, thatBookShelf.player) &&
+                Objects.equals(onBookShelfUpdatedListeners, thatBookShelf.onBookShelfUpdatedListeners);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(row, column, player, onBookShelfUpdatedListeners);
+        result = 31 * result + Arrays.hashCode(tileSubjectTaken);
+        return result;
+    }
+
+    @Override
     public void onUpdateNeededListener(Player<R> player) {
-        onBookShelfUpdatedListeners.stream().filter(v->player.getVirtualView() == v).findAny().ifPresentOrElse(v -> v.onBookShelfUpdated(player.getNickName(),Arrays.stream(this.tileSubjectTaken).map(TileSubject[]::clone).toArray(TileSubject[][]::new)),()->System.err.println("no one to update about bookshelf refilled"));
+        onBookShelfUpdatedListeners.stream()
+                .filter(v->player.getVirtualView() == v)
+                .findAny()
+                .ifPresentOrElse(v ->
+                        v.onBookShelfUpdated(player.getNickName(),
+                                Arrays.stream(this.tileSubjectTaken)
+                                        .map(TileSubject[]::clone)
+                                        .toArray(TileSubject[][]::new)),
+                        ()->System.err.println("no one to update about bookshelf refilled"));
 
     }
 }

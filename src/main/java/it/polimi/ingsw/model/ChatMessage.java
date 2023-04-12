@@ -18,6 +18,7 @@ import java.util.List;
 public class ChatMessage<R extends ClientInterface> implements Serializable {
     @Serial
     private static final long serialVersionUID = 82642348L;
+
     /**
      * The {@link Player} that sends the message.
      *

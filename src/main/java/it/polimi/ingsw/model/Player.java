@@ -10,6 +10,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Player is a class that represent a player of the game. Players are identified by a {@link Player#nickName}, which is unique within the game.
@@ -185,5 +186,30 @@ public class Player<R extends ClientInterface> implements Serializable, OnUpdate
     public void onUpdateNeededListener(Player<R> player) {
         onPlayerStateChangedListeners.stream().filter(v-> player.getVirtualView() == v).findAny().ifPresentOrElse(v->v.onPlayerStateChanged(this.nickName,this.playerState),()->System.err.println("unable to update about player state changed"));
         onAssignedPersonalGoalListenerListeners.stream().filter(v->player.getVirtualView() == v).findAny().ifPresentOrElse(v->v.onAssignedPersonalGoal(this.nickName,this.personalGoal.getGoalPattern(), this.personalGoal.getScoreMap()),()->System.err.println("unable to notify about assigned personal goal"));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(this == o)
+            return true;
+
+        if(o == null || getClass() != o.getClass())
+            return false;
+
+        Player<?> thatPlayer = (Player<?>) o;
+
+        return nickName.equals(thatPlayer.nickName) &&
+                Objects.equals(personalGoal, thatPlayer.personalGoal) &&
+                Objects.equals(bookShelf, thatPlayer.bookShelf) &&
+                Objects.equals(pointPlayer, thatPlayer.pointPlayer) &&
+                playerState == thatPlayer.playerState &&
+                Objects.equals(virtualView, thatPlayer.virtualView) &&
+                Objects.equals(onPlayerStateChangedListeners, thatPlayer.onPlayerStateChangedListeners) &&
+                Objects.equals(onAssignedPersonalGoalListenerListeners, thatPlayer.onAssignedPersonalGoalListenerListeners);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nickName, personalGoal, bookShelf, pointPlayer, playerState, virtualView, onPlayerStateChangedListeners, onAssignedPersonalGoalListenerListeners);
     }
 }
