@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.PlayerState;
 import it.polimi.ingsw.model.State;
 import it.polimi.ingsw.net.*;
 
+import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -73,12 +74,11 @@ public class LobbyController<R extends ClientInterface> implements UserAccepter<
         }
     }
 
-    public synchronized void createGame(R user, String nickname, int numberOfPlayer){
+    public synchronized void createGame(R user, String nickname, int numberOfPlayer) throws FileNotFoundException {
         //se arriva uno user che si era disconnesso, lo ignoro (da fare)
-        Controller<R> controller = new Controller<>();
         State<R> state = new State<>();
+        Controller<R> controller = new Controller(state, this);
         List<R> list = new ArrayList<>();
-        controller.setState(state);
 
         viewToNicknameMap.put(user,nickname);
         nicknameToViewMap.put(nickname,user);
