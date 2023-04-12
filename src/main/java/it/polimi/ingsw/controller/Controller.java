@@ -5,11 +5,19 @@ import it.polimi.ingsw.net.OnConnectionLostListener;
 import it.polimi.ingsw.net.RemoteInterface;
 import it.polimi.ingsw.net.User;
 
+import java.io.FileNotFoundException;
+
 public class Controller<R extends ClientInterface> implements OnConnectionLostListener<R> {
     private State<R> state;
     private GameManager<R> gameManager;
     private ChatManager<R> chatManager;
     private LobbyController<R> lobbyController;
+
+    public Controller(State state, LobbyController lobbyController) throws FileNotFoundException {
+        this.state = state;
+        this.lobbyController = lobbyController;
+        this.gameManager = new InitGameManager(this);
+    };
 
     public State<R> getState() {
         return state;
