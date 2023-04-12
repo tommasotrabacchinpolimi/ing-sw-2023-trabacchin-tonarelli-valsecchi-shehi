@@ -44,7 +44,7 @@ class BookShelfTest<R extends ClientInterface> {
                 {TileSubject.BASIL_PLANT, TileSubject.BLACK_CAT, TileSubject.CHAMPION_TROPHY, TileSubject.COMIC_BOOK, TileSubject.DEGREE_FRAME}
         };
 
-        BookShelf<R> bookShelf = new BookShelf<R>();
+        BookShelf<R> bookShelf = new BookShelf<>();
 
         bookShelf.setTileSubjectTaken(matrix);
 
@@ -157,7 +157,7 @@ class BookShelfTest<R extends ClientInterface> {
 
     @Test
     void getPlayer(){
-        BookShelf<R> bookShelf = new BookShelf<>();
+        BookShelf<R> bookShelf = new BookShelf<>(7,4);
         Player<R> player = new Player<>("nick");
 
         bookShelf.setPlayer(player);
