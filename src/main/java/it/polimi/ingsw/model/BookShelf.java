@@ -388,7 +388,7 @@ public class BookShelf<R extends ClientInterface> implements Serializable, OnUpd
     @Override
     public int hashCode() {
         int result = Objects.hash(row, column, player, onBookShelfUpdatedListeners);
-        result = 31 * result + Arrays.hashCode(tileSubjectTaken);
+        result = 31 * result + Arrays.deepHashCode(tileSubjectTaken);
         return result;
     }
 

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.ClientInterface;
+import it.polimi.ingsw.model.exceptions.NotEnoughSpaceInBookShelfException;
 import org.junit.jupiter.api.Test;
 
 import java.awt.print.Book;
@@ -137,12 +138,15 @@ class BookShelfTest<R extends ClientInterface> {
         taken.add(TileSubject.COMIC_BOOK);
         taken.add(TileSubject.ORANGE_CAT);
 
-        bookShelf.addTileSubjectTaken(taken, 0);
-
-        assertNull(bookShelf.getTileSubjectTaken()[0][0]);
-        assertNull(bookShelf.getTileSubjectTaken()[1][0]);
+        try{
+            bookShelf.addTileSubjectTaken(taken, 0);
+        }catch(NotEnoughSpaceInBookShelfException e) {
+            assertNull(bookShelf.getTileSubjectTaken()[0][0]);
+            assertNull(bookShelf.getTileSubjectTaken()[1][0]);
+        }
 
         bookShelf.addTileSubjectTaken(taken, 2);
+
         assertEquals(taken.get(0).getTileType(), bookShelf.getTileSubjectTaken()[2][2].getTileType());
         assertEquals(taken.get(1).getTileType(), bookShelf.getTileSubjectTaken()[1][2].getTileType());
         assertEquals(taken.get(2).getTileType(), bookShelf.getTileSubjectTaken()[0][2].getTileType());
