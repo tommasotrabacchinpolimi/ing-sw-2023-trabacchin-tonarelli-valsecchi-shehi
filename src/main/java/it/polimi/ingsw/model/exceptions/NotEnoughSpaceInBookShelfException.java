@@ -1,4 +1,4 @@
-package it.polimi.ingsw.personalexceptions;
+package it.polimi.ingsw.model.exceptions;
 
 public class NotEnoughSpaceInBookShelfException extends RuntimeException{
 

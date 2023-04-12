@@ -1,12 +1,10 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.ClientInterface;
-import it.polimi.ingsw.controller.listeners.OnBoardRefilledListener;
-import it.polimi.ingsw.controller.listeners.OnBoardUpdatedListener;
 import it.polimi.ingsw.controller.listeners.OnBookShelfUpdatedListener;
 import it.polimi.ingsw.controller.listeners.localListeners.OnUpdateNeededListener;
-import it.polimi.ingsw.personalexceptions.NoTileTakenException;
-import it.polimi.ingsw.personalexceptions.NotEnoughSpaceInBookShelfException;
+import it.polimi.ingsw.model.exceptions.NoTileTakenException;
+import it.polimi.ingsw.model.exceptions.NotEnoughSpaceInBookShelfException;
 
 import java.io.Serial;
 import java.io.Serializable;
