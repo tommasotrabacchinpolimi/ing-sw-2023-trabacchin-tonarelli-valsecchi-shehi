@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.ClientInterface;
+import it.polimi.ingsw.controller.JSONExclusionStrategy.ExcludedFromJSON;
 import it.polimi.ingsw.controller.listeners.*;
 import it.polimi.ingsw.controller.listeners.localListeners.OnUpdateNeededListener;
 import it.polimi.ingsw.net.RemoteInterface;
@@ -30,6 +31,7 @@ import java.util.stream.Collectors;
  */
 public class State<R extends ClientInterface> implements Serializable, OnUpdateNeededListener<R> {
     @Serial
+    @ExcludedFromJSON
     private static final long serialVersionUID = 26202152145454545L;
 
     /**
@@ -37,8 +39,10 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
      *
      * @see Board
      */
+    @ExcludedFromJSON
     private Board<R> board;
 
+    @ExcludedFromJSON
     private GameState gameState;
 
     /**
@@ -46,6 +50,7 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
      *
      * @see CommonGoal
      */
+    @ExcludedFromJSON
     private CommonGoal commonGoal1, commonGoal2;
     /**
      * List of {@link Player players} sorted from first logged in to last logged in.
@@ -57,6 +62,7 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
      * </pre>
      * @see Player
      */
+    @ExcludedFromJSON
     private List<Player<R>> players;
     /**
      * The {@link Player} who will play in the current round of the Game.
@@ -64,8 +70,12 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
      * @apiNote The Player {@code currentPlayer} must be contained in the list {@link State#players}.
      * @see Player
      */
+    @ExcludedFromJSON
     private Player<R> currentPlayer;
+
+    @ExcludedFromJSON
     private int playersNumber;
+
     /**
      * List of {@link ChatMessage messages} sent between {@link Player players}.
      *
@@ -75,15 +85,25 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
      */
     private transient List<ChatMessage<R>> messages;
 
+    @ExcludedFromJSON
     private Player<R> lastPlayer;
 
+    @ExcludedFromJSON
     private final List<OnAchievedCommonGoalListener> achievedCommonGoalListeners;
+
+    @ExcludedFromJSON
     private final List<OnStateChangedListener> stateChangedListeners;
+
+    @ExcludedFromJSON
     private final List<OnLastPlayerUpdatedListener> lastPlayerUpdatedListeners;
+
+    @ExcludedFromJSON
     private final List<OnMessageSentListener> messageSentListeners;
 
+    @ExcludedFromJSON
     private final List<OnCurrentPlayerChangedListener> onCurrentPlayerChangedListeners;
 
+    @ExcludedFromJSON
     private final List<OnAssignedCommonGoalListener> onAssignedCommonGoalListeners;
 
     /**

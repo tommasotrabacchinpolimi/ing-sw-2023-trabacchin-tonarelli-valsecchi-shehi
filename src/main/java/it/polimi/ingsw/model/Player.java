@@ -28,8 +28,6 @@ public class Player<R extends ClientInterface> implements Serializable, OnUpdate
 
     private final String nickName;
 
-
-
     @ExcludedFromJSON
     private PersonalGoal personalGoal;
 
@@ -39,12 +37,16 @@ public class Player<R extends ClientInterface> implements Serializable, OnUpdate
     @ExcludedFromJSON
     private PointPlayer<R> pointPlayer;
 
+    @ExcludedFromJSON
     private PlayerState playerState;
 
+    @ExcludedFromJSON
     private R virtualView;
 
+    @ExcludedFromJSON
     private final List<OnPlayerStateChangedListener> onPlayerStateChangedListeners;
 
+    @ExcludedFromJSON
     private final List<OnAssignedPersonalGoalListener> onAssignedPersonalGoalListenerListeners;
 
     public Player(String nickName, R virtualView) {

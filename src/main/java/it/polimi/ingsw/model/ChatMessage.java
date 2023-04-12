@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.ClientInterface;
+import it.polimi.ingsw.controller.JSONExclusionStrategy.ExcludedFromJSON;
 import it.polimi.ingsw.net.RemoteInterface;
 
 import java.io.Serial;
@@ -16,7 +17,9 @@ import java.util.List;
  * @see Player
  */
 public class ChatMessage<R extends ClientInterface> implements Serializable {
+
     @Serial
+    @ExcludedFromJSON
     private static final long serialVersionUID = 82642348L;
 
     /**

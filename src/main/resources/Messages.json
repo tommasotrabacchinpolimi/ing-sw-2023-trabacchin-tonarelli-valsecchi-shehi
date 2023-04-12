@@ -9,23 +9,37 @@
       },
       {
         "nickName": "nick2"
+      }
+    ],
+    "text": "message content -2022641276"
+  },
+  {
+    "sender": {
+      "nickName": "nick"
+    },
+    "receivers": [
+      {
+        "nickName": "nick1"
+      }
+    ],
+    "text": "message content -91195145"
+  },
+  {
+    "sender": {
+      "nickName": "nick"
+    },
+    "receivers": [
+      {
+        "nickName": "nick1"
+      },
+      {
+        "nickName": "nick2"
       },
       {
         "nickName": "nick3"
       }
     ],
-    "text": "message content 762587033"
-  },
-  {
-    "sender": {
-      "nickName": "nick"
-    },
-    "receivers": [
-      {
-        "nickName": "nick1"
-      }
-    ],
-    "text": "message content -943688870"
+    "text": "message content -2137497638"
   },
   {
     "sender": {
@@ -39,20 +53,6 @@
         "nickName": "nick2"
       }
     ],
-    "text": "message content -181488335"
-  },
-  {
-    "sender": {
-      "nickName": "nick"
-    },
-    "receivers": [
-      {
-        "nickName": "nick1"
-      },
-      {
-        "nickName": "nick2"
-      }
-    ],
-    "text": "message content 982825033"
+    "text": "message content -1673648696"
   }
 ]

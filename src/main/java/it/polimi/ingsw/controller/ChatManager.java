@@ -4,8 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.model.ChatMessage;
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.net.RemoteInterface;
-import it.polimi.ingsw.net.User;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,7 +13,7 @@ import java.util.List;
 
 public class ChatManager<R extends ClientInterface> {
     private Controller<R> controller;
-    private static final String MESSAGES_FILE = "./src/main/java/it/polimi/ingsw/controller/Messages.json";
+    private static final String MESSAGES_FILE = "./src/main/resources/Messages.json";
 
     /**
      * Creating Gson object parser that exclude fields with {@link JSONExclusionStrategy @ExcludeFromJSON} annotations
@@ -44,7 +42,7 @@ public class ChatManager<R extends ClientInterface> {
     }
 
     /**
-     * Add message to the chat in the {@link it.polimi.ingsw.model.State model}
+     * Add message to the chat in the {@linkplain it.polimi.ingsw.model.State model}
      *
      * @param sender user that has sent the message
      * @param text message body
@@ -65,6 +63,7 @@ public class ChatManager<R extends ClientInterface> {
                 .filter(p -> p.getVirtualView() == sender)
                 .toList()
                 .get(0);
+
         ChatMessage<R> chatMessage = new ChatMessage<>(
                 senderPlayer,
                 receivers,
@@ -83,7 +82,6 @@ public class ChatManager<R extends ClientInterface> {
      */
     public void storeMessagesAsListObject(List<ChatMessage<R>> chat) {
         pw.write(chatManagerGson.toJson(chat));
-
         pw.flush();
     }
 

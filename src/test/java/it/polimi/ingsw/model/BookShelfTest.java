@@ -4,7 +4,6 @@ import it.polimi.ingsw.controller.ClientInterface;
 import it.polimi.ingsw.model.exceptions.NotEnoughSpaceInBookShelfException;
 import org.junit.jupiter.api.Test;
 
-import java.awt.print.Book;
 import java.util.ArrayList;
 import java.util.List;
 
