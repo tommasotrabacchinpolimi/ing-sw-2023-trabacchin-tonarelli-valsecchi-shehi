@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.controller.exceptions.AlreadyTakenNicknameException;
 import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerState;
@@ -33,7 +34,6 @@ public class LobbyController<R extends ClientInterface> implements UserAccepter<
 
 
     public synchronized void joinGame(R user, String nickname){
-        //controllo se c'è un'altra view con lo stesso nickname -> se c'è ed è in una partita, per ora si ignora
         if(viewToNicknameMap.containsValue(nickname)){
             if(disconnectedButInGame.contains(nickname)){
                 Controller<R> c = viewControllerMap.get(nicknameToViewMap.get(nickname));
@@ -55,6 +55,8 @@ public class LobbyController<R extends ClientInterface> implements UserAccepter<
             }
             else {
                 //metodo nella textclient interface che dice al client che il nome è gia stato preso
+                //notificare alla view
+                throw new AlreadyTakenNicknameException();
             }
         } else {
             Controller<R> c = firstGameAvailable();
@@ -63,7 +65,6 @@ public class LobbyController<R extends ClientInterface> implements UserAccepter<
                 viewToNicknameMap.put(user, nickname);
                 nicknameToViewMap.put(nickname,user);
             } else { //altrimenti lo inserisco nella prima partita disponibile
-
                 viewToNicknameMap.put(user, nickname);
                 nicknameToViewMap.put(nickname,user);
                 controllerViewMap.get(c).add(user);
@@ -77,7 +78,7 @@ public class LobbyController<R extends ClientInterface> implements UserAccepter<
     public synchronized void createGame(R user, String nickname, int numberOfPlayer) throws FileNotFoundException {
         //se arriva uno user che si era disconnesso, lo ignoro (da fare)
         State<R> state = new State<>();
-        Controller<R> controller = new Controller(state, this);
+        Controller<R> controller = new Controller<R>(state, this);
         List<R> list = new ArrayList<>();
 
         viewToNicknameMap.put(user,nickname);
