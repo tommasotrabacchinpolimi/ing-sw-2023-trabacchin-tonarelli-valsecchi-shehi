@@ -1,6 +1,8 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.exceptions.NoTileTakenException;
+import it.polimi.ingsw.model.exceptions.NotEnoughSpaceInBookShelfException;
 
 import java.util.*;
 import java.util.function.Function;
@@ -15,25 +17,30 @@ public class MidGameManager<R extends ClientInterface> extends GameManager<R> {
 
     @Override
     public synchronized void dragTilesToBookShelf(R user, int[] chosenTiles, int chosenColumn){
-        Player<R> player = getController().getState().getPlayerFromView(user);
-        if (!player.equals(getController().getPlayerPlaying())) {
-            return;
+        try {
+            Player<R> player = getController().getState().getPlayerFromView(user);
+            if (!player.equals(getController().getPlayerPlaying())) {
+                return;
+            }
+            Board<R> board = getController().getState().getBoard();
+            List<TileSubject> tiles = new ArrayList<>();
+            for (Integer tile : chosenTiles) {
+                tiles.add(board.fromIntToBoardSquare(tile).getTileSubject());
+            }
+            BookShelf<R> bookShelf = player.getBookShelf();
+            bookShelf.addTileSubjectTaken(tiles, chosenColumn);
+            verifyEndGame(user);
+            if (verifyRefillBoard() && getController().getState().getGameState()!=GameState.END) {
+                getController().getState().getBoard().refillBoard(getController().getState().getPlayersNumber());
+            }
+            evaluateFinalScore(player);
+            verifyCommonGoal(user);
+            setNextCurrentPlayer();
+            verifyAllDisconnectedPlayer();
         }
-        Board<R> board = getController().getState().getBoard();
-        List<TileSubject> tiles = new ArrayList<>();
-        for (Integer tile : chosenTiles) {
-            tiles.add(board.fromIntToBoardSquare(tile).getTileSubject());
+        catch (NotEnoughSpaceInBookShelfException | NoTileTakenException e){
+            System.err.println(e.getMessage());
         }
-        BookShelf<R> bookShelf = player.getBookShelf();
-        bookShelf.addTileSubjectTaken(tiles, chosenColumn);
-        verifyEndGame(user);
-        if (verifyRefillBoard() && getController().getState().getGameState()!=GameState.END) {
-            getController().getState().getBoard().refillBoard(getController().getState().getPlayersNumber());
-        }
-        evaluateFinalScore(player);
-        verifyCommonGoal(user);
-        setNextCurrentPlayer();
-        verifyAllDisconnectedPlayer();
     }
 
     //se registerPlayer viene chiamata in fase di MID o FINAL della partita allora vuol dire che il giocatore

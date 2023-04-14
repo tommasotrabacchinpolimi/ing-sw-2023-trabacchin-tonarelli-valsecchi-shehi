@@ -42,7 +42,7 @@ public abstract class CommonGoal implements Serializable {
      */
     private final String description;
 
-    private List<OnChangedCommonGoalAvailableScore> listeners;
+    private final List<OnChangedCommonGoalAvailableScore> listeners;
 
     /**
      * <p>Create a common goal with default values for both {@linkplain #scoringTokens scoring tokens stack} and
@@ -101,9 +101,9 @@ public abstract class CommonGoal implements Serializable {
         this.listeners.remove(listener);
     }
 
-    public void notifyChangedCommonGoalAvailableScore(){
+    public void notifyChangedCommonGoalAvailableScore(int newScore){
         for(OnChangedCommonGoalAvailableScore listener: listeners){
-            listener.onChangedCommonGoalAvailableScore();
+            listener.onChangedCommonGoalAvailableScore(newScore);
         }
     }
 
@@ -118,9 +118,10 @@ public abstract class CommonGoal implements Serializable {
         if(scoringTokens.size()==0)
             return 0;
         else {
-            int newScore = scoringTokens.pop();
-            notifyChangedCommonGoalAvailableScore();
-            return newScore;
+            int oldScore = scoringTokens.pop();
+            int newScore = scoringTokens.peek();
+            notifyChangedCommonGoalAvailableScore(newScore);
+            return oldScore;
         }
     }
 

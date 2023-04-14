@@ -2,16 +2,14 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.ClientInterface;
 import it.polimi.ingsw.controller.listeners.OnBookShelfUpdatedListener;
+import it.polimi.ingsw.controller.listeners.OnExceptionsListener;
 import it.polimi.ingsw.controller.listeners.localListeners.OnUpdateNeededListener;
 import it.polimi.ingsw.model.exceptions.NoTileTakenException;
 import it.polimi.ingsw.model.exceptions.NotEnoughSpaceInBookShelfException;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * <p>Class used to represent bookshelf for each player.</p>
@@ -90,6 +88,8 @@ public class BookShelf<R extends ClientInterface> implements Serializable, OnUpd
      */
     private final List<OnBookShelfUpdatedListener> onBookShelfUpdatedListeners;
 
+    private final List<OnExceptionsListener> exceptionsListeners;
+
     /**
      * Standard constructor will set dimension of the {@link #tileSubjectTaken bookshelf} to default value.
      *
@@ -105,6 +105,7 @@ public class BookShelf<R extends ClientInterface> implements Serializable, OnUpd
         player = null;
         onBookShelfUpdatedListeners = new LinkedList<>();
         initTileSubjectTaken();
+        exceptionsListeners = new ArrayList<>();
     }
 
     /**
@@ -126,6 +127,7 @@ public class BookShelf<R extends ClientInterface> implements Serializable, OnUpd
         initTileSubjectTaken();
         this.player = null;
         onBookShelfUpdatedListeners = new LinkedList<>();
+        exceptionsListeners = new ArrayList<>();
     }
 
     /**
@@ -143,6 +145,7 @@ public class BookShelf<R extends ClientInterface> implements Serializable, OnUpd
                 .map(TileSubject[]::clone)
                 .toArray(TileSubject[][]::new);
 
+        this.exceptionsListeners = that.exceptionsListeners;
         this.onBookShelfUpdatedListeners = that.onBookShelfUpdatedListeners;
     }
 
@@ -264,14 +267,24 @@ public class BookShelf<R extends ClientInterface> implements Serializable, OnUpd
      * @see NoTileTakenException
      */
     public void addTileSubjectTaken(List<TileSubject> taken, int column) {
-        if(column < 0 || column >= this.column)
-            throw new ArrayIndexOutOfBoundsException();
+        if(column < 0 || column >= this.column) {
+            RuntimeException e = new ArrayIndexOutOfBoundsException();
+            notifyOnExceptionsListener(e);
+            throw e;
+        }
 
-        if(taken == null || taken.size() == 0)
-            throw new NoTileTakenException(new NullPointerException());
 
-        if(isFull())
-            throw new NotEnoughSpaceInBookShelfException("BookShelf is full");
+        if(taken == null || taken.size() == 0){
+            RuntimeException e =  new NoTileTakenException(new NullPointerException());
+            notifyOnExceptionsListener(e);
+            throw e;
+        }
+
+        if(isFull()){
+            RuntimeException e = new NotEnoughSpaceInBookShelfException("BookShelf is full");
+            notifyOnExceptionsListener(e);
+            throw e;
+        }
 
         int row = getFirstEmptyRowFromBottom(column);
 
@@ -357,6 +370,20 @@ public class BookShelf<R extends ClientInterface> implements Serializable, OnUpd
         onBookShelfUpdatedListeners.remove(onBookShelfUpdatedListener);
     }
 
+    public void setOnExceptionsListener(OnExceptionsListener listener){
+        exceptionsListeners.add(listener);
+    }
+
+    public void removeOnExceptionsListener(OnExceptionsListener listener){
+        exceptionsListeners.remove(listener);
+    }
+
+    private void notifyOnExceptionsListener(RuntimeException e){
+        for(OnExceptionsListener listener: exceptionsListeners){
+            listener.onException(e);
+        }
+    }
+
     /**
      * Method to verify if two bookshelf instance are equals
      * {@inheritDoc}
@@ -410,4 +437,6 @@ public class BookShelf<R extends ClientInterface> implements Serializable, OnUpd
                         () -> System.err.println("no one to update about bookshelf refilled"));
 
     }
+
+
 }
