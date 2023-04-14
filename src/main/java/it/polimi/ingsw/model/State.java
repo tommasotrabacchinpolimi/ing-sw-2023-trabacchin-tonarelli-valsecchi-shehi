@@ -9,9 +9,7 @@ import it.polimi.ingsw.net.User;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -106,6 +104,11 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
     @ExcludedFromJSON
     private final List<OnAssignedCommonGoalListener> onAssignedCommonGoalListeners;
 
+    private final List<OnAchievedPersonalGoalListener> onAchievedPersonalGoalListeners;
+
+    private final List<OnAdjacentTilesUpdatedListener> onAdjacentTilesUpdatedListeners;
+
+
     /**
      * Construct of the class that creates the fields of the class.
      *
@@ -127,6 +130,8 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
         messageSentListeners = new ArrayList<>();
         onCurrentPlayerChangedListeners = new LinkedList<>();
         onAssignedCommonGoalListeners = new LinkedList<>();
+        onAchievedPersonalGoalListeners = new LinkedList<>();
+        onAdjacentTilesUpdatedListeners = new LinkedList<>();
     }
 
     public void setAchievedCommonGoalListener(OnAchievedCommonGoalListener listener) {
@@ -151,6 +156,13 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
 
     public void removeLastPlayerUpdatedListeners(OnLastPlayerUpdatedListener lastPlayerUpdatedListener){
         this.lastPlayerUpdatedListeners.remove(lastPlayerUpdatedListener);
+    }
+
+    public void setOnAdjacentTilesUpdatedListener(OnAdjacentTilesUpdatedListener onAdjacentTilesUpdatedListener) {
+        onAdjacentTilesUpdatedListeners.add(onAdjacentTilesUpdatedListener);
+    }
+    public void removeOnAdjacentTilesUpdatedListener(OnAdjacentTilesUpdatedListener onAdjacentTilesUpdatedListener) {
+        onAdjacentTilesUpdatedListeners.remove(onAdjacentTilesUpdatedListener);
     }
 
     public void setMessageSentListener(OnMessageSentListener listener){
@@ -374,6 +386,69 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
 
     }
 
+    public void checkPersonalGoal(Player<R> player) {
+        PersonalGoal personalGoal = player.getPersonalGoal();
+        BookShelf<R> bookShelf = player.getBookShelf();
+        int personalGoalMatches = 0;
+        List<EntryPatternGoal> personalGoalTiles = new LinkedList<>();
+        for(EntryPatternGoal e : personalGoal.getGoalPattern()) {
+            if(bookShelf.toTileTypeMatrix()[e.getRow()][e.getColumn()] == e.getTileType()) {
+                personalGoalMatches++;
+                personalGoalTiles.add(new EntryPatternGoal(e.getRow(), e.getColumn(), e.getTileType()));
+            }
+        }
+        int oldScore = player.getPointPlayer().getScorePersonalGoal();
+        int newScore = personalGoal.getScoreMap().get(personalGoalMatches);
+        player.getPointPlayer().setScorePersonalGoal(personalGoal.getScoreMap().get(personalGoalMatches));
+        if (newScore != oldScore) {
+            notifyOnAchievedPersonalGoal(personalGoalTiles, player);
+        }
+    }
+
+    public void checkAdjacentTiles(Player<R> player) {
+        int scoreAdjacentGoal = 0;
+        BookShelf<R> bookShelf = player.getBookShelf();
+        Set<Set<EntryPatternGoal>> groups = findGroups(bookShelf.toTileTypeMatrix());
+        for(Set<EntryPatternGoal> group : groups){
+            scoreAdjacentGoal += adjacentGroupsScore(group.size());
+        }
+        if(scoreAdjacentGoal != player.getPointPlayer().getScoreAdjacentGoal()) {
+            player.getPointPlayer().setScoreAdjacentGoal(scoreAdjacentGoal);
+            notifyAdjacentTilesUpdated(groups.stream()
+                    .flatMap(Collection::stream).toList()
+                    , player
+            );
+        }
+    }
+
+    private void notifyAdjacentTilesUpdated(List<EntryPatternGoal> tiles, Player<R> player) {
+        for(OnAdjacentTilesUpdatedListener onAdjacentTilesUpdatedListener : onAdjacentTilesUpdatedListeners) {
+            onAdjacentTilesUpdatedListener.onAdjacentTilesUpdated(player.getNickName(), tiles);
+        }
+    }
+
+    private int adjacentGroupsScore(int size) {
+        if(size >= 6) {
+            return 8;
+        }
+        else if(size == 5) {
+            return 5;
+        }
+        else if(size == 4) {
+            return 3;
+        }
+        else if(size == 3) {
+            return 2;
+        }
+        else {
+            return 0;
+        }
+    }
+    public void notifyOnAchievedPersonalGoal(List<EntryPatternGoal> tiles, Player<R> player) {
+        for(OnAchievedPersonalGoalListener onAchievedPersonalGoalListener : onAchievedPersonalGoalListeners) {
+            onAchievedPersonalGoalListener.onAchievedPersonalGoal(player.getNickName(), tiles);
+        }
+    }
     public void notifyOnAchievedCommonGoal(List<EntryPatternGoal> tiles, Player<R> player, int numberCommonGoal){
         List<EntryPatternGoal> copy_result = new ArrayList<>();
         for (EntryPatternGoal entry : tiles) {
@@ -422,6 +497,14 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
         this.onAssignedCommonGoalListeners.remove(onAssignedCommonGoalListener);
     }
 
+    public void addOnAchievedPersonalGoalListener(OnAchievedPersonalGoalListener onAchievedPersonalGoalListener) {
+        onAchievedPersonalGoalListeners.add(onAchievedPersonalGoalListener);
+    }
+
+    public void removeOnAchievedPersonalGoalListener(OnAchievedPersonalGoalListener onAchievedPersonalGoalListener) {
+        onAchievedPersonalGoalListeners.remove(onAchievedPersonalGoalListener);
+    }
+
     public void notifyAssignedCommonGoal() {
         for(OnAssignedCommonGoalListener onAssignedCommonGoalListener : onAssignedCommonGoalListeners) {
             onAssignedCommonGoalListener.onAssignedCommonGoal(this.getCommonGoal1().getDescription(),1);
@@ -450,5 +533,42 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
         onAssignedCommonGoalListeners.stream()
                 .filter(v -> v==player.getVirtualView()).findAny().ifPresentOrElse(v->{v.onAssignedCommonGoal(this.getCommonGoal1().getDescription(),1); v.onAssignedCommonGoal(this.getCommonGoal2().getDescription(),2);},()->System.err.println("unable to notify about common goal assigned"));
 
+    }
+
+    private Set<Set<EntryPatternGoal>> findGroups(TileType[][] bookShelf){
+        boolean[][] alreadyTaken = new boolean[bookShelf.length][bookShelf[0].length];//initialized to false
+        Set<Set<EntryPatternGoal>> result = new HashSet<Set<EntryPatternGoal>>();
+        for(int i = 0;i<bookShelf.length;i++){
+            for(int j = 0;j<bookShelf[0].length;j++){
+                findSingleGroup(i,j,bookShelf,alreadyTaken,bookShelf[i][j]).ifPresent(result::add);
+            }
+        }
+        return result;
+    }
+
+    private Optional<Set<EntryPatternGoal>> findSingleGroup(int i, int j, TileType[][] bookShelf, boolean[][] alreadyTaken, TileType tileType){
+        if(tileType==null){
+            return Optional.empty();
+        }
+        if (i<0||i>=bookShelf.length||j<0||j>=bookShelf[0].length){// nothing is to be returned if arguments are illegal
+            return Optional.empty();
+        }
+        if (alreadyTaken[i][j]){ //if this bookShelf is already part of another group then it should not be considered for another group
+            return Optional.empty();
+        }
+        Set<EntryPatternGoal> result = new HashSet<>();// Java documentation recommends using HashSet, unless otherwise required
+        if (bookShelf[i][j]!=tileType){//we want only entries whose type is tileType
+            return Optional.empty();
+        }
+        else{
+            result.add(new EntryPatternGoal(j,i,tileType));//if the type is correct then the (i,j)-entry can be added to the group
+            alreadyTaken[i][j] = true;
+        }
+
+        findSingleGroup(i-1,j,bookShelf,alreadyTaken,tileType).ifPresent(result::addAll);
+        findSingleGroup(i+1,j,bookShelf,alreadyTaken,tileType).ifPresent(result::addAll);
+        findSingleGroup(i,j-1,bookShelf,alreadyTaken,tileType).ifPresent(result::addAll);
+        findSingleGroup(i,j+1,bookShelf,alreadyTaken,tileType).ifPresent(result::addAll);
+        return Optional.of(result);
     }
 }

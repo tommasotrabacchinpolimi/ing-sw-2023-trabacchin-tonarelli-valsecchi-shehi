@@ -290,14 +290,16 @@ public class Board<R extends ClientInterface> implements Iterable<BoardSquare>, 
         }
     }
 
+
     public void notifyOnBoardUpdated() {
-       // TileSubject[] tileSubjects = (TileSubject[]) getBoardSquareList().stream().map(BoardSquare::getTileSubject).toArray();
+        TileSubject[] tileSubjects = getBoardSquareList().stream().map(BoardSquare::getTileSubject).toArray(TileSubject[]::new);
+        /*TileSubject[] tileSubjects1 = (TileSubject[]) getBoardSquareList().stream().map(BoardSquare::getTileSubject).toArray();
         TileSubject[] tileSubjects = new TileSubject[NUMBER_OF_BOARDSQUARE];
         int count = 0;
         for(BoardSquare b : this){
             tileSubjects[count] = b.getTileSubject();
             count++;
-        }
+        }*/
         for(OnBoardUpdatedListener onBoardUpdatedListener : onBoardUpdatedListeners) {
             if(onBoardUpdatedListener != null) {
                 onBoardUpdatedListener.onBoardUpdated(tileSubjects);
