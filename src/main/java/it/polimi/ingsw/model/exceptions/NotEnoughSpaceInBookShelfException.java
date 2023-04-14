@@ -7,6 +7,7 @@ public class NotEnoughSpaceInBookShelfException extends RuntimeException{
     public NotEnoughSpaceInBookShelfException() {
         super(DEF_MESSAGE);
     }
+
     public NotEnoughSpaceInBookShelfException(String message) {
         super(message);
     }
