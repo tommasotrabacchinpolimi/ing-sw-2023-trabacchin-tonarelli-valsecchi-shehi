@@ -6,6 +6,7 @@ public class NoTileTakenException extends RuntimeException {
     public NoTileTakenException() {
         super(DEF_MESSAGE);
     }
+
     public NoTileTakenException(String message) {
         super(message);
     }
