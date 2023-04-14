@@ -49,14 +49,15 @@ public class LobbyController<R extends ClientInterface> implements UserAccepter<
                         nicknameToViewMap.put(nickname, user);
                         disconnectedButInGame.remove(nickname);
                         c.registerPlayer(user, nickname);
-
                     }
                 }
             }
             else {
                 //metodo nella textclient interface che dice al client che il nome è gia stato preso
                 //notificare alla view
-                throw new AlreadyTakenNicknameException();
+                RuntimeException e = new AlreadyTakenNicknameException();
+                user.onException(e);
+                throw e;
             }
         } else {
             Controller<R> c = firstGameAvailable();
