@@ -8,7 +8,6 @@ import java.util.*;
 import java.util.function.Function;
 
 public class MidGameManager<R extends ClientInterface> extends GameManager<R> {
-    private Function<Integer,Integer> fromGroupSizeToScore;
 
     public MidGameManager(Controller<R> controller){
         super(controller);
@@ -33,7 +32,8 @@ public class MidGameManager<R extends ClientInterface> extends GameManager<R> {
             if (verifyRefillBoard() && getController().getState().getGameState()!=GameState.END) {
                 getController().getState().getBoard().refillBoard(getController().getState().getPlayersNumber());
             }
-            evaluateFinalScore(player);
+            verifyAdjacentTiles(player);
+            verifyPersonalGoal(player);
             verifyCommonGoal(user);
             setNextCurrentPlayer();
             verifyAllDisconnectedPlayer();
@@ -85,6 +85,13 @@ public class MidGameManager<R extends ClientInterface> extends GameManager<R> {
         getController().getState().checkCommonGoal(player);
     }
 
+    private void verifyPersonalGoal(Player<R> player) {
+        getController().getState().checkPersonalGoal(player);
+    }
+    private void verifyAdjacentTiles(Player<R> player) {
+        getController().getState().checkAdjacentTiles(player);
+    }
+
     private void verifyEndGame(R user){
         Player<R> player = getController().getState().getPlayerFromView(user);
 
@@ -95,42 +102,9 @@ public class MidGameManager<R extends ClientInterface> extends GameManager<R> {
         }
     }
 
-    private void evaluateFinalScore(Player<R> player){
-        int scoreAdjacentGoal = 0;
-        int personalGoalMatches = 0;
-        int scorePersonalGoal = 0;
-        TileType[][] bookShelf = player.getBookShelf().toTileTypeMatrix();
-        Set<Set<EntryPatternGoal>> groups = findGroups(bookShelf);
-        for(Set<EntryPatternGoal> group : groups){
-            scoreAdjacentGoal += adjacentGroupsScore(group.size());
-        }
-        for(EntryPatternGoal e : player.getPersonalGoal().getGoalPattern()){
-            if(player.getBookShelf().toTileTypeMatrix()[e.getRow()][e.getColumn()]==e.getTileType()){
-                personalGoalMatches++;
-            }
-        }
-        scorePersonalGoal = player.getPersonalGoal().getScoreMap().get(personalGoalMatches);
-        player.getPointPlayer().setScoreAdjacentGoal(scoreAdjacentGoal);
-        player.getPointPlayer().setScorePersonalGoal(scorePersonalGoal);
-    }
 
-    private int adjacentGroupsScore(int size) {
-        if(size >= 6) {
-            return 8;
-        }
-        else if(size == 5) {
-            return 5;
-        }
-        else if(size == 4) {
-            return 3;
-        }
-        else if(size == 3) {
-            return 2;
-        }
-        else {
-            return 0;
-        }
-    }
+
+
 
     /**
      * Method that returns true if and only if the Board needs to be refilled with tiles.
@@ -174,50 +148,4 @@ public class MidGameManager<R extends ClientInterface> extends GameManager<R> {
             }
         }
     }
-
-    private Set<Set<EntryPatternGoal>> findGroups(TileType[][] bookShelf){
-        boolean[][] alreadyTaken = new boolean[bookShelf.length][bookShelf[0].length];//initialized to false
-        Set<Set<EntryPatternGoal>> result = new HashSet<Set<EntryPatternGoal>>();
-        for(int i = 0;i<bookShelf.length;i++){
-            for(int j = 0;j<bookShelf[0].length;j++){
-                findSingleGroup(i,j,bookShelf,alreadyTaken,bookShelf[i][j]).ifPresent(result::add);
-            }
-        }
-        return result;
-    }
-
-    private Optional<Set<EntryPatternGoal>> findSingleGroup(int i, int j, TileType[][] bookShelf, boolean[][] alreadyTaken, TileType tileType){
-        if(tileType==null){
-            return Optional.empty();
-        }
-        if (i<0||i>=bookShelf.length||j<0||j>=bookShelf[0].length){// nothing is to be returned if arguments are illegal
-            return Optional.empty();
-        }
-        if (alreadyTaken[i][j]){ //if this bookShelf is already part of another group then it should not be considered for another group
-            return Optional.empty();
-        }
-        Set<EntryPatternGoal> result = new HashSet<>();// Java documentation recommends using HashSet, unless otherwise required
-        if (bookShelf[i][j]!=tileType){//we want only entries whose type is tileType
-            return Optional.empty();
-        }
-        else{
-            result.add(new EntryPatternGoal(j,i,tileType));//if the type is correct then the (i,j)-entry can be added to the group
-            alreadyTaken[i][j] = true;
-        }
-
-        findSingleGroup(i-1,j,bookShelf,alreadyTaken,tileType).ifPresent(result::addAll);
-        findSingleGroup(i+1,j,bookShelf,alreadyTaken,tileType).ifPresent(result::addAll);
-        findSingleGroup(i,j-1,bookShelf,alreadyTaken,tileType).ifPresent(result::addAll);
-        findSingleGroup(i,j+1,bookShelf,alreadyTaken,tileType).ifPresent(result::addAll);
-        return Optional.of(result);
-    }
-
-    private Function<Integer, Integer> getFromGroupSizeToScore() {
-        return fromGroupSizeToScore;
-    }
-
-    private void setFromGroupSizeToScore(Function<Integer, Integer> fromGroupSizeToScore) {
-        this.fromGroupSizeToScore = fromGroupSizeToScore;
-    }
-
 }
