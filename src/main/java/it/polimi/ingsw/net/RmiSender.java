@@ -29,7 +29,6 @@ public class RmiSender<L extends RemoteInterface,R extends RemoteInterface> impl
                     rmiConnectionManager.connectionDown();
                 }
             });
-            st.execute();
         }catch(Exception ex){
             rmiConnectionManager.connectionDown();
         }

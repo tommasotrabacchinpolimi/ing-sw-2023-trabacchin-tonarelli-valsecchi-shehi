@@ -9,7 +9,7 @@ public class SocketReceiver<L extends RemoteInterface, R extends RemoteInterface
     private final InputStream inputStream;
     private final ExecutorService executorService;
     private final L localTarget;
-    private final SocketConnectionManager<L,R> socketConnectionManager;
+    private final SocketConnectionManager<L, R> socketConnectionManager;
 
     public SocketReceiver(InputStream inputStream, ExecutorService executorService, L localTarget,SocketConnectionManager<L,R> socketConnectionManager) {
         this.inputStream = inputStream;

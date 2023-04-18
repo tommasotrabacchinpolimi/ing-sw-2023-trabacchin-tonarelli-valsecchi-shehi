@@ -32,6 +32,5 @@ public class ConnectionBuilder {
         rmiReceiver.setRmiConnectionManager(rmiConnectionManager);
         rmiConnectionManager.init(rmiReceiver, (Class<R>) remoteTargetClass.getRawType(),localRemoteObject,remoteObject, executorService);
         return rmiConnectionManager;
-
     }
 }
