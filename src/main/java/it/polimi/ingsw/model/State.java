@@ -497,7 +497,7 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
         this.onAssignedCommonGoalListeners.remove(onAssignedCommonGoalListener);
     }
 
-    public void addOnAchievedPersonalGoalListener(OnAchievedPersonalGoalListener onAchievedPersonalGoalListener) {
+    public void setOnAchievedPersonalGoalListener(OnAchievedPersonalGoalListener onAchievedPersonalGoalListener) {
         onAchievedPersonalGoalListeners.add(onAchievedPersonalGoalListener);
     }
 

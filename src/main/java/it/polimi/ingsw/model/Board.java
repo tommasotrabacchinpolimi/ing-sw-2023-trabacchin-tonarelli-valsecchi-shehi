@@ -199,9 +199,9 @@ public class Board<R extends ClientInterface> implements Iterable<BoardSquare>, 
     // taken deve contenere le posizioni delle tile prese secondo lo schema d'iterator.
     public List<TileSubject> removeSelectedTileSubject(int[] taken) {
         List<TileSubject> result = new ArrayList<>();
-        for(int i = 0; i < taken.length; i++){
-            result.add(fromIntToBoardSquare(taken[i]).getTileSubject());
-            fromIntToBoardSquare(taken[i]).setTileSubject(null);
+        for (int j : taken) {
+            result.add(fromIntToBoardSquare(j).getTileSubject());
+            fromIntToBoardSquare(j).setTileSubject(null);
         }
         notifyOnBoardUpdated();
         return result;

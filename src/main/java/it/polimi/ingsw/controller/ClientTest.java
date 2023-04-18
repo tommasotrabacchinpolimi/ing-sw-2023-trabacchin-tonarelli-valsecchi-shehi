@@ -142,6 +142,21 @@ public class ClientTest implements ClientInterface{
     public void onException(Exception e) {
 
     }
+
+    @Override
+    public void onAchievedPersonalGoal(String nickname, List<EntryPatternGoal> tiles) {
+
+    }
+
+    @Override
+    public void onAdjacentTilesUpdated(String nickname, List<EntryPatternGoal> tiles) {
+
+    }
+
+    @Override
+    public void onChangedCommonGoalAvailableScore(int score) {
+
+    }
 }
 
 

@@ -62,11 +62,15 @@ public class InitGameManager<R extends ClientInterface> extends GameManager<R>{
     public synchronized void registerPlayer(R view, String nickname) {
         Player<R> player = getController().getState().getPlayerFromNick(nickname);
         if(player!=null && player.getPlayerState()== PlayerState.DISCONNECTED) {
+            registerListeners(view, nickname);
             player.setVirtualView(view);
             player.setPlayerState(PlayerState.CONNECTED);
         }
         else {
-            getController().getState().addPlayer(new Player<R>(nickname,view));
+            Player newPlayer = new Player<R>(nickname,view);
+            getController().getState().addPlayer(newPlayer);
+            registerListeners(view, nickname);
+            newPlayer.setPlayerState(PlayerState.CONNECTED);
         }
         if(getController().getState().getPlayers().size() == getController().getState().getPlayersNumber()) {
             getController().setGameManager(new MidGameManager<>(getController()));
@@ -78,5 +82,7 @@ public class InitGameManager<R extends ClientInterface> extends GameManager<R>{
             getController().getState().setCommonGoal1(commonGoalsDeck.remove(0));
             getController().getState().setCommonGoal1(commonGoalsDeck.remove(0));
         }
+
     }
+
 }
