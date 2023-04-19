@@ -11,33 +11,33 @@ import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class LobbyController<R extends ClientInterface> implements UserAccepter<R>, OnConnectionLostListener<R> {
-    private final Map<Controller<R>, List<R>> controllerViewMap = new ConcurrentHashMap<>();
-    private final Map<R, Controller<R>> viewControllerMap = new ConcurrentHashMap<>();
+public class LobbyController implements UserAccepter<ClientInterface>, OnConnectionLostListener<ClientInterface> {
+    private final Map<Controller, List<ClientInterface>> controllerViewMap = new ConcurrentHashMap<>();
+    private final Map<ClientInterface, Controller> viewControllerMap = new ConcurrentHashMap<>();
 
-    private final List<R> waitingUsers = new ArrayList<>(); //user che non sono ancora stati assegnati a nessuna partita
-    private final Map<R,String> viewToNicknameMap = new ConcurrentHashMap<>();
-    private final Map<String,R> nicknameToViewMap = new ConcurrentHashMap<>();
+    private final List<ClientInterface> waitingUsers = new ArrayList<>(); //user che non sono ancora stati assegnati a nessuna partita
+    private final Map<ClientInterface,String> viewToNicknameMap = new ConcurrentHashMap<>();
+    private final Map<String,ClientInterface> nicknameToViewMap = new ConcurrentHashMap<>();
 
     private final List<String> disconnectedButInGame = new ArrayList<>();
 
-    private Dispatcher<R> dispatcher;
+    private Dispatcher dispatcher;
 
 
-    public void setDispatcher(Dispatcher<R> dispatcher) {
+    public void setDispatcher(Dispatcher dispatcher) {
         this.dispatcher = dispatcher;
     }
     @Override
-    public boolean acceptUser(User<R> user) {
+    public boolean acceptUser(User<ClientInterface> user) {
         return true;
     }
 
 
-    public synchronized void joinGame(R user, String nickname){
+    public synchronized void joinGame(ClientInterface user, String nickname){
         if(viewToNicknameMap.containsValue(nickname)){
             if(disconnectedButInGame.contains(nickname)){
-                Controller<R> c = viewControllerMap.get(nicknameToViewMap.get(nickname));
-                for(Player<R> p: c.getState().getPlayers()) {
+                Controller c = viewControllerMap.get(nicknameToViewMap.get(nickname));
+                for(Player p: c.getState().getPlayers()) {
                     if (p.getVirtualView() == nicknameToViewMap.get(nickname) && p.getPlayerState()== PlayerState.DISCONNECTED) {
                         viewControllerMap.remove(nicknameToViewMap.get(nickname)); //togliamo quella vecchia
                         viewControllerMap.put(user, c); //mettiamo quella nuova
@@ -60,7 +60,7 @@ public class LobbyController<R extends ClientInterface> implements UserAccepter<
                 throw e;
             }
         } else {
-            Controller<R> c = firstGameAvailable();
+            Controller c = firstGameAvailable();
             if(c == null){ //se non ci sono partite disponibili o sono gia tutte piene metto lo user nella waiting
                 waitingUsers.add(user);
                 viewToNicknameMap.put(user, nickname);
@@ -76,11 +76,11 @@ public class LobbyController<R extends ClientInterface> implements UserAccepter<
         }
     }
 
-    public synchronized void createGame(R user, String nickname, int numberOfPlayer) throws FileNotFoundException {
+    public synchronized void createGame(ClientInterface user, String nickname, int numberOfPlayer) throws FileNotFoundException {
         //se arriva uno user che si era disconnesso, lo ignoro (da fare)
-        State<R> state = new State<>();
-        Controller<R> controller = new Controller<R>(state, this);
-        List<R> list = new ArrayList<>();
+        State state = new State();
+        Controller controller = new Controller(state, this);
+        List<ClientInterface> list = new ArrayList<>();
 
         viewToNicknameMap.put(user,nickname);
         nicknameToViewMap.put(nickname,user);
@@ -92,7 +92,7 @@ public class LobbyController<R extends ClientInterface> implements UserAccepter<
         if(waitingUsers.size()!=0){
             for(int i = 1; i < numberOfPlayer; i++){
                 if(waitingUsers.size()!=0){
-                    R u = waitingUsers.remove(0);
+                    ClientInterface u = waitingUsers.remove(0);
                     list.add(u);
                     dispatcher.setController(user, controller);
                     controller.registerPlayer(u, nickname);
@@ -100,17 +100,17 @@ public class LobbyController<R extends ClientInterface> implements UserAccepter<
             }
         }
         controllerViewMap.put(controller, list);
-        for(R u: list){
+        for(ClientInterface u: list){
             viewControllerMap.put(u,controller);
         }
     }
 
-    public synchronized void onEndGame(Controller<R> controller){
+    public synchronized void onEndGame(Controller controller){
         if(controllerViewMap.containsKey(controller)){
             if(controller.getState().getGameState() == GameState.END){
-                List<R> list =  controllerViewMap.get(controller);
+                List<ClientInterface> list =  controllerViewMap.get(controller);
                 controllerViewMap.remove(controller);
-                for(R user: list){
+                for(ClientInterface user: list){
                     viewControllerMap.remove(user);
                     dispatcher.removeController(user, controller);
                 }
@@ -118,8 +118,8 @@ public class LobbyController<R extends ClientInterface> implements UserAccepter<
         }
     }
 
-    private Controller<R> firstGameAvailable(){
-        for(Controller<R> c: controllerViewMap.keySet()){
+    private Controller firstGameAvailable(){
+        for(Controller c: controllerViewMap.keySet()){
             if(c.getState().getPlayers().size() < c.getState().getPlayersNumber()){
                 return c;
             }
@@ -128,13 +128,13 @@ public class LobbyController<R extends ClientInterface> implements UserAccepter<
     }
 
     @Override
-    public synchronized void onConnectionLost(R user) {
+    public synchronized void onConnectionLost(ClientInterface user) {
         disconnectedButInGame.add(viewToNicknameMap.get(user));
         waitingUsers.removeIf(u -> u.equals(user));
     }
 
-    public synchronized void onQuitGame(R user){
-        Controller<R> c = viewControllerMap.get(nicknameToViewMap.get(viewToNicknameMap.get(user)));
+    public synchronized void onQuitGame(ClientInterface user){
+        Controller c = viewControllerMap.get(nicknameToViewMap.get(viewToNicknameMap.get(user)));
         controllerViewMap.get(c).remove(user);
         viewControllerMap.remove(user);
         dispatcher.removeController(user, c);

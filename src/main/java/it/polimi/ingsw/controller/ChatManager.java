@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ChatManager<R extends ClientInterface> {
-    private Controller<R> controller;
+    private Controller controller;
     private static final String MESSAGES_FILE = "./src/main/resources/Messages.json";
 
     /**
@@ -28,7 +28,7 @@ public class ChatManager<R extends ClientInterface> {
         initWriter();
     }
 
-    public ChatManager(Controller<R> controller) {
+    public ChatManager(Controller controller) {
         this.controller = controller;
         initWriter();
     }
@@ -49,7 +49,7 @@ public class ChatManager<R extends ClientInterface> {
      * @param receiversNickname players (nickname) that have to receive the message.
      */
     public void sentMessage(R sender, String text,  String[] receiversNickname) {
-        List<Player<R>> receivers = new ArrayList<>();
+        List<Player> receivers = new ArrayList<>();
 
         Arrays.stream(receiversNickname)
                 .forEach(rec -> receivers.add(controller.getState().getPlayerFromNick(rec)));
@@ -58,13 +58,13 @@ public class ChatManager<R extends ClientInterface> {
             System.err.println("Error in receivers creation");
         }
 
-        Player<R> senderPlayer = controller.getState().getPlayers()
+        Player senderPlayer = controller.getState().getPlayers()
                 .stream()
                 .filter(p -> p.getVirtualView() == sender)
                 .toList()
                 .get(0);
 
-        ChatMessage<R> chatMessage = new ChatMessage<>(
+        ChatMessage chatMessage = new ChatMessage(
                 senderPlayer,
                 receivers,
                 text
@@ -80,7 +80,7 @@ public class ChatManager<R extends ClientInterface> {
      *
      * @param chat complete list of all messages
      */
-    public void storeMessagesAsListObject(List<ChatMessage<R>> chat) {
+    public void storeMessagesAsListObject(List<ChatMessage> chat) {
         pw.write(chatManagerGson.toJson(chat));
         pw.flush();
     }

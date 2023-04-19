@@ -2,7 +2,6 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.ClientInterface;
 import it.polimi.ingsw.controller.JSONExclusionStrategy.ExcludedFromJSON;
-import it.polimi.ingsw.net.RemoteInterface;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -16,7 +15,7 @@ import java.util.List;
  * @version 1.0, 15/03/23
  * @see Player
  */
-public class ChatMessage<R extends ClientInterface> implements Serializable {
+public class ChatMessage implements Serializable {
 
     @Serial
     @ExcludedFromJSON
@@ -27,7 +26,7 @@ public class ChatMessage<R extends ClientInterface> implements Serializable {
      *
      * @see Player
      */
-    private Player<R> sender;
+    private Player sender;
     /**
      * The list of {@link Player} that receives the message.
      *
@@ -35,7 +34,7 @@ public class ChatMessage<R extends ClientInterface> implements Serializable {
      * a player other than the {@code sender} or the list of all players including the {@code sender}.
      * @see Player
      */
-    private final List<Player<R>> receivers;
+    private final List<Player> receivers;
 
     /**
      * The {@link String} containing the text of the message.
@@ -52,7 +51,7 @@ public class ChatMessage<R extends ClientInterface> implements Serializable {
      * can only contain either a player other than the {@code sender} or the list of all players including the {@code sender}.
      * @see Player
      */
-    public ChatMessage(Player<R> sender, List<Player<R>> receivers, String text) {
+    public ChatMessage(Player sender, List<Player> receivers, String text) {
         this.sender = sender;
         this.receivers = receivers;
         this.text = text;
@@ -64,7 +63,7 @@ public class ChatMessage<R extends ClientInterface> implements Serializable {
      *
      * @see Player
      */
-    public Player<R> getSender() {
+    public Player getSender() {
         return sender;
     }
 
@@ -83,7 +82,7 @@ public class ChatMessage<R extends ClientInterface> implements Serializable {
      * @apiNote The returned value is never null. The method returns either a list of one player or a list of all players.
      * @see Player
      */
-    public List<Player<R>> getReceivers() {
+    public List<Player> getReceivers() {
         return receivers;
     }
 
@@ -93,7 +92,7 @@ public class ChatMessage<R extends ClientInterface> implements Serializable {
      *
      * @see Player
      */
-    public void setSender(Player<R> sender) {
+    public void setSender(Player sender) {
         this.sender = sender;
     }
 
@@ -103,7 +102,7 @@ public class ChatMessage<R extends ClientInterface> implements Serializable {
      *
      * @see Player
      */
-    public void addReceiver(Player<R> receiver) {
+    public void addReceiver(Player receiver) {
         this.receivers.add(receiver);
     }
 
@@ -113,7 +112,7 @@ public class ChatMessage<R extends ClientInterface> implements Serializable {
      *
      * @see Player
      */
-    public void setToAll(List<Player<R>> to){
+    public void setToAll(List<Player> to){
         this.receivers.addAll(to);
     }
 

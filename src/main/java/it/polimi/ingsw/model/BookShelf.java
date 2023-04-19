@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.controller.ClientInterface;
 import it.polimi.ingsw.controller.listeners.OnBookShelfUpdatedListener;
 import it.polimi.ingsw.controller.listeners.OnExceptionsListener;
 import it.polimi.ingsw.controller.listeners.localListeners.OnUpdateNeededListener;
@@ -32,7 +31,7 @@ import java.util.*;
  * @see TileSubject
  * @see CommonGoal
  */
-public class BookShelf<R extends ClientInterface> implements Serializable, OnUpdateNeededListener<R> {
+public class BookShelf implements Serializable, OnUpdateNeededListener {
     @Serial
     private static final long serialVersionUID = 9828497462L;
 
@@ -81,7 +80,7 @@ public class BookShelf<R extends ClientInterface> implements Serializable, OnUpd
     /**
      * The {@linkplain Player player} associated with the BookShelf instance
      */
-    private Player<R> player;
+    private Player player;
 
     /**
      * A List of listener of the bookshelf object.
@@ -135,7 +134,7 @@ public class BookShelf<R extends ClientInterface> implements Serializable, OnUpd
      *
      * @param that the {@linkplain BookShelf bookshelf} object to copy
      */
-    public BookShelf(BookShelf<R> that) {
+    public BookShelf(BookShelf that) {
         this.row = that.row;
         this.column = that.column;
         initTileSubjectTaken();
@@ -327,7 +326,7 @@ public class BookShelf<R extends ClientInterface> implements Serializable, OnUpd
      * @return the player which belong to BookShelf
      * @see Player
      */
-    public Player<R> getPlayer() {
+    public Player getPlayer() {
         return player;
     }
 
@@ -336,7 +335,7 @@ public class BookShelf<R extends ClientInterface> implements Serializable, OnUpd
      * @param player the players that has to belong to BookShelf
      * @see Player
      */
-    public void setPlayer(Player<R> player) {
+    public void setPlayer(Player player) {
         this.player = player;
     }
 
@@ -399,7 +398,7 @@ public class BookShelf<R extends ClientInterface> implements Serializable, OnUpd
         if(o == null || getClass() != o.getClass())
             return false;
 
-        BookShelf<?> thatBookShelf = (BookShelf<?>) o;
+        BookShelf thatBookShelf = (BookShelf) o;
 
         return row == thatBookShelf.row && column == thatBookShelf.column &&
                 Arrays.deepEquals(tileSubjectTaken, thatBookShelf.tileSubjectTaken) &&
@@ -425,7 +424,7 @@ public class BookShelf<R extends ClientInterface> implements Serializable, OnUpd
      * @param player
      */
     @Override
-    public void onUpdateNeededListener(Player<R> player) {
+    public void onUpdateNeededListener(Player player) {
         onBookShelfUpdatedListeners.stream()
                 .filter(v -> player.getVirtualView() == v)
                 .findAny()

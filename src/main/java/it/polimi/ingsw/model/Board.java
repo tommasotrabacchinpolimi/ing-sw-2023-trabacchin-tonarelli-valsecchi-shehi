@@ -8,13 +8,12 @@ import it.polimi.ingsw.controller.listeners.localListeners.OnUpdateNeededListene
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.model.BoardSquareType.NO_DOTS;
 import static it.polimi.ingsw.model.BoardSquareType.THREE_DOTS;
 import static it.polimi.ingsw.model.BoardSquareType.FOUR_DOTS;
 
-public class Board<R extends ClientInterface> implements Iterable<BoardSquare>, Serializable, OnUpdateNeededListener<R> {
+public class Board implements Iterable<BoardSquare>, Serializable, OnUpdateNeededListener {
     @Serial
     private static final long serialVersionUID = 27112000L;
     private static final int DIM = 9;
@@ -332,7 +331,7 @@ public class Board<R extends ClientInterface> implements Iterable<BoardSquare>, 
     }
 
     @Override
-    public void onUpdateNeededListener(Player<R> player) {
+    public void onUpdateNeededListener(Player player) {
         onBoardUpdatedListeners.stream().filter(v->player.getVirtualView() == v)
                 .findAny()
                 .ifPresentOrElse(v->v.onBoardUpdated((TileSubject[]) getBoardSquareList().stream().map(BoardSquare::getTileSubject).toArray()),()->System.err.println("no one to update about board refilled"));

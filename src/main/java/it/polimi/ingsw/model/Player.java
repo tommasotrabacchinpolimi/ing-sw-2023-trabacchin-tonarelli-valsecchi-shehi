@@ -21,7 +21,7 @@ import java.util.Objects;
  * @version 1.0, 26/03/23
  * @see PersonalGoal
  */
-public class Player<R extends ClientInterface> implements Serializable, OnUpdateNeededListener<R> {
+public class Player implements Serializable, OnUpdateNeededListener {
     @Serial
     @ExcludedFromJSON
     private static final long serialVersionUID = 97354642643274L;
@@ -32,16 +32,16 @@ public class Player<R extends ClientInterface> implements Serializable, OnUpdate
     private PersonalGoal personalGoal;
 
     @ExcludedFromJSON
-    private BookShelf<R> bookShelf;
+    private BookShelf bookShelf;
 
     @ExcludedFromJSON
-    private PointPlayer<R> pointPlayer;
+    private PointPlayer pointPlayer;
 
     @ExcludedFromJSON
     private PlayerState playerState;
 
     @ExcludedFromJSON
-    private R virtualView;
+    private ClientInterface virtualView;
 
     @ExcludedFromJSON
     private final List<OnPlayerStateChangedListener> onPlayerStateChangedListeners;
@@ -49,11 +49,11 @@ public class Player<R extends ClientInterface> implements Serializable, OnUpdate
     @ExcludedFromJSON
     private final List<OnAssignedPersonalGoalListener> onAssignedPersonalGoalListenerListeners;
 
-    public Player(String nickName, R virtualView) {
+    public Player(String nickName, ClientInterface virtualView) {
         this.nickName = nickName;
         this.personalGoal = null;
-        this.bookShelf = new BookShelf<R>();
-        this.pointPlayer = new PointPlayer<R>();
+        this.bookShelf = new BookShelf();
+        this.pointPlayer = new PointPlayer();
         this.playerState = PlayerState.CONNECTED;
         this.virtualView = virtualView;
         onPlayerStateChangedListeners = new LinkedList<>();
@@ -62,8 +62,8 @@ public class Player<R extends ClientInterface> implements Serializable, OnUpdate
     public Player(String nickName) {
         this.nickName = nickName;
         this.personalGoal = null;
-        this.bookShelf = new BookShelf<R>();
-        this.pointPlayer = new PointPlayer<R>();
+        this.bookShelf = new BookShelf();
+        this.pointPlayer = new PointPlayer();
         this.playerState = PlayerState.CONNECTED;
         onPlayerStateChangedListeners = new LinkedList<>();
         onAssignedPersonalGoalListenerListeners = new LinkedList<>();
@@ -79,8 +79,8 @@ public class Player<R extends ClientInterface> implements Serializable, OnUpdate
     public Player( String  nickName, PersonalGoal personalGoal ){
         this.nickName = nickName;
         this.personalGoal = personalGoal;
-        this.bookShelf = new BookShelf<R>();
-        this.pointPlayer = new PointPlayer<R>();
+        this.bookShelf = new BookShelf();
+        this.pointPlayer = new PointPlayer();
         this.playerState = PlayerState.CONNECTED;
         onPlayerStateChangedListeners = new LinkedList<>();
         onAssignedPersonalGoalListenerListeners = new LinkedList<>();
@@ -95,19 +95,19 @@ public class Player<R extends ClientInterface> implements Serializable, OnUpdate
         notifyOnPlayerStateChanged();
     }
 
-    public R getVirtualView() {
+    public ClientInterface getVirtualView() {
         return virtualView;
     }
 
-    public void setVirtualView(R virtualView) {
+    public void setVirtualView(ClientInterface virtualView) {
         this.virtualView = virtualView;
     }
 
-    public BookShelf<R> getBookShelf() {
+    public BookShelf getBookShelf() {
         return bookShelf;
     }
 
-    public void setBookShelf(BookShelf<R> bookShelf) {
+    public void setBookShelf(BookShelf bookShelf) {
         this.bookShelf = bookShelf;
     }
 
@@ -115,11 +115,11 @@ public class Player<R extends ClientInterface> implements Serializable, OnUpdate
         this.pointPlayer.setScoreEndGame(endGameScore);
     }
 
-    public PointPlayer<R> getPointPlayer() {
+    public PointPlayer getPointPlayer() {
         return pointPlayer;
     }
 
-    public void setPointPlayer(PointPlayer<R> pointPlayer) {
+    public void setPointPlayer(PointPlayer pointPlayer) {
         this.pointPlayer = pointPlayer;
     }
 
@@ -185,7 +185,7 @@ public class Player<R extends ClientInterface> implements Serializable, OnUpdate
     }
 
     @Override
-    public void onUpdateNeededListener(Player<R> player) {
+    public void onUpdateNeededListener(Player player) {
         onPlayerStateChangedListeners.stream().filter(v-> player.getVirtualView() == v).findAny().ifPresentOrElse(v->v.onPlayerStateChanged(this.nickName,this.playerState),()->System.err.println("unable to update about player state changed"));
         onAssignedPersonalGoalListenerListeners.stream().filter(v->player.getVirtualView() == v).findAny().ifPresentOrElse(v->v.onAssignedPersonalGoal(this.nickName,this.personalGoal.getGoalPattern(), this.personalGoal.getScoreMap()),()->System.err.println("unable to notify about assigned personal goal"));
     }
@@ -198,7 +198,7 @@ public class Player<R extends ClientInterface> implements Serializable, OnUpdate
         if(o == null || getClass() != o.getClass())
             return false;
 
-        Player<?> thatPlayer = (Player<?>) o;
+        Player thatPlayer = (Player) o;
 
         return nickName.equals(thatPlayer.nickName) &&
                 Objects.equals(personalGoal, thatPlayer.personalGoal) &&

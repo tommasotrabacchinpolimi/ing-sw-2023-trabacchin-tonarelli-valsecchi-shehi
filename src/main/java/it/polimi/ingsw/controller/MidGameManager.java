@@ -5,28 +5,27 @@ import it.polimi.ingsw.model.exceptions.NoTileTakenException;
 import it.polimi.ingsw.model.exceptions.NotEnoughSpaceInBookShelfException;
 
 import java.util.*;
-import java.util.function.Function;
 
-public class MidGameManager<R extends ClientInterface> extends GameManager<R> {
+public class MidGameManager<R extends ClientInterface> extends GameManager {
 
-    public MidGameManager(Controller<R> controller){
+    public MidGameManager(Controller controller){
         super(controller);
         //controller.getState().getBoard().refillBoard(controller.getState().getPlayersNumber());
     }
 
     @Override
-    public synchronized void dragTilesToBookShelf(R user, int[] chosenTiles, int chosenColumn){
+    public synchronized void dragTilesToBookShelf(ClientInterface user, int[] chosenTiles, int chosenColumn){
         try {
-            Player<R> player = getController().getState().getPlayerFromView(user);
+            Player player = getController().getState().getPlayerFromView(user);
             if (!player.equals(getController().getPlayerPlaying())) {
                 return;
             }
-            Board<R> board = getController().getState().getBoard();
+            Board board = getController().getState().getBoard();
             List<TileSubject> tiles = new ArrayList<>();
             for (Integer tile : chosenTiles) {
                 tiles.add(board.fromIntToBoardSquare(tile).getTileSubject());
             }
-            BookShelf<R> bookShelf = player.getBookShelf();
+            BookShelf bookShelf = player.getBookShelf();
             bookShelf.addTileSubjectTaken(tiles, chosenColumn);
             verifyEndGame(user);
             if (verifyRefillBoard() && getController().getState().getGameState()!=GameState.END) {
@@ -47,8 +46,8 @@ public class MidGameManager<R extends ClientInterface> extends GameManager<R> {
     // si era disconnesso e ora sta cercando di ri-connettersi, quindi controllo che effettivamente ciò è vero e
     // nel caso ri-setto la view del player corrispondente
     @Override
-    public synchronized void registerPlayer(R user, String nickname) {
-        Player<R> player = getController().getState().getPlayerFromNick(nickname);
+    public synchronized void registerPlayer(ClientInterface user, String nickname) {
+        Player player = getController().getState().getPlayerFromNick(nickname);
         if(player != null && player.getPlayerState() == PlayerState.DISCONNECTED){
             registerListeners(user, nickname);
             player.setVirtualView(user);
@@ -59,18 +58,18 @@ public class MidGameManager<R extends ClientInterface> extends GameManager<R> {
 
     //metodo che dice se tutti i player tranne quello passato per parametro sono disconnessi
     private synchronized void verifyAllDisconnectedPlayer(){
-        Player<R> player = getController().getPlayerPlaying();
-        for(Player<R> p: getController().getState().getPlayers()){
+        Player player = getController().getPlayerPlaying();
+        for(Player p: getController().getState().getPlayers()){
             if(p != player && p.getPlayerState() != PlayerState.DISCONNECTED){
                 return;
             }
         }
         getController().getState().setGameState(GameState.SUSPENDED);
-        getController().setGameManager(new SuspendedGameManager<>(getController()));
+        getController().setGameManager(new SuspendedGameManager(getController()));
     }
 
-    private void verifyCommonGoal(R user){
-        Player<R> player = getController().getState().getPlayerFromView(user);
+    private void verifyCommonGoal(ClientInterface user){
+        Player player = getController().getState().getPlayerFromView(user);
         /*CommonGoal commonGoal1, commonGoal2;
         BookShelf bookShelf = player.getBookShelf();
         commonGoal1 = getController().getActiveCommonGoal1();
@@ -86,15 +85,15 @@ public class MidGameManager<R extends ClientInterface> extends GameManager<R> {
         getController().getState().checkCommonGoal(player);
     }
 
-    private void verifyPersonalGoal(Player<R> player) {
+    private void verifyPersonalGoal(Player player) {
         getController().getState().checkPersonalGoal(player);
     }
-    private void verifyAdjacentTiles(Player<R> player) {
+    private void verifyAdjacentTiles(Player player) {
         getController().getState().checkAdjacentTiles(player);
     }
 
-    private void verifyEndGame(R user){
-        Player<R> player = getController().getState().getPlayerFromView(user);
+    private void verifyEndGame(ClientInterface user){
+        Player player = getController().getState().getPlayerFromView(user);
 
         if(player.getBookShelf().isFull()) {
             player.assignScoreEndGame(1);
@@ -130,7 +129,7 @@ public class MidGameManager<R extends ClientInterface> extends GameManager<R> {
     private void setNextCurrentPlayer(){
         int n = getController().getState().getPlayersNumber();
         int index;
-        Player<R> oldCurrentPlayer = getController().getState().getCurrentPlayer();
+        Player oldCurrentPlayer = getController().getState().getCurrentPlayer();
 
         if(getController().getState().getGameState() == GameState.FINAL){ //se sono nella fase FINAL del gioco e il prossimo giocatore è il lastPlayer, allora rendo il gioco END
             if(oldCurrentPlayer.equals(getController().getState().getLastPlayer())){

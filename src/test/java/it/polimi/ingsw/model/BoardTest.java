@@ -2,8 +2,6 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.ClientInterface;
 
-import it.polimi.ingsw.controller.listeners.OnBoardRefilledListener;
-import it.polimi.ingsw.view.BoardTUI;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -16,14 +14,14 @@ class BoardTest<R extends ClientInterface> {
 
     @Test
     void getNumberOfBoardSquares() {
-        Board<R> board = new Board<>();
+        Board board = new Board();
         int numberOfBoardSquare = 45;
         assertEquals(numberOfBoardSquare, board.getNumberOfBoardSquares());
     }
 
     @Test
     void fromIntToBoardSquare() {
-        Board<R> board = new Board<>();
+        Board board = new Board();
         boolean result = false;
         int count= 0;
         for(BoardSquare b : board){
@@ -35,7 +33,7 @@ class BoardTest<R extends ClientInterface> {
 
     @Test
     void removeSelectedTileSubject() {
-        Board<R> board = new Board<>();
+        Board board = new Board();
         List<TileSubject> expectedList = new ArrayList<>();
         List<TileSubject> result = new ArrayList<>();
         int[] tileTaken = new int[]{1,2,3};
@@ -65,7 +63,7 @@ class BoardTest<R extends ClientInterface> {
 
     @Test
     void refillBoard() {
-        Board<R> board = new Board<>();
+        Board board = new Board();
         int numPlayers = 3;
         board.refillBoard(numPlayers);
         for(BoardSquare b : board){
@@ -100,4 +98,5 @@ class BoardTest<R extends ClientInterface> {
     private boolean isOkay(BoardSquare boardSquare, int numPlayers) {
         return (boardSquare.getBoardSquareType() == NO_DOTS || (boardSquare.getBoardSquareType() == THREE_DOTS && numPlayers >=3) || (boardSquare.getBoardSquareType() == FOUR_DOTS && numPlayers==4));
     }
+
 }

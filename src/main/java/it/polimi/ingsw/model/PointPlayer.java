@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.controller.ClientInterface;
 import it.polimi.ingsw.controller.listeners.OnPointsUpdatedListener;
 import it.polimi.ingsw.controller.listeners.localListeners.OnUpdateNeededListener;
 
@@ -10,7 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-public class PointPlayer<R extends ClientInterface> implements Serializable, OnUpdateNeededListener<R> {
+public class PointPlayer implements Serializable, OnUpdateNeededListener {
     @Serial
     private static final long serialVersionUID = 973546426438574L;
     private int scoreCommonGoal1;
@@ -19,7 +18,7 @@ public class PointPlayer<R extends ClientInterface> implements Serializable, OnU
     private int scorePersonalGoal;
     private int scoreAdjacentGoal;
     private final List<OnPointsUpdatedListener> onPointsUpdatedListeners;
-    private Player<R> player;
+    private Player player;
 
     public PointPlayer(){
         scoreAdjacentGoal = 0;
@@ -79,11 +78,11 @@ public class PointPlayer<R extends ClientInterface> implements Serializable, OnU
         return scoreAdjacentGoal + scoreEndGame + scorePersonalGoal + scoreCommonGoal1 + scoreCommonGoal2;
     }
 
-    public Player<R> getPlayer() {
+    public Player getPlayer() {
         return player;
     }
 
-    public void setPlayer(Player<R> player) {
+    public void setPlayer(Player player) {
         this.player = player;
     }
 
@@ -108,7 +107,7 @@ public class PointPlayer<R extends ClientInterface> implements Serializable, OnU
         if (o == null || getClass() != o.getClass())
             return false;
 
-        PointPlayer<?> that = (PointPlayer<?>) o;
+        PointPlayer that = (PointPlayer) o;
 
         return scoreCommonGoal1 == that.scoreCommonGoal1 &&
                 scoreCommonGoal2 == that.scoreCommonGoal2 &&
@@ -124,7 +123,7 @@ public class PointPlayer<R extends ClientInterface> implements Serializable, OnU
     }
 
     @Override
-    public void onUpdateNeededListener(Player<R> player) {
+    public void onUpdateNeededListener(Player player) {
         onPointsUpdatedListeners.stream().filter(v->player.getVirtualView() == v).findAny()
                 .ifPresentOrElse(v->v.onPointsUpdated(this.player.getNickName(), scoreAdjacentGoal, scoreCommonGoal1, scoreCommonGoal2, scoreEndGame, scorePersonalGoal),()->System.err.println("unable to notify about points updated"));
     }

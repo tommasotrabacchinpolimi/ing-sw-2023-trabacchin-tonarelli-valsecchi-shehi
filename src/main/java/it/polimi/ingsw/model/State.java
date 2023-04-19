@@ -4,13 +4,10 @@ import it.polimi.ingsw.controller.ClientInterface;
 import it.polimi.ingsw.controller.JSONExclusionStrategy.ExcludedFromJSON;
 import it.polimi.ingsw.controller.listeners.*;
 import it.polimi.ingsw.controller.listeners.localListeners.OnUpdateNeededListener;
-import it.polimi.ingsw.net.RemoteInterface;
-import it.polimi.ingsw.net.User;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * State is a class that contains all the references necessary to modify and update the 'state' (hence the name of the class)
@@ -27,7 +24,7 @@ import java.util.stream.Collectors;
  * @see Player
  * @see ChatMessage
  */
-public class State<R extends ClientInterface> implements Serializable, OnUpdateNeededListener<R> {
+public class State implements Serializable, OnUpdateNeededListener {
     @Serial
     @ExcludedFromJSON
     private static final long serialVersionUID = 26202152145454545L;
@@ -38,7 +35,7 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
      * @see Board
      */
     @ExcludedFromJSON
-    private Board<R> board;
+    private Board board;
 
     @ExcludedFromJSON
     private GameState gameState;
@@ -61,7 +58,7 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
      * @see Player
      */
     @ExcludedFromJSON
-    private List<Player<R>> players;
+    private List<Player> players;
     /**
      * The {@link Player} who will play in the current round of the Game.
      *
@@ -69,7 +66,7 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
      * @see Player
      */
     @ExcludedFromJSON
-    private Player<R> currentPlayer;
+    private Player currentPlayer;
 
     @ExcludedFromJSON
     private int playersNumber;
@@ -81,10 +78,10 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
      * @see ChatMessage
      * @see Player
      */
-    private transient List<ChatMessage<R>> messages;
+    private transient List<ChatMessage> messages;
 
     @ExcludedFromJSON
-    private Player<R> lastPlayer;
+    private Player lastPlayer;
 
     @ExcludedFromJSON
     private final List<OnAchievedCommonGoalListener> achievedCommonGoalListeners;
@@ -119,7 +116,7 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
      */
     public State(){
         gameState = GameState.INIT;
-        board = new Board<R>();
+        board = new Board();
         players = new ArrayList<>();
         currentPlayer = null;
         messages = new LinkedList<>();
@@ -173,11 +170,11 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
         messageSentListeners.remove(listener);
     }
 
-    public Player<R> getLastPlayer() {
+    public Player getLastPlayer() {
         return lastPlayer;
     }
 
-    public void setLastPlayer(Player<R> lastPlayer) {
+    public void setLastPlayer(Player lastPlayer) {
         this.lastPlayer = lastPlayer;
         notifyLastPlayerUpdated();
     }
@@ -205,7 +202,7 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
      *
      * @see Board
      */
-    public Board<R> getBoard() {
+    public Board getBoard() {
         return board;
     }
 
@@ -215,7 +212,7 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
      *
      * @see Board
      */
-    public void setBoard(Board<R> board) {
+    public void setBoard(Board board) {
         this.board = board;
     }
 
@@ -267,7 +264,7 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
      *
      * @see Player
      */
-    public List<Player<R>> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
 
@@ -277,7 +274,7 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
      *
      * @see Player
      */
-    public void setPlayers(List<Player<R>> players) {
+    public void setPlayers(List<Player> players) {
         this.players = players;
     }
 
@@ -290,7 +287,7 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
      * players.get(players.size()-1) is the last player logged into the game.
      * @see Player
      */
-    public boolean addPlayer(Player<R> player){
+    public boolean addPlayer(Player player){
         if(players.stream().anyMatch(p-> p.getNickName().equals(player.getNickName())))
             return false;
         this.players.add(player);
@@ -304,7 +301,7 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
      * @apiNote The Player {@link State#currentPlayer} must be contained in the list {@link State#players}.
      * @see Player
      */
-    public Player<R> getCurrentPlayer() {
+    public Player getCurrentPlayer() {
         return currentPlayer;
     }
 
@@ -315,7 +312,7 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
      * @apiNote The Player {@link State#currentPlayer} must be contained in the list {@link State#players}.
      * @see Player
      */
-    public void setCurrentPlayer(Player<R> currentPlayer) {
+    public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
         notifyCurrentPlayerChanged();
     }
@@ -326,7 +323,7 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
      *
      * @see ChatMessage
      */
-    public List<ChatMessage<R>> getMessages() {
+    public List<ChatMessage> getMessages() {
         return messages;
     }
 
@@ -336,7 +333,7 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
      *
      * @see ChatMessage
      */
-    public void setMessages(List<ChatMessage<R>> messages) { // eventualmente da eliminare
+    public void setMessages(List<ChatMessage> messages) { // eventualmente da eliminare
         this.messages = messages;
     }
 
@@ -346,7 +343,7 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
      *
      * @see ChatMessage
      */
-    public void addMessage(ChatMessage<R> message){
+    public void addMessage(ChatMessage message){
         this.messages.add(message);
         notifyMessageSent();
     }
@@ -358,18 +355,18 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
      * @param nickName the nickname of the player
      * @return the player that has the {@code nickName} passed as parameter
      */
-    public Player<R> getPlayerFromNick(String nickName){
+    public Player getPlayerFromNick(String nickName){
         return players.stream()
                 .filter( player -> nickName.equals(player.getNickName()))
                 .toList()
                 .get(0);
     }
 
-    public Player<R> getPlayerFromView(R user){
+    public Player getPlayerFromView(ClientInterface user){
         return players.stream().filter(player -> user == player.getVirtualView()).toList().get(0);
     }
 
-    public void checkCommonGoal(Player<R> player){
+    public void checkCommonGoal(Player player){
        List<EntryPatternGoal> result = new ArrayList<>();
 
        result = commonGoal1.rule(player.getBookShelf().toTileTypeMatrix());
@@ -386,9 +383,9 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
 
     }
 
-    public void checkPersonalGoal(Player<R> player) {
+    public void checkPersonalGoal(Player player) {
         PersonalGoal personalGoal = player.getPersonalGoal();
-        BookShelf<R> bookShelf = player.getBookShelf();
+        BookShelf bookShelf = player.getBookShelf();
         int personalGoalMatches = 0;
         List<EntryPatternGoal> personalGoalTiles = new LinkedList<>();
         for(EntryPatternGoal e : personalGoal.getGoalPattern()) {
@@ -405,9 +402,9 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
         }
     }
 
-    public void checkAdjacentTiles(Player<R> player) {
+    public void checkAdjacentTiles(Player player) {
         int scoreAdjacentGoal = 0;
-        BookShelf<R> bookShelf = player.getBookShelf();
+        BookShelf bookShelf = player.getBookShelf();
         Set<Set<EntryPatternGoal>> groups = findGroups(bookShelf.toTileTypeMatrix());
         for(Set<EntryPatternGoal> group : groups){
             scoreAdjacentGoal += adjacentGroupsScore(group.size());
@@ -421,7 +418,7 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
         }
     }
 
-    private void notifyAdjacentTilesUpdated(List<EntryPatternGoal> tiles, Player<R> player) {
+    private void notifyAdjacentTilesUpdated(List<EntryPatternGoal> tiles, Player player) {
         for(OnAdjacentTilesUpdatedListener onAdjacentTilesUpdatedListener : onAdjacentTilesUpdatedListeners) {
             onAdjacentTilesUpdatedListener.onAdjacentTilesUpdated(player.getNickName(), tiles);
         }
@@ -444,12 +441,12 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
             return 0;
         }
     }
-    public void notifyOnAchievedPersonalGoal(List<EntryPatternGoal> tiles, Player<R> player) {
+    public void notifyOnAchievedPersonalGoal(List<EntryPatternGoal> tiles, Player player) {
         for(OnAchievedPersonalGoalListener onAchievedPersonalGoalListener : onAchievedPersonalGoalListeners) {
             onAchievedPersonalGoalListener.onAchievedPersonalGoal(player.getNickName(), tiles);
         }
     }
-    public void notifyOnAchievedCommonGoal(List<EntryPatternGoal> tiles, Player<R> player, int numberCommonGoal){
+    public void notifyOnAchievedCommonGoal(List<EntryPatternGoal> tiles, Player player, int numberCommonGoal){
         List<EntryPatternGoal> copy_result = new ArrayList<>();
         for (EntryPatternGoal entry : tiles) {
             copy_result.add(new EntryPatternGoal(entry.getRow(), entry.getColumn(), entry.getTileType()));
@@ -474,8 +471,8 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
     }
 
     public void notifyMessageSent(){
-        ChatMessage<R> message = messages.get(messages.size()-1);
-        List<String> nicknameReceivers = message.getReceivers().stream().map(Player<R>::getNickName).toList();
+        ChatMessage message = messages.get(messages.size()-1);
+        List<String> nicknameReceivers = message.getReceivers().stream().map(Player::getNickName).toList();
         for(OnMessageSentListener listener : messageSentListeners){
             listener.onMessageSent(message.getSender().getNickName(), nicknameReceivers, message.getText());
         }
@@ -520,7 +517,7 @@ public class State<R extends ClientInterface> implements Serializable, OnUpdateN
 
 
     @Override
-    public void onUpdateNeededListener(Player<R> player) {
+    public void onUpdateNeededListener(Player player) {
         stateChangedListeners.stream()
                 .filter(v->v==player.getVirtualView()).findAny().ifPresentOrElse(v->v.onStateChanged(gameState),()->System.err.println("unable to notify about state changed"));
 

@@ -22,7 +22,7 @@ class BookShelfTest<R extends ClientInterface> {
                 {TileSubject.BASIL_PLANT, TileSubject.BLACK_CAT, TileSubject.CHAMPION_TROPHY, TileSubject.COMIC_BOOK, TileSubject.DEGREE_FRAME}
         };
 
-        BookShelf<R> bookShelf = new BookShelf<>();
+        BookShelf bookShelf = new BookShelf();
 
         bookShelf.setTileSubjectTaken(matrix);
 
@@ -44,7 +44,7 @@ class BookShelfTest<R extends ClientInterface> {
                 {TileSubject.BASIL_PLANT, TileSubject.BLACK_CAT, TileSubject.CHAMPION_TROPHY, TileSubject.COMIC_BOOK, TileSubject.DEGREE_FRAME}
         };
 
-        BookShelf<R> bookShelf = new BookShelf<>();
+        BookShelf bookShelf = new BookShelf();
 
         bookShelf.setTileSubjectTaken(matrix);
 
@@ -66,7 +66,7 @@ class BookShelfTest<R extends ClientInterface> {
                 {TileSubject.BASIL_PLANT, TileSubject.BLACK_CAT, TileSubject.CHAMPION_TROPHY, TileSubject.COMIC_BOOK, TileSubject.DEGREE_FRAME}
         };
 
-        BookShelf<R> bookShelf = new BookShelf<>();
+        BookShelf bookShelf = new BookShelf();
         bookShelf.setTileSubjectTaken(matrix);
 
         assertTrue(bookShelf.isFull());
@@ -96,7 +96,7 @@ class BookShelfTest<R extends ClientInterface> {
                 {TileSubject.BASIL_PLANT, TileSubject.BLACK_CAT, TileSubject.CHAMPION_TROPHY, TileSubject.COMIC_BOOK, TileSubject.DEGREE_FRAME}
         };
 
-        BookShelf<R> bookShelf = new BookShelf<>();
+        BookShelf bookShelf = new BookShelf();
 
         bookShelf.setTileSubjectTaken(matrix);
 
@@ -128,7 +128,7 @@ class BookShelfTest<R extends ClientInterface> {
                 {TileSubject.BASIL_PLANT, TileSubject.BLACK_CAT, TileSubject.CHAMPION_TROPHY, TileSubject.COMIC_BOOK, TileSubject.DEGREE_FRAME}
         };
 
-        BookShelf<R> bookShelf = new BookShelf<>();
+        BookShelf bookShelf = new BookShelf();
 
         bookShelf.setTileSubjectTaken(matrix);
 
@@ -160,8 +160,8 @@ class BookShelfTest<R extends ClientInterface> {
 
     @Test
     void getPlayer(){
-        BookShelf<R> bookShelf = new BookShelf<>(7,4);
-        Player<R> player = new Player<>("nick");
+        BookShelf bookShelf = new BookShelf(7,4);
+        Player player = new Player("nick");
 
         bookShelf.setPlayer(player);
 
@@ -171,23 +171,23 @@ class BookShelfTest<R extends ClientInterface> {
 
     @Test
     void setPlayer() {
-        BookShelf<R> bookShelf = new BookShelf<>();
-        Player<R> player = new Player<>("nick");
+        BookShelf bookShelf = new BookShelf();
+        Player player = new Player("nick");
 
         bookShelf.setPlayer(player);
 
         assertNotNull(bookShelf.getPlayer());
         assertEquals(player, bookShelf.getPlayer());
 
-        Player<R> player1 = new Player<>("nick1");
+        Player player1 = new Player("nick1");
         bookShelf.setPlayer(player1);
         assertNotEquals(player, bookShelf.getPlayer());
     }
 
     @Test
     void testEquals() {
-        BookShelf<R> bookShelf = new BookShelf<>();
-        BookShelf<R> bookShelf1 = new BookShelf<>(bookShelf);
+        BookShelf bookShelf = new BookShelf();
+        BookShelf bookShelf1 = new BookShelf(bookShelf);
 
         assertEquals(bookShelf, bookShelf1);
     }
@@ -195,8 +195,8 @@ class BookShelfTest<R extends ClientInterface> {
 
     @Test
     void testHashCode() {
-        BookShelf<R> bookShelf = new BookShelf<>();
-        BookShelf<R> bookShelf1 = new BookShelf<>(bookShelf);
+        BookShelf bookShelf = new BookShelf();
+        BookShelf bookShelf1 = new BookShelf(bookShelf);
 
         assertEquals(bookShelf.hashCode(), bookShelf1.hashCode());
     }

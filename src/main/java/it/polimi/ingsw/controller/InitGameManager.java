@@ -8,12 +8,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class InitGameManager<R extends ClientInterface> extends GameManager<R>{
+public class InitGameManager extends GameManager {
 
     private static final String PERSONAL_GOAL_CONFIGURATION = "./src/main/resources/PersonalGoalConfiguration/";
     private List<PersonalGoal> personalGoalsDeck;
     private List<CommonGoal> commonGoalsDeck;
-    public InitGameManager(Controller<R> controller) throws FileNotFoundException {
+    public InitGameManager(Controller controller) throws FileNotFoundException {
         super(controller);
         initPersonalGoals();
         initCommonGoals();
@@ -54,20 +54,20 @@ public class InitGameManager<R extends ClientInterface> extends GameManager<R>{
         Collections.shuffle(commonGoalsDeck);
     }
     @Override
-    public synchronized void dragTilesToBookShelf(R view, int[] chosenTiles, int chosenColumn) {
+    public synchronized void dragTilesToBookShelf(ClientInterface view, int[] chosenTiles, int chosenColumn) {
         System.err.println("dragTilesToBookShelf called in INIT state");
     }
 
     @Override
-    public synchronized void registerPlayer(R view, String nickname) {
-        Player<R> player = getController().getState().getPlayerFromNick(nickname);
+    public synchronized void registerPlayer(ClientInterface view, String nickname) {
+        Player player = getController().getState().getPlayerFromNick(nickname);
         if(player!=null && player.getPlayerState()== PlayerState.DISCONNECTED) {
             registerListeners(view, nickname);
             player.setVirtualView(view);
             player.setPlayerState(PlayerState.CONNECTED);
         }
         else {
-            Player newPlayer = new Player<R>(nickname,view);
+            Player newPlayer = new Player(nickname,view);
             getController().getState().addPlayer(newPlayer);
             registerListeners(view, nickname);
             newPlayer.setPlayerState(PlayerState.CONNECTED);
@@ -76,7 +76,7 @@ public class InitGameManager<R extends ClientInterface> extends GameManager<R>{
             getController().setGameManager(new MidGameManager<>(getController()));
             getController().getState().getBoard().refillBoard(getController().getState().getPlayersNumber());
             getController().getState().setGameState(GameState.MID);
-            for(Player<R> rPlayer : getController().getState().getPlayers()) {
+            for(Player rPlayer : getController().getState().getPlayers()) {
                 rPlayer.setPersonalGoal(personalGoalsDeck.remove(0));
             }
             getController().getState().setCommonGoal1(commonGoalsDeck.remove(0));

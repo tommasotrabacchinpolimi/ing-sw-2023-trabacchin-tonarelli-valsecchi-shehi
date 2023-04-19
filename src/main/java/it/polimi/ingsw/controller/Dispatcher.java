@@ -6,29 +6,29 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class Dispatcher<R extends ClientInterface> implements InvocationHandler {
+public class Dispatcher implements InvocationHandler {
 
-    private LobbyController<R> lobbyController;
+    private LobbyController lobbyController;
 
-    private final Map<R,Controller<R>> viewToControllerMap;
+    private final Map<ClientInterface,Controller> viewToControllerMap;
 
     public Dispatcher() {
         viewToControllerMap = new ConcurrentHashMap<>();
     }
 
-    public LobbyController<R> getLobbyController() {
+    public LobbyController getLobbyController() {
         return lobbyController;
     }
 
-    public void setLobbyController(LobbyController<R> lobbyController) {
+    public void setLobbyController(LobbyController lobbyController) {
         this.lobbyController = lobbyController;
     }
 
-    public void setController(R view, Controller<R> controller) {
+    public void setController(ClientInterface view, Controller controller) {
         viewToControllerMap.put(view, controller);
     }
 
-    public void removeController(R view, Controller<R> controller) {
+    public void removeController(ClientInterface view, Controller controller) {
         viewToControllerMap.remove(view, controller);
     }
     @Override

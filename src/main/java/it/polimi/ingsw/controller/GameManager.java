@@ -4,31 +4,27 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.net.RemoteInterface;
-import it.polimi.ingsw.net.User;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.*;
-import java.util.function.Function;
 
-public abstract class GameManager<R extends ClientInterface> {
-    private Controller<R> controller;
+public abstract class GameManager {
+    private Controller controller;
     private static final String COMMON_GOAL_CONFIGURATION = "./src/main/CommonGoalConfiguration/";
 
-    public GameManager(Controller<R> controller){
+    public GameManager(Controller controller){
         this.controller = controller;
     }
 
-    public Controller<R> getController() {
+    public Controller getController() {
         return controller;
     }
 
-    public abstract void dragTilesToBookShelf(R view, int[] chosenTiles, int chosenColumn);
+    public abstract void dragTilesToBookShelf(ClientInterface view, int[] chosenTiles, int chosenColumn);
 
-    public abstract void registerPlayer(R view, String nickname);
+    public abstract void registerPlayer(ClientInterface view, String nickname);
 
-    public synchronized void quitGame(R view) {
+    public synchronized void quitGame(ClientInterface view) {
         getController().getState().getPlayerFromView(view).setPlayerState(PlayerState.QUITTED);
         getController().getLobbyController().onQuitGame(view);
         if(getController().getState().getPlayers().stream().noneMatch(p->p.getPlayerState()!=PlayerState.QUITTED)) {
@@ -52,8 +48,8 @@ public abstract class GameManager<R extends ClientInterface> {
         System.out.println(commonGoal.toString());
     }
 
-    public void registerListeners(R view, String nickname){
-        R oldView = getController().getState().getPlayerFromNick(nickname).getVirtualView();
+    public void registerListeners(ClientInterface view, String nickname){
+        ClientInterface oldView = getController().getState().getPlayerFromNick(nickname).getVirtualView();
         getController().getState().removeAchievedCommonGoalListener(oldView);
         getController().getState().setAchievedCommonGoalListener(view);
         getController().getState().removeOnAchievedPersonalGoalListener(oldView);
