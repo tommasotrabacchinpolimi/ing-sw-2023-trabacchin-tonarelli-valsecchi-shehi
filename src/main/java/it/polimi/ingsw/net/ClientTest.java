@@ -34,7 +34,7 @@ public class ClientTest<R extends RemoteInterface> implements TestClientInterfac
     @Override
     public void check(String string)throws RemoteException {
 
-        System.out.println("ricevuto: "+string);
+        System.out.println("ricevuto: " + string);
     }
 
     public void nop(){
