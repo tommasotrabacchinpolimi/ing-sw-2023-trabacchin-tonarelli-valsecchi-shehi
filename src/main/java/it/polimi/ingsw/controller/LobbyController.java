@@ -11,7 +11,7 @@ import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class LobbyController implements UserAccepter<ClientInterface>, OnConnectionLostListener<ClientInterface> {
+public class LobbyController implements UserAccepter<ClientInterface>, OnConnectionLostListener<ClientInterface>, LobbyControllerInterface{
     private final Map<Controller, List<ClientInterface>> controllerViewMap = new ConcurrentHashMap<>();
     private final Map<ClientInterface, Controller> viewControllerMap = new ConcurrentHashMap<>();
 
@@ -77,6 +77,7 @@ public class LobbyController implements UserAccepter<ClientInterface>, OnConnect
     }
 
     public synchronized void createGame(ClientInterface user, String nickname, int numberOfPlayer) throws FileNotFoundException {
+        System.out.println("createGame");
         //se arriva uno user che si era disconnesso, lo ignoro (da fare)
         State state = new State();
         Controller controller = new Controller(state, this);

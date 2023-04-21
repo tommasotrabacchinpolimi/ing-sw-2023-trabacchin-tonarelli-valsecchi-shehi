@@ -334,6 +334,6 @@ public class Board implements Iterable<BoardSquare>, Serializable, OnUpdateNeede
     public void onUpdateNeededListener(Player player) {
         onBoardUpdatedListeners.stream().filter(v->player.getVirtualView() == v)
                 .findAny()
-                .ifPresentOrElse(v->v.onBoardUpdated((TileSubject[]) getBoardSquareList().stream().map(BoardSquare::getTileSubject).toArray()),()->System.err.println("no one to update about board refilled"));
+                .ifPresentOrElse(v->v.onBoardUpdated(getBoardSquareList().stream().map(BoardSquare::getTileSubject).toArray(TileSubject[]::new)),()->System.err.println("no one to update about board refilled"));
     }
 }

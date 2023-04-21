@@ -291,6 +291,7 @@ public class State implements Serializable, OnUpdateNeededListener {
         if(players.stream().anyMatch(p-> p.getNickName().equals(player.getNickName())))
             return false;
         this.players.add(player);
+        player.getPointPlayer().setPlayer(player);
         return true;
     }
 
@@ -358,8 +359,7 @@ public class State implements Serializable, OnUpdateNeededListener {
     public Player getPlayerFromNick(String nickName){
         return players.stream()
                 .filter( player -> nickName.equals(player.getNickName()))
-                .toList()
-                .get(0);
+                .findAny().orElse(null);
     }
 
     public Player getPlayerFromView(ClientInterface user){
@@ -504,8 +504,13 @@ public class State implements Serializable, OnUpdateNeededListener {
 
     public void notifyAssignedCommonGoal() {
         for(OnAssignedCommonGoalListener onAssignedCommonGoalListener : onAssignedCommonGoalListeners) {
-            onAssignedCommonGoalListener.onAssignedCommonGoal(this.getCommonGoal1().getDescription(),1);
-            onAssignedCommonGoalListener.onAssignedCommonGoal(this.getCommonGoal2().getDescription(),2);
+            if(this.getCommonGoal1()!=null) {
+                onAssignedCommonGoalListener.onAssignedCommonGoal(this.getCommonGoal1().getDescription(),1);
+            }
+            if(this.getCommonGoal2()!=null) {
+                onAssignedCommonGoalListener.onAssignedCommonGoal(this.getCommonGoal2().getDescription(),2);
+            }
+
         }
     }
 
@@ -518,17 +523,25 @@ public class State implements Serializable, OnUpdateNeededListener {
 
     @Override
     public void onUpdateNeededListener(Player player) {
+
         stateChangedListeners.stream()
                 .filter(v->v==player.getVirtualView()).findAny().ifPresentOrElse(v->v.onStateChanged(gameState),()->System.err.println("unable to notify about state changed"));
 
-        onCurrentPlayerChangedListeners.stream()
-                .filter(v->v==player.getVirtualView()).findAny().ifPresentOrElse(v ->v.onCurrentPlayerChangedListener(currentPlayer.getNickName()),()->System.err.println("unable to notify about current player update"));
+        if(currentPlayer != null) {
+            onCurrentPlayerChangedListeners.stream()
+                    .filter(v->v==player.getVirtualView()).findAny().ifPresentOrElse(v ->v.onCurrentPlayerChangedListener(currentPlayer.getNickName()),()->System.err.println("unable to notify about current player update"));
+        }
 
-        lastPlayerUpdatedListeners.stream()
-                .filter(v->v==player.getVirtualView()).findAny().ifPresentOrElse(v->v.onLastPlayerUpdated(lastPlayer.getNickName()),()->System.err.println("unable to notify about last player update"));
+        if(lastPlayer != null) {
+            lastPlayerUpdatedListeners.stream()
+                    .filter(v->v==player.getVirtualView()).findAny().ifPresentOrElse(v->v.onLastPlayerUpdated(lastPlayer.getNickName()),()->System.err.println("unable to notify about last player update"));
 
-        onAssignedCommonGoalListeners.stream()
-                .filter(v -> v==player.getVirtualView()).findAny().ifPresentOrElse(v->{v.onAssignedCommonGoal(this.getCommonGoal1().getDescription(),1); v.onAssignedCommonGoal(this.getCommonGoal2().getDescription(),2);},()->System.err.println("unable to notify about common goal assigned"));
+        }
+
+        if(this.getCommonGoal2() != null && this.getCommonGoal1() != null) {
+            onAssignedCommonGoalListeners.stream()
+                    .filter(v -> v==player.getVirtualView()).findAny().ifPresentOrElse(v->{v.onAssignedCommonGoal(this.getCommonGoal1().getDescription(),1); v.onAssignedCommonGoal(this.getCommonGoal2().getDescription(),2);},()->System.err.println("unable to notify about common goal assigned"));
+        }
 
     }
 

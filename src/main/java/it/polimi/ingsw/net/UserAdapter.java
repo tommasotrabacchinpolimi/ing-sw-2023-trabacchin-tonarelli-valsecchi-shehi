@@ -17,7 +17,7 @@ public class UserAdapter<R extends RemoteInterface> implements UserAdapterInterf
     }
 
     @Override
-    public Object invoke(Object proxy, Method method, Object[] args) throws Exception {
+    public synchronized Object invoke(Object proxy, Method method, Object[] args) throws Exception {
         Object[] completeArgs;
         if(args!=null){
             completeArgs = new Object[args.length+1];

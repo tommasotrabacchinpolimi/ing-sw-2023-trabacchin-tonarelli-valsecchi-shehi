@@ -48,25 +48,28 @@ public class Player implements Serializable, OnUpdateNeededListener {
 
     @ExcludedFromJSON
     private final List<OnAssignedPersonalGoalListener> onAssignedPersonalGoalListenerListeners;
+    private final List<OnUpdateNeededListener> onUpdateNeededListeners;
 
     public Player(String nickName, ClientInterface virtualView) {
         this.nickName = nickName;
         this.personalGoal = null;
         this.bookShelf = new BookShelf();
         this.pointPlayer = new PointPlayer();
-        this.playerState = PlayerState.CONNECTED;
+        this.playerState = PlayerState.DISCONNECTED;
         this.virtualView = virtualView;
         onPlayerStateChangedListeners = new LinkedList<>();
         onAssignedPersonalGoalListenerListeners = new LinkedList<>();
+        onUpdateNeededListeners = new LinkedList<>();
     }
     public Player(String nickName) {
         this.nickName = nickName;
         this.personalGoal = null;
         this.bookShelf = new BookShelf();
         this.pointPlayer = new PointPlayer();
-        this.playerState = PlayerState.CONNECTED;
+        this.playerState = PlayerState.DISCONNECTED;
         onPlayerStateChangedListeners = new LinkedList<>();
         onAssignedPersonalGoalListenerListeners = new LinkedList<>();
+        onUpdateNeededListeners = new LinkedList<>();
     }
 
     /**
@@ -81,9 +84,10 @@ public class Player implements Serializable, OnUpdateNeededListener {
         this.personalGoal = personalGoal;
         this.bookShelf = new BookShelf();
         this.pointPlayer = new PointPlayer();
-        this.playerState = PlayerState.CONNECTED;
+        this.playerState = PlayerState.DISCONNECTED;
         onPlayerStateChangedListeners = new LinkedList<>();
         onAssignedPersonalGoalListenerListeners = new LinkedList<>();
+        onUpdateNeededListeners = new LinkedList<>();
     }
 
     public PlayerState getPlayerState() {
@@ -91,8 +95,12 @@ public class Player implements Serializable, OnUpdateNeededListener {
     }
 
     public void setPlayerState(PlayerState playerState) {
+        PlayerState oldPlayerState = this.playerState;
         this.playerState = playerState;
         notifyOnPlayerStateChanged();
+        if(oldPlayerState == PlayerState.DISCONNECTED && playerState == PlayerState.CONNECTED) {
+            notifyOnUpdateNeeded();
+        }
     }
 
     public ClientInterface getVirtualView() {
@@ -179,15 +187,33 @@ public class Player implements Serializable, OnUpdateNeededListener {
     }
 
     public void notifyOnPlayerStateChanged() {
+        System.out.println("This is " + nickName);
         for(OnPlayerStateChangedListener onPlayerStateChangedListener : onPlayerStateChangedListeners) {
+            System.out.println("notifying");
             onPlayerStateChangedListener.onPlayerStateChanged(this.nickName, this.playerState);
+        }
+    }
+
+    public void notifyOnUpdateNeeded() {
+        for(OnUpdateNeededListener onUpdateNeededListener : onUpdateNeededListeners) {
+            onUpdateNeededListener.onUpdateNeededListener(this);
         }
     }
 
     @Override
     public void onUpdateNeededListener(Player player) {
         onPlayerStateChangedListeners.stream().filter(v-> player.getVirtualView() == v).findAny().ifPresentOrElse(v->v.onPlayerStateChanged(this.nickName,this.playerState),()->System.err.println("unable to update about player state changed"));
-        onAssignedPersonalGoalListenerListeners.stream().filter(v->player.getVirtualView() == v).findAny().ifPresentOrElse(v->v.onAssignedPersonalGoal(this.nickName,this.personalGoal.getGoalPattern(), this.personalGoal.getScoreMap()),()->System.err.println("unable to notify about assigned personal goal"));
+        if(this.personalGoal != null) {
+            onAssignedPersonalGoalListenerListeners.stream().filter(v->player.getVirtualView() == v).findAny().ifPresentOrElse(v->v.onAssignedPersonalGoal(this.nickName,this.personalGoal.getGoalPattern(), this.personalGoal.getScoreMap()),()->System.err.println("unable to notify about assigned personal goal"));
+        }
+    }
+
+    public void setOnUpdateNeededListener(OnUpdateNeededListener onUpdateNeededListener) {
+        onUpdateNeededListeners.add(onUpdateNeededListener);
+    }
+
+    public void removeOnUpdateNeededListener(OnUpdateNeededListener onUpdateNeededListener) {
+        onUpdateNeededListeners.remove(onUpdateNeededListener);
     }
 
     @Override

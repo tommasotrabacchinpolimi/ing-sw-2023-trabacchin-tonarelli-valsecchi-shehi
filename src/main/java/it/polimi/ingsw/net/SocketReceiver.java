@@ -26,20 +26,24 @@ public class SocketReceiver<L extends RemoteInterface, R extends RemoteInterface
                 try {
                     NetMessage message = (NetMessage) objectInputStream.readObject();
                     java.beans.Statement st = new Statement(localTarget, message.getMethod(), message.getParams());
-                    executorService.submit(() -> {
+                    st.execute();
+                    /*executorService.submit(() -> {
                         try {
                             st.execute();
                         } catch (Exception ex) {
+                            ex.printStackTrace();
                             socketConnectionManager.connectionDown();
                         }
-                    });
+                    });*/
                 }catch(Exception ex){
+                    ex.printStackTrace();
                     socketConnectionManager.connectionDown();
                     break;
                 }
             }
 
         } catch (Exception ex) {
+            ex.printStackTrace();
             socketConnectionManager.connectionDown();
         }
     }

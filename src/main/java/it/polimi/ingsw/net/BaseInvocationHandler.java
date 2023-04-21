@@ -26,7 +26,7 @@ public class BaseInvocationHandler implements InvocationHandler {
     }
 
     @Override
-    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+    public synchronized Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         if (method.equals(EQUALS)) {
             return proxy == args[0];
         }

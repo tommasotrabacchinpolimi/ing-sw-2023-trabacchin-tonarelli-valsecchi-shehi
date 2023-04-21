@@ -30,6 +30,9 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
      */
     private int numberOfColumns;
 
+    public StairCommonGoal() {
+        super();
+    }
     public StairCommonGoal(int numberOfColumns) {
         super();
         this.numberOfColumns = numberOfColumns;

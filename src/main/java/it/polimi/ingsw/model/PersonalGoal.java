@@ -131,7 +131,7 @@ public class PersonalGoal implements Serializable {
                 .create()
                 .fromJson(
                         new JsonReader(
-                                new FileReader(PERSONAL_GOAL_CONFIG + fileName + ".json")),
+                                new FileReader(fileName )),
                         PersonalGoal.class));
     }
 

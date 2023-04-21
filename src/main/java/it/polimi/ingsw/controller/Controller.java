@@ -5,7 +5,7 @@ import it.polimi.ingsw.net.OnConnectionLostListener;
 
 import java.io.FileNotFoundException;
 
-public class Controller implements OnConnectionLostListener<ClientInterface> {
+public class Controller implements OnConnectionLostListener<ClientInterface>, ControllerInterface {
     private State state;
     private GameManager gameManager;
     private ChatManager<ClientInterface> chatManager;

@@ -11,10 +11,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 
 public class SocketConnectionManager<L extends RemoteInterface, R extends RemoteInterface>  extends ConnectionManager<L,R>{
-    private SocketReceiver<L,R> socketReceiver;
     private R remoteTarget;
-    private Socket socket;
-    private ObjectOutputStream objectOutputStream;
     private User<R> user;
 
     private final List<OnConnectionLostListener<R>> onConnectionLostListeners;
@@ -33,21 +30,18 @@ public class SocketConnectionManager<L extends RemoteInterface, R extends Remote
     }
 
     private synchronized void init_base(Socket socket, L localTarget, TypeToken<R> remoteTargetClass, ExecutorService executorService) throws IOException {
-        this.socketReceiver = new SocketReceiver<L,R>(socket.getInputStream(),executorService, localTarget,this);
+        SocketReceiver<L, R> socketReceiver = new SocketReceiver<L, R>(socket.getInputStream(), executorService, localTarget, this);
 
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
 
-        this.objectOutputStream = objectOutputStream;
-
-        SocketSender<L, R> socketSender = new SocketSender<L, R>(objectOutputStream, this, executorService);
+        SocketSender<L, R> socketSender = new SocketSender<L, R>(new SynchronizedObjectOutputStream(objectOutputStream), this, executorService);
 
         this.remoteTarget = (R) Proxy.newProxyInstance(remoteTargetClass.getRawType().getClassLoader(), new Class[] { remoteTargetClass.getRawType() }, new BaseInvocationHandler(socketSender));
-        this.socket = socket;
 
-        SocketHeartBeater<L, R> socketHeartBeater = new SocketHeartBeater<>(this.objectOutputStream, this, 5000);
+        //SocketHeartBeater<L, R> socketHeartBeater = new SocketHeartBeater<>(this.objectOutputStream, this, 5000);
 
-        new Thread(socketHeartBeater).start();
-        new Thread(this.socketReceiver).start();
+        //new Thread(socketHeartBeater).start();
+        new Thread(socketReceiver).start();
     }
 
     public synchronized R getRemoteTarget(){
