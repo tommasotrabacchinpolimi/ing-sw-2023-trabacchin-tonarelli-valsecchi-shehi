@@ -118,8 +118,13 @@ public abstract class CommonGoal implements Serializable {
         if(scoringTokens.size()==0)
             return 0;
         else {
+            int newScore;
             int oldScore = scoringTokens.pop();
-            int newScore = scoringTokens.peek();
+            if(scoringTokens.size()==0){
+                newScore = 0;
+            } else {
+                newScore = scoringTokens.peek();
+            }
             notifyChangedCommonGoalAvailableScore(newScore);
             return oldScore;
         }
