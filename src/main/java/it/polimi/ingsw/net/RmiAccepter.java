@@ -50,6 +50,7 @@ public class RmiAccepter<L extends RemoteInterface,R extends RemoteInterface> im
 
             }
             user.setConnectionManager(rmiConnectionManager);
+            userAccepter.registerConnectionDownListener(user);
             return rmiConnectionManager.getLocalRemoteObject();
         }
         else{

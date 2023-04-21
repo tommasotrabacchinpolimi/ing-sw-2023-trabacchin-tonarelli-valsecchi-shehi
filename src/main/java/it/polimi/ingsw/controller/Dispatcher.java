@@ -33,13 +33,16 @@ public class Dispatcher implements InvocationHandler {
     }
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
-
+        System.out.println("check 1");
         if(Arrays.stream(LobbyController.class.getMethods()).map(Method::getName).anyMatch(n->n.equals(method.getName()))) {
             method.invoke(lobbyController, args);
+            System.out.println("in lobby");
         }
         else if (Arrays.stream(Controller.class.getMethods()).map(Method::getName).anyMatch(n->n.equals(method.getName()))) {
             if(viewToControllerMap.get(args[0])!=null) {
+                System.out.println("in controller");
                 method.invoke(viewToControllerMap.get(args[0]), args);
+
             }
 
         }

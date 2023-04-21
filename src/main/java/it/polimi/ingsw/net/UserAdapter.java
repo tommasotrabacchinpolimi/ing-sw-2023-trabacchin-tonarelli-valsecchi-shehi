@@ -26,7 +26,7 @@ public class UserAdapter<R extends RemoteInterface> implements UserAdapterInterf
         }
         else{
             completeArgs = new Object[1];
-            completeArgs[0] = user;
+            completeArgs[0] = user.getConnectionManager().getRemoteTarget();;
         }
         java.beans.Statement st = new Statement(target, method.getName(), completeArgs);
         st.execute();

@@ -56,6 +56,7 @@ public class SocketAccepter<L extends RemoteInterface, R extends RemoteInterface
                         socketConnectionManager.init(socket,user,newLocalTarget, remoteTargetClass,executorService);
                     }
                     user.setConnectionManager(socketConnectionManager);
+                    userAccepter.registerConnectionDownListener(user);
                 }
                 else{
                     try {

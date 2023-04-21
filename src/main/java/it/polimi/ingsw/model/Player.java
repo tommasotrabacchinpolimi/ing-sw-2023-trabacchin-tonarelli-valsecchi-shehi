@@ -48,6 +48,7 @@ public class Player implements Serializable, OnUpdateNeededListener {
 
     @ExcludedFromJSON
     private final List<OnAssignedPersonalGoalListener> onAssignedPersonalGoalListenerListeners;
+    @ExcludedFromJSON
     private final List<OnUpdateNeededListener> onUpdateNeededListeners;
 
     public Player(String nickName, ClientInterface virtualView) {
@@ -187,9 +188,7 @@ public class Player implements Serializable, OnUpdateNeededListener {
     }
 
     public void notifyOnPlayerStateChanged() {
-        System.out.println("This is " + nickName);
         for(OnPlayerStateChangedListener onPlayerStateChangedListener : onPlayerStateChangedListeners) {
-            System.out.println("notifying");
             onPlayerStateChangedListener.onPlayerStateChanged(this.nickName, this.playerState);
         }
     }

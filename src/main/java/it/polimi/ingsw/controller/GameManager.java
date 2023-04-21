@@ -9,7 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 
 public abstract class GameManager {
-    private Controller controller;
+    private final Controller controller;
     private static final String COMMON_GOAL_CONFIGURATION = "./src/main/CommonGoalConfiguration/";
 
     public GameManager(Controller controller){
@@ -27,7 +27,7 @@ public abstract class GameManager {
     public synchronized void quitGame(ClientInterface view) {
         getController().getState().getPlayerFromView(view).setPlayerState(PlayerState.QUITTED);
         getController().getLobbyController().onQuitGame(view);
-        if(getController().getState().getPlayers().stream().noneMatch(p->p.getPlayerState()!=PlayerState.QUITTED)) {
+        if(getController().getState().getPlayers().stream().filter(p->p.getPlayerState()!=PlayerState.QUITTED).count() <= 1) {
             getController().getState().setGameState(GameState.END);
             getController().getLobbyController().onEndGame(getController());
         }

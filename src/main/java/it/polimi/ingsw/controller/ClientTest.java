@@ -96,7 +96,7 @@ public class ClientTest implements ClientInterface {
         synchronized (guiInterface) {
             guiInterface.write(nickname + "'s bookshelf has been updated : \n" );
             for (int i = 0; i < 6; i++){
-                System.out.print(i+ "\t");
+                guiInterface.write(i+ "\t");
                 for (int j = 0; j < 5; j++){
                     if (bookShelf[i][j]==null) guiInterface.write("----\t");
                     else {

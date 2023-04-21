@@ -73,6 +73,7 @@ public class InitGameManager extends GameManager {
             getController().getState().addPlayer(newPlayer);
             registerListeners(view, nickname);
             registerInternalListener(newPlayer);
+            listenersSetUp(newPlayer);
             newPlayer.setPlayerState(PlayerState.CONNECTED);
         }
         if(getController().getState().getPlayers().size() == getController().getState().getPlayersNumber()) {
@@ -95,9 +96,13 @@ public class InitGameManager extends GameManager {
         player.setOnUpdateNeededListener(getController().getState().getBoard());
         player.setOnUpdateNeededListener(player.getBookShelf());
         player.setOnUpdateNeededListener(player.getPointPlayer());
-        for(Player player1 : getController().getState().getPlayers()) {
-            player.setOnUpdateNeededListener(player1);
-        }
+        getController().getState().getPlayers().forEach(player::setOnUpdateNeededListener);
+    }
+
+    private void listenersSetUp(Player player) {
+        List<ClientInterface> views = getController().getState().getPlayers().stream().filter(p->!player.getNickName().equals(p.getNickName())).map(Player::getVirtualView).toList();
+        views.forEach(player::setOnPlayerStateChangedListener);
+        views.forEach(v->player.getBookShelf().setOnBookShelfUpdated(v));
     }
 
 }
