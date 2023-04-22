@@ -37,7 +37,6 @@ public class Controller implements OnConnectionLostListener<ClientInterface>, Co
         return state.getCommonGoal2();
     }
 
-
     public void setNumberPlayers(int numberOfPlayer) {
         getState().setPlayersNumber(numberOfPlayer);
     }
@@ -69,11 +68,6 @@ public class Controller implements OnConnectionLostListener<ClientInterface>, Co
     public synchronized void quitGame(ClientInterface view) {
         gameManager.quitGame(view);
     }
-
-
-
-
-
 
     @Override
     public synchronized void onConnectionLost(ClientInterface user) {

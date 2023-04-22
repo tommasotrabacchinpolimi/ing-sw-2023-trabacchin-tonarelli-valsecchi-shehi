@@ -66,10 +66,8 @@ public abstract class GameManager {
         getController().getState().getBoard().setOnBoardUpdatedListener(view);
         getController().getState().getPlayers().forEach(p -> p.getBookShelf().removeOnBookShelfUpdated(oldView));
         getController().getState().getPlayers().forEach(p-> p.getBookShelf().setOnBookShelfUpdated(view));
-        //getController().getState().getCommonGoal1().removeOnChangedCommonGoalAvailableScoreListener(oldView);
-        //getController().getState().getCommonGoal1().setOnChangedCommonGoalAvailableScoreListener(view);
-        //getController().getState().getCommonGoal2().removeOnChangedCommonGoalAvailableScoreListener(oldView);
-        //getController().getState().getCommonGoal2().setOnChangedCommonGoalAvailableScoreListener(view);
+        getController().getState().removeOnChangedCommonGoalAvailableScoreListener(oldView);
+        getController().getState().setOnChangedCommonGoalAvailableScoreListener(view);
         getController().getState().removeOnCurrentPlayerChangedListener(oldView);
         getController().getState().setOnCurrentPlayerChangedListener(view);
         getController().getState().removeLastPlayerUpdatedListeners(oldView);
