@@ -42,8 +42,6 @@ public abstract class CommonGoal implements Serializable {
      */
     private final String description;
 
-    private final List<OnChangedCommonGoalAvailableScore> listeners;
-
     /**
      * <p>Create a common goal with default values for both {@linkplain #scoringTokens scoring tokens stack} and
      * {@linkplain #description explanation of the card}</p>
@@ -53,7 +51,6 @@ public abstract class CommonGoal implements Serializable {
     public CommonGoal() {
         this.scoringTokens = new Stack<>();
         this.description = "Empty Description";
-        listeners = new ArrayList<>();
     }
 
     /**
@@ -65,7 +62,6 @@ public abstract class CommonGoal implements Serializable {
     public CommonGoal(String description){
         this.scoringTokens = new Stack<>();
         this.description = description;
-        listeners = new ArrayList<>();
     }
 
     /**
@@ -77,7 +73,6 @@ public abstract class CommonGoal implements Serializable {
     public CommonGoal(Stack<Integer> scoringTokens) {
         this.scoringTokens = scoringTokens;
         this.description = "Empty Description";
-        listeners = new ArrayList<>();
     }
 
     /**
@@ -90,21 +85,6 @@ public abstract class CommonGoal implements Serializable {
     public CommonGoal(Stack<Integer> scoringTokens, String description) {
         this.scoringTokens = scoringTokens;
         this.description = description;
-        listeners = new ArrayList<>();
-    }
-
-    public void setOnChangedCommonGoalAvailableScoreListener(OnChangedCommonGoalAvailableScore listener) {
-        this.listeners.add(listener);
-    }
-
-    public void removeOnChangedCommonGoalAvailableScoreListener(OnChangedCommonGoalAvailableScore listener) {
-        this.listeners.remove(listener);
-    }
-
-    public void notifyChangedCommonGoalAvailableScore(int newScore){
-        for(OnChangedCommonGoalAvailableScore listener: listeners){
-            listener.onChangedCommonGoalAvailableScore(newScore);
-        }
     }
 
     /**
@@ -118,15 +98,7 @@ public abstract class CommonGoal implements Serializable {
         if(scoringTokens.size()==0)
             return 0;
         else {
-            int newScore;
-            int oldScore = scoringTokens.pop();
-            if(scoringTokens.size()==0){
-                newScore = 0;
-            } else {
-                newScore = scoringTokens.peek();
-            }
-            notifyChangedCommonGoalAvailableScore(newScore);
-            return oldScore;
+            return scoringTokens.pop();
         }
     }
 
