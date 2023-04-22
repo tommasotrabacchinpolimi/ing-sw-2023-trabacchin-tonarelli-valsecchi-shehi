@@ -27,9 +27,9 @@ public class SocketConnectionManager<L extends RemoteInterface, R extends Remote
     }
 
     private synchronized void init_base(Socket socket, L localTarget, TypeToken<R> remoteTargetClass, ExecutorService executorService) throws IOException {
-
-        ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
         SocketReceiver<L, R> socketReceiver = new SocketReceiver<L, R>(socket.getInputStream(), executorService, localTarget, this);
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+
         SocketSender<L, R> socketSender = new SocketSender<L, R>(new SynchronizedObjectOutputStream(objectOutputStream), this, executorService);
         setRemoteTarget((R) Proxy.newProxyInstance(remoteTargetClass.getRawType().getClassLoader(), new Class[] { remoteTargetClass.getRawType() }, new BaseInvocationHandler(socketSender)));
         SocketHeartBeater<L, R> socketHeartBeater = new SocketHeartBeater<>(new SynchronizedObjectOutputStream(objectOutputStream), this, 5000);
