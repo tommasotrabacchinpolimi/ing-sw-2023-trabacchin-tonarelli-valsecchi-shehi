@@ -296,6 +296,7 @@ public class State implements Serializable, OnUpdateNeededListener {
             return false;
         this.players.add(player);
         player.getPointPlayer().setPlayer(player);
+        player.getBookShelf().setPlayer(player);
         return true;
     }
 
