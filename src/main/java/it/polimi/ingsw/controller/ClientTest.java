@@ -174,10 +174,9 @@ public class ClientTest implements ClientInterface {
     }
 
     @Override
-    public void onChangedCommonGoalAvailableScore(int score) {
+    public void onChangedCommonGoalAvailableScore(int score, int numberOfCommonGoal) {
         guiInterface.write("common goal available score changed not implemented yet\n");
     }
-
 }
 
 

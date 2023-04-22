@@ -105,6 +105,8 @@ public class State implements Serializable, OnUpdateNeededListener {
 
     private final List<OnAdjacentTilesUpdatedListener> onAdjacentTilesUpdatedListeners;
 
+    private final List<OnChangedCommonGoalAvailableScore> onChangedCommonGoalAvailableScoreListeners;
+
 
     /**
      * Construct of the class that creates the fields of the class.
@@ -120,15 +122,16 @@ public class State implements Serializable, OnUpdateNeededListener {
         players = new ArrayList<>();
         currentPlayer = null;
         messages = new LinkedList<>();
-        achievedCommonGoalListeners = new ArrayList<>();
-        stateChangedListeners = new ArrayList<>();
         lastPlayer = null;
-        lastPlayerUpdatedListeners = new ArrayList<>();
-        messageSentListeners = new ArrayList<>();
+        achievedCommonGoalListeners = new LinkedList<>();
+        stateChangedListeners = new LinkedList<>();
+        lastPlayerUpdatedListeners = new LinkedList<>();
+        messageSentListeners = new LinkedList<>();
         onCurrentPlayerChangedListeners = new LinkedList<>();
         onAssignedCommonGoalListeners = new LinkedList<>();
         onAchievedPersonalGoalListeners = new LinkedList<>();
         onAdjacentTilesUpdatedListeners = new LinkedList<>();
+        onChangedCommonGoalAvailableScoreListeners = new LinkedList<>();
     }
 
     public void setAchievedCommonGoalListener(OnAchievedCommonGoalListener listener) {
@@ -158,6 +161,7 @@ public class State implements Serializable, OnUpdateNeededListener {
     public void setOnAdjacentTilesUpdatedListener(OnAdjacentTilesUpdatedListener onAdjacentTilesUpdatedListener) {
         onAdjacentTilesUpdatedListeners.add(onAdjacentTilesUpdatedListener);
     }
+
     public void removeOnAdjacentTilesUpdatedListener(OnAdjacentTilesUpdatedListener onAdjacentTilesUpdatedListener) {
         onAdjacentTilesUpdatedListeners.remove(onAdjacentTilesUpdatedListener);
     }
@@ -368,19 +372,27 @@ public class State implements Serializable, OnUpdateNeededListener {
 
     public void checkCommonGoal(Player player){
        List<EntryPatternGoal> result = new ArrayList<>();
+        int newScore;
 
        result = commonGoal1.rule(player.getBookShelf().toTileTypeMatrix());
        if(result != null && player.getPointPlayer().getScoreCommonGoal1() == 0){
-           player.getPointPlayer().setScoreCommonGoal1(commonGoal1.getAvailableScore());
-           notifyOnAchievedCommonGoal(result, player, 1);
+           newScore = commonGoal1.getAvailableScore();
+           if(newScore != 0) {
+               player.getPointPlayer().setScoreCommonGoal1(newScore);
+               notifyOnAchievedCommonGoal(result, player, 1);
+               notifyChangedCommonGoalAvailableScore(commonGoal1.getScoringTokens().peek(), 1);
+           }
        }
 
        result = commonGoal2.rule(player.getBookShelf().toTileTypeMatrix());
        if(result != null && player.getPointPlayer().getScoreCommonGoal2() == 0){
-           player.getPointPlayer().setScoreCommonGoal2(commonGoal2.getAvailableScore());
-           notifyOnAchievedCommonGoal(result, player, 2);
+           newScore = commonGoal2.getAvailableScore();
+           if(newScore != 0) {
+               player.getPointPlayer().setScoreCommonGoal2(newScore);
+               notifyOnAchievedCommonGoal(result, player, 2);
+               notifyChangedCommonGoalAvailableScore(commonGoal2.getScoringTokens().peek(), 2);
+           }
        }
-
     }
 
     public void checkPersonalGoal(Player player) {
@@ -441,11 +453,13 @@ public class State implements Serializable, OnUpdateNeededListener {
             return 0;
         }
     }
+
     public void notifyOnAchievedPersonalGoal(List<EntryPatternGoal> tiles, Player player) {
         for(OnAchievedPersonalGoalListener onAchievedPersonalGoalListener : onAchievedPersonalGoalListeners) {
             onAchievedPersonalGoalListener.onAchievedPersonalGoal(player.getNickName(), tiles);
         }
     }
+
     public void notifyOnAchievedCommonGoal(List<EntryPatternGoal> tiles, Player player, int numberCommonGoal){
         List<EntryPatternGoal> copy_result = new ArrayList<>();
         for (EntryPatternGoal entry : tiles) {
@@ -520,6 +534,19 @@ public class State implements Serializable, OnUpdateNeededListener {
         }
     }
 
+    public void setOnChangedCommonGoalAvailableScoreListener(OnChangedCommonGoalAvailableScore listener) {
+        this.onChangedCommonGoalAvailableScoreListeners.add(listener);
+    }
+
+    public void removeOnChangedCommonGoalAvailableScoreListener(OnChangedCommonGoalAvailableScore listener) {
+        this.onChangedCommonGoalAvailableScoreListeners.remove(listener);
+    }
+
+    public void notifyChangedCommonGoalAvailableScore(int newScore, int numberOfCommonGoal){
+        for(OnChangedCommonGoalAvailableScore listener: onChangedCommonGoalAvailableScoreListeners){
+            listener.onChangedCommonGoalAvailableScore(newScore, numberOfCommonGoal);
+        }
+    }
 
     @Override
     public void onUpdateNeededListener(Player player) {
@@ -581,4 +608,5 @@ public class State implements Serializable, OnUpdateNeededListener {
         findSingleGroup(i,j+1,bookShelf,alreadyTaken,tileType).ifPresent(result::addAll);
         return Optional.of(result);
     }
+
 }

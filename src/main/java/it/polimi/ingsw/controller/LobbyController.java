@@ -27,6 +27,7 @@ public class LobbyController implements UserAccepter<ClientInterface>, OnConnect
     public void setDispatcher(Dispatcher dispatcher) {
         this.dispatcher = dispatcher;
     }
+
     @Override
     public boolean acceptUser(User<ClientInterface> user) {
         return true;
@@ -36,7 +37,6 @@ public class LobbyController implements UserAccepter<ClientInterface>, OnConnect
     public void registerConnectionDownListener(User<ClientInterface> user) {
         user.getConnectionManager().setOnConnectionLostListener(this);
     }
-
 
     public synchronized void joinGame(ClientInterface user, String nickname){
         if(viewToNicknameMap.containsValue(nickname)){
