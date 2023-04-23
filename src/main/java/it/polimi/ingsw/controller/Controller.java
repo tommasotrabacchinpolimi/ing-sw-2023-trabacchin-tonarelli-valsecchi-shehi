@@ -71,6 +71,11 @@ public class Controller implements OnConnectionLostListener<ClientInterface>, Co
     }
 
     @Override
+    public void sentMessage(ClientInterface view, String text, String[] receiversNickname) {
+        chatManager.sentMessage(view, text, receiversNickname);
+    }
+
+    @Override
     public synchronized void onConnectionLost(ClientInterface user) {
         for(Player p : getState().getPlayers()){
             if(p.getVirtualView() == user){

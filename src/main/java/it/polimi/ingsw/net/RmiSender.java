@@ -23,13 +23,14 @@ public class RmiSender<L extends RemoteInterface,R extends RemoteInterface> impl
     public Object invoke(Object proxy, Method method, Object[] args) {
         try {
             java.beans.Statement st = new Statement(remoteObject, method.getName(), args);
-            executorService.submit(() -> {
+            st.execute();
+            /*executorService.submit(() -> {
                 try {
                     st.execute();
                 } catch (Exception e) {
                     rmiConnectionManager.connectionDown();
                 }
-            });
+            });*/
         }catch(Exception ex){
             rmiConnectionManager.connectionDown();
         }

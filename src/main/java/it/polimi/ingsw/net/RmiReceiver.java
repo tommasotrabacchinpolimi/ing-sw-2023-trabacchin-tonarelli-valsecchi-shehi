@@ -19,16 +19,17 @@ public class RmiReceiver<L extends RemoteInterface, R extends  RemoteInterface> 
         this.rmiConnectionManager = rmiConnectionManager;
     }
     @Override
-    public Object invoke(Object proxy, Method method, Object[] args) {
+    public synchronized Object invoke(Object proxy, Method method, Object[] args) {
         try {
             java.beans.Statement st = new Statement(localTarget, method.getName(), args);
-            executorService.submit(()->{
+            st.execute();
+            /*executorService.submit(()->{
                 try {
                     st.execute();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            });
+            });*/
         }catch(Exception ex){rmiConnectionManager.connectionDown();}
         return null;
     }

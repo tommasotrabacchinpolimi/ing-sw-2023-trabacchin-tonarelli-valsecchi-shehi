@@ -11,10 +11,7 @@ import javax.swing.*;
 import java.io.*;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -85,6 +82,22 @@ public class ClientTest implements ClientInterface {
             }
             else if(input.equals("quitGame")) {
                 server.quitGame();
+            }
+            else if(input.equals("sendMessage")) {
+                System.out.println("write your message");
+                String mes = bufferedReader.readLine();
+                List<String> nickNames = new LinkedList<>();
+                System.out.println("write the names of the recipients, terminate with .");
+                while(true) {
+                    String c = bufferedReader.readLine();
+                    if(c.equals(".")) {
+                        break;
+                    }
+                    else {
+                        nickNames.add(c);
+                    }
+                    server.sentMessage(mes, nickNames.toArray(String[]::new));
+                }
             }
             System.out.println();
         }
