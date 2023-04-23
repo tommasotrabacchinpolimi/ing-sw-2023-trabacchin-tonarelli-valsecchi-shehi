@@ -8,13 +8,14 @@ import java.io.FileNotFoundException;
 public class Controller implements OnConnectionLostListener<ClientInterface>, ControllerInterface {
     private State state;
     private GameManager gameManager;
-    private ChatManager<ClientInterface> chatManager;
+    private ChatManager chatManager;
     private LobbyController lobbyController;
 
     public Controller(State state, LobbyController lobbyController) throws FileNotFoundException {
         this.state = state;
         this.lobbyController = lobbyController;
         this.gameManager = new InitGameManager(this);
+        this.chatManager = new ChatManager(this);
     };
 
     public State getState() {

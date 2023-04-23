@@ -25,6 +25,7 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
             for (Integer tile : chosenTiles) {
                 tiles.add(board.fromIntToBoardSquare(tile).getTileSubject());
             }
+            board.removeSelectedTileSubject(chosenTiles);
             BookShelf bookShelf = player.getBookShelf();
             bookShelf.addTileSubjectTaken(tiles, chosenColumn);
             verifyEndGame(user);

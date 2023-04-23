@@ -5,13 +5,11 @@ import it.polimi.ingsw.model.EntryPatternGoal;
 import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.PlayerState;
 import it.polimi.ingsw.model.TileSubject;
-import it.polimi.ingsw.net.ConnectionBuilder;
-import it.polimi.ingsw.net.SocketConnectionManager;
-import it.polimi.ingsw.net.User;
-import it.polimi.ingsw.net.UserAccepter;
+import it.polimi.ingsw.net.*;
 
 import javax.swing.*;
 import java.io.*;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,7 +24,11 @@ public class ClientTest implements ClientInterface {
     public ClientTest(GUIInterface guiInterface) {
         this.guiInterface = guiInterface;
     }
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, NotBoundException, ClassNotFoundException {
+        socketTest();
+    }
+
+    public static void socketTest() throws IOException {
         GUIInterface guiInterface = new GUIInterface();
         ClientTest clientTest = new ClientTest(guiInterface);
         ExecutorService executorService = Executors.newCachedThreadPool();
@@ -36,6 +38,19 @@ public class ClientTest implements ClientInterface {
         clientTest.server = server;
         clientTest.start();
     }
+
+    public static void rmiTest() throws IOException, NotBoundException, ClassNotFoundException {
+        GUIInterface guiInterface = new GUIInterface();
+        ClientTest clientTest = new ClientTest(guiInterface);
+        TypeToken<ClientInterface> typeToken1 = new TypeToken<>() {};
+        TypeToken<ServerInterface> typeToken2 = new TypeToken<>() {};
+        ExecutorService executorService = Executors.newCachedThreadPool();
+        RmiConnectionManager<ClientInterface, ServerInterface> rmiConnectionManager = ConnectionBuilder.buildRmiConnection("localhost", 2148, typeToken2, typeToken1, clientTest, executorService);
+        ServerInterface server = rmiConnectionManager.getRemoteTarget();
+        clientTest.server = server;
+        clientTest.start();
+    }
+
 
     public void start() throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));

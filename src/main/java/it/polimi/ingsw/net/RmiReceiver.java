@@ -8,9 +8,9 @@ import java.util.concurrent.ExecutorService;
 public class RmiReceiver<L extends RemoteInterface, R extends  RemoteInterface> implements InvocationHandler {
 
     private final ExecutorService executorService;
-    private final L localTarget;
+    private final RemoteInterface localTarget;
     private RmiConnectionManager<L,R> rmiConnectionManager;
-    public RmiReceiver(ExecutorService executorService, L localTarget){
+    public RmiReceiver(ExecutorService executorService, RemoteInterface localTarget){
         this.executorService = executorService;
         this.localTarget = localTarget;
     }

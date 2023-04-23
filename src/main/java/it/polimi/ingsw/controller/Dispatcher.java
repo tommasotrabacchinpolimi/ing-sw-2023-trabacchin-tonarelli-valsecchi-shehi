@@ -1,4 +1,5 @@
 package it.polimi.ingsw.controller;
+import java.beans.Statement;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -32,19 +33,16 @@ public class Dispatcher implements InvocationHandler {
         viewToControllerMap.remove(view, controller);
     }
     @Override
-    public Object invoke(Object proxy, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
-        System.out.println("check 1");
-        if(Arrays.stream(LobbyController.class.getMethods()).map(Method::getName).anyMatch(n->n.equals(method.getName()))) {
-            method.invoke(lobbyController, args);
-            System.out.println("in lobby");
+    public Object invoke(Object proxy, Method method, Object[] args) throws Exception {
+        if(Arrays.stream(LobbyControllerInterface.class.getMethods()).map(Method::getName).anyMatch(n->n.equals(method.getName()))) {
+            java.beans.Statement st = new Statement(lobbyController, method.getName(), args);
+            st.execute();
         }
-        else if (Arrays.stream(Controller.class.getMethods()).map(Method::getName).anyMatch(n->n.equals(method.getName()))) {
+        else if (Arrays.stream(ControllerInterface.class.getMethods()).map(Method::getName).anyMatch(n->n.equals(method.getName()))) {
             if(viewToControllerMap.get(args[0])!=null) {
-                System.out.println("in controller");
-                method.invoke(viewToControllerMap.get(args[0]), args);
-
+                java.beans.Statement st = new Statement(viewToControllerMap.get(args[0]), method.getName(), args);
+                st.execute();
             }
-
         }
         else {
             System.err.println("ignored call in dispatcher "+method.getName());

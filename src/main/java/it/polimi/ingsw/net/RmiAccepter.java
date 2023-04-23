@@ -1,12 +1,13 @@
 package it.polimi.ingsw.net;
 
+import java.io.IOException;
 import java.lang.reflect.Proxy;
 import java.rmi.RemoteException;
 import java.util.concurrent.ExecutorService;
 import java.util.function.Supplier;
 
 import com.google.gson.reflect.TypeToken;
-public class RmiAccepter<L extends RemoteInterface,R extends RemoteInterface> implements RemoteAccepterInterface<L,R>{
+public class RmiAccepter<L extends RemoteInterface,R extends RemoteInterface> implements RemoteAccepterInterface {
     private final ExecutorService executorService;
     private final UserAccepter<R> userAccepter;
     private final Object localTarget;
@@ -34,7 +35,7 @@ public class RmiAccepter<L extends RemoteInterface,R extends RemoteInterface> im
         this.userAdapterSupplier = userAdapterSupplier;
     }
     @Override
-    public L register(R remoteObject) throws RemoteException {
+    public RemoteInterface register(RemoteInterface remoteObject) throws RemoteException, IOException, ClassNotFoundException {
         User<R> user = new User<R>();
         if(userAccepter.acceptUser(user)){
             RmiConnectionManager<L,R> rmiConnectionManager = new RmiConnectionManager<>();
@@ -47,7 +48,6 @@ public class RmiAccepter<L extends RemoteInterface,R extends RemoteInterface> im
                 userAdapterInterface.setTarget(localTarget);
                 L newLocalTarget = (L) Proxy.newProxyInstance(localTargetClass.getRawType().getClassLoader(),new Class[]{localTargetClass.getRawType()},userAdapterInterface);
                 rmiConnectionManager.init(portNumber,user,remoteTargetClass,localTargetClass,newLocalTarget,remoteObject,executorService);
-
             }
             user.setConnectionManager(rmiConnectionManager);
             userAccepter.registerConnectionDownListener(user);

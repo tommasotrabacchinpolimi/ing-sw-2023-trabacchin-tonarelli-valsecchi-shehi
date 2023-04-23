@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.State;
 import it.polimi.ingsw.net.*;
 
 import java.io.FileNotFoundException;
+import java.rmi.RemoteException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -112,6 +113,11 @@ public class LobbyController implements UserAccepter<ClientInterface>, OnConnect
         for(ClientInterface u: list){
             viewControllerMap.put(u,controller);
         }
+    }
+
+    @Override
+    public void nop(ClientInterface view) throws RemoteException {
+
     }
 
     public synchronized void onEndGame(Controller controller){
