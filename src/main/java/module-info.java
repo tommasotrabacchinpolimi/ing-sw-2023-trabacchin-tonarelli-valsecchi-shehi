@@ -19,6 +19,7 @@ module it.polimi.ingsw {
             requires com.almasb.fxgl.all;
 
     requires java.desktop;
+    requires java.compiler;
 
     opens it.polimi.ingsw.view to javafx.fxml;
     exports it.polimi.ingsw;
