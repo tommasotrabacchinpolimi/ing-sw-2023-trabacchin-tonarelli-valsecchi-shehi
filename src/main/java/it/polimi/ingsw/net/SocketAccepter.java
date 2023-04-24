@@ -13,7 +13,6 @@ public class SocketAccepter<L extends RemoteInterface, R extends RemoteInterface
     private final int portNumber;
     private final Object localTarget;
     private final TypeToken<R> remoteTargetClass;
-    private final ExecutorService executorService;
     private final UserAccepter<R> userAccepter;
     private final Supplier<UserAdapterInterface<R>> userAdapterSupplier;
     private final TypeToken<L> localTargetClass;
@@ -21,7 +20,6 @@ public class SocketAccepter<L extends RemoteInterface, R extends RemoteInterface
         this.portNumber = portNumber;
         this.localTarget = localTarget;
         this.remoteTargetClass = remoteTargetClass;
-        this.executorService = executorService;
         this.userAccepter = userAccepter;
         this.userAdapterSupplier = null;
         this.localTargetClass = null;
@@ -30,7 +28,6 @@ public class SocketAccepter<L extends RemoteInterface, R extends RemoteInterface
         this.portNumber = portNumber;
         this.localTarget = localTarget;
         this.remoteTargetClass = remoteTargetClass;
-        this.executorService = executorService;
         this.userAccepter = userAccepter;
         this.userAdapterSupplier = userAdapterSupplier;
         this.localTargetClass = localTargetClass;
@@ -46,16 +43,17 @@ public class SocketAccepter<L extends RemoteInterface, R extends RemoteInterface
                 if(userAccepter.acceptUser(user)){
                     SocketConnectionManager<L, R> socketConnectionManager = new SocketConnectionManager<>();
                     if(userAdapterSupplier==null){
-                        socketConnectionManager.init(socket,user,(L)localTarget, remoteTargetClass,executorService);
+                        socketConnectionManager.init(socket,user,(L)localTarget, remoteTargetClass);
                     }
                     else{
                         UserAdapterInterface<R> userAdapterInterface = userAdapterSupplier.get();
                         userAdapterInterface.setUser(user);
                         userAdapterInterface.setTarget(localTarget);
                         L newLocalTarget = (L) Proxy.newProxyInstance(localTargetClass.getRawType().getClassLoader(),new Class[]{localTargetClass.getRawType()},userAdapterInterface);
-                        socketConnectionManager.init(socket,user,newLocalTarget, remoteTargetClass,executorService);
+                        socketConnectionManager.init(socket,user,newLocalTarget, remoteTargetClass);
                     }
                     user.setConnectionManager(socketConnectionManager);
+                    userAccepter.registerConnectionDownListener(user);
                 }
                 else{
                     try {

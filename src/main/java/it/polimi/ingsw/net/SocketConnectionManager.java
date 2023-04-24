@@ -6,69 +6,33 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.Proxy;
 import java.net.Socket;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
 
 public class SocketConnectionManager<L extends RemoteInterface, R extends RemoteInterface>  extends ConnectionManager<L,R>{
-    private SocketReceiver<L,R> socketReceiver;
-    private R remoteTarget;
-    private Socket socket;
-    private ObjectOutputStream objectOutputStream;
-    private User<R> user;
 
-    private final List<OnConnectionLostListener<R>> onConnectionLostListeners;
 
     public SocketConnectionManager() {
-        onConnectionLostListeners = new LinkedList<>();
+        super();
     }
-    public void init(Socket socket, User<R> user, L localTarget, TypeToken<R> remoteTargetClass, ExecutorService executorService) throws IOException {
-        init_base(socket, localTarget, (TypeToken<R>) remoteTargetClass, executorService);
-        this.user = user;
-    }
-
-    public void init(Socket socket, L localTarget, TypeToken<R> remoteTargetClass, ExecutorService executorService) throws IOException {
-        init_base(socket, localTarget, (TypeToken<R>) remoteTargetClass, executorService);
-        this.user = null;
+    public void init(Socket socket, User<R> user, L localTarget, TypeToken<R> remoteTargetClass) throws IOException {
+        init_base(socket, localTarget, remoteTargetClass);
+        setUser(user);
     }
 
-    private synchronized void init_base(Socket socket, L localTarget, TypeToken<R> remoteTargetClass, ExecutorService executorService) throws IOException {
-        this.socketReceiver = new SocketReceiver<L,R>(socket.getInputStream(),executorService, localTarget,this);
+    public void init(Socket socket, L localTarget, TypeToken<R> remoteTargetClass) throws IOException {
+        init_base(socket, localTarget, remoteTargetClass);
+        setUser(null);
+    }
 
+    private synchronized void init_base(Socket socket, L localTarget, TypeToken<R> remoteTargetClass) throws IOException {
+        SocketReceiver<L, R> socketReceiver = new SocketReceiver<L, R>(socket.getInputStream(), localTarget, this);
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
 
-        this.objectOutputStream = objectOutputStream;
-
-        SocketSender<L, R> socketSender = new SocketSender<L, R>(objectOutputStream, this, executorService);
-
-        this.remoteTarget = (R) Proxy.newProxyInstance(remoteTargetClass.getRawType().getClassLoader(), new Class[] { remoteTargetClass.getRawType() }, new BaseInvocationHandler(socketSender));
-        this.socket = socket;
-
-        SocketHeartBeater<L, R> socketHeartBeater = new SocketHeartBeater<>(this.objectOutputStream, this, 5000);
-
+        SocketSender<L, R> socketSender = new SocketSender<L, R>(new SynchronizedObjectOutputStream(objectOutputStream), this);
+        setRemoteTarget((R) Proxy.newProxyInstance(remoteTargetClass.getRawType().getClassLoader(), new Class[] { remoteTargetClass.getRawType() }, new BaseInvocationHandler(socketSender)));
+        SocketHeartBeater<L, R> socketHeartBeater = new SocketHeartBeater<>(new SynchronizedObjectOutputStream(objectOutputStream), this, 5000);
+        setConnectionStatus(ConnectionStatus.CONNECTED);
         new Thread(socketHeartBeater).start();
-        new Thread(this.socketReceiver).start();
-    }
-
-    public synchronized R getRemoteTarget(){
-        return remoteTarget;
-    }
-
-    synchronized public void connectionDown(){
-        notifyConnectionLost();
-    }
-
-    private synchronized void notifyConnectionLost() {
-        for(OnConnectionLostListener<R> onConnectionLostListener : onConnectionLostListeners) {
-            onConnectionLostListener.onConnectionLost(this.user.getConnectionManager().getRemoteTarget());
-        }
-    }
-    public synchronized void setOnConnectionLostListener(OnConnectionLostListener<R> onConnectionLostListener) {
-        this.onConnectionLostListeners.add(onConnectionLostListener);
-    }
-
-    public synchronized void removeOnConnectionLostListener(OnConnectionLostListener<R> onConnectionLostListener) {
-        this.onConnectionLostListeners.remove(onConnectionLostListener);
+        new Thread(socketReceiver).start();
     }
 
 }

@@ -4,5 +4,5 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface RemoteInterface extends Remote {
-    void nop() throws RemoteException;
+    public void nop() throws RemoteException;
 }

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ChatManager<R extends ClientInterface> {
+public class ChatManager {
     private Controller controller;
     private static final String MESSAGES_FILE = "./src/main/resources/it.polimi.ingsw/Messages.json";
 
@@ -30,7 +30,7 @@ public class ChatManager<R extends ClientInterface> {
 
     public ChatManager(Controller controller) {
         this.controller = controller;
-        initWriter();
+        //initWriter();
     }
 
     /**
@@ -48,7 +48,7 @@ public class ChatManager<R extends ClientInterface> {
      * @param text message body
      * @param receiversNickname players (nickname) that have to receive the message.
      */
-    public void sentMessage(R sender, String text,  String[] receiversNickname) {
+    public void sentMessage(ClientInterface sender, String text,  String[] receiversNickname) {
         List<Player> receivers = new ArrayList<>();
 
         Arrays.stream(receiversNickname)
@@ -72,7 +72,7 @@ public class ChatManager<R extends ClientInterface> {
 
         controller.getState().addMessage(chatMessage);
 
-        storeMessagesAsListObject(controller.getState().getMessages());
+        //storeMessagesAsListObject(controller.getState().getMessages());
     }
 
     /**

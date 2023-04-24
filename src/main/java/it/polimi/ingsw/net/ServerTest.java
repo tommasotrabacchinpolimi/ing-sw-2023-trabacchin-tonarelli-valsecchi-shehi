@@ -38,6 +38,11 @@ public class ServerTest<R extends RemoteInterface> implements UserAccepter<R>{
         return true;
     }
 
+    @Override
+    public void registerConnectionDownListener(User<R> user) {
+
+    }
+
 
     public void check(User<TestClientInterface> user, String string) throws RemoteException {
         System.out.println(string);

@@ -70,6 +70,9 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
      */
     private int[] differentTiles;
 
+    public LineCommonGoal() {
+        super();
+    }
     public LineCommonGoal(int incRow, int incCol, int linesNumber, int numberOfTiles, int[] differentTiles) {
         super();
         this.incRow = incRow;

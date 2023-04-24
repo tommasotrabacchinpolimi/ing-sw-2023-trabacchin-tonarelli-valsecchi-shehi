@@ -5,16 +5,17 @@ import it.polimi.ingsw.net.OnConnectionLostListener;
 
 import java.io.FileNotFoundException;
 
-public class Controller implements OnConnectionLostListener<ClientInterface> {
+public class Controller implements OnConnectionLostListener<ClientInterface>, ControllerInterface {
     private State state;
     private GameManager gameManager;
-    private ChatManager<ClientInterface> chatManager;
+    private ChatManager chatManager;
     private LobbyController lobbyController;
 
     public Controller(State state, LobbyController lobbyController) throws FileNotFoundException {
         this.state = state;
         this.lobbyController = lobbyController;
         this.gameManager = new InitGameManager(this);
+        this.chatManager = new ChatManager(this);
     };
 
     public State getState() {
@@ -36,7 +37,6 @@ public class Controller implements OnConnectionLostListener<ClientInterface> {
     public CommonGoal getActiveCommonGoal2(){
         return state.getCommonGoal2();
     }
-
 
     public void setNumberPlayers(int numberOfPlayer) {
         getState().setPlayersNumber(numberOfPlayer);
@@ -70,10 +70,10 @@ public class Controller implements OnConnectionLostListener<ClientInterface> {
         gameManager.quitGame(view);
     }
 
-
-
-
-
+    @Override
+    public void sentMessage(ClientInterface view, String text, String[] receiversNickname) {
+        chatManager.sentMessage(view, text, receiversNickname);
+    }
 
     @Override
     public synchronized void onConnectionLost(ClientInterface user) {

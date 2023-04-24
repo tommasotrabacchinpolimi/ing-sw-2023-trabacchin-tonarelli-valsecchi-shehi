@@ -1,6 +1,5 @@
 package it.polimi.ingsw.net;
 
-import it.polimi.ingsw.model.Player;
 
 import java.rmi.Remote;
 

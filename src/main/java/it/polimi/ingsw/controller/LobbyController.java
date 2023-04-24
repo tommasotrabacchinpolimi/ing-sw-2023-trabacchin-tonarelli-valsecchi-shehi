@@ -8,10 +8,11 @@ import it.polimi.ingsw.model.State;
 import it.polimi.ingsw.net.*;
 
 import java.io.FileNotFoundException;
+import java.rmi.RemoteException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class LobbyController implements UserAccepter<ClientInterface>, OnConnectionLostListener<ClientInterface> {
+public class LobbyController implements UserAccepter<ClientInterface>, OnConnectionLostListener<ClientInterface>, LobbyControllerInterface{
     private final Map<Controller, List<ClientInterface>> controllerViewMap = new ConcurrentHashMap<>();
     private final Map<ClientInterface, Controller> viewControllerMap = new ConcurrentHashMap<>();
 
@@ -27,11 +28,16 @@ public class LobbyController implements UserAccepter<ClientInterface>, OnConnect
     public void setDispatcher(Dispatcher dispatcher) {
         this.dispatcher = dispatcher;
     }
+
     @Override
     public boolean acceptUser(User<ClientInterface> user) {
         return true;
     }
 
+    @Override
+    public void registerConnectionDownListener(User<ClientInterface> user) {
+        user.getConnectionManager().setOnConnectionLostListener(this);
+    }
 
     public synchronized void joinGame(ClientInterface user, String nickname){
         if(viewToNicknameMap.containsValue(nickname)){
@@ -71,12 +77,14 @@ public class LobbyController implements UserAccepter<ClientInterface>, OnConnect
                 controllerViewMap.get(c).add(user);
                 viewControllerMap.put(user, c);
                 dispatcher.setController(user, c);
+                System.out.println(nickname + " joining " + c);
                 c.registerPlayer(user, nickname);
             }
         }
     }
 
     public synchronized void createGame(ClientInterface user, String nickname, int numberOfPlayer) throws FileNotFoundException {
+        System.out.println("createGame");
         //se arriva uno user che si era disconnesso, lo ignoro (da fare)
         State state = new State();
         Controller controller = new Controller(state, this);
@@ -85,6 +93,7 @@ public class LobbyController implements UserAccepter<ClientInterface>, OnConnect
         viewToNicknameMap.put(user,nickname);
         nicknameToViewMap.put(nickname,user);
         dispatcher.setController(user, controller);
+        System.out.println(nickname + " joining " + controller);
         controller.registerPlayer(user,nickname);
         controller.setNumberPlayers(numberOfPlayer);
         list.add(user);
@@ -95,7 +104,8 @@ public class LobbyController implements UserAccepter<ClientInterface>, OnConnect
                     ClientInterface u = waitingUsers.remove(0);
                     list.add(u);
                     dispatcher.setController(user, controller);
-                    controller.registerPlayer(u, nickname);
+                    System.out.println(nickname + " joining " + controller);
+                    controller.registerPlayer(u, viewToNicknameMap.get(u));
                 }
             }
         }
@@ -103,6 +113,11 @@ public class LobbyController implements UserAccepter<ClientInterface>, OnConnect
         for(ClientInterface u: list){
             viewControllerMap.put(u,controller);
         }
+    }
+
+    @Override
+    public void nop(ClientInterface view) throws RemoteException {
+
     }
 
     public synchronized void onEndGame(Controller controller){
@@ -129,7 +144,11 @@ public class LobbyController implements UserAccepter<ClientInterface>, OnConnect
 
     @Override
     public synchronized void onConnectionLost(ClientInterface user) {
-        disconnectedButInGame.add(viewToNicknameMap.get(user));
+        System.out.println("connection lost");
+        if(viewControllerMap.get(user)!=null) {
+            viewControllerMap.get(user).onConnectionLost(user);
+            disconnectedButInGame.add(viewToNicknameMap.get(user));
+        }
         waitingUsers.removeIf(u -> u.equals(user));
     }
 

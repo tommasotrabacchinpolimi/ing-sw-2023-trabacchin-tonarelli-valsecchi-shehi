@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-class ChatManagerTest<R extends ClientInterface> {
+class ChatManagerTest {
     private static final Random RANDOM = new Random();
 
     @Test
@@ -17,7 +17,7 @@ class ChatManagerTest<R extends ClientInterface> {
 
     @Test
     void storeMessagesAsListObject() {
-        ChatManager<R> chatManager = new ChatManager<>();
+        ChatManager chatManager = new ChatManager();
 
         chatManager.storeMessagesAsListObject(createRandomChat(4));
     }

@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.util.concurrent.ExecutorService;
 import java.beans.Statement;
+import java.util.concurrent.Executors;
 
 public class SocketReceiver<L extends RemoteInterface, R extends RemoteInterface> implements Runnable {
     private final InputStream inputStream;
@@ -11,9 +12,9 @@ public class SocketReceiver<L extends RemoteInterface, R extends RemoteInterface
     private final L localTarget;
     private final SocketConnectionManager<L, R> socketConnectionManager;
 
-    public SocketReceiver(InputStream inputStream, ExecutorService executorService, L localTarget,SocketConnectionManager<L,R> socketConnectionManager) {
+    public SocketReceiver(InputStream inputStream, L localTarget, SocketConnectionManager<L,R> socketConnectionManager) {
         this.inputStream = inputStream;
-        this.executorService = executorService;
+        this.executorService = Executors.newFixedThreadPool(1);
         this.localTarget = localTarget;
         this.socketConnectionManager = socketConnectionManager;
     }
@@ -29,17 +30,19 @@ public class SocketReceiver<L extends RemoteInterface, R extends RemoteInterface
                     executorService.submit(() -> {
                         try {
                             st.execute();
-                        } catch (Exception ex) {
-                            socketConnectionManager.connectionDown();
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                     });
                 }catch(Exception ex){
+                    ex.printStackTrace();
                     socketConnectionManager.connectionDown();
                     break;
                 }
             }
 
         } catch (Exception ex) {
+            ex.printStackTrace();
             socketConnectionManager.connectionDown();
         }
     }
