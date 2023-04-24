@@ -1,9 +1,0 @@
-{
-  "description": "Three columns each formed by 6 tiles of maximum three different types. One column can show the same or a different combination of another column.",
-  "scoringTokens": [2, 4, 6, 8],
-  "incRow": 0,
-  "incCol": 1,
-  "linesNumber": 3,
-  "numberOfTiles": 6,
-  "differentTiles": [1, 2, 3]
-}

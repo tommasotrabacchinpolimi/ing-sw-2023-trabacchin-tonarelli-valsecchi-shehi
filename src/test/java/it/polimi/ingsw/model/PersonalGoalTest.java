@@ -16,9 +16,9 @@ import java.util.Random;
 
 class PersonalGoalTest {
 
-    private final static int PATTERN_NUMBER = 10; //number of total pattern
+    private final static int PATTERN_NUMBER = 10; //number of total patterns
     private final static Random RANDOM = new Random();
-    private final String inputFileName = "Pattern" + RANDOM.nextInt(1,13);
+    private final String inputFileName = "pattern" + RANDOM.nextInt(1,13);
 
     @Test
     void getGoalPattern(){
@@ -26,8 +26,8 @@ class PersonalGoalTest {
         PersonalGoal personalGoal1;
 
         try {
-            personalGoal = new PersonalGoal("Pattern1");
-            personalGoal1 = new PersonalGoal("Pattern2");
+            personalGoal = new PersonalGoal("pattern1");
+            personalGoal1 = new PersonalGoal("pattern2");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             personalGoal = new PersonalGoal();
@@ -47,8 +47,8 @@ class PersonalGoalTest {
         PersonalGoal personalGoal1;
 
         try {
-            personalGoal = new PersonalGoal("Pattern1");
-            personalGoal1 = new PersonalGoal("Pattern2");
+            personalGoal = new PersonalGoal("pattern1");
+            personalGoal1 = new PersonalGoal("pattern2");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             personalGoal = new PersonalGoal();
@@ -67,7 +67,7 @@ class PersonalGoalTest {
         PersonalGoal personalGoal;
 
         try {
-            personalGoal = new PersonalGoal("Pattern1");
+            personalGoal = new PersonalGoal("pattern1");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             personalGoal = new PersonalGoal();

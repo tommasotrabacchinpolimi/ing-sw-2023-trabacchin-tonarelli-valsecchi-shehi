@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ChatManager<R extends ClientInterface> {
     private Controller controller;
-    private static final String MESSAGES_FILE = "./src/main/resources/Messages.json";
+    private static final String MESSAGES_FILE = "./src/main/resources/it.polimi.ingsw/Messages.json";
 
     /**
      * Creating Gson object parser that exclude fields with {@link JSONExclusionStrategy @ExcludeFromJSON} annotations

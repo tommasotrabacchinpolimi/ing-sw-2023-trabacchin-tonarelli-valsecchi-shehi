@@ -1,16 +1,9 @@
 package it.polimi.ingsw.controller;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.stream.JsonReader;
 import it.polimi.ingsw.model.*;
-
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 
 public abstract class GameManager {
     private Controller controller;
-    private static final String COMMON_GOAL_CONFIGURATION = "./src/main/CommonGoalConfiguration/";
 
     public GameManager(Controller controller){
         this.controller = controller;
@@ -31,21 +24,6 @@ public abstract class GameManager {
             getController().getState().setGameState(GameState.END);
             getController().getLobbyController().onEndGame(getController());
         }
-    }
-
-    public void initCommonGoal(Class<? extends CommonGoal> c, int i) {
-        Gson gson = new GsonBuilder().setExclusionStrategies(new JSONExclusionStrategy()).create();
-        JsonReader reader;
-
-        try {
-            reader = new JsonReader(new FileReader(COMMON_GOAL_CONFIGURATION+c.getSimpleName()+i+".json"));
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-
-        CommonGoal commonGoal = gson.fromJson(reader, c);
-
-        System.out.println(commonGoal.toString());
     }
 
     public void registerListeners(ClientInterface view, String nickname){

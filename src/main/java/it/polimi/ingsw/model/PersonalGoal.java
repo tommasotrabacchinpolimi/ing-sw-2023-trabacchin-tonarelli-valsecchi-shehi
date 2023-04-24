@@ -48,7 +48,7 @@ public class PersonalGoal implements Serializable {
      * The complete path to get the Personal Goal configuration from a json file
      */
     @ExcludedFromJSON
-    private static final String PERSONAL_GOAL_CONFIG = "./src/main/resources/PersonalGoalConfiguration/";
+    private static final String PERSONAL_GOAL_CONFIG = "./src/main/resources/it.polimi.ingsw/personal.goal.configuration/";
 
     /**
      * Constant that defines standard number of tiles inside a personal goal

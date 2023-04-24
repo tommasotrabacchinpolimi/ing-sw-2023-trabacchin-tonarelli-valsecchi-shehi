@@ -10,7 +10,7 @@ import java.util.List;
 
 public class InitGameManager extends GameManager {
 
-    private static final String PERSONAL_GOAL_CONFIGURATION = "./src/main/resources/PersonalGoalConfiguration/";
+    private static final String PERSONAL_GOAL_CONFIGURATION = "./src/main/resources/personal.goal.configuration/";
     private List<PersonalGoal> personalGoalsDeck;
     private List<CommonGoal> commonGoalsDeck;
     public InitGameManager(Controller controller) throws FileNotFoundException {

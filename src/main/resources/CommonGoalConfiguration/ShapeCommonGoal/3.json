@@ -1,7 +1,0 @@
-{
-  "description" : "Five tiles of the same type forming an X.",
-  "scoringTokens": [2, 4, 6, 8],
-  "ruleShape": [
-    [2, 0], [1, 1], [0, 2], [2, 2]
-  ]
-}

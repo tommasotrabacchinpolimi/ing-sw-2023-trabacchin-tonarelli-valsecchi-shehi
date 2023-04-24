@@ -19,7 +19,7 @@ public class CommonGoalDeserializer {
 
     private Controller controller;
 
-    private static final String COMMON_GOAL_CONFIGURATION = "./src/main/resources/CommonGoalConfiguration/";
+    private static final String COMMON_GOAL_CONFIGURATION = "./src/main/resources/it.polimi.ingsw/common.goal.configuration/";
 
     public static void main(String[] args) {
         CommonGoalDeserializer commonGoalDeserializer = new CommonGoalDeserializer();
@@ -147,7 +147,7 @@ public class CommonGoalDeserializer {
      * @see TupleCommonGoal
      */
     private Set<Class<? extends CommonGoal>> getCommonGoalClasses(){
-        Set<Class<? extends CommonGoal>> commonGoalClasses = new HashSet<Class<? extends CommonGoal>>();
+        Set<Class<? extends CommonGoal>> commonGoalClasses = new HashSet<>();
 
         //From String to Classes
         getCommonGoalClassesName().forEach(n -> {
@@ -167,7 +167,7 @@ public class CommonGoalDeserializer {
      * @return names of classes representing a common goal
      */
     private List<String> getCommonGoalClassesName(){
-        List<String> commonGoalClassesName = new ArrayList<String>();
+        List<String> commonGoalClassesName = new ArrayList<>();
 
         //Walking through each Directory contained in "COMMON_GOAL_CONFIGURATION" directory to search for "main directory"
         //representing a common goal class
