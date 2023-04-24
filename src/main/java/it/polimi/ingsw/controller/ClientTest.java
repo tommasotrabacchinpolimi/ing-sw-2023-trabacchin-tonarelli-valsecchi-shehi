@@ -16,19 +16,27 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ClientTest implements ClientInterface {
-    GUIInterface guiInterface;
+    final GUIInterface guiInterface;
     ServerInterface server;
     public ClientTest(GUIInterface guiInterface) {
         this.guiInterface = guiInterface;
     }
     public static void main(String[] args) throws IOException, NotBoundException, ClassNotFoundException {
-        rmiTest();
+        String c;
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("write rmi or socket");
+        c = bufferedReader.readLine();
+        if(c.equals("rmi")) {
+            rmiTest();
+        }
+        else if(c.equals("socket")) {
+            socketTest();
+        }
     }
 
     public static void socketTest() throws IOException {
         GUIInterface guiInterface = new GUIInterface();
         ClientTest clientTest = new ClientTest(guiInterface);
-        ExecutorService executorService = Executors.newCachedThreadPool();
         TypeToken<ServerInterface> typeToken = new TypeToken<>(){};
         SocketConnectionManager<ClientInterface, ServerInterface>  socketConnectionManager = ConnectionBuilder.buildSocketConnection("localhost",1234,clientTest,typeToken);
         ServerInterface server = socketConnectionManager.getRemoteTarget();
@@ -41,7 +49,6 @@ public class ClientTest implements ClientInterface {
         ClientTest clientTest = new ClientTest(guiInterface);
         TypeToken<ClientInterface> typeToken1 = new TypeToken<>() {};
         TypeToken<ServerInterface> typeToken2 = new TypeToken<>() {};
-        ExecutorService executorService = Executors.newCachedThreadPool();
         RmiConnectionManager<ClientInterface, ServerInterface> rmiConnectionManager = ConnectionBuilder.buildRmiConnection("localhost", 2148, typeToken2, typeToken1, clientTest);
         ServerInterface server = rmiConnectionManager.getRemoteTarget();
         clientTest.server = server;
@@ -154,6 +161,16 @@ public class ClientTest implements ClientInterface {
             guiInterface.write("the message is : " + text + "\n");
         }
 
+    }
+
+    @Override
+    public void onMessagesSentUpdate(List<String> senderNicknames, List<List<String>> receiverNicknames, List<String> texts) {
+        synchronized(guiInterface) {
+            guiInterface.write("messages update\n");
+            for(int i = 0;i < senderNicknames.size();i++) {
+                onMessageSent(senderNicknames.get(i), receiverNicknames.get(i), texts.get(i));
+            }
+        }
     }
 
     @Override

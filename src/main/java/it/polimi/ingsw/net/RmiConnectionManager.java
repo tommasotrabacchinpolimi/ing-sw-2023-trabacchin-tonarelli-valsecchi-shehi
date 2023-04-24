@@ -31,7 +31,6 @@ public class RmiConnectionManager<L extends RemoteInterface,R extends RemoteInte
     public synchronized void init(RmiReceiver<L,R> rmiReceiver, Class<R> remoteTargetClass, RemoteInterface localRemoteObject, RemoteInterface remoteObject) throws IOException, ClassNotFoundException {
         RmiSender<L,R> rmiSender = new RmiSender<>(remoteObject,this);
         this.rmiReceiver = rmiReceiver;
-        //Class<?> remoteThrowingTargetClass = ClassRewriting.getThrowingClass(remoteTargetClass);
         setRemoteTarget((R)Proxy.newProxyInstance(remoteTargetClass.getClassLoader(),new Class[] { remoteTargetClass },new BaseInvocationHandler(rmiSender)));
         this.localRemoteObject = localRemoteObject;
         setUser(null);

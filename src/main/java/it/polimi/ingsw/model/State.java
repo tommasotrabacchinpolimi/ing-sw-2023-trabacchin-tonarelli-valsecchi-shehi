@@ -485,13 +485,15 @@ public class State implements Serializable, OnUpdateNeededListener {
         }
     }
 
-    public void notifyMessageSent(){
+    public void notifyMessageSent() {
+
         ChatMessage message = messages.get(messages.size()-1);
         List<String> nicknameReceivers = message.getReceivers().stream().map(Player::getNickName).toList();
         for(OnMessageSentListener listener : messageSentListeners){
             listener.onMessageSent(message.getSender().getNickName(), nicknameReceivers, message.getText());
         }
     }
+
 
     public void setOnCurrentPlayerChangedListener(OnCurrentPlayerChangedListener onCurrentPlayerChangedListener) {
         this.onCurrentPlayerChangedListeners.add(onCurrentPlayerChangedListener);
@@ -571,6 +573,11 @@ public class State implements Serializable, OnUpdateNeededListener {
                     .filter(v -> v==player.getVirtualView()).findAny().ifPresentOrElse(v->{v.onAssignedCommonGoal(this.getCommonGoal1().getDescription(),1); v.onAssignedCommonGoal(this.getCommonGoal2().getDescription(),2);},()->System.err.println("unable to notify about common goal assigned"));
         }
 
+        List<String> senderNicknames = messages.stream().map(m -> m.getSender().getNickName()).toList();
+        List<List<String>> receiverNicknames = messages.stream().map(m->m.getReceivers().stream().map(Player::getNickName).toList()).toList();
+        List<String> texts = messages.stream().map(ChatMessage::getText).toList();
+        messageSentListeners.stream()
+                .filter(v -> v==player.getVirtualView()).findAny().ifPresentOrElse(v -> v.onMessagesSentUpdate(senderNicknames, receiverNicknames, texts), () -> System.err.println("unable to notify about all messages"));
     }
 
     private Set<Set<EntryPatternGoal>> findGroups(TileType[][] bookShelf){

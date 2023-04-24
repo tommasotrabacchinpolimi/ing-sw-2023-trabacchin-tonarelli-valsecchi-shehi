@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class InitGameManager extends GameManager {
 
-    private static final String PERSONAL_GOAL_CONFIGURATION = "./src/main/resources/personal.goal.configuration/";
+    private static final String PERSONAL_GOAL_CONFIGURATION = "./src/main/resources/it.polimi.ingsw/personal.goal.configuration/";
     private List<PersonalGoal> personalGoalsDeck;
     private List<CommonGoal> commonGoalsDeck;
     public InitGameManager(Controller controller) throws FileNotFoundException {
