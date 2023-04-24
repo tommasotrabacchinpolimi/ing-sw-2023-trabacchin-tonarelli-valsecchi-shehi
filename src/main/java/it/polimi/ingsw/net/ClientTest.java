@@ -11,9 +11,8 @@ public class ClientTest<R extends RemoteInterface> implements TestClientInterfac
 
     public static void main(String[] args) throws IOException {
         ClientTest<TestServerInterface> clientTest = new ClientTest<>();
-        ExecutorService executorService = Executors.newCachedThreadPool();
         TypeToken<TestServerInterface> typeToken = new TypeToken<>(){};
-        SocketConnectionManager<TestClientInterface,TestServerInterface> socketConnectionManager = ConnectionBuilder.buildSocketConnection("localhost",2147,clientTest,typeToken,executorService);
+        SocketConnectionManager<TestClientInterface,TestServerInterface> socketConnectionManager = ConnectionBuilder.buildSocketConnection("localhost",2147,clientTest,typeToken);
         TestServerInterface serverInterface = socketConnectionManager.getRemoteTarget();
         serverInterface.check("ciao!!!!");
     }
@@ -22,10 +21,9 @@ public class ClientTest<R extends RemoteInterface> implements TestClientInterfac
 
     /*public static void main(String[] args) throws IOException, NotBoundException {
         ClientTest<TestServerInterface<TestClientInterface>> clientTest = new ClientTest<>();
-        ExecutorService executorService = Executors.newCachedThreadPool();
         TypeToken<TestClientInterface> typeToken1 = new TypeToken<>() {};
         TypeToken<TestServerInterface<TestClientInterface>> typeToken2 = new TypeToken<>() {};
-        RmiConnectionManager<TestClientInterface, TestServerInterface<TestClientInterface>> rmiConnectionManager = ConnectionBuilder.buildRmiConnection("localhost", 2148, clientTest, typeToken2, typeToken1, clientTest, executorService);
+        RmiConnectionManager<TestClientInterface, TestServerInterface<TestClientInterface>> rmiConnectionManager = ConnectionBuilder.buildRmiConnection("localhost", 2148, clientTest, typeToken2, typeToken1);
         TestServerInterface<TestClientInterface> serverInterface = rmiConnectionManager.getRemoteTarget();
         serverInterface.check("ciao!!!!");
         System.out.println("finito");

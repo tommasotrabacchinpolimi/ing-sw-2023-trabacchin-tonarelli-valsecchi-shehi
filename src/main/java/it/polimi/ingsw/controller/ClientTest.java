@@ -22,7 +22,7 @@ public class ClientTest implements ClientInterface {
         this.guiInterface = guiInterface;
     }
     public static void main(String[] args) throws IOException, NotBoundException, ClassNotFoundException {
-        socketTest();
+        rmiTest();
     }
 
     public static void socketTest() throws IOException {
@@ -30,7 +30,7 @@ public class ClientTest implements ClientInterface {
         ClientTest clientTest = new ClientTest(guiInterface);
         ExecutorService executorService = Executors.newCachedThreadPool();
         TypeToken<ServerInterface> typeToken = new TypeToken<>(){};
-        SocketConnectionManager<ClientInterface, ServerInterface>  socketConnectionManager = ConnectionBuilder.buildSocketConnection("localhost",1234,clientTest,typeToken,executorService);
+        SocketConnectionManager<ClientInterface, ServerInterface>  socketConnectionManager = ConnectionBuilder.buildSocketConnection("localhost",1234,clientTest,typeToken);
         ServerInterface server = socketConnectionManager.getRemoteTarget();
         clientTest.server = server;
         clientTest.start();
@@ -42,7 +42,7 @@ public class ClientTest implements ClientInterface {
         TypeToken<ClientInterface> typeToken1 = new TypeToken<>() {};
         TypeToken<ServerInterface> typeToken2 = new TypeToken<>() {};
         ExecutorService executorService = Executors.newCachedThreadPool();
-        RmiConnectionManager<ClientInterface, ServerInterface> rmiConnectionManager = ConnectionBuilder.buildRmiConnection("localhost", 2148, typeToken2, typeToken1, clientTest, executorService);
+        RmiConnectionManager<ClientInterface, ServerInterface> rmiConnectionManager = ConnectionBuilder.buildRmiConnection("localhost", 2148, typeToken2, typeToken1, clientTest);
         ServerInterface server = rmiConnectionManager.getRemoteTarget();
         clientTest.server = server;
         clientTest.start();
