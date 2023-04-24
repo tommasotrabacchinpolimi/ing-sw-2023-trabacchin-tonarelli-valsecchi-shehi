@@ -28,7 +28,7 @@ public class SocketSender<L extends RemoteInterface, R extends RemoteInterface> 
         executorService.submit(() -> {
             try {
                 objectOutputStream.writeObject(message);
-            } catch (Exception e) {
+            } catch (IOException e) {
                 socketConnectionManager.connectionDown();
                 e.printStackTrace();
             }

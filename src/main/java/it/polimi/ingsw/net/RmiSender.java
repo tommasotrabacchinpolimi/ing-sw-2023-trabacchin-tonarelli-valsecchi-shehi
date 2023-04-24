@@ -4,6 +4,7 @@ import java.beans.Statement;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.rmi.Remote;
+import java.rmi.RemoteException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -24,14 +25,17 @@ public class RmiSender<L extends RemoteInterface,R extends RemoteInterface> impl
     }
 
     @Override
-    public synchronized Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+    public synchronized Object invoke(Object proxy, Method method, Object[] args)  {
         try {
             java.beans.Statement st = new Statement(remoteObject, method.getName(), args);
             executorService.submit(() -> {
                 try {
                     st.execute();
-                } catch (Exception e) {
+                } catch (RemoteException e) {
                     rmiConnectionManager.connectionDown();
+                }
+                catch(Exception ex) {
+                    throw new RuntimeException(ex);
                 }
             });
         }catch(Exception ex){

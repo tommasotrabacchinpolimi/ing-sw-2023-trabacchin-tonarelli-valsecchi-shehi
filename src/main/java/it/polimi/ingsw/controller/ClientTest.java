@@ -163,7 +163,7 @@ public class ClientTest implements ClientInterface {
 
     @Override
     public void onPointsUpdated(String nickName, int scoreAdjacentGoal, int scoreCommonGoal1, int scoreCommonGoal2, int scoreEndGame, int scorePersonalGoal) {
-        guiInterface.write(nickName + " has now " + scoreAdjacentGoal + "for Adjacent Goal, " + scoreCommonGoal1 + "for Common Goal 1, " + scoreCommonGoal2 + "for Common Goal 2, " + scoreEndGame + "for End Game Score, " + scorePersonalGoal + "for Personal Goal\n");
+        guiInterface.write(nickName + " has now " + scoreAdjacentGoal + " for Adjacent Goal, " + scoreCommonGoal1 + " for Common Goal 1, " + scoreCommonGoal2 + " for Common Goal 2, " + scoreEndGame + " for End Game Score, " + scorePersonalGoal + " for Personal Goal\n");
     }
 
     @Override

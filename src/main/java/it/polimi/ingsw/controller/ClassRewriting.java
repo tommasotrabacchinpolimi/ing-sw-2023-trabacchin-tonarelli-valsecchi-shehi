@@ -1,18 +1,6 @@
 package it.polimi.ingsw.controller;
 
-import javax.tools.JavaCompiler;
-import javax.tools.StandardJavaFileManager;
-import javax.tools.StandardLocation;
-import javax.tools.ToolProvider;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.rmi.server.RMIClassLoader;
-import java.util.Arrays;
 
 public class ClassRewriting {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
