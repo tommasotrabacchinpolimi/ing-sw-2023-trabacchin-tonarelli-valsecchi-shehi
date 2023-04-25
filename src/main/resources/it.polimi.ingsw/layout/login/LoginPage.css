@@ -18,9 +18,18 @@
     -fx-background-position: center center;
 }
 
+.info-container-box {
+    -fx-background-image: url("../../graphical.resources/misc/page_base_darken.jpg");
+    -fx-background-size: cover;
+    -fx-background-position: center center;
+    -fx-background-repeat: repeat-x;
+}
+
 .info-container {
     -fx-background-image: url("../../graphical.resources/misc/white_paper_texture.png");
-    -fx-background-radius: 9.5%;
+    -fx-background-size: cover;
+    -fx-background-position: center center;
+    -fx-alignment: center;
 }
 
 .info-text {

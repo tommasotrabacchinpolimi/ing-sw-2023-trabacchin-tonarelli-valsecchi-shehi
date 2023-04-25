@@ -2,18 +2,9 @@ package it.polimi.ingsw.view;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
-import javafx.scene.Parent;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 public class FontChangeListener implements ChangeListener<Number> {
     private final Scene scene;

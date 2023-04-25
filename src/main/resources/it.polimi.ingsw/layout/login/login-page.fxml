@@ -48,13 +48,15 @@
                             </rowConstraints>
                             <children>
 
-                                <AnchorPane GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.halignment="CENTER"
+                                <AnchorPane fx:id="infoContainerBox" styleClass="info-container-box"
+                                            GridPane.columnIndex="1" GridPane.rowIndex="0"
+                                            GridPane.halignment="CENTER"
                                             GridPane.valignment="CENTER">
                                     <children>
                                         <GridPane fx:id="infoContainer" styleClass="info-container"
-                                                  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                                                  AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"
-                                                  GridPane.columnIndex="1">
+                                                  AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="7.0"
+                                                  AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="7.0"
+                                                  alignment="CENTER">
                                             <columnConstraints>
                                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"/>
                                             </columnConstraints>
