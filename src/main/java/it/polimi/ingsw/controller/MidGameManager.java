@@ -112,10 +112,9 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
      * @return true if and only if the Board needs to be refilled with tiles.
      */
     private boolean verifyRefillBoard(){
-        int numberOfPlayers = getController().getState().getPlayers().size();
         for(BoardSquare b : getController().getState().getBoard()){
-            if(b.getBottom().getTileSubject()!=null || b.getRight().getTileSubject()!=null ||
-                    b.getLeft().getTileSubject()!=null || b.getTop().getTileSubject()!=null) return false;
+            if((b.getBottom()!=null && b.getBottom().getTileSubject()!=null) || (b.getRight()!=null && b.getRight().getTileSubject()!=null) ||
+                    (b.getLeft()!=null && b.getLeft().getTileSubject()!=null) || (b.getTop()!=null && b.getTop().getTileSubject()!=null)) return false;
         }
         return true;
     }

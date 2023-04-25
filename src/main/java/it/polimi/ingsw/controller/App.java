@@ -5,7 +5,6 @@ import it.polimi.ingsw.net.*;
 
 import java.lang.reflect.Proxy;
 import java.rmi.AlreadyBoundException;
-import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;

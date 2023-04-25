@@ -25,4 +25,12 @@ module it.polimi.ingsw {
     exports it.polimi.ingsw;
 
     exports it.polimi.ingsw.view.loginpage to javafx.fxml, javafx.graphics;
+    exports it.polimi.ingsw.net to java.rmi;
+    exports it.polimi.ingsw.controller.rmiInterfaces to java.rmi;
+    exports it.polimi.ingsw.controller to java.rmi;
+    opens it.polimi.ingsw.controller;
+    opens it.polimi.ingsw.controller.rmiInterfaces;
+    opens it.polimi.ingsw.controller.listeners;
+    opens it.polimi.ingsw.controller.exceptions;
+    opens it.polimi.ingsw.net;
 }
