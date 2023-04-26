@@ -272,7 +272,6 @@ public class BookShelf implements Serializable, OnUpdateNeededListener {
             throw e;
         }
 
-
         if(taken == null || taken.size() == 0){
             RuntimeException e =  new NoTileTakenException(new NullPointerException());
             notifyOnExceptionsListener(e);
@@ -313,7 +312,7 @@ public class BookShelf implements Serializable, OnUpdateNeededListener {
      * @see TileSubject
      */
     private int getFirstEmptyRowFromBottom(int column) {
-        for(int i = this.column - 1; i > 0; i--) {
+        for(int i = this.row - 1; i >= 0; i--) {
             if(tileSubjectTaken[i][column] == null)
                 return i;
         }

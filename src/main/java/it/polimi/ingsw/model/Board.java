@@ -186,6 +186,16 @@ public class Board implements Iterable<BoardSquare>, Serializable, OnUpdateNeede
         return null;
     }
 
+    public int fromBoardSquareToInt(BoardSquare b){
+        int index = 0;
+
+        for(BoardSquare tmp : this){
+            if(tmp == b) return index;
+            index++;
+        }
+        return -1;
+    }
+
     private List<BoardSquare> getBoardSquareList() {
         List<BoardSquare> boardSquares = new ArrayList<>();
         for(BoardSquare boardSquare : this) {
@@ -289,7 +299,6 @@ public class Board implements Iterable<BoardSquare>, Serializable, OnUpdateNeede
         }
     }
 
-
     public void notifyOnBoardUpdated() {
         TileSubject[] tileSubjects = getBoardSquareList().stream().map(BoardSquare::getTileSubject).toArray(TileSubject[]::new);
         /*TileSubject[] tileSubjects1 = (TileSubject[]) getBoardSquareList().stream().map(BoardSquare::getTileSubject).toArray();
@@ -336,4 +345,5 @@ public class Board implements Iterable<BoardSquare>, Serializable, OnUpdateNeede
                 .findAny()
                 .ifPresentOrElse(v->v.onBoardUpdated(getBoardSquareList().stream().map(BoardSquare::getTileSubject).toArray(TileSubject[]::new)),()->System.err.println("no one to update about board refilled"));
     }
+
 }

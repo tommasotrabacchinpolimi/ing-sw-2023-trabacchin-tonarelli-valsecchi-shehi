@@ -56,7 +56,6 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
         }
     }
 
-
     //metodo che dice se tutti i player tranne quello passato per parametro sono disconnessi
     private synchronized void verifyAllDisconnectedPlayer(){
         Player player = getController().getPlayerPlaying();
@@ -89,6 +88,7 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
     private void verifyPersonalGoal(Player player) {
         getController().getState().checkPersonalGoal(player);
     }
+
     private void verifyAdjacentTiles(Player player) {
         getController().getState().checkAdjacentTiles(player);
     }
@@ -102,10 +102,6 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
             getController().getState().setLastPlayer(getController().getState().getPlayers().get(getController().getState().getPlayersNumber()-1)); //è l'ultimo giocatore della lista
         }
     }
-
-
-
-
 
     /**
      * Method that returns true if and only if the Board needs to be refilled with tiles.
