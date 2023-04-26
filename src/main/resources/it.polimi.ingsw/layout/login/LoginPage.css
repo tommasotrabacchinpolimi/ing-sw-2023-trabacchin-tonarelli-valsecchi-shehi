@@ -1,17 +1,8 @@
-@import "https://fonts.googleapis.com/css2?family=Special+Elite&amp;display=swap";
-
-/*@font-face {*/
-/*    font-family: 'Special Elite Regular';*/
-/*    font-style: regular;*/
-/*    font-weight: normal;*/
-/*    src: local('sample'), url('https://fonts.googleapis.com/css2?family=Special+Elite&amp;display=swap') format('truetype');*/
-/*}*/
-
 .root {
     -fx-background-color: rgba(0,0,0,0.38)
 }
 
-.scene_background {
+.scene-background {
     -fx-background-image: url("../../graphical.resources/publisher.material/display_5.jpg");
     -fx-background-repeat: no-repeat;
     -fx-background-size: cover;

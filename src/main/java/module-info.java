@@ -28,6 +28,7 @@ module it.polimi.ingsw {
     exports it.polimi.ingsw.net to java.rmi;
     exports it.polimi.ingsw.controller.rmiInterfaces to java.rmi;
     exports it.polimi.ingsw.controller to java.rmi;
+    exports it.polimi.ingsw.view;
     opens it.polimi.ingsw.controller;
     opens it.polimi.ingsw.controller.rmiInterfaces;
     opens it.polimi.ingsw.controller.listeners;

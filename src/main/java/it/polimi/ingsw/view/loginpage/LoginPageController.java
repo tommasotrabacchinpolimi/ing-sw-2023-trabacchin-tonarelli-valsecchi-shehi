@@ -1,11 +1,13 @@
 package it.polimi.ingsw.view.loginpage;
 
 import it.polimi.ingsw.view.ImageRoundCornersClipper;
+import it.polimi.ingsw.view.WrappedImageView;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Font;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -19,9 +21,19 @@ public class LoginPageController {
     public GridPane infoBox;
     public TextField nicknameInput;
     public AnchorPane infoContainerBox;
+    public WrappedImageView myShelfieTitle;
+    public AnchorPane myShelfieTitleWrapper;
 
     @FXML
     void initialize() throws IOException {
+        infoText.setFont(
+                Font.loadFont(Objects.requireNonNull(LoginPageController.class.getResource("/it.polimi.ingsw/graphical.resources/font/SpecialElite-Regular.ttf")).openStream(), Font.getDefault().getSize())
+        );
+
+        nicknameInput.setFont(
+                Font.loadFont(Objects.requireNonNull(LoginPageController.class.getResource("/it.polimi.ingsw/graphical.resources/font/SpecialElite-Regular.ttf")).openStream(), Font.getDefault().getSize())
+        );
+
         ImageRoundCornersClipper.roundClipper(infoContainer, 10);
         ImageRoundCornersClipper.roundClipper(infoContainerBox, 10);
     }
