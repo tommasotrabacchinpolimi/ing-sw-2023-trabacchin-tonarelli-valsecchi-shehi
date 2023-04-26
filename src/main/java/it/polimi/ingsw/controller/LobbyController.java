@@ -164,6 +164,7 @@ public class LobbyController implements UserAccepter<ClientInterface>, OnConnect
                 nicknameToViewMap.remove(nickname);
                 nicknameToViewMap.put(nickname, user);
                 disconnectedButInGame.remove(nickname);
+                dispatcher.setController(user, c);
                 c.registerPlayer(user, nickname);
             }
         }

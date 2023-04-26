@@ -486,12 +486,13 @@ public class State implements Serializable, OnUpdateNeededListener {
     }
 
     public void notifyMessageSent() {
-
+        System.out.println("try messages sent");
         ChatMessage message = messages.get(messages.size()-1);
         List<String> nicknameReceivers = message.getReceivers().stream().map(Player::getNickName).toList();
         for(OnMessageSentListener listener : messageSentListeners){
             listener.onMessageSent(message.getSender().getNickName(), nicknameReceivers, message.getText());
         }
+        System.out.println("messages sent");
     }
 
 
