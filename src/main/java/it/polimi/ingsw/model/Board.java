@@ -13,6 +13,7 @@ import static it.polimi.ingsw.model.BoardSquareType.NO_DOTS;
 import static it.polimi.ingsw.model.BoardSquareType.THREE_DOTS;
 import static it.polimi.ingsw.model.BoardSquareType.FOUR_DOTS;
 
+@Deprecated
 public class Board implements Iterable<BoardSquare>, Serializable, OnUpdateNeededListener {
     @Serial
     private static final long serialVersionUID = 27112000L;
