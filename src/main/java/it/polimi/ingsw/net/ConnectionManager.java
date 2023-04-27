@@ -42,7 +42,7 @@ public abstract class ConnectionManager<L extends RemoteInterface,R extends Remo
     public R getRemoteTarget() {
         return remoteTarget;
     }
-    synchronized public void connectionDown(){
+    public synchronized void connectionDown(){
         if (connectionStatus == ConnectionStatus.CONNECTED) {
             connectionStatus = ConnectionStatus.NOT_CONNECTED;
             notifyConnectionLost();

@@ -12,8 +12,6 @@ import java.io.*;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class ClientTest implements ClientInterface {
     final GUIInterface guiInterface;
@@ -49,7 +47,7 @@ public class ClientTest implements ClientInterface {
         ClientTest clientTest = new ClientTest(guiInterface);
         TypeToken<ClientInterface> typeToken1 = new TypeToken<>() {};
         TypeToken<ServerInterface> typeToken2 = new TypeToken<>() {};
-        RmiConnectionManager<ClientInterface, ServerInterface> rmiConnectionManager = ConnectionBuilder.buildRmiConnection("localhost", 2148, typeToken2, typeToken1, clientTest);
+        RmiConnectionManager<ClientInterface, ServerInterface> rmiConnectionManager = ConnectionBuilder.buildRMIConnection("localhost", 2148, typeToken2, typeToken1, clientTest);
         ServerInterface server = rmiConnectionManager.getRemoteTarget();
         clientTest.server = server;
         clientTest.start();

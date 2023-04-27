@@ -20,7 +20,7 @@ public class ConnectionBuilder {
         return socketConnectionManager;
     }
 
-    public static <L extends RemoteInterface, R extends RemoteInterface> RmiConnectionManager<L,R> buildRmiConnection(String host, int portNumber, TypeToken<R> remoteTargetClass, TypeToken<L> localTargetClass, L localTarget) throws IOException, NotBoundException, ClassNotFoundException {
+    public static <L extends RemoteInterface, R extends RemoteInterface> RmiConnectionManager<L,R> buildRMIConnection(String host, int portNumber, TypeToken<R> remoteTargetClass, TypeToken<L> localTargetClass, L localTarget) throws IOException, NotBoundException, ClassNotFoundException {
         Registry registry = LocateRegistry.getRegistry(host,2147);
         RmiReceiver<L,R> rmiReceiver = new RmiReceiver<>(localTarget);
         RemoteAccepterInterface remoteAccepterInterfaceInterface = (RemoteAccepterInterface) registry.lookup("default");
