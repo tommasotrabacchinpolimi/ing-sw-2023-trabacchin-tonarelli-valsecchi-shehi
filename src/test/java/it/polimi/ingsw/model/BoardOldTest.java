@@ -10,22 +10,22 @@ import java.util.List;
 import static it.polimi.ingsw.model.BoardSquareType.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-class BoardTest<R extends ClientInterface> {
+class BoardOldTest<R extends ClientInterface> {
 
     @Test
     void getNumberOfBoardSquares() {
-        Board board = new Board();
+        BoardOld boardOld = new BoardOld();
         int numberOfBoardSquare = 45;
-        assertEquals(numberOfBoardSquare, board.getNumberOfBoardSquares());
+        assertEquals(numberOfBoardSquare, boardOld.getNumberOfBoardSquares());
     }
 
     @Test
     void fromIntToBoardSquare() {
-        Board board = new Board();
+        BoardOld boardOld = new BoardOld();
         boolean result = false;
         int count= 0;
-        for(BoardSquare b : board){
-            result = b == board.fromIntToBoardSquare(count);
+        for(BoardSquare b : boardOld){
+            result = b == boardOld.fromIntToBoardSquare(count);
             assertTrue(result);
             count++;
         }
@@ -33,40 +33,40 @@ class BoardTest<R extends ClientInterface> {
 
     @Test
     void removeSelectedTileSubject() {
-        Board board = new Board();
+        BoardOld boardOld = new BoardOld();
         List<TileSubject> expectedList = new ArrayList<>();
         List<TileSubject> result = new ArrayList<>();
         int[] tileTaken = new int[]{1,2,3};
         int numPlayers = 4;
-        board.refillBoard(numPlayers);
-        expectedList.add(board.fromIntToBoardSquare(1).getTileSubject());
-        expectedList.add(board.fromIntToBoardSquare(2).getTileSubject());
-        expectedList.add(board.fromIntToBoardSquare(3).getTileSubject());
-        result = board.removeSelectedTileSubject(tileTaken);
+        boardOld.refillBoard(numPlayers);
+        expectedList.add(boardOld.fromIntToBoardSquare(1).getTileSubject());
+        expectedList.add(boardOld.fromIntToBoardSquare(2).getTileSubject());
+        expectedList.add(boardOld.fromIntToBoardSquare(3).getTileSubject());
+        result = boardOld.removeSelectedTileSubject(tileTaken);
         assertEquals(tileTaken.length,result.size());
         for(int i = 0; i < result.size(); i++){
             assertEquals(expectedList.get(i), result.get(i));
-            assertNull(board.fromIntToBoardSquare(tileTaken[i]).getTileSubject());
+            assertNull(boardOld.fromIntToBoardSquare(tileTaken[i]).getTileSubject());
         }
 
         expectedList.clear();
         tileTaken = new int[]{43,44};
-        expectedList.add(board.fromIntToBoardSquare(43).getTileSubject());
-        expectedList.add(board.fromIntToBoardSquare(44).getTileSubject());
-        result = board.removeSelectedTileSubject(tileTaken);
+        expectedList.add(boardOld.fromIntToBoardSquare(43).getTileSubject());
+        expectedList.add(boardOld.fromIntToBoardSquare(44).getTileSubject());
+        result = boardOld.removeSelectedTileSubject(tileTaken);
         assertEquals(tileTaken.length,result.size());
         for(int i = 0; i < result.size(); i++){
             assertEquals(expectedList.get(i), result.get(i));
-            assertNull(board.fromIntToBoardSquare(tileTaken[i]).getTileSubject());
+            assertNull(boardOld.fromIntToBoardSquare(tileTaken[i]).getTileSubject());
         }
     }
 
     @Test
     void refillBoard() {
-        Board board = new Board();
+        BoardOld boardOld = new BoardOld();
         int numPlayers = 3;
-        board.refillBoard(numPlayers);
-        for(BoardSquare b : board){
+        boardOld.refillBoard(numPlayers);
+        for(BoardSquare b : boardOld){
             if(isOkay(b,numPlayers)){
                 assertNotNull(b.getTileSubject());
             } else {

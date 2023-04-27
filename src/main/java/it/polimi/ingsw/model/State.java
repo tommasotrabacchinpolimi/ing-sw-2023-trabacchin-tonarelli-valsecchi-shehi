@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.ClientInterface;
 import it.polimi.ingsw.controller.JSONExclusionStrategy.ExcludedFromJSON;
 import it.polimi.ingsw.controller.listeners.*;
 import it.polimi.ingsw.controller.listeners.localListeners.OnUpdateNeededListener;
+import it.polimi.ingsw.utils.Coordinate;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -20,7 +21,7 @@ import java.util.*;
  * @version 1.0, 27/03/23
  * @see PersonalGoal
  * @see CommonGoal
- * @see Board
+ * @see BoardOld
  * @see Player
  * @see ChatMessage
  */
@@ -30,9 +31,9 @@ public class State implements Serializable, OnUpdateNeededListener {
     private static final long serialVersionUID = 26202152145454545L;
 
     /**
-     * The living room {@link Board} in which the game is played.
+     * The living room {@link BoardOld} in which the game is played.
      *
-     * @see Board
+     * @see BoardOld
      */
     @ExcludedFromJSON
     private Board board;
@@ -111,7 +112,7 @@ public class State implements Serializable, OnUpdateNeededListener {
     /**
      * Construct of the class that creates the fields of the class.
      *
-     * @see Board
+     * @see BoardOld
      * @see Player
      * @see ChatMessage
      * @see CommonGoal
@@ -202,9 +203,9 @@ public class State implements Serializable, OnUpdateNeededListener {
 
     /**
      * Method that gets the living room board of the game.
-     * @return The {@link Board} in which the game is played.
+     * @return The {@link BoardOld} in which the game is played.
      *
-     * @see Board
+     * @see BoardOld
      */
     public Board getBoard() {
         return board;
@@ -212,9 +213,9 @@ public class State implements Serializable, OnUpdateNeededListener {
 
     /**
      * Method that sets the living room board of the game.
-     * @param board The {@link Board} in which the game will be played.
+     * @param board The {@link BoardOld} in which the game will be played.
      *
-     * @see Board
+     * @see BoardOld
      */
     public void setBoard(Board board) {
         this.board = board;
@@ -467,7 +468,7 @@ public class State implements Serializable, OnUpdateNeededListener {
             copy_result.add(new EntryPatternGoal(entry.getRow(), entry.getColumn(), entry.getTileType()));
         }
         for(OnAchievedCommonGoalListener listener : achievedCommonGoalListeners){
-            listener.onAchievedCommonGoal(player.getNickName(), copy_result, numberCommonGoal);
+            listener.onAchievedCommonGoal(player.getNickName(), copy_result.stream().map(e ->new Coordinate(e.getRow(), e.getColumn())).toList(), numberCommonGoal);
         }
     }
 
