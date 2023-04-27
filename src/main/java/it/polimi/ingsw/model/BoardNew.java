@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.controller.listeners.OnBoardRefilledListener;
 import it.polimi.ingsw.controller.listeners.OnBoardUpdatedListener;
 import it.polimi.ingsw.controller.listeners.localListeners.OnUpdateNeededListener;
+import it.polimi.ingsw.utils.Coordinate;
 
 import java.util.*;
 
@@ -98,11 +99,13 @@ public class BoardNew implements OnUpdateNeededListener {
     }
 
     private boolean isOkay(int i, int j, int numPlayers){
+        Coordinate coordinate = new Coordinate(3,4);
+
         return (init_matrix[i][j]==NO_DOTS || (init_matrix[i][j]==THREE_DOTS && numPlayers >=3) || (init_matrix[i][j]==FOUR_DOTS && numPlayers==4));
     }
 
     /*public List<TileSubject> removeSelectedTileSubject(int[] taken) {
-
+        Coordinate coordinate = new Coordinate(3,4);
     }*/
 
     /*public void refillBoard(int numberOfPlayers){
@@ -111,15 +114,15 @@ public class BoardNew implements OnUpdateNeededListener {
         notifyOnBoardUpdated();
         notifyOnBoardRefilled();
     }*/
+
     public void printBoard(int numPlayer){
-        TileSubject[][] matrix = board;
-        for(int i = 0; i < matrix[0].length; i++){
-            for(int j = 0; j < matrix.length; j++){
+        for(int i = 0; i < board[0].length; i++){
+            for(int j = 0; j < board.length; j++){
                 if(init_matrix[i][j]==null) System.out.print("---\t\t\t");
                 else{
                     if(isOkay(i,j,numPlayer)){
-                        if(matrix[i][j]==null) System.out.print("***\t\t\t");
-                        else System.out.print(matrix[i][j].toString()+"\t\t");
+                        if(board[i][j]==null) System.out.print("***\t\t\t");
+                        else System.out.print(board[i][j].toString()+"\t\t");
                     } else {
                         System.out.print("xxx\t\t\t");
                     }
@@ -128,6 +131,7 @@ public class BoardNew implements OnUpdateNeededListener {
             System.out.println();
         }
     }
+
     public void notifyOnBoardUpdated() {
         TileSubject[][] boardCopy = Arrays.stream(board).map(TileSubject[]::clone).toArray(TileSubject[][]::new);
         for(OnBoardUpdatedListener onBoardUpdatedListener : onBoardUpdatedListeners) {
