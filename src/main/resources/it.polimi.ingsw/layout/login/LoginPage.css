@@ -38,7 +38,18 @@
 
 .nick-input {
     -fx-font-family: "Special Elite Regular";
+    -fx-text-fill: rgba(28, 37, 41, 0.87);
     -fx-background-color: transparent;
-    -fx-border-color: rgba(0, 0, 0, 0.87);
+    -fx-border-color: rgba(0, 0, 0, 0.93);
     -fx-border-radius: 3%;
+}
+
+.nick-input:focused, .nick-input:focused:hover {
+    -fx-border-color: rgba(77, 84, 57, 0.93);
+    -fx-effect: null;
+}
+
+.nick-input:hover {
+    -fx-border-color: rgba(77, 84, 57, 0.93);
+    -fx-effect: dropshadow(three-pass-box, rgba(171, 194, 112, 0.40), 10, 0, 0, 0);
 }
