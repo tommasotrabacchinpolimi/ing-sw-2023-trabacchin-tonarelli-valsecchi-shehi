@@ -2,20 +2,21 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.listeners.OnBoardRefilledListener;
 import it.polimi.ingsw.controller.listeners.OnBoardUpdatedListener;
+import it.polimi.ingsw.controller.listeners.localListeners.OnUpdateNeededListener;
 
 import java.util.*;
 
 import static it.polimi.ingsw.model.BoardSquareType.*;
 import static it.polimi.ingsw.model.BoardSquareType.THREE_DOTS;
 
-public class BoardNew {
+public class BoardNew implements OnUpdateNeededListener {
     private static final int DIM = 9;
     private static final int NUMBER_OF_BOARDSQUARE = 45;
 
     private final List<OnBoardRefilledListener> onBoardRefilledListeners;
     private final List<OnBoardUpdatedListener> onBoardUpdatedListeners;
     final private List<TileSubject> bag;
-    private TileSubject[][] board;
+    private final TileSubject[][] board;
     private static final int NUMBER_OF_TILE = 7; //the default number of tile
     private static final int RESERVE_TILE = 8; //the tile that has one object more than others
 
@@ -127,21 +128,12 @@ public class BoardNew {
             System.out.println();
         }
     }
-    /*public void notifyOnBoardUpdated() {
-        TileSubject[] tileSubjects = getBoardSquareList().stream().map(BoardSquare::getTileSubject).toArray(TileSubject[]::new);
-        *//*TileSubject[] tileSubjects1 = (TileSubject[]) getBoardSquareList().stream().map(BoardSquare::getTileSubject).toArray();
-        TileSubject[] tileSubjects = new TileSubject[NUMBER_OF_BOARDSQUARE];
-        int count = 0;
-        for(BoardSquare b : this){
-            tileSubjects[count] = b.getTileSubject();
-            count++;
-        }*//*
+    public void notifyOnBoardUpdated() {
+        TileSubject[][] boardCopy = Arrays.stream(board).map(TileSubject[]::clone).toArray(TileSubject[][]::new);
         for(OnBoardUpdatedListener onBoardUpdatedListener : onBoardUpdatedListeners) {
-            if(onBoardUpdatedListener != null) {
-                onBoardUpdatedListener.onBoardUpdated(tileSubjects);
-            }
+            onBoardUpdatedListener.onBoardUpdated(boardCopy);
         }
-    }*/
+    }
 
     public void notifyOnBoardRefilled() {
         for(OnBoardRefilledListener onBoardRefilledListener : onBoardRefilledListeners) {
@@ -167,10 +159,10 @@ public class BoardNew {
         this.onBoardUpdatedListeners.remove(onBoardUpdatedListener);
     }
 
-    /*@Override
+    @Override
     public void onUpdateNeededListener(Player player) {
         onBoardUpdatedListeners.stream().filter(v->player.getVirtualView() == v)
                 .findAny()
-                .ifPresentOrElse(v->v.onBoardUpdated(getBoardSquareList().stream().map(BoardSquare::getTileSubject).toArray(TileSubject[]::new)),()->System.err.println("no one to update about board refilled"));
-    }*/
+                .ifPresentOrElse(v->v.onBoardUpdated(Arrays.stream(board).map(TileSubject[]::clone).toArray(TileSubject[][]::new)),()->System.err.println("no one to update about board refilled"));
+    }
 }

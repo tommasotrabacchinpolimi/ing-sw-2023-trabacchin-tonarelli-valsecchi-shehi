@@ -308,11 +308,11 @@ public class Board implements Iterable<BoardSquare>, Serializable, OnUpdateNeede
             tileSubjects[count] = b.getTileSubject();
             count++;
         }*/
-        for(OnBoardUpdatedListener onBoardUpdatedListener : onBoardUpdatedListeners) {
-            if(onBoardUpdatedListener != null) {
-                onBoardUpdatedListener.onBoardUpdated(tileSubjects);
-            }
-        }
+        //for(OnBoardUpdatedListener onBoardUpdatedListener : onBoardUpdatedListeners) {
+            //if(onBoardUpdatedListener != null) {
+                //onBoardUpdatedListener.onBoardUpdated(tileSubjects);
+            //}
+        //}
     }
 
     public void notifyOnBoardRefilled() {
@@ -341,9 +341,9 @@ public class Board implements Iterable<BoardSquare>, Serializable, OnUpdateNeede
 
     @Override
     public void onUpdateNeededListener(Player player) {
-        onBoardUpdatedListeners.stream().filter(v->player.getVirtualView() == v)
-                .findAny()
-                .ifPresentOrElse(v->v.onBoardUpdated(getBoardSquareList().stream().map(BoardSquare::getTileSubject).toArray(TileSubject[]::new)),()->System.err.println("no one to update about board refilled"));
+        //onBoardUpdatedListeners.stream().filter(v->player.getVirtualView() == v)
+                //.findAny()
+                //.ifPresentOrElse(v->v.onBoardUpdated(getBoardSquareList().stream().map(BoardSquare::getTileSubject).toArray(TileSubject[]::new)),()->System.err.println("no one to update about board refilled"));
     }
 
 }
