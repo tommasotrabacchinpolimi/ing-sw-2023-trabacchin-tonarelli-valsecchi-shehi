@@ -1,6 +1,11 @@
 package it.polimi.ingsw.utils;
 
-public class Coordinate {
+import java.io.Serial;
+import java.io.Serializable;
+
+public class Coordinate implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 27112003L;
     private int x;
     private int y;
 

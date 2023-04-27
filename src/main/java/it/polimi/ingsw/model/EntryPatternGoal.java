@@ -14,9 +14,7 @@ import java.util.Objects;
  * @see TileType
  * @see CommonGoal
  * @see TupleCommonGoal
- * @see GroupCommonGoal
  * @see ShapeCommonGoal
- * @see SquareCommonGoal
  * @see StairCommonGoal
  * @see LineCommonGoal
  */

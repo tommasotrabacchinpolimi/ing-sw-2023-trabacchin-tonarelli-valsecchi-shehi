@@ -5,6 +5,7 @@ import it.polimi.ingsw.net.OnConnectionLostListener;
 import it.polimi.ingsw.utils.Coordinate;
 
 import java.io.FileNotFoundException;
+import java.util.List;
 
 public class Controller implements OnConnectionLostListener<ClientInterface>, ControllerInterface {
     private State state;
@@ -60,7 +61,7 @@ public class Controller implements OnConnectionLostListener<ClientInterface>, Co
     }
 
     @Override
-    public synchronized void dragTilesToBookShelf(ClientInterface view, Coordinate[] chosenTiles, int chosenColumn) {
+    public synchronized void dragTilesToBookShelf(ClientInterface view, List<Coordinate> chosenTiles, int chosenColumn) {
         gameManager.dragTilesToBookShelf(view, chosenTiles, chosenColumn);
     }
 

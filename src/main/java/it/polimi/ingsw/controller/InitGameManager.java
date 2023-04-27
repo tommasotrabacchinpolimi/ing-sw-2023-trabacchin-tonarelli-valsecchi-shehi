@@ -57,7 +57,7 @@ public class InitGameManager extends GameManager {
         Collections.shuffle(commonGoalsDeck);
     }
     @Override
-    public synchronized void dragTilesToBookShelf(ClientInterface view, Coordinate[] chosenTiles, int chosenColumn) {
+    public synchronized void dragTilesToBookShelf(ClientInterface view, List<Coordinate> chosenTiles, int chosenColumn) {
         System.err.println("dragTilesToBookShelf called in INIT state");
     }
 

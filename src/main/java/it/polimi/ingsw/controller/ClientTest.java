@@ -74,7 +74,7 @@ public class ClientTest implements ClientInterface {
                     int y = Integer.parseInt(tmp[1]);
                     chosenTiles.add(new Coordinate(x,y));
                 }
-                server.dragTilesToBookShelf(chosenTiles.toArray(Coordinate[]::new),chosenColumn);
+                server.dragTilesToBookShelf(chosenTiles ,chosenColumn);
             }
             else if(input.equals("createGame")) {
                 System.out.println("write your nickname:");
@@ -223,12 +223,12 @@ public class ClientTest implements ClientInterface {
 
     @Override
     public void onAchievedPersonalGoal(String nickname, List<Coordinate> tiles) {
-        guiInterface.write(nickname + " has improved over his personal goal : " + Arrays.toString(tiles.toArray(EntryPatternGoal[]::new)) + "\n");
+        guiInterface.write(nickname + " has improved over his personal goal : " + Arrays.toString(tiles.toArray(Coordinate[]::new)) + "\n");
     }
 
     @Override
     public void onAdjacentTilesUpdated(String nickname, List<Coordinate> tiles) {
-        guiInterface.write(nickname + " has the following adjacent tiles : " + Arrays.toString(tiles.toArray(EntryPatternGoal[]::new)) + "\n");
+        guiInterface.write(nickname + " has the following adjacent tiles : " + Arrays.toString(tiles.toArray(Coordinate[]::new)) + "\n");
     }
 
     @Override

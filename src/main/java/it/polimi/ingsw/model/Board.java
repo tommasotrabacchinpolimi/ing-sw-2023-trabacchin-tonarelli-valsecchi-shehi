@@ -5,12 +5,16 @@ import it.polimi.ingsw.controller.listeners.OnBoardUpdatedListener;
 import it.polimi.ingsw.controller.listeners.localListeners.OnUpdateNeededListener;
 import it.polimi.ingsw.utils.Coordinate;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.*;
 
 import static it.polimi.ingsw.model.BoardSquareType.*;
 import static it.polimi.ingsw.model.BoardSquareType.THREE_DOTS;
 
-public class Board implements OnUpdateNeededListener {
+public class Board implements Serializable, OnUpdateNeededListener {
+    @Serial
+    private static final long serialVersionUID = 27112001L;
     public static final int DIM = 9;
     private static final int NUMBER_OF_BOARDSQUARE = 45;
     private static final int NUMBER_OF_TILE = 7; //the default number of tile

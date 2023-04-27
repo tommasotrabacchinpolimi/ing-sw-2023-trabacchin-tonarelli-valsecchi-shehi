@@ -15,7 +15,7 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
     }
 
     @Override
-    public synchronized void dragTilesToBookShelf(ClientInterface user, Coordinate[] chosenTiles, int chosenColumn){
+    public synchronized void dragTilesToBookShelf(ClientInterface user, List<Coordinate> chosenTiles, int chosenColumn){
         try {
             Player player = getController().getState().getPlayerFromView(user);
             if (!player.equals(getController().getPlayerPlaying())) {
@@ -26,7 +26,7 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
             for (Coordinate tile : chosenTiles) {
                 tiles.add(board.getTileSubjectInBoard(tile.getX(), tile.getY()));
             }
-            board.removeSelectedTileSubject(Arrays.asList(chosenTiles));
+            board.removeSelectedTileSubject(chosenTiles);
             BookShelf bookShelf = player.getBookShelf();
             bookShelf.addTileSubjectTaken(tiles, chosenColumn);
             verifyEndGame(user);
@@ -109,10 +109,10 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
      * @return true if and only if the Board needs to be refilled with tiles.
      */
     private boolean verifyRefillBoard(){
-        for(int i = 0;i<getController().getState().getBoard().DIM;i++) {
-            for(int j = 0;j<getController().getState().getBoard().DIM;j++) {
+        for(int i = 0; i< Board.DIM; i++) {
+            for(int j = 0; j< Board.DIM; j++) {
                 if(getController().getState().getBoard().getTileSubjectInBoard(i,j)!=null) {
-                    if(i != getController().getState().getBoard().DIM - 1) {
+                    if(i != Board.DIM - 1) {
                         if(getController().getState().getBoard().getTileSubjectInBoard(i + 1,j)!=null) {
                             return false;
                         }
@@ -123,7 +123,7 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
                         }
                     }
 
-                    if(j != getController().getState().getBoard().DIM - 1) {
+                    if(j != Board.DIM - 1) {
                         if(getController().getState().getBoard().getTileSubjectInBoard(i,j + 1)!=null) {
                             return false;
                         }
@@ -168,4 +168,5 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
             }
         }
     }
+
 }
