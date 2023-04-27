@@ -11,17 +11,16 @@ import static it.polimi.ingsw.model.BoardSquareType.*;
 import static it.polimi.ingsw.model.BoardSquareType.THREE_DOTS;
 
 public class BoardNew implements OnUpdateNeededListener {
-    private static final int DIM = 9;
+    public static final int DIM = 9;
     private static final int NUMBER_OF_BOARDSQUARE = 45;
-
-    private final List<OnBoardRefilledListener> onBoardRefilledListeners;
-    private final List<OnBoardUpdatedListener> onBoardUpdatedListeners;
-    final private List<TileSubject> bag;
-    private final TileSubject[][] board;
     private static final int NUMBER_OF_TILE = 7; //the default number of tile
     private static final int RESERVE_TILE = 8; //the tile that has one object more than others
+    private final TileSubject[][] board;
+    final private List<TileSubject> bag;
+    private final List<OnBoardRefilledListener> onBoardRefilledListeners;
+    private final List<OnBoardUpdatedListener> onBoardUpdatedListeners;
 
-    private static final BoardSquareType[][] init_matrix = {
+    public static final BoardSquareType[][] init_matrix = {
             {null, null, null, THREE_DOTS, FOUR_DOTS, null, null, null, null},
             {null, null, null, NO_DOTS, NO_DOTS, FOUR_DOTS, null, null, null},
             {null, null, THREE_DOTS, NO_DOTS, NO_DOTS, NO_DOTS, THREE_DOTS, null, null},
@@ -34,7 +33,6 @@ public class BoardNew implements OnUpdateNeededListener {
     };
 
 
-
     public BoardNew() {
         this.onBoardRefilledListeners = new LinkedList<>();
         this.onBoardUpdatedListeners = new LinkedList<>();
@@ -42,6 +40,18 @@ public class BoardNew implements OnUpdateNeededListener {
         this.createBag();
         Collections.shuffle(bag);
         this.board = new TileSubject[DIM][DIM];
+    }
+
+    public TileSubject[][] getBoard() {
+        return board;
+    }
+
+    public int getNumberOfBoardSquares() {
+        return NUMBER_OF_BOARDSQUARE;
+    }
+
+    public List<TileSubject> getBag() {
+        return bag;
     }
 
     private void createBag() {
@@ -58,18 +68,10 @@ public class BoardNew implements OnUpdateNeededListener {
         }
     }
 
-    public int getNumberOfBoardSquares() {
-        return NUMBER_OF_BOARDSQUARE;
-    }
-
     // method for extracting a casual TileSubject from bag
     public TileSubject getRandomTileSubject() {
         Collections.shuffle(this.bag);
         return this.bag.remove(0);
-    }
-
-    public List<TileSubject> getBag() {
-        return bag;
     }
 
     public String bagToString() {
@@ -80,7 +82,7 @@ public class BoardNew implements OnUpdateNeededListener {
         return result.toString();
     }
 
-    public TileSubject getTileSubject(int i, int j) {
+    public TileSubject getTileSubjectInBoard(int i, int j) {
         return board[i][j];
     }
 
@@ -99,25 +101,35 @@ public class BoardNew implements OnUpdateNeededListener {
     }
 
     private boolean isOkay(int i, int j, int numPlayers){
-        Coordinate coordinate = new Coordinate(3,4);
-
-        return (init_matrix[i][j]==NO_DOTS || (init_matrix[i][j]==THREE_DOTS && numPlayers >=3) || (init_matrix[i][j]==FOUR_DOTS && numPlayers==4));
+        return (init_matrix[i][j] == NO_DOTS || (init_matrix[i][j] == THREE_DOTS && numPlayers >= 3) || (init_matrix[i][j] == FOUR_DOTS && numPlayers >= 4));
     }
 
-    /*public List<TileSubject> removeSelectedTileSubject(int[] taken) {
-        Coordinate coordinate = new Coordinate(3,4);
-    }*/
+    public List<TileSubject> removeSelectedTileSubject(List<Coordinate> taken) {
+        List<TileSubject> result = new ArrayList<>();
+        for(Coordinate c : taken){
+            result.add(board[c.getX()][c.getY()]);
+            board[c.getX()][c.getY()] = null;
+        }
 
-    /*public void refillBoard(int numberOfPlayers){
+        return result;
+    }
 
+    public void refillBoard(int numberOfPlayers){
+        for(int i = 0; i < board.length; i++){
+            for(int j = 0; j < board[0].length; j++){
+                if(isOkay(i, j, numberOfPlayers) && board[i][j] == null){
+                    board[i][j] = getRandomTileSubject();
+                }
+            }
+        }
 
         notifyOnBoardUpdated();
         notifyOnBoardRefilled();
-    }*/
+    }
 
     public void printBoard(int numPlayer){
-        for(int i = 0; i < board[0].length; i++){
-            for(int j = 0; j < board.length; j++){
+        for(int i = 0; i < board.length; i++){
+            for(int j = 0; j < board[0].length; j++){
                 if(init_matrix[i][j]==null) System.out.print("---\t\t\t");
                 else{
                     if(isOkay(i,j,numPlayer)){
