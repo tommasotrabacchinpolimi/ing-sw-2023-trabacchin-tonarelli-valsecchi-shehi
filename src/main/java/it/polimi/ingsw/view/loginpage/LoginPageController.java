@@ -5,6 +5,10 @@ import it.polimi.ingsw.view.WrappedImageView;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
@@ -26,15 +30,26 @@ public class LoginPageController {
 
     @FXML
     void initialize() throws IOException {
-        infoText.setFont(
-                Font.loadFont(Objects.requireNonNull(LoginPageController.class.getResource("/it.polimi.ingsw/graphical.resources/font/SpecialElite-Regular.ttf")).openStream(), Font.getDefault().getSize())
-        );
 
-        nicknameInput.setFont(
-                Font.loadFont(Objects.requireNonNull(LoginPageController.class.getResource("/it.polimi.ingsw/graphical.resources/font/SpecialElite-Regular.ttf")).openStream(), Font.getDefault().getSize())
-        );
+        Font.loadFont(Objects.requireNonNull(LoginPageController.class.getResource("/it.polimi.ingsw/graphical.resources/font/SpecialElite-Regular.ttf")).openStream(), Font.getDefault().getSize());
 
         ImageRoundCornersClipper.roundClipper(infoContainer, 10);
         ImageRoundCornersClipper.roundClipper(infoContainerBox, 10);
+    }
+
+    @FXML
+    public void textFieldKeyPressed(KeyEvent keyEvent) {
+        if(keyEvent.getCode() == KeyCode.ESCAPE) {
+            rootPane.requestFocus();
+        }
+
+        if(keyEvent.getCode() == KeyCode.ENTER) {
+            System.out.println("Nickname: " + nicknameInput.getText());
+            nicknameInput.setText("");
+        }
+    }
+
+    public void setAllNonFocused(MouseEvent mouseEvent) {
+        rootPane.requestFocus();
     }
 }
