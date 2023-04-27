@@ -40,6 +40,7 @@ public class LobbyController implements UserAccepter<ClientInterface>, OnConnect
         user.getConnectionManager().setOnConnectionLostListener(this);
     }
 
+    @Override
     public synchronized void joinGame(ClientInterface user, String nickname){
         if(!viewToNicknameMap.containsValue(nickname)){
             addPlayerToGame(user, nickname);
@@ -64,6 +65,7 @@ public class LobbyController implements UserAccepter<ClientInterface>, OnConnect
         }
     }
 
+    @Override
     public synchronized void createGame(ClientInterface user, String nickname, int numberOfPlayer) throws FileNotFoundException {
         if(!viewToNicknameMap.containsValue(nickname)){
             createNewGame(user, nickname, numberOfPlayer);

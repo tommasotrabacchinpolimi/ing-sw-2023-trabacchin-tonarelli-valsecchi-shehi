@@ -22,7 +22,7 @@ public class ChatManager {
      */
     private static final Gson chatManagerGson = new GsonBuilder().setExclusionStrategies(new JSONExclusionStrategy()).create();
 
-    private PrintWriter pw;
+    private PrintWriter printWriter;
 
     public  ChatManager(){
         initWriter();
@@ -34,11 +34,11 @@ public class ChatManager {
     }
 
     /**
-     * Initialize the {@link #pw print writer} to convert chat in json format
+     * Initialize the {@link #printWriter print writer} to convert chat in json format
      */
     private void initWriter() {
-        pw = this.getPrintWriter();
-        assert pw != null;
+        printWriter = this.getPrintWriter();
+        assert printWriter != null;
     }
 
     /**
@@ -81,8 +81,8 @@ public class ChatManager {
      * @param chat complete list of all messages
      */
     public void storeMessagesAsListObject(List<ChatMessage> chat) {
-        pw.write(chatManagerGson.toJson(chat));
-        pw.flush();
+        printWriter.write(chatManagerGson.toJson(chat));
+        printWriter.flush();
     }
 
     /**
@@ -102,8 +102,8 @@ public class ChatManager {
     /**
      * Flush and close {@link PrintWriter}
      */
-    public void closeFileWriter(){
-        pw.flush();
-        pw.close();
+    public void closePrintWriter(){
+        printWriter.flush();
+        printWriter.close();
     }
 }

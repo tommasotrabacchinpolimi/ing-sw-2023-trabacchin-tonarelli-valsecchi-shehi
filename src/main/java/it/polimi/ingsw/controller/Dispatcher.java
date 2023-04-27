@@ -11,7 +11,7 @@ public class Dispatcher implements InvocationHandler {
 
     private LobbyController lobbyController;
 
-    private final Map<ClientInterface,Controller> viewToControllerMap;
+    private final Map<ClientInterface, Controller> viewToControllerMap;
 
     public Dispatcher() {
         viewToControllerMap = new ConcurrentHashMap<>();
