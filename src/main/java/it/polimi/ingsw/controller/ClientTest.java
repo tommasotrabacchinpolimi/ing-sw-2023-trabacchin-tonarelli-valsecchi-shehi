@@ -222,12 +222,12 @@ public class ClientTest implements ClientInterface {
     }
 
     @Override
-    public void onAchievedPersonalGoal(String nickname, List<EntryPatternGoal> tiles) {
+    public void onAchievedPersonalGoal(String nickname, List<Coordinate> tiles) {
         guiInterface.write(nickname + " has improved over his personal goal : " + Arrays.toString(tiles.toArray(EntryPatternGoal[]::new)) + "\n");
     }
 
     @Override
-    public void onAdjacentTilesUpdated(String nickname, List<EntryPatternGoal> tiles) {
+    public void onAdjacentTilesUpdated(String nickname, List<Coordinate> tiles) {
         guiInterface.write(nickname + " has the following adjacent tiles : " + Arrays.toString(tiles.toArray(EntryPatternGoal[]::new)) + "\n");
     }
 
