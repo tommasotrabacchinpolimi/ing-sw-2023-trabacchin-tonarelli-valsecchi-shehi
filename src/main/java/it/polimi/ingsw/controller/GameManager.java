@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.utils.Coordinate;
 
 public abstract class GameManager {
     private final Controller controller;
@@ -13,7 +14,7 @@ public abstract class GameManager {
         return controller;
     }
 
-    public abstract void dragTilesToBookShelf(ClientInterface view, int[] chosenTiles, int chosenColumn);
+    public abstract void dragTilesToBookShelf(ClientInterface view, Coordinate[] chosenTiles, int chosenColumn);
 
     public abstract void registerPlayer(ClientInterface view, String nickname);
 

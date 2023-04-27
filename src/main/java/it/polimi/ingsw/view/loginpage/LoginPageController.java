@@ -26,13 +26,6 @@ public class LoginPageController {
 
     @FXML
     void initialize() throws IOException {
-        infoText.setFont(
-                Font.loadFont(Objects.requireNonNull(LoginPageController.class.getResource("/it.polimi.ingsw/graphical.resources/font/SpecialElite-Regular.ttf")).openStream(), Font.getDefault().getSize())
-        );
-
-        nicknameInput.setFont(
-                Font.loadFont(Objects.requireNonNull(LoginPageController.class.getResource("/it.polimi.ingsw/graphical.resources/font/SpecialElite-Regular.ttf")).openStream(), Font.getDefault().getSize())
-        );
 
         ImageRoundCornersClipper.roundClipper(infoContainer, 10);
         ImageRoundCornersClipper.roundClipper(infoContainerBox, 10);

@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.ClientInterface;
 import it.polimi.ingsw.controller.JSONExclusionStrategy.ExcludedFromJSON;
 import it.polimi.ingsw.controller.listeners.*;
 import it.polimi.ingsw.controller.listeners.localListeners.OnUpdateNeededListener;
+import it.polimi.ingsw.utils.Coordinate;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -35,7 +36,7 @@ public class State implements Serializable, OnUpdateNeededListener {
      * @see Board
      */
     @ExcludedFromJSON
-    private Board board;
+    private BoardNew board;
 
     @ExcludedFromJSON
     private GameState gameState;
@@ -118,7 +119,7 @@ public class State implements Serializable, OnUpdateNeededListener {
      */
     public State(){
         gameState = GameState.INIT;
-        board = new Board();
+        board = new BoardNew();
         players = new ArrayList<>();
         currentPlayer = null;
         messages = new LinkedList<>();
@@ -206,7 +207,7 @@ public class State implements Serializable, OnUpdateNeededListener {
      *
      * @see Board
      */
-    public Board getBoard() {
+    public BoardNew getBoard() {
         return board;
     }
 
@@ -216,7 +217,7 @@ public class State implements Serializable, OnUpdateNeededListener {
      *
      * @see Board
      */
-    public void setBoard(Board board) {
+    public void setBoard(BoardNew board) {
         this.board = board;
     }
 
@@ -467,7 +468,7 @@ public class State implements Serializable, OnUpdateNeededListener {
             copy_result.add(new EntryPatternGoal(entry.getRow(), entry.getColumn(), entry.getTileType()));
         }
         for(OnAchievedCommonGoalListener listener : achievedCommonGoalListeners){
-            listener.onAchievedCommonGoal(player.getNickName(), copy_result, numberCommonGoal);
+            listener.onAchievedCommonGoal(player.getNickName(), copy_result.stream().map(e ->new Coordinate(e.getRow(), e.getColumn())).toList(), numberCommonGoal);
         }
     }
 

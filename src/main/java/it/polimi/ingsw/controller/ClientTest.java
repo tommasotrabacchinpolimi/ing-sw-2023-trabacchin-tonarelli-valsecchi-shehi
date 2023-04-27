@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.PlayerState;
 import it.polimi.ingsw.model.TileSubject;
 import it.polimi.ingsw.net.*;
+import it.polimi.ingsw.utils.Coordinate;
 
 import javax.swing.*;
 import java.io.*;
@@ -62,16 +63,18 @@ public class ClientTest implements ClientInterface {
                 System.out.println("insert a column number: ");
                 int chosenColumn = Integer.parseInt(bufferedReader.readLine());
                 System.out.println("insert a sequence of tiles to drag, terminate with a .");
-                List<Integer> chosenTiles = new ArrayList<>();
+                List<Coordinate> chosenTiles = new ArrayList<>();
                 while(true) {
                     String c = bufferedReader.readLine();
                     if(c.equals(".")) {
                         break;
                     }
-                    int chosenTile = Integer.parseInt(c);
-                    chosenTiles.add(chosenTile);
+                    String[] tmp = c.split(",");
+                    int x = Integer.parseInt(tmp[0]);
+                    int y = Integer.parseInt(tmp[1]);
+                    chosenTiles.add(new Coordinate(x,y));
                 }
-                server.dragTilesToBookShelf(chosenTiles.stream().mapToInt(i->i).toArray(),chosenColumn);
+                server.dragTilesToBookShelf(chosenTiles.toArray(Coordinate[]::new),chosenColumn);
             }
             else if(input.equals("createGame")) {
                 System.out.println("write your nickname:");
@@ -110,8 +113,8 @@ public class ClientTest implements ClientInterface {
     }
 
     @Override
-    public void onAchievedCommonGoal(String nicknamePlayer, List<EntryPatternGoal> tiles, int numberCommonGoal) {
-        guiInterface.write("player " + nicknamePlayer + "has achieved common goal number " + numberCommonGoal + "with the following tiles : " + Arrays.toString(tiles.toArray(EntryPatternGoal[]::new))+ "\n");
+    public void onAchievedCommonGoal(String nicknamePlayer, List<Coordinate> tiles, int numberCommonGoal) {
+        guiInterface.write("player " + nicknamePlayer + "has achieved common goal number " + numberCommonGoal + "with the following tiles : " + Arrays.toString(tiles.toArray(Coordinate[]::new))+ "\n");
     }
 
     @Override
@@ -120,8 +123,20 @@ public class ClientTest implements ClientInterface {
     }
 
     @Override
-    public void onBoardUpdated(TileSubject[] tileSubjects) {
-        guiInterface.write("Board updated : " + Arrays.toString(tileSubjects) + "\n");
+    public void onBoardUpdated(TileSubject[][] tileSubjects) {
+        synchronized (guiInterface) {
+            guiInterface.write("Board updated: \n" );
+            for (int i = 0; i < 9; i++){
+                guiInterface.write(i+ "\t");
+                for (int j = 0; j < 9; j++){
+                    if (tileSubjects[i][j]==null) guiInterface.write("----\t");
+                    else {
+                        guiInterface.write( tileSubjects[i][j]  + "\t");
+                    }
+                }
+                guiInterface.write("\n");
+            }
+        }
     }
 
     @Override
