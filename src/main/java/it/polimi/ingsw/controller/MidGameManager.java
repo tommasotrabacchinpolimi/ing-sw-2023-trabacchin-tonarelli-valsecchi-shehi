@@ -21,7 +21,7 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
             if (!player.equals(getController().getPlayerPlaying())) {
                 return;
             }
-            BoardNew board = getController().getState().getBoard();
+            Board board = getController().getState().getBoard();
             List<TileSubject> tiles = new ArrayList<>();
             for (Coordinate tile : chosenTiles) {
                 tiles.add(board.getTileSubjectInBoard(tile.getX(), tile.getY()));

@@ -1,7 +1,6 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.model.Board;
-import it.polimi.ingsw.model.BoardSquare;
+import it.polimi.ingsw.model.BoardOld;
 
 /**
  * Hello world!
@@ -9,16 +8,16 @@ import it.polimi.ingsw.model.BoardSquare;
  */
 public class App {
     public static void main( String[] args ) {
-        Board board = new Board();
+        BoardOld boardOld = new BoardOld();
         int index = 2;
 
         System.out.println("REFILLING THE BOARD");
-        board.refillBoard(index);
-        board.printBoard(index);
+        boardOld.refillBoard(index);
+        boardOld.printBoard(index);
 
         System.out.println("Removing tiles form board...");
-        board.removeSelectedTileSubject(new int[]{2,3,4});
-        board.printBoard(index);
+        boardOld.removeSelectedTileSubject(new int[]{2,3,4});
+        boardOld.printBoard(index);
 
         System.out.println( "Il mio git" );
     }

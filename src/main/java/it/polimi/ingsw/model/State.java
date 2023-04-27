@@ -21,7 +21,7 @@ import java.util.*;
  * @version 1.0, 27/03/23
  * @see PersonalGoal
  * @see CommonGoal
- * @see Board
+ * @see BoardOld
  * @see Player
  * @see ChatMessage
  */
@@ -31,12 +31,12 @@ public class State implements Serializable, OnUpdateNeededListener {
     private static final long serialVersionUID = 26202152145454545L;
 
     /**
-     * The living room {@link Board} in which the game is played.
+     * The living room {@link BoardOld} in which the game is played.
      *
-     * @see Board
+     * @see BoardOld
      */
     @ExcludedFromJSON
-    private BoardNew board;
+    private Board board;
 
     @ExcludedFromJSON
     private GameState gameState;
@@ -112,14 +112,14 @@ public class State implements Serializable, OnUpdateNeededListener {
     /**
      * Construct of the class that creates the fields of the class.
      *
-     * @see Board
+     * @see BoardOld
      * @see Player
      * @see ChatMessage
      * @see CommonGoal
      */
     public State(){
         gameState = GameState.INIT;
-        board = new BoardNew();
+        board = new Board();
         players = new ArrayList<>();
         currentPlayer = null;
         messages = new LinkedList<>();
@@ -203,21 +203,21 @@ public class State implements Serializable, OnUpdateNeededListener {
 
     /**
      * Method that gets the living room board of the game.
-     * @return The {@link Board} in which the game is played.
+     * @return The {@link BoardOld} in which the game is played.
      *
-     * @see Board
+     * @see BoardOld
      */
-    public BoardNew getBoard() {
+    public Board getBoard() {
         return board;
     }
 
     /**
      * Method that sets the living room board of the game.
-     * @param board The {@link Board} in which the game will be played.
+     * @param board The {@link BoardOld} in which the game will be played.
      *
-     * @see Board
+     * @see BoardOld
      */
-    public void setBoard(BoardNew board) {
+    public void setBoard(Board board) {
         this.board = board;
     }
 
