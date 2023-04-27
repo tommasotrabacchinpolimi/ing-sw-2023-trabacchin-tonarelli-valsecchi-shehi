@@ -58,10 +58,13 @@ public class SocketAccepter<L extends RemoteInterface, R extends RemoteInterface
                 else{
                     try {
                         socket.close();
-                    }catch(IOException ignored){}
+                    }catch(IOException ignored){
+                        ignored.printStackTrace();
+                    }
                 }
             }
         } catch (IOException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
