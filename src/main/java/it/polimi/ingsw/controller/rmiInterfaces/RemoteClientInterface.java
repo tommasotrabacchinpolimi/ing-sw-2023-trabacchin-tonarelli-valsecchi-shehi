@@ -25,7 +25,7 @@ public interface RemoteClientInterface extends RemoteInterface {
 
     public void onMessageSent(java.lang.String p0, java.util.List<String> p1, java.lang.String p2) throws RemoteException;
 
-    public void onMessageSentUpdate(java.util.List<String> p0, java.util.List<List<String>> p1, java.util.List<String> p2) throws RemoteException;
+    public void onMessagesSentUpdate(java.util.List<String> p0, java.util.List<List<String>> p1, java.util.List<String> p2) throws RemoteException;
 
     public void onPlayerStateChanged(java.lang.String p0, it.polimi.ingsw.model.PlayerState p1) throws RemoteException;
 
