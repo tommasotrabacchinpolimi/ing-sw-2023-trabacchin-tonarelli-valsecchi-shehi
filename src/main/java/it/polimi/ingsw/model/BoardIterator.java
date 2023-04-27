@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.NoSuchElementException;
 import java.util.Iterator;
 
-
+@Deprecated
 public class BoardIterator implements Iterator<BoardSquare>, Serializable {
     private static final long serialVersionUID = 18052001L;
 
