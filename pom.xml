@@ -133,6 +133,30 @@
         <!-- Uncomment to change <testSourceDirectory>src/test<testSourceDirectory> -->
 
         <plugins>
+            <!-- to make the manifest -->
+
+
+
+
+            <!-- to build .jar -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <archive>
+                        <!-- Configures the content of the created manifest -->
+                        <manifest>
+                            <!-- Adds the classpath to the created manifest -->
+                            <addClasspath>true</addClasspath>
+                            <!-- Specifies that all dependencies of our application are found -->
+                            <!-- Configures the main class of the application -->
+                            <mainClass>it.polimi.ingsw.view.loginpage.LoginPage</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+
+            </plugin>
             <!-- For testing from Maven all classes at once -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

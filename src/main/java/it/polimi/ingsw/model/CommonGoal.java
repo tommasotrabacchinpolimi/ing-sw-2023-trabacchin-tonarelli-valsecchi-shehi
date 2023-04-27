@@ -1,12 +1,7 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.controller.JSONExclusionStrategy.ExcludedFromJSON;
-import it.polimi.ingsw.controller.listeners.OnChangedCommonGoalAvailableScore;
-import it.polimi.ingsw.controller.listeners.OnStateChangedListener;
-
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 

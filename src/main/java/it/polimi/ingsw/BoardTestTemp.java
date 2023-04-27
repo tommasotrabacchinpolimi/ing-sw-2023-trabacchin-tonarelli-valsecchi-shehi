@@ -1,6 +1,6 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.BoardOld;
 import it.polimi.ingsw.model.BoardSquare;
 
 import static it.polimi.ingsw.model.BoardSquareType.NO_DOTS;
@@ -16,7 +16,7 @@ public class BoardTestTemp {
     }
 
     public static void main(String[] args){
-        Board b = new Board();
+        BoardOld b = new BoardOld();
         System.out.println(b.bagToString());
     }
 

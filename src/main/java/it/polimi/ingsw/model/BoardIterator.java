@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.NoSuchElementException;
 import java.util.Iterator;
 
-
+@Deprecated
 public class BoardIterator implements Iterator<BoardSquare>, Serializable {
     private static final long serialVersionUID = 18052001L;
 
@@ -15,16 +15,16 @@ public class BoardIterator implements Iterator<BoardSquare>, Serializable {
         private static final long serialVersionUID = 784386346274L;
     }
 
-    final private Board board;
+    final private BoardOld boardOld;
     private BoardSquare last;
     private BoardSquare middle; //root
     private Direction direction;
     private int numberOfIteratedSquares;
 
-    public BoardIterator( Board board ){
-        this.board = board;
+    public BoardIterator( BoardOld boardOld){
+        this.boardOld = boardOld;
         this.last = null;
-        this.middle = board.getLivingRoomBoard();
+        this.middle = boardOld.getLivingRoomBoard();
         this.direction = Direction.LEFT;
         this.numberOfIteratedSquares = 0;
     }
@@ -37,7 +37,7 @@ public class BoardIterator implements Iterator<BoardSquare>, Serializable {
      */
     @Override
     public boolean hasNext() {
-        return this.numberOfIteratedSquares != this.board.getNumberOfBoardSquares();
+        return this.numberOfIteratedSquares != this.boardOld.getNumberOfBoardSquares();
     }
 
     /**
@@ -47,7 +47,7 @@ public class BoardIterator implements Iterator<BoardSquare>, Serializable {
     @Override
     public BoardSquare next() {
         if(last == null) {
-            this.last = this.board.getLivingRoomBoard();
+            this.last = this.boardOld.getLivingRoomBoard();
             this.numberOfIteratedSquares++;
             return this.last;
         }

@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.net.OnConnectionLostListener;
+import it.polimi.ingsw.utils.Coordinate;
 
 import java.io.FileNotFoundException;
 
@@ -16,7 +17,7 @@ public class Controller implements OnConnectionLostListener<ClientInterface>, Co
         this.lobbyController = lobbyController;
         this.gameManager = new InitGameManager(this);
         this.chatManager = new ChatManager(this);
-    };
+    }
 
     public State getState() {
         return state;
@@ -24,10 +25,6 @@ public class Controller implements OnConnectionLostListener<ClientInterface>, Co
 
     public void setState(State state) {
         this.state = state;
-    }
-
-    public Player getPlayerPlaying(){
-        return state.getCurrentPlayer();
     }
 
     public CommonGoal getActiveCommonGoal1(){
@@ -58,14 +55,21 @@ public class Controller implements OnConnectionLostListener<ClientInterface>, Co
         this.gameManager = gameManager;
     }
 
-    public synchronized void dragTilesToBookShelf(ClientInterface view, int[] chosenTiles, int chosenColumn) {
+    public Player getPlayerPlaying(){
+        return state.getCurrentPlayer();
+    }
+
+    @Override
+    public synchronized void dragTilesToBookShelf(ClientInterface view, Coordinate[] chosenTiles, int chosenColumn) {
         gameManager.dragTilesToBookShelf(view, chosenTiles, chosenColumn);
     }
 
+    @Override
     public synchronized void registerPlayer(ClientInterface view, String nickname) {
         gameManager.registerPlayer(view, nickname);
     }
 
+    @Override
     public synchronized void quitGame(ClientInterface view) {
         gameManager.quitGame(view);
     }

@@ -1,9 +1,9 @@
 package it.polimi.ingsw.controller.listeners;
 
-import it.polimi.ingsw.model.EntryPatternGoal;
+import it.polimi.ingsw.utils.Coordinate;
 
 import java.util.List;
 
 public interface OnAchievedPersonalGoalListener {
-    void onAchievedPersonalGoal(String nickname, List<EntryPatternGoal> tiles);
+    void onAchievedPersonalGoal(String nickname, List<Coordinate> tiles);
 }

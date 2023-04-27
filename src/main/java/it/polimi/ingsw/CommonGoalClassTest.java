@@ -272,7 +272,7 @@ public class CommonGoalClassTest {
     private void createSquareCommonGoal(){
         int groupsNumber = 3;
         int squareDim = 2;
-        this.commonGoal = new SquareCommonGoal("Description", groupsNumber, squareDim , true);
+        //this.commonGoal = new SquareCommonGoal("Description", groupsNumber, squareDim , true);
     }
 
     private void createLineCommonGoal(){

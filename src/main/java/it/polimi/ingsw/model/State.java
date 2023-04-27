@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.ClientInterface;
 import it.polimi.ingsw.controller.JSONExclusionStrategy.ExcludedFromJSON;
 import it.polimi.ingsw.controller.listeners.*;
 import it.polimi.ingsw.controller.listeners.localListeners.OnUpdateNeededListener;
+import it.polimi.ingsw.utils.Coordinate;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -101,11 +102,14 @@ public class State implements Serializable, OnUpdateNeededListener {
     @ExcludedFromJSON
     private final List<OnAssignedCommonGoalListener> onAssignedCommonGoalListeners;
 
+    @ExcludedFromJSON
     private final List<OnAchievedPersonalGoalListener> onAchievedPersonalGoalListeners;
 
+    @ExcludedFromJSON
     private final List<OnAdjacentTilesUpdatedListener> onAdjacentTilesUpdatedListeners;
 
-    private final List<OnChangedCommonGoalAvailableScore> onChangedCommonGoalAvailableScoreListeners;
+    @ExcludedFromJSON
+    private final List<OnChangedCommonGoalAvailableScoreListener> onChangedCommonGoalAvailableScoreListenerListeners;
 
 
     /**
@@ -131,7 +135,7 @@ public class State implements Serializable, OnUpdateNeededListener {
         onAssignedCommonGoalListeners = new LinkedList<>();
         onAchievedPersonalGoalListeners = new LinkedList<>();
         onAdjacentTilesUpdatedListeners = new LinkedList<>();
-        onChangedCommonGoalAvailableScoreListeners = new LinkedList<>();
+        onChangedCommonGoalAvailableScoreListenerListeners = new LinkedList<>();
     }
 
     public void setAchievedCommonGoalListener(OnAchievedCommonGoalListener listener) {
@@ -424,16 +428,17 @@ public class State implements Serializable, OnUpdateNeededListener {
         }
         if(scoreAdjacentGoal != player.getPointPlayer().getScoreAdjacentGoal()) {
             player.getPointPlayer().setScoreAdjacentGoal(scoreAdjacentGoal);
-            notifyAdjacentTilesUpdated(groups.stream()
-                    .flatMap(Collection::stream).toList()
-                    , player
-            );
+            notifyAdjacentTilesUpdated(groups.stream().flatMap(Collection::stream).toList(), player);
         }
     }
 
     private void notifyAdjacentTilesUpdated(List<EntryPatternGoal> tiles, Player player) {
         for(OnAdjacentTilesUpdatedListener onAdjacentTilesUpdatedListener : onAdjacentTilesUpdatedListeners) {
-            onAdjacentTilesUpdatedListener.onAdjacentTilesUpdated(player.getNickName(), tiles);
+            List<Coordinate> list = new ArrayList<>();
+            for(EntryPatternGoal tile : tiles){
+                list.add(new Coordinate(tile.getRow(), tile.getColumn()));
+            }
+            onAdjacentTilesUpdatedListener.onAdjacentTilesUpdated(player.getNickName(), list);
         }
     }
 
@@ -457,7 +462,11 @@ public class State implements Serializable, OnUpdateNeededListener {
 
     public void notifyOnAchievedPersonalGoal(List<EntryPatternGoal> tiles, Player player) {
         for(OnAchievedPersonalGoalListener onAchievedPersonalGoalListener : onAchievedPersonalGoalListeners) {
-            onAchievedPersonalGoalListener.onAchievedPersonalGoal(player.getNickName(), tiles);
+            List<Coordinate> list = new ArrayList<>();
+            for(EntryPatternGoal tile : tiles){
+                list.add(new Coordinate(tile.getRow(), tile.getColumn()));
+            }
+            onAchievedPersonalGoalListener.onAchievedPersonalGoal(player.getNickName(), list);
         }
     }
 
@@ -467,18 +476,18 @@ public class State implements Serializable, OnUpdateNeededListener {
             copy_result.add(new EntryPatternGoal(entry.getRow(), entry.getColumn(), entry.getTileType()));
         }
         for(OnAchievedCommonGoalListener listener : achievedCommonGoalListeners){
-            listener.onAchievedCommonGoal(player.getNickName(), copy_result, numberCommonGoal);
+            listener.onAchievedCommonGoal(player.getNickName(), copy_result.stream().map(e -> new Coordinate(e.getRow(), e.getColumn())).toList(), numberCommonGoal);
         }
     }
 
     public void notifyStateChanged(){
-        for(OnStateChangedListener stateChangedListener: stateChangedListeners){
+        for(OnStateChangedListener stateChangedListener : stateChangedListeners){
             stateChangedListener.onStateChanged(this.getGameState());
         }
     }
 
     public void notifyLastPlayerUpdated(){
-        if(lastPlayer!=null) {
+        if(lastPlayer != null) {
             for (OnLastPlayerUpdatedListener lastPlayerUpdatedListener : lastPlayerUpdatedListeners) {
                 lastPlayerUpdatedListener.onLastPlayerUpdated(lastPlayer.getNickName());
             }
@@ -486,14 +495,14 @@ public class State implements Serializable, OnUpdateNeededListener {
     }
 
     public void notifyMessageSent() {
-
+        System.out.println("try messages sent");
         ChatMessage message = messages.get(messages.size()-1);
         List<String> nicknameReceivers = message.getReceivers().stream().map(Player::getNickName).toList();
         for(OnMessageSentListener listener : messageSentListeners){
             listener.onMessageSent(message.getSender().getNickName(), nicknameReceivers, message.getText());
         }
+        System.out.println("messages sent");
     }
-
 
     public void setOnCurrentPlayerChangedListener(OnCurrentPlayerChangedListener onCurrentPlayerChangedListener) {
         this.onCurrentPlayerChangedListeners.add(onCurrentPlayerChangedListener);
@@ -521,11 +530,11 @@ public class State implements Serializable, OnUpdateNeededListener {
 
     public void notifyAssignedCommonGoal() {
         for(OnAssignedCommonGoalListener onAssignedCommonGoalListener : onAssignedCommonGoalListeners) {
-            if(this.getCommonGoal1()!=null) {
-                onAssignedCommonGoalListener.onAssignedCommonGoal(this.getCommonGoal1().getDescription(),1);
+            if(this.getCommonGoal1() != null) {
+                onAssignedCommonGoalListener.onAssignedCommonGoal(this.getCommonGoal1().getDescription(), 1);
             }
-            if(this.getCommonGoal2()!=null) {
-                onAssignedCommonGoalListener.onAssignedCommonGoal(this.getCommonGoal2().getDescription(),2);
+            if(this.getCommonGoal2() != null) {
+                onAssignedCommonGoalListener.onAssignedCommonGoal(this.getCommonGoal2().getDescription(), 2);
             }
 
         }
@@ -537,16 +546,16 @@ public class State implements Serializable, OnUpdateNeededListener {
         }
     }
 
-    public void setOnChangedCommonGoalAvailableScoreListener(OnChangedCommonGoalAvailableScore listener) {
-        this.onChangedCommonGoalAvailableScoreListeners.add(listener);
+    public void setOnChangedCommonGoalAvailableScoreListener(OnChangedCommonGoalAvailableScoreListener listener) {
+        this.onChangedCommonGoalAvailableScoreListenerListeners.add(listener);
     }
 
-    public void removeOnChangedCommonGoalAvailableScoreListener(OnChangedCommonGoalAvailableScore listener) {
-        this.onChangedCommonGoalAvailableScoreListeners.remove(listener);
+    public void removeOnChangedCommonGoalAvailableScoreListener(OnChangedCommonGoalAvailableScoreListener listener) {
+        this.onChangedCommonGoalAvailableScoreListenerListeners.remove(listener);
     }
 
     public void notifyChangedCommonGoalAvailableScore(int newScore, int numberOfCommonGoal){
-        for(OnChangedCommonGoalAvailableScore listener: onChangedCommonGoalAvailableScoreListeners){
+        for(OnChangedCommonGoalAvailableScoreListener listener: onChangedCommonGoalAvailableScoreListenerListeners){
             listener.onChangedCommonGoalAvailableScore(newScore, numberOfCommonGoal);
         }
     }
@@ -555,65 +564,65 @@ public class State implements Serializable, OnUpdateNeededListener {
     public void onUpdateNeededListener(Player player) {
 
         stateChangedListeners.stream()
-                .filter(v->v==player.getVirtualView()).findAny().ifPresentOrElse(v->v.onStateChanged(gameState),()->System.err.println("unable to notify about state changed"));
+                .filter(v -> v == player.getVirtualView()).findAny().ifPresentOrElse(v -> v.onStateChanged(gameState), () -> System.err.println("unable to notify about state changed"));
 
         if(currentPlayer != null) {
             onCurrentPlayerChangedListeners.stream()
-                    .filter(v->v==player.getVirtualView()).findAny().ifPresentOrElse(v ->v.onCurrentPlayerChangedListener(currentPlayer.getNickName()),()->System.err.println("unable to notify about current player update"));
+                    .filter(v -> v == player.getVirtualView()).findAny().ifPresentOrElse(v -> v.onCurrentPlayerChangedListener(currentPlayer.getNickName()),() -> System.err.println("unable to notify about current player update"));
         }
 
         if(lastPlayer != null) {
             lastPlayerUpdatedListeners.stream()
-                    .filter(v->v==player.getVirtualView()).findAny().ifPresentOrElse(v->v.onLastPlayerUpdated(lastPlayer.getNickName()),()->System.err.println("unable to notify about last player update"));
+                    .filter(v -> v == player.getVirtualView()).findAny().ifPresentOrElse(v -> v.onLastPlayerUpdated(lastPlayer.getNickName()), () -> System.err.println("unable to notify about last player update"));
 
         }
 
         if(this.getCommonGoal2() != null && this.getCommonGoal1() != null) {
             onAssignedCommonGoalListeners.stream()
-                    .filter(v -> v==player.getVirtualView()).findAny().ifPresentOrElse(v->{v.onAssignedCommonGoal(this.getCommonGoal1().getDescription(),1); v.onAssignedCommonGoal(this.getCommonGoal2().getDescription(),2);},()->System.err.println("unable to notify about common goal assigned"));
+                    .filter(v -> v == player.getVirtualView()).findAny().ifPresentOrElse(v -> {v.onAssignedCommonGoal(this.getCommonGoal1().getDescription(),1); v.onAssignedCommonGoal(this.getCommonGoal2().getDescription(), 2);}, () -> System.err.println("unable to notify about common goal assigned"));
         }
 
         List<String> senderNicknames = messages.stream().map(m -> m.getSender().getNickName()).toList();
-        List<List<String>> receiverNicknames = messages.stream().map(m->m.getReceivers().stream().map(Player::getNickName).toList()).toList();
+        List<List<String>> receiverNicknames = messages.stream().map(m -> m.getReceivers().stream().map(Player::getNickName).toList()).toList();
         List<String> texts = messages.stream().map(ChatMessage::getText).toList();
         messageSentListeners.stream()
-                .filter(v -> v==player.getVirtualView()).findAny().ifPresentOrElse(v -> v.onMessagesSentUpdate(senderNicknames, receiverNicknames, texts), () -> System.err.println("unable to notify about all messages"));
+                .filter(v -> v == player.getVirtualView()).findAny().ifPresentOrElse(v -> v.onMessagesSentUpdate(senderNicknames, receiverNicknames, texts), () -> System.err.println("unable to notify about all messages"));
     }
 
     private Set<Set<EntryPatternGoal>> findGroups(TileType[][] bookShelf){
         boolean[][] alreadyTaken = new boolean[bookShelf.length][bookShelf[0].length];//initialized to false
         Set<Set<EntryPatternGoal>> result = new HashSet<Set<EntryPatternGoal>>();
-        for(int i = 0;i<bookShelf.length;i++){
-            for(int j = 0;j<bookShelf[0].length;j++){
-                findSingleGroup(i,j,bookShelf,alreadyTaken,bookShelf[i][j]).ifPresent(result::add);
+        for(int i = 0; i < bookShelf.length; i++){
+            for(int j = 0; j < bookShelf[0].length; j++){
+                findSingleGroup(i, j, bookShelf, alreadyTaken, bookShelf[i][j]).ifPresent(result::add);
             }
         }
         return result;
     }
 
     private Optional<Set<EntryPatternGoal>> findSingleGroup(int i, int j, TileType[][] bookShelf, boolean[][] alreadyTaken, TileType tileType){
-        if(tileType==null){
+        if(tileType == null){
             return Optional.empty();
         }
-        if (i<0||i>=bookShelf.length||j<0||j>=bookShelf[0].length){// nothing is to be returned if arguments are illegal
+        if (i < 0 || i >= bookShelf.length || j < 0 || j >= bookShelf[0].length){// nothing is to be returned if arguments are illegal
             return Optional.empty();
         }
         if (alreadyTaken[i][j]){ //if this bookShelf is already part of another group then it should not be considered for another group
             return Optional.empty();
         }
         Set<EntryPatternGoal> result = new HashSet<>();// Java documentation recommends using HashSet, unless otherwise required
-        if (bookShelf[i][j]!=tileType){//we want only entries whose type is tileType
+        if (bookShelf[i][j] != tileType){//we want only entries whose type is tileType
             return Optional.empty();
         }
         else{
-            result.add(new EntryPatternGoal(j,i,tileType));//if the type is correct then the (i,j)-entry can be added to the group
+            result.add(new EntryPatternGoal(j, i, tileType));//if the type is correct then the (i,j)-entry can be added to the group
             alreadyTaken[i][j] = true;
         }
 
-        findSingleGroup(i-1,j,bookShelf,alreadyTaken,tileType).ifPresent(result::addAll);
-        findSingleGroup(i+1,j,bookShelf,alreadyTaken,tileType).ifPresent(result::addAll);
-        findSingleGroup(i,j-1,bookShelf,alreadyTaken,tileType).ifPresent(result::addAll);
-        findSingleGroup(i,j+1,bookShelf,alreadyTaken,tileType).ifPresent(result::addAll);
+        findSingleGroup(i-1, j, bookShelf, alreadyTaken, tileType).ifPresent(result::addAll);
+        findSingleGroup(i+1, j, bookShelf, alreadyTaken, tileType).ifPresent(result::addAll);
+        findSingleGroup(i, j-1, bookShelf, alreadyTaken, tileType).ifPresent(result::addAll);
+        findSingleGroup(i, j+1, bookShelf, alreadyTaken, tileType).ifPresent(result::addAll);
         return Optional.of(result);
     }
 

@@ -1,17 +1,15 @@
-@import "https://fonts.googleapis.com/css2?family=Special+Elite&amp;display=swap";
-
-/*@font-face {*/
-/*    font-family: 'Special Elite Regular';*/
-/*    font-style: regular;*/
-/*    font-weight: normal;*/
-/*    src: local('sample'), url('https://fonts.googleapis.com/css2?family=Special+Elite&amp;display=swap') format('truetype');*/
-/*}*/
+@font-face {
+    font-family : 'Special Elite Regular';
+    font-weight : normal;
+    font-style : normal;
+    src : local('Special Elite') url('../../graphical.resources/font/SpecialElite-Regular.ttf') ;
+}
 
 .root {
     -fx-background-color: rgba(0,0,0,0.38)
 }
 
-.scene_background {
+.scene-background {
     -fx-background-image: url("../../graphical.resources/publisher.material/display_5.jpg");
     -fx-background-repeat: no-repeat;
     -fx-background-size: cover;
@@ -33,14 +31,25 @@
 }
 
 .info-text {
-    -fx-font-family: "Special Elite";
+    -fx-font-family: "Special Elite Regular";
     -fx-text-alignment: center;
     -fx-wrap-text: true;
 }
 
 .nick-input {
-    -fx-font-family: "Special Elite";
+    -fx-font-family: "Special Elite Regular";
+    -fx-text-fill: rgba(28, 37, 41, 0.87);
     -fx-background-color: transparent;
-    -fx-border-color: rgba(0, 0, 0, 0.87);
+    -fx-border-color: rgba(0, 0, 0, 0.93);
     -fx-border-radius: 3%;
+}
+
+.nick-input:focused, .nick-input:focused:hover {
+    -fx-border-color: rgba(77, 84, 57, 0.93);
+    -fx-effect: null;
+}
+
+.nick-input:hover {
+    -fx-border-color: rgba(77, 84, 57, 0.93);
+    -fx-effect: dropshadow(three-pass-box, rgba(171, 194, 112, 0.40), 10, 0, 0, 0);
 }

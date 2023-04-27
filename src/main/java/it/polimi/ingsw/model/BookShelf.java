@@ -56,7 +56,7 @@ public class BookShelf implements Serializable, OnUpdateNeededListener {
     /**
      * Matrix used to represent the BookShelf for each {@link Player}.
      * This field will contain {@link TileSubject tile objects} to show not only the type of card taken
-     * from the {@link Board} but also a specific image.
+     * from the {@link BoardOld} but also a specific image.
      *
      * @see BookShelf
      * @see TileSubject
@@ -247,9 +247,9 @@ public class BookShelf implements Serializable, OnUpdateNeededListener {
     }
 
     /**
-     * This method is used to put the {@link TileSubject} taken from the {@link Board} inside the {@link BookShelf}.
+     * This method is used to put the {@link TileSubject} taken from the {@link BoardOld} inside the {@link BookShelf}.
      *
-     * @param taken  is a List of {@link TileSubject} that contains the tiles dragged from the {@link Board board}
+     * @param taken  is a List of {@link TileSubject} that contains the tiles dragged from the {@link BoardOld board}
      * @param column is the column of {@link #tileSubjectTaken bookshelf} in which insert the tile's taken
      * @throws ArrayIndexOutOfBoundsException if {@code column} parameter is negative or exceed the
      *         maximum {@link #column} dimension
@@ -261,7 +261,7 @@ public class BookShelf implements Serializable, OnUpdateNeededListener {
      *
      * @see BookShelf
      * @see #isFull()
-     * @see Board
+     * @see BoardOld
      * @see NotEnoughSpaceInBookShelfException
      * @see NoTileTakenException
      */
@@ -271,7 +271,6 @@ public class BookShelf implements Serializable, OnUpdateNeededListener {
             notifyOnExceptionsListener(e);
             throw e;
         }
-
 
         if(taken == null || taken.size() == 0){
             RuntimeException e =  new NoTileTakenException(new NullPointerException());
@@ -313,7 +312,7 @@ public class BookShelf implements Serializable, OnUpdateNeededListener {
      * @see TileSubject
      */
     private int getFirstEmptyRowFromBottom(int column) {
-        for(int i = this.column - 1; i > 0; i--) {
+        for(int i = this.row - 1; i >= 0; i--) {
             if(tileSubjectTaken[i][column] == null)
                 return i;
         }

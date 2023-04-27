@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.exceptions.NoTileTakenException;
 import it.polimi.ingsw.model.exceptions.NotEnoughSpaceInBookShelfException;
+import it.polimi.ingsw.utils.Coordinate;
 
 import java.util.*;
 
@@ -14,7 +15,7 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
     }
 
     @Override
-    public synchronized void dragTilesToBookShelf(ClientInterface user, int[] chosenTiles, int chosenColumn){
+    public synchronized void dragTilesToBookShelf(ClientInterface user, Coordinate[] chosenTiles, int chosenColumn){
         try {
             Player player = getController().getState().getPlayerFromView(user);
             if (!player.equals(getController().getPlayerPlaying())) {
@@ -22,10 +23,10 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
             }
             Board board = getController().getState().getBoard();
             List<TileSubject> tiles = new ArrayList<>();
-            for (Integer tile : chosenTiles) {
-                tiles.add(board.fromIntToBoardSquare(tile).getTileSubject());
+            for (Coordinate tile : chosenTiles) {
+                tiles.add(board.getTileSubjectInBoard(tile.getX(), tile.getY()));
             }
-            board.removeSelectedTileSubject(chosenTiles);
+            board.removeSelectedTileSubject(Arrays.asList(chosenTiles));
             BookShelf bookShelf = player.getBookShelf();
             bookShelf.addTileSubjectTaken(tiles, chosenColumn);
             verifyEndGame(user);
@@ -55,7 +56,6 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
             player.setPlayerState(PlayerState.CONNECTED);
         }
     }
-
 
     //metodo che dice se tutti i player tranne quello passato per parametro sono disconnessi
     private synchronized void verifyAllDisconnectedPlayer(){
@@ -89,6 +89,7 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
     private void verifyPersonalGoal(Player player) {
         getController().getState().checkPersonalGoal(player);
     }
+
     private void verifyAdjacentTiles(Player player) {
         getController().getState().checkAdjacentTiles(player);
     }
@@ -103,18 +104,37 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
         }
     }
 
-
-
-
-
     /**
      * Method that returns true if and only if the Board needs to be refilled with tiles.
      * @return true if and only if the Board needs to be refilled with tiles.
      */
     private boolean verifyRefillBoard(){
-        for(BoardSquare b : getController().getState().getBoard()){
-            if((b.getBottom()!=null && b.getBottom().getTileSubject()!=null) || (b.getRight()!=null && b.getRight().getTileSubject()!=null) ||
-                    (b.getLeft()!=null && b.getLeft().getTileSubject()!=null) || (b.getTop()!=null && b.getTop().getTileSubject()!=null)) return false;
+        for(int i = 0;i<getController().getState().getBoard().DIM;i++) {
+            for(int j = 0;j<getController().getState().getBoard().DIM;j++) {
+                if(getController().getState().getBoard().getTileSubjectInBoard(i,j)!=null) {
+                    if(i != getController().getState().getBoard().DIM - 1) {
+                        if(getController().getState().getBoard().getTileSubjectInBoard(i + 1,j)!=null) {
+                            return false;
+                        }
+                    }
+                    if(i != 0) {
+                        if(getController().getState().getBoard().getTileSubjectInBoard(i - 1,j)!=null) {
+                            return false;
+                        }
+                    }
+
+                    if(j != getController().getState().getBoard().DIM - 1) {
+                        if(getController().getState().getBoard().getTileSubjectInBoard(i,j + 1)!=null) {
+                            return false;
+                        }
+                    }
+                    if(j != 0) {
+                        if(getController().getState().getBoard().getTileSubjectInBoard(i,j - 1)!=null) {
+                            return false;
+                        }
+                    }
+                }
+            }
         }
         return true;
     }

@@ -4,7 +4,6 @@ import it.polimi.ingsw.view.FontChangeListener;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -24,9 +23,10 @@ public class LoginPage extends Application {
     }
 
     @Override
-    public void start(Stage stage) {
+    public void start(Stage stage) throws IOException {
 
         FXMLLoader fxmlLoader = new FXMLLoader(LoginPage.class.getResource(FXML_FILE_PATH));
+
         Scene scene = null;
 
         /* The window dialog login dimension is set according to the screen size. The height and width of the login page
@@ -50,7 +50,6 @@ public class LoginPage extends Application {
             throw new RuntimeException(e);
         }
 
-        //stage.setResizable(false);
         stage.setScene(scene);
         //stage.initStyle(StageStyle.UNDECORATED);
 

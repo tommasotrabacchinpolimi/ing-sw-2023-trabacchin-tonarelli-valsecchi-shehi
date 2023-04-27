@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.controller.exceptions.AlreadyInGameException;
 import it.polimi.ingsw.controller.exceptions.AlreadyTakenNicknameException;
 import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.Player;
@@ -39,26 +40,14 @@ public class LobbyController implements UserAccepter<ClientInterface>, OnConnect
         user.getConnectionManager().setOnConnectionLostListener(this);
     }
 
+    @Override
     public synchronized void joinGame(ClientInterface user, String nickname){
-        if(viewToNicknameMap.containsValue(nickname)){
+        if(!viewToNicknameMap.containsValue(nickname)){
+            addPlayerToGame(user, nickname);
+        } else if (user != nicknameToViewMap.get(nickname)) {
             if(disconnectedButInGame.contains(nickname)){
-                Controller c = viewControllerMap.get(nicknameToViewMap.get(nickname));
-                for(Player p: c.getState().getPlayers()) {
-                    if (p.getVirtualView() == nicknameToViewMap.get(nickname) && p.getPlayerState()== PlayerState.DISCONNECTED) {
-                        viewControllerMap.remove(nicknameToViewMap.get(nickname)); //togliamo quella vecchia
-                        viewControllerMap.put(user, c); //mettiamo quella nuova
-                        controllerViewMap.get(c).remove(nicknameToViewMap.get(nickname));
-                        controllerViewMap.get(c).add(user);
-                        viewToNicknameMap.remove(nicknameToViewMap.get(nickname));
-                        viewToNicknameMap.put(user, nickname);
-                        nicknameToViewMap.remove(nickname);
-                        nicknameToViewMap.put(nickname, user);
-                        disconnectedButInGame.remove(nickname);
-                        c.registerPlayer(user, nickname);
-                    }
-                }
-            }
-            else {
+                reconnectPlayer(user, nickname);
+            } else {
                 //metodo nella textclient interface che dice al client che il nome è gia stato preso
                 //notificare alla view
                 RuntimeException e = new AlreadyTakenNicknameException();
@@ -66,52 +55,40 @@ public class LobbyController implements UserAccepter<ClientInterface>, OnConnect
                 throw e;
             }
         } else {
-            Controller c = firstGameAvailable();
-            if(c == null){ //se non ci sono partite disponibili o sono gia tutte piene metto lo user nella waiting
-                waitingUsers.add(user);
-                viewToNicknameMap.put(user, nickname);
-                nicknameToViewMap.put(nickname,user);
-            } else { //altrimenti lo inserisco nella prima partita disponibile
-                viewToNicknameMap.put(user, nickname);
-                nicknameToViewMap.put(nickname,user);
-                controllerViewMap.get(c).add(user);
-                viewControllerMap.put(user, c);
-                dispatcher.setController(user, c);
-                System.out.println(nickname + " joining " + c);
-                c.registerPlayer(user, nickname);
+            if(viewControllerMap.containsKey(user)){
+                RuntimeException e = new AlreadyInGameException();
+                user.onException(e);
+                throw e;
+            } else{
+                addPlayerToGame(user, nickname);
             }
         }
     }
 
+    @Override
     public synchronized void createGame(ClientInterface user, String nickname, int numberOfPlayer) throws FileNotFoundException {
-        System.out.println("createGame");
-        //se arriva uno user che si era disconnesso, lo ignoro (da fare)
-        State state = new State();
-        Controller controller = new Controller(state, this);
-        List<ClientInterface> list = new ArrayList<>();
-
-        viewToNicknameMap.put(user,nickname);
-        nicknameToViewMap.put(nickname,user);
-        dispatcher.setController(user, controller);
-        System.out.println(nickname + " joining " + controller);
-        controller.registerPlayer(user,nickname);
-        controller.setNumberPlayers(numberOfPlayer);
-        list.add(user);
-        //se ci sono dei giocatori in attesa li aggiungo alla partita
-        if(waitingUsers.size()!=0){
-            for(int i = 1; i < numberOfPlayer; i++){
-                if(waitingUsers.size()!=0){
-                    ClientInterface u = waitingUsers.remove(0);
-                    list.add(u);
-                    dispatcher.setController(user, controller);
-                    System.out.println(nickname + " joining " + controller);
-                    controller.registerPlayer(u, viewToNicknameMap.get(u));
-                }
+        if(!viewToNicknameMap.containsValue(nickname)){
+            createNewGame(user, nickname, numberOfPlayer);
+        } else if (user != nicknameToViewMap.get(nickname)) {
+            if(disconnectedButInGame.contains(nickname)){
+                RuntimeException e = new AlreadyInGameException();
+                user.onException(e);
+                throw e;
+            } else {
+                //metodo nella textclient interface che dice al client che il nome è gia stato preso
+                //notificare alla view
+                RuntimeException e = new AlreadyTakenNicknameException();
+                user.onException(e);
+                throw e;
             }
-        }
-        controllerViewMap.put(controller, list);
-        for(ClientInterface u: list){
-            viewControllerMap.put(u,controller);
+        } else {
+            if(viewControllerMap.containsKey(user)){
+                RuntimeException e = new AlreadyInGameException();
+                user.onException(e);
+                throw e;
+            } else{
+                createNewGame(user, nickname, numberOfPlayer);
+            }
         }
     }
 
@@ -157,6 +134,72 @@ public class LobbyController implements UserAccepter<ClientInterface>, OnConnect
         controllerViewMap.get(c).remove(user);
         viewControllerMap.remove(user);
         dispatcher.removeController(user, c);
+    }
+
+    private void addPlayerToGame(ClientInterface user, String nickname){
+        Controller c = firstGameAvailable();
+        if(c == null){ //se non ci sono partite disponibili o sono gia tutte piene metto lo user nella waiting
+            waitingUsers.add(user);
+            viewToNicknameMap.put(user, nickname);
+            nicknameToViewMap.put(nickname,user);
+        } else { //altrimenti lo inserisco nella prima partita disponibile
+            viewToNicknameMap.put(user, nickname);
+            nicknameToViewMap.put(nickname,user);
+            controllerViewMap.get(c).add(user);
+            viewControllerMap.put(user, c);
+            dispatcher.setController(user, c);
+            System.out.println(nickname + " joining " + c);
+            c.registerPlayer(user, nickname);
+        }
+    }
+
+    private void reconnectPlayer(ClientInterface user, String nickname){
+        Controller c = viewControllerMap.get(nicknameToViewMap.get(nickname));
+        for (Player p : c.getState().getPlayers()) {
+            if (p.getVirtualView() == nicknameToViewMap.get(nickname) && p.getPlayerState() == PlayerState.DISCONNECTED) {
+                viewControllerMap.remove(nicknameToViewMap.get(nickname)); //togliamo quella vecchia
+                viewControllerMap.put(user, c); //mettiamo quella nuova
+                controllerViewMap.get(c).remove(nicknameToViewMap.get(nickname));
+                controllerViewMap.get(c).add(user);
+                viewToNicknameMap.remove(nicknameToViewMap.get(nickname));
+                viewToNicknameMap.put(user, nickname);
+                nicknameToViewMap.remove(nickname);
+                nicknameToViewMap.put(nickname, user);
+                disconnectedButInGame.remove(nickname);
+                dispatcher.setController(user, c);
+                c.registerPlayer(user, nickname);
+            }
+        }
+    }
+
+    private void createNewGame(ClientInterface user, String nickname, int numberOfPlayer) throws FileNotFoundException {
+        State state = new State();
+        Controller controller = new Controller(state, this);
+        List<ClientInterface> list = new ArrayList<>();
+
+        viewToNicknameMap.put(user,nickname);
+        nicknameToViewMap.put(nickname,user);
+        dispatcher.setController(user, controller);
+        System.out.println(nickname + " joining " + controller);
+        controller.registerPlayer(user,nickname);
+        controller.setNumberPlayers(numberOfPlayer);
+        list.add(user);
+        //se ci sono dei giocatori in attesa li aggiungo alla partita
+        if(waitingUsers.size()!=0){
+            for(int i = 1; i < numberOfPlayer; i++){
+                if(waitingUsers.size()!=0){
+                    ClientInterface u = waitingUsers.remove(0);
+                    list.add(u);
+                    dispatcher.setController(user, controller);
+                    System.out.println(nickname + " joining " + controller);
+                    controller.registerPlayer(u, viewToNicknameMap.get(u));
+                }
+            }
+        }
+        controllerViewMap.put(controller, list);
+        for(ClientInterface u: list){
+            viewControllerMap.put(u,controller);
+        }
     }
 
 }

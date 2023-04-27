@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerState;
+import it.polimi.ingsw.utils.Coordinate;
 
 public class SuspendedGameManager extends GameManager {
 
@@ -10,7 +11,7 @@ public class SuspendedGameManager extends GameManager {
     }
 
     @Override
-    public synchronized void dragTilesToBookShelf(ClientInterface view, int[] chosenTiles, int chosenColumn) {
+    public synchronized void dragTilesToBookShelf(ClientInterface view, Coordinate[] chosenTiles, int chosenColumn) {
         System.err.println("called dragTilesToBookShelf in SUSPENDED State");
     }
 

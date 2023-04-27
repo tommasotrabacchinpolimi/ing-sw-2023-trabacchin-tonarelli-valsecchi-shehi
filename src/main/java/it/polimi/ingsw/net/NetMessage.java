@@ -1,8 +1,10 @@
 package it.polimi.ingsw.net;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 public class NetMessage implements Serializable {
+    @Serial
     private static final long serialVersionUID = 5465465224565456L;
     private final String methodName;
     private final Object[] params;
