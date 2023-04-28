@@ -5,10 +5,7 @@ import it.polimi.ingsw.utils.Coordinate;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class InitGameManager extends GameManager {
@@ -82,6 +79,7 @@ public class InitGameManager extends GameManager {
             getController().getState().setCommonGoal1(commonGoalsDeck.remove(0));
             getController().getState().setCommonGoal2(commonGoalsDeck.remove(0));
             getController().getState().getBoard().refillBoard(getController().getState().getPlayersNumber());
+            Collections.rotate(getController().getState().getPlayers(), new Random().nextInt(6));
             if(checkIfNotSuspended()){
                 getController().getState().setGameState(GameState.MID);
                 getController().setGameManager(new MidGameManager<>(getController()));
