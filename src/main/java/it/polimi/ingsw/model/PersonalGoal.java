@@ -118,10 +118,10 @@ public class PersonalGoal implements Serializable {
      *      ...
      * }}}</pre></p>
      *
-     * @param fileName the path to the file ".json" that contains personal goal card configuration
+     * @param fileName the name of the file ".json" that contains personal goal card configuration
      * @throws FileNotFoundException in case that the configuration file name passed as parameter is not
      *         found at the right configuration path
-     * @apiNote No check will be done on the number of Tiles entity that creates the pattern inside the personal goal card
+     * @apiNote No check will be done on the number of Tiles entities that creates the pattern inside the personal goal card
      *          and the maximum number of tiles that needs to be checked the card
      * @see PersonalGoal
      */
@@ -131,7 +131,7 @@ public class PersonalGoal implements Serializable {
                 .create()
                 .fromJson(
                         new JsonReader(
-                                new FileReader(fileName )),
+                                new FileReader( PERSONAL_GOAL_CONFIG + fileName + ".json")),
                         PersonalGoal.class));
     }
 

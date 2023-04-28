@@ -16,7 +16,7 @@ import java.util.Random;
 
 class PersonalGoalTest {
 
-    /*private final static int PATTERN_NUMBER = 10; //number of total patterns
+    private final static int PATTERN_NUMBER = 10; //number of total patterns
     private final static Random RANDOM = new Random();
     private final String inputFileName = "pattern" + RANDOM.nextInt(1,13);
 
@@ -67,7 +67,7 @@ class PersonalGoalTest {
         PersonalGoal personalGoal;
 
         try {
-            personalGoal = new PersonalGoal("pattern1");
+            personalGoal = new PersonalGoal("pattern_1");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             personalGoal = new PersonalGoal();
@@ -84,7 +84,7 @@ class PersonalGoalTest {
                 \tEntryPatternGoal{row=3, column=1, tileType=GAME},
                 \tEntryPatternGoal{row=5, column=2, tileType=TROPHY}
                 }
-                scoreMap:{6=12, 5=9, 4=6, 3=4, 2=2, 1=1}""";
+                scoreMap:{6=12, 5=9, 4=6, 3=4, 2=2, 1=1, 0=0}""";
         assertEquals(personalGoal.toString(), excepted);
-    }*/
+    }
 }
