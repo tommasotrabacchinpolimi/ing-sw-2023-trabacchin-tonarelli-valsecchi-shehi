@@ -32,6 +32,8 @@ module it.polimi.ingsw {
     exports it.polimi.ingsw.view.gui;
     exports it.polimi.ingsw.model;
     exports it.polimi.ingsw.utils;
+    exports it.polimi.ingsw.controller.listeners;
+    exports it.polimi.ingsw.controller.exceptions;
     opens it.polimi.ingsw.controller;
     opens it.polimi.ingsw.controller.rmiInterfaces;
     opens it.polimi.ingsw.controller.listeners;
