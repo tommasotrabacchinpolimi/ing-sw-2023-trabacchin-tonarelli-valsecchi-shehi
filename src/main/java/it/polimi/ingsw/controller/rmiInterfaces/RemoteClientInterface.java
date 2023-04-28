@@ -1,18 +1,21 @@
 package it.polimi.ingsw.controller.rmiInterfaces;
 
 import java.rmi.RemoteException;
+import java.util.List;
 
+import it.polimi.ingsw.model.EntryPatternGoal;
 import it.polimi.ingsw.net.RemoteInterface;
+import it.polimi.ingsw.utils.Coordinate;
 
 public interface RemoteClientInterface extends RemoteInterface {
     @Override
     public void nop() throws RemoteException;
 
-    public void onAchievedCommonGoal(java.lang.String p0, java.util.List p1, int p2) throws RemoteException;
+    public void onAchievedCommonGoal(java.lang.String p0, java.util.List<Coordinate> p1, int p2) throws RemoteException;
 
     public void onBoardRefilled() throws RemoteException;
 
-    public void onBoardUpdated(it.polimi.ingsw.model.TileSubject[] p0) throws RemoteException;
+    public void onBoardUpdated(it.polimi.ingsw.model.TileSubject[][] p0) throws RemoteException;
 
     public void onBookShelfUpdated(java.lang.String p0, it.polimi.ingsw.model.TileSubject[][] p1) throws RemoteException;
 
@@ -20,7 +23,9 @@ public interface RemoteClientInterface extends RemoteInterface {
 
     public void onLastPlayerUpdated(java.lang.String p0) throws RemoteException;
 
-    public void onMessageSent(java.lang.String p0, java.util.List p1, java.lang.String p2) throws RemoteException;
+    public void onMessageSent(java.lang.String p0, java.util.List<String> p1, java.lang.String p2) throws RemoteException;
+
+    public void onMessagesSentUpdate(java.util.List<String> p0, java.util.List<List<String>> p1, java.util.List<String> p2) throws RemoteException;
 
     public void onPlayerStateChanged(java.lang.String p0, it.polimi.ingsw.model.PlayerState p1) throws RemoteException;
 
