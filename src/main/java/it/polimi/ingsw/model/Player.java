@@ -47,7 +47,7 @@ public class Player implements Serializable, OnUpdateNeededListener {
     private final List<OnPlayerStateChangedListener> onPlayerStateChangedListeners;
 
     @ExcludedFromJSON
-    private final List<OnAssignedPersonalGoalListener> onAssignedPersonalGoalListenerListeners;
+    private final List<OnAssignedPersonalGoalListener> onAssignedPersonalGoalListeners;
     @ExcludedFromJSON
     private final List<OnUpdateNeededListener> onUpdateNeededListeners;
 
@@ -59,7 +59,7 @@ public class Player implements Serializable, OnUpdateNeededListener {
         this.playerState = PlayerState.DISCONNECTED;
         this.virtualView = virtualView;
         onPlayerStateChangedListeners = new LinkedList<>();
-        onAssignedPersonalGoalListenerListeners = new LinkedList<>();
+        onAssignedPersonalGoalListeners = new LinkedList<>();
         onUpdateNeededListeners = new LinkedList<>();
     }
     public Player(String nickName) {
@@ -69,7 +69,7 @@ public class Player implements Serializable, OnUpdateNeededListener {
         this.pointPlayer = new PointPlayer();
         this.playerState = PlayerState.DISCONNECTED;
         onPlayerStateChangedListeners = new LinkedList<>();
-        onAssignedPersonalGoalListenerListeners = new LinkedList<>();
+        onAssignedPersonalGoalListeners = new LinkedList<>();
         onUpdateNeededListeners = new LinkedList<>();
     }
 
@@ -87,7 +87,7 @@ public class Player implements Serializable, OnUpdateNeededListener {
         this.pointPlayer = new PointPlayer();
         this.playerState = PlayerState.DISCONNECTED;
         onPlayerStateChangedListeners = new LinkedList<>();
-        onAssignedPersonalGoalListenerListeners = new LinkedList<>();
+        onAssignedPersonalGoalListeners = new LinkedList<>();
         onUpdateNeededListeners = new LinkedList<>();
     }
 
@@ -149,6 +149,7 @@ public class Player implements Serializable, OnUpdateNeededListener {
     public PersonalGoal getPersonalGoal() {
         return personalGoal;
     }
+
     public void setPersonalGoal(PersonalGoal personalGoal) {
         this.personalGoal = personalGoal;
         notifyOnAssignedPersonalGoal();
@@ -174,15 +175,15 @@ public class Player implements Serializable, OnUpdateNeededListener {
     }
 
     public void setOnAssignedPersonalGoalListener(OnAssignedPersonalGoalListener onAssignedPersonalGoalListener) {
-        onAssignedPersonalGoalListenerListeners.add(onAssignedPersonalGoalListener);
+        onAssignedPersonalGoalListeners.add(onAssignedPersonalGoalListener);
     }
 
     public void removeOnAssignedPersonalGoalListener(OnAssignedPersonalGoalListener onAssignedPersonalGoalListener) {
-        onAssignedPersonalGoalListenerListeners.remove(onAssignedPersonalGoalListener);
+        onAssignedPersonalGoalListeners.remove(onAssignedPersonalGoalListener);
     }
 
     public void notifyOnAssignedPersonalGoal() {
-        for(OnAssignedPersonalGoalListener onAssignedPersonalGoalListener : onAssignedPersonalGoalListenerListeners) {
+        for(OnAssignedPersonalGoalListener onAssignedPersonalGoalListener : onAssignedPersonalGoalListeners) {
             onAssignedPersonalGoalListener.onAssignedPersonalGoal(this.nickName, this.personalGoal.getGoalPattern(), this.personalGoal.getScoreMap());
         }
     }
@@ -203,7 +204,7 @@ public class Player implements Serializable, OnUpdateNeededListener {
     public void onUpdateNeededListener(Player player) {
         onPlayerStateChangedListeners.stream().filter(v-> player.getVirtualView() == v).findAny().ifPresentOrElse(v->v.onPlayerStateChanged(this.nickName,this.playerState),()->System.err.println("unable to update about player state changed"));
         if(this.personalGoal != null) {
-            onAssignedPersonalGoalListenerListeners.stream().filter(v->player.getVirtualView() == v).findAny().ifPresentOrElse(v->v.onAssignedPersonalGoal(this.nickName,this.personalGoal.getGoalPattern(), this.personalGoal.getScoreMap()),()->System.err.println("unable to notify about assigned personal goal"));
+            onAssignedPersonalGoalListeners.stream().filter(v->player.getVirtualView() == v).findAny().ifPresentOrElse(v->v.onAssignedPersonalGoal(this.nickName,this.personalGoal.getGoalPattern(), this.personalGoal.getScoreMap()),()->System.err.println("unable to notify about assigned personal goal"));
         }
     }
 
@@ -232,11 +233,11 @@ public class Player implements Serializable, OnUpdateNeededListener {
                 playerState == thatPlayer.playerState &&
                 Objects.equals(virtualView, thatPlayer.virtualView) &&
                 Objects.equals(onPlayerStateChangedListeners, thatPlayer.onPlayerStateChangedListeners) &&
-                Objects.equals(onAssignedPersonalGoalListenerListeners, thatPlayer.onAssignedPersonalGoalListenerListeners);
+                Objects.equals(onAssignedPersonalGoalListeners, thatPlayer.onAssignedPersonalGoalListeners);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(nickName, personalGoal, bookShelf, pointPlayer, playerState, virtualView, onPlayerStateChangedListeners, onAssignedPersonalGoalListenerListeners);
+        return Objects.hash(nickName, personalGoal, bookShelf, pointPlayer, playerState, virtualView, onPlayerStateChangedListeners, onAssignedPersonalGoalListeners);
     }
 }

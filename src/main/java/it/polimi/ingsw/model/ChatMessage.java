@@ -108,12 +108,12 @@ public class ChatMessage implements Serializable {
 
     /**
      * Method that adds a list of {@link Player players} to the list {@link ChatMessage#receivers}.
-     * @param to The list of {@link Player players} that will be added to the list {@link ChatMessage#receivers}.
+     * @param receivers The list of {@link Player players} that will be added to the list {@link ChatMessage#receivers}.
      *
      * @see Player
      */
-    public void setToAll(List<Player> to){
-        this.receivers.addAll(to);
+    public void setToAll(List<Player> receivers){
+        this.receivers.addAll(receivers);
     }
 
     /**

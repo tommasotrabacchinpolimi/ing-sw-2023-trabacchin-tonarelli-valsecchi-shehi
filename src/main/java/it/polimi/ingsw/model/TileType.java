@@ -18,14 +18,14 @@ public enum TileType {
     PLANT("P");
 
     /**
-     * This String represent the TileType with only one letter, that correspond to the first letter of each Tile type name
+     * This String represents the TileType with only one letter, that correspond to the first letter of each Tile type name
      */
     private final String abbreviation;
 
     /**
      * Constructor that sets the enum to the correct value
      *
-     * @param abbreviation string that represent the single letter for each Tile type
+     * @param abbreviation string that represents the single letter for each Tile type
      */
     TileType(String abbreviation) {
         this.abbreviation = abbreviation;

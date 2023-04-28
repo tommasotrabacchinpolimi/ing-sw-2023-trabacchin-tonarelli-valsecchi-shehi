@@ -24,7 +24,7 @@ public class Board implements Serializable, OnUpdateNeededListener {
     private final List<OnBoardRefilledListener> onBoardRefilledListeners;
     private final List<OnBoardUpdatedListener> onBoardUpdatedListeners;
 
-    public static final BoardSquareType[][] init_matrix = {
+    public static final BoardSquareType[][] INIT_MATRIX = {
             {null, null, null, THREE_DOTS, FOUR_DOTS, null, null, null, null},
             {null, null, null, NO_DOTS, NO_DOTS, FOUR_DOTS, null, null, null},
             {null, null, THREE_DOTS, NO_DOTS, NO_DOTS, NO_DOTS, THREE_DOTS, null, null},
@@ -105,7 +105,7 @@ public class Board implements Serializable, OnUpdateNeededListener {
     }
 
     private boolean isOkay(int i, int j, int numPlayers){
-        return (init_matrix[i][j] == NO_DOTS || (init_matrix[i][j] == THREE_DOTS && numPlayers >= 3) || (init_matrix[i][j] == FOUR_DOTS && numPlayers >= 4));
+        return (INIT_MATRIX[i][j] == NO_DOTS || (INIT_MATRIX[i][j] == THREE_DOTS && numPlayers >= 3) || (INIT_MATRIX[i][j] == FOUR_DOTS && numPlayers >= 4));
     }
 
     public List<TileSubject> removeSelectedTileSubject(List<Coordinate> taken) {
@@ -131,10 +131,11 @@ public class Board implements Serializable, OnUpdateNeededListener {
         notifyOnBoardRefilled();
     }
 
+    @Deprecated
     public void printBoard(int numPlayer){
         for(int i = 0; i < board.length; i++){
             for(int j = 0; j < board[0].length; j++){
-                if(init_matrix[i][j]==null) System.out.print("---\t\t\t");
+                if(INIT_MATRIX[i][j]==null) System.out.print("---\t\t\t");
                 else{
                     if(isOkay(i,j,numPlayer)){
                         if(board[i][j]==null) System.out.print("***\t\t\t");

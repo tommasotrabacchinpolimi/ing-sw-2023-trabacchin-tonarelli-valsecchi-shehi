@@ -24,7 +24,7 @@ public abstract class CommonGoal implements Serializable {
 
     /**
      * Values of the available score that will be assigned to the next player that will satisfy that exact CommonGoal.
-     * This field represent the scoring tokens associated with the common goal card.
+     * This field represents the scoring tokens associated with the common goal card.
      *
      * @see CommonGoal
      */
