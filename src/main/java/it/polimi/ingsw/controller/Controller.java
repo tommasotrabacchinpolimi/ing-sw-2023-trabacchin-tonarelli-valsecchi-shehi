@@ -6,11 +6,13 @@ import it.polimi.ingsw.utils.Coordinate;
 
 import java.io.FileNotFoundException;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Controller implements OnConnectionLostListener<ClientInterface>, ControllerInterface {
     private State state;
     private GameManager gameManager;
-    private ChatManager chatManager;
+    private final ChatManager chatManager;
     private LobbyController lobbyController;
 
     public Controller(State state, LobbyController lobbyController) throws FileNotFoundException {

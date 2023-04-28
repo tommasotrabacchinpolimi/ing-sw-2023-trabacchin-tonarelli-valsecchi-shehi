@@ -56,6 +56,7 @@ public class InitGameManager extends GameManager {
         }
         Collections.shuffle(commonGoalsDeck);
     }
+
     @Override
     public synchronized void dragTilesToBookShelf(ClientInterface view, List<Coordinate> chosenTiles, int chosenColumn) {
         System.err.println("dragTilesToBookShelf called in INIT state");
@@ -80,16 +81,27 @@ public class InitGameManager extends GameManager {
         if(getController().getState().getPlayers().size() == getController().getState().getPlayersNumber()) {
             getController().getState().setCommonGoal1(commonGoalsDeck.remove(0));
             getController().getState().setCommonGoal2(commonGoalsDeck.remove(0));
-            getController().setGameManager(new MidGameManager<>(getController()));
             getController().getState().getBoard().refillBoard(getController().getState().getPlayersNumber());
-            getController().getState().setGameState(GameState.MID);
-            getController().getState().setCurrentPlayer(getController().getState().getPlayers().get(0));
+            if(checkIfNotSuspended()){
+                getController().getState().setGameState(GameState.MID);
+                getController().setGameManager(new MidGameManager<>(getController()));
+            } else {
+                getController().getState().setGameState(GameState.SUSPENDED);
+                getController().setGameManager(new SuspendedGameManager(getController(), GameState.MID));
+            }
+
+            //getController().getState().setCurrentPlayer(getController().getState().getPlayers().get(0));
             for(Player rPlayer : getController().getState().getPlayers()) {
                 rPlayer.setPersonalGoal(personalGoalsDeck.remove(0));
             }
 
         }
 
+    }
+
+    private boolean checkIfNotSuspended(){
+        int numberPlayerConnected = (int)getController().getState().getPlayers().stream().filter(player -> player.getPlayerState()==PlayerState.CONNECTED).count();
+        return numberPlayerConnected > 1;
     }
 
     private void registerInternalListener(Player player) {
