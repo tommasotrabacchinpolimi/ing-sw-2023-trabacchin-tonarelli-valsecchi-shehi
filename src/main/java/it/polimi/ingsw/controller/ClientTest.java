@@ -59,7 +59,7 @@ public class ClientTest implements ClientInterface {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         while(true) {
             String input = bufferedReader.readLine();
-            if(input.equals("dragTilesToBookShelf")) {
+            if(input.equals("drag")) {
                 System.out.println("insert a column number: ");
                 int chosenColumn = Integer.parseInt(bufferedReader.readLine());
                 System.out.println("insert a sequence of tiles to drag, terminate with a .");
@@ -76,22 +76,22 @@ public class ClientTest implements ClientInterface {
                 }
                 server.dragTilesToBookShelf(chosenTiles ,chosenColumn);
             }
-            else if(input.equals("createGame")) {
+            else if(input.equals("create")) {
                 System.out.println("write your nickname:");
                 String nickName = bufferedReader.readLine();
                 System.out.println("now write the number of player in the game");
                 int num = Integer.parseInt(bufferedReader.readLine());
                 server.createGame(nickName, num);
             }
-            else if(input.equals("joinGame")) {
+            else if(input.equals("join")) {
                 System.out.println("write your nickname:");
                 String nickName = bufferedReader.readLine();
                 server.joinGame(nickName);
             }
-            else if(input.equals("quitGame")) {
+            else if(input.equals("quit")) {
                 server.quitGame();
             }
-            else if(input.equals("sendMessage")) {
+            else if(input.equals("send")) {
                 System.out.println("write your message");
                 String mes = bufferedReader.readLine();
                 List<String> nickNames = new LinkedList<>();

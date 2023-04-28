@@ -5,10 +5,7 @@ import it.polimi.ingsw.utils.Coordinate;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class InitGameManager extends GameManager {
@@ -56,6 +53,7 @@ public class InitGameManager extends GameManager {
         }
         Collections.shuffle(commonGoalsDeck);
     }
+
     @Override
     public synchronized void dragTilesToBookShelf(ClientInterface view, List<Coordinate> chosenTiles, int chosenColumn) {
         System.err.println("dragTilesToBookShelf called in INIT state");
@@ -80,16 +78,28 @@ public class InitGameManager extends GameManager {
         if(getController().getState().getPlayers().size() == getController().getState().getPlayersNumber()) {
             getController().getState().setCommonGoal1(commonGoalsDeck.remove(0));
             getController().getState().setCommonGoal2(commonGoalsDeck.remove(0));
-            getController().setGameManager(new MidGameManager<>(getController()));
             getController().getState().getBoard().refillBoard(getController().getState().getPlayersNumber());
-            getController().getState().setGameState(GameState.MID);
-            getController().getState().setCurrentPlayer(getController().getState().getPlayers().get(0));
+            Collections.rotate(getController().getState().getPlayers(), new Random().nextInt(6));
+            if(checkIfNotSuspended()){
+                getController().getState().setGameState(GameState.MID);
+                getController().setGameManager(new MidGameManager<>(getController()));
+            } else {
+                getController().getState().setGameState(GameState.SUSPENDED);
+                getController().setGameManager(new SuspendedGameManager(getController(), GameState.MID));
+            }
+
+            //getController().getState().setCurrentPlayer(getController().getState().getPlayers().get(0));
             for(Player rPlayer : getController().getState().getPlayers()) {
                 rPlayer.setPersonalGoal(personalGoalsDeck.remove(0));
             }
 
         }
 
+    }
+
+    private boolean checkIfNotSuspended(){
+        int numberPlayerConnected = (int)getController().getState().getPlayers().stream().filter(player -> player.getPlayerState()==PlayerState.CONNECTED).count();
+        return numberPlayerConnected > 1;
     }
 
     private void registerInternalListener(Player player) {
