@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
@@ -23,9 +21,7 @@
         </rowConstraints>
         <WrappedImageView fx:id="myShelfieTitle" cache="true" nodeOrientation="INHERIT" preserveRatio="true"
                           GridPane.fillHeight="true" GridPane.fillWidth="true">
-            <image>
-                <Image url="@../../graphical.resources/publisher.material/title_2000x618px.png"/>
-            </image>
+            <Image url="@../../graphical.resources/publisher.material/title_2000x618px.png"/>
         </WrappedImageView>
 
         <AnchorPane GridPane.fillHeight="true" GridPane.fillWidth="true" GridPane.rowIndex="1">

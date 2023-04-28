@@ -1,12 +1,12 @@
 @font-face {
-    font-family : 'Special Elite Regular';
-    font-weight : normal;
-    font-style : normal;
-    src : local('Special Elite') url('../../graphical.resources/font/SpecialElite-Regular.ttf') ;
+    font-family: 'Special Elite Regular';
+    font-weight: normal;
+    font-style: normal;
+    src: local('Special Elite') url('../../graphical.resources/font/SpecialElite-Regular.ttf') ;
 }
 
 .root {
-    -fx-background-color: rgba(0,0,0,0.38)
+    -fx-background-color: rgba(0, 0, 0, 0.38)
 }
 
 .scene-background {
@@ -45,11 +45,21 @@
 }
 
 .nick-input:focused, .nick-input:focused:hover {
-    -fx-border-color: rgba(77, 84, 57, 0.93);
+    -fx-border-color: rgba(128, 165, 26, 0.93);
+    -fx-text-fill: rgba(77, 84, 57, 1);
     -fx-effect: null;
 }
 
 .nick-input:hover {
-    -fx-border-color: rgba(77, 84, 57, 0.93);
-    -fx-effect: dropshadow(three-pass-box, rgba(171, 194, 112, 0.40), 10, 0, 0, 0);
+    -fx-border-color: rgba(128, 165, 26, 0.93);
+    -fx-effect: dropshadow(three-pass-box, rgba(128, 165, 26, 0.2), 10, 0, 0, 0);
+    -fx-text-fill: rgba(28, 37, 41, 0.97);
+}
+
+.nick-input:error, .nick-input:focused:error, .nick-input:filled:error, .nick-input:hover:error,
+.nick-input:focused:hover:error {
+    -fx-border-color: rgb(162, 15, 30, 0.93);
+    -fx-border-width: 2;
+    -fx-effect: dropshadow(three-pass-box, rgba(198, 57, 10, 0.1), 10, 0, 0, 0);
+    -fx-text-fill: rgba(95, 35, 41, 1);
 }

@@ -6,19 +6,22 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.scene.text.Font;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.Objects;
 
 public class LoginPage extends Application {
-
     private static final String FXML_FILE_PATH = "/it.polimi.ingsw/layout/login/login-page.fxml";
+    private static final String FONT_PATH = "/it.polimi.ingsw/graphical.resources/font/SpecialElite-Regular.ttf";
 
     private static final GraphicsDevice SCREEN_DEVICE = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
     private static final int SCREEN_WIDTH = SCREEN_DEVICE.getDisplayMode().getWidth();
     private static final int SCREEN_HEIGHT = SCREEN_DEVICE.getDisplayMode().getHeight();
 
     public static void main(String[] args) {
+        Font.loadFont(LoginPage.class.getResourceAsStream(FONT_PATH), Font.getDefault().getSize());
         launch(args);
     }
 

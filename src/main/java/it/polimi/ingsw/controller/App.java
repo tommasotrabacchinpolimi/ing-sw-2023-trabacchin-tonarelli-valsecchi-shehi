@@ -14,6 +14,9 @@ import java.util.concurrent.Executors;
 import java.util.function.Supplier;
 
 public class App {
+    static private Registry registry;
+    static private RmiAccepter<ServerInterface,ClientInterface> rmiAccepter;
+    static private RemoteAccepterInterface stub;
     public static void main(String[] args) throws AlreadyBoundException, RemoteException {
         test();
     }
@@ -28,9 +31,9 @@ public class App {
         TypeToken<ServerInterface> typeToken1 = new TypeToken<>() {};
         ExecutorService executorService = Executors.newCachedThreadPool();
         Supplier<UserAdapterInterface<ClientInterface>> userAdapterInterfaceSupplier = UserAdapter::new;
-        RmiAccepter<ServerInterface,ClientInterface> rmiAccepter = new RmiAccepter<ServerInterface, ClientInterface>(2147,lobbyController,dispatcher,typeToken,typeToken1,executorService,userAdapterInterfaceSupplier);
-        Registry registry = LocateRegistry.createRegistry(2147);
-        RemoteAccepterInterface stub = (RemoteAccepterInterface) UnicastRemoteObject.exportObject(rmiAccepter,2147);
+        rmiAccepter = new RmiAccepter<ServerInterface, ClientInterface>(2147,lobbyController,dispatcher,typeToken,typeToken1,executorService,userAdapterInterfaceSupplier);
+        registry = LocateRegistry.createRegistry(2147);
+        stub = (RemoteAccepterInterface) UnicastRemoteObject.exportObject(rmiAccepter,2147);
         registry.bind("default",stub);
         SocketAccepter<ServerInterface, ClientInterface> socketAccepter = new SocketAccepter<>(1234, lobbyController, dispatcher, typeToken, executorService, userAdapterInterfaceSupplier, typeToken1);
         new Thread(socketAccepter).start();

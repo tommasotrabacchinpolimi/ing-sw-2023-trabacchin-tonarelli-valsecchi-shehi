@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.loginpage;
 
 import it.polimi.ingsw.view.ImageRoundCornersClipper;
 import it.polimi.ingsw.view.WrappedImageView;
+import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -23,28 +24,39 @@ public class LoginPageController {
     public TextField nicknameInput;
     public AnchorPane infoContainerBox;
     public WrappedImageView myShelfieTitle;
-    public AnchorPane myShelfieTitleWrapper;
 
     @FXML
     void initialize() throws IOException {
 
         ImageRoundCornersClipper.roundClipper(infoContainer, 10);
         ImageRoundCornersClipper.roundClipper(infoContainerBox, 10);
+
+        checkNickname();
     }
 
     @FXML
     public void textFieldKeyPressed(KeyEvent keyEvent) {
-        if(keyEvent.getCode() == KeyCode.ESCAPE) {
+        if (keyEvent.getCode() == KeyCode.ESCAPE) {
             rootPane.requestFocus();
         }
 
-        if(keyEvent.getCode() == KeyCode.ENTER) {
+        if (keyEvent.getCode() == KeyCode.ENTER) {
             System.out.println("Nickname: " + nicknameInput.getText());
             nicknameInput.setText("");
         }
     }
 
+    @FXML
     public void setAllNonFocused(MouseEvent mouseEvent) {
         rootPane.requestFocus();
+    }
+
+    private void checkNickname() {
+        nicknameInput.textProperty().addListener(event -> {
+            nicknameInput.pseudoClassStateChanged(
+                    PseudoClass.getPseudoClass("error"),
+                    !nicknameInput.getText().isEmpty() && nicknameInput.getText().contains("Errata")
+            );
+        });
     }
 }
