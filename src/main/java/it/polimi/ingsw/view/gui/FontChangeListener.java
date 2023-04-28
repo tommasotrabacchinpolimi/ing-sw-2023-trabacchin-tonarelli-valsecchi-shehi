@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view;
+package it.polimi.ingsw.view.gui;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -9,7 +9,6 @@ import javafx.scene.layout.Pane;
 public class FontChangeListener implements ChangeListener<Number> {
     private final Scene scene;
     private final Pane contentPane;
-
     private final String elementID;
     private final double standardSize;
     private final double initialScale;
@@ -32,6 +31,7 @@ public class FontChangeListener implements ChangeListener<Number> {
 
         scaleTextContent(this.initialScale);
     }
+
     @Override
     public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
 

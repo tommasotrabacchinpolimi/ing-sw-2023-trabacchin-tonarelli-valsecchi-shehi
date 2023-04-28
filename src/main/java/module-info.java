@@ -1,6 +1,6 @@
 module it.polimi.ingsw {
 
-    opens it.polimi.ingsw.view.loginpage;
+    opens it.polimi.ingsw.view.gui.loginpage;
 
     requires java.rmi;
     requires com.google.gson;
@@ -20,15 +20,16 @@ module it.polimi.ingsw {
 
     requires java.desktop;
     requires java.compiler;
+    requires annotations;
 
-    opens it.polimi.ingsw.view to javafx.fxml;
+    opens it.polimi.ingsw.view.gui to javafx.fxml;
     exports it.polimi.ingsw;
 
-    exports it.polimi.ingsw.view.loginpage to javafx.fxml, javafx.graphics;
+    exports it.polimi.ingsw.view.gui.loginpage to javafx.fxml, javafx.graphics;
     exports it.polimi.ingsw.net to java.rmi;
     exports it.polimi.ingsw.controller.rmiInterfaces to java.rmi;
     exports it.polimi.ingsw.controller to java.rmi;
-    exports it.polimi.ingsw.view;
+    exports it.polimi.ingsw.view.gui;
     exports it.polimi.ingsw.model;
     exports it.polimi.ingsw.utils;
     opens it.polimi.ingsw.controller;
@@ -36,4 +37,5 @@ module it.polimi.ingsw {
     opens it.polimi.ingsw.controller.listeners;
     opens it.polimi.ingsw.controller.exceptions;
     opens it.polimi.ingsw.net;
+    exports it.polimi.ingsw.view.tui;
 }

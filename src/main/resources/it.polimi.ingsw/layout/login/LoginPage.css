@@ -60,6 +60,17 @@
 .nick-input:focused:hover:error {
     -fx-border-color: rgb(162, 15, 30, 0.93);
     -fx-border-width: 2;
-    -fx-effect: dropshadow(three-pass-box, rgba(198, 57, 10, 0.1), 10, 0, 0, 0);
+    -fx-effect: dropshadow(gaussian, rgba(198, 57, 10, 0.1), 10, 0, 0, 0);
     -fx-text-fill: rgba(95, 35, 41, 1);
+}
+
+.nick-submit {
+    -fx-font-family: "Special Elite Regular";
+    -fx-text-fill: rgba(230, 221, 199, 0.90);
+    -fx-background-image: url("../../graphical.resources/misc/page_base_lighten.png");
+    -fx-background-size: cover;
+    -fx-background-position: center center;
+    -fx-alignment: center;
+    -fx-border-width: 0;
+    -fx-effect: dropshadow(gaussian, rgba(16, 27, 31, 0.2), 10, 0, 0, 0);
 }

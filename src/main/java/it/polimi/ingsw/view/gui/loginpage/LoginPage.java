@@ -1,6 +1,6 @@
-package it.polimi.ingsw.view.loginpage;
+package it.polimi.ingsw.view.gui.loginpage;
 
-import it.polimi.ingsw.view.FontChangeListener;
+import it.polimi.ingsw.view.gui.FontChangeListener;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -10,7 +10,6 @@ import javafx.scene.text.Font;
 
 import java.awt.*;
 import java.io.IOException;
-import java.util.Objects;
 
 public class LoginPage extends Application {
     private static final String FXML_FILE_PATH = "/it.polimi.ingsw/layout/login/login-page.fxml";
@@ -58,6 +57,7 @@ public class LoginPage extends Application {
 
         new FontChangeListener(scene, fxmlLoader.<LoginPageController>getController().rootPane, "infoText", 21);
         new FontChangeListener(scene, fxmlLoader.<LoginPageController>getController().rootPane, "nicknameInput", 17);
+        new FontChangeListener(scene, fxmlLoader.<LoginPageController>getController().rootPane, "nicknameSubmit", 17);
 
         stage.setWidth(scene.getWidth());
         stage.setHeight(scene.getHeight());

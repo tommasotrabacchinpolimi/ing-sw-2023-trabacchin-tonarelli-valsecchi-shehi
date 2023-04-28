@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view;
+package it.polimi.ingsw.view.gui;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -74,13 +74,7 @@ public class WrappedImageView extends ImageView {
         double ratioX = getFitWidth() / img.getWidth();
         double ratioY = getFitHeight() / img.getHeight();
 
-        double reduceCoeff = 0;
-
-        if(ratioX >= ratioY) {
-            reduceCoeff = ratioY;
-        } else {
-            reduceCoeff = ratioX;
-        }
+        double reduceCoeff = Math.min(ratioX, ratioY);
 
         w = img.getWidth() * reduceCoeff;
         h = img.getHeight() * reduceCoeff;
