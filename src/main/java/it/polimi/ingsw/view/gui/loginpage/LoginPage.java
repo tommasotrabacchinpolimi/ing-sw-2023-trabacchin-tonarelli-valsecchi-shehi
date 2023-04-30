@@ -53,11 +53,11 @@ public class LoginPage extends Application {
         }
 
         stage.setScene(scene);
-        //stage.initStyle(StageStyle.UNDECORATED);
+        //stage.initStyle(StageStyle.UTILITY);
 
-        new FontChangeListener(scene, fxmlLoader.<LoginPageController>getController().rootPane, "infoText", 21);
-        new FontChangeListener(scene, fxmlLoader.<LoginPageController>getController().rootPane, "nicknameInput", 17);
-        new FontChangeListener(scene, fxmlLoader.<LoginPageController>getController().rootPane, "nicknameSubmit", 17);
+        FontChangeListener.setResizableFont(scene, "welcomeText", 21);
+        FontChangeListener.setResizableFont(scene, "nicknameInput", 17);
+        FontChangeListener.setResizableFont(scene, "nicknameSubmit", 12);
 
         stage.setWidth(scene.getWidth());
         stage.setHeight(scene.getHeight());

@@ -16,7 +16,7 @@
     -fx-background-position: center center;
 }
 
-.info-container-box {
+.info-box-container {
     -fx-background-image: url("../../graphical.resources/misc/page_base_darken.jpg");
     -fx-background-size: cover;
     -fx-background-position: center center;
@@ -30,7 +30,7 @@
     -fx-alignment: center;
 }
 
-.info-text {
+.welcome-text {
     -fx-font-family: "Special Elite Regular";
     -fx-text-alignment: center;
     -fx-wrap-text: true;
@@ -71,6 +71,4 @@
     -fx-background-size: cover;
     -fx-background-position: center center;
     -fx-alignment: center;
-    -fx-border-width: 0;
-    -fx-effect: dropshadow(gaussian, rgba(16, 27, 31, 0.2), 10, 0, 0, 0);
 }
