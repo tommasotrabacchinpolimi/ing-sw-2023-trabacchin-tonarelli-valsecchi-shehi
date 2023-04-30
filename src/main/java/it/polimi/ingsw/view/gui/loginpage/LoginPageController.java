@@ -1,40 +1,51 @@
 package it.polimi.ingsw.view.gui.loginpage;
 
 import it.polimi.ingsw.view.gui.ImageRoundCornersClipper;
-import it.polimi.ingsw.view.gui.WrappedImageView;
+import javafx.beans.binding.Bindings;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.Bloom;
 import javafx.scene.effect.BlurType;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import org.jetbrains.annotations.NotNull;
 
-public class LoginPageController {
 
+public class LoginPageController {
+    public AnchorPane sceneBackground;
     public GridPane rootPane;
     public GridPane infoContainer;
-    public Label infoText;
-    public AnchorPane infoTextWrapper;
-    public GridPane infoBox;
+    public Label welcomeText;
+    public GridPane infoBoxDivider;
     public TextField nicknameInput;
-    public AnchorPane infoContainerBox;
-    public WrappedImageView myShelfieTitle;
-    public GridPane inputBox;
+    public AnchorPane infoBoxContainer;
+    public ImageView myShelfieTitle;
     public Button nicknameSubmit;
+    public ImageView cranioCreationLogo;
+    public GridPane inputContainer;
+
+    private static final PseudoClass errorClass = PseudoClass.getPseudoClass("error");
 
     @FXML
     void initialize() {
 
         ImageRoundCornersClipper.roundClipper(infoContainer, 10);
-        ImageRoundCornersClipper.roundClipper(infoContainerBox, 10);
-        ImageRoundCornersClipper.roundClipperDropShadow(nicknameSubmit, 30, BlurType.GAUSSIAN, Color.web("#101B1F",1.0), 30, 30, 30, 30);
+        ImageRoundCornersClipper.roundClipper(infoBoxContainer, 10);
+        ImageRoundCornersClipper.roundClipper(nicknameSubmit, 30);
+
+        nicknameInput.textProperty().addListener(event -> {
+                nicknameSubmit.setDisable(nicknameInput.getText().isEmpty() || nicknameInput.getText().equals(""));
+        });
 
         checkNickname();
     }
@@ -46,42 +57,44 @@ public class LoginPageController {
         }
 
         if (keyEvent.getCode() == KeyCode.ENTER) {
-            nicknameSubmitted();
+            nicknameSubmitted(null);
         }
     }
 
     @FXML
     public void setAllNonFocused(MouseEvent mouseEvent) {
-        rootPane.requestFocus();
+        sceneBackground.requestFocus();
     }
 
     private void checkNickname() {
         nicknameInput.textProperty().addListener(event -> {
-            nicknameInput.pseudoClassStateChanged(
-                    PseudoClass.getPseudoClass("error"),
-                    !nicknameInput.getText().isEmpty() && nicknameInput.getText().contains("Errata")
-            );
+            nicknameInput.pseudoClassStateChanged(errorClass, errorInNicknameInput());
+
+            nicknameSubmit.setDisable(errorInNicknameInput());
         });
     }
 
-    private void setNicknameInputInError() {
-        nicknameInput.textProperty().addListener(event -> {
-            nicknameInput.pseudoClassStateChanged(
-                    PseudoClass.getPseudoClass("error"),
-                    nicknameInput.getText().isEmpty()
-            );
-        });
+    private boolean errorInNicknameInput() {
+        return !nicknameInput.getText().isEmpty() && nicknameInput.getText().contains("Errata");
     }
 
-    public void nicknameSubmitted() {
-        if (nicknameInput.getText().isEmpty())
-            setNicknameInputInError();
+    @FXML
+    public void nicknameButtonEntered(MouseEvent mouseEvent) {
+        nicknameSubmit.setEffect(new Bloom());
+        nicknameSubmit.setStyle("-fx-font-size: " + (nicknameSubmit.getFont().getSize() + 1) + "px");
+    }
+
+    @FXML
+    public void nicknameButtonExited(MouseEvent mouseEvent) {
+        nicknameSubmit.setEffect(null);
+        nicknameSubmit.setStyle("-fx-font-size: " + (nicknameSubmit.getFont().getSize() - 1) + "px");
+    }
+
+    @FXML
+    public void nicknameSubmitted(MouseEvent mouseEvent) {
 
         System.out.println("Nickname: " + nicknameInput.getText());
 
-        nicknameInput.setText("");
-    }
-
-    public void nicknameButtonEntered(MouseEvent mouseEvent) {
+        nicknameInput.clear();
     }
 }

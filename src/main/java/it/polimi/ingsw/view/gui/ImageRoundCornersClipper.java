@@ -34,8 +34,6 @@ public class ImageRoundCornersClipper {
             outputClip.setArcWidth(lesserExtent * (arc / 100));
             outputClip.setArcHeight(lesserExtent * (arc / 100));
 
-            outputClip.setEffect(new DropShadow(blurType, colorHSB, radius, spread, offsetX, offsetY));
-
             region.setClip(outputClip);
 
             outputClip.setWidth(newValue.getWidth());

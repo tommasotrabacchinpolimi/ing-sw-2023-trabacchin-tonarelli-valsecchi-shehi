@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.gui;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+@Deprecated
 public class WrappedImageView extends ImageView {
 
     public WrappedImageView() {
