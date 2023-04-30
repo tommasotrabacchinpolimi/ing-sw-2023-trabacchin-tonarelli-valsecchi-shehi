@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.scene.text.Font;
-import javafx.stage.StageStyle;
 
 import java.awt.*;
 import java.io.IOException;

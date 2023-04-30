@@ -4,7 +4,6 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<?import javafx.geometry.Insets?>
 <AnchorPane fx:id="sceneBackground" styleClass="scene-background" cache="true" stylesheets="@LoginPage.css"
             xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="it.polimi.ingsw.view.gui.loginpage.LoginPageController" onMouseClicked="#setAllNonFocused">
