@@ -188,4 +188,10 @@ public class Client implements ClientInterface, LogicInterface {
     public void dragTilesToBookShelf(List<Coordinate> chosenTiles, int chosenColumn) {
 
     }
+
+    @Override
+    public String getNickNameCurrentPlayer() {
+        return null;
+    }
+
 }

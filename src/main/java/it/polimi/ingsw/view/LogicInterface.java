@@ -10,4 +10,6 @@ public interface LogicInterface {
     void quitGame();
     void sentMessage(String text,  String[] receiversNickname);
     void dragTilesToBookShelf(List<Coordinate> chosenTiles, int chosenColumn);
+
+    String getNickNameCurrentPlayer();
 }

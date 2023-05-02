@@ -1,7 +1,8 @@
 package it.polimi.ingsw.view.tui;
 
 public class BoardTUI {
-    private static final int DIM = 9;
+    private static final int DIM_BOARD = 9;
+    private static final int DIMCOL_BOOKSHELF = 5;
     private static final char EMPTY = '-';
     private static final char[][] test = {
             {' ',' ',' ',EMPTY,'c',' ',' ',' ',' '},
@@ -15,25 +16,80 @@ public class BoardTUI {
             {' ',' ',' ',' ','c','c',' ',' ',' '}};
 
     public static void main( String[] args ) {
-       printInSquare();
+       print();
        // printFitBoard();
         //logo();
+    }
+
+    private static void print(){
+        System.out.println("              Living Room Board:                           Your BookShelf:                   Your Personal Goal:");
+        System.out.println("     ╔═══╦═══╦═══╦═══╦═══╦═══╦═══╦═══╦═══╗");
+
+        for( int i = 0; i < DIM_BOARD; ++i ){
+            System.out.print("     ");
+
+            /*for( int j = 0; j < DIM_BOARD; ++j){
+                if( j == 0 )
+                    System.out.print( "║ " + test[i][j] + " ║ ");
+                else if( j < DIM_BOARD - 1 )
+                    System.out.print( test[i][j] + " ║ " );
+                else
+                    System.out.print( test[i][j] + " ║" );
+            } */
+            printLine(i);
+
+            System.out.print("               ");
+            if(i >= 3){
+                for(int j = 0; j < DIMCOL_BOOKSHELF; j++){
+                    if( j == 0 )
+                        System.out.print( "║ " + test[i][j] + " ║ ");
+                    else if( j < DIMCOL_BOOKSHELF - 1 )
+                        System.out.print( test[i][j] + " ║ " );
+                    else
+                        System.out.print( test[i][j] + " ║" );
+                }
+                System.out.print("               ");
+                for(int j = 0; j < DIMCOL_BOOKSHELF; j++){
+                    if( j == 0 )
+                        System.out.print( "║ " + test[i][j] + " ║ ");
+                    else if( j < DIMCOL_BOOKSHELF - 1 )
+                        System.out.print( test[i][j] + " ║ " );
+                    else
+                        System.out.print( test[i][j] + " ║" );
+                }
+            }
+            System.out.println();
+
+            if( i < DIM_BOARD - 1 ){
+                if(i==2)
+                    System.out.println("     ╠═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╣               ╔═══╦═══╦═══╦═══╦═══╗               ╔═══╦═══╦═══╦═══╦═══╗");
+                else if (i < 2) {
+                    System.out.println("     ╠═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╣");
+                }
+                else {
+                    System.out.println("     ╠═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╣               ╠═══╬═══╬═══╬═══╬═══╣               ╠═══╬═══╬═══╬═══╬═══╣");
+                }
+            }
+
+        }
+
+        System.out.println("     ╚═══╩═══╩═══╩═══╩═══╩═══╩═══╩═══╩═══╝               ╚═══╩═══╩═══╩═══╩═══╝               ╚═══╩═══╩═══╩═══╩═══╝");
     }
 
     private static void printInSquare() {
         System.out.println("╔═══╦═══╦═══╦═══╦═══╦═══╦═══╦═══╦═══╗");
 
-        for( int i = 0; i < DIM; ++i ){
-            for( int j = 0; j < DIM; ++j){
+        for( int i = 0; i < DIM_BOARD; ++i ){
+            for( int j = 0; j < DIM_BOARD; ++j){
                 if( j == 0 )
                     System.out.print( "║ " + test[i][j] + " ║ ");
-                else if( j < DIM - 1 )
+                else if( j < DIM_BOARD - 1 )
                     System.out.print( test[i][j] + " ║ " );
                 else
                     System.out.println( test[i][j] + " ║ " );
             }
 
-            if( i < DIM - 1 )
+            if( i < DIM_BOARD - 1 )
                 System.out.println("╠═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╣");
         }
 
@@ -119,11 +175,11 @@ public class BoardTUI {
 
         System.out.print( " ║" );
 
-        for( i += c ; i < DIM; ++i ){
+        for( i += c ; i < DIM_BOARD; ++i ){
                 System.out.print( "   │" );
         }
 
-        System.out.println();
+        //System.out.println();
     }
 
     public static void logo(){
