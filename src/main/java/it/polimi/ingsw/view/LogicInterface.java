@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.tui_draft;
+package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.utils.Coordinate;
 
