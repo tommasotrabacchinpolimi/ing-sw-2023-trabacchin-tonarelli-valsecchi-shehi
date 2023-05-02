@@ -10,7 +10,7 @@
 
     <GridPane fx:id="rootPane" styleClass="root" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
               AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" alignment="CENTER"
-              prefWidth="${sceneBackground.width}" prefHeight="${sceneBackground.width}" >
+              prefWidth="${sceneBackground.width}" prefHeight="${sceneBackground.width}">
         <columnConstraints>
             <ColumnConstraints hgrow="ALWAYS" minWidth="1.0" percentWidth="100"/>
         </columnConstraints>
@@ -29,7 +29,7 @@
         <GridPane fx:id="infoBoxDivider" GridPane.fillHeight="true" GridPane.fillWidth="true" GridPane.rowIndex="1"
                   GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.valignment="CENTER"
                   prefHeight="${rootPane.height / 0.41}" prefWidth="${rootPane.width}"
-                  GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS" alignment="CENTER" >
+                  GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS" alignment="CENTER">
             <columnConstraints>
                 <ColumnConstraints hgrow="ALWAYS" minWidth="1.0" percentWidth="17"/>
                 <ColumnConstraints hgrow="ALWAYS" minWidth="1.0" percentWidth="66"/>
@@ -47,7 +47,7 @@
                           AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="7.0"
                           AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="7.0" cache="true"
                           prefHeight="${infoBoxContainer.height}" prefWidth="${infoBoxContainer.width}"
-                          >
+                >
                     <columnConstraints>
                         <ColumnConstraints hgrow="ALWAYS" minWidth="1.0" percentWidth="100"/>
                     </columnConstraints>
@@ -70,10 +70,11 @@
                               GridPane.vgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.halignment="CENTER"
                               prefHeight="${infoContainer.height / 0.4}" prefWidth="${infoContainer.width}"
                               minWidth="1.0" minHeight="1.0" maxHeight="${infoContainer.height / 0.4}"
-                              maxWidth="${infoContainer.width}"  vgap="5">
+                              maxWidth="${infoContainer.width}" vgap="5">
                         <columnConstraints>
                             <ColumnConstraints hgrow="ALWAYS" minWidth="1.0" percentWidth="17"/>
-                            <ColumnConstraints hgrow="ALWAYS" minWidth="1.0" percentWidth="66"/>
+                            <ColumnConstraints hgrow="ALWAYS" minWidth="1.0" percentWidth="33"/>
+                            <ColumnConstraints hgrow="ALWAYS" minWidth="1.0" percentWidth="33"/>
                             <ColumnConstraints hgrow="ALWAYS" minWidth="1.0" percentWidth="17"/>
                         </columnConstraints>
 
@@ -86,19 +87,24 @@
                         <TextField fx:id="nicknameInput" styleClass="nick-input" alignment="CENTER"
                                    focusTraversable="false" promptText="Nickname" GridPane.columnIndex="1"
                                    GridPane.rowIndex="0" GridPane.halignment="CENTER" GridPane.valignment="CENTER"
-                                   GridPane.fillWidth="true" GridPane.fillHeight="true"
+                                   GridPane.fillWidth="true" GridPane.fillHeight="true" GridPane.columnSpan="2"
                                    maxHeight="${inputContainer.height * 0.47}"
                                    maxWidth="${inputContainer.width * 0.66}" minHeight="1.0" minWidth="1.0"
                                    onKeyPressed="#textFieldKeyPressed"/>
 
-                        <Button fx:id="nicknameSubmit" styleClass="nick-submit" GridPane.halignment="CENTER"
-                                GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS"
-                                GridPane.hgrow="ALWAYS"
-                                GridPane.columnIndex="1" GridPane.rowIndex="1" text="Submit"
-                                onMouseClicked="#nicknameSubmitted" onMouseEntered="#nicknameButtonEntered"
-                                onMouseExited="#nicknameButtonExited" disable="true" alignment="CENTER" cache="true"
-                                wrapText="true" minHeight="1.0" maxHeight="${inputContainer.height * 0.47}">
-                        </Button>
+                        <Button fx:id="joinSubmit" styleClass="action-button" GridPane.halignment="CENTER"
+                                GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
+                                GridPane.columnIndex="2" GridPane.rowIndex="1" text="join game"
+                                onMouseClicked="#joinGame" onMouseEntered="#joinGameButtonEntered"
+                                onMouseExited="#joinGameButtonExited" disable="true" alignment="CENTER" cache="true"
+                                wrapText="true" minHeight="1.0" maxHeight="${inputContainer.height * 0.47}"/>
+
+                        <Button fx:id="createSubmit" styleClass="action-button" GridPane.halignment="CENTER"
+                                GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
+                                GridPane.columnIndex="1" GridPane.rowIndex="1" text="create game"
+                                onMouseClicked="#createGame" onMouseEntered="#createGameButtonEntered"
+                                onMouseExited="#createGameButtonExited" disable="true" alignment="CENTER" cache="true"
+                                wrapText="true" minHeight="1.0" maxHeight="${inputContainer.height * 0.47}"/>
                     </GridPane>
                 </GridPane>
             </AnchorPane>
