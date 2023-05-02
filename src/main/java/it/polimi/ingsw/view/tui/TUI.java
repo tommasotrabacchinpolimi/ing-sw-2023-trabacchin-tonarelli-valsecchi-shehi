@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view.tui;
 
+import it.polimi.ingsw.model.TileSubject;
+import it.polimi.ingsw.model.TileType;
 import it.polimi.ingsw.view.Client;
 import it.polimi.ingsw.view.LogicInterface;
 import it.polimi.ingsw.view.UI;
@@ -12,11 +14,13 @@ import java.io.PrintStream;
 public class TUI extends UI implements Runnable{
     private static final int DIM_BOARD = 9;
     private static final int DIMCOL_BOOKSHELF = 5;
+    private static final int DIMROW_BOOKSHELF = 6;
     private static final char EMPTY = '-';
     private final BufferedReader bufferedReader;
     private final PrintStream out = System.out;
     private TUIState state;
     private LogicInterface client;
+    private final Object lock = new Object();
 
     private enum TUIState{
         HOME,
@@ -29,7 +33,7 @@ public class TUI extends UI implements Runnable{
         state = TUIState.HOME;
         bufferedReader = new BufferedReader(new InputStreamReader(System.in));
     }
-    private final Object lock = new Object();
+
     @Override
     public void launch() {
         new Thread(this).start();
@@ -97,90 +101,250 @@ public class TUI extends UI implements Runnable{
     }
 
     private void home(){ //mostra le cose base
+        state = TUIState.HOME;
+        out.println("MY SHELFIE: HOME");
         //current player
         out.println("Current Player is ");
         //players+ players state
         //Player points
         //common goals
-        //printBoardBookShelfPersonalGoal
+        //printBoardBookShelfPersonalGoal();
     }
 
     private void showChat(){
-
+        state = TUIState.CHAT;
+        out.println("MY SHELFIE: CHAT");
     }
 
     private void showPoints(){
+        state = TUIState.POINTS;
+        out.println("MY SHELFIE: OTHER PLAYERS' POINTS");
 
     }
 
     private void showBookshelves(){
-
+        state = TUIState.BOOKSHELVES;
+        out.println("MY SHELFIE: OTHER PLAYERS' BOOKSHELVES");
+        //printOthersBookShelves();
     }
 
     private void printBoardBookShelfPersonalGoal(char[][] board, char[][] bookshelf, char[][] personalGoal){
         out.println("              Living Room Board:                           Your BookShelf:                   Your Personal Goal:");
         out.println( "     1   2   3   4   5   6   7   8   9  " );
-        out.println( "   ┌───┬───┬───╔═══╦═══╗───┬───┬───┬───┐" );
+        System.out.println(getDividerBoard(0) + "               " + getDividerBookShelf(0) + "               " + getDividerBookShelf(0));
 
         for( int i = 0; i < DIM_BOARD; ++i ){
-            out.print("     ");
-
-            for( int j = 0; j < DIM_BOARD; ++j){
-                if( j == 0 )
-                    out.print( "║ " + board[i][j] + " ║ ");
-                else if( j < DIM_BOARD - 1 )
-                    out.print( board[i][j] + " ║ " );
-                else
-                    out.print( board[i][j] + " ║" );
-            }
+            printLineBoard(i, board);
 
             out.print("               ");
-            if(i >= 3){
-                for(int j = 0; j < DIMCOL_BOOKSHELF; j++){
-                    if( j == 0 )
-                        out.print( "║ " + bookshelf[i][j] + " ║ ");
-                    else if( j < DIMCOL_BOOKSHELF - 1 )
-                        out.print( bookshelf[i][j] + " ║ " );
-                    else
-                        out.print( bookshelf[i][j] + " ║" );
-                }
+            if(i < 6){
+                printLineBookShelf(i,bookshelf);
                 out.print("               ");
-                for(int j = 0; j < DIMCOL_BOOKSHELF; j++){
-                    if( j == 0 )
-                        System.out.print( "║ " + personalGoal[i][j] + " ║ ");
-                    else if( j < DIMCOL_BOOKSHELF - 1 )
-                        System.out.print( personalGoal[i][j] + " ║ " );
-                    else
-                        System.out.print( personalGoal[i][j] + " ║" );
-                }
+                printLineBookShelf(i,personalGoal);
             }
-            System.out.println();
+            out.println();
 
-            if( i < DIM_BOARD - 1 ){
-                if(i==2)
-                    System.out.println("     ╠═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╣               ╔═══╦═══╦═══╦═══╦═══╗               ╔═══╦═══╦═══╦═══╦═══╗");
-                else if (i < 2) {
-                    System.out.println("     ╠═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╣");
-                }
-                else {
-                    System.out.println("     ╠═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╣               ╠═══╬═══╬═══╬═══╬═══╣               ╠═══╬═══╬═══╬═══╬═══╣");
+            if( i < DIM_BOARD - 1){
+                if(i <= 6)
+                    out.println(getDividerBoard(i+1) + "               "+ getDividerBookShelf(i+1) +"               "+ getDividerBookShelf(i+1) );
+                else  {
+                    out.println(getDividerBoard(i+1));
                 }
             }
         }
 
-        System.out.println("     ╚═══╩═══╩═══╩═══╩═══╩═══╩═══╩═══╩═══╝               ╚═══╩═══╩═══╩═══╩═══╝               ╚═══╩═══╩═══╩═══╩═══╝");
+        out.println(getDividerBoard(DIM_BOARD));
     }
 
-    private void printSingleBookShelf(char[][] bookShelf1,String nickname1, char[][] bookShelf2,String nickname2, char[][] bookShelf3, String nickname3){
-
+    private String getDividerBoard(int row) {
+        switch(row) {
+            case 0 -> {
+                return "   ┌───┬───┬───╔═══╦═══╗───┬───┬───┬───┐";
+            }
+            case 1 -> {
+                return "   ├───┼───┼───╠═══╬═══╬═══╗───┼───┼───┤";
+            }
+            case 2 -> {
+                return "   ├───┼───╔═══╬═══╬═══╬═══╬═══╗───┼───┤";
+            }
+            case 3 -> {
+                return "   ├───╔═══╬═══╬═══╬═══╬═══╬═══╬═══╦═══╗";
+            }
+            case 4 -> {
+                return "   ╔═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╣";
+            }
+            case 5 -> {
+                return "   ╠═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╝";
+            }
+            case 6 -> {
+                return "   ╚═══╩═══╬═══╬═══╬═══╬═══╬═══╬═══╝───┤";
+            }
+            case 7 -> {
+                return "   ├───┼───╚═══╬═══╬═══╬═══╬═══╝───┼───┤";
+            }
+            case 8 -> {
+                return "   ├───┼───┼───╚═══╬═══╬═══╣───┼───┼───┤";
+            }
+            case 9 -> {
+                return "   └───┴───┴───┴───╚═══╩═══╝───┴───┴───┘";
+            }
+            default -> {
+                return null;
+            }
+        }
     }
 
-    private char[][] fromTileSubjectToChar(){
-        return null;
+    private String getDividerBookShelf(int row){
+        switch (row){
+            case 0 -> { return "╔═══╦═══╦═══╦═══╦═══╗"; }
+            case 1, 2, 3, 4, 5 -> { return "╠═══╬═══╬═══╬═══╬═══╣"; }
+            case 6 -> { return "╚═══╩═══╩═══╩═══╩═══╝"; }
+            default -> { return ""; }
+        }
     }
 
-    private char[][] fromTileTypeToChar(){
-        return null;
+    private void printLineBoard(int r, char[][] board){
+        int n; //number of print
+        int c; //starting column
+        int i;
+        StringBuilder result = new StringBuilder("");
+
+        result.append((char) (r + 'A')).append("  ");
+
+        switch (r) {
+            case 0, 1, 7 -> {
+                result.append("│   │   │   ");
+                c = 3;
+            }
+            case 2, 6 -> {
+                result.append("│   │   ");
+                c = 2;
+            }
+            case 3 -> {
+                result.append("│   ");
+                c = 1;
+            }
+            case 8 -> {
+                result.append("│   │   │   │   ");
+                c = 4;
+            }
+            default -> {
+                result.append("");
+                c = 0;
+            }
+        }
+
+        switch (r) {
+            case 0, 8 -> n = 2;
+            case 1, 7 -> n = 3;
+            case 2, 6 -> n = 5;
+            case 3, 5 -> n = 8;
+            default -> n = 9;
+        }
+
+        result.append( "║ " );
+
+        for( i = 0; i < n; ++i ){
+            result.append( board[r][c + i] );
+
+            if( i < n - 1 )
+                result.append( " ║ ");
+        }
+
+        result.append( " ║" );
+
+        for( i += c ; i < DIM_BOARD; ++i ){
+            result.append( "   │" );
+        }
+
+        out.print(result.toString());
+    }
+
+    private void printLineBookShelf(int row, char[][] matrix) {
+        for(int j = 0; j < DIMCOL_BOOKSHELF; j++){
+            if( j == 0 )
+                out.print( "║ " + matrix[row][j] + " ║ ");
+            else if( j < DIMCOL_BOOKSHELF - 1 )
+                out.print( matrix[row][j] + " ║ " );
+            else
+                out.print( matrix[row][j] + " ║" );
+        }
+    }
+
+    private void printOthersBookShelf(char[][] bookShelf1,String nickname1, char[][] bookShelf2,String nickname2, char[][] bookShelf3, String nickname3){
+        out.println("                       " + nickname1 + ":                    " + nickname2 + ":                    " + nickname3 );
+        out.println("                " + getDividerBookShelf(0) + "               " + getDividerBookShelf(0) + "               " + getDividerBookShelf(0));
+        for(int i = 0; i < DIMROW_BOOKSHELF; i++){
+            if(bookShelf1!=null){
+                out.print("               ");
+                printLineBookShelf(i, bookShelf1);
+            }
+            if(bookShelf2!=null){
+                out.print("               ");
+                printLineBookShelf(i, bookShelf2);
+            }
+            if(bookShelf3!=null){
+                out.print("               ");
+                printLineBookShelf(i, bookShelf3);
+            }
+
+            out.println();
+
+            if(bookShelf1!=null){
+                out.print("               " + getDividerBookShelf(i+1));
+            }
+            if(bookShelf2!=null){
+                out.print("               " + getDividerBookShelf(i+1));
+            }
+            if(bookShelf3!=null){
+                out.print("               " + getDividerBookShelf(i+1));
+            }
+        }
+    }
+
+    private void printOthersPoint(String nickname1, String nickname2, String nickname3){
+        out.print("                 ");
+        out.println(nickname1 + "        " + nickname2 + "        " + nickname3);
+        //inizio
+        out.print("Personal goal:  ");
+        out.print("Common Goal 1:  ");
+        out.print("Common Goal 2:  ");
+        out.print("End Game:       ");
+        out.print("Adjacent Tiles: ");
+    }
+
+    private char[][] fromTileSubjectToChar(TileSubject[][] matrix){
+        if(matrix == null) return null;
+        char[][] result = new char[matrix.length][matrix[0].length];
+        for(int i = 0; i < matrix.length; i++){
+            for(int j = 0; j < matrix[0].length; j++){
+                result[i][j] = getCharFromTileType(matrix[i][j].getTileType());
+            }
+        }
+        return result;
+    }
+
+    private char[][] fromTileTypeToChar(TileType[][] matrix){
+        if(matrix == null) return null;
+        char[][] result = new char[matrix.length][matrix[0].length];
+        for(int i = 0; i < matrix.length; i++){
+            for(int j = 0; j < matrix[0].length; j++){
+                result[i][j] = getCharFromTileType(matrix[i][j]);
+            }
+        }
+        return result;
+    }
+
+    private char getCharFromTileType(TileType tileType){
+        switch (tileType){
+            case CAT -> { return 'c'; }
+            case PLANT -> { return 'p'; }
+            case FRAME -> { return 'f'; }
+            case BOOK -> { return 'b'; }
+            case TROPHY -> { return 't'; }
+            case GAME -> { return 'g'; }
+            default -> { return EMPTY; }
+        }
     }
 
 }
