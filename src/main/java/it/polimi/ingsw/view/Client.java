@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.tui_draft;
+package it.polimi.ingsw.view;
 
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.controller.ClientInterface;
@@ -11,6 +11,7 @@ import it.polimi.ingsw.net.ConnectionBuilder;
 import it.polimi.ingsw.net.RmiConnectionManager;
 import it.polimi.ingsw.net.SocketConnectionManager;
 import it.polimi.ingsw.utils.Coordinate;
+import it.polimi.ingsw.view.tui.TUI;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,7 +21,7 @@ import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Map;
 
-public class Client implements ClientInterface, LogicInterface{
+public class Client implements ClientInterface, LogicInterface {
     private final UI ui;
     private ServerInterface server;
 
@@ -187,4 +188,10 @@ public class Client implements ClientInterface, LogicInterface{
     public void dragTilesToBookShelf(List<Coordinate> chosenTiles, int chosenColumn) {
 
     }
+
+    @Override
+    public String getNickNameCurrentPlayer() {
+        return null;
+    }
+
 }

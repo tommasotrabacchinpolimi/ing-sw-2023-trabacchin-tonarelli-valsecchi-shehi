@@ -1,5 +1,6 @@
 package it.polimi.ingsw.utils;
 
+import it.polimi.ingsw.controller.exceptions.WrongChosenTilesFromBoardException;
 import it.polimi.ingsw.model.*;
 
 import java.util.ArrayList;
@@ -7,19 +8,19 @@ import java.util.List;
 
 public class InputCheck {
     
-    public static void checkActiveTilesInBoard(List<Coordinate> chosenTiles, TileSubject[][] bookShelf, TileSubject[][] board){
+    public static void checkActiveTilesInBoard(List<Coordinate> chosenTiles, TileSubject[][] bookShelf, TileSubject[][] board) throws WrongChosenTilesFromBoardException {
         if(chosenTiles.size() == 0 || chosenTiles.size() > 3 || chosenTiles.size() > getMaxDimensionChosenTiles(bookShelf)){
-            throw new RuntimeException("You have chosen too many tiles from the board");
+            throw new WrongChosenTilesFromBoardException("You have chosen too many tiles from the board");
         }
 
         for (Coordinate chosenTile : chosenTiles) {
             if (!findIndexActiveTilesInBoard(board).contains(chosenTile)) {
-                throw new RuntimeException("You cannot chose these tiles!");
+                throw new WrongChosenTilesFromBoardException("You cannot chose these tiles!");
             }
         }
 
         if(!checkRightPattern(chosenTiles)){
-            throw new RuntimeException("Chosen tiles are not adjacent!");
+            throw new WrongChosenTilesFromBoardException("Chosen tiles are not adjacent!");
         }
 
     }

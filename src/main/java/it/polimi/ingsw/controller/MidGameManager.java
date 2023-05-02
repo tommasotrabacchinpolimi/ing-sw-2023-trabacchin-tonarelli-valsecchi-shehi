@@ -1,9 +1,11 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.controller.exceptions.WrongChosenTilesFromBoardException;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.exceptions.NoTileTakenException;
 import it.polimi.ingsw.model.exceptions.NotEnoughSpaceInBookShelfException;
 import it.polimi.ingsw.utils.Coordinate;
+import it.polimi.ingsw.utils.InputCheck;
 
 import java.util.*;
 import java.util.concurrent.*;
@@ -34,6 +36,7 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
             }
             board.removeSelectedTileSubject(chosenTiles);
             BookShelf bookShelf = player.getBookShelf();
+            InputCheck.checkActiveTilesInBoard(chosenTiles, bookShelf.getTileSubjectTaken(),board.getBoard());
             bookShelf.addTileSubjectTaken(tiles, chosenColumn);
             verifyFinalGame(user);
             if (verifyRefillBoard() && getController().getState().getGameState()!=GameState.END) {
@@ -45,8 +48,9 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
             verifyAllDisconnectedPlayer();
             setNextCurrentPlayer();
         }
-        catch (NotEnoughSpaceInBookShelfException | NoTileTakenException e){
+        catch (NotEnoughSpaceInBookShelfException | NoTileTakenException | WrongChosenTilesFromBoardException e){
             System.err.println(e.getMessage());
+            getController().getState().setLastException(e);
         }
     }
 

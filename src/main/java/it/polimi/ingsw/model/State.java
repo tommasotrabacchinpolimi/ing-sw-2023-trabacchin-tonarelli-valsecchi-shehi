@@ -84,6 +84,8 @@ public class State implements Serializable, OnUpdateNeededListener {
     @ExcludedFromJSON
     private Player lastPlayer;
 
+    private Exception lastException;
+
     @ExcludedFromJSON
     private final List<OnAchievedCommonGoalListener> achievedCommonGoalListeners;
 
@@ -111,6 +113,8 @@ public class State implements Serializable, OnUpdateNeededListener {
     @ExcludedFromJSON
     private final List<OnChangedCommonGoalAvailableScoreListener> onChangedCommonGoalAvailableScoreListenerListeners;
 
+    @ExcludedFromJSON
+    private final List<OnExceptionsListener> exceptionsListeners;
 
     /**
      * Construct of the class that creates the fields of the class.
@@ -127,6 +131,7 @@ public class State implements Serializable, OnUpdateNeededListener {
         currentPlayer = null;
         messages = new LinkedList<>();
         lastPlayer = null;
+        lastException = null;
         achievedCommonGoalListeners = new LinkedList<>();
         stateChangedListeners = new LinkedList<>();
         lastPlayerUpdatedListeners = new LinkedList<>();
@@ -136,6 +141,7 @@ public class State implements Serializable, OnUpdateNeededListener {
         onAchievedPersonalGoalListeners = new LinkedList<>();
         onAdjacentTilesUpdatedListeners = new LinkedList<>();
         onChangedCommonGoalAvailableScoreListenerListeners = new LinkedList<>();
+        exceptionsListeners = new LinkedList<>();
     }
 
     public void setAchievedCommonGoalListener(OnAchievedCommonGoalListener listener) {
@@ -558,6 +564,29 @@ public class State implements Serializable, OnUpdateNeededListener {
         for(OnChangedCommonGoalAvailableScoreListener listener: onChangedCommonGoalAvailableScoreListenerListeners){
             listener.onChangedCommonGoalAvailableScore(newScore, numberOfCommonGoal);
         }
+    }
+
+    public void setOnExceptionsListener(OnExceptionsListener listener){
+        exceptionsListeners.add(listener);
+    }
+
+    public void removeOnExceptionsListener(OnExceptionsListener listener){
+        exceptionsListeners.remove(listener);
+    }
+
+    private void notifyOnExceptionsListener(Exception e){
+        for(OnExceptionsListener listener: exceptionsListeners){
+            listener.onException(e);
+        }
+    }
+
+    public Exception getLastException() {
+        return lastException;
+    }
+
+    public void setLastException(Exception lastException) {
+        this.lastException = lastException;
+        notifyOnExceptionsListener(lastException);
     }
 
     @Override

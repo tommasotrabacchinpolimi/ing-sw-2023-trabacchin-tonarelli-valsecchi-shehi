@@ -87,8 +87,6 @@ public class BookShelf implements Serializable, OnUpdateNeededListener {
      */
     private final List<OnBookShelfUpdatedListener> onBookShelfUpdatedListeners;
 
-    private final List<OnExceptionsListener> exceptionsListeners;
-
     /**
      * Standard constructor will set dimension of the {@link #tileSubjectTaken bookshelf} to default value.
      *
@@ -104,7 +102,6 @@ public class BookShelf implements Serializable, OnUpdateNeededListener {
         player = null;
         onBookShelfUpdatedListeners = new LinkedList<>();
         initTileSubjectTaken();
-        exceptionsListeners = new ArrayList<>();
     }
 
     /**
@@ -126,7 +123,6 @@ public class BookShelf implements Serializable, OnUpdateNeededListener {
         initTileSubjectTaken();
         this.player = null;
         onBookShelfUpdatedListeners = new LinkedList<>();
-        exceptionsListeners = new ArrayList<>();
     }
 
     /**
@@ -144,7 +140,6 @@ public class BookShelf implements Serializable, OnUpdateNeededListener {
                 .map(TileSubject[]::clone)
                 .toArray(TileSubject[][]::new);
 
-        this.exceptionsListeners = that.exceptionsListeners;
         this.onBookShelfUpdatedListeners = that.onBookShelfUpdatedListeners;
     }
 
@@ -267,21 +262,15 @@ public class BookShelf implements Serializable, OnUpdateNeededListener {
      */
     public void addTileSubjectTaken(List<TileSubject> taken, int column) {
         if(column < 0 || column >= this.column) {
-            RuntimeException e = new ArrayIndexOutOfBoundsException();
-            notifyOnExceptionsListener(e);
-            throw e;
+            throw new ArrayIndexOutOfBoundsException();
         }
 
         if(taken == null || taken.size() == 0){
-            RuntimeException e =  new NoTileTakenException(new NullPointerException());
-            notifyOnExceptionsListener(e);
-            throw e;
+            throw new NoTileTakenException(new NullPointerException());
         }
 
         if(isFull()){
-            RuntimeException e = new NotEnoughSpaceInBookShelfException("BookShelf is full");
-            notifyOnExceptionsListener(e);
-            throw e;
+            throw new NotEnoughSpaceInBookShelfException("BookShelf is full");
         }
 
         int row = getFirstEmptyRowFromBottom(column);
@@ -368,19 +357,6 @@ public class BookShelf implements Serializable, OnUpdateNeededListener {
         onBookShelfUpdatedListeners.remove(onBookShelfUpdatedListener);
     }
 
-    public void setOnExceptionsListener(OnExceptionsListener listener){
-        exceptionsListeners.add(listener);
-    }
-
-    public void removeOnExceptionsListener(OnExceptionsListener listener){
-        exceptionsListeners.remove(listener);
-    }
-
-    private void notifyOnExceptionsListener(RuntimeException e){
-        for(OnExceptionsListener listener: exceptionsListeners){
-            listener.onException(e);
-        }
-    }
 
     /**
      * Method to verify if two bookshelf instance are equals
