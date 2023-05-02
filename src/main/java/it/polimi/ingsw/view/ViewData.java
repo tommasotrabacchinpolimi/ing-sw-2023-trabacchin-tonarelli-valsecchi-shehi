@@ -13,6 +13,8 @@ public class ViewData {
 
 
 
+
+    String thisPlayer;
     private String currentPlayer;
     private Map<String, String> playersState;
     private String gameState;
@@ -125,5 +127,13 @@ public class ViewData {
 
     public void setCurrentPlayer(String currentPlayer) {
         this.currentPlayer = currentPlayer;
+    }
+
+    public String getThisPlayer() {
+        return thisPlayer;
+    }
+
+    public void setThisPlayer(String thisPlayer) {
+        this.thisPlayer = thisPlayer;
     }
 }
