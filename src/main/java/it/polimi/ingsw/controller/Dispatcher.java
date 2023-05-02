@@ -32,6 +32,7 @@ public class Dispatcher implements InvocationHandler {
     public void removeController(ClientInterface view, Controller controller) {
         viewToControllerMap.remove(view, controller);
     }
+
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Exception {
         if(Arrays.stream(LobbyControllerInterface.class.getMethods()).map(Method::getName).anyMatch(n->n.equals(method.getName()))) {
