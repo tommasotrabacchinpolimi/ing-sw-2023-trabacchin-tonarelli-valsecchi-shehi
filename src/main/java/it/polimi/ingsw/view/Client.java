@@ -3,10 +3,7 @@ package it.polimi.ingsw.view;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.controller.ClientInterface;
 import it.polimi.ingsw.controller.ServerInterface;
-import it.polimi.ingsw.model.EntryPatternGoal;
-import it.polimi.ingsw.model.GameState;
-import it.polimi.ingsw.model.PlayerState;
-import it.polimi.ingsw.model.TileSubject;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.net.ConnectionBuilder;
 import it.polimi.ingsw.net.RmiConnectionManager;
 import it.polimi.ingsw.net.SocketConnectionManager;
@@ -25,8 +22,11 @@ public class Client implements ClientInterface, LogicInterface {
     private final UI ui;
     private ServerInterface server;
 
+    private ViewData viewData;
+
     public Client(UI ui) {
         this.ui = ui;
+        viewData = new ViewData(9,5,6);
     }
     public static void main(String[] args) throws IOException, NotBoundException, ClassNotFoundException {
         String protocolChoice, UIChoice;
@@ -76,22 +76,22 @@ public class Client implements ClientInterface, LogicInterface {
 
     @Override
     public void onAchievedCommonGoal(String nicknamePlayer, List<Coordinate> tiles, int numberCommonGoal) {
-
+        //TODO
     }
 
     @Override
     public void onAchievedPersonalGoal(String nickname, List<Coordinate> tiles) {
-
+        //TODO
     }
 
     @Override
     public void onAdjacentTilesUpdated(String nickname, List<Coordinate> tiles) {
-
+        //TODO
     }
 
     @Override
     public void onAssignedCommonGoal(String description, int n) {
-
+        viewData.getCommonGoals()[n] = description;
     }
 
     @Override
@@ -101,27 +101,35 @@ public class Client implements ClientInterface, LogicInterface {
 
     @Override
     public void onBoardRefilled() {
-
+        //TODO
     }
 
     @Override
     public void onBoardUpdated(TileSubject[][] tileSubjects) {
-
+        for(int i = 0;i < tileSubjects.length; i++) {
+            for(int j = 0; j < tileSubjects[0].length; j++) {
+                viewData.getBoard()[i][j] = tileSubjects[i][j];
+            }
+        }
     }
 
     @Override
     public void onBookShelfUpdated(String nickname, TileSubject[][] bookShelf) {
-
+        for(int i = 0;i < bookShelf.length; i++) {
+            for(int j = 0; j < bookShelf[0].length; j++) {
+                viewData.getBookShelves().get(nickname)[i][j] = bookShelf[i][j];
+            }
+        }
     }
 
     @Override
     public void onChangedCommonGoalAvailableScore(int score, int numberOfCommonGoal) {
-
+        viewData.getAvailableScores().put(numberOfCommonGoal, score);
     }
 
     @Override
     public void onCurrentPlayerChangedListener(String nickname) {
-
+        viewData.setCurrentPlayer(nickname);
     }
 
     @Override
@@ -190,8 +198,54 @@ public class Client implements ClientInterface, LogicInterface {
     }
 
     @Override
-    public String getNickNameCurrentPlayer() {
+    public String getCurrentPlayer() {
         return null;
     }
+
+    @Override
+    public List<String> getPlayersNames() {
+        return null;
+    }
+
+    @Override
+    public List<Integer> getPlayerPoint(String nickname) {
+        return null;
+    }
+
+    @Override
+    public TileSubject[][] getBoard() {
+        return new TileSubject[0][];
+    }
+
+    @Override
+    public TileSubject[][] getBookShelfByNickname(String nickname) {
+        return new TileSubject[0][];
+    }
+
+    @Override
+    public TileType[][] getPersonalGoal() {
+        return new TileType[0][];
+    }
+
+    @Override
+    public String getCommonGoal1() {
+        return null;
+    }
+
+    @Override
+    public String getCommonGoal2() {
+        return null;
+    }
+
+    @Override
+    public String getPlayerState(String nickname) {
+        return null;
+    }
+
+    @Override
+    public String getGameState() {
+        return null;
+    }
+
 
 }

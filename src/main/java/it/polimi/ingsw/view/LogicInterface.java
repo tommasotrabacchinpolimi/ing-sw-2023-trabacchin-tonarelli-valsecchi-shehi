@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.model.TileSubject;
+import it.polimi.ingsw.model.TileType;
 import it.polimi.ingsw.utils.Coordinate;
 
 import java.util.List;
@@ -11,5 +13,21 @@ public interface LogicInterface {
     void sentMessage(String text,  String[] receiversNickname);
     void dragTilesToBookShelf(List<Coordinate> chosenTiles, int chosenColumn);
 
-    String getNickNameCurrentPlayer();
+
+    String getCurrentPlayer();
+    List<String> getPlayersNames();
+
+    List<Integer> getPlayerPoint(String nickname);
+    TileSubject[][] getBoard();
+
+    TileSubject[][] getBookShelfByNickname(String nickname);
+
+    TileType[][] getPersonalGoal();
+
+    String getCommonGoal1();
+    String getCommonGoal2();
+
+    String getPlayerState(String nickname);
+
+    String getGameState();
 }
