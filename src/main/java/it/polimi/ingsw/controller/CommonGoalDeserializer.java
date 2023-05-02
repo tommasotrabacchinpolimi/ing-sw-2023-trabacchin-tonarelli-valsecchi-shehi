@@ -21,12 +21,6 @@ public class CommonGoalDeserializer {
 
     private static final String COMMON_GOAL_CONFIGURATION = "./src/main/resources/it.polimi.ingsw/common.goal.configuration/";
 
-    public static void main(String[] args) {
-        CommonGoalDeserializer commonGoalDeserializer = new CommonGoalDeserializer();
-
-        commonGoalDeserializer.getCommonGoalsDeck().forEach( commonGoal -> System.out.println("\n" + commonGoal.toString()));
-    }
-
     /**
      * Initialize every common goal card with the scoring tokens according to the number of player connected to the game
      */
