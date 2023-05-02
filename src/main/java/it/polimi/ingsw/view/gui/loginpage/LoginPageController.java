@@ -25,10 +25,10 @@ public class LoginPageController {
     public TextField nicknameInput;
     public AnchorPane infoBoxContainer;
     public ImageView myShelfieTitle;
-    public Button joinSubmit;
+    public Button joinButton;
     public ImageView cranioCreationLogo;
     public GridPane inputContainer;
-    public Button createSubmit;
+    public Button createButton;
     private static final PseudoClass errorClass = PseudoClass.getPseudoClass("error");
 
     @FXML
@@ -36,15 +36,15 @@ public class LoginPageController {
 
         ImageRoundCornersClipper.roundClipper(infoContainer, 10);
         ImageRoundCornersClipper.roundClipper(infoBoxContainer, 10);
-        ImageRoundCornersClipper.roundClipper(joinSubmit, 30);
-        ImageRoundCornersClipper.roundClipper(createSubmit, 30);
-
-        nicknameInput.textProperty().addListener(event -> {
-                joinSubmit.setDisable(needToActivateButton());
-                createSubmit.setDisable(needToActivateButton());
-        });
+        ImageRoundCornersClipper.roundClipper(joinButton, 30);
+        ImageRoundCornersClipper.roundClipper(createButton, 30);
 
         checkNickname();
+    }
+
+    @FXML
+    public void setAllNonFocused(MouseEvent mouseEvent) {
+        sceneBackground.requestFocus();
     }
 
     @FXML
@@ -54,45 +54,15 @@ public class LoginPageController {
         }
 
         if (keyEvent.getCode() == KeyCode.ENTER) {
-            joinGame(null);
+            joinGameSubmitted(null);
         }
 
-        joinSubmit.setDisable(needToActivateButton());
-        createSubmit.setDisable(needToActivateButton());
+        joinButton.setDisable(needToActivateButton());
+        createButton.setDisable(needToActivateButton());
     }
 
     @FXML
-    public void setAllNonFocused(MouseEvent mouseEvent) {
-        sceneBackground.requestFocus();
-    }
-
-    private void checkNickname() {
-        nicknameInput.textProperty().addListener(event -> {
-            nicknameInput.pseudoClassStateChanged(errorClass, errorInNicknameInput());
-
-            joinSubmit.setDisable(needToActivateButton());
-            createSubmit.setDisable(needToActivateButton());
-        });
-    }
-
-    private boolean errorInNicknameInput() {
-        return !nicknameInput.getText().isEmpty() && nicknameInput.getText().contains("Errata");
-    }
-
-    @FXML
-    public void joinGameButtonEntered(MouseEvent mouseEvent) {
-        joinSubmit.setEffect(new Bloom());
-        joinSubmit.setStyle("-fx-font-size: " + (joinSubmit.getFont().getSize() + 1) + "px");
-    }
-
-    @FXML
-    public void joinGameButtonExited(MouseEvent mouseEvent) {
-        joinSubmit.setEffect(null);
-        joinSubmit.setStyle("-fx-font-size: " + (joinSubmit.getFont().getSize() - 1) + "px");
-    }
-
-    @FXML
-    public void joinGame(MouseEvent mouseEvent) {
+    public void joinGameSubmitted(MouseEvent mouseEvent) {
 
         System.out.println("Nickname: " + nicknameInput.getText() + "joined a game");
 
@@ -100,28 +70,57 @@ public class LoginPageController {
     }
 
     @FXML
-    public void createGame(MouseEvent mouseEvent) {
+    public void createGameSubmitted(MouseEvent mouseEvent) {
         System.out.println("Nickname: " + nicknameInput.getText() + "create a game");
 
         clearNicknameInput();
     }
 
-    private void clearNicknameInput() {
-        nicknameInput.clear();
-        joinSubmit.setDisable(true);
-        createSubmit.setDisable(true);
-    }
-
     @FXML
     public void createGameButtonEntered(MouseEvent mouseEvent) {
-        createSubmit.setEffect(new Bloom());
-        createSubmit.setStyle("-fx-font-size: " + (joinSubmit.getFont().getSize() + 1) + "px");
+        enhanceButton(createButton);
     }
 
     @FXML
     public void createGameButtonExited(MouseEvent mouseEvent) {
-        createSubmit.setEffect(null);
-        createSubmit.setStyle("-fx-font-size: " + (joinSubmit.getFont().getSize() - 1) + "px");
+        reverseEnhanceButton(createButton);
+    }
+
+    @FXML
+    public void joinGameButtonEntered(MouseEvent mouseEvent) {
+        enhanceButton(joinButton);
+    }
+
+    @FXML
+    public void joinGameButtonExited(MouseEvent mouseEvent) {
+        reverseEnhanceButton(joinButton);
+    }
+
+    private void enhanceButton(Button button) {
+        button.setEffect(new Bloom());
+    }
+
+    private void reverseEnhanceButton(Button button) {
+        button.setEffect(null);
+    }
+
+    private void clearNicknameInput() {
+        nicknameInput.clear();
+        joinButton.setDisable(true);
+        createButton.setDisable(true);
+    }
+
+    private void checkNickname() {
+        nicknameInput.textProperty().addListener(event -> {
+            nicknameInput.pseudoClassStateChanged(errorClass, errorInNicknameInput());
+
+            joinButton.setDisable(needToActivateButton());
+            createButton.setDisable(needToActivateButton());
+        });
+    }
+
+    private boolean errorInNicknameInput() {
+        return !nicknameInput.getText().isEmpty() && nicknameInput.getText().contains("Errata");
     }
 
     private boolean needToActivateButton(){

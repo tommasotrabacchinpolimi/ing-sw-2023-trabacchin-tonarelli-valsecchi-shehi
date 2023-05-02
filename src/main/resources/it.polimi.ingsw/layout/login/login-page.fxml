@@ -92,17 +92,17 @@
                                    maxWidth="${inputContainer.width * 0.66}" minHeight="1.0" minWidth="1.0"
                                    onKeyPressed="#textFieldKeyPressed"/>
 
-                        <Button fx:id="joinSubmit" styleClass="action-button" GridPane.halignment="CENTER"
+                        <Button fx:id="joinButton" styleClass="action-button" GridPane.halignment="CENTER"
                                 GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
                                 GridPane.columnIndex="2" GridPane.rowIndex="1" text="join game"
-                                onMouseClicked="#joinGame" onMouseEntered="#joinGameButtonEntered"
+                                onMouseClicked="#joinGameSubmitted" onMouseEntered="#joinGameButtonEntered"
                                 onMouseExited="#joinGameButtonExited" disable="true" alignment="CENTER" cache="true"
                                 wrapText="true" minHeight="1.0" maxHeight="${inputContainer.height * 0.47}"/>
 
-                        <Button fx:id="createSubmit" styleClass="action-button" GridPane.halignment="CENTER"
+                        <Button fx:id="createButton" styleClass="action-button" GridPane.halignment="CENTER"
                                 GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
                                 GridPane.columnIndex="1" GridPane.rowIndex="1" text="create game"
-                                onMouseClicked="#createGame" onMouseEntered="#createGameButtonEntered"
+                                onMouseClicked="#createGameSubmitted" onMouseEntered="#createGameButtonEntered"
                                 onMouseExited="#createGameButtonExited" disable="true" alignment="CENTER" cache="true"
                                 wrapText="true" minHeight="1.0" maxHeight="${inputContainer.height * 0.47}"/>
                     </GridPane>

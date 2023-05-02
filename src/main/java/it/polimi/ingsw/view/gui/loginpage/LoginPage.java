@@ -23,8 +23,8 @@ public class LoginPage extends MyShelfieApplication {
 
         FontChangeListener.setResizableFont(scene, "welcomeText", 21);
         FontChangeListener.setResizableFont(scene, "nicknameInput", 17);
-        FontChangeListener.setResizableFont(scene, "joinSubmit", 12);
-        FontChangeListener.setResizableFont(scene, "createSubmit", 12);
+        FontChangeListener.setResizableFont(scene, "joinButton", 12);
+        FontChangeListener.setResizableFont(scene, "createButton", 12);
 
         stage.setWidth(scene.getWidth());
         stage.setHeight(scene.getHeight());
