@@ -7,12 +7,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.Bloom;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import org.jetbrains.annotations.NotNull;
 
 
@@ -39,7 +41,7 @@ public class LoginPageController {
         ImageRoundCornersClipper.roundClipper(nicknameSubmit, 30);
 
         nicknameInput.textProperty().addListener(event -> {
-                nicknameSubmit.setDisable(nicknameInput.getText().isEmpty() || nicknameInput.getText().equals(""));
+                nicknameSubmit.setDisable(nicknameInput.getText().isEmpty());
         });
 
         checkNickname();
@@ -54,6 +56,8 @@ public class LoginPageController {
         if (keyEvent.getCode() == KeyCode.ENTER) {
             nicknameSubmitted(null);
         }
+
+        nicknameSubmit.setDisable(nicknameInput.getText().isEmpty() || nicknameInput.getText().equals("") || nicknameInput.getText().contains("Errata"));
     }
 
     @FXML
@@ -91,5 +95,6 @@ public class LoginPageController {
         System.out.println("Nickname: " + nicknameInput.getText());
 
         nicknameInput.clear();
+        nicknameSubmit.setDisable(true);
     }
 }
