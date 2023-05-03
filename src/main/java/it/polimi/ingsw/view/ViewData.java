@@ -4,15 +4,13 @@ import it.polimi.ingsw.model.TileSubject;
 import it.polimi.ingsw.model.TileType;
 import it.polimi.ingsw.utils.Triple;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ViewData {
     private List<String> players;
     private String thisPlayer;
     private String currentPlayer;
+    private String winnerPlayer;
     private Map<String, String> playersState;
     private String gameState;
     private TileSubject[][] board;
@@ -90,9 +88,17 @@ public class ViewData {
     }
 
     public Map<String, List<Integer>> getPlayersPoints() {
-        //if nickname == null return null;
-        // if nickname == "" return lista di tutti -1;
         return playersPoints;
+    }
+
+    public List<Integer> getPlayersPointsByNickname(String nickname){
+        if(nickname == null || nickname.equals("")) return null;
+        return playersPoints.get(nickname);
+    }
+
+    public Integer getTotalPointByNickname(String nickname){
+        if(nickname == null || nickname.equals("")) return null;
+        return getPlayersPointsByNickname(nickname).stream().mapToInt(i -> i).sum();
     }
 
     public void setPlayersPoints(Map<String, List<Integer>> playersPoints) {
@@ -143,4 +149,11 @@ public class ViewData {
         messages.add(message);
     }
 
+    public String getWinnerPlayer() {
+        return winnerPlayer;
+    }
+
+    public void setWinnerPlayer(String winnerPlayer) {
+        this.winnerPlayer = winnerPlayer;
+    }
 }
