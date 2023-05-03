@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.tui;
 
 import it.polimi.ingsw.model.TileSubject;
 import it.polimi.ingsw.model.TileType;
+import it.polimi.ingsw.utils.Triple;
 import it.polimi.ingsw.view.Client;
 import it.polimi.ingsw.view.LogicInterface;
 import it.polimi.ingsw.view.UI;
@@ -22,20 +23,17 @@ public class TUI extends UI implements Runnable{
     private final BufferedReader bufferedReader;
     private final PrintStream out = System.out;
     private TUIState state;
-    private LogicInterface client;
     private final Object lock = new Object();
 
     private enum TUIState{
         HOME,
         CHAT,
-        BOOKSHELVES,
-        POINTS
+        OTHERS
     }
 
-    public TUI(/*LogicInterface client*/) {
+    public TUI() {
         state = TUIState.HOME;
         bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        //this.client = client;
     }
 
     @Override
@@ -106,19 +104,19 @@ public class TUI extends UI implements Runnable{
 
     private void home(){ //mostra le cose base
         state = TUIState.HOME;
-        out.println("MY SHELFIE: HOME OF " + client.getThisPlayer());
-        printGameState();
+        out.println("MY SHELFIE: HOME OF " + getModel().getThisPlayer());
+        printGameState(getModel().getGameState());
         out.print("Here are all the players in the game: ");
-        for(String name: client.getPlayersNames()){
+        for(String name: getModel().getPlayers()){
             out.print(name);
-            if(!Objects.equals(client.getPlayerState(name), "CONNECTED")){
-                out.print("(" + client.getPlayerState(name).toLowerCase() + ")");
+            if(!Objects.equals(getModel().getPlayersState().get(name) , "CONNECTED")){
+                out.print("(" + getModel().getPlayersState().get(name).toLowerCase() + ")");
             }
             out.print("   ");
         }
         out.println();
         out.println("Your points are: ");
-        List<Integer> points = client.getPlayerPoint(client.getThisPlayer());
+        List<Integer> points = getModel().getPlayersPoints().get(getModel().getThisPlayer());
         out.println("Common Goal 1 = " + points.get(0) + printPointOrPoints(points.get(0)));
         out.println("Common Goal 2 = " + points.get(1) + printPointOrPoints(points.get(1)));
         out.println("End Game = " + points.get(2) + printPointOrPoints(points.get(2)));
@@ -127,44 +125,46 @@ public class TUI extends UI implements Runnable{
 
         out.println();
         out.println("Common Goals are: ");
-        out.println("Common Goal 1: " + client.getCommonGoal1() + "\n     " + "Available Score = " + client.getAvailableScoreGoal1());
-        out.println("Common Goal 2: " + client.getCommonGoal2() + "\n     " + "Available Score = " + client.getAvailableScoreGoal2());
+        out.println("Common Goal 1: " + getModel().getCommonGoals()[0] + "\n     " + "Available Score = " + getModel().getAvailableScores().get(0));
+        out.println("Common Goal 2: " + getModel().getCommonGoals()[1] + "\n     " + "Available Score = " + getModel().getAvailableScores().get(1));
 
-        printBoardBookShelfPersonalGoal(fromTileSubjectToChar(client.getBoard()),
-                fromTileSubjectToChar(client.getBookShelfByNickname(client.getThisPlayer())),
-                fromTileTypeToChar(client.getPersonalGoal()));
+        printBoardBookShelfPersonalGoal(fromTileSubjectToChar(getModel().getBoard()),
+                fromTileSubjectToChar(getModel().getBookShelfByNickname(getModel().getThisPlayer())),
+                fromTileTypeToChar(getModel().getPersonalGoal()));
 
-        out.println("Current Player is " + client.getCurrentPlayer());
+        out.println("Current Player is " + getModel().getCurrentPlayer());
     }
 
     private void showChat(){
         state = TUIState.CHAT;
         out.println("MY SHELFIE: CHAT");
-    }
-
-    private void showPoints(){
-        state = TUIState.POINTS;
-        out.println("MY SHELFIE: OTHER PLAYERS' POINTS");
-        List<String> nicknames = client.getPlayersNames();
-        if(nicknames.size() <= 2){
-            while(nicknames.size()-3 < 0){
-                nicknames.add("");
+        List<Triple<String, List<String>, String>> messages = getModel().getMessages();
+        for(Triple<String, List<String>, String> message : messages){
+            if(message.getSecond().contains(getModel().getThisPlayer())){
+                out.println(message.getFirst() + privateOrPublicMessage(message.getSecond()) + message.getThird());
             }
         }
-        printOthersPoint(nicknames.get(0), nicknames.get(1), nicknames.get(2));
+        out.println("There aren't any more messages.");
     }
 
     private void showBookshelves(){
-        state = TUIState.BOOKSHELVES;
-        out.println("MY SHELFIE: OTHER PLAYERS' BOOKSHELVES");
-        List<String> nicknames = client.getPlayersNames();
+        state = TUIState.OTHERS;
+        out.println("MY SHELFIE: OTHER PLAYERS' BOOKSHELVES AND POINTS");
+        List<String> nicknames = getModel().getPlayers();
         if(nicknames.size() <= 2){
             while(nicknames.size()-3 < 0){
                 nicknames.add("");
             }
         }
-
-        //printOthersBookShelves();
+        char[][] bookShelf1 = fromTileSubjectToChar(getModel().getBookShelfByNickname(nicknames.get(0)));
+        char[][] bookShelf2 = fromTileSubjectToChar(getModel().getBookShelfByNickname(nicknames.get(1)));
+        char[][] bookShelf3 = fromTileSubjectToChar(getModel().getBookShelfByNickname(nicknames.get(2)));
+        List<Integer> pointPlayer1 = getModel().getPlayersPoints().get(nicknames.get(0));
+        List<Integer> pointPlayer2 = getModel().getPlayersPoints().get(nicknames.get(1));
+        List<Integer> pointPlayer3 = getModel().getPlayersPoints().get(nicknames.get(2));
+        printOthersBookShelf(nicknames.get(0), nicknames.get(1), nicknames.get(2), bookShelf1, bookShelf2, bookShelf3);
+        out.println();
+        printOthersPoint(nicknames.get(0), nicknames.get(1), nicknames.get(2), pointPlayer1, pointPlayer2, pointPlayer3);
     }
 
     private void printBoardBookShelfPersonalGoal(char[][] board, char[][] bookshelf, char[][] personalGoal){
@@ -310,7 +310,7 @@ public class TUI extends UI implements Runnable{
         }
     }
 
-    private void printOthersBookShelf(char[][] bookShelf1, String nickname1, char[][] bookShelf2, String nickname2, char[][] bookShelf3, String nickname3){
+    private void printOthersBookShelf(String nickname1, String nickname2, String nickname3, char[][] bookShelf1, char[][] bookShelf2, char[][] bookShelf3){
         out.println("                       " + nickname1 + ":                    " + nickname2 + ":                    " + nickname3 );
         out.println("                " + getDividerBookShelf(0) + "               " + getDividerBookShelf(0) + "               " + getDividerBookShelf(0));
         for(int i = 0; i < DIMROW_BOOKSHELF; i++){
@@ -341,10 +341,7 @@ public class TUI extends UI implements Runnable{
         }
     }
 
-    private void printOthersPoint(String nickname1, String nickname2, String nickname3){
-        List<Integer> pointPlayer1 = client.getPlayerPoint(nickname1);
-        List<Integer> pointPlayer2 = client.getPlayerPoint(nickname2);
-        List<Integer> pointPlayer3 = client.getPlayerPoint(nickname3);
+    private void printOthersPoint(String nickname1, String nickname2, String nickname3, List<Integer> pointPlayer1, List<Integer> pointPlayer2, List<Integer> pointPlayer3){
         out.print("                 ");
         out.println(nickname1 + "        " + nickname2 + "        " + nickname3);
         //inizio
@@ -404,8 +401,8 @@ public class TUI extends UI implements Runnable{
         }
     }
 
-    private void printGameState(){
-        switch(client.getGameState()){
+    private void printGameState(String gameState){
+        switch(gameState){
             case "INIT" -> {
                 out.println("The game is starting, please wait until the other players will join the game.");
             }
@@ -430,5 +427,9 @@ public class TUI extends UI implements Runnable{
         return "points";
     }
 
+    private String privateOrPublicMessage(List<String> receivers){
+        if(receivers.size() == 1) return "(private)";
+        return "(public)";
+    }
 
 }

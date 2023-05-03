@@ -2,6 +2,7 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.model.TileSubject;
 import it.polimi.ingsw.model.TileType;
+import it.polimi.ingsw.utils.Triple;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -20,6 +21,7 @@ public class ViewData {
     private String[] commonGoals;
     private Map<String, List<Integer>> playersPoints;
     private Map<Integer, Integer> availableScores;
+    private List<Triple<String, List<String>, String>> messages;
 
 
     public ViewData(int BOARD_DIM, int BOOKSHELF_COL, int BOOKSHELF_ROW) {
@@ -69,6 +71,8 @@ public class ViewData {
     public Map<String, TileSubject[][]> getBookShelves() {
         return bookShelves;
     }
+
+    public TileSubject[][] getBookShelfByNickname(String nickname) { return bookShelves.get(nickname); }
 
     public void setBookShelves(Map<String, TileSubject[][]> bookShelves) {
         this.bookShelves = bookShelves;
@@ -121,4 +125,13 @@ public class ViewData {
     public void setThisPlayer(String thisPlayer) {
         this.thisPlayer = thisPlayer;
     }
+
+    public List<Triple<String, List<String>, String>> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Triple<String, List<String>, String>> messages) {
+        this.messages = messages;
+    }
+
 }

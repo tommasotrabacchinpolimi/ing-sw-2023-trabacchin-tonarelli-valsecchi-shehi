@@ -19,7 +19,7 @@ public class Triple <V,T,E>{
         return second;
     }
 
-    public E third() {
+    public E getThird() {
         return third;
     }
 }

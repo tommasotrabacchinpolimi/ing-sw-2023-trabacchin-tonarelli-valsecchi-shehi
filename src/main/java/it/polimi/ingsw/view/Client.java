@@ -8,6 +8,7 @@ import it.polimi.ingsw.net.ConnectionBuilder;
 import it.polimi.ingsw.net.RmiConnectionManager;
 import it.polimi.ingsw.net.SocketConnectionManager;
 import it.polimi.ingsw.utils.Coordinate;
+import it.polimi.ingsw.utils.Triple;
 import it.polimi.ingsw.view.tui.TUI;
 
 import javax.swing.text.View;
@@ -267,6 +268,11 @@ public class Client implements ClientInterface, LogicInterface {
 
     @Override
     public String getGameState() {
+        return null;
+    }
+
+    @Override
+    public List<Triple<String, List<String>, String>> getMessages() {
         return null;
     }
 
