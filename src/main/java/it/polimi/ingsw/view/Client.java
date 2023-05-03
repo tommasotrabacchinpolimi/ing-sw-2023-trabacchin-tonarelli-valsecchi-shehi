@@ -211,4 +211,10 @@ public class Client implements ClientInterface, LogicInterface {
         server.dragTilesToBookShelf(chosenTiles, chosenColumn);
     }
 
+    @Override
+    public void onWinnerChanged(String nickname) {
+
+    }
 }
+
+
