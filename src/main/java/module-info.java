@@ -40,4 +40,5 @@ module it.polimi.ingsw {
     opens it.polimi.ingsw.controller.exceptions;
     opens it.polimi.ingsw.net;
     exports it.polimi.ingsw.view.tui;
+    exports it.polimi.ingsw.view;
 }

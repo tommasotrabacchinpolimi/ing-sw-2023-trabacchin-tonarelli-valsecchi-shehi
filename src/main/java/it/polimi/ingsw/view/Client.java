@@ -3,21 +3,22 @@ package it.polimi.ingsw.view;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.controller.ClientInterface;
 import it.polimi.ingsw.controller.ServerInterface;
-import it.polimi.ingsw.model.EntryPatternGoal;
-import it.polimi.ingsw.model.GameState;
-import it.polimi.ingsw.model.PlayerState;
-import it.polimi.ingsw.model.TileSubject;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.net.ConnectionBuilder;
 import it.polimi.ingsw.net.RmiConnectionManager;
 import it.polimi.ingsw.net.SocketConnectionManager;
 import it.polimi.ingsw.utils.Coordinate;
+import it.polimi.ingsw.utils.Triple;
 import it.polimi.ingsw.view.tui.TUI;
 
+import javax.swing.text.View;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -25,13 +26,18 @@ public class Client implements ClientInterface, LogicInterface {
     private final UI ui;
     private ServerInterface server;
 
-    public Client(UI ui) {
+    private ViewData viewData;
+
+    public Client(UI ui, ViewData model) {
         this.ui = ui;
+        viewData = model;
     }
+
     public static void main(String[] args) throws IOException, NotBoundException, ClassNotFoundException {
         String protocolChoice, UIChoice;
         Client client = null;
         UI ui = null;
+        ViewData viewData = new ViewData(9,5,6);
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         ServerInterface server = null;
         System.out.println("Choose one of the following protocols:");
@@ -44,8 +50,9 @@ public class Client implements ClientInterface, LogicInterface {
         UIChoice = bufferedReader.readLine();
         if(UIChoice.equals("1")) {
             ui = new TUI();
+            ui.setModel(viewData);
         }
-        client = new Client(ui);
+        client = new Client(ui, viewData);
         ui.setLogicController(client);
         if(protocolChoice.equals("1")) {
             server = getSocketConnection(client);
@@ -76,22 +83,22 @@ public class Client implements ClientInterface, LogicInterface {
 
     @Override
     public void onAchievedCommonGoal(String nicknamePlayer, List<Coordinate> tiles, int numberCommonGoal) {
-
+        //TODO
     }
 
     @Override
     public void onAchievedPersonalGoal(String nickname, List<Coordinate> tiles) {
-
+        //TODO
     }
 
     @Override
     public void onAdjacentTilesUpdated(String nickname, List<Coordinate> tiles) {
-
+        //TODO
     }
 
     @Override
     public void onAssignedCommonGoal(String description, int n) {
-
+        viewData.getCommonGoals()[n] = description;
     }
 
     @Override
@@ -101,27 +108,35 @@ public class Client implements ClientInterface, LogicInterface {
 
     @Override
     public void onBoardRefilled() {
-
+        //TODO
     }
 
     @Override
     public void onBoardUpdated(TileSubject[][] tileSubjects) {
-
+        for(int i = 0;i < tileSubjects.length; i++) {
+            for(int j = 0; j < tileSubjects[0].length; j++) {
+                viewData.getBoard()[i][j] = tileSubjects[i][j];
+            }
+        }
     }
 
     @Override
     public void onBookShelfUpdated(String nickname, TileSubject[][] bookShelf) {
-
+        for(int i = 0;i < bookShelf.length; i++) {
+            for(int j = 0; j < bookShelf[0].length; j++) {
+                viewData.getBookShelves().get(nickname)[i][j] = bookShelf[i][j];
+            }
+        }
     }
 
     @Override
     public void onChangedCommonGoalAvailableScore(int score, int numberOfCommonGoal) {
-
+        viewData.getAvailableScores().put(numberOfCommonGoal, score);
     }
 
     @Override
     public void onCurrentPlayerChangedListener(String nickname) {
-
+        viewData.setCurrentPlayer(nickname);
     }
 
     @Override
@@ -166,32 +181,40 @@ public class Client implements ClientInterface, LogicInterface {
 
     @Override
     public void joinGame(String nickname) {
-
+        viewData.setThisPlayer(nickname);
+        server.joinGame(nickname);
     }
 
     @Override
     public void createGame(String nickname, int numberOfPlayer) {
-
+        viewData.setThisPlayer(nickname);
+        server.createGame(nickname, numberOfPlayer);
     }
 
     @Override
     public void quitGame() {
-
+        viewData = new ViewData(9, 5, 6);
+        ui.setModel(viewData);
+        server.quitGame();
     }
 
     @Override
     public void sentMessage(String text, String[] receiversNickname) {
-
+        List<String> receivers = Arrays.stream(receiversNickname).toList();
+        viewData.addMessage(new Triple<>(viewData.getThisPlayer(), receivers , text));
+        server.sentMessage(text, receiversNickname);
     }
 
     @Override
     public void dragTilesToBookShelf(List<Coordinate> chosenTiles, int chosenColumn) {
-
+        // modificare la view?
+        server.dragTilesToBookShelf(chosenTiles, chosenColumn);
     }
 
     @Override
-    public String getNickNameCurrentPlayer() {
-        return null;
-    }
+    public void onWinnerChanged(String nickname) {
 
+    }
 }
+
+

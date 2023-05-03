@@ -74,8 +74,8 @@ public class PointPlayer implements Serializable, OnUpdateNeededListener {
         notifyOnPointUpdated();
     }
 
-    public int getTotalScore(){
-        return scoreAdjacentGoal + scoreEndGame + scorePersonalGoal + scoreCommonGoal1 + scoreCommonGoal2;
+    public Integer getTotalScore(){
+        return Integer.valueOf(scoreAdjacentGoal + scoreEndGame + scorePersonalGoal + scoreCommonGoal1 + scoreCommonGoal2);
     }
 
     public Player getPlayer() {

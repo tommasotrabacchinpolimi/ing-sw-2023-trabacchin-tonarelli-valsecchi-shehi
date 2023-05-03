@@ -22,6 +22,8 @@ public class BoardTUI {
        print();
        //printFitBoard();
         //logo();
+
+
     }
 
     private static void print(){
@@ -37,14 +39,23 @@ public class BoardTUI {
                 getLineBookShelf(i);
                 System.out.print("               ");
                 getLineBookShelf(i);
+            } else if (i==6){
+                System.out.print("                                     ");
+                System.out.print("Personal Goal Points:");
+            } else if (i==7) {
+                System.out.print("p = PLANT\t b = BOOK \t \t \t \t p 1 | 2 | 4 | 6 | 9 | 12");
+            } else {
+                System.out.print("t = TROPHY\t c = CAT \t \t \t \t p = points achieved with relative #");
             }
             System.out.println();
 
             if( i < DIM_BOARD - 1){
-                if(i <= 6)
+                if(i < 6)
                     System.out.println(getDividerBoard(i+1) + "               "+ getDividerBookShelf(i+1) +"               "+ getDividerBookShelf(i+1) );
-                else  {
-                    System.out.println(getDividerBoard(i+1));
+                else if (i==6) {
+                    System.out.println(getDividerBoard(i+1) + "               " + "Legend:         \t \t \t \t \t \t # 1 | 2 | 3 | 4 | 5 | 6");
+                } else  {
+                    System.out.println(getDividerBoard(i+1) + "               " +"f = FRAME\t g = GAME \t \t \t \t # = numbers of matched tiles");
                 }
             }
         }

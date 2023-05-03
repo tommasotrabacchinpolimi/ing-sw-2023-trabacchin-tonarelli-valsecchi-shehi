@@ -4,6 +4,8 @@ import it.polimi.ingsw.view.LogicInterface;
 
 public abstract class UI {
     private LogicInterface logicController;
+
+    private ViewData model;
     public void setLogicController(LogicInterface logicController) {
         this.logicController = logicController;
     }
@@ -13,4 +15,12 @@ public abstract class UI {
     }
 
     public abstract void launch();
+
+    public ViewData getModel() {
+        return model;
+    }
+
+    public void setModel(ViewData model) {
+        this.model = model;
+    }
 }
