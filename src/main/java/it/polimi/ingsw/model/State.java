@@ -72,6 +72,9 @@ public class State implements Serializable, OnUpdateNeededListener {
     @ExcludedFromJSON
     private int playersNumber;
 
+    @ExcludedFromJSON
+    private Player winner;
+
     /**
      * List of {@link ChatMessage messages} sent between {@link Player players}.
      *
@@ -83,6 +86,8 @@ public class State implements Serializable, OnUpdateNeededListener {
 
     @ExcludedFromJSON
     private Player lastPlayer;
+
+    private Exception lastException;
 
     @ExcludedFromJSON
     private final List<OnAchievedCommonGoalListener> achievedCommonGoalListeners;
@@ -111,6 +116,11 @@ public class State implements Serializable, OnUpdateNeededListener {
     @ExcludedFromJSON
     private final List<OnChangedCommonGoalAvailableScoreListener> onChangedCommonGoalAvailableScoreListenerListeners;
 
+    @ExcludedFromJSON
+    private final List<OnExceptionsListener> exceptionsListeners;
+
+    @ExcludedFromJSON
+    private final List<OnWinnerChangedListener> onWinnerChangedListeners;
 
     /**
      * Construct of the class that creates the fields of the class.
@@ -127,6 +137,7 @@ public class State implements Serializable, OnUpdateNeededListener {
         currentPlayer = null;
         messages = new LinkedList<>();
         lastPlayer = null;
+        lastException = null;
         achievedCommonGoalListeners = new LinkedList<>();
         stateChangedListeners = new LinkedList<>();
         lastPlayerUpdatedListeners = new LinkedList<>();
@@ -136,6 +147,8 @@ public class State implements Serializable, OnUpdateNeededListener {
         onAchievedPersonalGoalListeners = new LinkedList<>();
         onAdjacentTilesUpdatedListeners = new LinkedList<>();
         onChangedCommonGoalAvailableScoreListenerListeners = new LinkedList<>();
+        exceptionsListeners = new LinkedList<>();
+        onWinnerChangedListeners = new LinkedList<>();
     }
 
     public void setAchievedCommonGoalListener(OnAchievedCommonGoalListener listener) {
@@ -195,6 +208,16 @@ public class State implements Serializable, OnUpdateNeededListener {
         this.gameState = gameState;
         notifyStateChanged();
     }
+
+    public void setWinner(Player winner) {
+        this.winner = winner;
+        notifyOnWinnerChanged();
+    }
+
+    public Player getWinner() {
+        return winner;
+    }
+
 
     public int getPlayersNumber() {
         return playersNumber;
@@ -558,6 +581,43 @@ public class State implements Serializable, OnUpdateNeededListener {
         for(OnChangedCommonGoalAvailableScoreListener listener: onChangedCommonGoalAvailableScoreListenerListeners){
             listener.onChangedCommonGoalAvailableScore(newScore, numberOfCommonGoal);
         }
+    }
+
+    public void setOnExceptionsListener(OnExceptionsListener listener){
+        exceptionsListeners.add(listener);
+    }
+
+    public void removeOnExceptionsListener(OnExceptionsListener listener){
+        exceptionsListeners.remove(listener);
+    }
+
+    private void notifyOnExceptionsListener(Exception e){
+        for(OnExceptionsListener listener: exceptionsListeners){
+            listener.onException(e);
+        }
+    }
+
+    public void setOnWinnerChangedListener(OnWinnerChangedListener onWinnerChangedListener) {
+        this.onWinnerChangedListeners.add(onWinnerChangedListener);
+    }
+    public void removeOnWinnerChangedListener(OnWinnerChangedListener onWinnerChangedListener) {
+        this.onWinnerChangedListeners.remove(onWinnerChangedListener);
+    }
+
+    public void notifyOnWinnerChanged() {
+        for(OnWinnerChangedListener onWinnerChangedListener : onWinnerChangedListeners) {
+            onWinnerChangedListener.onWinnerChanged(getWinner().getNickName());
+        }
+    }
+
+
+    public Exception getLastException() {
+        return lastException;
+    }
+
+    public void setLastException(Exception lastException) {
+        this.lastException = lastException;
+        notifyOnExceptionsListener(lastException);
     }
 
     @Override

@@ -41,7 +41,7 @@ public class LobbyController implements UserAccepter<ClientInterface>, OnConnect
     }
 
     @Override
-    public synchronized void joinGame(ClientInterface user, String nickname){
+    public synchronized void joinGame(ClientInterface user, String nickname) throws Exception {
         if(!viewToNicknameMap.containsValue(nickname)){
             addPlayerToGame(user, nickname);
         } else if (user != nicknameToViewMap.get(nickname)) {
@@ -50,13 +50,13 @@ public class LobbyController implements UserAccepter<ClientInterface>, OnConnect
             } else {
                 //metodo nella textclient interface che dice al client che il nome è gia stato preso
                 //notificare alla view
-                RuntimeException e = new AlreadyTakenNicknameException();
+                Exception e = new AlreadyTakenNicknameException();
                 user.onException(e);
                 throw e;
             }
         } else {
             if(viewControllerMap.containsKey(user)){
-                RuntimeException e = new AlreadyInGameException();
+                Exception e = new AlreadyInGameException();
                 user.onException(e);
                 throw e;
             } else{
@@ -66,24 +66,24 @@ public class LobbyController implements UserAccepter<ClientInterface>, OnConnect
     }
 
     @Override
-    public synchronized void createGame(ClientInterface user, String nickname, int numberOfPlayer) throws FileNotFoundException {
+    public synchronized void createGame(ClientInterface user, String nickname, int numberOfPlayer) throws Exception {
         if(!viewToNicknameMap.containsValue(nickname)){
             createNewGame(user, nickname, numberOfPlayer);
         } else if (user != nicknameToViewMap.get(nickname)) {
             if(disconnectedButInGame.contains(nickname)){
-                RuntimeException e = new AlreadyInGameException();
+                Exception e = new AlreadyInGameException();
                 user.onException(e);
                 throw e;
             } else {
                 //metodo nella textclient interface che dice al client che il nome è gia stato preso
                 //notificare alla view
-                RuntimeException e = new AlreadyTakenNicknameException();
+                Exception e = new AlreadyTakenNicknameException();
                 user.onException(e);
                 throw e;
             }
         } else {
             if(viewControllerMap.containsKey(user)){
-                RuntimeException e = new AlreadyInGameException();
+                Exception e = new AlreadyInGameException();
                 user.onException(e);
                 throw e;
             } else{

@@ -25,22 +25,6 @@ public class ImageRoundCornersClipper {
         });
     }
 
-    public static void roundClipperDropShadow(Region region, double arc, BlurType blurType, Color colorHSB, double radius, double spread, double offsetX, double offsetY){
-        final Rectangle outputClip = new Rectangle();
-
-        region.layoutBoundsProperty().addListener((ov, oldValue, newValue) -> {
-            final double lesserExtent = Math.min(newValue.getWidth(), newValue.getHeight());
-
-            outputClip.setArcWidth(lesserExtent * (arc / 100));
-            outputClip.setArcHeight(lesserExtent * (arc / 100));
-
-            region.setClip(outputClip);
-
-            outputClip.setWidth(newValue.getWidth());
-            outputClip.setHeight(newValue.getHeight());
-        });
-    }
-
     public static void roundClipper(Region region, double arc, double red) {
         final Rectangle outputClip = new Rectangle();
 

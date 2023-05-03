@@ -25,10 +25,10 @@ public class LoginPageController {
     public TextField nicknameInput;
     public AnchorPane infoBoxContainer;
     public ImageView myShelfieTitle;
-    public Button nicknameSubmit;
+    public Button joinButton;
     public ImageView cranioCreationLogo;
     public GridPane inputContainer;
-
+    public Button createButton;
     private static final PseudoClass errorClass = PseudoClass.getPseudoClass("error");
 
     @FXML
@@ -36,13 +36,15 @@ public class LoginPageController {
 
         ImageRoundCornersClipper.roundClipper(infoContainer, 10);
         ImageRoundCornersClipper.roundClipper(infoBoxContainer, 10);
-        ImageRoundCornersClipper.roundClipper(nicknameSubmit, 30);
-
-        nicknameInput.textProperty().addListener(event -> {
-                nicknameSubmit.setDisable(nicknameInput.getText().isEmpty() || nicknameInput.getText().equals(""));
-        });
+        ImageRoundCornersClipper.roundClipper(joinButton, 30);
+        ImageRoundCornersClipper.roundClipper(createButton, 30);
 
         checkNickname();
+    }
+
+    @FXML
+    public void setAllNonFocused(MouseEvent mouseEvent) {
+        sceneBackground.requestFocus();
     }
 
     @FXML
@@ -52,20 +54,68 @@ public class LoginPageController {
         }
 
         if (keyEvent.getCode() == KeyCode.ENTER) {
-            nicknameSubmitted(null);
+            joinGameSubmitted(null);
         }
+
+        joinButton.setDisable(needToActivateButton());
+        createButton.setDisable(needToActivateButton());
     }
 
     @FXML
-    public void setAllNonFocused(MouseEvent mouseEvent) {
-        sceneBackground.requestFocus();
+    public void joinGameSubmitted(MouseEvent mouseEvent) {
+
+        System.out.println("Nickname: " + nicknameInput.getText() + "joined a game");
+
+        clearNicknameInput();
+    }
+
+    @FXML
+    public void createGameSubmitted(MouseEvent mouseEvent) {
+        System.out.println("Nickname: " + nicknameInput.getText() + "create a game");
+
+        clearNicknameInput();
+    }
+
+    @FXML
+    public void createGameButtonEntered(MouseEvent mouseEvent) {
+        enhanceButton(createButton);
+    }
+
+    @FXML
+    public void createGameButtonExited(MouseEvent mouseEvent) {
+        reverseEnhanceButton(createButton);
+    }
+
+    @FXML
+    public void joinGameButtonEntered(MouseEvent mouseEvent) {
+        enhanceButton(joinButton);
+    }
+
+    @FXML
+    public void joinGameButtonExited(MouseEvent mouseEvent) {
+        reverseEnhanceButton(joinButton);
+    }
+
+    private void enhanceButton(Button button) {
+        button.setEffect(new Bloom());
+    }
+
+    private void reverseEnhanceButton(Button button) {
+        button.setEffect(null);
+    }
+
+    private void clearNicknameInput() {
+        nicknameInput.clear();
+        joinButton.setDisable(true);
+        createButton.setDisable(true);
     }
 
     private void checkNickname() {
         nicknameInput.textProperty().addListener(event -> {
             nicknameInput.pseudoClassStateChanged(errorClass, errorInNicknameInput());
 
-            nicknameSubmit.setDisable(errorInNicknameInput());
+            joinButton.setDisable(needToActivateButton());
+            createButton.setDisable(needToActivateButton());
         });
     }
 
@@ -73,23 +123,9 @@ public class LoginPageController {
         return !nicknameInput.getText().isEmpty() && nicknameInput.getText().contains("Errata");
     }
 
-    @FXML
-    public void nicknameButtonEntered(MouseEvent mouseEvent) {
-        nicknameSubmit.setEffect(new Bloom());
-        nicknameSubmit.setStyle("-fx-font-size: " + (nicknameSubmit.getFont().getSize() + 1) + "px");
-    }
-
-    @FXML
-    public void nicknameButtonExited(MouseEvent mouseEvent) {
-        nicknameSubmit.setEffect(null);
-        nicknameSubmit.setStyle("-fx-font-size: " + (nicknameSubmit.getFont().getSize() - 1) + "px");
-    }
-
-    @FXML
-    public void nicknameSubmitted(MouseEvent mouseEvent) {
-
-        System.out.println("Nickname: " + nicknameInput.getText());
-
-        nicknameInput.clear();
+    private boolean needToActivateButton(){
+        return (nicknameInput.getText().isEmpty() ||
+                nicknameInput.getText().equals("") ||
+                nicknameInput.getText().contains("Errata")) || errorInNicknameInput();
     }
 }

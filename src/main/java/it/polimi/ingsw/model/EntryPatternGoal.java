@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.utils.Coordinate;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
@@ -22,28 +24,10 @@ public class EntryPatternGoal implements Serializable {
     @Serial
     private static final long serialVersionUID = 73856129837219L;
 
-    /**
-     * The row in which the entry is inserted.
-     *
-     * @apiNote Default value {@code 0}. Once set can't be overwritten
-     * @see #EntryPatternGoal()
-     * @see #EntryPatternGoal(int, int, TileType) EntryPatternGoal(row, column, tileType)
-     * @see #EntryPatternGoal(int, int, String) EntryPatternGoal(row, column, tileTypeName)
-     */
-    private final int row;
+    private final Coordinate coordinate;
 
     /**
-     * The column in which the entry is inserted.
-     *
-     * @apiNote Default value {@code 0}. Once set can't be overwritten
-     * @see #EntryPatternGoal()
-     * @see #EntryPatternGoal(int, int, TileType) EntryPatternGoal(row, column, tileType)
-     * @see #EntryPatternGoal(int, int, String) EntryPatternGoal(row, column, tileTypeName)
-     */
-    private final int column;
-
-    /**
-     * The TileType contained in position specified by the value pair: [{@link EntryPatternGoal#row row}, {@link EntryPatternGoal#column column}]
+     * The TileType contained in position specified by the value pair: []
      *
      * @apiNote Default value {@code null}. Once set can't be overwritten
      * @see #getTileType()
@@ -57,13 +41,10 @@ public class EntryPatternGoal implements Serializable {
     /**
      * Empty parameter constructor that sets the fields of the class to default value.
      *
-     * @see EntryPatternGoal#row
-     * @see EntryPatternGoal#column
      * @see EntryPatternGoal#tileType
      */
     public EntryPatternGoal(){
-        row = 0;
-        column = 0;
+        coordinate = new Coordinate(0,0);
         tileType = null;
     }
 
@@ -73,14 +54,10 @@ public class EntryPatternGoal implements Serializable {
      * @param row       the column that would be set to the entry
      * @param column    the column that would be set to the entry
      * @param tileType  the TileType that would be set to the entry
-     *
-     * @see EntryPatternGoal#row
-     * @see EntryPatternGoal#column
      * @see EntryPatternGoal#tileType
      */
     public EntryPatternGoal(int row, int column, TileType tileType) {
-        this.row = row;
-        this.column = column;
+        coordinate = new Coordinate(row,column);
         this.tileType = tileType;
     }
 
@@ -90,14 +67,11 @@ public class EntryPatternGoal implements Serializable {
      * @param row the column that would be set to the entry
      * @param column the column that would be set to the entry
      * @param tileTypeName the TileType name that would be converted to the corresponding {@link TileType TileType}
-     * @see EntryPatternGoal#row
-     * @see EntryPatternGoal#column
      * @see EntryPatternGoal#tileType
      * @see TileType
      */
     public EntryPatternGoal(int row, int column, String tileTypeName) {
-        this.row = row;
-        this.column = column;
+        coordinate = new Coordinate(row,column);
         this.tileType = fromStringToTileType(tileTypeName);
     }
 
@@ -105,20 +79,19 @@ public class EntryPatternGoal implements Serializable {
      * Returns the column referred to the EntryPatternGoal instance
      *
      * @return column field of the class
-     * @see EntryPatternGoal#column
      */
     public int getColumn() {
-        return column;
+
+        return coordinate.getY();
     } //
 
     /**
      * Returns the row referred to the EntryPatternGoal instance
      *
      * @return row field of the class
-     * @see EntryPatternGoal#row
      */
     public int getRow() {
-        return row;
+        return coordinate.getX();
     } //
 
     /**
@@ -133,7 +106,7 @@ public class EntryPatternGoal implements Serializable {
     } //
 
     /**
-     * Construct and return an array containing value pair: [{@link EntryPatternGoal#row row}, {@link EntryPatternGoal#column column}]
+     * Construct and return an array containing value pair: []
      *
      * @return An array that contains two elements that refers to the position of the entry in the {@link PersonalGoal PersonalGoal} card
      *
@@ -142,7 +115,7 @@ public class EntryPatternGoal implements Serializable {
      * result[1] = column}</pre>
      */
     public int[] getArrayIndexes() {
-        return new int[]{row, column};
+        return new int[]{coordinate.getX(), coordinate.getY()};
     } //
 
     /**
@@ -156,8 +129,8 @@ public class EntryPatternGoal implements Serializable {
      */
     @Override
     public String toString() {
-        return "EntryPatternGoal{row=" + row +
-                ", column=" + column +
+        return "EntryPatternGoal{row=" + coordinate.getX() +
+                ", column=" + coordinate.getY() +
                 ", tileType=" + tileType +
                 '}';
     }
@@ -201,9 +174,9 @@ public class EntryPatternGoal implements Serializable {
         EntryPatternGoal that = (EntryPatternGoal) object;
 
         if(this.tileType == null)
-            return (column == that.column && row == that.row);
+            return (coordinate.getY() == that.getColumn() && coordinate.getX() == that.getRow());
 
-        return (column == that.column && row == that.row && tileType.equals(that.tileType));
+        return (coordinate.getY() == that.getColumn() && coordinate.getX() == that.getRow() && tileType.equals(that.tileType));
     }
 
     /**
@@ -213,6 +186,6 @@ public class EntryPatternGoal implements Serializable {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(column, row, tileType);
+        return Objects.hash(coordinate.getY(), coordinate.getX(), tileType);
     }
 }

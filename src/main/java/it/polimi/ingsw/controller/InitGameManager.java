@@ -25,7 +25,7 @@ public class InitGameManager extends GameManager {
         File[] files = rootFolder.listFiles(File::isFile);
         personalGoalsDeck = new ArrayList<>();
         for(File file : files) {
-            personalGoalsDeck.add(new PersonalGoal(file.getPath()));
+            personalGoalsDeck.add(new PersonalGoal(file.getName().split("\\.")[0]));
         }
         Collections.shuffle(personalGoalsDeck);
     }

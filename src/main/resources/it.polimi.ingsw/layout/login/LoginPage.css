@@ -64,7 +64,7 @@
     -fx-text-fill: rgba(95, 35, 41, 1);
 }
 
-.nick-submit {
+.action-button {
     -fx-font-family: "Special Elite Regular";
     -fx-text-fill: rgba(230, 221, 199, 0.90);
     -fx-background-image: url("../../graphical.resources/misc/page_base_lighten.png");

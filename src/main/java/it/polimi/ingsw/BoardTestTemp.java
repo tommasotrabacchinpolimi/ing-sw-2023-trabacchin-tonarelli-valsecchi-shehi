@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.BoardSquare;
 import static it.polimi.ingsw.model.BoardSquareType.NO_DOTS;
 import static it.polimi.ingsw.model.BoardSquareType.THREE_DOTS;
 
+@Deprecated
 public class BoardTestTemp {
     private static final int DIM = 9;
     public BoardSquare getLineBegin(BoardSquare b){

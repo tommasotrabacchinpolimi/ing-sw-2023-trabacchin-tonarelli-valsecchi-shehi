@@ -61,6 +61,9 @@ public abstract class GameManager {
         getController().getState().getPlayers().forEach(p->p.getPointPlayer().setOnPointsUpdatedListener(view));
         getController().getState().removeStateChangedListener(oldView);
         getController().getState().setStateChangedListener(view);
-
+        getController().getState().removeOnExceptionsListener(oldView);
+        getController().getState().setOnExceptionsListener(view);
+        getController().getState().removeOnWinnerChangedListener(oldView);
+        getController().getState().setOnWinnerChangedListener(view);
     }
 }
