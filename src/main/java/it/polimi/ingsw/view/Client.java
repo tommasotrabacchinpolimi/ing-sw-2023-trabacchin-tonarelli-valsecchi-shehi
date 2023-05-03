@@ -212,6 +212,10 @@ public class Client implements ClientInterface, LogicInterface {
     }
 
     @Override
+    public void onWinnerChanged(String nickname) {
+
+    }
+    @Override
     public void chosenSocket(int port, String host) {
 
     }
@@ -222,3 +226,5 @@ public class Client implements ClientInterface, LogicInterface {
     }
 
 }
+
+

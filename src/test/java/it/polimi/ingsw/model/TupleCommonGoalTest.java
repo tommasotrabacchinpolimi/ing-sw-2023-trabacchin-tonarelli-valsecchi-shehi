@@ -134,12 +134,13 @@ class TupleCommonGoalTest {
         boolean square = true;
         boolean separated = true;
         boolean sameTypeOnly = true;
-        int index = 0;
+        int index = 5;
 
-       // GroupAndSquareCommonGoal common = new GroupAndSquareCommonGoal(4, "Description",
-              //  groupNumber, adjacentParam, square, separated, sameTypeOnly);
+        TupleCommonGoal commoN = new TupleCommonGoal("Description", groupNumber, adjacentParam, square, separated, sameTypeOnly);
+      //  GroupAndSquareCommonGoal common = new GroupAndSquareCommonGoal(4, "Description", groupNumber, adjacentParam, square, separated, sameTypeOnly);
 
-        //assertTrue(compareObjects(getExpected(getBookShelf(index)),common.rule(getBookShelf(index))));
+        assertEquals(getExpected(index), commoN.rule(getBookShelf(index)));
+        //assertTrue(compareObjects(getExpected(getBookShelf(index)),commoN.rule(getBookShelf(index))));
     }
 
     private List<EntryPatternGoal> getExpected(int index) {
@@ -156,14 +157,14 @@ class TupleCommonGoalTest {
                 result.add(new EntryPatternGoal(2, 4, TileType.TROPHY));
             }
             case 2 -> {
-                result.add(new EntryPatternGoal(0, 0, TileType.FRAME));
-                result.add(new EntryPatternGoal(0, 2, TileType.FRAME));
-                result.add(new EntryPatternGoal(0, 4, TileType.FRAME));
-                result.add(new EntryPatternGoal(1, 1, TileType.FRAME));
-                result.add(new EntryPatternGoal(1, 3, TileType.FRAME));
-                result.add(new EntryPatternGoal(2, 0, TileType.FRAME));
-                result.add(new EntryPatternGoal(2, 2, TileType.FRAME));
-                result.add(new EntryPatternGoal(2, 4, TileType.FRAME));
+                result.add(new EntryPatternGoal(0, 1, TileType.FRAME));
+                result.add(new EntryPatternGoal(0, 3, TileType.FRAME));
+                result.add(new EntryPatternGoal(1, 0, TileType.FRAME));
+                result.add(new EntryPatternGoal(1, 2, TileType.FRAME));
+                result.add(new EntryPatternGoal(1, 4, TileType.FRAME));
+                result.add(new EntryPatternGoal(2, 1, TileType.FRAME));
+                result.add(new EntryPatternGoal(4, 1, TileType.FRAME));
+                result.add(new EntryPatternGoal(5, 4, TileType.FRAME));
             }
             case 3 -> {
                 result.add(new EntryPatternGoal(0, 1, TileType.BOOK));
@@ -184,9 +185,10 @@ class TupleCommonGoalTest {
                 result.add(new EntryPatternGoal(2, 4, TileType.BOOK));
                 result.add(new EntryPatternGoal(3, 1, TileType.BOOK));
                 result.add(new EntryPatternGoal(3, 3, TileType.BOOK));
-                result.add(new EntryPatternGoal(5, 3, TileType.BOOK));
+                result.add(new EntryPatternGoal(5, 2, TileType.BOOK));
             }
             case 5 -> {
+                result.add(new EntryPatternGoal(0, 3, TileType.CAT));
                 result.add(new EntryPatternGoal(2, 1, TileType.CAT));
                 result.add(new EntryPatternGoal(2, 3, TileType.CAT));
                 result.add(new EntryPatternGoal(3, 0, TileType.CAT));
@@ -194,7 +196,6 @@ class TupleCommonGoalTest {
                 result.add(new EntryPatternGoal(3, 4, TileType.CAT));
                 result.add(new EntryPatternGoal(4, 1, TileType.CAT));
                 result.add(new EntryPatternGoal(4, 3, TileType.CAT));
-                result.add(new EntryPatternGoal(0, 3, TileType.CAT));
             }
 
             case 6 -> {
@@ -248,7 +249,6 @@ class TupleCommonGoalTest {
                 result.add(new EntryPatternGoal(5, 2, TileType.PLANT));
             }
             case 11 -> {
-                result.add(new EntryPatternGoal(5, 0, TileType.CAT));
                 result.add(new EntryPatternGoal(1, 0, TileType.CAT));
                 result.add(new EntryPatternGoal(1, 2, TileType.CAT));
                 result.add(new EntryPatternGoal(2, 1, TileType.CAT));
@@ -256,6 +256,7 @@ class TupleCommonGoalTest {
                 result.add(new EntryPatternGoal(3, 2, TileType.CAT));
                 result.add(new EntryPatternGoal(4, 1, TileType.CAT));
                 result.add(new EntryPatternGoal(4, 3, TileType.CAT));
+                result.add(new EntryPatternGoal(5, 0, TileType.CAT));
             }
             case 12 -> {
                 result.add(new EntryPatternGoal(0, 0, TileType.PLANT));

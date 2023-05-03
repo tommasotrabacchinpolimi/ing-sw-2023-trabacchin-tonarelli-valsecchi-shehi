@@ -235,6 +235,11 @@ public class ClientTest implements ClientInterface {
     public void onChangedCommonGoalAvailableScore(int score, int numberOfCommonGoal) {
         guiInterface.write("common goal available score changed not implemented yet\n");
     }
+
+    @Override
+    public void onWinnerChanged(String nickname) {
+
+    }
 }
 
 

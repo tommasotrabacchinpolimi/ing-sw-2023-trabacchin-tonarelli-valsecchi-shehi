@@ -1,8 +1,11 @@
 package it.polimi.ingsw.view.gui.loginpage;
 
 import it.polimi.ingsw.view.gui.ImageRoundCornersClipper;
+import it.polimi.ingsw.view.gui.MyFadeTransition;
+import javafx.animation.FadeTransition;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -13,10 +16,18 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+import java.util.Map;
+
+import static java.util.Map.entry;
 
 
 public class LoginPageController {
+
+    private static final Duration animationDuration = new Duration(400);
     public AnchorPane sceneBackground;
     public GridPane rootPane;
     public GridPane infoContainer;
@@ -30,6 +41,9 @@ public class LoginPageController {
     public GridPane inputContainer;
     public Button createButton;
     private static final PseudoClass errorClass = PseudoClass.getPseudoClass("error");
+    public Button playerNumberButton;
+    public TextField playerNumberInput;
+    public Label playerNumberText;
 
     @FXML
     void initialize() {
@@ -38,8 +52,10 @@ public class LoginPageController {
         ImageRoundCornersClipper.roundClipper(infoBoxContainer, 10);
         ImageRoundCornersClipper.roundClipper(joinButton, 30);
         ImageRoundCornersClipper.roundClipper(createButton, 30);
+        ImageRoundCornersClipper.roundClipper(playerNumberButton, 30);
 
-        checkNickname();
+        setNicknameInputState();
+        setPlayerNumberInputState();
     }
 
     @FXML
@@ -54,26 +70,26 @@ public class LoginPageController {
         }
 
         if (keyEvent.getCode() == KeyCode.ENTER) {
-            joinGameSubmitted(null);
-        }
+            if (nicknameInput.isVisible() && !nicknameInput.isDisabled()) {
+                //show small message
+            }
 
-        joinButton.setDisable(needToActivateButton());
-        createButton.setDisable(needToActivateButton());
+            if (playerNumberInput.isVisible()) {
+                playerNumberSubmitted(null);
+            }
+        }
     }
 
     @FXML
     public void joinGameSubmitted(MouseEvent mouseEvent) {
-
-        System.out.println("Nickname: " + nicknameInput.getText() + "joined a game");
-
         clearNicknameInput();
     }
 
     @FXML
     public void createGameSubmitted(MouseEvent mouseEvent) {
-        System.out.println("Nickname: " + nicknameInput.getText() + "create a game");
-
         clearNicknameInput();
+
+        gameCreationUI();
     }
 
     @FXML
@@ -96,6 +112,21 @@ public class LoginPageController {
         reverseEnhanceButton(joinButton);
     }
 
+    @FXML
+    public void playerNumberSubmitted(MouseEvent mouseEvent) {
+        clearPlayerNumberInput();
+    }
+
+    @FXML
+    public void playerNumberButtonEntered(MouseEvent mouseEvent) {
+        enhanceButton(playerNumberButton);
+    }
+
+    @FXML
+    public void playerNumberButtonExited(MouseEvent mouseEvent) {
+        reverseEnhanceButton(playerNumberButton);
+    }
+
     private void enhanceButton(Button button) {
         button.setEffect(new Bloom());
     }
@@ -106,26 +137,109 @@ public class LoginPageController {
 
     private void clearNicknameInput() {
         nicknameInput.clear();
-        joinButton.setDisable(true);
-        createButton.setDisable(true);
+        /*joinButton.setDisable(true);
+        createButton.setDisable(true);*/
     }
 
-    private void checkNickname() {
-        nicknameInput.textProperty().addListener(event -> {
-            nicknameInput.pseudoClassStateChanged(errorClass, errorInNicknameInput());
+    private void clearPlayerNumberInput() {
+        playerNumberInput.clear();
+        /*MyFadeTransition.setDisableAfterTransition(playerNumberButton, true);*/
+    }
 
-            joinButton.setDisable(needToActivateButton());
-            createButton.setDisable(needToActivateButton());
+    private void setNicknameInputState() {
+        nicknameInput.textProperty().addListener(event -> {
+            nicknameInput.pseudoClassStateChanged(errorClass, verifyNickname());
+
+            joinButton.setDisable(verifyNickname());
+            createButton.setDisable(verifyNickname());
         });
     }
 
-    private boolean errorInNicknameInput() {
-        return !nicknameInput.getText().isEmpty() && nicknameInput.getText().contains("Errata");
+    private void setPlayerNumberInputState() {
+        playerNumberInput.textProperty().addListener(event -> {
+            playerNumberInput.pseudoClassStateChanged(errorClass, verifyPlayerNumber());
+
+            MyFadeTransition.setDisableAfterTransition(playerNumberButton, verifyPlayerNumber());
+        });
     }
 
-    private boolean needToActivateButton(){
-        return (nicknameInput.getText().isEmpty() ||
+    /**
+     * @return true if the buttons need to be disabled
+     */
+    private boolean verifyNickname() {
+        return nicknameInput.getText().isEmpty() ||
                 nicknameInput.getText().equals("") ||
-                nicknameInput.getText().contains("Errata")) || errorInNicknameInput();
+                (!nicknameInput.getText().isEmpty() && nicknameInput.getText().contains("Errata"));
+    }
+
+    /**
+     * @return true if the button needs to be disabled
+     */
+    private boolean verifyPlayerNumber() {
+        return playerNumberInput.getText().isEmpty() ||
+                playerNumberInput.getText().equals("") ||
+                invalidNumberInput() ||
+                playerNumberInBounds();
+    }
+
+    /**
+     * @return false if the string inserted is a valid number
+     */
+    private boolean invalidNumberInput() {
+        if (playerNumberButton.getText().isEmpty())
+            return true;
+        try {
+            Integer.parseInt(playerNumberInput.getText());
+            return false;
+        } catch (NumberFormatException nfe) {
+            return true;
+        }
+    }
+
+    /**
+     * @return true if the button needs to be disabled
+     */
+    private boolean playerNumberInBounds() {
+        if (!invalidNumberInput())
+            return Integer.parseInt(playerNumberInput.getText()) <= 1 || Integer.parseInt(playerNumberInput.getText()) > 4;
+
+        return false;
+    }
+
+    private void gameCreationUI() {
+        disappearingElements(List.of(joinButton, createButton, nicknameInput, welcomeText));
+
+        showElements(
+                Map.ofEntries(entry(playerNumberInput, 1.0),
+                        entry(playerNumberText, 1.0),
+                        entry(playerNumberButton, 0.5))
+        );
+
+        sceneBackground.requestFocus();
+    }
+
+    private void disappearingElements(List<Node> nodes) {
+        nodes.forEach(node -> {
+            fadeElement(node, 1.0, 0.0);
+        });
+    }
+
+    private void showElements(Map<Node, Double> elementsOpacity) {
+        elementsOpacity.forEach((element, opacity) -> {
+            fadeElement(element, 0.0, opacity);
+            element.setVisible(true);
+            element.setDisable(opacity != 1.0);
+        });
+    }
+
+    private void fadeElement(Node node, double fromValue, double toValue) {
+        FadeTransition fadeTransition = new FadeTransition(animationDuration);
+        fadeTransition.setNode(node);
+        fadeTransition.setFromValue(fromValue);
+        fadeTransition.setToValue(toValue);
+        fadeTransition.setCycleCount(1);
+        fadeTransition.setAutoReverse(false);
+
+        fadeTransition.playFromStart();
     }
 }
