@@ -8,6 +8,7 @@ import it.polimi.ingsw.net.ConnectionBuilder;
 import it.polimi.ingsw.net.RmiConnectionManager;
 import it.polimi.ingsw.net.SocketConnectionManager;
 import it.polimi.ingsw.utils.Coordinate;
+import it.polimi.ingsw.utils.Triple;
 import it.polimi.ingsw.view.tui.TUI;
 
 import javax.swing.text.View;
@@ -16,6 +17,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -178,96 +181,34 @@ public class Client implements ClientInterface, LogicInterface {
 
     @Override
     public void joinGame(String nickname) {
-
+        viewData.setThisPlayer(nickname);
+        server.joinGame(nickname);
     }
 
     @Override
     public void createGame(String nickname, int numberOfPlayer) {
-
+        viewData.setThisPlayer(nickname);
+        server.createGame(nickname, numberOfPlayer);
     }
 
     @Override
     public void quitGame() {
-
+        viewData = new ViewData(9, 5, 6);
+        ui.setModel(viewData);
+        server.quitGame();
     }
 
     @Override
     public void sentMessage(String text, String[] receiversNickname) {
-
+        List<String> receivers = Arrays.stream(receiversNickname).toList();
+        viewData.addMessage(new Triple<>(viewData.getThisPlayer(), receivers , text));
+        server.sentMessage(text, receiversNickname);
     }
 
     @Override
     public void dragTilesToBookShelf(List<Coordinate> chosenTiles, int chosenColumn) {
-
-    }
-
-    @Override
-    public String getThisPlayer() {
-        return null;
-    }
-
-    @Override
-    public String getCurrentPlayer() {
-        return null;
-    }
-
-    @Override
-    public List<String> getPlayersNames() {
-        return null;
-    }
-
-    @Override
-    public List<Integer> getPlayerPoint(String nickname) {
-        //if nickname == null return null;
-        // if nickname == "" return lista di tutti -1;
-        return null;
-    }
-
-    @Override
-    public TileSubject[][] getBoard() {
-        return new TileSubject[0][];
-    }
-
-    @Override
-    public TileSubject[][] getBookShelfByNickname(String nickname) {
-        //se nickname == null ritorna null;
-        //if nickname == "" ritorna null;
-        return new TileSubject[0][];
-    }
-
-    @Override
-    public TileType[][] getPersonalGoal() {
-        return new TileType[0][];
-    }
-
-    @Override
-    public String getCommonGoal1() {
-        return null;
-    }
-
-    @Override
-    public String getCommonGoal2() {
-        return null;
-    }
-
-    @Override
-    public Integer getAvailableScoreGoal1() {
-        return 0;
-    }
-
-    @Override
-    public Integer getAvailableScoreGoal2() {
-        return 0;
-    }
-
-    @Override
-    public String getPlayerState(String nickname) {
-        return null;
-    }
-
-    @Override
-    public String getGameState() {
-        return null;
+        // modificare la view?
+        server.dragTilesToBookShelf(chosenTiles, chosenColumn);
     }
 
 }
