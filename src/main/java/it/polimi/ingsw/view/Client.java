@@ -10,6 +10,7 @@ import it.polimi.ingsw.net.SocketConnectionManager;
 import it.polimi.ingsw.utils.Coordinate;
 import it.polimi.ingsw.view.tui.TUI;
 
+import javax.swing.text.View;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -24,15 +25,16 @@ public class Client implements ClientInterface, LogicInterface {
 
     private ViewData viewData;
 
-    public Client(UI ui) {
+    public Client(UI ui, ViewData model) {
         this.ui = ui;
-        viewData = new ViewData(9,5,6);
+        viewData = model;
     }
 
     public static void main(String[] args) throws IOException, NotBoundException, ClassNotFoundException {
         String protocolChoice, UIChoice;
         Client client = null;
         UI ui = null;
+        ViewData viewData = new ViewData(9,5,6);
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         ServerInterface server = null;
         System.out.println("Choose one of the following protocols:");
@@ -45,8 +47,9 @@ public class Client implements ClientInterface, LogicInterface {
         UIChoice = bufferedReader.readLine();
         if(UIChoice.equals("1")) {
             ui = new TUI();
+            ui.setModel(viewData);
         }
-        client = new Client(ui);
+        client = new Client(ui, viewData);
         ui.setLogicController(client);
         if(protocolChoice.equals("1")) {
             server = getSocketConnection(client);
