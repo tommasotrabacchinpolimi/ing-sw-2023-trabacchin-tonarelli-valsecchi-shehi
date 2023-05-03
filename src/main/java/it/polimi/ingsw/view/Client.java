@@ -28,6 +28,7 @@ public class Client implements ClientInterface, LogicInterface {
         this.ui = ui;
         viewData = new ViewData(9,5,6);
     }
+
     public static void main(String[] args) throws IOException, NotBoundException, ClassNotFoundException {
         String protocolChoice, UIChoice;
         Client client = null;
@@ -198,6 +199,11 @@ public class Client implements ClientInterface, LogicInterface {
     }
 
     @Override
+    public String getThisPlayer() {
+        return null;
+    }
+
+    @Override
     public String getCurrentPlayer() {
         return null;
     }
@@ -209,6 +215,8 @@ public class Client implements ClientInterface, LogicInterface {
 
     @Override
     public List<Integer> getPlayerPoint(String nickname) {
+        //if nickname == null return null;
+        // if nickname == "" return lista di tutti -1;
         return null;
     }
 
@@ -219,6 +227,8 @@ public class Client implements ClientInterface, LogicInterface {
 
     @Override
     public TileSubject[][] getBookShelfByNickname(String nickname) {
+        //se nickname == null ritorna null;
+        //if nickname == "" ritorna null;
         return new TileSubject[0][];
     }
 
@@ -238,6 +248,16 @@ public class Client implements ClientInterface, LogicInterface {
     }
 
     @Override
+    public Integer getAvailableScoreGoal1() {
+        return 0;
+    }
+
+    @Override
+    public Integer getAvailableScoreGoal2() {
+        return 0;
+    }
+
+    @Override
     public String getPlayerState(String nickname) {
         return null;
     }
@@ -246,6 +266,5 @@ public class Client implements ClientInterface, LogicInterface {
     public String getGameState() {
         return null;
     }
-
 
 }

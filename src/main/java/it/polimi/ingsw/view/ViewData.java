@@ -10,29 +10,15 @@ import java.util.Map;
 
 public class ViewData {
     private List<String> players;
-
-
-
-
-    String thisPlayer;
+    private String thisPlayer;
     private String currentPlayer;
     private Map<String, String> playersState;
     private String gameState;
-
     private TileSubject[][] board;
-
     private Map<String, TileSubject[][]> bookShelves;
-
     private TileType[][] personalGoal;
-
-
-
     private String[] commonGoals;
-
     private Map<String, List<Integer>> playersPoints;
-
-
-
     private Map<Integer, Integer> availableScores;
 
 
@@ -46,8 +32,8 @@ public class ViewData {
         commonGoals = new String[2];
         playersPoints = new HashMap<>();
         availableScores = new HashMap<>();
-
     }
+
     public List<String> getPlayers() {
         return players;
     }
@@ -103,7 +89,6 @@ public class ViewData {
     public void setPlayersPoints(Map<String, List<Integer>> playersPoints) {
         this.playersPoints = playersPoints;
     }
-
 
     public String[] getCommonGoals() {
         return commonGoals;

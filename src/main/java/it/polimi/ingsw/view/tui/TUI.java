@@ -10,6 +10,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class TUI extends UI implements Runnable{
     private static final int DIM_BOARD = 9;
@@ -29,9 +32,10 @@ public class TUI extends UI implements Runnable{
         POINTS
     }
 
-    public TUI() {
+    public TUI(/*LogicInterface client*/) {
         state = TUIState.HOME;
         bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        //this.client = client;
     }
 
     @Override
@@ -102,13 +106,35 @@ public class TUI extends UI implements Runnable{
 
     private void home(){ //mostra le cose base
         state = TUIState.HOME;
-        out.println("MY SHELFIE: HOME");
-        //current player
-        out.println("Current Player is ");
-        //players+ players state
-        //Player points
-        //common goals
-        //printBoardBookShelfPersonalGoal();
+        out.println("MY SHELFIE: HOME OF " + client.getThisPlayer());
+        printGameState();
+        out.print("Here are all the players in the game: ");
+        for(String name: client.getPlayersNames()){
+            out.print(name);
+            if(!Objects.equals(client.getPlayerState(name), "CONNECTED")){
+                out.print("(" + client.getPlayerState(name).toLowerCase() + ")");
+            }
+            out.print("   ");
+        }
+        out.println();
+        out.println("Your points are: ");
+        List<Integer> points = client.getPlayerPoint(client.getThisPlayer());
+        out.println("Common Goal 1 = " + points.get(0) + printPointOrPoints(points.get(0)));
+        out.println("Common Goal 2 = " + points.get(1) + printPointOrPoints(points.get(1)));
+        out.println("End Game = " + points.get(2) + printPointOrPoints(points.get(2)));
+        out.println("Personal Goal = " + points.get(3) + printPointOrPoints(points.get(3)));
+        out.println("Adjacent Tiles = " + points.get(4) + printPointOrPoints(points.get(4)));
+
+        out.println();
+        out.println("Common Goals are: ");
+        out.println("Common Goal 1: " + client.getCommonGoal1() + "\n     " + "Available Score = " + client.getAvailableScoreGoal1());
+        out.println("Common Goal 2: " + client.getCommonGoal2() + "\n     " + "Available Score = " + client.getAvailableScoreGoal2());
+
+        printBoardBookShelfPersonalGoal(fromTileSubjectToChar(client.getBoard()),
+                fromTileSubjectToChar(client.getBookShelfByNickname(client.getThisPlayer())),
+                fromTileTypeToChar(client.getPersonalGoal()));
+
+        out.println("Current Player is " + client.getCurrentPlayer());
     }
 
     private void showChat(){
@@ -119,12 +145,25 @@ public class TUI extends UI implements Runnable{
     private void showPoints(){
         state = TUIState.POINTS;
         out.println("MY SHELFIE: OTHER PLAYERS' POINTS");
-
+        List<String> nicknames = client.getPlayersNames();
+        if(nicknames.size() <= 2){
+            while(nicknames.size()-3 < 0){
+                nicknames.add("");
+            }
+        }
+        printOthersPoint(nicknames.get(0), nicknames.get(1), nicknames.get(2));
     }
 
     private void showBookshelves(){
         state = TUIState.BOOKSHELVES;
         out.println("MY SHELFIE: OTHER PLAYERS' BOOKSHELVES");
+        List<String> nicknames = client.getPlayersNames();
+        if(nicknames.size() <= 2){
+            while(nicknames.size()-3 < 0){
+                nicknames.add("");
+            }
+        }
+
         //printOthersBookShelves();
     }
 
@@ -271,7 +310,7 @@ public class TUI extends UI implements Runnable{
         }
     }
 
-    private void printOthersBookShelf(char[][] bookShelf1,String nickname1, char[][] bookShelf2,String nickname2, char[][] bookShelf3, String nickname3){
+    private void printOthersBookShelf(char[][] bookShelf1, String nickname1, char[][] bookShelf2, String nickname2, char[][] bookShelf3, String nickname3){
         out.println("                       " + nickname1 + ":                    " + nickname2 + ":                    " + nickname3 );
         out.println("                " + getDividerBookShelf(0) + "               " + getDividerBookShelf(0) + "               " + getDividerBookShelf(0));
         for(int i = 0; i < DIMROW_BOOKSHELF; i++){
@@ -303,14 +342,32 @@ public class TUI extends UI implements Runnable{
     }
 
     private void printOthersPoint(String nickname1, String nickname2, String nickname3){
+        List<Integer> pointPlayer1 = client.getPlayerPoint(nickname1);
+        List<Integer> pointPlayer2 = client.getPlayerPoint(nickname2);
+        List<Integer> pointPlayer3 = client.getPlayerPoint(nickname3);
         out.print("                 ");
         out.println(nickname1 + "        " + nickname2 + "        " + nickname3);
         //inizio
-        out.print("Personal goal:  ");
         out.print("Common Goal 1:  ");
+        out.print(pointPlayer1.get(0) + " " + printPointOrPoints(pointPlayer1.get(0)) + "        ");
+        out.print(pointPlayer2.get(0) + " " + printPointOrPoints(pointPlayer2.get(0)) + "        ");
+        out.println(pointPlayer3.get(0) + " " + printPointOrPoints(pointPlayer3.get(0)) + "        ");
         out.print("Common Goal 2:  ");
+        out.print(pointPlayer1.get(1) + " " + printPointOrPoints(pointPlayer1.get(1)) + "        ");
+        out.print(pointPlayer2.get(1) + " " + printPointOrPoints(pointPlayer2.get(1)) + "        ");
+        out.println(pointPlayer3.get(1) + " " + printPointOrPoints(pointPlayer3.get(1)) + "        ");
         out.print("End Game:       ");
+        out.print(pointPlayer1.get(2) + " " + printPointOrPoints(pointPlayer1.get(2)) + "        ");
+        out.print(pointPlayer2.get(2) + " " + printPointOrPoints(pointPlayer2.get(2)) + "        ");
+        out.println(pointPlayer3.get(2) + " " + printPointOrPoints(pointPlayer3.get(2)) + "        ");
+        out.print("Personal goal:  ");
+        out.print(pointPlayer1.get(3) + " " + printPointOrPoints(pointPlayer1.get(3)) + "        ");
+        out.print(pointPlayer2.get(3) + " " + printPointOrPoints(pointPlayer2.get(3)) + "        ");
+        out.println(pointPlayer3.get(3) + " " + printPointOrPoints(pointPlayer3.get(3)) + "        ");
         out.print("Adjacent Tiles: ");
+        out.print(pointPlayer1.get(4) + " " + printPointOrPoints(pointPlayer1.get(4)) + "        ");
+        out.print(pointPlayer2.get(4) + " " + printPointOrPoints(pointPlayer2.get(4)) + "        ");
+        out.println(pointPlayer3.get(4) + " " + printPointOrPoints(pointPlayer3.get(4)) + "        ");
     }
 
     private char[][] fromTileSubjectToChar(TileSubject[][] matrix){
@@ -346,5 +403,32 @@ public class TUI extends UI implements Runnable{
             default -> { return EMPTY; }
         }
     }
+
+    private void printGameState(){
+        switch(client.getGameState()){
+            case "INIT" -> {
+                out.println("The game is starting, please wait until the other players will join the game.");
+            }
+            case "MID", "FINAL" -> {
+                out.println("The game is in progress.");
+            }
+            case "SUSPENDED" -> {
+                out.println("The game is suspended because there is nobody left to play besides you.");
+            }
+            case "END" -> {
+                out.println("The game is over!");
+            }
+            default -> {
+                out.println();
+            }
+        }
+    }
+
+    private String printPointOrPoints(int point){
+        if(point == 0) return "point";
+        if(point == -1) return "";
+        return "points";
+    }
+
 
 }
