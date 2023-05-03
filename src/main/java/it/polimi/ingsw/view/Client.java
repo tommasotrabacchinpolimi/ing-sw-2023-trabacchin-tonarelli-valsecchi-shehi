@@ -211,4 +211,14 @@ public class Client implements ClientInterface, LogicInterface {
         server.dragTilesToBookShelf(chosenTiles, chosenColumn);
     }
 
+    @Override
+    public void chosenSocket(int port, String host) {
+
+    }
+
+    @Override
+    public void chosenRMI(int port, String host) {
+
+    }
+
 }

@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.tui;
 
 import it.polimi.ingsw.model.TileSubject;
 import it.polimi.ingsw.model.TileType;
+import it.polimi.ingsw.utils.Coordinate;
 import it.polimi.ingsw.utils.Triple;
 import it.polimi.ingsw.view.Client;
 import it.polimi.ingsw.view.LogicInterface;
@@ -29,6 +30,7 @@ public class TUI extends UI implements Runnable{
         HOME,
         CHAT,
         OTHERS,
+        LEGEND,
         END
     }
 
@@ -46,14 +48,90 @@ public class TUI extends UI implements Runnable{
     public void run() {
         try {
             welcome();
-            lock.wait();
+            home();
+            out.println("Please, enter help to learn how to play!");
             while(true) {
-
+                String input = bufferedReader.readLine();
+                switch (input) {
+                    case "help":
+                        state = TUIState.LEGEND;
+                        printLegendMoves();
+                        break;
+                    case "quit":
+                        getLogicController().quitGame();
+                        welcome();
+                        break;
+                    case "message":
+                        out.println("Please, enter the following information:");
+                        out.println("If you want the message to be private, enter the nickname of the player. Otherwise, enter type 'all' to send the message to all players");
+                        String receivers = readLine();
+                        while (!receivers.equals("all") && !getOtherPlayer().contains(receivers)) {
+                            out.println("Something went wrong, the word you have typed is not right. Please enter it again...");
+                            receivers = readLine();
+                        }
+                        out.println("Please, enter the text of the message:");
+                        String text = readLine();
+                        String[] rec = new String[4];
+                        if (!receivers.equals("all")) {
+                            rec[0] = receivers;
+                        } else {
+                            int i = 0;
+                            for (String player : getModel().getPlayers()) {
+                                rec[i] = player;
+                                i++;
+                            }
+                        }
+                        out.println("Sending the message...");
+                        getLogicController().sentMessage(text, rec);
+                        reset();
+                        home();
+                        break;
+                    case "chat":
+                        state = TUIState.CHAT;
+                        reset();
+                        home();
+                        showChat();
+                        break;
+                    case "others":
+                        state = TUIState.OTHERS;
+                        reset();
+                        home();
+                        showBookshelves();
+                        break;
+                    case "exit":
+                        if (state == TUIState.CHAT || state == TUIState.OTHERS || state == TUIState.LEGEND) {
+                            state = TUIState.HOME;
+                            reset();
+                            home();
+                        }
+                        break;
+                    case "play":
+                        out.println("It's your turn to play! Please enter the coordinate of the tiles you want to take from the board, then type fine");
+                        List<Coordinate> tiles = new ArrayList<>();
+                        String coord = readLine();
+                        while (!coord.equals("fine")) {
+                            tiles.add(new Coordinate(coord.charAt(0) - 'A', coord.charAt(1)));
+                        }
+                        out.println("Now enter the number, between 1 and 5, of the column of your bookshelf where to insert the chosen tiles:");
+                        String num = readLine();
+                        while (!num.equals("1") && !num.equals("2") && !num.equals("3") && !num.equals("4") && !num.equals("5")) {
+                            out.println("Something went wrong, please again the number:");
+                            num = readLine();
+                        }
+                        int n = num.charAt(0);
+                        out.println("Moving the tiles from the board to you bookshelf...");
+                        getLogicController().dragTilesToBookShelf(tiles, n);
+                        break;
+                }
             }
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
+    }
+
+    public void reset(){
+        out.println("\033[2J");
     }
 
     private String readLine() throws IOException {
@@ -81,25 +159,34 @@ public class TUI extends UI implements Runnable{
                 ,8'         `         `8.`8888. 8 8888                 `Y8888P ,88P' 8 8888        8 8 888888888888 8 888888888888 8 8888          8 8888 8 888888888888\s
                 """);
             out.println("Welcome to My Shelfie!");
-            out.println("First of all, insert your unique nickname: ");
+            System.out.println("Choose one of the following protocols:");
+            System.out.println("1) Socket");
+            System.out.println("2) Remote Methode Invocation");
+            String protocolChoice = bufferedReader.readLine();
+            if(protocolChoice.equals("1")) {
+                getLogicController().chosenSocket(0, null);
+            }
+            else if(protocolChoice.equals("2")) {
+                getLogicController().chosenRMI(0, null);
+            }
+
+            out.println("Now insert your unique nickname: ");
             String nickname = readLine();
             out.println("Ok, now chose one of the following options: ");
             out.println("1) create a new game");
             out.println("2) join an existing game");
             out.println("3) rejoin an existing game after a disconnection");
             choice = readLine();
-            if (choice.equals("1")) {
-                out.println("So you need to let us know with how many people you want to play with (it has to be a number between 1 and 3) :");
-                int numberOfPlayer = Integer.parseInt(readLine()) + 1;
-                getLogicController().createGame(nickname, numberOfPlayer);
-            } else if (choice.equals("2")) {
-                getLogicController().joinGame(nickname);
-            } else if (choice.equals("3")) {
-                getLogicController().joinGame(nickname);
-            } else {
-
+            switch (choice) {
+                case "1" -> {
+                    out.println("So you need to let us know with how many people you want to play with (it has to be a number between 1 and 3) :");
+                    int numberOfPlayer = Integer.parseInt(readLine()) + 1;
+                    getLogicController().createGame(nickname, numberOfPlayer);
+                }
+                case "2", "3" -> getLogicController().joinGame(nickname);
+                default -> {
+                }
             }
-            out.println("We are ready to start! Wait for the other users to join...");
         }
     }
 
@@ -144,10 +231,18 @@ public class TUI extends UI implements Runnable{
         List<Triple<String, List<String>, String>> messages = getModel().getMessages();
         for(Triple<String, List<String>, String> message : messages){
             if(message.getSecond().contains(getModel().getThisPlayer())){
-                out.println(message.getFirst() + privateOrPublicMessage(message.getSecond()) + message.getThird());
+                String sender = message.getFirst();
+                String priv = privateOrPublicMessage(message.getSecond());
+                if(sender.equals(getModel().getThisPlayer())){
+                    sender = "You";
+                    if(priv.equals("(private)")){
+                        priv = "(private with " + message.getSecond().get(0) + ")";
+                    }
+                }
+                out.println(sender + priv + message.getThird());
             }
         }
-        out.println("<--There aren't any more messages.-->");
+        out.println("<--There aren't any more messages. If you want to return to the homepage, please type 'exit'.-->");
     }
 
     private void showBookshelves(){
@@ -526,6 +621,19 @@ public class TUI extends UI implements Runnable{
         totals.add(getModel().getTotalPointByNickname(nicknames.get(1)));
         totals.add(getModel().getTotalPointByNickname(nicknames.get(2)));
         return totals;
+    }
+
+    private void printLegendMoves(){
+        out.println("Legend:");
+        out.println("Here are the actions you can make during the game:");
+        out.println(" TYPE        DESCRIPTION");
+        out.println(" play        use it during your turn in order to move tiles from the board to your bookshelf.");
+        out.println(" message     use it to send messages to other players.");
+        out.println(" chat        use it to see the chat.");
+        out.println(" others      use it to see other players' bookshelves and points.");
+        out.println(" exit        use this to leave chat, others visual or help legend.");
+        out.println(" quit        use it to leave the game, you will be directed to the welcome page so you can play again.");
+        out.println("<--- Please enter exit to return to the homepage. --->");
     }
 
 }
