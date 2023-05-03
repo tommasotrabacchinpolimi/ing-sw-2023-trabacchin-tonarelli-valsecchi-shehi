@@ -87,6 +87,6 @@ class PointPlayerTest<R extends ClientInterface> {
         pointPlayer.setScoreEndGame(endscore);
         pointPlayer.setScorePersonalGoal(personalscore);
         pointPlayer.setScoreAdjacentGoal(adjacentscore);
-        assertEquals(sum, pointPlayer.getTotalScore());
+        assertEquals(sum, pointPlayer.getTotalScore().intValue());
     }
 }

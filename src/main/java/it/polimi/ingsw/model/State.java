@@ -72,6 +72,9 @@ public class State implements Serializable, OnUpdateNeededListener {
     @ExcludedFromJSON
     private int playersNumber;
 
+    @ExcludedFromJSON
+    private Player winner;
+
     /**
      * List of {@link ChatMessage messages} sent between {@link Player players}.
      *
@@ -116,6 +119,9 @@ public class State implements Serializable, OnUpdateNeededListener {
     @ExcludedFromJSON
     private final List<OnExceptionsListener> exceptionsListeners;
 
+    @ExcludedFromJSON
+    private final List<OnWinnerChangedListener> onWinnerChangedListeners;
+
     /**
      * Construct of the class that creates the fields of the class.
      *
@@ -142,6 +148,7 @@ public class State implements Serializable, OnUpdateNeededListener {
         onAdjacentTilesUpdatedListeners = new LinkedList<>();
         onChangedCommonGoalAvailableScoreListenerListeners = new LinkedList<>();
         exceptionsListeners = new LinkedList<>();
+        onWinnerChangedListeners = new LinkedList<>();
     }
 
     public void setAchievedCommonGoalListener(OnAchievedCommonGoalListener listener) {
@@ -201,6 +208,16 @@ public class State implements Serializable, OnUpdateNeededListener {
         this.gameState = gameState;
         notifyStateChanged();
     }
+
+    public void setWinner(Player winner) {
+        this.winner = winner;
+        notifyOnWinnerChanged();
+    }
+
+    public Player getWinner() {
+        return winner;
+    }
+
 
     public int getPlayersNumber() {
         return playersNumber;
@@ -579,6 +596,20 @@ public class State implements Serializable, OnUpdateNeededListener {
             listener.onException(e);
         }
     }
+
+    public void setOnWinnerChangedListener(OnWinnerChangedListener onWinnerChangedListener) {
+        this.onWinnerChangedListeners.add(onWinnerChangedListener);
+    }
+    public void removeOnWinnerChangedListener(OnWinnerChangedListener onWinnerChangedListener) {
+        this.onWinnerChangedListeners.remove(onWinnerChangedListener);
+    }
+
+    public void notifyOnWinnerChanged() {
+        for(OnWinnerChangedListener onWinnerChangedListener : onWinnerChangedListeners) {
+            onWinnerChangedListener.onWinnerChanged(getWinner().getNickName());
+        }
+    }
+
 
     public Exception getLastException() {
         return lastException;

@@ -190,6 +190,8 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
             if (getController().getState().getGameState() == GameState.FINAL) { //se sono nella fase FINAL del gioco e il prossimo giocatore è il lastPlayer, allora rendo il gioco END
                 if (oldCurrentPlayer.equals(getController().getState().getLastPlayer())) {
                     getController().getState().setGameState(GameState.END);
+                    Optional<Player> winner = getController().getState().getPlayers().stream().max(Comparator.comparing(p -> p.getPointPlayer().getTotalScore()));
+                    winner.ifPresent(player -> getController().getState().setWinner(player));
                 }
             }
 
