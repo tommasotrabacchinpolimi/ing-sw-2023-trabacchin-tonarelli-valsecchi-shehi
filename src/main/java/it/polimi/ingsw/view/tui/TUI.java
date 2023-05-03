@@ -406,11 +406,14 @@ public class TUI extends UI implements Runnable{
             case "INIT" -> {
                 out.println("The game is starting, please wait until the other players will join the game.");
             }
-            case "MID", "FINAL" -> {
+            case "MID" -> {
                 out.println("The game is in progress.");
             }
             case "SUSPENDED" -> {
                 out.println("The game is suspended because there is nobody left to play besides you.");
+            }
+            case "FINAL" -> {
+                out.println("The game is ending, this is the last round of turns.");
             }
             case "END" -> {
                 out.println("The game is over!");

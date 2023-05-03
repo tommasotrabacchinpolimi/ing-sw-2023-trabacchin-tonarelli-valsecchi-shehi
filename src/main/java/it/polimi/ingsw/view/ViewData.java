@@ -72,7 +72,10 @@ public class ViewData {
         return bookShelves;
     }
 
-    public TileSubject[][] getBookShelfByNickname(String nickname) { return bookShelves.get(nickname); }
+    public TileSubject[][] getBookShelfByNickname(String nickname) {
+        //se nickname == null ritorna null;
+        //if nickname == "" ritorna null;
+        return bookShelves.get(nickname); }
 
     public void setBookShelves(Map<String, TileSubject[][]> bookShelves) {
         this.bookShelves = bookShelves;
@@ -87,6 +90,8 @@ public class ViewData {
     }
 
     public Map<String, List<Integer>> getPlayersPoints() {
+        //if nickname == null return null;
+        // if nickname == "" return lista di tutti -1;
         return playersPoints;
     }
 
@@ -132,6 +137,10 @@ public class ViewData {
 
     public void setMessages(List<Triple<String, List<String>, String>> messages) {
         this.messages = messages;
+    }
+
+    public void addMessage(Triple<String, List<String>, String> message){
+        messages.add(message);
     }
 
 }
