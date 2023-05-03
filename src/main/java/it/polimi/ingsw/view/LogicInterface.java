@@ -13,4 +13,6 @@ public interface LogicInterface {
     void quitGame();
     void sentMessage(String text,  String[] receiversNickname);
     void dragTilesToBookShelf(List<Coordinate> chosenTiles, int chosenColumn);
+    void chosenSocket(int port, String host);
+    void chosenRMI(int port, String host);
 }
