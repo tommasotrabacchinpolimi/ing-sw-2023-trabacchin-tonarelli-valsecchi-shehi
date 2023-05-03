@@ -1,7 +1,6 @@
 package it.polimi.ingsw.view.gui.loginpage;
 
 import it.polimi.ingsw.view.gui.ImageRoundCornersClipper;
-import it.polimi.ingsw.view.gui.MyFadeTransition;
 import javafx.animation.FadeTransition;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
@@ -67,6 +66,12 @@ public class LoginPageController {
     public void textFieldKeyPressed(@NotNull KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ESCAPE) {
             rootPane.requestFocus();
+
+            if(nicknameInput.isVisible() && !nicknameInput.isDisabled() && nicknameInput.getText().isEmpty())
+                nicknameInput.pseudoClassStateChanged(errorClass, false);
+
+            if(playerNumberInput.isVisible() && !playerNumberInput.isDisabled() && playerNumberInput.getText().isEmpty())
+                playerNumberInput.pseudoClassStateChanged(errorClass, false);
         }
 
         if (keyEvent.getCode() == KeyCode.ENTER) {
@@ -137,13 +142,12 @@ public class LoginPageController {
 
     private void clearNicknameInput() {
         nicknameInput.clear();
-        /*joinButton.setDisable(true);
-        createButton.setDisable(true);*/
+        nicknameInput.pseudoClassStateChanged(errorClass, false);
     }
 
     private void clearPlayerNumberInput() {
         playerNumberInput.clear();
-        /*MyFadeTransition.setDisableAfterTransition(playerNumberButton, true);*/
+        playerNumberInput.pseudoClassStateChanged(errorClass, false);
     }
 
     private void setNicknameInputState() {
@@ -159,25 +163,22 @@ public class LoginPageController {
         playerNumberInput.textProperty().addListener(event -> {
             playerNumberInput.pseudoClassStateChanged(errorClass, verifyPlayerNumber());
 
-            MyFadeTransition.setDisableAfterTransition(playerNumberButton, verifyPlayerNumber());
+            setDisableAfterTransition(playerNumberButton, verifyPlayerNumber());
         });
     }
 
     /**
-     * @return true if the buttons need to be disabled
+     * @return true if the input is not valid
      */
     private boolean verifyNickname() {
-        return nicknameInput.getText().isEmpty() ||
-                nicknameInput.getText().equals("") ||
-                (!nicknameInput.getText().isEmpty() && nicknameInput.getText().contains("Errata"));
+        return nicknameInput.getText().isEmpty() || nicknameInput.getText().contains("Errata");
     }
 
     /**
-     * @return true if the button needs to be disabled
+     * @return true if the number is not valid
      */
     private boolean verifyPlayerNumber() {
         return playerNumberInput.getText().isEmpty() ||
-                playerNumberInput.getText().equals("") ||
                 invalidNumberInput() ||
                 playerNumberInBounds();
     }
@@ -186,8 +187,9 @@ public class LoginPageController {
      * @return false if the string inserted is a valid number
      */
     private boolean invalidNumberInput() {
-        if (playerNumberButton.getText().isEmpty())
+        if(playerNumberText.getText().isEmpty())
             return true;
+
         try {
             Integer.parseInt(playerNumberInput.getText());
             return false;
@@ -241,5 +243,15 @@ public class LoginPageController {
         fadeTransition.setAutoReverse(false);
 
         fadeTransition.playFromStart();
+    }
+
+    public void setDisableAfterTransition(Node node, boolean disable) {
+        node.setDisable(disable);
+
+        if (disable) {
+            node.setOpacity(0.5); // set the opacity to a value that appears grayed out
+        } else {
+            node.setOpacity(1.0);
+        }
     }
 }
