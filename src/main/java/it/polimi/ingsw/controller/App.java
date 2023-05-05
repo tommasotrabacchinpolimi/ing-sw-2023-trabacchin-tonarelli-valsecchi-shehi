@@ -25,7 +25,9 @@ public class App {
         LobbyController lobbyController = new LobbyController();
         Dispatcher dispatcherInvocationHandler = new Dispatcher();
         dispatcherInvocationHandler.setLobbyController(lobbyController);
+
         Object dispatcher =  Proxy.newProxyInstance(Dispatcher.class.getClassLoader(), new Class[] {LobbyControllerInterface.class, ControllerInterface.class}, dispatcherInvocationHandler);
+
         lobbyController.setDispatcher(dispatcherInvocationHandler);
         TypeToken<ClientInterface> typeToken = new TypeToken<>() {};
         TypeToken<ServerInterface> typeToken1 = new TypeToken<>() {};
