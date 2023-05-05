@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 /**
+ * This interface defines the method according to which a remote object can call method on a remote server.
+ *
+ * @see RmiAccepter
+ *
  * @author Tommaso Trabacchin
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
