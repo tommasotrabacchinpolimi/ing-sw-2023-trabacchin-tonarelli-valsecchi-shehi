@@ -29,13 +29,15 @@ public interface UserAccepter<R extends RemoteInterface> {
 
     /**
      * <p>This method is used to judge if a {@linkplain User user} is accepted to play</p>
+     *
      * @param user the player to be judged
-     * @return True if the user can play, False otherwise
+     * @return true if the user can play, false otherwise
      */
     boolean acceptUser(User<R> user);
 
     /**
-     * <p>This method is used to notice a loss connection of a {@linkplain User user}</p>
+     * <p>This method is used to notify the manager of connections that a {@linkplain User user} has lost the connection</p>
+     *
      * @param user the player to be checked
      */
     void registerConnectionDownListener(User<R> user);

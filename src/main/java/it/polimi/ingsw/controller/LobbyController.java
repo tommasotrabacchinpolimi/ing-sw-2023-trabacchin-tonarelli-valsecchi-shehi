@@ -111,8 +111,9 @@ public class LobbyController
     }
 
     /**
-     * ??
-     * @param user
+     * {@inheritDoc}
+     *
+     * @param user {@inheritDoc}
      * @return true
      */
     @Override
@@ -121,8 +122,9 @@ public class LobbyController
     }
 
     /**
-     * ??
-     * @param user
+     * {@inheritDoc}
+     *
+     * @param user {@inheritDoc}
      */
     @Override
     public void registerConnectionDownListener(@NotNull User<ClientInterface> user) {
