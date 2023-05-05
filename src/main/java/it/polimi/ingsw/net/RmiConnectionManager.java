@@ -9,6 +9,10 @@ import it.polimi.ingsw.controller.ClassRewriting;
 import java.rmi.server.UnicastRemoteObject;
 
 /**
+ *
+ * @param <L>
+ * @param <R>
+ *
  * @author Tommaso Trabacchin
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
@@ -16,15 +20,32 @@ import java.rmi.server.UnicastRemoteObject;
  * @version 3.0
  * @since 08/04/2023
  */
-
 public class RmiConnectionManager<L extends RemoteInterface,R extends RemoteInterface> extends ConnectionManager<L,R>{
 
     private RmiReceiver<L,R> rmiReceiver;
     private RemoteInterface localRemoteObject;
 
-    public synchronized void init(int portNumber, User<R> user, TypeToken<R> remoteTargetClass, TypeToken<L> localTargetClass, RemoteInterface localTarget, RemoteInterface remoteObject) throws IOException, ClassNotFoundException {
+    /**
+     *
+     * @param portNumber
+     * @param user
+     * @param remoteTargetClass
+     * @param localTargetClass
+     * @param localTarget
+     * @param remoteObject
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    public synchronized void init(int portNumber,
+                                  User<R> user,
+                                  TypeToken<R> remoteTargetClass,
+                                  TypeToken<L> localTargetClass,
+                                  RemoteInterface localTarget,
+                                  RemoteInterface remoteObject) throws IOException, ClassNotFoundException {
+
         this.rmiReceiver = new RmiReceiver<>(localTarget);
         this.rmiReceiver.setRmiConnectionManager(this);
+
         RmiSender<L,R> rmiSender = new RmiSender<>(remoteObject,this);
         //Class<?> remoteThrowingTargetClass = ClassRewriting.getThrowingClass(remoteTargetClass.getRawType());
         Class<?> localThrowingTargetClass = ClassRewriting.getThrowingClass(localTargetClass.getRawType());
