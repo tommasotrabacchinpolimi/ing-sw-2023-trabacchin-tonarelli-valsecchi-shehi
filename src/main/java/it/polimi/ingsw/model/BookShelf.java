@@ -26,7 +26,8 @@ import java.util.*;
  * are assigned based on {@link #tileSubjectTaken bookshelf} field of this class</p>
  *
  * @author Emanuele Valsecchi
- * @version 1.0, 15/04/23
+ * @version 1.0
+ * @since 15/04/23
  * @see Player
  * @see TileSubject
  * @see CommonGoal

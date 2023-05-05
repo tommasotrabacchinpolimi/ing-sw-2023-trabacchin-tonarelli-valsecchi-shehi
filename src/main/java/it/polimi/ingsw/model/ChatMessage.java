@@ -12,7 +12,8 @@ import java.util.List;
  * or to all {@link Player players} in the game.
  *
  * @author Melanie Tonarelli
- * @version 1.0, 15/03/23
+ * @version 1.0
+ * @since 15/03/23
  * @see Player
  */
 public class ChatMessage implements Serializable {

@@ -10,8 +10,6 @@ import java.util.Objects;
  * This class was design to represent a single {@link TileType} entry in a "pattern" for a {@link PersonalGoal PersonalGoal} card.
  * Its usage was then extended to retrieve cards in a {@link BookShelf bookshelf} that satisfy a {@link CommonGoal}
  *
- * @author Emanuele Valsecchi
- * @version 1.0, 15/03/23
  * @see PersonalGoal
  * @see TileType
  * @see CommonGoal
@@ -19,6 +17,10 @@ import java.util.Objects;
  * @see ShapeCommonGoal
  * @see StairCommonGoal
  * @see LineCommonGoal
+ *
+ * @author Emanuele Valsecchi
+ * @version 1.0
+ * @since 15/03/23
  */
 public class EntryPatternGoal implements Serializable {
     @Serial

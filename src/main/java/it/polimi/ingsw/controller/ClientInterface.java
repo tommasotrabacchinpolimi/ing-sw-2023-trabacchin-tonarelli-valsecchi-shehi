@@ -11,7 +11,8 @@ import it.polimi.ingsw.net.RemoteInterface;
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
  * @author Adem Shehi
- * @version 1.0, 03/05/23
+ * @version 1.0
+ * @since 03/05/23
  */
 public interface ClientInterface extends RemoteInterface,
         OnAchievedCommonGoalListener,
