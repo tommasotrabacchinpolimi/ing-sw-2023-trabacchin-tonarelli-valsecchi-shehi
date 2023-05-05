@@ -13,6 +13,7 @@ public class InitGameManager extends GameManager {
     private static final String PERSONAL_GOAL_CONFIGURATION = "./src/main/resources/it.polimi.ingsw/personal.goal.configuration/";
     private List<PersonalGoal> personalGoalsDeck;
     private List<CommonGoal> commonGoalsDeck;
+
     public InitGameManager(Controller controller) throws FileNotFoundException {
         super(controller);
         initPersonalGoals();
@@ -24,6 +25,9 @@ public class InitGameManager extends GameManager {
         File rootFolder = new File(PERSONAL_GOAL_CONFIGURATION);
         File[] files = rootFolder.listFiles(File::isFile);
         personalGoalsDeck = new ArrayList<>();
+
+        assert files != null;
+
         for(File file : files) {
             personalGoalsDeck.add(new PersonalGoal(file.getName().split("\\.")[0]));
         }

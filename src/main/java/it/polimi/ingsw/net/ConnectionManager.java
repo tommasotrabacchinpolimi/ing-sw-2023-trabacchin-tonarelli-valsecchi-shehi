@@ -4,6 +4,17 @@ import java.rmi.Remote;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ *
+ * @param <L>
+ * @param <R>
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ * @version 1.0, 27/04/2023
+ */
 public abstract class ConnectionManager<L extends RemoteInterface,R extends RemoteInterface> {
 
     public enum ConnectionStatus {
@@ -21,12 +32,15 @@ public abstract class ConnectionManager<L extends RemoteInterface,R extends Remo
     public ConnectionManager() {
         this.onConnectionLostListeners = new LinkedList<>();
     }
+
     public ConnectionStatus getConnectionStatus() {
         return this.connectionStatus;
     }
+
     public void setConnectionStatus(ConnectionStatus connectionStatus) {
         this.connectionStatus = connectionStatus;
     }
+
     public void setUser(User<R> user) {
         this.user = user;
     }
@@ -42,6 +56,7 @@ public abstract class ConnectionManager<L extends RemoteInterface,R extends Remo
     public R getRemoteTarget() {
         return remoteTarget;
     }
+
     public synchronized void connectionDown(){
         if (connectionStatus == ConnectionStatus.CONNECTED) {
             connectionStatus = ConnectionStatus.NOT_CONNECTED;

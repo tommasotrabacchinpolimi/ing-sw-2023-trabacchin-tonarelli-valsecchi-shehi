@@ -41,4 +41,6 @@ module it.polimi.ingsw {
     opens it.polimi.ingsw.net;
     exports it.polimi.ingsw.view.tui;
     exports it.polimi.ingsw.view;
+
+    opens it.polimi.ingsw.utils;
 }
