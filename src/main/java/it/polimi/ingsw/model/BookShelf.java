@@ -25,12 +25,16 @@ import java.util.*;
  * <p>{@link CommonGoal Common goal} and {@link PersonalGoal personal goal}
  * are assigned based on {@link #tileSubjectTaken bookshelf} field of this class</p>
  *
- * @author Emanuele Valsecchi
- * @version 1.0
- * @since 15/04/23
  * @see Player
  * @see TileSubject
  * @see CommonGoal
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ * @version 5.0
+ * @since 26/04/2023
  */
 public class BookShelf implements Serializable, OnUpdateNeededListener {
     @Serial

@@ -17,13 +17,18 @@ import java.util.*;
  * @apiNote The game is divided in turns that take place in a clockwise order starting from the first player. In fact, during each round of the game,
  * the player to the left of the previous currentPlayer becomes the new currentPlayer.
  *
- * @author Melanie Tonarelli
- * @version 1.0, 27/03/23
  * @see PersonalGoal
  * @see CommonGoal
  * @see Board
  * @see Player
  * @see ChatMessage
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ * @version 3.0
+ * @since 22/04/2023
  */
 public class State implements Serializable, OnUpdateNeededListener {
     @Serial

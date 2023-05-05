@@ -16,6 +16,13 @@ import java.util.stream.Collectors;
  *     <li>groupsNumber = 2, adjacentTilesPo2 = 2, square = true, separate = true, sameTypeOnly = true</li>
  *     <li>groupsNumber = 8, adjacentTilesPo2 = 0, square = true, separate = false, sameTypeOnly = true</li>
  * </ul>
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ * @version 3.0
+ * @since 21/04/2023
  */
 public class TupleCommonGoal extends CommonGoal implements Serializable {
 

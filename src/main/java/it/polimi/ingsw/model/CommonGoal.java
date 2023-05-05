@@ -17,7 +17,20 @@ import java.util.Stack;
  *     <li>{@link #description description} is "Empty description"</li>
  * </ul>
  * </p>
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ * @version 3.0
+ * @since 11/04/2023
+ *
  */
+
+
+
+
+
 public abstract class CommonGoal implements Serializable {
     @Serial
     private static final long serialVersionUID = 285236373L;

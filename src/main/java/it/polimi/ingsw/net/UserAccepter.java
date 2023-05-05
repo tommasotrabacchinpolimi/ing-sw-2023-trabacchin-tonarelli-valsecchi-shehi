@@ -19,12 +19,15 @@ package it.polimi.ingsw.net;
  * @see RemoteInterface
  * @see User
  *
+
  * @author Tommaso Trabacchin
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
  * @author Adem Shehi
- * @version 1.0, 27/04/2023
+ * @version 1.0
+ * @since 27/03/2023
  */
+
 public interface UserAccepter<R extends RemoteInterface> {
 
     /**

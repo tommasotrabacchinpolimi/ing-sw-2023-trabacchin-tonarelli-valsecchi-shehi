@@ -6,6 +6,15 @@ import java.util.concurrent.ExecutorService;
 import java.beans.Statement;
 import java.util.concurrent.Executors;
 
+/**
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ * @version 1.0
+ * @since 27/03/2023
+ */
+
 public class SocketReceiver<L extends RemoteInterface, R extends RemoteInterface> implements Runnable {
     private final InputStream inputStream;
     private final ExecutorService executorService;

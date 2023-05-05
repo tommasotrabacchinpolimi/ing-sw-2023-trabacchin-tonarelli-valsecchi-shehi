@@ -9,7 +9,14 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingDeque;
-
+/**
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ * @version 3.0
+ * @since 23/04/2023
+ */
 public class RmiSender<L extends RemoteInterface,R extends RemoteInterface> implements InvocationHandler {
 
 

@@ -6,6 +6,15 @@ import java.lang.reflect.Method;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ * @version 3.0
+ * @since 23/04/2023
+ */
+
 public class RmiReceiver<L extends RemoteInterface, R extends  RemoteInterface> implements InvocationHandler {
 
     private final ExecutorService executorService;

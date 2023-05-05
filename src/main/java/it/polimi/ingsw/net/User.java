@@ -8,7 +8,8 @@ import java.rmi.Remote;
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
  * @author Adem Shehi
- * @version 1.0, 27/04/2023
+ * @version 2.0
+ * @since 01/04/2023
  */
 public class User<R extends RemoteInterface> {
     private ConnectionManager<? extends RemoteInterface, R> connectionManager;

@@ -2,7 +2,14 @@ package it.polimi.ingsw.net;
 
 import java.beans.Statement;
 import java.lang.reflect.Method;
-
+/**
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ * @version 3.0
+ * @since 08/04/2023
+ */
 public class UserAdapter<R extends RemoteInterface> implements UserAdapterInterface<R>{
     private User<R> user;
     private Object target;

@@ -8,6 +8,15 @@ import it.polimi.ingsw.controller.ClassRewriting;
 
 import java.rmi.server.UnicastRemoteObject;
 
+/**
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ * @version 3.0
+ * @since 08/04/2023
+ */
+
 public class RmiConnectionManager<L extends RemoteInterface,R extends RemoteInterface> extends ConnectionManager<L,R>{
 
     private RmiReceiver<L,R> rmiReceiver;

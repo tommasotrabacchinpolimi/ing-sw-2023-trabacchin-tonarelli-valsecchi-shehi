@@ -12,12 +12,18 @@ import java.util.*;
  * Starting from the first column on the left or on the right, each next column must be made of exactly one more tile.
  * In the {@link BookShelf}, {@link TileSubject tile} can be of any {@link TileType type}.
  *
- *  @author Melanie Tonarelli
- *  @version 1.0, 24/03/23
  *  @apiNote Valid combination of the parameters values are the following : (numberOfColumns = 5)
+ *
  *  @see CommonGoal
  *  @see BookShelf
  *  @see EntryPatternGoal
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ * @version 2.0
+ * @since 03/04/2023
  */
 public class StairCommonGoal extends CommonGoal implements Serializable {
     @Serial

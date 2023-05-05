@@ -7,6 +7,16 @@ import java.io.ObjectOutputStream;
 import java.lang.reflect.Proxy;
 import java.net.Socket;
 
+/**
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ * @version 3.0
+ * @since 22/04/2023
+ *
+ */
+
 public class SocketConnectionManager<L extends RemoteInterface, R extends RemoteInterface>  extends ConnectionManager<L,R>{
 
 

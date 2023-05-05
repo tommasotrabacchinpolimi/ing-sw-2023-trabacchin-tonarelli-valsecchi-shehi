@@ -11,6 +11,15 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.lang.reflect.Proxy;
 
+/**
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ * @version 3.0
+ * @since 23/04/2023
+ */
+
 public class ConnectionBuilder {
 
     public static <L extends RemoteInterface, R extends RemoteInterface> SocketConnectionManager<L,R> buildSocketConnection(String host, int portNumber, L localTarget, TypeToken<R> remoteTargetClass) throws IOException {

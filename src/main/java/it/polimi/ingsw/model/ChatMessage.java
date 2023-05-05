@@ -11,10 +11,14 @@ import java.util.List;
 * ChatMessage is a class that represents a message sent from a {@link Player player} to another
  * or to all {@link Player players} in the game.
  *
- * @author Melanie Tonarelli
- * @version 1.0
- * @since 15/03/23
  * @see Player
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ * @version 3.0
+ * @since 08/04/2023
  */
 public class ChatMessage implements Serializable {
 

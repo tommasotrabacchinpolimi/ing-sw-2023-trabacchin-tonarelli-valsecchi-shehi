@@ -36,8 +36,12 @@ import org.json.simple.parser.*;
  * To create a new type of score map associated with a personal goal
  * see {@link #PersonalGoal(String fileName) PersonalGoal(fileName)} constructor</p>
  *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
- * @version 3.0, 31/03/23
+ * @author Adem Shehi
+ * @version 1.0
+ * @since 28/03/2023
  */
 public class PersonalGoal implements Serializable {
     @ExcludedFromJSON

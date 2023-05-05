@@ -2,6 +2,15 @@ package it.polimi.ingsw.model;
 
 import java.io.Serializable;
 
+/**
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ * @version 1.0
+ * @since 08/03/2023
+ */
+
 public enum TileSubject implements Serializable {
     GRAY_CAT( TileType.CAT ), //Gatti1.3
     ORANGE_CAT( TileType.CAT), //Gatti1.1

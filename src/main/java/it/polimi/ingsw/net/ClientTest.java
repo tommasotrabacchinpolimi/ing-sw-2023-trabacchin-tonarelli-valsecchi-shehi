@@ -7,6 +7,16 @@ import java.rmi.RemoteException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ * @version 2.0
+ * @since 06/04/2023
+ */
+
+
 public class ClientTest<R extends RemoteInterface> implements TestClientInterface{
 
     public static void main(String[] args) throws IOException {

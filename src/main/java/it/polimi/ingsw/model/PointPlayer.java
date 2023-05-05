@@ -9,6 +9,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ * @version 2.0
+ * @since 10/04/2023
+ */
+
 public class PointPlayer implements Serializable, OnUpdateNeededListener {
     @Serial
     private static final long serialVersionUID = 973546426438574L;

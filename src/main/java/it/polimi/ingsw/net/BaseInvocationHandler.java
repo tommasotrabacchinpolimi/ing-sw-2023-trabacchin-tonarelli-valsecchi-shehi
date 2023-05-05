@@ -3,6 +3,15 @@ package it.polimi.ingsw.net;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
+/**
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ * @version 1.0
+ * @since 07/04/2023
+ */
+
 public class BaseInvocationHandler implements InvocationHandler {
 
     public static final Method HASH_CODE;

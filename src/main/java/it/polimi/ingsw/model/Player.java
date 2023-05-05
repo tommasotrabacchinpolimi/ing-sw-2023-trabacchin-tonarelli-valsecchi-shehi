@@ -17,12 +17,14 @@ import java.util.Objects;
  * Each player is associated with a {@link PersonalGoal}, that the player must satisfy in order to earn more points. The score earned by the player
  * is saved in the {@link Player#pointPlayer} attribute that always has a null or positive value.
  *
+ * @see PersonalGoal
+ *
  * @author Tommaso Trabacchin
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
  * @author Adem Shehi
- * @version 1.0, 26/03/23
- * @see PersonalGoal
+ * @version 3.0
+ * @since 10/04/2023
  */
 public class Player implements Serializable, OnUpdateNeededListener {
     @Serial

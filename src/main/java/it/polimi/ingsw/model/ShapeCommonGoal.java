@@ -10,16 +10,22 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
     @Serial
     @ExcludedFromJSON
     private static final long serialVersionUID = 746524795L;
-
     /**
-     * the list of array elements needed to this class to implement the Shape-CommonGoal
-     *
-     * @see #getRuleShape()
-     *
-     * @apiNote The key of this class is this parameter that contains offsets needed
-     * to finds if there is a common-goal. This class makes the check of 3 candidate
-     * common-goals (Common-goal 2, 3, 10).
-     */
+      * the list of array elements needed to this class to implement the Shape-CommonGoal
+      *
+      * @see #getRuleShape()
+      *
+      * @apiNote The key of this class is this parameter that contains offsets needed
+      * to finds if there is a common-goal. This class makes the check of 3 candidate
+      * common-goals (Common-goal 2, 3, 10).
+      *
+      * @author Tommaso Trabacchin
+      * @author Melanie Tonarelli
+      * @author Emanuele Valsecchi
+      * @author Adem Shehi
+      * @version 2.0
+      * @since 07/04/2023
+      */
     private List<Integer[]> ruleShape;
 
     public ShapeCommonGoal() {

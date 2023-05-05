@@ -8,6 +8,14 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.function.Supplier;
+/**
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ * @version 3.0
+ * @since 06/04/2023
+ */
 
 public class SocketAccepter<L extends RemoteInterface, R extends RemoteInterface> implements Runnable{
     private final int portNumber;

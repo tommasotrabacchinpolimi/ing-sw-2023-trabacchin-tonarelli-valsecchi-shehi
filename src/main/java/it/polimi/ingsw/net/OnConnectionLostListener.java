@@ -8,8 +8,10 @@ package it.polimi.ingsw.net;
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
  * @author Adem Shehi
- * @version 1.0, 27/04/2023
+ * @version 1.0
+ * @since 05/04/2023
  */
+
 public interface OnConnectionLostListener<R extends RemoteInterface> {
     /**
      * Defines the action to be performed when a {@linkplain it.polimi.ingsw.controller.ClientInterface client}

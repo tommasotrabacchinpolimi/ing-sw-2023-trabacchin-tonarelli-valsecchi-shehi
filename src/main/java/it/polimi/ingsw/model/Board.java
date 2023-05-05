@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import com.almasb.fxgl.entity.level.tiled.Tile;
 import it.polimi.ingsw.controller.listeners.OnBoardRefilledListener;
 import it.polimi.ingsw.controller.listeners.OnBoardUpdatedListener;
 import it.polimi.ingsw.controller.listeners.localListeners.OnUpdateNeededListener;
@@ -12,6 +13,14 @@ import java.util.*;
 import static it.polimi.ingsw.model.BoardSquareType.*;
 import static it.polimi.ingsw.model.BoardSquareType.THREE_DOTS;
 
+/**
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ * @version 5.0
+ * @since 14/04/2023
+ */
 public class Board implements Serializable, OnUpdateNeededListener {
     @Serial
     private static final long serialVersionUID = 27112001L;
@@ -23,6 +32,9 @@ public class Board implements Serializable, OnUpdateNeededListener {
     final private List<TileSubject> bag;
     private final List<OnBoardRefilledListener> onBoardRefilledListeners;
     private final List<OnBoardUpdatedListener> onBoardUpdatedListeners;
+
+
+
 
     public static final BoardSquareType[][] INIT_MATRIX = {
             {null, null, null, THREE_DOTS, FOUR_DOTS, null, null, null, null},
@@ -74,7 +86,7 @@ public class Board implements Serializable, OnUpdateNeededListener {
 
     // method for extracting a casual TileSubject from bag
     public TileSubject getRandomTileSubject() {
-        Collections.shuffle(this.bag);
+        Collections.shuffle(this.getBag());
         return this.bag.remove(0);
     }
 
@@ -186,4 +198,9 @@ public class Board implements Serializable, OnUpdateNeededListener {
                 .findAny()
                 .ifPresentOrElse(v->v.onBoardUpdated(Arrays.stream(board).map(TileSubject[]::clone).toArray(TileSubject[][]::new)),()->System.err.println("no one to update about board refilled"));
     }
+
+
+
+
 }
+

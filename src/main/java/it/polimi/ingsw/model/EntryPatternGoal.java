@@ -18,9 +18,12 @@ import java.util.Objects;
  * @see StairCommonGoal
  * @see LineCommonGoal
  *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
- * @version 1.0
- * @since 15/03/23
+ * @author Adem Shehi
+ * @version 2.0
+ * @since 02/05/2023
  */
 public class EntryPatternGoal implements Serializable {
     @Serial

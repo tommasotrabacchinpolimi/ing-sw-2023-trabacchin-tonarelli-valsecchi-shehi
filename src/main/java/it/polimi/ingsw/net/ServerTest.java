@@ -7,6 +7,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Supplier;
 
+/**
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ * @version 2.0
+ * @since 03/04/2023
+ */
 public class ServerTest<R extends RemoteInterface> implements UserAccepter<R>{
 
     public static void main(String[] args){

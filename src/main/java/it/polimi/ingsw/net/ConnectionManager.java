@@ -13,8 +13,11 @@ import java.util.List;
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
  * @author Adem Shehi
- * @version 1.0, 27/04/2023
+ * @version 2.0
+ * @since 06/04/2023
  */
+
+
 public abstract class ConnectionManager<L extends RemoteInterface,R extends RemoteInterface> {
 
     public enum ConnectionStatus {
