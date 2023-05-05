@@ -23,7 +23,7 @@ public class ServerTest<R extends RemoteInterface> implements UserAccepter<R>{
         TypeToken<TestClientInterface> typeToken = new TypeToken<>(){};
         TypeToken<TestServerInterface> typeToken1 = new TypeToken<>(){};
         Supplier<UserAdapterInterface<TestClientInterface>> userAdapterInterfaceSupplier = UserAdapter::new;
-        SocketAccepter<TestServerInterface,TestClientInterface> socketAccepter = new SocketAccepter<TestServerInterface,TestClientInterface>(2147,serverTest,serverTest,typeToken,executorService,userAdapterInterfaceSupplier,typeToken1);
+        SocketAccepter<TestServerInterface,TestClientInterface> socketAccepter = new SocketAccepter<TestServerInterface,TestClientInterface>(2147,serverTest,serverTest,typeToken, typeToken1, executorService, userAdapterInterfaceSupplier);
         new Thread(socketAccepter).start();
         System.out.println("Server pronto");
     }

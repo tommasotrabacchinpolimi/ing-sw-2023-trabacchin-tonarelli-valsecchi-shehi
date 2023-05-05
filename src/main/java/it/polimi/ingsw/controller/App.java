@@ -50,10 +50,22 @@ public class App {
                 userAdapterInterfaceSupplier);
 
         registry = LocateRegistry.createRegistry(2147);
+
         stub = (RemoteAccepterInterface) UnicastRemoteObject.exportObject(rmiAccepter,2147);
         registry.bind("default",stub);
-        SocketAccepter<ServerInterface, ClientInterface> socketAccepter = new SocketAccepter<>(1234, lobbyController, dispatcher, typeToken, executorService, userAdapterInterfaceSupplier, typeToken1);
+
+        SocketAccepter<ServerInterface, ClientInterface> socketAccepter =
+                new SocketAccepter<>(
+                        1234,
+                        lobbyController,
+                        dispatcher,
+                        typeToken,
+                        typeToken1,
+                        executorService,
+                        userAdapterInterfaceSupplier);
+
         new Thread(socketAccepter).start();
+
         System.out.println("Server pronto");
     }
 }

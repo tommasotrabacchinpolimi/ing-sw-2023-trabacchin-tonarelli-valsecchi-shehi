@@ -55,7 +55,7 @@ public class RmiAccepter<L extends RemoteInterface, R extends RemoteInterface> i
     private final TypeToken<L> localTargetClass;
 
     /**
-     * <p>This parameter specifies the port number for connection</p>
+     * <p>This fields specifies the port number for connection</p>
      */
     private final int portNumber;
 
@@ -69,14 +69,14 @@ public class RmiAccepter<L extends RemoteInterface, R extends RemoteInterface> i
     private final Supplier<UserAdapterInterface<R>> userAdapterSupplier;
 
     /**
-     * Constructor
+     * Construct a new RmiAccepter object with the given parameter
      *
      * @param portNumber this is the {@linkplain #portNumber port number} used for connection
-     * @param userAccepter {@linkplain #userAccepter manager} for potential user
+     * @param userAccepter {@linkplain #userAccepter manager} that decide if a user can play
      * @param localTarget {@linkplain #localTarget local target} for actions
      * @param remoteTargetClass represents a generic {@linkplain RemoteInterface remote} type
      * @param localTargetClass represents a generic {@linkplain RemoteInterface local} type
-     * @param executorService the executor service for the asynchronous execution
+     * @param executorService the executor service for asynchronous execution
      */
     public RmiAccepter(int portNumber, UserAccepter<R> userAccepter, Object localTarget, TypeToken<R> remoteTargetClass, TypeToken<L> localTargetClass, ExecutorService executorService){
         this.localTarget = localTarget;
@@ -88,14 +88,15 @@ public class RmiAccepter<L extends RemoteInterface, R extends RemoteInterface> i
     }
 
     /**
+     * Construct a new RmiAccepter object with the given parameter
      *
-     * @param portNumber this is the port number used for connection
-     * @param userAccepter Object to manage and notice if a potential user can play
-     * @param localTarget local target object
-     * @param remoteTargetClass Represents a generic type {@linkplain RemoteInterface remote object}
-     * @param localTargetClass Represents a generic type {@linkplain RemoteInterface local object}
-     * @param executorService The executor service for the asynchronous execution
-     * @param userAdapterSupplier Used for adapting users to the local target object
+     * @param portNumber the {@linkplain #portNumber port number} used for connection
+     * @param userAccepter {@linkplain #userAccepter manager} that decide if a user can play
+     * @param localTarget {@linkplain #localTarget local target} for actions
+     * @param remoteTargetClass represents a generic {@linkplain RemoteInterface remote} type
+     * @param localTargetClass represents a generic {@linkplain RemoteInterface local} type
+     * @param executorService the executor service for asynchronous execution
+     * @param userAdapterSupplier used for adapting users to the local target object
      */
     public RmiAccepter(int portNumber, UserAccepter<R> userAccepter, Object localTarget, TypeToken<R> remoteTargetClass, TypeToken<L> localTargetClass, ExecutorService executorService, Supplier<UserAdapterInterface<R>> userAdapterSupplier){
         this.localTarget = localTarget;
@@ -112,7 +113,7 @@ public class RmiAccepter<L extends RemoteInterface, R extends RemoteInterface> i
      * <ul>
      *     <li>registers a new {@linkplain User user} to an RMI connection</li>
      *     <li>setup the {@linkplain #localTarget local target} on which the user will execute action</li>
-     *     <li>a controller for the connection loss between {@linkplain User user} and server is setup</li>
+     *     <li>setup a controller for the connection loss between {@linkplain User user} and server</li>
      * </ul>
      * </p>
      * @param remoteObject {@inheritDoc}
