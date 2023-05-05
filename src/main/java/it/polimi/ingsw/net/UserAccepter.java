@@ -8,7 +8,7 @@ package it.polimi.ingsw.net;
  *         {@linkplain #acceptUser(User) accept users}
  *     </li>
  *     <li>
- *         {@linkplain #registerConnectionDownListener(User) to notice a loss connection}
+ *         {@linkplain #registerConnectionDownListener(User) notice a loss connection}
  *     </li>
  * </ul>
  * </p>

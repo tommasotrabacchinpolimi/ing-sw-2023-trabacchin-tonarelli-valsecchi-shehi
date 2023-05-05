@@ -26,15 +26,29 @@ public class App {
         Dispatcher dispatcherInvocationHandler = new Dispatcher();
         dispatcherInvocationHandler.setLobbyController(lobbyController);
 
-        Object dispatcher =  Proxy.newProxyInstance(Dispatcher.class.getClassLoader(), new Class[] {LobbyControllerInterface.class, ControllerInterface.class}, dispatcherInvocationHandler);
+        Object dispatcher =  Proxy.newProxyInstance(
+                Dispatcher.class.getClassLoader(),
+                new Class[] {LobbyControllerInterface.class, ControllerInterface.class},
+                dispatcherInvocationHandler
+        );
 
         lobbyController.setDispatcher(dispatcherInvocationHandler);
         TypeToken<ClientInterface> typeToken = new TypeToken<>() {};
         TypeToken<ServerInterface> typeToken1 = new TypeToken<>() {};
 
         ExecutorService executorService = Executors.newCachedThreadPool();
+
         Supplier<UserAdapterInterface<ClientInterface>> userAdapterInterfaceSupplier = UserAdapter::new;
-        rmiAccepter = new RmiAccepter<ServerInterface, ClientInterface>(2147,lobbyController,dispatcher,typeToken,typeToken1,executorService,userAdapterInterfaceSupplier);
+
+        rmiAccepter = new RmiAccepter<>(
+                2147,
+                lobbyController,
+                dispatcher,
+                typeToken,
+                typeToken1,
+                executorService,
+                userAdapterInterfaceSupplier);
+
         registry = LocateRegistry.createRegistry(2147);
         stub = (RemoteAccepterInterface) UnicastRemoteObject.exportObject(rmiAccepter,2147);
         registry.bind("default",stub);
