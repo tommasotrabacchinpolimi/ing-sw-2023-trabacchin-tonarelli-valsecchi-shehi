@@ -2,7 +2,7 @@
     font-family: 'Special Elite Regular';
     font-weight: normal;
     font-style: normal;
-    src: local('Special Elite') url('../../graphical.resources/font/SpecialElite-Regular.ttf') ;
+    src: local('Special Elite') url('../../graphical.resources/font/SpecialElite-Regular.ttf');
 }
 
 .root {

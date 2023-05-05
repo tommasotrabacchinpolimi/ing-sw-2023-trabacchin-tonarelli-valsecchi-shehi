@@ -5,6 +5,7 @@ import it.polimi.ingsw.view.gui.FontChangeListener;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.IOException;
 
 public class LoginPage extends MyShelfieApplication {
@@ -22,9 +23,12 @@ public class LoginPage extends MyShelfieApplication {
         //stage.initStyle(StageStyle.UTILITY);
 
         FontChangeListener.setResizableFont(scene, "welcomeText", 21);
+        FontChangeListener.setResizableFont(scene, "playerNumberText", 21);
         FontChangeListener.setResizableFont(scene, "nicknameInput", 17);
+        FontChangeListener.setResizableFont(scene, "playerNumberInput", 17);
         FontChangeListener.setResizableFont(scene, "joinButton", 12);
         FontChangeListener.setResizableFont(scene, "createButton", 12);
+        FontChangeListener.setResizableFont(scene, "playerNumberButton", 12);
 
         stage.setWidth(scene.getWidth());
         stage.setHeight(scene.getHeight());

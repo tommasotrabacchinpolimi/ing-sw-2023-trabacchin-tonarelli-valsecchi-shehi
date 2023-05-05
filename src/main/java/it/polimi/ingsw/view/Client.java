@@ -215,6 +215,16 @@ public class Client implements ClientInterface, LogicInterface {
     public void onWinnerChanged(String nickname) {
 
     }
+    @Override
+    public void chosenSocket(int port, String host) {
+
+    }
+
+    @Override
+    public void chosenRMI(int port, String host) {
+
+    }
+
 }
 
 
