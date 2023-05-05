@@ -7,6 +7,15 @@ import it.polimi.ingsw.utils.Coordinate;
 
 import java.util.List;
 
+/**
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ * @version 3.0
+ * @since 28/04/2023
+ */
 public class SuspendedGameManager extends GameManager {
     GameState previousGameState;
 

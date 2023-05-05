@@ -2,6 +2,15 @@ package it.polimi.ingsw.controller;
 
 import java.io.IOException;
 
+/**
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ * @version 2.0
+ * @since 03/05/2023
+ */
 public class ClassRewriting {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         getThrowingClass(ClientInterface.class);

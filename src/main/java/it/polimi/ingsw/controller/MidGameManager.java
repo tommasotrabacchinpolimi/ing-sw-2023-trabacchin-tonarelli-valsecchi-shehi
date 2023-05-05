@@ -10,6 +10,17 @@ import it.polimi.ingsw.utils.InputCheck;
 import java.util.*;
 import java.util.concurrent.*;
 
+/**
+ *
+ * @param <R>
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ * @version 6.0
+ * @since 27/04/2023
+ */
 public class MidGameManager<R extends ClientInterface> extends GameManager {
     Timer timer;
     boolean disconnectedFromTheBeginning;

@@ -27,7 +27,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
  * @author Adem Shehi
- * @version 1.0, 27/04/2023
+ * @version 3.0
+ * @since 23/04/2023
  */
 public class Dispatcher implements InvocationHandler {
 

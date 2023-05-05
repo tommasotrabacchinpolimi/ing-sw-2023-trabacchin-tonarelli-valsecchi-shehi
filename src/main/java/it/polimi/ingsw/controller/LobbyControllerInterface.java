@@ -16,7 +16,8 @@ import java.rmi.RemoteException;
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
  * @author Adem Shehi
- * @version 1.0, 27/04/2023
+ * @version 1.0
+ * @since 23/04/2023
  */
 public interface LobbyControllerInterface {
 

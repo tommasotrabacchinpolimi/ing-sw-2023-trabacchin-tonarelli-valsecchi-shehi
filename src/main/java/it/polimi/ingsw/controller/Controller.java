@@ -9,6 +9,15 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ * @version 3.0
+ * @since 06/04/2023
+ */
 public class Controller implements OnConnectionLostListener<ClientInterface>, ControllerInterface {
     private State state;
     private GameManager gameManager;

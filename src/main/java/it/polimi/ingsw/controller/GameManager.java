@@ -5,6 +5,15 @@ import it.polimi.ingsw.utils.Coordinate;
 
 import java.util.List;
 
+/**
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ * @version 6.0
+ * @since 03/05/2023
+ */
 public abstract class GameManager {
     private final Controller controller;
 

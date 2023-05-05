@@ -11,6 +11,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ * @version 2.0
+ * @since 19/04/2023
+ */
 public class ChatManager {
     private Controller controller;
     private static final String MESSAGES_FILE = "./src/main/resources/it.polimi.ingsw/Messages.json";

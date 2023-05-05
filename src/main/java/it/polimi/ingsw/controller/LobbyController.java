@@ -40,7 +40,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
  * @author Adem Shehi
- * @version 1.0, 27/04/2023
+ * @version 4.0
+ * @since 26/04/2023
  */
 public class LobbyController
         implements UserAccepter<ClientInterface>, OnConnectionLostListener<ClientInterface>, LobbyControllerInterface{
