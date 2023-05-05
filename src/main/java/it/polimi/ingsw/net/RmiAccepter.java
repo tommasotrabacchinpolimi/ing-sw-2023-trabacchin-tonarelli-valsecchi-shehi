@@ -5,8 +5,16 @@ import java.lang.reflect.Proxy;
 import java.rmi.RemoteException;
 import java.util.concurrent.ExecutorService;
 import java.util.function.Supplier;
-
 import com.google.gson.reflect.TypeToken;
+
+/**
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ */
+
 public class RmiAccepter<L extends RemoteInterface,R extends RemoteInterface> implements RemoteAccepterInterface {
     private final UserAccepter<R> userAccepter;
     private final Object localTarget;
@@ -14,6 +22,7 @@ public class RmiAccepter<L extends RemoteInterface,R extends RemoteInterface> im
     private final TypeToken<L> localTargetClass;
     private final int portNumber;
     private final Supplier<UserAdapterInterface<R>> userAdapterSupplier;
+    //costruttore
     public RmiAccepter(int portNumber, UserAccepter<R> userAccepter, L localTarget, TypeToken<R> remoteTargetClass, TypeToken<L> localTargetClass, ExecutorService executorService){
         this.localTarget = localTarget;
         this.userAccepter = userAccepter;
