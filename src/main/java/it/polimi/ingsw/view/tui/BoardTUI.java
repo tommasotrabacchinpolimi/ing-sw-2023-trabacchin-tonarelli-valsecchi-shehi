@@ -5,6 +5,7 @@ import java.io.PrintStream;
 public class BoardTUI {
     private static final int DIM_BOARD = 9;
     private static final int DIMCOL_BOOKSHELF = 5;
+    private static final int DIMROW_BOOKSHELF = 6;
     private static final char EMPTY = '-';
     private final PrintStream out = System.out;
     private static final char[][] test = {
@@ -18,17 +19,69 @@ public class BoardTUI {
             {' ',' ',' ',EMPTY,'c',EMPTY,' ',' ',' '},
             {' ',' ',' ',' ','c','c',' ',' ',' '}};
 
+    private static final char[][] bookshelf = {
+            {EMPTY,EMPTY,EMPTY,EMPTY,EMPTY},
+            {EMPTY,EMPTY,EMPTY,EMPTY,EMPTY},
+            {EMPTY,EMPTY,EMPTY,EMPTY,EMPTY},
+            {EMPTY, 'c', 'a', 'b', 'd'},
+            {EMPTY, 'e', 'm', 't', 'a'},
+            {'j', 'm', 'm','j','j'}
+    };
+
     public static void main( String[] args ) {
-       print();
+       //print();
        //printFitBoard();
         //logo();
-
+        printOthersBookShelf("paperino", "pluto", "paperino", bookshelf, bookshelf, bookshelf);
 
     }
 
+    private static void printOthersBookShelf(String nickname1, String nickname2, String nickname3, char[][] bookShelf1, char[][] bookShelf2, char[][] bookShelf3){
+        System.out.println("               " + nickname1 + ":               \t\t\t\t" + nickname2 + ":               \t\t\t" + nickname3 );
+        System.out.println("               " + getDividerBookShelf(0) + "               " + getDividerBookShelf(0) + "               " + getDividerBookShelf(0));
+        for(int i = 0; i < DIMROW_BOOKSHELF; i++){
+            if(bookShelf1!=null){
+                System.out.print("               ");
+                printLineBookShelf(i, bookShelf1);
+            }
+            if(bookShelf2!=null){
+                System.out.print("               ");
+                printLineBookShelf(i, bookShelf2);
+            }
+            if(bookShelf3!=null){
+                System.out.print("               ");
+                printLineBookShelf(i, bookShelf3);
+            }
+
+            System.out.println();
+
+            if(bookShelf1!=null){
+                System.out.print("               " + getDividerBookShelf(i+1));
+            }
+            if(bookShelf2!=null){
+                System.out.print("               " + getDividerBookShelf(i+1));
+            }
+            if(bookShelf3!=null){
+                System.out.print("               " + getDividerBookShelf(i+1));
+            }
+            System.out.println();
+        }
+    }
+
+    private static void printLineBookShelf(int row, char[][] matrix) {
+        for(int j = 0; j < DIMCOL_BOOKSHELF; j++){
+            if( j == 0 )
+                System.out.print( "║ " + matrix[row][j] + " ║ ");
+            else if( j < DIMCOL_BOOKSHELF - 1 )
+                System.out.print( matrix[row][j] + " ║ " );
+            else
+                System.out.print( matrix[row][j] + " ║" );
+        }
+    }
+
     private static void print(){
-        System.out.println("              Living Room Board:                                                            Your Personal Goal:");
-        System.out.println( "     1   2   3   4   5   6   7   8   9  " );
+        System.out.println("             Living Room Board:                           Your BookShelf:                   Your Personal Goal:");
+        System.out.println("     1   2   3   4   5   6   7   8   9                   1   2   3   4   5" );
         System.out.println(getDividerBoard(0) + "               " + getDividerBookShelf(0) + "               " + getDividerBookShelf(0));
 
         for( int i = 0; i < DIM_BOARD; ++i ){

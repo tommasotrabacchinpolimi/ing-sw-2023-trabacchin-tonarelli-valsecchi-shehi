@@ -283,7 +283,8 @@ public class TUI extends UI implements Runnable{
             if(i < 5) {
                 printPoint(pointPlayer, i);
             } else {
-                out.print("Total points = " + totalPoints + printPointOrPoints(totalPoints));
+                out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+                out.print("                            Total points = " + totalPoints + printPointOrPoints(totalPoints));
             }
         }
 
@@ -292,9 +293,9 @@ public class TUI extends UI implements Runnable{
     }
 
     private void printBoardBookShelfPersonalGoal(char[][] board, char[][] bookshelf, char[][] personalGoal){
-        out.println("              Living Room Board:                           Your BookShelf:                   Your Personal Goal:");
-        out.println( "     1   2   3   4   5   6   7   8   9  " );
-        System.out.println(getDividerBoard(0) + "               " + getDividerBookShelf(0) + "               " + getDividerBookShelf(0));
+        out.println("             Living Room Board:                           Your BookShelf:                   Your Personal Goal:");
+        out.println("     1   2   3   4   5   6   7   8   9                   1   2   3   4   5                " );
+        out.println(getDividerBoard(0) + "               " + getDividerBookShelf(0) + "               " + getDividerBookShelf(0));
 
         for( int i = 0; i < DIM_BOARD; ++i ){
             printLineBoard(i, board);
@@ -444,8 +445,8 @@ public class TUI extends UI implements Runnable{
     }
 
     private void printOthersBookShelf(String nickname1, String nickname2, String nickname3, char[][] bookShelf1, char[][] bookShelf2, char[][] bookShelf3){
-        out.println("                       " + nickname1 + ":                    " + nickname2 + ":                    " + nickname3 );
-        out.println("                " + getDividerBookShelf(0) + "               " + getDividerBookShelf(0) + "               " + getDividerBookShelf(0));
+        out.println("                       " + nickname1 + ":                      " + nickname2 + ":                       " + nickname3 + ":");
+        out.println("               " + getDividerBookShelf(0) + "               " + getDividerBookShelf(0) + "               " + getDividerBookShelf(0));
         for(int i = 0; i < DIMROW_BOOKSHELF; i++){
             if(bookShelf1!=null){
                 out.print("               ");

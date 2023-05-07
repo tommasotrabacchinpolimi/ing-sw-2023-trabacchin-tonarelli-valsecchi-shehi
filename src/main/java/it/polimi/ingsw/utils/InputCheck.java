@@ -9,12 +9,16 @@ import java.util.List;
 public class InputCheck {
     
     public static void checkActiveTilesInBoard(List<Coordinate> chosenTiles, TileSubject[][] bookShelf, TileSubject[][] board) throws WrongChosenTilesFromBoardException {
-        if(chosenTiles.size() == 0 || chosenTiles.size() > 3 || chosenTiles.size() > getMaxDimensionChosenTiles(bookShelf)){
+        if(chosenTiles.size() == 0){
+            throw new WrongChosenTilesFromBoardException("You haven't chosen any tiles from the board!");
+        }
+
+        if(chosenTiles.size() > 3 || chosenTiles.size() > getMaxDimensionChosenTiles(bookShelf)){
             throw new WrongChosenTilesFromBoardException("You have chosen too many tiles from the board");
         }
 
         for (Coordinate chosenTile : chosenTiles) {
-            if (!findIndexActiveTilesInBoard(board).contains(chosenTile)) {
+            if (!findIndexAllActiveTilesInBoard(board).contains(chosenTile)) {
                 throw new WrongChosenTilesFromBoardException("You cannot chose these tiles!");
             }
         }
@@ -25,7 +29,7 @@ public class InputCheck {
 
     }
 
-    public static List<Coordinate> findIndexActiveTilesInBoard(TileSubject[][] board) {
+    public static List<Coordinate> findIndexAllActiveTilesInBoard(TileSubject[][] board) {
         List<Coordinate> result = new ArrayList<>();
 
         for(int i = 0; i < board.length; i++){
@@ -42,6 +46,44 @@ public class InputCheck {
             }
         }
 
+        return result;
+    }
+
+    public static List<Coordinate> findIndexActiveAfterOneChosenTile(TileSubject[][] board, Coordinate c1, TileSubject[][] bookShelf){
+        List<Coordinate> coordinates = new ArrayList<>();
+        List<Coordinate> active = findIndexAllActiveTilesInBoard(board);
+        if(getMaxDimensionChosenTiles(bookShelf) <= 1) return null;
+        if(active.contains(c1)){
+            coordinates = active.stream()
+                    .filter(c -> ( (c.getX()==c1.getX() && (c.getY()+1==c1.getY() || c.getY()-1==c1.getY())) ||
+                                    (c.getY()==c1.getY() && (c.getX()+1==c1.getX() || c.getX()-1==c1.getX())) ||
+                                    (c.getX()==c1.getX() && (c.getY()+2==c1.getY() || c.getY()-2==c1.getY())) ||
+                                    (c.getY()==c1.getY() && (c.getX()+2==c1.getX() || c.getX()-2==c1.getX()))
+                            )
+                    )
+                    .toList();
+        }
+        return coordinates;
+    }
+
+    public static List<Coordinate> findIndexActiveAfterTwoChosenTiles(TileSubject[][] board, Coordinate c1, Coordinate c2, TileSubject[][] bookShelf){
+        List<Coordinate> active = findIndexAllActiveTilesInBoard(board);
+        if(getMaxDimensionChosenTiles(bookShelf) <= 2) return null;
+        if(c1.getX()==c2.getX() && c1.getY()==c2.getY()) return active;
+        List<Coordinate> list = new ArrayList<>();
+        List<Coordinate> result = new ArrayList<>();
+        list.add(c1);
+        list.add(c2);
+        if(checkIfSameX(list)){
+            int i = orderedYCoordinate(list).get(0);
+            int j = orderedYCoordinate(list).get(1);
+            result = active.stream().filter(c -> (c.getX()==c1.getX() && (i-1==c.getY() || j+1==c.getY()))).toList();
+        }
+        if(checkIfSameY(list)){
+            int i = orderedXCoordinate(list).get(0);
+            int j = orderedXCoordinate(list).get(1);
+            result = active.stream().filter(c -> ( c.getY()==c1.getY() && (i-1==c.getX() || j+1==c.getX() ))).toList();
+        }
         return result;
     }
 
