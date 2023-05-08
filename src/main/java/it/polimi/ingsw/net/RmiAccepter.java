@@ -3,7 +3,6 @@ package it.polimi.ingsw.net;
 import java.io.IOException;
 import java.lang.reflect.Proxy;
 import java.rmi.RemoteException;
-import java.util.concurrent.ExecutorService;
 import java.util.function.Supplier;
 import com.google.gson.reflect.TypeToken;
 
@@ -76,9 +75,8 @@ public class RmiAccepter<L extends RemoteInterface, R extends RemoteInterface> i
      * @param localTarget {@linkplain #localTarget local target} for actions
      * @param remoteTargetClass represents a generic {@linkplain RemoteInterface remote} type
      * @param localTargetClass represents a generic {@linkplain RemoteInterface local} type
-     * @param executorService the executor service for asynchronous execution
      */
-    public RmiAccepter(int portNumber, UserAccepter<R> userAccepter, Object localTarget, TypeToken<R> remoteTargetClass, TypeToken<L> localTargetClass, ExecutorService executorService){
+    public RmiAccepter(int portNumber, UserAccepter<R> userAccepter, Object localTarget, TypeToken<R> remoteTargetClass, TypeToken<L> localTargetClass){
         this.localTarget = localTarget;
         this.userAccepter = userAccepter;
         this.remoteTargetClass = remoteTargetClass;
@@ -95,10 +93,9 @@ public class RmiAccepter<L extends RemoteInterface, R extends RemoteInterface> i
      * @param localTarget {@linkplain #localTarget local target} for actions
      * @param remoteTargetClass represents a generic {@linkplain RemoteInterface remote} type
      * @param localTargetClass represents a generic {@linkplain RemoteInterface local} type
-     * @param executorService the executor service for asynchronous execution
      * @param userAdapterSupplier used for adapting users to the local target object
      */
-    public RmiAccepter(int portNumber, UserAccepter<R> userAccepter, Object localTarget, TypeToken<R> remoteTargetClass, TypeToken<L> localTargetClass, ExecutorService executorService, Supplier<UserAdapterInterface<R>> userAdapterSupplier){
+    public RmiAccepter(int portNumber, UserAccepter<R> userAccepter, Object localTarget, TypeToken<R> remoteTargetClass, TypeToken<L> localTargetClass, Supplier<UserAdapterInterface<R>> userAdapterSupplier){
         this.localTarget = localTarget;
         this.userAccepter = userAccepter;
         this.remoteTargetClass = remoteTargetClass;
