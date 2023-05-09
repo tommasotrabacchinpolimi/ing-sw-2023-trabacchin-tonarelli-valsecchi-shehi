@@ -23,7 +23,6 @@ import java.util.Map;
 
 import static java.util.Map.entry;
 
-
 public class LoginPageController {
 
     private static final Duration animationDuration = new Duration(400);

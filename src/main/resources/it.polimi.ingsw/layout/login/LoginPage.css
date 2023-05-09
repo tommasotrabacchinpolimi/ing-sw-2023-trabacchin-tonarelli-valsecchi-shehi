@@ -5,25 +5,25 @@
     src: local('Special Elite') url('../../graphical.resources/font/SpecialElite-Regular.ttf');
 }
 
-.root {
-    -fx-background-color: rgba(0, 0, 0, 0.38)
+#rootPane{
+    -fx-background-color: rgba(0, 0, 0, 0.38);
 }
 
-.scene-background {
+#sceneBackground {
     -fx-background-image: url("../../graphical.resources/publisher.material/display_5.jpg");
     -fx-background-repeat: no-repeat;
     -fx-background-size: cover;
     -fx-background-position: center center;
 }
 
-.info-box-container {
+#infoBoxContainer {
     -fx-background-image: url("../../graphical.resources/misc/page_base_darken.jpg");
     -fx-background-size: cover;
     -fx-background-position: center center;
     -fx-background-repeat: repeat-x;
 }
 
-.info-container {
+#infoContainer {
     -fx-background-image: url("../../graphical.resources/misc/white_paper_texture.png");
     -fx-background-size: cover;
     -fx-background-position: center center;

@@ -4,11 +4,11 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="sceneBackground" styleClass="scene-background" cache="true" stylesheets="@LoginPage.css"
+<AnchorPane fx:id="sceneBackground" cache="true" stylesheets="@LoginPage.css"
             xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="it.polimi.ingsw.view.gui.loginpage.LoginPageController" onMouseClicked="#setAllNonFocused">
 
-    <GridPane fx:id="rootPane" styleClass="root" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+    <GridPane fx:id="rootPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
               AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" alignment="CENTER"
               prefWidth="${sceneBackground.width}" prefHeight="${sceneBackground.width}">
         <columnConstraints>
@@ -39,11 +39,11 @@
                 <RowConstraints vgrow="ALWAYS" minHeight="1.0" percentHeight="100"/>
             </rowConstraints>
 
-            <AnchorPane fx:id="infoBoxContainer" styleClass="info-box-container"
+            <AnchorPane fx:id="infoBoxContainer"
                         GridPane.rowIndex="0" GridPane.columnIndex="1" GridPane.halignment="CENTER"
                         GridPane.valignment="CENTER" GridPane.fillHeight="true" GridPane.fillWidth="true" cache="true"
                         prefWidth="${infoBoxDivider.width * 0.66}">
-                <GridPane fx:id="infoContainer" alignment="CENTER" styleClass="info-container"
+                <GridPane fx:id="infoContainer" alignment="CENTER"
                           AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="7.0"
                           AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="7.0" cache="true"
                           prefHeight="${infoBoxContainer.height}" prefWidth="${infoBoxContainer.width}"
