@@ -45,7 +45,6 @@ public class LoginPageController {
 
     @FXML
     void initialize() {
-
         ImageRoundCornersClipper.roundClipper(infoContainer, 10);
         ImageRoundCornersClipper.roundClipper(infoBoxContainer, 10);
         ImageRoundCornersClipper.roundClipper(joinButton, 30);

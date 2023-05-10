@@ -4,6 +4,7 @@ import it.polimi.ingsw.view.gui.loginpage.LoginPage;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -156,5 +157,19 @@ public abstract class MyShelfieApplication extends Application{
     public static void centerStageInScreen(Stage stage) {
         stage.setX((Screen.getPrimary().getVisualBounds().getWidth() - stage.getWidth()) / 2);
         stage.setY((Screen.getPrimary().getVisualBounds().getHeight() - stage.getHeight()) / 2);
+    }
+
+    /**
+     * This method allows the user to resize the content in the page and font will change automatically according to it
+     *
+     * @param scene the scene on which set the font dynamically
+     */
+    public static void setDynamicFontSize(Scene scene) {
+        Pane rootPane = (Pane) scene.getRoot();
+
+        SizeChangeListener sizeChangeListener = new SizeChangeListener(rootPane);
+
+        rootPane.widthProperty().addListener(sizeChangeListener);
+        rootPane.heightProperty().addListener(sizeChangeListener);
     }
 }
