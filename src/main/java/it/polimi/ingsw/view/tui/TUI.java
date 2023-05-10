@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.tui;
 
+import com.diogonunes.jcolor.Attribute;
 import it.polimi.ingsw.model.TileSubject;
 import it.polimi.ingsw.model.TileType;
 import it.polimi.ingsw.utils.Coordinate;
@@ -16,7 +17,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static com.diogonunes.jcolor.Ansi.colorize;
+
 public class TUI extends UI implements Runnable{
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_BLACK = "\u001B[30m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_PURPLE = "\u001B[35m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_WHITE = "\u001B[37m";
+    public static final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
+    public static final String ANSI_RED_BACKGROUND = "\u001B[41m";
+    public static final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
+    public static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
+    public static final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
+    public static final String ANSI_PINK_BACKGROUND = "\u001B[105m";
+    public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
+    public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
     private static final int DIM_BOARD = 9;
     private static final int DIMCOL_BOOKSHELF = 5;
     private static final int DIMROW_BOOKSHELF = 6;
@@ -192,13 +212,13 @@ public class TUI extends UI implements Runnable{
 
     private void home(){ //mostra le cose base
         state = TUIState.HOME;
-        out.println("MY SHELFIE: HOME OF " + getModel().getThisPlayer());
+        out.println(colorize("MY SHELFIE: HOME OF " + getModel().getThisPlayer(), Attribute.GREEN_TEXT()));
         printGameState(getModel().getGameState());
         out.print("Here are all the players in the game: ");
         for(String name: getModel().getPlayers()){
             out.print(name);
             if(!Objects.equals(getModel().getPlayersState().get(name) , "CONNECTED")){
-                out.print("(" + getModel().getPlayersState().get(name).toLowerCase() + ")");
+                out.print("(" + colorize(getModel().getPlayersState().get(name).toLowerCase(), Attribute.ITALIC()) + ")");
             }
             out.print("   ");
         }
@@ -227,7 +247,7 @@ public class TUI extends UI implements Runnable{
 
     private void showChat(){
         state = TUIState.CHAT;
-        out.println("MY SHELFIE: CHAT");
+        out.println(colorize("MY SHELFIE: CHAT", Attribute.GREEN_TEXT()));
         List<Triple<String, List<String>, String>> messages = getModel().getMessages();
         for(Triple<String, List<String>, String> message : messages){
             if(message.getSecond().contains(getModel().getThisPlayer())){
@@ -236,18 +256,18 @@ public class TUI extends UI implements Runnable{
                 if(sender.equals(getModel().getThisPlayer())){
                     sender = "You";
                     if(priv.equals("(private)")){
-                        priv = "(private with " + message.getSecond().get(0) + ")";
+                        priv = "("+ colorize("private with " + message.getSecond().get(0),Attribute.ITALIC()) + ")";
                     }
                 }
                 out.println(sender + priv + message.getThird());
             }
         }
-        out.println("<--There aren't any more messages. If you want to return to the homepage, please type 'exit'.-->");
+        out.println(colorize("<--There aren't any more messages. If you want to return to the homepage, please type 'exit'.-->",Attribute.BOLD()));
     }
 
     private void showBookshelves(){
         state = TUIState.OTHERS;
-        out.println("MY SHELFIE: OTHER PLAYERS' BOOKSHELVES AND POINTS");
+        out.println(colorize("MY SHELFIE: OTHER PLAYERS' BOOKSHELVES AND POINTS", Attribute.GREEN_TEXT()));
         List<String> nicknames = getOtherPlayer();
         List<char[][]> bookshelves = getOtherBookShelves();
         List<List<Integer>> pointPlayers = getOtherPoints();
@@ -259,9 +279,9 @@ public class TUI extends UI implements Runnable{
 
     private void showWinner(){
         // se game state è end
-        out.println("MY SHELFIE: HOME OF " + getModel().getThisPlayer());
+        out.println(colorize("MY SHELFIE: HOME OF " + getModel().getThisPlayer(), Attribute.GREEN_TEXT()));
         printGameState(getModel().getGameState());
-        out.println("The winner is..." + getModel().getWinnerPlayer() + "!");
+        out.println("The winner is..." + colorize(getModel().getWinnerPlayer(), Attribute.BOLD(), Attribute.BRIGHT_YELLOW_TEXT()) + "!");
         out.println("Here are the bookshelves and the point of all players:");
         //da finire
 
@@ -332,34 +352,34 @@ public class TUI extends UI implements Runnable{
     private String getDividerBoard(int row) {
         switch(row) {
             case 0 -> {
-                return "   ┌───┬───┬───╔═══╦═══╗───┬───┬───┬───┐";
+                return colorize("   ┌───┬───┬───╔═══╦═══╗───┬───┬───┬───┐", Attribute.TEXT_COLOR(245,245,246));
             }
             case 1 -> {
-                return "   ├───┼───┼───╠═══╬═══╬═══╗───┼───┼───┤";
+                return colorize("   ├───┼───┼───╠═══╬═══╬═══╗───┼───┼───┤", Attribute.TEXT_COLOR(245,245,246));
             }
             case 2 -> {
-                return "   ├───┼───╔═══╬═══╬═══╬═══╬═══╗───┼───┤";
+                return colorize("   ├───┼───╔═══╬═══╬═══╬═══╬═══╗───┼───┤", Attribute.TEXT_COLOR(245,245,246));
             }
             case 3 -> {
-                return "   ├───╔═══╬═══╬═══╬═══╬═══╬═══╬═══╦═══╗";
+                return colorize("   ├───╔═══╬═══╬═══╬═══╬═══╬═══╬═══╦═══╗", Attribute.TEXT_COLOR(245,245,246));
             }
             case 4 -> {
-                return "   ╔═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╣";
+                return colorize("   ╔═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╣", Attribute.TEXT_COLOR(245,245,246));
             }
             case 5 -> {
-                return "   ╠═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╝";
+                return colorize("   ╠═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╝", Attribute.TEXT_COLOR(245,245,246));
             }
             case 6 -> {
-                return "   ╚═══╩═══╬═══╬═══╬═══╬═══╬═══╬═══╝───┤";
+                return colorize("   ╚═══╩═══╬═══╬═══╬═══╬═══╬═══╬═══╝───┤", Attribute.TEXT_COLOR(245,245,246));
             }
             case 7 -> {
-                return "   ├───┼───╚═══╬═══╬═══╬═══╬═══╝───┼───┤";
+                return colorize("   ├───┼───╚═══╬═══╬═══╬═══╬═══╝───┼───┤", Attribute.TEXT_COLOR(245,245,246));
             }
             case 8 -> {
-                return "   ├───┼───┼───╚═══╬═══╬═══╣───┼───┼───┤";
+                return colorize("   ├───┼───┼───╚═══╬═══╬═══╣───┼───┼───┤", Attribute.TEXT_COLOR(245,245,246));
             }
             case 9 -> {
-                return "   └───┴───┴───┴───╚═══╩═══╝───┴───┴───┘";
+                return colorize("   └───┴───┴───┴───╚═══╩═══╝───┴───┴───┘", Attribute.TEXT_COLOR(245,245,246));
             }
             default -> {
                 return null;
@@ -369,9 +389,9 @@ public class TUI extends UI implements Runnable{
 
     private String getDividerBookShelf(int row){
         switch (row){
-            case 0 -> { return "╔═══╦═══╦═══╦═══╦═══╗"; }
-            case 1, 2, 3, 4, 5 -> { return "╠═══╬═══╬═══╬═══╬═══╣"; }
-            case 6 -> { return "╚═══╩═══╩═══╩═══╩═══╝"; }
+            case 0 -> { return colorize("╔═══╦═══╦═══╦═══╦═══╗", Attribute.TEXT_COLOR(245,245,246)); }
+            case 1, 2, 3, 4, 5 -> { return colorize("╠═══╬═══╬═══╬═══╬═══╣", Attribute.TEXT_COLOR(245,245,246)); }
+            case 6 -> { return colorize("╚═══╩═══╩═══╩═══╩═══╝", Attribute.TEXT_COLOR(245,245,246)); }
             default -> { return ""; }
         }
     }
@@ -386,19 +406,19 @@ public class TUI extends UI implements Runnable{
 
         switch (r) {
             case 0, 1, 7 -> {
-                result.append("│   │   │   ");
+                result.append(colorize("│   │   │   ", Attribute.TEXT_COLOR(245,245,246)));
                 c = 3;
             }
             case 2, 6 -> {
-                result.append("│   │   ");
+                result.append(colorize("│   │   ", Attribute.TEXT_COLOR(245,245,246)));
                 c = 2;
             }
             case 3 -> {
-                result.append("│   ");
+                result.append(colorize("│   ", Attribute.TEXT_COLOR(245,245,246)));
                 c = 1;
             }
             case 8 -> {
-                result.append("│   │   │   │   ");
+                result.append(colorize("│   │   │   │   ", Attribute.TEXT_COLOR(245,245,246)));
                 c = 4;
             }
             default -> {
@@ -415,19 +435,19 @@ public class TUI extends UI implements Runnable{
             default -> n = 9;
         }
 
-        result.append( "║ " );
+        result.append( colorize("║", Attribute.TEXT_COLOR(245,245,246)) );
 
         for( i = 0; i < n; ++i ){
-            result.append( board[r][c + i] );
+            result.append( toPrintChar(board[r][c + i]) );
 
             if( i < n - 1 )
-                result.append( " ║ ");
+                result.append(colorize("║", Attribute.TEXT_COLOR(245,245,246)));
         }
 
-        result.append( " ║" );
+        result.append( colorize("║", Attribute.TEXT_COLOR(245,245,246)) );
 
         for( i += c ; i < DIM_BOARD; ++i ){
-            result.append( "   │" );
+            result.append( colorize("   │", Attribute.TEXT_COLOR(245,245,246)) );
         }
 
         out.print(result.toString());
@@ -436,11 +456,11 @@ public class TUI extends UI implements Runnable{
     private void printLineBookShelf(int row, char[][] matrix) {
         for(int j = 0; j < DIMCOL_BOOKSHELF; j++){
             if( j == 0 )
-                out.print( "║ " + matrix[row][j] + " ║ ");
+                out.print( colorize("║ ", Attribute.TEXT_COLOR(245,245,246)) + toPrintChar(matrix[row][j]) + colorize(" ║ ", Attribute.TEXT_COLOR(245,245,246)));
             else if( j < DIMCOL_BOOKSHELF - 1 )
-                out.print( matrix[row][j] + " ║ " );
+                out.print( toPrintChar(matrix[row][j]) + colorize(" ║ ", Attribute.TEXT_COLOR(245,245,246)) );
             else
-                out.print( matrix[row][j] + " ║" );
+                out.print( toPrintChar(matrix[row][j]) + colorize(" ║", Attribute.TEXT_COLOR(245,245,246)) );
         }
     }
 
@@ -577,8 +597,8 @@ public class TUI extends UI implements Runnable{
     }
 
     private String privateOrPublicMessage(List<String> receivers){
-        if(receivers.size() == 1) return "(private)";
-        return "(public)";
+        if(receivers.size() == 1) return "(" + colorize("private",Attribute.ITALIC()) + ")";
+        return "(" + colorize("public",Attribute.ITALIC()) + ")";
     }
 
     private List<String> getOtherPlayer(){
@@ -637,4 +657,32 @@ public class TUI extends UI implements Runnable{
         out.println("<--- Please enter exit to return to the homepage. --->");
     }
 
+    private String toPrintChar(char c){
+       switch(c) {
+           case EMPTY -> {
+               return " " + c + " ";
+           }
+           case 't' -> {
+               return colorize(" " + c + " ", Attribute.CYAN_BACK());
+           }
+           case 'f' -> {
+               return colorize(" " + c + " ", Attribute.BLUE_BACK());
+           }
+           case 'c' -> {
+               return colorize(" " + c + " ", Attribute.GREEN_BACK());
+           }
+           case 'g' -> {
+               return colorize(" " + c + " ", Attribute.YELLOW_BACK());
+           }
+           case 'p' -> {
+               return colorize(" " + c + " ", Attribute.MAGENTA_BACK());
+           }
+           case 'b' -> {
+               return colorize(" " + c + " ", Attribute.BRIGHT_WHITE_TEXT());
+           }
+           default -> {
+               return "   ";
+           }
+       }
+    }
 }

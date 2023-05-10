@@ -21,6 +21,7 @@ module it.polimi.ingsw {
     requires java.desktop;
     requires java.compiler;
     requires annotations;
+    requires JColor;
 
     opens it.polimi.ingsw.view.gui to javafx.fxml;
     exports it.polimi.ingsw;
