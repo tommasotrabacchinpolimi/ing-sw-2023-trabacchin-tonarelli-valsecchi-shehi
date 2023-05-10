@@ -1,8 +1,29 @@
 package it.polimi.ingsw.view.tui;
 
+import com.diogonunes.jcolor.Attribute;
+
 import java.io.PrintStream;
 
+import static com.diogonunes.jcolor.Ansi.colorize;
+
 public class BoardTUI {
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_BLACK = "\u001B[30m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_PURPLE = "\u001B[35m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_WHITE = "\u001B[37m";
+    public static final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
+    public static final String ANSI_RED_BACKGROUND = "\u001B[41m";
+    public static final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
+    public static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
+    public static final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
+    public static final String ANSI_PURPLE_BACKGROUND = "\u001B[23m";
+    public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
+    public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
     private static final int DIM_BOARD = 9;
     private static final int DIMCOL_BOOKSHELF = 5;
     private static final int DIMROW_BOOKSHELF = 6;
@@ -23,16 +44,18 @@ public class BoardTUI {
             {EMPTY,EMPTY,EMPTY,EMPTY,EMPTY},
             {EMPTY,EMPTY,EMPTY,EMPTY,EMPTY},
             {EMPTY,EMPTY,EMPTY,EMPTY,EMPTY},
-            {EMPTY, 'c', 'a', 'b', 'd'},
-            {EMPTY, 'e', 'm', 't', 'a'},
-            {'j', 'm', 'm','j','j'}
+            {EMPTY, 'c', 'c', 'c', 'c'},
+            {EMPTY, 'c', 'c', 'c', 'c'},
+            {'c', 'c', 'c','c','c'}
     };
 
     public static void main( String[] args ) {
-       //print();
+        System.out.println("\07");
+       print();
+
        //printFitBoard();
         //logo();
-        printOthersBookShelf("paperino", "pluto", "paperino", bookshelf, bookshelf, bookshelf);
+        //printOthersBookShelf("paperino", "pluto", "paperino", bookshelf, bookshelf, bookshelf);
 
     }
 
@@ -71,11 +94,11 @@ public class BoardTUI {
     private static void printLineBookShelf(int row, char[][] matrix) {
         for(int j = 0; j < DIMCOL_BOOKSHELF; j++){
             if( j == 0 )
-                System.out.print( "║ " + matrix[row][j] + " ║ ");
+                System.out.print( "║ " + toPrintChar(matrix[row][j]) + " ║ ");
             else if( j < DIMCOL_BOOKSHELF - 1 )
-                System.out.print( matrix[row][j] + " ║ " );
+                System.out.print( toPrintChar(matrix[row][j]) + " ║ " );
             else
-                System.out.print( matrix[row][j] + " ║" );
+                System.out.print( toPrintChar(matrix[row][j]) + " ║" );
         }
     }
 
@@ -252,7 +275,7 @@ public class BoardTUI {
 
         switch (r) {
             case 0, 1, 7 -> {
-                result.append("│   │   │   ");
+                result.append(colorize("│   │   │   ", Attribute.TEXT_COLOR(245,245,246)));
                 c = 3;
             }
 
@@ -284,16 +307,16 @@ public class BoardTUI {
             default -> n = 9;
         }
 
-        result.append( "║ " );
+        result.append( "║" );
 
         for( i = 0; i < n; ++i ){
-            result.append( board[r][c + i] );
+            result.append( toPrintChar(board[r][c + i]) );
 
             if( i < n - 1 )
-                result.append( " ║ ");
+                result.append( "║");
         }
 
-        result.append( " ║" );
+        result.append( "║" );
 
         for( i += c ; i < DIM_BOARD; ++i ){
             result.append( "   │" );
@@ -338,6 +361,16 @@ public class BoardTUI {
             default -> {
                 return null;
             }
+        }
+    }
+
+    private static String toPrintChar(char c){
+        if(c == 'c'){
+            return colorize( " "+c+" " , Attribute.MAGENTA_BACK());
+        } else if (c == EMPTY) {
+            return " "+c+" ";
+        } else {
+            return " ";
         }
     }
 

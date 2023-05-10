@@ -46,7 +46,6 @@ public class App {
                 dispatcher,
                 typeToken,
                 typeToken1,
-                executorService,
                 userAdapterInterfaceSupplier);
 
         registry = LocateRegistry.createRegistry(2147);
