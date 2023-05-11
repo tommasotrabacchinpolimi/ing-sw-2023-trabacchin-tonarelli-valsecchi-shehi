@@ -98,38 +98,34 @@
                                    focusTraversable="false" promptText="Nickname" GridPane.columnIndex="1"
                                    GridPane.rowIndex="0" GridPane.halignment="CENTER" GridPane.valignment="CENTER"
                                    GridPane.fillWidth="true" GridPane.fillHeight="true" GridPane.columnSpan="2"
-                                   maxHeight="${inputContainer.height * 0.47}"
-                                   maxWidth="${inputContainer.width * 0.66}" minHeight="$minSizeConstant" minWidth="$minSizeConstant"
                                    onKeyPressed="#textFieldKeyPressed" />
 
                         <TextField fx:id="playerNumberInput" styleClass="nick-input" alignment="CENTER"
                                    focusTraversable="false" promptText="Players number" GridPane.columnIndex="1"
                                    GridPane.rowIndex="0" GridPane.halignment="CENTER" GridPane.valignment="CENTER"
                                    GridPane.fillWidth="true" GridPane.fillHeight="true" GridPane.columnSpan="2"
-                                   maxHeight="${inputContainer.height * 0.47}" maxWidth="${inputContainer.width * 0.66}"
-                                   minHeight="$minSizeConstant" minWidth="$minSizeConstant" onKeyPressed="#textFieldKeyPressed" visible="false"
-                                   disable="true"/>
+                                   onKeyPressed="#textFieldKeyPressed" visible="false" disable="true"/>
 
                         <Button fx:id="createButton" styleClass="action-button" GridPane.halignment="CENTER"
                                 GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
                                 GridPane.columnIndex="1" GridPane.rowIndex="1" text="create game"
                                 onMouseClicked="#createGameSubmitted" onMouseEntered="#createGameButtonEntered"
                                 onMouseExited="#createGameButtonExited" disable="true" alignment="CENTER" cache="true"
-                                wrapText="true" minHeight="$minSizeConstant" maxHeight="${inputContainer.height * 0.47}"/>
+                                wrapText="true" minHeight="$minSizeConstant" maxHeight="${inputContainer.height * 0.45}"/>
 
                         <Button fx:id="joinButton" styleClass="action-button" GridPane.halignment="CENTER"
                                 GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
                                 GridPane.columnIndex="2" GridPane.rowIndex="1" text="join game"
                                 onMouseClicked="#joinGameSubmitted" onMouseEntered="#joinGameButtonEntered"
                                 onMouseExited="#joinGameButtonExited" disable="true" alignment="CENTER" cache="true"
-                                wrapText="true" minHeight="$minSizeConstant" maxHeight="${inputContainer.height * 0.47}"/>
+                                wrapText="true" minHeight="$minSizeConstant" maxHeight="${inputContainer.height * 0.45}"/>
 
                         <Button fx:id="playerNumberButton" styleClass="action-button" GridPane.halignment="CENTER"
                                 GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
                                 GridPane.columnIndex="1" GridPane.rowIndex="1" text="Submit"
                                 onMouseClicked="#playerNumberSubmitted" onMouseEntered="#playerNumberButtonEntered"
                                 onMouseExited="#playerNumberButtonExited" disable="true" alignment="CENTER" cache="true"
-                                wrapText="true" minHeight="$minSizeConstant" maxHeight="${inputContainer.height * 0.47}"
+                                wrapText="true" minHeight="$minSizeConstant" maxHeight="${inputContainer.height * 0.45}"
                                 GridPane.columnSpan="2" visible="false"/>
                     </GridPane>
                 </GridPane>
