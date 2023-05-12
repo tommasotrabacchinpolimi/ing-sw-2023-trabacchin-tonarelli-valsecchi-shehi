@@ -32,85 +32,72 @@
 
         <AnchorPane fx:id="infoBoxContainer" GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.halignment="CENTER"
                     GridPane.valignment="CENTER" GridPane.fillHeight="true" GridPane.fillWidth="true" cache="true">
-            <GridPane fx:id="infoContainer" alignment="CENTER"
-                      AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="7.0"
-                      AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="7.0" cache="true">
+            <GridPane fx:id="infoContainer" alignment="CENTER" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="7.0"
+                      AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="7.0" cache="true" vgap="5">
                 <columnConstraints>
-                    <ColumnConstraints hgrow="ALWAYS" percentWidth="100"/>
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="17"/>
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="33"/>
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="33"/>
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="17"/>
                 </columnConstraints>
                 <rowConstraints>
                     <RowConstraints vgrow="ALWAYS" percentHeight="60"/>
-                    <RowConstraints vgrow="ALWAYS" percentHeight="40"/>
+                    <RowConstraints vgrow="ALWAYS" percentHeight="20"/>
+                    <RowConstraints vgrow="ALWAYS" percentHeight="20"/>
                 </rowConstraints>
 
                 <Label fx:id="welcomeText" styleClass="welcome-text" GridPane.fillWidth="true"
                        GridPane.fillHeight="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER"
                        GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" alignment="CENTER" contentDisplay="CENTER"
                        text="Welcome to My Shelfie!&#13;Please enter your nick name to start playing"
-                       textAlignment="CENTER" wrapText="true"/>
+                       textAlignment="CENTER" wrapText="true" GridPane.columnSpan="4" GridPane.rowIndex="0"
+                       GridPane.columnIndex="0"/>
 
                 <Label fx:id="playerNumberText" styleClass="welcome-text" GridPane.fillWidth="true"
                        GridPane.fillHeight="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER"
                        GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" alignment="CENTER" contentDisplay="CENTER"
                        text="Choose the maximum number of player in the game" visible="false" disable="true"
-                       textAlignment="CENTER" wrapText="true"/>
+                       textAlignment="CENTER" wrapText="true" GridPane.columnSpan="4" GridPane.rowIndex="0"
+                       GridPane.columnIndex="0"/>
 
-                <GridPane fx:id="inputContainer" GridPane.rowIndex="1" GridPane.columnIndex="0"
-                          GridPane.fillWidth="true" GridPane.fillHeight="true" GridPane.hgrow="ALWAYS"
-                          GridPane.vgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.halignment="CENTER"
-                          vgap="5">
-                    <columnConstraints>
-                        <ColumnConstraints hgrow="ALWAYS" percentWidth="17"/>
-                        <ColumnConstraints hgrow="ALWAYS" percentWidth="33"/>
-                        <ColumnConstraints hgrow="ALWAYS" percentWidth="33"/>
-                        <ColumnConstraints hgrow="ALWAYS" percentWidth="17"/>
-                    </columnConstraints>
+                <TextField fx:id="nicknameInput" styleClass="nick-input" alignment="CENTER"
+                           promptText="Nickname" GridPane.columnIndex="1" GridPane.rowIndex="1"
+                           GridPane.halignment="CENTER" GridPane.valignment="CENTER"
+                           GridPane.fillWidth="true" GridPane.fillHeight="true" GridPane.columnSpan="2"
+                           onKeyPressed="#textFieldKeyPressed"/>
 
-                    <rowConstraints>
-                        <RowConstraints vgrow="ALWAYS" percentHeight="47"/>
-                        <RowConstraints vgrow="ALWAYS" percentHeight="47"/>
-                        <RowConstraints vgrow="ALWAYS" percentHeight="6"/>
-                    </rowConstraints>
+                <TextField fx:id="playerNumberInput" styleClass="nick-input" alignment="CENTER"
+                           promptText="Players number" GridPane.columnIndex="1" GridPane.rowIndex="1"
+                           GridPane.halignment="CENTER" GridPane.valignment="CENTER"
+                           GridPane.fillWidth="true" GridPane.fillHeight="true" GridPane.columnSpan="2"
+                           onKeyPressed="#textFieldKeyPressed" visible="false" disable="true"/>
 
-                    <TextField fx:id="nicknameInput" styleClass="nick-input" alignment="CENTER"
-                               promptText="Nickname" GridPane.columnIndex="1"
-                               GridPane.rowIndex="0" GridPane.halignment="CENTER" GridPane.valignment="CENTER"
-                               GridPane.fillWidth="true" GridPane.fillHeight="true" GridPane.columnSpan="2"
-                               onKeyPressed="#textFieldKeyPressed"/>
+                <Button fx:id="createButton" styleClass="action-button" GridPane.halignment="CENTER"
+                        GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
+                        GridPane.columnIndex="1" GridPane.rowIndex="2" text="Create game"
+                        onMouseClicked="#createGameSubmitted" onMouseEntered="#createGameButtonEntered"
+                        onMouseExited="#createGameButtonExited" disable="true" alignment="CENTER" cache="true"
+                        wrapText="true"/>
 
-                    <TextField fx:id="playerNumberInput" styleClass="nick-input" alignment="CENTER"
-                               promptText="Players number" GridPane.columnIndex="1"
-                               GridPane.rowIndex="0" GridPane.halignment="CENTER" GridPane.valignment="CENTER"
-                               GridPane.fillWidth="true" GridPane.fillHeight="true" GridPane.columnSpan="2"
-                               onKeyPressed="#textFieldKeyPressed" visible="false" disable="true"/>
+                <Button fx:id="joinButton" styleClass="action-button" GridPane.halignment="CENTER"
+                        GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
+                        GridPane.columnIndex="2" GridPane.rowIndex="2" text="Join game"
+                        onMouseClicked="#joinGameSubmitted" onMouseEntered="#joinGameButtonEntered"
+                        onMouseExited="#joinGameButtonExited" disable="true" alignment="CENTER" cache="true"
+                        wrapText="true"/>
 
-                    <Button fx:id="createButton" styleClass="action-button" GridPane.halignment="CENTER"
-                            GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
-                            GridPane.columnIndex="1" GridPane.rowIndex="1" text="create game"
-                            onMouseClicked="#createGameSubmitted" onMouseEntered="#createGameButtonEntered"
-                            onMouseExited="#createGameButtonExited" disable="true" alignment="CENTER" cache="true"
-                            wrapText="true"/>
-
-                    <Button fx:id="joinButton" styleClass="action-button" GridPane.halignment="CENTER"
-                            GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
-                            GridPane.columnIndex="2" GridPane.rowIndex="1" text="join game"
-                            onMouseClicked="#joinGameSubmitted" onMouseEntered="#joinGameButtonEntered"
-                            onMouseExited="#joinGameButtonExited" disable="true" alignment="CENTER" cache="true"
-                            wrapText="true"/>
-
-                    <Button fx:id="playerNumberButton" styleClass="action-button" GridPane.halignment="CENTER"
-                            GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
-                            GridPane.columnIndex="1" GridPane.rowIndex="1" text="Submit"
-                            onMouseClicked="#playerNumberSubmitted" onMouseEntered="#playerNumberButtonEntered"
-                            onMouseExited="#playerNumberButtonExited" disable="true" alignment="CENTER" cache="true"
-                            wrapText="true" GridPane.columnSpan="2" visible="false"/>
-                </GridPane>
+                <Button fx:id="playerNumberButton" styleClass="action-button" GridPane.halignment="CENTER"
+                        GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
+                        GridPane.columnIndex="1" GridPane.rowIndex="2" text="Submit"
+                        onMouseClicked="#playerNumberSubmitted" onMouseEntered="#playerNumberButtonEntered"
+                        onMouseExited="#playerNumberButtonExited" disable="true" alignment="CENTER" cache="true"
+                        wrapText="true" GridPane.columnSpan="2" visible="false"/>
             </GridPane>
         </AnchorPane>
 
         <Pane fx:id="cranioCreationLogo" GridPane.fillHeight="true" GridPane.fillWidth="true"
-                   GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" GridPane.rowIndex="2" GridPane.columnIndex="2"
-                   GridPane.valignment="CENTER" GridPane.halignment="RIGHT">
+              GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" GridPane.rowIndex="2" GridPane.columnIndex="2"
+              GridPane.valignment="CENTER" GridPane.halignment="RIGHT">
         </Pane>
     </GridPane>
 </AnchorPane>
