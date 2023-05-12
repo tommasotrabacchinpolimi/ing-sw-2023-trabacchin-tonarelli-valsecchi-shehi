@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
 <?import javafx.geometry.Insets?>
@@ -10,7 +9,7 @@
             fx:controller="it.polimi.ingsw.view.gui.loginpage.LoginPageController" onMouseClicked="#setAllNonFocused">
 
     <GridPane fx:id="interfaceGrid" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" alignment="CENTER" gridLinesVisible="true">
+              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" alignment="CENTER">
         <columnConstraints>
             <ColumnConstraints hgrow="ALWAYS" percentWidth="17"/>
             <ColumnConstraints hgrow="ALWAYS" percentWidth="66"/>

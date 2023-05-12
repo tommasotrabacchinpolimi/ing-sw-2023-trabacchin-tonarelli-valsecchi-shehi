@@ -1,13 +1,9 @@
 package it.polimi.ingsw.view.gui.loginpage;
 
 import it.polimi.ingsw.view.gui.MyShelfieApplication;
-import it.polimi.ingsw.view.gui.SizeChangeListener;
 import javafx.application.Platform;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class LoginPage extends MyShelfieApplication {
 
