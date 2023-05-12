@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.gui.loginpage;
 
 import it.polimi.ingsw.view.gui.ImageRoundCornersClipper;
 import javafx.animation.FadeTransition;
+import javafx.application.Platform;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -15,6 +16,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,16 +28,16 @@ import static java.util.Map.entry;
 public class LoginPageController {
 
     private static final Duration animationDuration = new Duration(400);
-    public AnchorPane sceneBackground;
-    public GridPane rootPane;
+    public AnchorPane rootPane;
+    public GridPane interfaceGrid;
     public GridPane infoContainer;
     public Label welcomeText;
     public GridPane infoBoxDivider;
     public TextField nicknameInput;
     public AnchorPane infoBoxContainer;
-    public ImageView myShelfieTitle;
+    public Pane myShelfieTitleImageView;
     public Button joinButton;
-    public ImageView cranioCreationLogo;
+    public Pane cranioCreationLogo;
     public GridPane inputContainer;
     public Button createButton;
     private static final PseudoClass errorClass = PseudoClass.getPseudoClass("error");
@@ -45,6 +47,9 @@ public class LoginPageController {
 
     @FXML
     void initialize() {
+        //Load page with the focus on the pane and not on input field or button
+        Platform.runLater( () -> interfaceGrid.requestFocus() );
+
         ImageRoundCornersClipper.roundClipper(infoContainer, 10);
         ImageRoundCornersClipper.roundClipper(infoBoxContainer, 10);
         ImageRoundCornersClipper.roundClipper(joinButton, 30);
@@ -57,13 +62,13 @@ public class LoginPageController {
 
     @FXML
     public void setAllNonFocused(MouseEvent mouseEvent) {
-        sceneBackground.requestFocus();
+        rootPane.requestFocus();
     }
 
     @FXML
     public void textFieldKeyPressed(@NotNull KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ESCAPE) {
-            rootPane.requestFocus();
+            interfaceGrid.requestFocus();
 
             if(nicknameInput.isVisible() && !nicknameInput.isDisabled() && nicknameInput.getText().isEmpty())
                 nicknameInput.pseudoClassStateChanged(errorClass, false);
@@ -215,7 +220,7 @@ public class LoginPageController {
                         entry(playerNumberButton, 0.5))
         );
 
-        sceneBackground.requestFocus();
+        rootPane.requestFocus();
     }
 
     private void disappearingElements(List<Node> nodes) {

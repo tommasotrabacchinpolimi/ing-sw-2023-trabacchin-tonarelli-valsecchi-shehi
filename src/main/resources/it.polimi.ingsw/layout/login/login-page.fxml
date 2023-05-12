@@ -4,139 +4,114 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<?import java.lang.Double?>
-<AnchorPane fx:id="sceneBackground" cache="true" stylesheets="@LoginPage.css"
+<?import javafx.geometry.Insets?>
+<AnchorPane fx:id="rootPane" cache="true" stylesheets="@LoginPage.css"
             xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="it.polimi.ingsw.view.gui.loginpage.LoginPageController" onMouseClicked="#setAllNonFocused">
-    <fx:define>
-        <Double fx:id="minSizeConstant" fx:value="1.0"/>
-    </fx:define>
 
-    <GridPane fx:id="rootPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" alignment="CENTER"
-              prefWidth="${sceneBackground.width}" prefHeight="${sceneBackground.width}">
+    <GridPane fx:id="interfaceGrid" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" alignment="CENTER" gridLinesVisible="true">
         <columnConstraints>
-            <ColumnConstraints hgrow="ALWAYS" minWidth="$minSizeConstant" percentWidth="100"/>
+            <ColumnConstraints hgrow="ALWAYS" percentWidth="17"/>
+            <ColumnConstraints hgrow="ALWAYS" percentWidth="66"/>
+            <ColumnConstraints hgrow="ALWAYS" percentWidth="17"/>
         </columnConstraints>
         <rowConstraints>
-            <RowConstraints vgrow="ALWAYS" minHeight="$minSizeConstant" percentHeight="52"/>
-            <RowConstraints vgrow="ALWAYS" minHeight="$minSizeConstant" percentHeight="41"/>
-            <RowConstraints vgrow="ALWAYS" minHeight="$minSizeConstant" percentHeight="7"/>
+            <RowConstraints vgrow="ALWAYS" percentHeight="52"/>
+            <RowConstraints vgrow="ALWAYS" percentHeight="41"/>
+            <RowConstraints vgrow="ALWAYS" percentHeight="7"/>
         </rowConstraints>
 
-        <ImageView fx:id="myShelfieTitle" GridPane.fillHeight="true" GridPane.fillWidth="true"
-                   GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" preserveRatio="true" fitWidth="${rootPane.width}"
-                   fitHeight="${rootPane.height * 0.52}" GridPane.columnIndex="0" GridPane.rowIndex="0"
-                   GridPane.valignment="CENTER" GridPane.halignment="CENTER">
-            <Image url="@../../graphical.resources/publisher.material/title_2000x618px.png"/>
-        </ImageView>
+        <Pane fx:id="myShelfieTitleImageView" GridPane.fillHeight="true" GridPane.fillWidth="true"
+              GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" GridPane.columnIndex="0" GridPane.rowIndex="0"
+              GridPane.valignment="CENTER" GridPane.halignment="CENTER"
+              GridPane.columnSpan="3">
+            <GridPane.margin>
+                <Insets right="15.0" left="15.0" bottom="7.0" top="7.0"/>
+            </GridPane.margin>
+        </Pane>
 
-        <GridPane fx:id="infoBoxDivider" GridPane.fillHeight="true" GridPane.fillWidth="true" GridPane.rowIndex="1"
-                  GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.valignment="CENTER"
-                  prefHeight="${rootPane.height / 0.41}" prefWidth="${rootPane.width}"
-                  GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS" alignment="CENTER">
-            <columnConstraints>
-                <ColumnConstraints hgrow="ALWAYS" minWidth="$minSizeConstant" percentWidth="17"/>
-                <ColumnConstraints hgrow="ALWAYS" minWidth="$minSizeConstant" percentWidth="66"/>
-                <ColumnConstraints hgrow="ALWAYS" minWidth="$minSizeConstant" percentWidth="17"/>
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints vgrow="ALWAYS" minHeight="$minSizeConstant" percentHeight="100"/>
-            </rowConstraints>
+        <AnchorPane fx:id="infoBoxContainer" GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.halignment="CENTER"
+                    GridPane.valignment="CENTER" GridPane.fillHeight="true" GridPane.fillWidth="true" cache="true">
+            <GridPane fx:id="infoContainer" alignment="CENTER"
+                      AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="7.0"
+                      AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="7.0" cache="true">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="100"/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints vgrow="ALWAYS" percentHeight="60"/>
+                    <RowConstraints vgrow="ALWAYS" percentHeight="40"/>
+                </rowConstraints>
 
-            <AnchorPane fx:id="infoBoxContainer"
-                        GridPane.rowIndex="0" GridPane.columnIndex="1" GridPane.halignment="CENTER"
-                        GridPane.valignment="CENTER" GridPane.fillHeight="true" GridPane.fillWidth="true" cache="true"
-                        prefWidth="${infoBoxDivider.width * 0.66}">
-                <GridPane fx:id="infoContainer" alignment="CENTER"
-                          AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="7.0"
-                          AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="7.0" cache="true"
-                          prefHeight="${infoBoxContainer.height}" prefWidth="${infoBoxContainer.width}">
+                <Label fx:id="welcomeText" styleClass="welcome-text" GridPane.fillWidth="true"
+                       GridPane.fillHeight="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER"
+                       GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" alignment="CENTER" contentDisplay="CENTER"
+                       text="Welcome to My Shelfie!&#13;Please enter your nick name to start playing"
+                       textAlignment="CENTER" wrapText="true"/>
+
+                <Label fx:id="playerNumberText" styleClass="welcome-text" GridPane.fillWidth="true"
+                       GridPane.fillHeight="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER"
+                       GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" alignment="CENTER" contentDisplay="CENTER"
+                       text="Choose the maximum number of player in the game" visible="false" disable="true"
+                       textAlignment="CENTER" wrapText="true"/>
+
+                <GridPane fx:id="inputContainer" GridPane.rowIndex="1" GridPane.columnIndex="0"
+                          GridPane.fillWidth="true" GridPane.fillHeight="true" GridPane.hgrow="ALWAYS"
+                          GridPane.vgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.halignment="CENTER"
+                          vgap="5">
                     <columnConstraints>
-                        <ColumnConstraints hgrow="ALWAYS" minWidth="$minSizeConstant" percentWidth="100"/>
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="17"/>
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="33"/>
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="33"/>
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="17"/>
                     </columnConstraints>
+
                     <rowConstraints>
-                        <RowConstraints vgrow="ALWAYS" minHeight="$minSizeConstant" percentHeight="60"/>
-                        <RowConstraints vgrow="ALWAYS" minHeight="$minSizeConstant" percentHeight="40"/>
+                        <RowConstraints vgrow="ALWAYS" percentHeight="47"/>
+                        <RowConstraints vgrow="ALWAYS" percentHeight="47"/>
+                        <RowConstraints vgrow="ALWAYS" percentHeight="6"/>
                     </rowConstraints>
 
-                    <Label fx:id="welcomeText" styleClass="welcome-text" GridPane.fillWidth="true"
-                           GridPane.fillHeight="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER"
-                           GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" alignment="CENTER" contentDisplay="CENTER"
-                           prefHeight="${infoContainer.height / 0.6}" prefWidth="${infoContainer.width}"
-                           text="Welcome to My Shelfie!&#13;Please enter your nick name to start playing"
-                           textAlignment="CENTER" wrapText="true" minWidth="$minSizeConstant" minHeight="$minSizeConstant"
-                           maxWidth="${infoContainer.width}" maxHeight="${infoContainer.height / 0.6}"/>
+                    <TextField fx:id="nicknameInput" styleClass="nick-input" alignment="CENTER"
+                               promptText="Nickname" GridPane.columnIndex="1"
+                               GridPane.rowIndex="0" GridPane.halignment="CENTER" GridPane.valignment="CENTER"
+                               GridPane.fillWidth="true" GridPane.fillHeight="true" GridPane.columnSpan="2"
+                               onKeyPressed="#textFieldKeyPressed"/>
 
-                    <Label fx:id="playerNumberText" styleClass="welcome-text" GridPane.fillWidth="true"
-                           GridPane.fillHeight="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER"
-                           GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" alignment="CENTER" contentDisplay="CENTER"
-                           prefHeight="${infoContainer.height / 0.6}" prefWidth="${infoContainer.width}"
-                           text="Choose the maximum number of player in the game" visible="false" disable="true"
-                           textAlignment="CENTER" wrapText="true"/>
+                    <TextField fx:id="playerNumberInput" styleClass="nick-input" alignment="CENTER"
+                               promptText="Players number" GridPane.columnIndex="1"
+                               GridPane.rowIndex="0" GridPane.halignment="CENTER" GridPane.valignment="CENTER"
+                               GridPane.fillWidth="true" GridPane.fillHeight="true" GridPane.columnSpan="2"
+                               onKeyPressed="#textFieldKeyPressed" visible="false" disable="true"/>
 
-                    <GridPane fx:id="inputContainer" GridPane.rowIndex="1" GridPane.columnIndex="0"
-                              GridPane.fillWidth="true" GridPane.fillHeight="true" GridPane.hgrow="ALWAYS"
-                              GridPane.vgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.halignment="CENTER"
-                              prefHeight="${infoContainer.height / 0.4}" prefWidth="${infoContainer.width}"
-                              minWidth="$minSizeConstant" minHeight="$minSizeConstant" maxHeight="${infoContainer.height / 0.4}"
-                              maxWidth="${infoContainer.width}" vgap="5">
-                        <columnConstraints>
-                            <ColumnConstraints hgrow="ALWAYS" minWidth="$minSizeConstant" percentWidth="17"/>
-                            <ColumnConstraints hgrow="ALWAYS" minWidth="$minSizeConstant" percentWidth="33"/>
-                            <ColumnConstraints hgrow="ALWAYS" minWidth="$minSizeConstant" percentWidth="33"/>
-                            <ColumnConstraints hgrow="ALWAYS" minWidth="$minSizeConstant" percentWidth="17"/>
-                        </columnConstraints>
+                    <Button fx:id="createButton" styleClass="action-button" GridPane.halignment="CENTER"
+                            GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
+                            GridPane.columnIndex="1" GridPane.rowIndex="1" text="create game"
+                            onMouseClicked="#createGameSubmitted" onMouseEntered="#createGameButtonEntered"
+                            onMouseExited="#createGameButtonExited" disable="true" alignment="CENTER" cache="true"
+                            wrapText="true"/>
 
-                        <rowConstraints>
-                            <RowConstraints vgrow="ALWAYS" minHeight="$minSizeConstant" percentHeight="47"/>
-                            <RowConstraints vgrow="ALWAYS" minHeight="$minSizeConstant" percentHeight="47"/>
-                            <RowConstraints vgrow="ALWAYS" minHeight="$minSizeConstant" percentHeight="6"/>
-                        </rowConstraints>
+                    <Button fx:id="joinButton" styleClass="action-button" GridPane.halignment="CENTER"
+                            GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
+                            GridPane.columnIndex="2" GridPane.rowIndex="1" text="join game"
+                            onMouseClicked="#joinGameSubmitted" onMouseEntered="#joinGameButtonEntered"
+                            onMouseExited="#joinGameButtonExited" disable="true" alignment="CENTER" cache="true"
+                            wrapText="true"/>
 
-                        <TextField fx:id="nicknameInput" styleClass="nick-input" alignment="CENTER"
-                                   focusTraversable="false" promptText="Nickname" GridPane.columnIndex="1"
-                                   GridPane.rowIndex="0" GridPane.halignment="CENTER" GridPane.valignment="CENTER"
-                                   GridPane.fillWidth="true" GridPane.fillHeight="true" GridPane.columnSpan="2"
-                                   onKeyPressed="#textFieldKeyPressed" />
-
-                        <TextField fx:id="playerNumberInput" styleClass="nick-input" alignment="CENTER"
-                                   focusTraversable="false" promptText="Players number" GridPane.columnIndex="1"
-                                   GridPane.rowIndex="0" GridPane.halignment="CENTER" GridPane.valignment="CENTER"
-                                   GridPane.fillWidth="true" GridPane.fillHeight="true" GridPane.columnSpan="2"
-                                   onKeyPressed="#textFieldKeyPressed" visible="false" disable="true"/>
-
-                        <Button fx:id="createButton" styleClass="action-button" GridPane.halignment="CENTER"
-                                GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
-                                GridPane.columnIndex="1" GridPane.rowIndex="1" text="create game"
-                                onMouseClicked="#createGameSubmitted" onMouseEntered="#createGameButtonEntered"
-                                onMouseExited="#createGameButtonExited" disable="true" alignment="CENTER" cache="true"
-                                wrapText="true" minHeight="$minSizeConstant" maxHeight="${inputContainer.height * 0.45}"/>
-
-                        <Button fx:id="joinButton" styleClass="action-button" GridPane.halignment="CENTER"
-                                GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
-                                GridPane.columnIndex="2" GridPane.rowIndex="1" text="join game"
-                                onMouseClicked="#joinGameSubmitted" onMouseEntered="#joinGameButtonEntered"
-                                onMouseExited="#joinGameButtonExited" disable="true" alignment="CENTER" cache="true"
-                                wrapText="true" minHeight="$minSizeConstant" maxHeight="${inputContainer.height * 0.45}"/>
-
-                        <Button fx:id="playerNumberButton" styleClass="action-button" GridPane.halignment="CENTER"
-                                GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
-                                GridPane.columnIndex="1" GridPane.rowIndex="1" text="Submit"
-                                onMouseClicked="#playerNumberSubmitted" onMouseEntered="#playerNumberButtonEntered"
-                                onMouseExited="#playerNumberButtonExited" disable="true" alignment="CENTER" cache="true"
-                                wrapText="true" minHeight="$minSizeConstant" maxHeight="${inputContainer.height * 0.45}"
-                                GridPane.columnSpan="2" visible="false"/>
-                    </GridPane>
+                    <Button fx:id="playerNumberButton" styleClass="action-button" GridPane.halignment="CENTER"
+                            GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
+                            GridPane.columnIndex="1" GridPane.rowIndex="1" text="Submit"
+                            onMouseClicked="#playerNumberSubmitted" onMouseEntered="#playerNumberButtonEntered"
+                            onMouseExited="#playerNumberButtonExited" disable="true" alignment="CENTER" cache="true"
+                            wrapText="true" GridPane.columnSpan="2" visible="false"/>
                 </GridPane>
-            </AnchorPane>
-        </GridPane>
+            </GridPane>
+        </AnchorPane>
 
-        <ImageView fx:id="cranioCreationLogo" GridPane.fillHeight="true" GridPane.fillWidth="true"
-                   GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" GridPane.rowIndex="2" GridPane.columnIndex="0"
-                   GridPane.valignment="CENTER" GridPane.halignment="RIGHT" preserveRatio="true"
-                   fitHeight="${rootPane.height * 0.07}">
-            <Image url="@../../graphical.resources/publisher.material/publisher.png"/>
-        </ImageView>
+        <Pane fx:id="cranioCreationLogo" GridPane.fillHeight="true" GridPane.fillWidth="true"
+                   GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" GridPane.rowIndex="2" GridPane.columnIndex="2"
+                   GridPane.valignment="CENTER" GridPane.halignment="RIGHT">
+        </Pane>
     </GridPane>
 </AnchorPane>

@@ -5,15 +5,22 @@
     src: local('Special Elite') url('../../graphical.resources/font/SpecialElite-Regular.ttf');
 }
 
-#rootPane{
-    -fx-background-color: rgba(0, 0, 0, 0.38);
-}
-
-#sceneBackground {
+#rootPane {
     -fx-background-image: url("../../graphical.resources/publisher.material/display_5.jpg");
     -fx-background-repeat: no-repeat;
     -fx-background-size: cover;
     -fx-background-position: center center;
+}
+
+#myShelfieTitleImageView {
+    -fx-background-image: url('../../graphical.resources/publisher.material/Title_2000x2000px.png');
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+}
+
+#interfaceGrid{
+    -fx-background-color: rgba(0, 0, 0, 0.38);
 }
 
 #infoBoxContainer {
@@ -74,5 +81,12 @@
     -fx-background-size: cover;
     -fx-background-position: center center;
     -fx-alignment: center;
-    -fx-font-size: 1.3em;
+    -fx-font-size: 1em;
+}
+
+#cranioCreationLogo {
+    -fx-background-image: url('../../graphical.resources/publisher.material/publisher.png');
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: right center;
 }
