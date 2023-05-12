@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.view.gui.loginpage.LoginPage;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -30,7 +31,7 @@ public abstract class MyShelfieApplication extends Application{
     /**
      * <p>Default FXML file path folder where every layout is located</p>
      */
-    private static final String FXML_FILE_PATH = "/it.polimi.ingsw/layout/login/";
+    private static final String FXML_FILE_PATH = "/it.polimi.ingsw/layout/";
 
     /**
      * <p>Path to the font used</p>
@@ -123,6 +124,22 @@ public abstract class MyShelfieApplication extends Application{
         return scene;
     }
 
+    public static Scene setUpScene(final String FXMLFileName) {
+        loadMyShelfieFont();
+
+        FXMLLoader fxmlLoader = new FXMLLoader(LoginPage.class.getResource(MyShelfieApplication.getFXMLFile(FXMLFileName)));
+
+        Scene scene = null;
+
+        try {
+            scene = new Scene(fxmlLoader.load());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return scene;
+    }
+
     /**
      * <p>This method can be used to construct a {@link Scene scene} from a
      *    specific file containing the layout (.fxml)</p>
@@ -147,16 +164,6 @@ public abstract class MyShelfieApplication extends Application{
         }
 
         return scene;
-    }
-
-    /**
-     * this method center a given {@link Stage stage} in the device screen
-     *
-     * @param stage the stage to center
-     */
-    public static void centerStageInScreen(Stage stage) {
-        stage.setX((Screen.getPrimary().getVisualBounds().getWidth() - stage.getWidth()) / 2);
-        stage.setY((Screen.getPrimary().getVisualBounds().getHeight() - stage.getHeight()) / 2);
     }
 
     /**
