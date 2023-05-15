@@ -149,7 +149,7 @@ public class TUI extends UI implements Runnable{
                         }
                         break;
                     case "play":
-                        out.println("It's your turn to play! Please enter the coordinate of the tiles you want to take from the board, then type fine");
+                        out.println("It's your turn to play! Please enter the coordinate of the tiles you want to take from the board, then type" + colorize("fine", Attribute.BOLD()));
                         List<Coordinate> tiles = new ArrayList<>();
                         String coord = readLine();
                         while (!coord.equals("fine")) {
@@ -247,10 +247,12 @@ public class TUI extends UI implements Runnable{
         }
     }
 
-
     private void home(){ //mostra le cose base
         state = TUIState.HOME;
-        out.println(colorize("MY SHELFIE: HOME OF " + getModel().getThisPlayer(), Attribute.GREEN_TEXT()));
+        out.print(colorize("                                                           ", Attribute.GREEN_BACK()));
+        out.print(colorize("MY SHELFIE: HOME OF " + getModel().getThisPlayer(), Attribute.GREEN_BACK()));
+        out.println(colorize("                                                           ", Attribute.GREEN_BACK()));
+
         printGameState(getModel().getGameState());
 
         out.print("Here are all the players in the game: ");
@@ -261,11 +263,11 @@ public class TUI extends UI implements Runnable{
             }
             out.print("   ");
         }
+        out.println();
 
         List<Integer> points = getModel().getPlayersPoints().get(getModel().getThisPlayer());
         if(points!=null) {
-            out.println();
-            out.println("Your points: ");
+            out.println(colorize("Your points: ",Attribute.BOLD()));
             out.println("Common Goal 1 = " + points.get(0) + printPointOrPoints(points.get(0)));
             out.println("Common Goal 2 = " + points.get(1) + printPointOrPoints(points.get(1)));
             out.println("End Game = " + points.get(2) + printPointOrPoints(points.get(2)));
@@ -274,27 +276,34 @@ public class TUI extends UI implements Runnable{
             int totalScore = getModel().getTotalPointByNickname(getModel().getThisPlayer());
             out.println("Total Points = " + totalScore + printPointOrPoints(totalScore));
         }
+
         if(getModel().getCommonGoals()[0]!=null || getModel().getCommonGoals()[1]!=null) {
             out.println();
-            out.println("Common Goals are: ");
             out.println("Common Goal 1: " + getModel().getCommonGoals()[0] + "\n     " + "Available Score = " + getModel().getAvailableScores().get(0));
             out.println("Common Goal 2: " + getModel().getCommonGoals()[1] + "\n     " + "Available Score = " + getModel().getAvailableScores().get(1));
         }
 
+        out.println();
         if(getModel().getBoard()!=null && getModel().getBookShelfByNickname(getModel().getThisPlayer())!=null && getModel().getPersonalGoal()!=null) {
-            printBoardBookShelfPersonalGoal(fromTileSubjectToChar(getModel().getBoard()),
-                    fromTileSubjectToChar(getModel().getBookShelfByNickname(getModel().getThisPlayer())),
+            printBoardBookShelfPersonalGoal(fromTileSubjectToChar(getModel().getBoard(), true),
+                    fromTileSubjectToChar(getModel().getBookShelfByNickname(getModel().getThisPlayer()), false),
                     fromTileTypeToChar(getModel().getPersonalGoal()));
         }
 
         if(getModel().getCurrentPlayer() != null) {
-            out.println("Current Player is " + getModel().getCurrentPlayer());
+            if(getModel().getCurrentPlayer().equals(getModel().getThisPlayer())){
+                out.println(colorize("It's your turn to play!", Attribute.BOLD(), Attribute.GREEN_TEXT()));
+            } else {
+                out.println(colorize("Current Player is " + getModel().getCurrentPlayer(), Attribute.BOLD(), Attribute.GREEN_TEXT()));
+            }
         }
     }
 
     private void showChat(){
         state = TUIState.CHAT;
-        out.println(colorize("MY SHELFIE: CHAT", Attribute.GREEN_TEXT()));
+        System.out.print(colorize("                                                                     ", Attribute.GREEN_BACK()));
+        System.out.print(colorize("MY SHELFIE: CHAT", Attribute.GREEN_BACK()));
+        System.out.println(colorize("                                                                     ", Attribute.GREEN_BACK()));
         List<Triple<String, List<String>, String>> messages = getModel().getMessages();
         for(Triple<String, List<String>, String> message : messages){
             if(message.getSecond().contains(getModel().getThisPlayer())){
@@ -314,7 +323,9 @@ public class TUI extends UI implements Runnable{
 
     private void showBookshelves(){
         state = TUIState.OTHERS;
-        out.println(colorize("MY SHELFIE: OTHER PLAYERS' BOOKSHELVES AND POINTS", Attribute.GREEN_TEXT()));
+        System.out.print(colorize("                                    ", Attribute.GREEN_BACK()));
+        System.out.print(colorize("MY SHELFIE: OTHER PLAYERS' BOOKSHELVES AND POINTS", Attribute.GREEN_BACK()));
+        System.out.println(colorize("                                    ", Attribute.GREEN_BACK()));
         List<String> nicknames = getOtherPlayer();
         List<char[][]> bookshelves = getOtherBookShelves();
         List<List<Integer>> pointPlayers = getOtherPoints();
@@ -327,13 +338,15 @@ public class TUI extends UI implements Runnable{
     @Override
     protected void showWinner(){
         // se game state è end
-        out.println(colorize("MY SHELFIE: HOME OF " + getModel().getThisPlayer(), Attribute.GREEN_TEXT()));
+        System.out.print(colorize("                                                           ", Attribute.GREEN_BACK()));
+        System.out.print(colorize("MY SHELFIE: HOME OF " + getModel().getThisPlayer(), Attribute.GREEN_BACK()));
+        System.out.println(colorize("                                                           ", Attribute.GREEN_BACK()));
         printGameState(getModel().getGameState());
         out.println("The winner is..." + colorize(getModel().getWinnerPlayer(), Attribute.BOLD(), Attribute.BRIGHT_YELLOW_TEXT()) + "!");
         out.println("Here are the bookshelves and the point of all players:");
         //da finire
 
-        char[][] bookshelf = fromTileSubjectToChar(getModel().getBookShelfByNickname(getModel().getThisPlayer()));
+        char[][] bookshelf = fromTileSubjectToChar(getModel().getBookShelfByNickname(getModel().getThisPlayer()), false);
         List<Integer> pointPlayer = getModel().getPlayersPointsByNickname(getModel().getThisPlayer());
         int totalPoints = getModel().getTotalPointByNickname(getModel().getThisPlayer());
 
@@ -355,7 +368,7 @@ public class TUI extends UI implements Runnable{
                 out.print("                            Total points = " + totalPoints + printPointOrPoints(totalPoints));
             }
         }
-
+        out.println();
         printOthersBookShelf(nicknames.get(0), nicknames.get(1), nicknames.get(2), othersBookshelves.get(0), othersBookshelves.get(1), othersBookshelves.get(2));
         printOthersPoint(nicknames.get(0), nicknames.get(1), nicknames.get(2), othersPoints.get(0), othersPoints.get(1), othersPoints.get(2), othersTotalPoints.get(0), othersTotalPoints.get(1), othersTotalPoints.get(2));
     }
@@ -576,14 +589,16 @@ public class TUI extends UI implements Runnable{
         out.println();
     }
 
-    private char[][] fromTileSubjectToChar(TileSubject[][] matrix){
+    private char[][] fromTileSubjectToChar(TileSubject[][] matrix, boolean board){
         if(matrix == null) return null;
         char[][] result = new char[matrix.length][matrix[0].length];
         for(int i = 0; i < matrix.length; i++){
             for(int j = 0; j < matrix[0].length; j++){
-                if(matrix[i][j] == null && INIT_MATRIX[i][j]==null) {
+                if (matrix[i][j] == null && INIT_MATRIX[i][j] == null && board) {
                     result[i][j] = ' ';
-                } else if (matrix[i][j] == null && INIT_MATRIX[i][j]!=null){
+                } else if (matrix[i][j] == null && INIT_MATRIX[i][j] != null && board) {
+                    result[i][j] = EMPTY;
+                } else if (matrix[i][j] == null && !board) {
                     result[i][j] = EMPTY;
                 } else {
                     result[i][j] = getCharFromTileType(matrix[i][j].getTileType());
@@ -672,9 +687,9 @@ public class TUI extends UI implements Runnable{
     private List<char[][]> getOtherBookShelves(){
         List<String> nicknames = getOtherPlayer();
         List<char[][]> bookshelves = new ArrayList<>();
-        char[][] bookShelf1 = fromTileSubjectToChar(getModel().getBookShelfByNickname(nicknames.get(0)));
-        char[][] bookShelf2 = fromTileSubjectToChar(getModel().getBookShelfByNickname(nicknames.get(1)));
-        char[][] bookShelf3 = fromTileSubjectToChar(getModel().getBookShelfByNickname(nicknames.get(2)));
+        char[][] bookShelf1 = fromTileSubjectToChar(getModel().getBookShelfByNickname(nicknames.get(0)), false);
+        char[][] bookShelf2 = fromTileSubjectToChar(getModel().getBookShelfByNickname(nicknames.get(1)), false);
+        char[][] bookShelf3 = fromTileSubjectToChar(getModel().getBookShelfByNickname(nicknames.get(2)), false);
         bookshelves.add(bookShelf1);
         bookshelves.add(bookShelf2);
         bookshelves.add(bookShelf3);
@@ -703,16 +718,18 @@ public class TUI extends UI implements Runnable{
     }
 
     private void printLegendMoves(){
-        out.println("Legend:");
+        out.print(colorize("                                                                   ", Attribute.GREEN_BACK()));
+        out.print(colorize("MY SHELFIE: LEGEND", Attribute.GREEN_BACK()));
+        out.print(colorize("                                                                   ", Attribute.GREEN_BACK()));
         out.println("Here are the actions you can make during the game:");
-        out.println(" TYPE        DESCRIPTION");
+        out.println(colorize(" TYPE        DESCRIPTION", Attribute.ITALIC()));
         out.println(" play        use it during your turn in order to move tiles from the board to your bookshelf.");
         out.println(" message     use it to send messages to other players.");
         out.println(" chat        use it to see the chat.");
         out.println(" others      use it to see other players' bookshelves and points.");
         out.println(" exit        use this to leave chat, others visual or help legend.");
         out.println(" quit        use it to leave the game, you will be directed to the welcome page so you can play again.");
-        out.println("<--- Please enter exit to return to the homepage. --->");
+        out.println(colorize("<--- Please enter exit to return to the homepage. --->", Attribute.BOLD()));
     }
 
     private String toPrintChar(char c){
@@ -736,7 +753,7 @@ public class TUI extends UI implements Runnable{
                return colorize(" " + c + " ", Attribute.MAGENTA_BACK());
            }
            case 'b' -> {
-               return colorize(" " + c + " ", Attribute.BRIGHT_WHITE_TEXT());
+               return colorize(" " + c + " ", Attribute.WHITE_BACK());
            }
            default -> {
                return "   ";

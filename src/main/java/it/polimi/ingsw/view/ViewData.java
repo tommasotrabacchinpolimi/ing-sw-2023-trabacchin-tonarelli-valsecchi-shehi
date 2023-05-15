@@ -102,7 +102,8 @@ public class ViewData {
 
     public Integer getTotalPointByNickname(String nickname){
         if(nickname == null || nickname.equals("")) return null;
-        return getPlayersPointsByNickname(nickname).stream().mapToInt(i -> i).sum();
+        if(playersPoints.get(nickname)== null) return null; //????
+        return playersPoints.get(nickname).stream().mapToInt(i -> i).sum();
     }
 
     public void setPlayersPoints(Map<String, List<Integer>> playersPoints) {
