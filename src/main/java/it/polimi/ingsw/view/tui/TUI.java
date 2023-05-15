@@ -13,9 +13,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.rmi.NotBoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import static com.diogonunes.jcolor.Ansi.colorize;
 
@@ -44,7 +47,9 @@ public class TUI extends UI implements Runnable{
     private final BufferedReader bufferedReader;
     private final PrintStream out = System.out;
     private TUIState state;
-    private final Object lock = new Object();
+
+    private final Lock lock = new ReentrantLock();
+
 
     private enum TUIState{
         HOME,
@@ -67,10 +72,16 @@ public class TUI extends UI implements Runnable{
     @Override
     public void run() {
         try {
+            lock.lock();
             welcome();
             home();
             out.println("Please, enter help to learn how to play!");
             while(true) {
+                lock.unlock();
+                while(!bufferedReader.ready()) {
+                    Thread.sleep(200);
+                }
+                lock.lock();
                 String input = bufferedReader.readLine();
                 switch (input) {
                     case "help":
@@ -144,7 +155,9 @@ public class TUI extends UI implements Runnable{
                         break;
                 }
             }
-        } catch (IOException e) {
+        } catch (IOException | NotBoundException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
 
@@ -156,16 +169,13 @@ public class TUI extends UI implements Runnable{
 
     private String readLine() throws IOException {
         String input;
-        synchronized (lock){
-            input = bufferedReader.readLine();
-        }
+        input = bufferedReader.readLine();
         return input;
     }
 
-    private void welcome() throws IOException {
-        synchronized (lock) {
-            String choice;
-            out.print("""
+    private void welcome() throws IOException, NotBoundException, ClassNotFoundException {
+        String choice;
+        out.print("""
                           .         .                                                                                                                                   \s
                          ,8.       ,8.   `8.`8888.      ,8'              d888888o.   8 8888        8 8 8888888888   8 8888         8 8888888888    8 8888 8 8888888888  \s
                         ,888.     ,888.   `8.`8888.    ,8'             .`8888:' `88. 8 8888        8 8 8888         8 8888         8 8888          8 8888 8 8888        \s
@@ -178,37 +188,41 @@ public class TUI extends UI implements Runnable{
                  ,8'       `8        `8.`8888.  8 8888                `8b.  ;8.`8888 8 8888        8 8 8888         8 8888         8 8888          8 8888 8 8888        \s
                 ,8'         `         `8.`8888. 8 8888                 `Y8888P ,88P' 8 8888        8 8 888888888888 8 888888888888 8 8888          8 8888 8 888888888888\s
                 """);
-            out.println("Welcome to My Shelfie!");
-            System.out.println("Choose one of the following protocols:");
-            System.out.println("1) Socket");
-            System.out.println("2) Remote Methode Invocation");
-            String protocolChoice = bufferedReader.readLine();
-            if(protocolChoice.equals("1")) {
-                getLogicController().chosenSocket(0, null);
-            }
-            else if(protocolChoice.equals("2")) {
-                getLogicController().chosenRMI(0, null);
-            }
+        out.println("Welcome to My Shelfie!");
+        System.out.println("Choose one of the following protocols:");
+        System.out.println("1) Socket");
+        System.out.println("2) Remote Methode Invocation");
+        String protocolChoice = bufferedReader.readLine();
+        System.out.println("Please enter the server address: ");
+        String host = bufferedReader.readLine();
+        System.out.println("Now enter the port number");
+        int port = Integer.parseInt(bufferedReader.readLine());
+        if(protocolChoice.equals("1")) {
+            getLogicController().chosenSocket(port, host);
+        }
+        else if(protocolChoice.equals("2")) {
+            getLogicController().chosenRMI(port, host);
+        }
 
-            out.println("Now insert your unique nickname: ");
-            String nickname = readLine();
-            out.println("Ok, now chose one of the following options: ");
-            out.println("1) create a new game");
-            out.println("2) join an existing game");
-            out.println("3) rejoin an existing game after a disconnection");
-            choice = readLine();
-            switch (choice) {
-                case "1" -> {
-                    out.println("So you need to let us know with how many people you want to play with (it has to be a number between 1 and 3) :");
-                    int numberOfPlayer = Integer.parseInt(readLine()) + 1;
-                    getLogicController().createGame(nickname, numberOfPlayer);
-                }
-                case "2", "3" -> getLogicController().joinGame(nickname);
-                default -> {
-                }
+        out.println("Now insert your unique nickname: ");
+        String nickname = readLine();
+        out.println("Ok, now chose one of the following options: ");
+        out.println("1) create a new game");
+        out.println("2) join an existing game");
+        out.println("3) rejoin an existing game after a disconnection");
+        choice = readLine();
+        switch (choice) {
+            case "1" -> {
+                out.println("So you need to let us know with how many people you want to play with (it has to be a number between 1 and 3) :");
+                int numberOfPlayer = Integer.parseInt(readLine()) + 1;
+                getLogicController().createGame(nickname, numberOfPlayer);
+            }
+            case "2", "3" -> getLogicController().joinGame(nickname);
+            default -> {
             }
         }
     }
+
 
     private void home(){ //mostra le cose base
         state = TUIState.HOME;
