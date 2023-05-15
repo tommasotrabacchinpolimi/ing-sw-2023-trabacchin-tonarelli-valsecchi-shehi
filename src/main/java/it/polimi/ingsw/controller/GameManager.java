@@ -29,6 +29,8 @@ public abstract class GameManager {
 
     public abstract void registerPlayer(ClientInterface view, String nickname);
 
+    protected abstract void setNextCurrentPlayer();
+
     public synchronized void quitGame(ClientInterface view) {
         getController().getState().getPlayerFromView(view).setPlayerState(PlayerState.QUITTED);
         getController().getLobbyController().onQuitGame(view);

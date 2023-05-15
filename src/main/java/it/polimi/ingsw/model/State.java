@@ -212,6 +212,9 @@ public class State implements Serializable, OnUpdateNeededListener {
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
         notifyStateChanged();
+        if(gameState.equals(GameState.INIT)){
+
+        }
     }
 
     public void setWinner(Player winner) {
@@ -510,6 +513,7 @@ public class State implements Serializable, OnUpdateNeededListener {
 
     public void notifyStateChanged(){
         for(OnStateChangedListener stateChangedListener : stateChangedListeners){
+            System.out.println("game state changed notified");
             stateChangedListener.onStateChanged(this.getGameState());
         }
     }
@@ -645,7 +649,9 @@ public class State implements Serializable, OnUpdateNeededListener {
         if(this.getCommonGoal2() != null && this.getCommonGoal1() != null) {
             onAssignedCommonGoalListeners.stream()
                     .filter(v -> v == player.getVirtualView()).findAny().ifPresentOrElse(v -> {v.onAssignedCommonGoal(this.getCommonGoal1().getDescription(),1); v.onAssignedCommonGoal(this.getCommonGoal2().getDescription(), 2);}, () -> System.err.println("unable to notify about common goal assigned"));
+            onChangedCommonGoalAvailableScoreListenerListeners.stream().filter(v -> v == player.getVirtualView()).findAny().ifPresentOrElse(v -> {v.onChangedCommonGoalAvailableScore(this.getCommonGoal1().getAvailableScore(),1); v.onChangedCommonGoalAvailableScore(this.getCommonGoal2().getAvailableScore(), 2);}, () -> System.err.println("unable to notify about common goal assigned"));
         }
+
 
         List<String> senderNicknames = messages.stream().map(m -> m.getSender().getNickName()).toList();
         List<List<String>> receiverNicknames = messages.stream().map(m -> m.getReceivers().stream().map(Player::getNickName).toList()).toList();

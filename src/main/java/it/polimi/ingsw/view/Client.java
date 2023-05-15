@@ -49,6 +49,7 @@ public class Client implements ClientInterface, LogicInterface {
         }
         client = new Client(ui, viewData);
         ui.setLogicController(client);
+        viewData.setUserInterface(ui);
         ui.launch();
     }
 
@@ -86,7 +87,7 @@ public class Client implements ClientInterface, LogicInterface {
 
     @Override
     public void onAssignedCommonGoal(String description, int n) {
-        viewData.getCommonGoals()[n] = description;
+        viewData.getCommonGoals()[n-1] = description;
     }
 
     @Override
@@ -120,7 +121,7 @@ public class Client implements ClientInterface, LogicInterface {
 
     @Override
     public void onChangedCommonGoalAvailableScore(int score, int numberOfCommonGoal) {
-        viewData.getAvailableScores().put(numberOfCommonGoal, score);
+        viewData.getAvailableScores().put(numberOfCommonGoal-1, score);
     }
 
     @Override
@@ -155,7 +156,6 @@ public class Client implements ClientInterface, LogicInterface {
 
     @Override
     public void onPlayerStateChanged(String nickname, PlayerState playerState) {
-        System.out.println("state players changed.");
         viewData.getPlayersState().put(nickname, playerState.toString());
     }
 
@@ -172,6 +172,7 @@ public class Client implements ClientInterface, LogicInterface {
     @Override
     public void onStateChanged(GameState gameState) {
         viewData.setGameState(gameState.toString());
+        System.out.println("Game state to "+ gameState.toString());
     }
 
     @Override

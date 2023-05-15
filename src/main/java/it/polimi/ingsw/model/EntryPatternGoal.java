@@ -86,7 +86,6 @@ public class EntryPatternGoal implements Serializable {
      * @return column field of the class
      */
     public int getColumn() {
-
         return coordinate.getY();
     } //
 

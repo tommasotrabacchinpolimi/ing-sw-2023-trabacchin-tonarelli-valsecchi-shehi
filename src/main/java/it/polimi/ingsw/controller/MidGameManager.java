@@ -79,7 +79,7 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
                 taskTurnPlayer = new TimerTask() {
                     @Override
                     public void run() {
-                        setNextCurrentPlayer();
+                        getController().getGameManager().setNextCurrentPlayer();
                     }
                 };
                 timer.schedule(taskTurnPlayer, 60000);
@@ -179,7 +179,9 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
      * @see State
      * @see Player
      */
-    private synchronized void setNextCurrentPlayer() {
+    @Override
+    protected synchronized void setNextCurrentPlayer() {
+        verifyAllDisconnectedPlayer();
         if(getController().getState().getGameState() == GameState.END) return;
 
         int n = getController().getState().getPlayersNumber();
@@ -191,7 +193,7 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
             taskTurnPlayer = new TimerTask() {
                 @Override
                 public void run() {
-                    setNextCurrentPlayer();
+                    getController().getGameManager().setNextCurrentPlayer();
                 }
             };
             timer.schedule(taskTurnPlayer, 60000);
@@ -218,7 +220,7 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
                 taskSuspended = new TimerTask() {
                     @Override
                     public void run() {
-                        setNextCurrentPlayer();
+                        getController().getGameManager().setNextCurrentPlayer();
                     }
                 };
                 timer.schedule(taskSuspended, 10000);
@@ -227,7 +229,7 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
                 taskTurnPlayer = new TimerTask() {
                     @Override
                     public void run() {
-                        setNextCurrentPlayer();
+                        getController().getGameManager().setNextCurrentPlayer();
                     }
                 };
                 timer.schedule(taskTurnPlayer, 60000);

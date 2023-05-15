@@ -85,12 +85,13 @@ public class TUI extends UI implements Runnable{
         try {
             lock.lock();
             welcome();
+            Thread.sleep(1000);
             home();
             out.println("Please, enter help to learn how to play!");
             while(true) {
                 lock.unlock();
                 while(!bufferedReader.ready()) {
-                    Thread.sleep(200);
+                    Thread.sleep(50);
                 }
                 lock.lock();
                 String input = bufferedReader.readLine();
@@ -237,7 +238,7 @@ public class TUI extends UI implements Runnable{
         switch (choice) {
             case "1" -> {
                 out.println("So you need to let us know with how many people you want to play with (it has to be a number between 1 and 3) :");
-                int numberOfPlayer = Integer.parseInt(readLine()) + 1;
+                int numberOfPlayer = Integer.parseInt(readLine());
                 getLogicController().createGame(nickname, numberOfPlayer);
             }
             case "2", "3" -> getLogicController().joinGame(nickname);

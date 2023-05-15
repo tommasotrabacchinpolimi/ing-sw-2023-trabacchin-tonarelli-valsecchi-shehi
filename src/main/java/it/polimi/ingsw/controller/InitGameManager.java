@@ -94,6 +94,7 @@ public class InitGameManager extends GameManager {
             getController().getState().getBoard().refillBoard(getController().getState().getPlayersNumber());
             Collections.rotate(getController().getState().getPlayers(), new Random().nextInt(6));
             if(checkIfNotSuspended()){
+                System.out.println("state updated");
                 getController().getState().setGameState(GameState.MID);
                 getController().setGameManager(new MidGameManager<>(getController()));
             } else {
@@ -108,6 +109,11 @@ public class InitGameManager extends GameManager {
 
         }
 
+    }
+
+    @Override
+    protected void setNextCurrentPlayer() {
+        return;
     }
 
     private boolean checkIfNotSuspended(){

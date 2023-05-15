@@ -1,33 +1,27 @@
 {
   "goalPattern": [
     {
-      "row": 3,
-      "column": 3,
+      "coordinate" : {"x": 3, "y": 3},
       "tileType": "PLANT"
     },
     {
-      "row": 2,
-      "column": 2,
+      "coordinate" : {"x": 2, "y": 2},
       "tileType": "FRAME"
     },
     {
-      "row": 4,
-      "column": 2,
+      "coordinate" : {"x": 4, "y": 2},
       "tileType": "CAT"
     },
     {
-      "row": 4,
-      "column": 1,
+      "coordinate" : {"x": 4, "y": 1},
       "tileType": "BOOK"
     },
     {
-      "row": 0,
-      "column": 4,
+      "coordinate" : {"x": 0, "y": 4},
       "tileType": "GAME"
     },
     {
-      "row": 2,
-      "column": 0,
+      "coordinate" : {"x": 2, "y": 0},
       "tileType": "TROPHY"
     }
   ],
