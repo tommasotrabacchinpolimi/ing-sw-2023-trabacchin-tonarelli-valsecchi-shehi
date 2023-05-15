@@ -23,4 +23,10 @@ public abstract class UI {
     public void setModel(ViewData model) {
         this.model = model;
     }
+
+    protected abstract void onNewMessage(String sender);
+
+    protected abstract void onCurrentPlayerChanged(String newCurrentPlayer);
+
+    protected abstract void showWinner();
 }

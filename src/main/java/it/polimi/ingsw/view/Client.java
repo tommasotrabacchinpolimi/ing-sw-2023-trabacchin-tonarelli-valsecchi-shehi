@@ -34,13 +34,11 @@ public class Client implements ClientInterface, LogicInterface {
     }
 
     public static void main(String[] args) throws IOException, NotBoundException, ClassNotFoundException {
-        String protocolChoice, UIChoice;
+        String UIChoice;
         Client client = null;
         UI ui = null;
         ViewData viewData = new ViewData(9,5,6);
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        ServerInterface server = null;
-        protocolChoice = bufferedReader.readLine();
         System.out.println("Now choose your desired UI:");
         System.out.println("1) TUI");
         System.out.println("2) GUI");
@@ -112,6 +110,7 @@ public class Client implements ClientInterface, LogicInterface {
 
     @Override
     public void onBookShelfUpdated(String nickname, TileSubject[][] bookShelf) {
+        viewData.getBookShelves().computeIfAbsent(nickname, k -> new TileSubject[6][5]);
         for(int i = 0;i < bookShelf.length; i++) {
             for(int j = 0; j < bookShelf[0].length; j++) {
                 viewData.getBookShelves().get(nickname)[i][j] = bookShelf[i][j];
@@ -156,11 +155,13 @@ public class Client implements ClientInterface, LogicInterface {
 
     @Override
     public void onPlayerStateChanged(String nickname, PlayerState playerState) {
+        System.out.println("state players changed.");
         viewData.getPlayersState().put(nickname, playerState.toString());
     }
 
     @Override
     public void onPointsUpdated(String nickName, int scoreAdjacentGoal, int scoreCommonGoal1, int scoreCommonGoal2, int scoreEndGame, int scorePersonalGoal) {
+        viewData.getPlayersPoints().computeIfAbsent(nickName, k -> Arrays.asList(0,0,0,0,0));
         viewData.getPlayersPointsByNickname(nickName).set(0, scoreAdjacentGoal);
         viewData.getPlayersPointsByNickname(nickName).set(1, scoreCommonGoal1);
         viewData.getPlayersPointsByNickname(nickName).set(2, scoreCommonGoal2);
@@ -214,6 +215,7 @@ public class Client implements ClientInterface, LogicInterface {
     public void onWinnerChanged(String nickname) {
 
     }
+
     @Override
     public void chosenSocket(int port, String host) throws IOException {
         ServerInterface serverInterface = this.getSocketConnection(host, port);

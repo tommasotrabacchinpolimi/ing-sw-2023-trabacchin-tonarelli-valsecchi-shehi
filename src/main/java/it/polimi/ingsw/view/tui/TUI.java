@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.tui;
 
 import com.diogonunes.jcolor.Attribute;
+import it.polimi.ingsw.model.BoardSquareType;
 import it.polimi.ingsw.model.TileSubject;
 import it.polimi.ingsw.model.TileType;
 import it.polimi.ingsw.utils.Coordinate;
@@ -21,25 +22,10 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import static com.diogonunes.jcolor.Ansi.colorize;
+import static it.polimi.ingsw.model.BoardSquareType.*;
+import static it.polimi.ingsw.model.BoardSquareType.THREE_DOTS;
 
 public class TUI extends UI implements Runnable{
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_BLACK = "\u001B[30m";
-    public static final String ANSI_RED = "\u001B[31m";
-    public static final String ANSI_GREEN = "\u001B[32m";
-    public static final String ANSI_YELLOW = "\u001B[33m";
-    public static final String ANSI_BLUE = "\u001B[34m";
-    public static final String ANSI_PURPLE = "\u001B[35m";
-    public static final String ANSI_CYAN = "\u001B[36m";
-    public static final String ANSI_WHITE = "\u001B[37m";
-    public static final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
-    public static final String ANSI_RED_BACKGROUND = "\u001B[41m";
-    public static final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
-    public static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
-    public static final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
-    public static final String ANSI_PINK_BACKGROUND = "\u001B[105m";
-    public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
-    public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
     private static final int DIM_BOARD = 9;
     private static final int DIMCOL_BOOKSHELF = 5;
     private static final int DIMROW_BOOKSHELF = 6;
@@ -47,6 +33,17 @@ public class TUI extends UI implements Runnable{
     private final BufferedReader bufferedReader;
     private final PrintStream out = System.out;
     private TUIState state;
+    public static final BoardSquareType[][] INIT_MATRIX = {
+            {null, null, null, THREE_DOTS, FOUR_DOTS, null, null, null, null},
+            {null, null, null, NO_DOTS, NO_DOTS, FOUR_DOTS, null, null, null},
+            {null, null, THREE_DOTS, NO_DOTS, NO_DOTS, NO_DOTS, THREE_DOTS, null, null},
+            {null, FOUR_DOTS, NO_DOTS, NO_DOTS, NO_DOTS, NO_DOTS, NO_DOTS, NO_DOTS, THREE_DOTS},
+            {FOUR_DOTS, NO_DOTS, NO_DOTS, NO_DOTS, NO_DOTS, NO_DOTS, NO_DOTS, NO_DOTS, FOUR_DOTS},
+            {THREE_DOTS, NO_DOTS, NO_DOTS, NO_DOTS, NO_DOTS, NO_DOTS, NO_DOTS, FOUR_DOTS, null},
+            {null, null, THREE_DOTS, NO_DOTS, NO_DOTS, NO_DOTS, THREE_DOTS, null, null},
+            {null, null, null, FOUR_DOTS, NO_DOTS, NO_DOTS, null, null, null},
+            {null, null, null, null, FOUR_DOTS, THREE_DOTS, null, null, null}
+    };
 
     private final Lock lock = new ReentrantLock();
 
@@ -67,6 +64,20 @@ public class TUI extends UI implements Runnable{
     @Override
     public void launch() {
         new Thread(this).start();
+    }
+
+    @Override
+    protected void onNewMessage(String sender) {
+        lock.lock();
+        out.println("New Message from "+ sender);
+        lock.unlock();
+    }
+
+    @Override
+    protected void onCurrentPlayerChanged(String newCurrentPlayer) {
+        lock.lock();
+        out.println("New Current Player is "+ newCurrentPlayer);
+        lock.unlock();
     }
 
     @Override
@@ -153,6 +164,18 @@ public class TUI extends UI implements Runnable{
                         out.println("Moving the tiles from the board to you bookshelf...");
                         getLogicController().dragTilesToBookShelf(tiles, n);
                         break;
+                    default :
+                        reset();
+                        home();
+                        if(state.equals(TUIState.CHAT)){
+                            showChat();
+                        } else if (state.equals(TUIState.OTHERS)) {
+                            showBookshelves();
+                        } else if (state.equals(TUIState.LEGEND)) {
+                            printLegendMoves();
+                        } else if (state.equals(TUIState.END)) {
+                            showWinner();
+                        }
                 }
             }
         } catch (IOException | NotBoundException | ClassNotFoundException e) {
@@ -228,6 +251,7 @@ public class TUI extends UI implements Runnable{
         state = TUIState.HOME;
         out.println(colorize("MY SHELFIE: HOME OF " + getModel().getThisPlayer(), Attribute.GREEN_TEXT()));
         printGameState(getModel().getGameState());
+
         out.print("Here are all the players in the game: ");
         for(String name: getModel().getPlayers()){
             out.print(name);
@@ -236,27 +260,35 @@ public class TUI extends UI implements Runnable{
             }
             out.print("   ");
         }
-        out.println();
-        out.println("Your points are: ");
+
         List<Integer> points = getModel().getPlayersPoints().get(getModel().getThisPlayer());
-        out.println("Common Goal 1 = " + points.get(0) + printPointOrPoints(points.get(0)));
-        out.println("Common Goal 2 = " + points.get(1) + printPointOrPoints(points.get(1)));
-        out.println("End Game = " + points.get(2) + printPointOrPoints(points.get(2)));
-        out.println("Personal Goal = " + points.get(3) + printPointOrPoints(points.get(3)));
-        out.println("Adjacent Tiles = " + points.get(4) + printPointOrPoints(points.get(4)));
-        int totalScore = getModel().getTotalPointByNickname(getModel().getThisPlayer());
-        out.println("Total Points = " + totalScore + printPointOrPoints(totalScore));
+        if(points!=null) {
+            out.println();
+            out.println("Your points: ");
+            out.println("Common Goal 1 = " + points.get(0) + printPointOrPoints(points.get(0)));
+            out.println("Common Goal 2 = " + points.get(1) + printPointOrPoints(points.get(1)));
+            out.println("End Game = " + points.get(2) + printPointOrPoints(points.get(2)));
+            out.println("Personal Goal = " + points.get(3) + printPointOrPoints(points.get(3)));
+            out.println("Adjacent Tiles = " + points.get(4) + printPointOrPoints(points.get(4)));
+            int totalScore = getModel().getTotalPointByNickname(getModel().getThisPlayer());
+            out.println("Total Points = " + totalScore + printPointOrPoints(totalScore));
+        }
+        if(getModel().getCommonGoals()[0]!=null || getModel().getCommonGoals()[1]!=null) {
+            out.println();
+            out.println("Common Goals are: ");
+            out.println("Common Goal 1: " + getModel().getCommonGoals()[0] + "\n     " + "Available Score = " + getModel().getAvailableScores().get(0));
+            out.println("Common Goal 2: " + getModel().getCommonGoals()[1] + "\n     " + "Available Score = " + getModel().getAvailableScores().get(1));
+        }
 
-        out.println();
-        out.println("Common Goals are: ");
-        out.println("Common Goal 1: " + getModel().getCommonGoals()[0] + "\n     " + "Available Score = " + getModel().getAvailableScores().get(0));
-        out.println("Common Goal 2: " + getModel().getCommonGoals()[1] + "\n     " + "Available Score = " + getModel().getAvailableScores().get(1));
+        if(getModel().getBoard()!=null && getModel().getBookShelfByNickname(getModel().getThisPlayer())!=null && getModel().getPersonalGoal()!=null) {
+            printBoardBookShelfPersonalGoal(fromTileSubjectToChar(getModel().getBoard()),
+                    fromTileSubjectToChar(getModel().getBookShelfByNickname(getModel().getThisPlayer())),
+                    fromTileTypeToChar(getModel().getPersonalGoal()));
+        }
 
-        printBoardBookShelfPersonalGoal(fromTileSubjectToChar(getModel().getBoard()),
-                fromTileSubjectToChar(getModel().getBookShelfByNickname(getModel().getThisPlayer())),
-                fromTileTypeToChar(getModel().getPersonalGoal()));
-
-        out.println("Current Player is " + getModel().getCurrentPlayer());
+        if(getModel().getCurrentPlayer() != null) {
+            out.println("Current Player is " + getModel().getCurrentPlayer());
+        }
     }
 
     private void showChat(){
@@ -291,7 +323,8 @@ public class TUI extends UI implements Runnable{
         printOthersPoint(nicknames.get(0), nicknames.get(1), nicknames.get(2), pointPlayers.get(0), pointPlayers.get(1), pointPlayers.get(2), totalPoints.get(0), totalPoints.get(1), totalPoints.get(2));
     }
 
-    private void showWinner(){
+    @Override
+    protected void showWinner(){
         // se game state è end
         out.println(colorize("MY SHELFIE: HOME OF " + getModel().getThisPlayer(), Attribute.GREEN_TEXT()));
         printGameState(getModel().getGameState());
@@ -470,11 +503,11 @@ public class TUI extends UI implements Runnable{
     private void printLineBookShelf(int row, char[][] matrix) {
         for(int j = 0; j < DIMCOL_BOOKSHELF; j++){
             if( j == 0 )
-                out.print( colorize("║ ", Attribute.TEXT_COLOR(245,245,246)) + toPrintChar(matrix[row][j]) + colorize(" ║ ", Attribute.TEXT_COLOR(245,245,246)));
+                out.print( colorize("║", Attribute.TEXT_COLOR(245,245,246)) + toPrintChar(matrix[row][j]) + colorize("║", Attribute.TEXT_COLOR(245,245,246)));
             else if( j < DIMCOL_BOOKSHELF - 1 )
-                out.print( toPrintChar(matrix[row][j]) + colorize(" ║ ", Attribute.TEXT_COLOR(245,245,246)) );
+                out.print( toPrintChar(matrix[row][j]) + colorize("║", Attribute.TEXT_COLOR(245,245,246)) );
             else
-                out.print( toPrintChar(matrix[row][j]) + colorize(" ║", Attribute.TEXT_COLOR(245,245,246)) );
+                out.print( toPrintChar(matrix[row][j]) + colorize("║", Attribute.TEXT_COLOR(245,245,246)) );
         }
     }
 
@@ -547,7 +580,13 @@ public class TUI extends UI implements Runnable{
         char[][] result = new char[matrix.length][matrix[0].length];
         for(int i = 0; i < matrix.length; i++){
             for(int j = 0; j < matrix[0].length; j++){
-                result[i][j] = getCharFromTileType(matrix[i][j].getTileType());
+                if(matrix[i][j] == null && INIT_MATRIX[i][j]==null) {
+                    result[i][j] = ' ';
+                } else if (matrix[i][j] == null && INIT_MATRIX[i][j]!=null){
+                    result[i][j] = EMPTY;
+                } else {
+                    result[i][j] = getCharFromTileType(matrix[i][j].getTileType());
+                }
             }
         }
         return result;
@@ -558,7 +597,11 @@ public class TUI extends UI implements Runnable{
         char[][] result = new char[matrix.length][matrix[0].length];
         for(int i = 0; i < matrix.length; i++){
             for(int j = 0; j < matrix[0].length; j++){
-                result[i][j] = getCharFromTileType(matrix[i][j]);
+                if(matrix[i][j]==null){
+                    result[i][j]=EMPTY;
+                } else {
+                    result[i][j] = getCharFromTileType(matrix[i][j]);
+                }
             }
         }
         return result;
@@ -600,9 +643,9 @@ public class TUI extends UI implements Runnable{
     }
 
     private String printPointOrPoints(int point){
-        if(point == 0) return "point";
+        if(point == 0) return " point";
         if(point == -1) return "";
-        return "points";
+        return " points";
     }
 
     private void printPoint(List<Integer> point, int index){
