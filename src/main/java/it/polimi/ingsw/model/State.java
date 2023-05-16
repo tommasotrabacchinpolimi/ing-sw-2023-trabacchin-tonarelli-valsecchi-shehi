@@ -633,23 +633,23 @@ public class State implements Serializable, OnUpdateNeededListener {
     public void onUpdateNeededListener(Player player) {
 
         stateChangedListeners.stream()
-                .filter(v -> v == player.getVirtualView()).findAny().ifPresentOrElse(v -> v.onStateChanged(gameState), () -> System.err.println("unable to notify about state changed"));
+                .filter(v -> v == player.getVirtualView()).forEach(v -> v.onStateChanged(gameState));
 
         if(currentPlayer != null) {
             onCurrentPlayerChangedListeners.stream()
-                    .filter(v -> v == player.getVirtualView()).findAny().ifPresentOrElse(v -> v.onCurrentPlayerChangedListener(currentPlayer.getNickName()),() -> System.err.println("unable to notify about current player update"));
+                    .filter(v -> v == player.getVirtualView()).forEach(v -> v.onCurrentPlayerChangedListener(currentPlayer.getNickName()));
         }
 
         if(lastPlayer != null) {
             lastPlayerUpdatedListeners.stream()
-                    .filter(v -> v == player.getVirtualView()).findAny().ifPresentOrElse(v -> v.onLastPlayerUpdated(lastPlayer.getNickName()), () -> System.err.println("unable to notify about last player update"));
+                    .filter(v -> v == player.getVirtualView()).forEach(v -> v.onLastPlayerUpdated(lastPlayer.getNickName()));
 
         }
 
         if(this.getCommonGoal2() != null && this.getCommonGoal1() != null) {
             onAssignedCommonGoalListeners.stream()
-                    .filter(v -> v == player.getVirtualView()).findAny().ifPresentOrElse(v -> {v.onAssignedCommonGoal(this.getCommonGoal1().getDescription(),1); v.onAssignedCommonGoal(this.getCommonGoal2().getDescription(), 2);}, () -> System.err.println("unable to notify about common goal assigned"));
-            onChangedCommonGoalAvailableScoreListenerListeners.stream().filter(v -> v == player.getVirtualView()).findAny().ifPresentOrElse(v -> {v.onChangedCommonGoalAvailableScore(this.getCommonGoal1().getAvailableScore(),1); v.onChangedCommonGoalAvailableScore(this.getCommonGoal2().getAvailableScore(), 2);}, () -> System.err.println("unable to notify about common goal assigned"));
+                    .forEach(v -> {v.onAssignedCommonGoal(this.getCommonGoal1().getDescription(),1); v.onAssignedCommonGoal(this.getCommonGoal2().getDescription(), 2);});
+            onChangedCommonGoalAvailableScoreListenerListeners.stream().forEach(v -> {v.onChangedCommonGoalAvailableScore(this.getCommonGoal1().getAvailableScore(),1); v.onChangedCommonGoalAvailableScore(this.getCommonGoal2().getAvailableScore(), 2);});
         }
 
 
@@ -657,7 +657,7 @@ public class State implements Serializable, OnUpdateNeededListener {
         List<List<String>> receiverNicknames = messages.stream().map(m -> m.getReceivers().stream().map(Player::getNickName).toList()).toList();
         List<String> texts = messages.stream().map(ChatMessage::getText).toList();
         messageSentListeners.stream()
-                .filter(v -> v == player.getVirtualView()).findAny().ifPresentOrElse(v -> v.onMessagesSentUpdate(senderNicknames, receiverNicknames, texts), () -> System.err.println("unable to notify about all messages"));
+                .forEach(v -> v.onMessagesSentUpdate(senderNicknames, receiverNicknames, texts));
     }
 
     private Set<Set<EntryPatternGoal>> findGroups(TileType[][] bookShelf){

@@ -409,14 +409,12 @@ public class BookShelf implements Serializable, OnUpdateNeededListener {
     @Override
     public void onUpdateNeededListener(Player player) {
         onBookShelfUpdatedListeners.stream()
-                .filter(v -> player.getVirtualView() == v)
-                .findAny()
-                .ifPresentOrElse(v ->
+                .forEach(v ->
                         v.onBookShelfUpdated(this.player.getNickName(),
                                 Arrays.stream(this.tileSubjectTaken)
                                         .map(TileSubject[]::clone)
-                                        .toArray(TileSubject[][]::new)),
-                        () -> System.err.println("no one to update about bookshelf refilled"));
+                                        .toArray(TileSubject[][]::new))
+                        );
 
     }
 
