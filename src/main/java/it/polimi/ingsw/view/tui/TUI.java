@@ -184,9 +184,7 @@ public class TUI extends UI implements Runnable{
                         }
                 }
             }
-        } catch (IOException | NotBoundException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
+        } catch (IOException | NotBoundException | ClassNotFoundException | InterruptedException e) {
             throw new RuntimeException(e);
         }
 
@@ -520,19 +518,33 @@ public class TUI extends UI implements Runnable{
     }
 
     private void printLineBookShelf(int row, char[][] matrix) {
-        for(int j = 0; j < DIMCOL_BOOKSHELF; j++){
-            if( j == 0 )
-                out.print( colorize("║", Attribute.TEXT_COLOR(245,245,246)) + toPrintChar(matrix[row][j]) + colorize("║", Attribute.TEXT_COLOR(245,245,246)));
-            else if( j < DIMCOL_BOOKSHELF - 1 )
-                out.print( toPrintChar(matrix[row][j]) + colorize("║", Attribute.TEXT_COLOR(245,245,246)) );
-            else
-                out.print( toPrintChar(matrix[row][j]) + colorize("║", Attribute.TEXT_COLOR(245,245,246)) );
+        if(matrix!=null) {
+            for (int j = 0; j < DIMCOL_BOOKSHELF; j++) {
+                if (j == 0)
+                    out.print(colorize("║", Attribute.TEXT_COLOR(245, 245, 246)) + toPrintChar(matrix[row][j]) + colorize("║", Attribute.TEXT_COLOR(245, 245, 246)));
+                else if (j < DIMCOL_BOOKSHELF - 1)
+                    out.print(toPrintChar(matrix[row][j]) + colorize("║", Attribute.TEXT_COLOR(245, 245, 246)));
+                else
+                    out.print(toPrintChar(matrix[row][j]) + colorize("║", Attribute.TEXT_COLOR(245, 245, 246)));
+            }
         }
     }
 
     private void printOthersBookShelf(String nickname1, String nickname2, String nickname3, char[][] bookShelf1, char[][] bookShelf2, char[][] bookShelf3){
-        out.println("                       " + nickname1 + ":                      " + nickname2 + ":                       " + nickname3 + ":");
-        out.println("               " + getDividerBookShelf(0) + "               " + getDividerBookShelf(0) + "               " + getDividerBookShelf(0));
+        out.println("                       " + nickname1 + "                      " + nickname2 + "                       " + nickname3 );
+        if(bookShelf1==null && bookShelf2==null && bookShelf3==null){
+            out.println("There aren't other players yet.");
+        }
+        if(bookShelf1!=null) {
+            out.print("               " + getDividerBookShelf(0) + "               ");
+        }
+        if(bookShelf2!=null){
+            out.print(getDividerBookShelf(0) + "               ");
+        }
+        if(bookShelf3!=null) {
+            out.print(getDividerBookShelf(0));
+        }
+        out.println();
         for(int i = 0; i < DIMROW_BOOKSHELF; i++){
             if(bookShelf1!=null){
                 out.print("               ");
@@ -562,7 +574,7 @@ public class TUI extends UI implements Runnable{
         }
     }
 
-    private void printOthersPoint(String nickname1, String nickname2, String nickname3, List<Integer> pointPlayer1, List<Integer> pointPlayer2, List<Integer> pointPlayer3, int total1, int total2, int total3){
+    private void printOthersPoint(String nickname1, String nickname2, String nickname3, List<Integer> pointPlayer1, List<Integer> pointPlayer2, List<Integer> pointPlayer3, Integer total1, Integer total2, Integer total3){
         out.print("                 ");
         out.println(nickname1 + "        " + nickname2 + "        " + nickname3);
         //inizio
@@ -570,27 +582,37 @@ public class TUI extends UI implements Runnable{
         printPoint(pointPlayer1, 0);
         printPoint(pointPlayer2, 0);
         printPoint(pointPlayer3, 0);
+        out.println();
         out.print("Common Goal 2:  ");
         printPoint(pointPlayer1, 1);
         printPoint(pointPlayer2, 1);
         printPoint(pointPlayer3, 1);
+        out.println();
         out.print("End Game:       ");
         printPoint(pointPlayer1, 2);
         printPoint(pointPlayer2, 2);
         printPoint(pointPlayer3, 2);
+        out.println();
         out.print("Personal goal:  ");
         printPoint(pointPlayer1, 3);
         printPoint(pointPlayer2, 3);
         printPoint(pointPlayer3, 3);
+        out.println();
         out.print("Adjacent Tiles: ");
         printPoint(pointPlayer1, 4);
         printPoint(pointPlayer2, 4);
         printPoint(pointPlayer3, 4);
         out.println();
         out.println("Total points:   ");
-        out.print(total1+ " " + printPointOrPoints(total1) + "        ");
-        out.print(total2+ " " + printPointOrPoints(total2) + "        ");
-        out.print(total3+ " " + printPointOrPoints(total3) + "        ");
+        if(total1 != null) {
+            out.print(total1 + " " + printPointOrPoints(total1) + "        ");
+        }
+        if(total2 != null) {
+            out.print(total2 + " " + printPointOrPoints(total2) + "        ");
+        }
+        if(total3 != null) {
+            out.print(total3 + " " + printPointOrPoints(total3) + "        ");
+        }
         out.println();
     }
 
@@ -664,7 +686,7 @@ public class TUI extends UI implements Runnable{
     }
 
     private String printPointOrPoints(int point){
-        if(point == 0) return " point";
+        if(point == 1) return " point";
         if(point == -1) return "";
         return " points";
     }
@@ -681,10 +703,8 @@ public class TUI extends UI implements Runnable{
 
     private List<String> getOtherPlayer(){
         List<String> nicknames = new ArrayList<>(getModel().getPlayers().stream().filter(n -> !n.equals(getModel().getThisPlayer())).toList());
-        if(nicknames.size() <= 2){
-            while(nicknames.size()-3 < 0){
-                nicknames.add("");
-            }
+        while(nicknames.size()-3 < 0){
+            nicknames.add("");
         }
         return nicknames;
     }
@@ -704,9 +724,9 @@ public class TUI extends UI implements Runnable{
     private List<List<Integer>> getOtherPoints(){
         List<String> nicknames = getOtherPlayer();
         List<List<Integer>> points = new ArrayList<>();
-        List<Integer> pointPlayer1 = getModel().getPlayersPoints().get(nicknames.get(0));
-        List<Integer> pointPlayer2 = getModel().getPlayersPoints().get(nicknames.get(1));
-        List<Integer> pointPlayer3 = getModel().getPlayersPoints().get(nicknames.get(2));
+        List<Integer> pointPlayer1 = getModel().getPlayersPointsByNickname(nicknames.get(0));
+        List<Integer> pointPlayer2 = getModel().getPlayersPointsByNickname(nicknames.get(1));
+        List<Integer> pointPlayer3 = getModel().getPlayersPointsByNickname(nicknames.get(2));
         points.add(pointPlayer1);
         points.add(pointPlayer2);
         points.add(pointPlayer3);

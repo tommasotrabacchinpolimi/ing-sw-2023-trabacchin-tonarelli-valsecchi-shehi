@@ -108,6 +108,8 @@ public class Client implements ClientInterface, LogicInterface {
 
     @Override
     public void onBookShelfUpdated(String nickname, TileSubject[][] bookShelf) {
+        System.out.println("update about " + nickname + "bookshelf");
+
         viewData.getBookShelves().computeIfAbsent(nickname, k -> new TileSubject[6][5]);
         for(int i = 0;i < bookShelf.length; i++) {
             for(int j = 0; j < bookShelf[0].length; j++) {

@@ -86,8 +86,10 @@ public class InitGameManager extends GameManager {
             registerListeners(view, nickname);
             registerInternalListener(newPlayer);
             listenersSetUp(newPlayer);
+            newPlayer.getBookShelf().initTileSubjectTaken();
             newPlayer.setPlayerState(PlayerState.CONNECTED);
         }
+
         if(getController().getState().getPlayers().size() == getController().getState().getPlayersNumber()) {
             getController().getState().setCommonGoal1(commonGoalsDeck.remove(0));
             getController().getState().setCommonGoal2(commonGoalsDeck.remove(0));
@@ -127,12 +129,18 @@ public class InitGameManager extends GameManager {
         player.setOnUpdateNeededListener(player.getBookShelf());
         player.setOnUpdateNeededListener(player.getPointPlayer());
         getController().getState().getPlayers().forEach(player::setOnUpdateNeededListener);
+        getController().getState().getPlayers().forEach(p -> player.setOnUpdateNeededListener(p.getBookShelf()));
+        getController().getState().getPlayers().forEach(p -> p.setOnUpdateNeededListener(player.getBookShelf()));
+        getController().getState().getPlayers().forEach(p -> player.setOnUpdateNeededListener(p.getPointPlayer()));
+        getController().getState().getPlayers().forEach((p -> p.setOnUpdateNeededListener(player.getPointPlayer())));
     }
 
     private void listenersSetUp(Player player) {
         List<ClientInterface> views = getController().getState().getPlayers().stream().filter(p->!player.getNickName().equals(p.getNickName())).map(Player::getVirtualView).toList();
         views.forEach(player::setOnPlayerStateChangedListener);
         views.forEach(v->player.getBookShelf().setOnBookShelfUpdated(v));
+        views.forEach(v->player.getPointPlayer().setOnPointsUpdatedListener(v));
+        views.forEach(v -> System.out.println("Register Listeners on "+player.getNickName() + " of "+ getController().getState().getPlayerFromView(v).getNickName()));
     }
 
 }

@@ -210,9 +210,9 @@ public class Player implements Serializable, OnUpdateNeededListener {
 
     @Override
     public void onUpdateNeededListener(Player player) {
-        onPlayerStateChangedListeners.stream().filter(v-> player.getVirtualView() == v).findAny().ifPresentOrElse(v->v.onPlayerStateChanged(this.nickName,this.playerState),()->System.err.println("unable to update about player state changed"));
+        onPlayerStateChangedListeners.stream().filter(v -> player.getVirtualView() == v).findAny().ifPresentOrElse(v->v.onPlayerStateChanged(this.nickName,this.playerState),()->System.err.println("unable to update about player state changed"));
         if(this.personalGoal != null) {
-            onAssignedPersonalGoalListeners.stream().filter(v->player.getVirtualView() == v).findAny().ifPresentOrElse(v->v.onAssignedPersonalGoal(this.nickName,this.personalGoal.getGoalPattern(), this.personalGoal.getScoreMap()),()->System.err.println("unable to notify about assigned personal goal"));
+            onAssignedPersonalGoalListeners.stream().filter(v -> player.getVirtualView() == v).findAny().ifPresentOrElse(v->v.onAssignedPersonalGoal(this.nickName,this.personalGoal.getGoalPattern(), this.personalGoal.getScoreMap()),()->System.err.println("unable to notify about assigned personal goal"));
         }
     }
 

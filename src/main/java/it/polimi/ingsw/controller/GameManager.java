@@ -56,8 +56,6 @@ public abstract class GameManager {
         getController().getState().getBoard().setOnBoardRefilledListener(view);
         getController().getState().getBoard().removeOnBoardUpdatedListener(oldView);
         getController().getState().getBoard().setOnBoardUpdatedListener(view);
-        getController().getState().getPlayers().forEach(p -> p.getBookShelf().removeOnBookShelfUpdated(oldView));
-        getController().getState().getPlayers().forEach(p-> p.getBookShelf().setOnBookShelfUpdated(view));
         getController().getState().removeOnChangedCommonGoalAvailableScoreListener(oldView);
         getController().getState().setOnChangedCommonGoalAvailableScoreListener(view);
         getController().getState().removeOnCurrentPlayerChangedListener(oldView);
@@ -66,15 +64,31 @@ public abstract class GameManager {
         getController().getState().setLastPlayerUpdatedListener(view);
         getController().getState().removeMessageSentListener(oldView);
         getController().getState().setMessageSentListener(view);
-        getController().getState().getPlayers().forEach(p->p.removeOnPlayerStateChangedListener(oldView));
-        getController().getState().getPlayers().forEach(p->p.setOnPlayerStateChangedListener(view));
-        getController().getState().getPlayers().forEach(p->p.getPointPlayer().removeOnPointsUpdatedListener(oldView));
-        getController().getState().getPlayers().forEach(p->p.getPointPlayer().setOnPointsUpdatedListener(view));
         getController().getState().removeStateChangedListener(oldView);
         getController().getState().setStateChangedListener(view);
         getController().getState().removeOnExceptionsListener(oldView);
         getController().getState().setOnExceptionsListener(view);
         getController().getState().removeOnWinnerChangedListener(oldView);
         getController().getState().setOnWinnerChangedListener(view);
+
+        for(Player p : getController().getState().getPlayers()){
+            p.getBookShelf().removeOnBookShelfUpdated(oldView);
+            p.getBookShelf().setOnBookShelfUpdated(view);
+        }
+        for(Player p : getController().getState().getPlayers()){
+            System.out.println("...Register Listeners on "+p.getNickName() + " of "+ getController().getState().getPlayerFromView(oldView).getNickName());
+            p.removeOnPlayerStateChangedListener(oldView);
+            p.setOnPlayerStateChangedListener(view);
+        }
+        for(Player p : getController().getState().getPlayers()){
+            p.getPointPlayer().removeOnPointsUpdatedListener(oldView);
+            p.getPointPlayer().setOnPointsUpdatedListener(view);
+        }
+        //getController().getState().getPlayers().forEach(p -> p.getBookShelf().removeOnBookShelfUpdated(oldView));
+        //getController().getState().getPlayers().forEach(p-> p.getBookShelf().setOnBookShelfUpdated(view));
+       // getController().getState().getPlayers().forEach(p->p.removeOnPlayerStateChangedListener(oldView));
+        //getController().getState().getPlayers().forEach(p->p.setOnPlayerStateChangedListener(view));
+        //getController().getState().getPlayers().forEach(p->p.getPointPlayer().removeOnPointsUpdatedListener(oldView));
+        //getController().getState().getPlayers().forEach(p->p.getPointPlayer().setOnPointsUpdatedListener(view));
     }
 }
