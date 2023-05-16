@@ -50,7 +50,7 @@ public class SuspendedGameManager extends GameManager {
     }
 
     private boolean checkIfNotSuspended(){
-        int numberPlayerConnected = (int)getController().getState().getPlayers().stream().filter(player -> player.getPlayerState()==PlayerState.CONNECTED).count();
+        int numberPlayerConnected = (int) getController().getState().getPlayers().stream().filter(player -> player.getPlayerState()==PlayerState.CONNECTED).count();
         return numberPlayerConnected > 1;
     }
 

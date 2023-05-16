@@ -129,6 +129,7 @@ public class InitGameManager extends GameManager {
         player.setOnUpdateNeededListener(player.getBookShelf());
         player.setOnUpdateNeededListener(player.getPointPlayer());
         getController().getState().getPlayers().forEach(player::setOnUpdateNeededListener);
+        getController().getState().getPlayers().forEach(p -> p.setOnUpdateNeededListener(player));
         getController().getState().getPlayers().forEach(p -> player.setOnUpdateNeededListener(p.getBookShelf()));
         getController().getState().getPlayers().forEach(p -> p.setOnUpdateNeededListener(player.getBookShelf()));
         getController().getState().getPlayers().forEach(p -> player.setOnUpdateNeededListener(p.getPointPlayer()));
