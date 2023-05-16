@@ -17,10 +17,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Client implements ClientInterface, LogicInterface {
     private final UI ui;
@@ -201,9 +198,21 @@ public class Client implements ClientInterface, LogicInterface {
 
     @Override
     public void sentMessage(String text, String[] receiversNickname) {
-        List<String> receivers = Arrays.stream(receiversNickname).toList();
-        viewData.addMessage(new Triple<>(viewData.getThisPlayer(), receivers , text));
-        server.sentMessage(text, receiversNickname);
+        List<String> receivers = new ArrayList<>();
+        for(String nick : receiversNickname) {
+            if(nick!=null){
+                receivers.add(nick);
+            }
+        }
+        String[] r = new String[receivers.size()];
+        int i = 0;
+        for(String nick : receivers) {
+            r[i] = nick;
+            i++;
+        }
+
+        //viewData.addMessage(new Triple<>(viewData.getThisPlayer(), receivers , text));
+        server.sentMessage(text, r);
     }
 
     @Override

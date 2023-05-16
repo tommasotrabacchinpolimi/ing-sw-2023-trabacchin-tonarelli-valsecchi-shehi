@@ -45,9 +45,10 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
             for (Coordinate tile : chosenTiles) {
                 tiles.add(board.getTileSubjectInBoard(tile.getX(), tile.getY()));
             }
-            board.removeSelectedTileSubject(chosenTiles);
             BookShelf bookShelf = player.getBookShelf();
             InputCheck.checkActiveTilesInBoard(chosenTiles, bookShelf.getTileSubjectTaken(),board.getBoard());
+            board.removeSelectedTileSubject(chosenTiles);
+
             bookShelf.addTileSubjectTaken(tiles, chosenColumn);
             verifyFinalGame(user);
             if (verifyRefillBoard() && getController().getState().getGameState()!=GameState.END) {

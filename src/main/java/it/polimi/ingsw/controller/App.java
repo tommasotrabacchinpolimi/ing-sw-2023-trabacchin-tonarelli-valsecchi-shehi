@@ -65,6 +65,7 @@ public class App {
 
         new Thread(socketAccepter).start();
 
+
         System.out.println("Server pronto");
     }
 }

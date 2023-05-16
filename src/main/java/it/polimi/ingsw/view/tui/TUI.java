@@ -76,7 +76,7 @@ public class TUI extends UI implements Runnable{
     @Override
     protected void onCurrentPlayerChanged(String newCurrentPlayer) {
         lock.lock();
-        out.println("New Current Player is "+ newCurrentPlayer);
+        out.println("There is a new current player, please refresh the page...");
         lock.unlock();
     }
 
@@ -149,19 +149,24 @@ public class TUI extends UI implements Runnable{
                         }
                         break;
                     case "play":
-                        out.println("It's your turn to play! Please enter the coordinate of the tiles you want to take from the board, then type" + colorize("fine", Attribute.BOLD()));
+                        out.println("It's your turn to play! Please enter the coordinate of the tiles you want to take from the board, then type " + colorize("fine", Attribute.BOLD()));
                         List<Coordinate> tiles = new ArrayList<>();
-                        String coord = readLine();
-                        while (!coord.equals("fine")) {
-                            tiles.add(new Coordinate(coord.charAt(0) - 'A', coord.charAt(1)));
+                        String coord = "";
+
+                        while (true) {
+                            coord = readLine();
+                            if(coord.equals("fine")){
+                                break;
+                            }
+                            tiles.add(new Coordinate(coord.charAt(0) - 'A', Integer.parseInt(String.valueOf(coord.charAt(1)))-1 ));
                         }
                         out.println("Now enter the number, between 1 and 5, of the column of your bookshelf where to insert the chosen tiles:");
                         String num = readLine();
                         while (!num.equals("1") && !num.equals("2") && !num.equals("3") && !num.equals("4") && !num.equals("5")) {
-                            out.println("Something went wrong, please again the number:");
+                            out.println("Something went wrong, please enter again the number:");
                             num = readLine();
                         }
-                        int n = num.charAt(0);
+                        int n = Integer.parseInt(String.valueOf(num.charAt(0)))-1;
                         out.println("Moving the tiles from the board to you bookshelf...");
                         getLogicController().dragTilesToBookShelf(tiles, n);
                         break;
