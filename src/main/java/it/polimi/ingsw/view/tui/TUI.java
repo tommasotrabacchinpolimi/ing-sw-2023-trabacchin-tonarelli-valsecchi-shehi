@@ -379,7 +379,7 @@ public class TUI extends UI implements Runnable{
     private void printBoardBookShelfPersonalGoal(char[][] board, char[][] bookshelf, char[][] personalGoal){
         out.println("             Living Room Board:                           Your BookShelf:                   Your Personal Goal:");
         out.println("     1   2   3   4   5   6   7   8   9                   1   2   3   4   5                " );
-        out.println(getDividerBoard(0) + "               " + getDividerBookShelf(0) + "               " + getDividerBookShelf(0));
+        out.println(getDividerBoard(0) + "               " + getDividerBookShelf(0) + "               " + getDividerPersonalGoal(0));
 
         for( int i = 0; i < DIM_BOARD; ++i ){
             printLineBoard(i, board);
@@ -388,7 +388,7 @@ public class TUI extends UI implements Runnable{
             if(i < 6){
                 printLineBookShelf(i,bookshelf);
                 out.print("               ");
-                printLineBookShelf(i,personalGoal);
+                printLinePersonalGoal(i,personalGoal);
             } else if (i==6){
                 out.print("                                     ");
                 out.print("Personal Goal Points:");
@@ -401,7 +401,7 @@ public class TUI extends UI implements Runnable{
 
             if( i < DIM_BOARD - 1){
                 if(i < 6)
-                    out.println(getDividerBoard(i+1) + "               "+ getDividerBookShelf(i+1) +"               "+ getDividerBookShelf(i+1) );
+                    out.println(getDividerBoard(i+1) + "               "+ getDividerBookShelf(i+1) +"               "+ getDividerPersonalGoal(i+1) );
                 else if (i==6) {
                     out.println(getDividerBoard(i+1) + "               " + "Legend:         \t \t \t \t \t \t # 1 | 2 | 3 | 4 | 5 | 6");
                 } else {
@@ -456,6 +456,15 @@ public class TUI extends UI implements Runnable{
             case 0 -> { return colorize("╔═══╦═══╦═══╦═══╦═══╗", Attribute.TEXT_COLOR(245,245,246)); }
             case 1, 2, 3, 4, 5 -> { return colorize("╠═══╬═══╬═══╬═══╬═══╣", Attribute.TEXT_COLOR(245,245,246)); }
             case 6 -> { return colorize("╚═══╩═══╩═══╩═══╩═══╝", Attribute.TEXT_COLOR(245,245,246)); }
+            default -> { return ""; }
+        }
+    }
+
+    private String getDividerPersonalGoal(int row){
+        switch (row){
+            case 0 -> { return colorize("┌───┬───┬───┬───┬───┐", Attribute.TEXT_COLOR(245,245,246)); }
+            case 1, 2, 3, 4, 5 -> { return colorize("├───┼───┼───┼───┼───┤", Attribute.TEXT_COLOR(245,245,246)); }
+            case 6 -> { return colorize("└───┴───┴───┴───┴───┘", Attribute.TEXT_COLOR(245,245,246)); }
             default -> { return ""; }
         }
     }
@@ -517,6 +526,19 @@ public class TUI extends UI implements Runnable{
         out.print(result.toString());
     }
 
+    private void printLinePersonalGoal(int row, char[][] matrix){
+        if(matrix!=null) {
+            for (int j = 0; j < DIMCOL_BOOKSHELF; j++) {
+                if (j == 0)
+                    out.print(colorize("│", Attribute.TEXT_COLOR(245, 245, 246)) + toPrintChar(matrix[row][j]) + colorize("│", Attribute.TEXT_COLOR(245, 245, 246)));
+                else if (j < DIMCOL_BOOKSHELF - 1)
+                    out.print(toPrintChar(matrix[row][j]) + colorize("│", Attribute.TEXT_COLOR(245, 245, 246)));
+                else
+                    out.print(toPrintChar(matrix[row][j]) + colorize("│", Attribute.TEXT_COLOR(245, 245, 246)));
+            }
+        }
+    }
+
     private void printLineBookShelf(int row, char[][] matrix) {
         if(matrix!=null) {
             for (int j = 0; j < DIMCOL_BOOKSHELF; j++) {
@@ -531,7 +553,21 @@ public class TUI extends UI implements Runnable{
     }
 
     private void printOthersBookShelf(String nickname1, String nickname2, String nickname3, char[][] bookShelf1, char[][] bookShelf2, char[][] bookShelf3){
-        out.println("                       " + nickname1 + "                      " + nickname2 + "                       " + nickname3 );
+        out.print("               " + nickname1);
+        // 21 space for divider
+        int l = 20;
+        while( l - nickname1.length() > 0){
+            out.print(" ");
+            l--;
+        }
+        out.print( "               " + nickname2);
+        l = 20;
+        while( l - nickname2.length() > 0){
+            out.print(" ");
+            l--;
+        }
+        out.println("               " + nickname3);
+
         if(bookShelf1==null && bookShelf2==null && bookShelf3==null){
             out.println("There aren't other players yet.");
         }
@@ -575,35 +611,35 @@ public class TUI extends UI implements Runnable{
     }
 
     private void printOthersPoint(String nickname1, String nickname2, String nickname3, List<Integer> pointPlayer1, List<Integer> pointPlayer2, List<Integer> pointPlayer3, Integer total1, Integer total2, Integer total3){
-        out.print("                 ");
+        out.print("                  ");
         out.println(nickname1 + "        " + nickname2 + "        " + nickname3);
         //inizio
-        out.print("Common Goal 1:  ");
+        out.print("Common Goal 1:   ");
         printPoint(pointPlayer1, 0);
         printPoint(pointPlayer2, 0);
         printPoint(pointPlayer3, 0);
         out.println();
-        out.print("Common Goal 2:  ");
+        out.print("Common Goal 2:   ");
         printPoint(pointPlayer1, 1);
         printPoint(pointPlayer2, 1);
         printPoint(pointPlayer3, 1);
         out.println();
-        out.print("End Game:       ");
+        out.print("End Game:        ");
         printPoint(pointPlayer1, 2);
         printPoint(pointPlayer2, 2);
         printPoint(pointPlayer3, 2);
         out.println();
-        out.print("Personal goal:  ");
+        out.print("Personal goal:   ");
         printPoint(pointPlayer1, 3);
         printPoint(pointPlayer2, 3);
         printPoint(pointPlayer3, 3);
         out.println();
-        out.print("Adjacent Tiles: ");
+        out.print("Adjacent Tiles:  ");
         printPoint(pointPlayer1, 4);
         printPoint(pointPlayer2, 4);
         printPoint(pointPlayer3, 4);
         out.println();
-        out.println("Total points:   ");
+        out.println("Total points:    ");
         if(total1 != null) {
             out.print(total1 + " " + printPointOrPoints(total1) + "        ");
         }
