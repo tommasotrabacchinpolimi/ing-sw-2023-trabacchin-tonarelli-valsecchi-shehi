@@ -76,7 +76,7 @@ public abstract class GameManager {
             p.getBookShelf().setOnBookShelfUpdated(view);
         }
         for(Player p : getController().getState().getPlayers()){
-            System.out.println("...Register Listeners on "+p.getNickName() + " of "+ getController().getState().getPlayerFromView(oldView).getNickName());
+            //System.out.println("...Register Listeners on "+p.getNickName() + " of "+ getController().getState().getPlayerFromView(oldView).getNickName());
             p.removeOnPlayerStateChangedListener(oldView);
             p.setOnPlayerStateChangedListener(view);
         }

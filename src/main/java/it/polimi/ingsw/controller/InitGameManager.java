@@ -27,7 +27,6 @@ public class InitGameManager extends GameManager {
         super(controller);
         initPersonalGoals();
         initCommonGoals();
-
     }
 
     private void initPersonalGoals() throws FileNotFoundException {
@@ -94,9 +93,12 @@ public class InitGameManager extends GameManager {
             getController().getState().setCommonGoal1(commonGoalsDeck.remove(0));
             getController().getState().setCommonGoal2(commonGoalsDeck.remove(0));
             getController().getState().getBoard().refillBoard(getController().getState().getPlayersNumber());
+            for(Player rPlayer : getController().getState().getPlayers()) {
+                rPlayer.setPersonalGoal(personalGoalsDeck.remove(0));
+            }
             Collections.rotate(getController().getState().getPlayers(), new Random().nextInt(6));
             if(checkIfNotSuspended()){
-                System.out.println("state updated");
+                //System.out.println("state updated");
                 getController().getState().setGameState(GameState.MID);
                 getController().setGameManager(new MidGameManager<>(getController()));
             } else {
@@ -104,10 +106,9 @@ public class InitGameManager extends GameManager {
                 getController().setGameManager(new SuspendedGameManager(getController(), GameState.MID));
             }
 
-            //getController().getState().setCurrentPlayer(getController().getState().getPlayers().get(0));
-            for(Player rPlayer : getController().getState().getPlayers()) {
-                rPlayer.setPersonalGoal(personalGoalsDeck.remove(0));
-            }
+            //for(Player rPlayer : getController().getState().getPlayers()) {
+            //    rPlayer.setPersonalGoal(personalGoalsDeck.remove(0));
+            //}
 
         }
 
@@ -141,7 +142,7 @@ public class InitGameManager extends GameManager {
         views.forEach(player::setOnPlayerStateChangedListener);
         views.forEach(v->player.getBookShelf().setOnBookShelfUpdated(v));
         views.forEach(v->player.getPointPlayer().setOnPointsUpdatedListener(v));
-        views.forEach(v -> System.out.println("Register Listeners on "+player.getNickName() + " of "+ getController().getState().getPlayerFromView(v).getNickName()));
+        //views.forEach(v -> System.out.println("Register Listeners on "+player.getNickName() + " of "+ getController().getState().getPlayerFromView(v).getNickName()));
     }
 
 }

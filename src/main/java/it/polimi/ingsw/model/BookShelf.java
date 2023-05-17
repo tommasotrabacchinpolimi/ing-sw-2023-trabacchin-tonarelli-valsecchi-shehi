@@ -343,7 +343,6 @@ public class BookShelf implements Serializable, OnUpdateNeededListener {
                 .toArray(TileSubject[][]::new);
 
         for(OnBookShelfUpdatedListener onBookShelfUpdatedListener : onBookShelfUpdatedListeners) {
-            System.out.println("bookshelf listener notified");
             onBookShelfUpdatedListener.onBookShelfUpdated(player.getNickName(), tileSubjects);
         }
     }

@@ -9,7 +9,6 @@ import java.util.List;
 public class InputCheck {
     
     public static void checkActiveTilesInBoard(List<Coordinate> chosenTiles, TileSubject[][] bookShelf, TileSubject[][] board) throws WrongChosenTilesFromBoardException {
-        System.out.println(chosenTiles.toString());
         if(chosenTiles.size() == 0){
             throw new WrongChosenTilesFromBoardException("You haven't chosen any tiles from the board!");
         }
@@ -46,7 +45,6 @@ public class InputCheck {
                 }
             }
         }
-        System.out.println(result.toString());
         return result;
     }
 
