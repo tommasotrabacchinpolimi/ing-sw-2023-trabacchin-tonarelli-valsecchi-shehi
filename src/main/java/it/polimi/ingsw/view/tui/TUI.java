@@ -240,7 +240,7 @@ public class TUI extends UI implements Runnable{
         choice = readLine();
         switch (choice) {
             case "1" -> {
-                out.println("So you need to let us know with how many people you want to play with (it has to be a number between 1 and 3) :");
+                out.println("So you need to choose how many people there will be in the game (it has to be a number between 2 and 4, including you) :");
                 int numberOfPlayer = Integer.parseInt(readLine());
                 getLogicController().createGame(nickname, numberOfPlayer);
             }
@@ -271,13 +271,13 @@ public class TUI extends UI implements Runnable{
         List<Integer> points = getModel().getPlayersPoints().get(getModel().getThisPlayer());
         if(points!=null) {
             out.println(colorize("Your points: ",Attribute.BOLD()));
-            out.println("Common Goal 1 = " + points.get(0) + printPointOrPoints(points.get(0)));
-            out.println("Common Goal 2 = " + points.get(1) + printPointOrPoints(points.get(1)));
-            out.println("End Game = " + points.get(2) + printPointOrPoints(points.get(2)));
-            out.println("Personal Goal = " + points.get(3) + printPointOrPoints(points.get(3)));
-            out.println("Adjacent Tiles = " + points.get(4) + printPointOrPoints(points.get(4)));
+            out.println("Common Goal 1 =  " + points.get(0) + printPointOrPoints(points.get(0)));
+            out.println("Common Goal 2 =  " + points.get(1) + printPointOrPoints(points.get(1)));
+            out.println("End Game =       " + points.get(2) + printPointOrPoints(points.get(2)));
+            out.println("Adjacent Tiles = " + points.get(3) + printPointOrPoints(points.get(3)));
+            out.println("Personal Goal =  " + points.get(4) + printPointOrPoints(points.get(4)));
             int totalScore = getModel().getTotalPointByNickname(getModel().getThisPlayer());
-            out.println("Total Points = " + totalScore + printPointOrPoints(totalScore));
+            out.println("Total Points =   " + totalScore + printPointOrPoints(totalScore));
         }
 
         if(getModel().getCommonGoals()[0]!=null || getModel().getCommonGoals()[1]!=null) {
@@ -308,6 +308,9 @@ public class TUI extends UI implements Runnable{
         System.out.print(colorize("MY SHELFIE: CHAT", Attribute.GREEN_BACK()));
         System.out.println(colorize("                                                                     ", Attribute.GREEN_BACK()));
         List<Triple<String, List<String>, String>> messages = getModel().getMessages();
+        if(messages == null){
+            System.out.println("There aren't any messages yet.");
+        }
         for(Triple<String, List<String>, String> message : messages){
             if(message.getSecond().contains(getModel().getThisPlayer())){
                 String sender = message.getFirst();
@@ -315,10 +318,10 @@ public class TUI extends UI implements Runnable{
                 if(sender.equals(getModel().getThisPlayer())){
                     sender = "You";
                     if(priv.equals("(private)")){
-                        priv = "("+ colorize("private with " + message.getSecond().get(0),Attribute.ITALIC()) + ")";
+                        priv = "("+ colorize("private with " + message.getSecond().get(0),Attribute.ITALIC()) + ") ";
                     }
                 }
-                out.println(sender + priv + message.getThird());
+                out.println(colorize(sender + priv, Attribute.BLUE_TEXT()) + " " + message.getThird());
             }
         }
         out.println(colorize("<--There aren't any more messages. If you want to return to the homepage, please type 'exit'.-->",Attribute.BOLD()));
@@ -556,13 +559,13 @@ public class TUI extends UI implements Runnable{
         out.print("               " + nickname1);
         // 21 space for divider
         int l = 20;
-        while( l - nickname1.length() > 0){
+        while( l - nickname1.length() >= 0){
             out.print(" ");
             l--;
         }
         out.print( "               " + nickname2);
         l = 20;
-        while( l - nickname2.length() > 0){
+        while( l - nickname2.length() >= 0){
             out.print(" ");
             l--;
         }
@@ -611,43 +614,53 @@ public class TUI extends UI implements Runnable{
     }
 
     private void printOthersPoint(String nickname1, String nickname2, String nickname3, List<Integer> pointPlayer1, List<Integer> pointPlayer2, List<Integer> pointPlayer3, Integer total1, Integer total2, Integer total3){
-        out.print("                  ");
-        out.println(nickname1 + "        " + nickname2 + "        " + nickname3);
-        //inizio
-        out.print("Common Goal 1:   ");
+        out.print("                 " + nickname1);
+        int l = 9;
+        while( l - nickname1.length() > 0){
+            out.print(" ");
+            l--;
+        }
+        out.print("               " + nickname2);
+        l = 9;
+        while( l - nickname2.length() > 0){
+            out.print(" ");
+            l--;
+        }
+        out.println("               " + nickname3);
+        out.print("Adjacent Tiles:  ");
         printPoint(pointPlayer1, 0);
         printPoint(pointPlayer2, 0);
         printPoint(pointPlayer3, 0);
         out.println();
-        out.print("Common Goal 2:   ");
+        out.print("Common Goal 1:   ");
         printPoint(pointPlayer1, 1);
         printPoint(pointPlayer2, 1);
         printPoint(pointPlayer3, 1);
         out.println();
-        out.print("End Game:        ");
+        out.print("Common Goal 2:   ");
         printPoint(pointPlayer1, 2);
         printPoint(pointPlayer2, 2);
         printPoint(pointPlayer3, 2);
         out.println();
-        out.print("Personal goal:   ");
+        out.print("End Game:        ");
         printPoint(pointPlayer1, 3);
         printPoint(pointPlayer2, 3);
         printPoint(pointPlayer3, 3);
         out.println();
-        out.print("Adjacent Tiles:  ");
+        out.print("Personal goal:   ");
         printPoint(pointPlayer1, 4);
         printPoint(pointPlayer2, 4);
         printPoint(pointPlayer3, 4);
         out.println();
-        out.println("Total points:    ");
+        out.print("Total points:    ");
         if(total1 != null) {
-            out.print(total1 + " " + printPointOrPoints(total1) + "        ");
+            out.print(total1 + " " + printPointOrPoints(total1) + "               ");
         }
         if(total2 != null) {
-            out.print(total2 + " " + printPointOrPoints(total2) + "        ");
+            out.print(total2 + " " + printPointOrPoints(total2) + "               ");
         }
         if(total3 != null) {
-            out.print(total3 + " " + printPointOrPoints(total3) + "        ");
+            out.print(total3 + " " + printPointOrPoints(total3));
         }
         out.println();
     }
@@ -722,14 +735,14 @@ public class TUI extends UI implements Runnable{
     }
 
     private String printPointOrPoints(int point){
-        if(point == 1) return " point";
+        if(point == 1) return " point ";
         if(point == -1) return "";
         return " points";
     }
 
     private void printPoint(List<Integer> point, int index){
         if(point != null)
-            out.print(point.get(index) + " " + printPointOrPoints(point.get(index)) + "        ");
+            out.print(point.get(index) + " " + printPointOrPoints(point.get(index)) + "               ");
     }
 
     private String privateOrPublicMessage(List<String> receivers){
