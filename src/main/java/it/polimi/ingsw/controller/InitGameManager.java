@@ -100,18 +100,13 @@ public class InitGameManager extends GameManager {
             if(checkIfNotSuspended()){
                 //System.out.println("state updated");
                 getController().getState().setGameState(GameState.MID);
+                getController().getGameManager().setNextCurrentPlayer();
                 getController().setGameManager(new MidGameManager<>(getController()));
             } else {
                 getController().getState().setGameState(GameState.SUSPENDED);
                 getController().setGameManager(new SuspendedGameManager(getController(), GameState.MID));
             }
-
-            //for(Player rPlayer : getController().getState().getPlayers()) {
-            //    rPlayer.setPersonalGoal(personalGoalsDeck.remove(0));
-            //}
-
         }
-
     }
 
     @Override

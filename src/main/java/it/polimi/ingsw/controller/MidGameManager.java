@@ -30,7 +30,6 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
         super(controller);
         disconnectedFromTheBeginning = false;
         timer = new Timer();
-        setNextCurrentPlayer();
     }
 
     @Override
@@ -48,8 +47,8 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
             BookShelf bookShelf = player.getBookShelf();
             InputCheck.checkActiveTilesInBoard(chosenTiles, bookShelf.getTileSubjectTaken(),board.getBoard());
             board.removeSelectedTileSubject(chosenTiles);
-
             bookShelf.addTileSubjectTaken(tiles, chosenColumn);
+
             verifyFinalGame(user);
             if (verifyRefillBoard() && getController().getState().getGameState()!=GameState.END) {
                 getController().getState().getBoard().refillBoard(getController().getState().getPlayersNumber());
@@ -91,16 +90,17 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
     }
 
     //metodo che dice se tutti i player tranne quello passato per parametro sono disconnessi
-    private synchronized void verifyAllDisconnectedPlayer(){
+    private synchronized boolean verifyAllDisconnectedPlayer(){
         Player player = getController().getState().getCurrentPlayer();
         for(Player p: getController().getState().getPlayers()){
             if(p != player && p.getPlayerState() != PlayerState.DISCONNECTED){
-                return;
+                return false;
             }
         }
         GameState gameState = getController().getState().getGameState();
         getController().getState().setGameState(GameState.SUSPENDED);
         getController().setGameManager(new SuspendedGameManager(getController(), gameState));
+        return true;
     }
 
     private void verifyCommonGoal(ClientInterface user){
@@ -182,7 +182,8 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
      */
     @Override
     protected synchronized void setNextCurrentPlayer() {
-        verifyAllDisconnectedPlayer();
+        if (verifyAllDisconnectedPlayer())
+            return;
         if(getController().getState().getGameState() == GameState.END) return;
 
         int n = getController().getState().getPlayersNumber();

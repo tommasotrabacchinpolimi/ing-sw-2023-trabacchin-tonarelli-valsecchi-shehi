@@ -38,7 +38,7 @@ public class SuspendedGameManager extends GameManager {
             player.setPlayerState(PlayerState.CONNECTED);
             if(checkIfNotSuspended()){
                 getController().getState().setGameState(previousGameState);
-
+                getController().getState().setCurrentPlayer(player);
                 getController().setGameManager(new MidGameManager<>(getController()));
             }
         }
