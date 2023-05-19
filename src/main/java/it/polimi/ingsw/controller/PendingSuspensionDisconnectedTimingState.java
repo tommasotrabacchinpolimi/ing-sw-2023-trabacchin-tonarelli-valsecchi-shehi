@@ -6,10 +6,8 @@ import it.polimi.ingsw.model.PlayerState;
 
 import java.util.TimerTask;
 
-public class DisconnectedTimingState extends TimingState{
-
-    public DisconnectedTimingState(TimingStateMachine timingStateMachine, Player previousPlayer) {
-
+public class PendingSuspensionDisconnectedTimingState extends TimingState{
+    public PendingSuspensionDisconnectedTimingState(TimingStateMachine timingStateMachine, Player previousPlayer) {
         super(timingStateMachine, previousPlayer);
         setTimerTask(new TimerTask() {
             @Override
@@ -19,14 +17,19 @@ public class DisconnectedTimingState extends TimingState{
         });
         getTimingStateMachine().registerTimerTask(getTimerTask(), 10 * 1000);
     }
+
     @Override
+
     public synchronized void timerGoOff() {
         if(isTriggered() || getTimingStateMachine().getController().getState().getGameState() == GameState.END){
             return;
         }
         setTriggered();
-        getTimingStateMachine().setTimingState(new InitTimingState(getTimingStateMachine(),getTimingStateMachine().getController().getState().getCurrentPlayer()));
-        getTimingStateMachine().getController().getGameManager().setNextCurrentPlayer();
+        System.out.println("suspending");
+        getTimingStateMachine().setTimingState(new InitTimingState(getTimingStateMachine(), getTimingStateMachine().getController().getState().getCurrentPlayer()));
+        GameState gameState = getTimingStateMachine().getController().getState().getGameState();
+        getTimingStateMachine().getController().getState().setGameState(GameState.SUSPENDED);
+        getTimingStateMachine().getController().setGameManager(new SuspendedGameManager(getTimingStateMachine().getController(), gameState));
     }
 
     @Override
@@ -41,16 +44,7 @@ public class DisconnectedTimingState extends TimingState{
     }
 
     @Override
-    public synchronized void currentPlayerChanged(Player player) {
-        if(isTriggered() || getTimingStateMachine().getController().getState().getGameState() == GameState.END){
-            return;
-        }
-        getTimerTask().cancel();
-        super.currentPlayerChanged(player);
-    }
-
-    @Override
     public boolean isDisconnectedTiming() {
-        return true;
+        return false;
     }
 }

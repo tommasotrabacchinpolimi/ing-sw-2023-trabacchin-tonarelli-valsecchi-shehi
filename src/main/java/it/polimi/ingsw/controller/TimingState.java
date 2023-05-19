@@ -14,9 +14,12 @@ public abstract class TimingState {
 
     private boolean ALREADY_TRIGGERED;
 
-    public TimingState(TimingStateMachine timingStateMachine) {
+    private final Player previousPlayer;
+
+    public TimingState(TimingStateMachine timingStateMachine, Player previousPlayer) {
         ALREADY_TRIGGERED = false;
         this.timingStateMachine = timingStateMachine;
+        this.previousPlayer = previousPlayer;
     }
     public TimingStateMachine getTimingStateMachine() {
         return timingStateMachine;
@@ -29,12 +32,25 @@ public abstract class TimingState {
     public abstract void timerGoOff() ;
 
     public void currentPlayerChanged(Player player) {
-
+        if(isTriggered() || getTimingStateMachine().getController().getState().getGameState() == GameState.END){
+            return;
+        }
+        setTriggered();
+        System.out.println("changing player");
         if(player.getPlayerState().equals(PlayerState.CONNECTED)) {
-            getTimingStateMachine().setTimingState(new ConnectedTimingState(getTimingStateMachine()));
+            System.out.println("connected " + player.getNickName());
+
+            getTimingStateMachine().setTimingState(new ConnectedTimingState(getTimingStateMachine(), getTimingStateMachine().getController().getState().getCurrentPlayer()));
         }
         else if(player.getPlayerState().equals(PlayerState.DISCONNECTED)) {
-            getTimingStateMachine().setTimingState(new DisconnectedTimingState(getTimingStateMachine()));
+            if(!getTimingStateMachine().getController().getGameManager().verifyAllDisconnectedPlayer(getPreviousPlayer())) {
+                System.out.println("disconnected");
+                getTimingStateMachine().setTimingState(new DisconnectedTimingState(getTimingStateMachine(), getTimingStateMachine().getController().getState().getCurrentPlayer()));
+            }
+            else {
+                System.out.println("pending suspension");
+                getTimingStateMachine().setTimingState(new PendingSuspensionDisconnectedTimingState(getTimingStateMachine(), getTimingStateMachine().getController().getState().getCurrentPlayer()));
+            }
         }
     }
 
@@ -55,5 +71,11 @@ public abstract class TimingState {
 
     protected boolean isTriggered() {
         return ALREADY_TRIGGERED;
+    }
+
+    public abstract boolean isDisconnectedTiming();
+
+    public Player getPreviousPlayer() {
+        return previousPlayer;
     }
 }

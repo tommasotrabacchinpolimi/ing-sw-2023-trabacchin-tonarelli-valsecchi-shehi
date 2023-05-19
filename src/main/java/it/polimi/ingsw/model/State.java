@@ -274,6 +274,7 @@ public class State implements Serializable, OnUpdateNeededListener {
     public void setCommonGoal1(CommonGoal commonGoal1) {
         this.commonGoal1 = commonGoal1;
         notifyAssignedCommonGoal();
+        notifyChangedCommonGoalAvailableScore(commonGoal1.getAvailableScore(), 1);
     }
 
     /**
@@ -295,6 +296,8 @@ public class State implements Serializable, OnUpdateNeededListener {
     public void setCommonGoal2(CommonGoal commonGoal2) {
         this.commonGoal2 = commonGoal2;
         notifyAssignedCommonGoal();
+        notifyChangedCommonGoalAvailableScore(commonGoal1.getAvailableScore(), 2);
+
     }
 
     /**
@@ -412,7 +415,7 @@ public class State implements Serializable, OnUpdateNeededListener {
 
        result = commonGoal1.rule(player.getBookShelf().toTileTypeMatrix());
        if(result != null && player.getPointPlayer().getScoreCommonGoal1() == 0){
-           newScore = commonGoal1.getAvailableScore();
+           newScore = commonGoal1.removeAvailableScore();
            if(newScore != 0) {
                player.getPointPlayer().setScoreCommonGoal1(newScore);
                notifyOnAchievedCommonGoal(result, player, 1);
@@ -422,7 +425,7 @@ public class State implements Serializable, OnUpdateNeededListener {
 
        result = commonGoal2.rule(player.getBookShelf().toTileTypeMatrix());
        if(result != null && player.getPointPlayer().getScoreCommonGoal2() == 0){
-           newScore = commonGoal2.getAvailableScore();
+           newScore = commonGoal2.removeAvailableScore();
            if(newScore != 0) {
                player.getPointPlayer().setScoreCommonGoal2(newScore);
                notifyOnAchievedCommonGoal(result, player, 2);

@@ -18,7 +18,7 @@ public class TimingStateMachine implements OnPlayerStateChangedListener, OnCurre
 
     public TimingStateMachine(Controller controller) {
         timer = new Timer();
-        timingState = new InitTimingState(this);
+        timingState = new InitTimingState(this, null);
         this.controller = controller;
     }
     @Override
@@ -50,5 +50,9 @@ public class TimingStateMachine implements OnPlayerStateChangedListener, OnCurre
 
     public void setController(Controller controller) {
         this.controller = controller;
+    }
+
+    public boolean isDisconnectedTiming() {
+        return timingState.isDisconnectedTiming();
     }
 }

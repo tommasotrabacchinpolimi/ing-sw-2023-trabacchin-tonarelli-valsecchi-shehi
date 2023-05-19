@@ -101,6 +101,14 @@ public abstract class CommonGoal implements Serializable {
         if(scoringTokens.size()==0)
             return 0;
         else {
+            return scoringTokens.peek();
+        }
+    }
+
+    public int removeAvailableScore() {
+        if(scoringTokens.size()==0)
+            return 0;
+        else {
             return scoringTokens.pop();
         }
     }
