@@ -1,12 +1,18 @@
 package it.polimi.ingsw.view.gui.board;
 
+import it.polimi.ingsw.view.gui.TileSubjectView;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
-public class BoardViewController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class BoardViewController implements Initializable {
 
     @FXML
     private StackPane rootPane;
@@ -152,4 +158,29 @@ public class BoardViewController {
     @FXML
     private StackPane itemTileBox85;
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        Platform.runLater(this::fillUpBoard);
+    }
+
+    private void fillUpBoard() {
+        new TileSubjectView(itemTileBox03, "cat_1");
+        new TileSubjectView(itemTileBox04, "cat_2");
+        new TileSubjectView(itemTileBox13, "cat_3");
+        new TileSubjectView(itemTileBox14, "book_1");
+        new TileSubjectView(itemTileBox15, "book_2");
+        new TileSubjectView(itemTileBox22, "book_3");
+        new TileSubjectView(itemTileBox23, "frame_1");
+        new TileSubjectView(itemTileBox24, "frame_2");
+        new TileSubjectView(itemTileBox25, "frame_3");
+        new TileSubjectView(itemTileBox26, "plant_1");
+        new TileSubjectView(itemTileBox31, "plant_2");
+        new TileSubjectView(itemTileBox32, "plant_3");
+        new TileSubjectView(itemTileBox33, "game_1");
+        new TileSubjectView(itemTileBox34, "game_2");
+        new TileSubjectView(itemTileBox35, "game_3");
+        new TileSubjectView(itemTileBox36, "trophy_1");
+        new TileSubjectView(itemTileBox37, "trophy_2");
+        new TileSubjectView(itemTileBox38, "trophy_3");
+    }
 }

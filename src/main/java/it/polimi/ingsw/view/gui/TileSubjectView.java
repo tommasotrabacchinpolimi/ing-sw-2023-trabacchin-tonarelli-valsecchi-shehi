@@ -12,9 +12,11 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+import java.net.URL;
+
 public class TileSubjectView extends Pane {
 
-    private static final String ITEM_TILE_PATH_FOLDER = "/graphical.resources/item.tiles/";
+    private static final String ITEM_TILE_PATH_FOLDER = "/it.polimi.ingsw/graphical.resources/item.tiles/";
 
     private StackPane parent;
 
@@ -30,7 +32,7 @@ public class TileSubjectView extends Pane {
         StackPane.setAlignment(this, Pos.CENTER);
 
         setStyle("-fx-padding: 1.9em;" +
-                "-fx-background-image: url('" + getClass().getResource(ITEM_TILE_PATH_FOLDER + fileName + ".png") + "');" +
+                "-fx-background-image: url('" + getImageFile(fileName) + "');" +
                 "-fx-background-repeat: no-repeat;" +
                 "-fx-background-position: center;" +
                 "-fx-background-size: cover;");
@@ -45,7 +47,7 @@ public class TileSubjectView extends Pane {
     }
 
     public TileSubjectView(StackPane parent) {
-        this(parent, "Gatti1.1");
+        this(parent, "error");
     }
 
     public void changeImage(String fileName) {
@@ -114,5 +116,17 @@ public class TileSubjectView extends Pane {
         private void onMouseClickedAction() {
             //Perform an action
         }
+    }
+
+    private URL getImageFile(String fileName) {
+
+        URL fileURL = getClass().getResource(ITEM_TILE_PATH_FOLDER + fileName + ".png");
+
+        if(fileURL == null) {
+            System.err.println("Image source not found");
+            fileURL = getClass().getResource("/it.polimi.ingsw/graphical.resources/tile.type/error_tile.png");
+        }
+
+        return fileURL;
     }
 }

@@ -13,7 +13,7 @@ public class BoardView extends MyShelfieApplication {
 
     @Override
     public void start(Stage stage) {
-        Scene scene = MyShelfieApplication.setUpScene("board/board-view.fxml");
+        Scene scene = MyShelfieApplication.setUpSceneWithPane("board/board-view.fxml");
 
         setUpStage(stage, scene);
 

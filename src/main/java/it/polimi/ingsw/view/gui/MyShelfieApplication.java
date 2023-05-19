@@ -140,6 +140,23 @@ public abstract class MyShelfieApplication extends Application{
         return scene;
     }
 
+    public static Scene setUpSceneWithPane(final String FXMLFileName) {
+        loadMyShelfieFont();
+
+        FXMLLoader fxmlLoader = new FXMLLoader(MyShelfieApplication.class.getResource(MyShelfieApplication.getFXMLFile(FXMLFileName)));
+
+        Pane rootPane = new Pane();
+        rootPane.setId("rootPaneContainer");
+
+        try {
+            rootPane.getChildren().add(fxmlLoader.load());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return new Scene(rootPane);
+    }
+
     public static void setUpStage(final Stage stage, final Scene scene) {
         stage.setScene(scene);
         //stage.initStyle(StageStyle.UTILITY);
