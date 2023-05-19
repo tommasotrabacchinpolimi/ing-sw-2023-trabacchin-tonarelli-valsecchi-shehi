@@ -17,7 +17,7 @@ public class ConnectedTimingState extends TimingState{
                 timerGoOff();
             }
         });
-        //getTimingStateMachine().registerTimerTask(getTimerTask(), 60 * 1000);
+        getTimingStateMachine().registerTimerTask(getTimerTask(), 60 * 1000);
     }
     @Override
     public synchronized void timerGoOff() {
