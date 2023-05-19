@@ -20,6 +20,7 @@ public class ViewData {
     private Map<Integer, Integer> availableScores;
     private List<Triple<String, List<String>, String>> messages;
     private UI userInterface;
+    private String exception;
 
 
     public ViewData(int BOARD_DIM, int BOOKSHELF_COL, int BOOKSHELF_ROW) {
@@ -32,6 +33,16 @@ public class ViewData {
         playersPoints = new HashMap<>();
         availableScores = new HashMap<>();
         this.userInterface = null;
+        exception = "";
+    }
+
+    public String getException() {
+        return exception;
+    }
+
+    public void setException(String exception) {
+        this.exception = exception;
+        userInterface.onException();
     }
 
     public UI getUserInterface() {
