@@ -23,8 +23,8 @@ import java.io.IOException;
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
  * @author Adem Shehi
- * @version 1.0
- * @since 02/05/2023
+ * @version 2.0
+ * @since 19/05/2023
  */
 public abstract class MyShelfieApplication extends Application{
 
@@ -127,7 +127,7 @@ public abstract class MyShelfieApplication extends Application{
     public static Scene setUpScene(final String FXMLFileName) {
         loadMyShelfieFont();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(LoginPage.class.getResource(MyShelfieApplication.getFXMLFile(FXMLFileName)));
+        FXMLLoader fxmlLoader = new FXMLLoader(MyShelfieApplication.class.getResource(MyShelfieApplication.getFXMLFile(FXMLFileName)));
 
         Scene scene = null;
 
@@ -138,6 +138,16 @@ public abstract class MyShelfieApplication extends Application{
         }
 
         return scene;
+    }
+
+    public static void setUpStage(final Stage stage, final Scene scene) {
+        stage.setScene(scene);
+        //stage.initStyle(StageStyle.UTILITY);
+
+        stage.sizeToScene();
+
+        //center stage in screen
+        stage.centerOnScreen();
     }
 
     /**

@@ -13,7 +13,7 @@
 }
 
 #myShelfieTitleImageView {
-    -fx-background-image: url('../../graphical.resources/publisher.material/Title_2000x2000px.png');
+    -fx-background-image: url('../../graphical.resources/publisher.material/title_big.png');
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center center;

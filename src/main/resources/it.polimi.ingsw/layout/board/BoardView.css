@@ -1,0 +1,27 @@
+#rootPane {
+    -fx-padding: 0.3em;
+    -fx-background-color: transparent;
+}
+
+#livingRoomAnchor {
+    -fx-background-image: url('it.polimi.ingsw/graphical.resources/boards/living_room.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: cover;
+    -fx-padding: 1.9em 2em 1.9em 1.7em;
+}
+
+#livingRoomGridPane {
+    -fx-hgap: 0.2em;
+    -fx-vgap: 0.2em;
+}
+
+.item_tile {
+    -fx-padding: 2em;
+}
+
+#changeButton {
+    -fx-font-size: 1em;
+    -fx-padding: 0.3em;
+    -fx-text-alignment: center;
+}

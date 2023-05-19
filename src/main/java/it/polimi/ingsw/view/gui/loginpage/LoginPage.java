@@ -14,17 +14,11 @@ public class LoginPage extends MyShelfieApplication {
     @Override
     public void start(Stage stage){
 
-        Scene scene = createLoginPageWindow();
+        Scene scene = setUpScene("login/login-page.fxml");
 
-        stage.setScene(scene);
-        //stage.initStyle(StageStyle.UTILITY);
-
-        stage.sizeToScene();
+        setUpStage(stage, scene);
 
         Platform.runLater( () -> setDynamicFontSize(scene));
-
-        //center stage in screen
-        stage.centerOnScreen();
 
         stage.show();
     }
@@ -47,7 +41,8 @@ public class LoginPage extends MyShelfieApplication {
      * To establish the height (h) percentage at which the window dialog should be set to not stretch
      * the image, the last calculation is: h = (512 * 100) / 1080 = 47.41%</p>
      */
+    @Deprecated
     private Scene createLoginPageWindow() {
-        return MyShelfieApplication.setUpScene("login/login-page.fxml");
+        return setUpScene("login/login-page.fxml");
     }
 }
