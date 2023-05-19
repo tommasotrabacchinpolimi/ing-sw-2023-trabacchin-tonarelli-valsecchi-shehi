@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.tui;
 
 import com.diogonunes.jcolor.Attribute;
 import it.polimi.ingsw.model.BoardSquareType;
+import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.TileSubject;
 import it.polimi.ingsw.model.TileType;
 import it.polimi.ingsw.utils.Coordinate;
@@ -168,8 +169,8 @@ public class TUI extends UI implements Runnable{
                             num = readLine();
                         }
                         int n = Integer.parseInt(String.valueOf(num.charAt(0)))-1;
-                        out.println("Moving the tiles from the board to you bookshelf...");
                         getLogicController().dragTilesToBookShelf(tiles, n);
+                        out.println("Moving...");
                         break;
                     default :
                         reset();
@@ -199,6 +200,12 @@ public class TUI extends UI implements Runnable{
         String input;
         input = bufferedReader.readLine();
         return input;
+    }
+
+    public void onException(){
+        lock.lock();
+        out.println(getModel().getException());
+        lock.unlock();
     }
 
     private void welcome(boolean fromTheBeginning) throws IOException, NotBoundException, ClassNotFoundException {
@@ -297,7 +304,7 @@ public class TUI extends UI implements Runnable{
                     fromTileTypeToChar(getModel().getPersonalGoal()));
         }
 
-        if(getModel().getCurrentPlayer() != null) {
+        if(getModel().getCurrentPlayer() != null && !getModel().getGameState().equals(GameState.SUSPENDED.toString()) && !getModel().getGameState().equals(GameState.END.toString())) {
             if(getModel().getCurrentPlayer().equals(getModel().getThisPlayer())){
                 out.println(colorize("It's your turn to play!", Attribute.BOLD(), Attribute.GREEN_TEXT()));
             } else {

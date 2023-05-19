@@ -6,14 +6,14 @@
 }
 
 #rootPane {
-    -fx-background-image: url("../../graphical.resources/publisher.material/display_5.jpg");
+    -fx-background-image: url('../../graphical.resources/publisher.material/display_5.jpg');
     -fx-background-repeat: no-repeat;
     -fx-background-size: cover;
     -fx-background-position: center center;
 }
 
 #myShelfieTitleImageView {
-    -fx-background-image: url('../../graphical.resources/publisher.material/Title_2000x2000px.png');
+    -fx-background-image: url('../../graphical.resources/publisher.material/title_big.png');
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center center;
@@ -24,21 +24,21 @@
 }
 
 #infoBoxContainer {
-    -fx-background-image: url("../../graphical.resources/misc/page_base_darken.jpg");
+    -fx-background-image: url('../../graphical.resources/misc/page_base_darken.jpg');
     -fx-background-size: cover;
     -fx-background-position: center center;
     -fx-background-repeat: repeat-x;
 }
 
 #infoContainer {
-    -fx-background-image: url("../../graphical.resources/misc/white_paper_texture.png");
+    -fx-background-image: url('../../graphical.resources/misc/white_paper_texture.png');
     -fx-background-size: cover;
     -fx-background-position: center center;
     -fx-alignment: center;
 }
 
 .welcome-text {
-    -fx-font-family: "Special Elite Regular";
+    -fx-font-family: 'Special Elite Regular';
     -fx-text-alignment: center;
     -fx-wrap-text: true;
     -fx-snap-to-pixel: true;
@@ -46,7 +46,7 @@
 }
 
 .nick-input {
-    -fx-font-family: "Special Elite Regular";
+    -fx-font-family: 'Special Elite Regular';
     -fx-text-fill: rgba(28, 37, 41, 0.87);
     -fx-background-color: transparent;
     -fx-border-color: rgba(0, 0, 0, 0.93);
@@ -75,9 +75,9 @@
 }
 
 .action-button {
-    -fx-font-family: "Special Elite Regular";
+    -fx-font-family: 'Special Elite Regular';
     -fx-text-fill: rgba(230, 221, 199, 0.90);
-    -fx-background-image: url("../../graphical.resources/misc/page_base_lighten.png");
+    -fx-background-image: url('../../graphical.resources/misc/page_base_lighten.png');
     -fx-background-size: cover;
     -fx-background-position: center center;
     -fx-alignment: center;

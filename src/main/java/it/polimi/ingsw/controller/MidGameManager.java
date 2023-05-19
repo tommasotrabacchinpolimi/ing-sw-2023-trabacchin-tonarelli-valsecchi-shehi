@@ -41,8 +41,9 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
             }
             BookShelf bookShelf = player.getBookShelf();
             InputCheck.checkActiveTilesInBoard(chosenTiles, bookShelf.getTileSubjectTaken(),board.getBoard());
-            board.removeSelectedTileSubject(chosenTiles);
             bookShelf.addTileSubjectTaken(tiles, chosenColumn);
+            board.removeSelectedTileSubject(chosenTiles);
+           // bookShelf.addTileSubjectTaken(tiles, chosenColumn);
 
             verifyFinalGame(user);
             if (verifyRefillBoard() && getController().getState().getGameState()!=GameState.END) {
