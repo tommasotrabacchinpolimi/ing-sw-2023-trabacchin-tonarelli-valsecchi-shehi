@@ -17,10 +17,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Client implements ClientInterface, LogicInterface {
     private final UI ui;
@@ -34,16 +31,11 @@ public class Client implements ClientInterface, LogicInterface {
     }
 
     public static void main(String[] args) throws IOException, NotBoundException, ClassNotFoundException {
-        String protocolChoice, UIChoice;
+        String UIChoice;
         Client client = null;
         UI ui = null;
         ViewData viewData = new ViewData(9,5,6);
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        ServerInterface server = null;
-        System.out.println("Choose one of the following protocols:");
-        System.out.println("1) Socket");
-        System.out.println("2) Remote Methode Invocation");
-        protocolChoice = bufferedReader.readLine();
         System.out.println("Now choose your desired UI:");
         System.out.println("1) TUI");
         System.out.println("2) GUI");
@@ -52,28 +44,22 @@ public class Client implements ClientInterface, LogicInterface {
             ui = new TUI();
             ui.setModel(viewData);
         }
-        client = new Client(ui, viewData);
+        client = new Client(ui, null);
         ui.setLogicController(client);
-        if(protocolChoice.equals("1")) {
-            server = getSocketConnection(client);
-        }
-        else if(protocolChoice.equals("2")) {
-            server = getRmiConnection(client);
-        }
-        client.setServer(server);
+        viewData.setUserInterface(ui);
         ui.launch();
     }
 
-    private static ServerInterface getSocketConnection(Client client) throws IOException {
+    private ServerInterface getSocketConnection(String host, int port) throws IOException {
         TypeToken<ServerInterface> typeToken = new TypeToken<>(){};
-        SocketConnectionManager<ClientInterface, ServerInterface>  socketConnectionManager = ConnectionBuilder.buildSocketConnection("localhost",1234,client,typeToken);
+        SocketConnectionManager<ClientInterface, ServerInterface>  socketConnectionManager = ConnectionBuilder.buildSocketConnection(host,port,this,typeToken);
         return socketConnectionManager.getRemoteTarget();
     }
 
-    private static ServerInterface getRmiConnection(Client client) throws NotBoundException, IOException, ClassNotFoundException {
+    private ServerInterface getRmiConnection(String host, int port) throws NotBoundException, IOException, ClassNotFoundException {
         TypeToken<ClientInterface> typeToken1 = new TypeToken<>() {};
         TypeToken<ServerInterface> typeToken2 = new TypeToken<>() {};
-        RmiConnectionManager<ClientInterface, ServerInterface> rmiConnectionManager = ConnectionBuilder.buildRMIConnection("localhost", 2148, typeToken2, typeToken1, client);
+        RmiConnectionManager<ClientInterface, ServerInterface> rmiConnectionManager = ConnectionBuilder.buildRMIConnection(host, port, typeToken2, typeToken1, this);//port = 2148
         return rmiConnectionManager.getRemoteTarget();
     }
 
@@ -98,12 +84,12 @@ public class Client implements ClientInterface, LogicInterface {
 
     @Override
     public void onAssignedCommonGoal(String description, int n) {
-        viewData.getCommonGoals()[n] = description;
+        viewData.getCommonGoals()[n-1] = description;
     }
 
     @Override
     public void onAssignedPersonalGoal(String nickname, List<EntryPatternGoal> goalPattern, Map<Integer, Integer> scoreMap) {
-
+        goalPattern.forEach(e ->viewData.getPersonalGoal()[e.getRow()][e.getColumn()] = e.getTileType());
     }
 
     @Override
@@ -122,6 +108,7 @@ public class Client implements ClientInterface, LogicInterface {
 
     @Override
     public void onBookShelfUpdated(String nickname, TileSubject[][] bookShelf) {
+        viewData.getBookShelves().computeIfAbsent(nickname, k -> new TileSubject[6][5]);
         for(int i = 0;i < bookShelf.length; i++) {
             for(int j = 0; j < bookShelf[0].length; j++) {
                 viewData.getBookShelves().get(nickname)[i][j] = bookShelf[i][j];
@@ -131,7 +118,7 @@ public class Client implements ClientInterface, LogicInterface {
 
     @Override
     public void onChangedCommonGoalAvailableScore(int score, int numberOfCommonGoal) {
-        viewData.getAvailableScores().put(numberOfCommonGoal, score);
+        viewData.getAvailableScores().put(numberOfCommonGoal-1, score);
     }
 
     @Override
@@ -151,27 +138,37 @@ public class Client implements ClientInterface, LogicInterface {
 
     @Override
     public void onMessageSent(String nicknameSender, List<String> nicknameReceivers, String text) {
-
+        Triple<String, List<String>, String> triple = new Triple<>(nicknameSender, nicknameReceivers, text);
+        viewData.addMessage(triple);
     }
 
     @Override
     public void onMessagesSentUpdate(List<String> senderNicknames, List<List<String>> receiverNicknames, List<String> texts) {
-
+        List<Triple<String, List<String>, String>> messages = new ArrayList<>();
+        for(int i = 0; i < senderNicknames.size(); i++) {
+            messages.add(new Triple<>(senderNicknames.get(i), receiverNicknames.get(i), texts.get(i)));
+        }
+        viewData.setMessages(messages);
     }
 
     @Override
     public void onPlayerStateChanged(String nickname, PlayerState playerState) {
-
+        viewData.getPlayersState().put(nickname, playerState.toString());
     }
 
     @Override
     public void onPointsUpdated(String nickName, int scoreAdjacentGoal, int scoreCommonGoal1, int scoreCommonGoal2, int scoreEndGame, int scorePersonalGoal) {
-
+        viewData.getPlayersPoints().computeIfAbsent(nickName, k -> Arrays.asList(0,0,0,0,0));
+        viewData.getPlayersPointsByNickname(nickName).set(0, scoreAdjacentGoal);
+        viewData.getPlayersPointsByNickname(nickName).set(1, scoreCommonGoal1);
+        viewData.getPlayersPointsByNickname(nickName).set(2, scoreCommonGoal2);
+        viewData.getPlayersPointsByNickname(nickName).set(3, scoreEndGame);
+        viewData.getPlayersPointsByNickname(nickName).set(4, scorePersonalGoal);
     }
 
     @Override
     public void onStateChanged(GameState gameState) {
-
+        viewData.setGameState(gameState.toString());
     }
 
     @Override
@@ -194,15 +191,27 @@ public class Client implements ClientInterface, LogicInterface {
     @Override
     public void quitGame() {
         viewData = new ViewData(9, 5, 6);
+        viewData.setUserInterface(ui);
         ui.setModel(viewData);
         server.quitGame();
     }
 
     @Override
     public void sentMessage(String text, String[] receiversNickname) {
-        List<String> receivers = Arrays.stream(receiversNickname).toList();
-        viewData.addMessage(new Triple<>(viewData.getThisPlayer(), receivers , text));
-        server.sentMessage(text, receiversNickname);
+        List<String> receivers = new ArrayList<>();
+        for(String nick : receiversNickname) {
+            if(nick!=null){
+                receivers.add(nick);
+            }
+        }
+        String[] r = new String[receivers.size()];
+        int i = 0;
+        for(String nick : receivers) {
+            r[i] = nick;
+            i++;
+        }
+
+        server.sentMessage(text, r);
     }
 
     @Override
@@ -213,16 +222,19 @@ public class Client implements ClientInterface, LogicInterface {
 
     @Override
     public void onWinnerChanged(String nickname) {
-
-    }
-    @Override
-    public void chosenSocket(int port, String host) {
-
+        viewData.setWinnerPlayer(nickname);
     }
 
     @Override
-    public void chosenRMI(int port, String host) {
+    public void chosenSocket(int port, String host) throws IOException {
+        ServerInterface serverInterface = this.getSocketConnection(host, port);
+        this.setServer(serverInterface);
+    }
 
+    @Override
+    public void chosenRMI(int port, String host) throws NotBoundException, IOException, ClassNotFoundException {
+        ServerInterface serverInterface = this.getRmiConnection(host, port);
+        this.setServer(serverInterface);
     }
 
 }

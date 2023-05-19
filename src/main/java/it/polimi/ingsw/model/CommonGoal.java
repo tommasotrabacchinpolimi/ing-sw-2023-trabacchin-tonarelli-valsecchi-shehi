@@ -26,11 +26,6 @@ import java.util.Stack;
  * @since 11/04/2023
  *
  */
-
-
-
-
-
 public abstract class CommonGoal implements Serializable {
     @Serial
     private static final long serialVersionUID = 285236373L;

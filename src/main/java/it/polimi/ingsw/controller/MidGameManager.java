@@ -22,15 +22,9 @@ import java.util.concurrent.*;
  * @since 27/04/2023
  */
 public class MidGameManager<R extends ClientInterface> extends GameManager {
-    Timer timer;
-    boolean disconnectedFromTheBeginning;
-    TimerTask taskSuspended, taskTurnPlayer;
 
     public MidGameManager(Controller controller){
         super(controller);
-        disconnectedFromTheBeginning = false;
-        timer = new Timer();
-        setNextCurrentPlayer();
     }
 
     @Override
@@ -45,10 +39,11 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
             for (Coordinate tile : chosenTiles) {
                 tiles.add(board.getTileSubjectInBoard(tile.getX(), tile.getY()));
             }
-            board.removeSelectedTileSubject(chosenTiles);
             BookShelf bookShelf = player.getBookShelf();
             InputCheck.checkActiveTilesInBoard(chosenTiles, bookShelf.getTileSubjectTaken(),board.getBoard());
+            board.removeSelectedTileSubject(chosenTiles);
             bookShelf.addTileSubjectTaken(tiles, chosenColumn);
+
             verifyFinalGame(user);
             if (verifyRefillBoard() && getController().getState().getGameState()!=GameState.END) {
                 getController().getState().getBoard().refillBoard(getController().getState().getPlayersNumber());
@@ -74,32 +69,22 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
         if(player != null && player.getPlayerState() == PlayerState.DISCONNECTED){
             registerListeners(user, nickname);
             player.setVirtualView(user);
-            if(player.equals(getController().getState().getCurrentPlayer()) && disconnectedFromTheBeginning) {
-                taskSuspended.cancel();
-                taskTurnPlayer = new TimerTask() {
-                    @Override
-                    public void run() {
-                        setNextCurrentPlayer();
-                    }
-                };
-                timer.schedule(taskTurnPlayer, 60000);
-            }
-            disconnectedFromTheBeginning = false;
             player.setPlayerState(PlayerState.CONNECTED);
         }
     }
 
     //metodo che dice se tutti i player tranne quello passato per parametro sono disconnessi
-    private synchronized void verifyAllDisconnectedPlayer(){
+    private synchronized boolean verifyAllDisconnectedPlayer(){
         Player player = getController().getState().getCurrentPlayer();
         for(Player p: getController().getState().getPlayers()){
             if(p != player && p.getPlayerState() != PlayerState.DISCONNECTED){
-                return;
+                return false;
             }
         }
         GameState gameState = getController().getState().getGameState();
         getController().getState().setGameState(GameState.SUSPENDED);
         getController().setGameManager(new SuspendedGameManager(getController(), gameState));
+        return true;
     }
 
     private void verifyCommonGoal(ClientInterface user){
@@ -179,7 +164,10 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
      * @see State
      * @see Player
      */
-    private synchronized void setNextCurrentPlayer() {
+    @Override
+    protected synchronized void setNextCurrentPlayer() {
+        if (verifyAllDisconnectedPlayer())
+            return;
         if(getController().getState().getGameState() == GameState.END) return;
 
         int n = getController().getState().getPlayersNumber();
@@ -188,16 +176,7 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
 
         if (oldCurrentPlayer == null) {
             getController().getState().setCurrentPlayer(getController().getState().getPlayers().get(0));
-            taskTurnPlayer = new TimerTask() {
-                @Override
-                public void run() {
-                    setNextCurrentPlayer();
-                }
-            };
-            timer.schedule(taskTurnPlayer, 60000);
         } else {
-            disconnectedFromTheBeginning = false;
-            taskTurnPlayer.cancel();
             if (getController().getState().getGameState() == GameState.FINAL) { //se sono nella fase FINAL del gioco e il prossimo giocatore è il lastPlayer, allora rendo il gioco END
                 if (oldCurrentPlayer.equals(getController().getState().getLastPlayer())) {
                     getController().getState().setGameState(GameState.END);
@@ -213,24 +192,10 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
                 getController().getState().setCurrentPlayer(getController().getState().getPlayers().get(index));
                 setNextCurrentPlayer();
             } else if (getController().getState().getPlayers().get(index).getPlayerState() == PlayerState.DISCONNECTED) {
-                disconnectedFromTheBeginning = true;
                 getController().getState().setCurrentPlayer(getController().getState().getPlayers().get(index));
-                taskSuspended = new TimerTask() {
-                    @Override
-                    public void run() {
-                        setNextCurrentPlayer();
-                    }
-                };
-                timer.schedule(taskSuspended, 10000);
+
             } else {
                 getController().getState().setCurrentPlayer(getController().getState().getPlayers().get(index));
-                taskTurnPlayer = new TimerTask() {
-                    @Override
-                    public void run() {
-                        setNextCurrentPlayer();
-                    }
-                };
-                timer.schedule(taskTurnPlayer, 60000);
             }
         }
     }

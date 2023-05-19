@@ -24,11 +24,15 @@ public class Controller implements OnConnectionLostListener<ClientInterface>, Co
     private final ChatManager chatManager;
     private LobbyController lobbyController;
 
+    private TimingStateMachine timingStateMachine;
+
     public Controller(State state, LobbyController lobbyController) throws FileNotFoundException {
         this.state = state;
         this.lobbyController = lobbyController;
         this.gameManager = new InitGameManager(this);
         this.chatManager = new ChatManager(this);
+        this.timingStateMachine = new TimingStateMachine(this);
+        state.setOnCurrentPlayerChangedListener(timingStateMachine);
     }
 
     public State getState() {
@@ -79,6 +83,7 @@ public class Controller implements OnConnectionLostListener<ClientInterface>, Co
     @Override
     public synchronized void registerPlayer(ClientInterface view, String nickname) {
         gameManager.registerPlayer(view, nickname);
+
     }
 
     @Override
@@ -100,4 +105,7 @@ public class Controller implements OnConnectionLostListener<ClientInterface>, Co
         }
     }
 
+    public TimingStateMachine getTimingStateMachine() {
+        return timingStateMachine;
+    }
 }

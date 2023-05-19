@@ -7,7 +7,6 @@ import it.polimi.ingsw.utils.Triple;
 import java.util.*;
 
 public class ViewData {
-    private List<String> players;
     private String thisPlayer;
     private String currentPlayer;
     private String winnerPlayer;
@@ -20,10 +19,10 @@ public class ViewData {
     private Map<String, List<Integer>> playersPoints;
     private Map<Integer, Integer> availableScores;
     private List<Triple<String, List<String>, String>> messages;
+    private UI userInterface;
 
 
     public ViewData(int BOARD_DIM, int BOOKSHELF_COL, int BOOKSHELF_ROW) {
-        players = new LinkedList<>();
         playersState = new HashMap<>();
         gameState = "";
         board = new TileSubject[BOARD_DIM][BOARD_DIM];
@@ -32,14 +31,19 @@ public class ViewData {
         commonGoals = new String[2];
         playersPoints = new HashMap<>();
         availableScores = new HashMap<>();
+        this.userInterface = null;
+    }
+
+    public UI getUserInterface() {
+        return userInterface;
+    }
+
+    public void setUserInterface(UI userInterface) {
+        this.userInterface = userInterface;
     }
 
     public List<String> getPlayers() {
-        return players;
-    }
-
-    public void setPlayers(List<String> players) {
-        this.players = players;
+        return playersState.keySet().stream().toList();
     }
 
     public Map<String, String> getPlayersState() {
@@ -98,7 +102,8 @@ public class ViewData {
 
     public Integer getTotalPointByNickname(String nickname){
         if(nickname == null || nickname.equals("")) return null;
-        return getPlayersPointsByNickname(nickname).stream().mapToInt(i -> i).sum();
+        if(playersPoints.get(nickname)== null) return null; //????
+        return playersPoints.get(nickname).stream().mapToInt(i -> i).sum();
     }
 
     public void setPlayersPoints(Map<String, List<Integer>> playersPoints) {
@@ -127,6 +132,7 @@ public class ViewData {
 
     public void setCurrentPlayer(String currentPlayer) {
         this.currentPlayer = currentPlayer;
+        userInterface.onCurrentPlayerChanged(currentPlayer);
     }
 
     public String getThisPlayer() {
@@ -147,6 +153,7 @@ public class ViewData {
 
     public void addMessage(Triple<String, List<String>, String> message){
         messages.add(message);
+        userInterface.onNewMessage(message.getFirst());
     }
 
     public String getWinnerPlayer() {
@@ -155,5 +162,6 @@ public class ViewData {
 
     public void setWinnerPlayer(String winnerPlayer) {
         this.winnerPlayer = winnerPlayer;
+        userInterface.showWinner();
     }
 }

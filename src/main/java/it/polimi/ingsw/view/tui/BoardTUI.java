@@ -51,8 +51,11 @@ public class BoardTUI {
 
     public static void main( String[] args ) {
         System.out.println("\07");
-       print();
-
+        System.out.print(colorize("                                                                     ", Attribute.GREEN_BACK()));
+        System.out.print(colorize("MY SHELFIE: CHAT", Attribute.GREEN_BACK()));
+        System.out.print(colorize("                                                                     ", Attribute.GREEN_BACK()));
+      //  System.out.println(colorize("                                                                     MY SHELFIE: CHAT                                                         ", Attribute.GREEN_BACK()));
+        //print();
        //printFitBoard();
         //logo();
         //printOthersBookShelf("paperino", "pluto", "paperino", bookshelf, bookshelf, bookshelf);
@@ -94,11 +97,11 @@ public class BoardTUI {
     private static void printLineBookShelf(int row, char[][] matrix) {
         for(int j = 0; j < DIMCOL_BOOKSHELF; j++){
             if( j == 0 )
-                System.out.print( "║ " + toPrintChar(matrix[row][j]) + " ║ ");
+                System.out.print( "║" + toPrintChar(matrix[row][j]) + "║");
             else if( j < DIMCOL_BOOKSHELF - 1 )
-                System.out.print( toPrintChar(matrix[row][j]) + " ║ " );
+                System.out.print( toPrintChar(matrix[row][j]) + "║" );
             else
-                System.out.print( toPrintChar(matrix[row][j]) + " ║" );
+                System.out.print( toPrintChar(matrix[row][j]) + "║" );
         }
     }
 
@@ -142,11 +145,11 @@ public class BoardTUI {
     private static void getLineBookShelf(int row) {
         for(int j = 0; j < DIMCOL_BOOKSHELF; j++){
             if( j == 0 )
-                System.out.print( "║ " + test[row][j] + " ║ ");
+                System.out.print( "║" + toPrintChar(bookshelf[row][j]) + "║");
             else if( j < DIMCOL_BOOKSHELF - 1 )
-                System.out.print( test[row][j] + " ║ " );
+                System.out.print( toPrintChar(bookshelf[row][j]) + "║" );
             else
-                System.out.print( test[row][j] + " ║" );
+                System.out.print( toPrintChar(bookshelf[row][j]) + "║" );
         }
     }
 
@@ -365,12 +368,31 @@ public class BoardTUI {
     }
 
     private static String toPrintChar(char c){
-        if(c == 'c'){
-            return colorize( " "+c+" " , Attribute.MAGENTA_BACK());
-        } else if (c == EMPTY) {
-            return " "+c+" ";
-        } else {
-            return " ";
+        switch(c) {
+            case EMPTY -> {
+                return " " + c + " ";
+            }
+            case 't' -> {
+                return colorize(" " + c + " ", Attribute.CYAN_BACK());
+            }
+            case 'f' -> {
+                return colorize(" " + c + " ", Attribute.BLUE_BACK());
+            }
+            case 'c' -> {
+                return colorize(" " + c + " ", Attribute.GREEN_BACK());
+            }
+            case 'g' -> {
+                return colorize(" " + c + " ", Attribute.YELLOW_BACK());
+            }
+            case 'p' -> {
+                return colorize(" " + c + " ", Attribute.MAGENTA_BACK());
+            }
+            case 'b' -> {
+                return colorize(" " + c + " ", Attribute.BRIGHT_WHITE_TEXT());
+            }
+            default -> {
+                return "   ";
+            }
         }
     }
 

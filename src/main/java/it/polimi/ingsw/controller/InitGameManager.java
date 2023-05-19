@@ -27,7 +27,6 @@ public class InitGameManager extends GameManager {
         super(controller);
         initPersonalGoals();
         initCommonGoals();
-
     }
 
     private void initPersonalGoals() throws FileNotFoundException {
@@ -86,28 +85,34 @@ public class InitGameManager extends GameManager {
             registerListeners(view, nickname);
             registerInternalListener(newPlayer);
             listenersSetUp(newPlayer);
+            getController().getState().getPlayerFromView(view).setOnPlayerStateChangedListener(getController().getTimingStateMachine());
+            newPlayer.getBookShelf().initTileSubjectTaken();
             newPlayer.setPlayerState(PlayerState.CONNECTED);
         }
+
         if(getController().getState().getPlayers().size() == getController().getState().getPlayersNumber()) {
             getController().getState().setCommonGoal1(commonGoalsDeck.remove(0));
             getController().getState().setCommonGoal2(commonGoalsDeck.remove(0));
             getController().getState().getBoard().refillBoard(getController().getState().getPlayersNumber());
+            for(Player rPlayer : getController().getState().getPlayers()) {
+                rPlayer.setPersonalGoal(personalGoalsDeck.remove(0));
+            }
             Collections.rotate(getController().getState().getPlayers(), new Random().nextInt(6));
             if(checkIfNotSuspended()){
+                //System.out.println("state updated");
                 getController().getState().setGameState(GameState.MID);
                 getController().setGameManager(new MidGameManager<>(getController()));
+                getController().getGameManager().setNextCurrentPlayer();
             } else {
                 getController().getState().setGameState(GameState.SUSPENDED);
                 getController().setGameManager(new SuspendedGameManager(getController(), GameState.MID));
             }
-
-            //getController().getState().setCurrentPlayer(getController().getState().getPlayers().get(0));
-            for(Player rPlayer : getController().getState().getPlayers()) {
-                rPlayer.setPersonalGoal(personalGoalsDeck.remove(0));
-            }
-
         }
+    }
 
+    @Override
+    protected void setNextCurrentPlayer() {
+        return;
     }
 
     private boolean checkIfNotSuspended(){
@@ -121,12 +126,19 @@ public class InitGameManager extends GameManager {
         player.setOnUpdateNeededListener(player.getBookShelf());
         player.setOnUpdateNeededListener(player.getPointPlayer());
         getController().getState().getPlayers().forEach(player::setOnUpdateNeededListener);
+        getController().getState().getPlayers().forEach(p -> p.setOnUpdateNeededListener(player));
+        getController().getState().getPlayers().forEach(p -> player.setOnUpdateNeededListener(p.getBookShelf()));
+        getController().getState().getPlayers().forEach(p -> p.setOnUpdateNeededListener(player.getBookShelf()));
+        getController().getState().getPlayers().forEach(p -> player.setOnUpdateNeededListener(p.getPointPlayer()));
+        getController().getState().getPlayers().forEach((p -> p.setOnUpdateNeededListener(player.getPointPlayer())));
     }
 
     private void listenersSetUp(Player player) {
         List<ClientInterface> views = getController().getState().getPlayers().stream().filter(p->!player.getNickName().equals(p.getNickName())).map(Player::getVirtualView).toList();
         views.forEach(player::setOnPlayerStateChangedListener);
         views.forEach(v->player.getBookShelf().setOnBookShelfUpdated(v));
+        views.forEach(v->player.getPointPlayer().setOnPointsUpdatedListener(v));
+        //views.forEach(v -> System.out.println("Register Listeners on "+player.getNickName() + " of "+ getController().getState().getPlayerFromView(v).getNickName()));
     }
 
 }

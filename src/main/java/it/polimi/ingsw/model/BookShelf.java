@@ -61,7 +61,7 @@ public class BookShelf implements Serializable, OnUpdateNeededListener {
     /**
      * Matrix used to represent the BookShelf for each {@link Player}.
      * This field will contain {@link TileSubject tile objects} to show not only the type of card taken
-     * from the {@link BoardOld} but also a specific image.
+     * from the {@link Board} but also a specific image.
      *
      * @see BookShelf
      * @see TileSubject
@@ -125,7 +125,7 @@ public class BookShelf implements Serializable, OnUpdateNeededListener {
     public BookShelf(int row, int column) {
         this.row = row;
         this.column = column;
-        initTileSubjectTaken();
+        //initTileSubjectTaken();
         this.player = null;
         onBookShelfUpdatedListeners = new LinkedList<>();
     }
@@ -148,6 +148,7 @@ public class BookShelf implements Serializable, OnUpdateNeededListener {
         this.onBookShelfUpdatedListeners = that.onBookShelfUpdatedListeners;
     }
 
+
     /**
      * Used to create a {@link #tileSubjectTaken bookshelf} matrix to chosen dimension
      *
@@ -157,8 +158,9 @@ public class BookShelf implements Serializable, OnUpdateNeededListener {
      * @see #BookShelf()
      * @see #BookShelf(int row, int column)
      */
-    private void initTileSubjectTaken(){
+    public void initTileSubjectTaken(){
         this.tileSubjectTaken = new TileSubject[row][column];
+        notifyOnBookShelfUpdated();
     }
 
     /**
@@ -247,9 +249,9 @@ public class BookShelf implements Serializable, OnUpdateNeededListener {
     }
 
     /**
-     * This method is used to put the {@link TileSubject} taken from the {@link BoardOld} inside the {@link BookShelf}.
+     * This method is used to put the {@link TileSubject} taken from the {@link Board} inside the {@link BookShelf}.
      *
-     * @param taken  is a List of {@link TileSubject} that contains the tiles dragged from the {@link BoardOld board}
+     * @param taken  is a List of {@link TileSubject} that contains the tiles dragged from the {@link Board board}
      * @param column is the column of {@link #tileSubjectTaken bookshelf} in which insert the tile's taken
      * @throws ArrayIndexOutOfBoundsException if {@code column} parameter is negative or exceed the
      *         maximum {@link #column} dimension
@@ -261,7 +263,7 @@ public class BookShelf implements Serializable, OnUpdateNeededListener {
      *
      * @see BookShelf
      * @see #isFull()
-     * @see BoardOld
+     * @see Board
      * @see NotEnoughSpaceInBookShelfException
      * @see NoTileTakenException
      */
@@ -406,14 +408,12 @@ public class BookShelf implements Serializable, OnUpdateNeededListener {
     @Override
     public void onUpdateNeededListener(Player player) {
         onBookShelfUpdatedListeners.stream()
-                .filter(v -> player.getVirtualView() == v)
-                .findAny()
-                .ifPresentOrElse(v ->
-                        v.onBookShelfUpdated(player.getNickName(),
+                .forEach(v ->
+                        v.onBookShelfUpdated(this.player.getNickName(),
                                 Arrays.stream(this.tileSubjectTaken)
                                         .map(TileSubject[]::clone)
-                                        .toArray(TileSubject[][]::new)),
-                        () -> System.err.println("no one to update about bookshelf refilled"));
+                                        .toArray(TileSubject[][]::new))
+                        );
 
     }
 

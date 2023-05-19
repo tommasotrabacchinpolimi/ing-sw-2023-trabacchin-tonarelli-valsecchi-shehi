@@ -126,7 +126,7 @@ public class Board implements Serializable, OnUpdateNeededListener {
             result.add(board[c.getX()][c.getY()]);
             board[c.getX()][c.getY()] = null;
         }
-
+        notifyOnBoardUpdated();
         return result;
     }
 
@@ -194,9 +194,7 @@ public class Board implements Serializable, OnUpdateNeededListener {
 
     @Override
     public void onUpdateNeededListener(Player player) {
-        onBoardUpdatedListeners.stream().filter(v->player.getVirtualView() == v)
-                .findAny()
-                .ifPresentOrElse(v->v.onBoardUpdated(Arrays.stream(board).map(TileSubject[]::clone).toArray(TileSubject[][]::new)),()->System.err.println("no one to update about board refilled"));
+        onBoardUpdatedListeners.stream().forEach(v->v.onBoardUpdated(Arrays.stream(board).map(TileSubject[]::clone).toArray(TileSubject[][]::new)));
     }
 
 
