@@ -85,6 +85,7 @@ public class InitGameManager extends GameManager {
             registerListeners(view, nickname);
             registerInternalListener(newPlayer);
             listenersSetUp(newPlayer);
+            getController().getState().getPlayerFromView(view).setOnPlayerStateChangedListener(getController().getTimingStateMachine());
             newPlayer.getBookShelf().initTileSubjectTaken();
             newPlayer.setPlayerState(PlayerState.CONNECTED);
         }
@@ -100,8 +101,8 @@ public class InitGameManager extends GameManager {
             if(checkIfNotSuspended()){
                 //System.out.println("state updated");
                 getController().getState().setGameState(GameState.MID);
-                getController().getGameManager().setNextCurrentPlayer();
                 getController().setGameManager(new MidGameManager<>(getController()));
+                getController().getGameManager().setNextCurrentPlayer();
             } else {
                 getController().getState().setGameState(GameState.SUSPENDED);
                 getController().setGameManager(new SuspendedGameManager(getController(), GameState.MID));

@@ -22,14 +22,9 @@ import java.util.concurrent.*;
  * @since 27/04/2023
  */
 public class MidGameManager<R extends ClientInterface> extends GameManager {
-    Timer timer;
-    boolean disconnectedFromTheBeginning;
-    TimerTask taskSuspended, taskTurnPlayer;
 
     public MidGameManager(Controller controller){
         super(controller);
-        disconnectedFromTheBeginning = false;
-        timer = new Timer();
     }
 
     @Override
@@ -74,17 +69,6 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
         if(player != null && player.getPlayerState() == PlayerState.DISCONNECTED){
             registerListeners(user, nickname);
             player.setVirtualView(user);
-            if(player.equals(getController().getState().getCurrentPlayer()) && disconnectedFromTheBeginning) {
-                taskSuspended.cancel();
-                taskTurnPlayer = new TimerTask() {
-                    @Override
-                    public void run() {
-                        getController().getGameManager().setNextCurrentPlayer();
-                    }
-                };
-                timer.schedule(taskTurnPlayer, 60000);
-            }
-            disconnectedFromTheBeginning = false;
             player.setPlayerState(PlayerState.CONNECTED);
         }
     }
@@ -192,16 +176,7 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
 
         if (oldCurrentPlayer == null) {
             getController().getState().setCurrentPlayer(getController().getState().getPlayers().get(0));
-            taskTurnPlayer = new TimerTask() {
-                @Override
-                public void run() {
-                    getController().getGameManager().setNextCurrentPlayer();
-                }
-            };
-            timer.schedule(taskTurnPlayer, 60000);
         } else {
-            disconnectedFromTheBeginning = false;
-            taskTurnPlayer.cancel();
             if (getController().getState().getGameState() == GameState.FINAL) { //se sono nella fase FINAL del gioco e il prossimo giocatore è il lastPlayer, allora rendo il gioco END
                 if (oldCurrentPlayer.equals(getController().getState().getLastPlayer())) {
                     getController().getState().setGameState(GameState.END);
@@ -217,24 +192,10 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
                 getController().getState().setCurrentPlayer(getController().getState().getPlayers().get(index));
                 setNextCurrentPlayer();
             } else if (getController().getState().getPlayers().get(index).getPlayerState() == PlayerState.DISCONNECTED) {
-                disconnectedFromTheBeginning = true;
                 getController().getState().setCurrentPlayer(getController().getState().getPlayers().get(index));
-                taskSuspended = new TimerTask() {
-                    @Override
-                    public void run() {
-                        getController().getGameManager().setNextCurrentPlayer();
-                    }
-                };
-                timer.schedule(taskSuspended, 10000);
+
             } else {
                 getController().getState().setCurrentPlayer(getController().getState().getPlayers().get(index));
-                taskTurnPlayer = new TimerTask() {
-                    @Override
-                    public void run() {
-                        getController().getGameManager().setNextCurrentPlayer();
-                    }
-                };
-                timer.schedule(taskTurnPlayer, 60000);
             }
         }
     }
