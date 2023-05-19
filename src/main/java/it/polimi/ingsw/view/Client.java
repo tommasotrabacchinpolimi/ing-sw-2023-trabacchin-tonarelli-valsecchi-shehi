@@ -44,7 +44,7 @@ public class Client implements ClientInterface, LogicInterface {
             ui = new TUI();
             ui.setModel(viewData);
         }
-        client = new Client(ui, null);
+        client = new Client(ui, viewData);
         ui.setLogicController(client);
         viewData.setUserInterface(ui);
         ui.launch();
@@ -128,7 +128,7 @@ public class Client implements ClientInterface, LogicInterface {
 
     @Override
     public void onException(Exception e) {
-
+        viewData.setException(e.getMessage());
     }
 
     @Override

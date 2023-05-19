@@ -29,4 +29,6 @@ public abstract class UI {
     protected abstract void onCurrentPlayerChanged(String newCurrentPlayer);
 
     protected abstract void showWinner();
+
+    public abstract void onException();
 }
