@@ -56,7 +56,7 @@ public interface LobbyControllerInterface {
     void createGame(ClientInterface view, String nickname, int numberOfPlayer) throws Exception;
 
     /**
-     * This method is used only to test if a {@linkplain ClientInterface client} is still connected.
+     * <p>This method is used only to test if a {@linkplain ClientInterface client} is still connected.</p>
      *
      * @param view the {@linkplain ClientInterface client} to test if it is still connected to the game
      * @throws RemoteException in case of connection failure

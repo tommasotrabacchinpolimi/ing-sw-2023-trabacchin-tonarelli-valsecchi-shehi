@@ -8,21 +8,27 @@ import java.lang.reflect.Proxy;
 import java.net.Socket;
 
 /**
+ *
+ *
+ * @param <L> the type of the local target object
+ * @param <R>  the type of the remote object
+ *
  * @author Tommaso Trabacchin
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
  * @author Adem Shehi
  * @version 3.0
  * @since 22/04/2023
- *
  */
+public class SocketConnectionManager<L extends RemoteInterface, R extends RemoteInterface>  extends ConnectionManager<L, R>{
 
-public class SocketConnectionManager<L extends RemoteInterface, R extends RemoteInterface>  extends ConnectionManager<L,R>{
-
-
+    /**
+     *
+     */
     public SocketConnectionManager() {
         super();
     }
+
     public void init(Socket socket, User<R> user, L localTarget, TypeToken<R> remoteTargetClass) throws IOException {
         init_base(socket, localTarget, remoteTargetClass);
         setUser(user);

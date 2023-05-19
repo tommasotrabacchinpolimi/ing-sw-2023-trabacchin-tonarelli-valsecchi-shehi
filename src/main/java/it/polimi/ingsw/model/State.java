@@ -43,6 +43,11 @@ public class State implements Serializable, OnUpdateNeededListener {
     @ExcludedFromJSON
     private Board board;
 
+    /**
+     * Identify the phase of the game
+     *
+     * @see GameState
+     */
     @ExcludedFromJSON
     private GameState gameState;
 

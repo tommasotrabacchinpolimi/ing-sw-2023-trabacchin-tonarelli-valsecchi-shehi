@@ -44,7 +44,7 @@ public class Client implements ClientInterface, LogicInterface {
             ui = new TUI();
             ui.setModel(viewData);
         }
-        client = new Client(ui, viewData);
+        client = new Client(ui, null);
         ui.setLogicController(client);
         viewData.setUserInterface(ui);
         ui.launch();
@@ -191,6 +191,7 @@ public class Client implements ClientInterface, LogicInterface {
     @Override
     public void quitGame() {
         viewData = new ViewData(9, 5, 6);
+        viewData.setUserInterface(ui);
         ui.setModel(viewData);
         server.quitGame();
     }
@@ -221,7 +222,7 @@ public class Client implements ClientInterface, LogicInterface {
 
     @Override
     public void onWinnerChanged(String nickname) {
-
+        viewData.setWinnerPlayer(nickname);
     }
 
     @Override

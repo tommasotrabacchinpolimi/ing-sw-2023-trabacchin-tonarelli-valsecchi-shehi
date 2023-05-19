@@ -86,7 +86,7 @@ public class TUI extends UI implements Runnable{
     public void run() {
         try {
             lock.lock();
-            welcome();
+            welcome(true);
             Thread.sleep(1000);
             home();
             out.println("Please, enter help to learn how to play!");
@@ -104,7 +104,7 @@ public class TUI extends UI implements Runnable{
                         break;
                     case "quit":
                         getLogicController().quitGame();
-                        welcome();
+                        welcome(false);
                         break;
                     case "message":
                         out.println("Please, enter the following information:");
@@ -201,7 +201,7 @@ public class TUI extends UI implements Runnable{
         return input;
     }
 
-    private void welcome() throws IOException, NotBoundException, ClassNotFoundException {
+    private void welcome(boolean fromTheBeginning) throws IOException, NotBoundException, ClassNotFoundException {
         String choice;
         out.print("""
                           .         .                                                                                                                                   \s
@@ -217,20 +217,23 @@ public class TUI extends UI implements Runnable{
                 ,8'         `         `8.`8888. 8 8888                 `Y8888P ,88P' 8 8888        8 8 888888888888 8 888888888888 8 8888          8 8888 8 888888888888\s
                 """);
         out.println("Welcome to My Shelfie!");
-        System.out.println("Choose one of the following protocols:");
-        System.out.println("1) Socket");
-        System.out.println("2) Remote Methode Invocation");
-        String protocolChoice = bufferedReader.readLine();
-        System.out.println("Please enter the server address: ");
-        String host = bufferedReader.readLine();
-        System.out.println("Now enter the port number");
-        int port = Integer.parseInt(bufferedReader.readLine());
-        if(protocolChoice.equals("1")) {
-            getLogicController().chosenSocket(port, host);
+        if(fromTheBeginning) {
+            System.out.println("Choose one of the following protocols:");
+            System.out.println("1) Socket");
+            System.out.println("2) Remote Methode Invocation");
+            String protocolChoice = bufferedReader.readLine();
+            System.out.println("Please enter the server address: ");
+            String host = bufferedReader.readLine();
+            System.out.println("Now enter the port number");
+            int port = Integer.parseInt(bufferedReader.readLine());
+            if(protocolChoice.equals("1")) {
+                getLogicController().chosenSocket(port, host);
+            }
+            else if(protocolChoice.equals("2")) {
+                getLogicController().chosenRMI(port, host);
+            }
         }
-        else if(protocolChoice.equals("2")) {
-            getLogicController().chosenRMI(port, host);
-        }
+
 
         out.println("Now insert your unique nickname: ");
         String nickname = readLine();

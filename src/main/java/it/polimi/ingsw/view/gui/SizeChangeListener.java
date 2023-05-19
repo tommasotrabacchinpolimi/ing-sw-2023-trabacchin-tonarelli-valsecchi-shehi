@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 
+import java.awt.*;
+
 /**
  *
  * @version 3.0
@@ -27,8 +29,15 @@ public class SizeChangeListener implements ChangeListener<Number> {
 
         this.rootPane = rootPane;
 
-        this.initialWidth = rootPane.getWidth();
-        this.initialHeight = rootPane.getHeight();
+        if(rootPane.getWidth() != 0.0 && rootPane.getHeight() != 0.0) {
+            this.initialWidth = rootPane.getWidth();
+            this.initialHeight = rootPane.getHeight();
+        } else {
+            GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+
+            this.initialWidth = gd.getDisplayMode().getWidth() * 0.5;
+            this.initialHeight = gd.getDisplayMode().getHeight() * 0.5;
+        }
 
         this.initialScale = this.initialWidth / this.initialHeight;
     }
