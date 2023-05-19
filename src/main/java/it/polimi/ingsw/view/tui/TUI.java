@@ -355,7 +355,7 @@ public class TUI extends UI implements Runnable{
 
     @Override
     protected void showWinner(){
-        // se game state è end
+        state = TUIState.END;
         System.out.print(colorize("                                                           ", Attribute.GREEN_BACK()));
         System.out.print(colorize("MY SHELFIE: HOME OF " + getModel().getThisPlayer(), Attribute.GREEN_BACK()));
         System.out.println(colorize("                                                           ", Attribute.GREEN_BACK()));
@@ -365,24 +365,25 @@ public class TUI extends UI implements Runnable{
 
         char[][] bookshelf = fromTileSubjectToChar(getModel().getBookShelfByNickname(getModel().getThisPlayer()), false);
         List<Integer> pointPlayer = getModel().getPlayersPointsByNickname(getModel().getThisPlayer());
-        int totalPoints = getModel().getTotalPointByNickname(getModel().getThisPlayer());
+        int totalScore = getModel().getTotalPointByNickname(getModel().getThisPlayer());
 
         List<String> nicknames = getOtherPlayer();
         List<char[][]> othersBookshelves = getOtherBookShelves();
         List<List<Integer>> othersPoints = getOtherPoints();
         List<Integer> othersTotalPoints = getOtherTotalPoints();
-
         out.println("              Your Bookshelf:              Your Points:");
-        for(int i = 0; i < 6; i++){
-            out.print("              ");
+        out.println("               " + getDividerBookShelf(0));
+        for( int i = 0; i < DIMROW_BOOKSHELF; ++i ){
+            out.print("               ");
             printLineBookShelf(i,bookshelf);
-            out.print("              ");
-            if(i < 5) {
+            out.print("               ");
+            if(i < 5 ) {
                 printPoint(pointPlayer, i);
             } else {
-                out.println("────────────────────────────────────────");
-                out.print("                            Total points = " + totalPoints + printPointOrPoints(totalPoints));
+                out.print(colorize("Total Points", Attribute.BOLD()) + " =   " + totalScore + printPointOrPoints(totalScore));
             }
+            out.println();
+            out.println("               "+ getDividerBookShelf(i+1));
         }
         out.println();
         printOthersBookShelf(nicknames.get(0), nicknames.get(1), nicknames.get(2), othersBookshelves.get(0), othersBookshelves.get(1), othersBookshelves.get(2));
