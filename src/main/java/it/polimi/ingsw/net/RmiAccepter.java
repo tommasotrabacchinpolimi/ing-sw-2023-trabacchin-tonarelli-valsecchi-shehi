@@ -76,7 +76,11 @@ public class RmiAccepter<L extends RemoteInterface, R extends RemoteInterface> i
      * @param remoteTargetClass represents a generic {@linkplain RemoteInterface remote} type
      * @param localTargetClass represents a generic {@linkplain RemoteInterface local} type
      */
-    public RmiAccepter(int portNumber, UserAccepter<R> userAccepter, Object localTarget, TypeToken<R> remoteTargetClass, TypeToken<L> localTargetClass){
+    public RmiAccepter(int portNumber,
+                       UserAccepter<R> userAccepter,
+                       Object localTarget,
+                       TypeToken<R> remoteTargetClass,
+                       TypeToken<L> localTargetClass){
         this.localTarget = localTarget;
         this.userAccepter = userAccepter;
         this.remoteTargetClass = remoteTargetClass;
@@ -95,7 +99,12 @@ public class RmiAccepter<L extends RemoteInterface, R extends RemoteInterface> i
      * @param localTargetClass represents a generic {@linkplain RemoteInterface local} type
      * @param userAdapterSupplier used for adapting users to the local target object
      */
-    public RmiAccepter(int portNumber, UserAccepter<R> userAccepter, Object localTarget, TypeToken<R> remoteTargetClass, TypeToken<L> localTargetClass, Supplier<UserAdapterInterface<R>> userAdapterSupplier){
+    public RmiAccepter(int portNumber,
+                       UserAccepter<R> userAccepter,
+                       Object localTarget,
+                       TypeToken<R> remoteTargetClass,
+                       TypeToken<L> localTargetClass,
+                       Supplier<UserAdapterInterface<R>> userAdapterSupplier){
         this.localTarget = localTarget;
         this.userAccepter = userAccepter;
         this.remoteTargetClass = remoteTargetClass;

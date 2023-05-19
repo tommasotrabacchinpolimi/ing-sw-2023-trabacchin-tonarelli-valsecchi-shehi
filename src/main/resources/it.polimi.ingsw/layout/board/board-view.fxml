@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.shape.Rectangle?>
+<StackPane fx:id="rootPane" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+           fx:controller="it.polimi.ingsw.view.gui.board.BoardViewController"
+           stylesheets="@BoardView.css">
+    <AnchorPane fx:id="livingRoomAnchor" cache="true" StackPane.alignment="CENTER">
+        <fx:define>
+            <Double fx:id="percentCellDim" fx:value="100"/>
+        </fx:define>
+        <shape>
+            <Rectangle arcHeight="10" arcWidth="10" height="${livingRoomAnchor.height}"
+                       width="${livingRoomAnchor.width}"/>
+        </shape>
+
+        <GridPane fx:id="livingRoomGridPane" alignment="CENTER" AnchorPane.topAnchor="0.0"
+                  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="$percentCellDim" hgrow="ALWAYS"/>
+                <ColumnConstraints percentWidth="$percentCellDim" hgrow="ALWAYS"/>
+                <ColumnConstraints percentWidth="$percentCellDim" hgrow="ALWAYS"/>
+                <ColumnConstraints percentWidth="$percentCellDim" hgrow="ALWAYS"/>
+                <ColumnConstraints percentWidth="$percentCellDim" hgrow="ALWAYS"/>
+                <ColumnConstraints percentWidth="$percentCellDim" hgrow="ALWAYS"/>
+                <ColumnConstraints percentWidth="$percentCellDim" hgrow="ALWAYS"/>
+                <ColumnConstraints percentWidth="$percentCellDim" hgrow="ALWAYS"/>
+                <ColumnConstraints percentWidth="$percentCellDim" hgrow="ALWAYS"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints percentHeight="$percentCellDim" vgrow="ALWAYS"/>
+                <RowConstraints percentHeight="$percentCellDim" vgrow="ALWAYS"/>
+                <RowConstraints percentHeight="$percentCellDim" vgrow="ALWAYS"/>
+                <RowConstraints percentHeight="$percentCellDim" vgrow="ALWAYS"/>
+                <RowConstraints percentHeight="$percentCellDim" vgrow="ALWAYS"/>
+                <RowConstraints percentHeight="$percentCellDim" vgrow="ALWAYS"/>
+                <RowConstraints percentHeight="$percentCellDim" vgrow="ALWAYS"/>
+                <RowConstraints percentHeight="$percentCellDim" vgrow="ALWAYS"/>
+                <RowConstraints percentHeight="$percentCellDim" vgrow="ALWAYS"/>
+            </rowConstraints>
+            <StackPane fx:id="itemTileBox03" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="0"
+                       GridPane.columnIndex="3">
+            </StackPane>
+            <StackPane fx:id="itemTileBox04" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="0"
+                       GridPane.columnIndex="4">
+            </StackPane>
+            <StackPane fx:id="itemTileBox13" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="1"
+                       GridPane.columnIndex="3">
+            </StackPane>
+            <StackPane fx:id="itemTileBox14" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="1"
+                       GridPane.columnIndex="4">
+            </StackPane>
+            <StackPane fx:id="itemTileBox15" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="1"
+                       GridPane.columnIndex="5">
+            </StackPane>
+            <StackPane fx:id="itemTileBox22" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="2"
+                       GridPane.columnIndex="2">
+            </StackPane>
+            <StackPane fx:id="itemTileBox23" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="2"
+                       GridPane.columnIndex="3">
+            </StackPane>
+            <StackPane fx:id="itemTileBox24" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="2"
+                       GridPane.columnIndex="4">
+            </StackPane>
+            <StackPane fx:id="itemTileBox25" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="2"
+                       GridPane.columnIndex="5">
+            </StackPane>
+            <StackPane fx:id="itemTileBox26" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="2"
+                       GridPane.columnIndex="6">
+            </StackPane>
+            <StackPane fx:id="itemTileBox31" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="3"
+                       GridPane.columnIndex="1">
+            </StackPane>
+            <StackPane fx:id="itemTileBox32" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="3"
+                       GridPane.columnIndex="2">
+            </StackPane>
+            <StackPane fx:id="itemTileBox33" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="3"
+                       GridPane.columnIndex="3">
+            </StackPane>
+            <StackPane fx:id="itemTileBox34" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="3"
+                       GridPane.columnIndex="4">
+            </StackPane>
+            <StackPane fx:id="itemTileBox35" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="3"
+                       GridPane.columnIndex="5">
+            </StackPane>
+            <StackPane fx:id="itemTileBox36" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="3"
+                       GridPane.columnIndex="6">
+            </StackPane>
+            <StackPane fx:id="itemTileBox37" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="3"
+                       GridPane.columnIndex="7">
+            </StackPane>
+            <StackPane fx:id="itemTileBox38" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="3"
+                       GridPane.columnIndex="8">
+            </StackPane>
+            <StackPane fx:id="itemTileBox40" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="4"
+                       GridPane.columnIndex="0">
+            </StackPane>
+            <StackPane fx:id="itemTileBox41" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="4"
+                       GridPane.columnIndex="1">
+            </StackPane>
+            <StackPane fx:id="itemTileBox42" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="4"
+                       GridPane.columnIndex="2">
+            </StackPane>
+            <StackPane fx:id="itemTileBox43" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="4"
+                       GridPane.columnIndex="3">
+            </StackPane>
+            <StackPane fx:id="itemTileBox44" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="4"
+                       GridPane.columnIndex="4">
+            </StackPane>
+            <StackPane fx:id="itemTileBox45" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="4"
+                       GridPane.columnIndex="5">
+            </StackPane>
+            <StackPane fx:id="itemTileBox46" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="4"
+                       GridPane.columnIndex="6">
+            </StackPane>
+            <StackPane fx:id="itemTileBox47" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="4"
+                       GridPane.columnIndex="7">
+            </StackPane>
+            <StackPane fx:id="itemTileBox48" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="4"
+                       GridPane.columnIndex="8">
+            </StackPane>
+            <StackPane fx:id="itemTileBox50" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="5"
+                       GridPane.columnIndex="0">
+            </StackPane>
+            <StackPane fx:id="itemTileBox51" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="5"
+                       GridPane.columnIndex="1">
+            </StackPane>
+            <StackPane fx:id="itemTileBox52" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="5"
+                       GridPane.columnIndex="2">
+            </StackPane>
+            <StackPane fx:id="itemTileBox53" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="5"
+                       GridPane.columnIndex="3">
+            </StackPane>
+            <StackPane fx:id="itemTileBox54" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="5"
+                       GridPane.columnIndex="4">
+            </StackPane>
+            <StackPane fx:id="itemTileBox55" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="5"
+                       GridPane.columnIndex="5">
+            </StackPane>
+            <StackPane fx:id="itemTileBox56" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="5"
+                       GridPane.columnIndex="6">
+            </StackPane>
+            <StackPane fx:id="itemTileBox57" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="5"
+                       GridPane.columnIndex="7">
+            </StackPane>
+            <StackPane fx:id="itemTileBox62" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="6"
+                       GridPane.columnIndex="2">
+            </StackPane>
+            <StackPane fx:id="itemTileBox63" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="6"
+                       GridPane.columnIndex="3">
+            </StackPane>
+            <StackPane fx:id="itemTileBox64" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="6"
+                       GridPane.columnIndex="4">
+            </StackPane>
+            <StackPane fx:id="itemTileBox65" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="6"
+                       GridPane.columnIndex="5">
+            </StackPane>
+            <StackPane fx:id="itemTileBox66" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="6"
+                       GridPane.columnIndex="6">
+            </StackPane>
+            <StackPane fx:id="itemTileBox73" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="7"
+                       GridPane.columnIndex="3">
+            </StackPane>
+            <StackPane fx:id="itemTileBox74" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="7"
+                       GridPane.columnIndex="4">
+            </StackPane>
+            <StackPane fx:id="itemTileBox75" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="7"
+                       GridPane.columnIndex="5">
+            </StackPane>
+            <StackPane fx:id="itemTileBox84" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="8"
+                       GridPane.columnIndex="4">
+            </StackPane>
+            <StackPane fx:id="itemTileBox85" styleClass="item_tile" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.rowIndex="8"
+                       GridPane.columnIndex="5">
+            </StackPane>
+        </GridPane>
+    </AnchorPane>
+</StackPane>

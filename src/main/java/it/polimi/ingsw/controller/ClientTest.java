@@ -22,13 +22,16 @@ public class ClientTest implements ClientInterface {
     }
     public static void main(String[] args) throws IOException, NotBoundException, ClassNotFoundException {
         String c;
+
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+
         System.out.println("write rmi or socket");
+
         c = bufferedReader.readLine();
+
         if(c.equals("rmi")) {
             rmiTest();
-        }
-        else if(c.equals("socket")) {
+        } else if(c.equals("socket")) {
             socketTest();
         }
     }
@@ -36,6 +39,7 @@ public class ClientTest implements ClientInterface {
     public static void socketTest() throws IOException {
         GUIInterface guiInterface = new GUIInterface();
         ClientTest clientTest = new ClientTest(guiInterface);
+
         TypeToken<ServerInterface> typeToken = new TypeToken<>(){};
         SocketConnectionManager<ClientInterface, ServerInterface>  socketConnectionManager = ConnectionBuilder.buildSocketConnection("localhost",1234,clientTest,typeToken);
         ServerInterface server = socketConnectionManager.getRemoteTarget();
@@ -248,6 +252,7 @@ class GUIInterface {
     public GUIInterface() {
         JFrame jFrame = new JFrame();
         jTextArea = new JTextArea();
+
         JScrollPane jScrollPane = new JScrollPane(jTextArea);
         jScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         jFrame.add(jScrollPane);
