@@ -91,4 +91,18 @@ public abstract class GameManager {
         //getController().getState().getPlayers().forEach(p->p.getPointPlayer().removeOnPointsUpdatedListener(oldView));
         //getController().getState().getPlayers().forEach(p->p.getPointPlayer().setOnPointsUpdatedListener(view));
     }
+
+    protected boolean verifyAllDisconnectedPlayer(Player player){
+
+        //Player player = getController().getState().getCurrentPlayer();
+        for(Player p: getController().getState().getPlayers()){
+            if(p != player && p.getPlayerState() != PlayerState.DISCONNECTED){
+                return false;
+            }
+        }
+        //GameState gameState = getController().getState().getGameState();
+        //getController().getState().setGameState(GameState.SUSPENDED);
+        //getController().setGameManager(new SuspendedGameManager(getController(), gameState));
+        return true;
+    }
 }
