@@ -25,6 +25,7 @@ public class SizeChangeListener implements ChangeListener<Number> {
 
     private final double initialScale;
 
+
     public SizeChangeListener(final Pane rootPane) {
 
         this.rootPane = rootPane;
@@ -37,6 +38,21 @@ public class SizeChangeListener implements ChangeListener<Number> {
 
             this.initialWidth = gd.getDisplayMode().getWidth() * 0.5;
             this.initialHeight = gd.getDisplayMode().getHeight() * 0.5;
+        }
+
+        this.initialScale = this.initialWidth / this.initialHeight;
+    }
+
+    public SizeChangeListener(final Pane rootPane, final int screen_width, final int screen_height) {
+
+        this.rootPane = rootPane;
+
+        if(rootPane.getWidth() != 0.0 && rootPane.getHeight() != 0.0) {
+            this.initialWidth = rootPane.getWidth();
+            this.initialHeight = rootPane.getHeight();
+        } else {
+            this.initialWidth = screen_width * 0.5;
+            this.initialHeight = screen_height * 0.5;
         }
 
         this.initialScale = this.initialWidth / this.initialHeight;

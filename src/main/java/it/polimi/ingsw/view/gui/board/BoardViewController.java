@@ -1,18 +1,19 @@
 package it.polimi.ingsw.view.gui.board;
 
+import it.polimi.ingsw.utils.Coordinate;
+import it.polimi.ingsw.view.gui.MyShelfieController;
 import it.polimi.ingsw.view.gui.TileSubjectView;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
-public class BoardViewController implements Initializable {
+public class BoardViewController implements MyShelfieController {
 
     @FXML
     private StackPane rootPane;
@@ -158,29 +159,43 @@ public class BoardViewController implements Initializable {
     @FXML
     private StackPane itemTileBox85;
 
+    private Map<Coordinate, StackPane> itemTileBoxes;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Platform.runLater(this::fillUpBoard);
+        itemTileBoxes = new HashMap<>();
+
+        setUpBoxesMap(itemTileBox03, itemTileBox04, itemTileBox13, itemTileBox14, itemTileBox15, itemTileBox22,
+                itemTileBox23, itemTileBox24, itemTileBox25, itemTileBox26, itemTileBox31, itemTileBox32, itemTileBox33,
+                itemTileBox34, itemTileBox35, itemTileBox36, itemTileBox37, itemTileBox38, itemTileBox40, itemTileBox41,
+                itemTileBox42, itemTileBox43, itemTileBox44, itemTileBox45, itemTileBox46, itemTileBox47, itemTileBox48,
+                itemTileBox50, itemTileBox51, itemTileBox52, itemTileBox53, itemTileBox54, itemTileBox55, itemTileBox56,
+                itemTileBox57, itemTileBox62, itemTileBox63, itemTileBox64, itemTileBox65, itemTileBox66, itemTileBox73,
+                itemTileBox74, itemTileBox75, itemTileBox84, itemTileBox85);
     }
 
-    private void fillUpBoard() {
-        new TileSubjectView(itemTileBox03, "cat_1");
-        new TileSubjectView(itemTileBox04, "cat_2");
-        new TileSubjectView(itemTileBox13, "cat_3");
-        new TileSubjectView(itemTileBox14, "book_1");
-        new TileSubjectView(itemTileBox15, "book_2");
-        new TileSubjectView(itemTileBox22, "book_3");
-        new TileSubjectView(itemTileBox23, "frame_1");
-        new TileSubjectView(itemTileBox24, "frame_2");
-        new TileSubjectView(itemTileBox25, "frame_3");
-        new TileSubjectView(itemTileBox26, "plant_1");
-        new TileSubjectView(itemTileBox31, "plant_2");
-        new TileSubjectView(itemTileBox32, "plant_3");
-        new TileSubjectView(itemTileBox33, "game_1");
-        new TileSubjectView(itemTileBox34, "game_2");
-        new TileSubjectView(itemTileBox35, "game_3");
-        new TileSubjectView(itemTileBox36, "trophy_1");
-        new TileSubjectView(itemTileBox37, "trophy_2");
-        new TileSubjectView(itemTileBox38, "trophy_3");
+    private void setUpBoxesMap(StackPane... itemTileBoxes) {
+
+        for (StackPane itemTileBox : itemTileBoxes) {
+            insertInItemTileBoxesMap(itemTileBox);
+        }
+    }
+
+    private Coordinate getItemTileBoxCoordinate(StackPane itemTileBox) {
+        return new Coordinate(GridPane.getRowIndex(itemTileBox), GridPane.getColumnIndex(itemTileBox));
+    }
+
+    private void insertInItemTileBoxesMap(StackPane itemTileBox) {
+        itemTileBoxes.put(getItemTileBoxCoordinate(itemTileBox), itemTileBox);
+    }
+
+    protected Map<Coordinate, StackPane> getItemTileBoxes() {
+        return itemTileBoxes;
+    }
+
+    public void fillUpBoard() {
+        for(Coordinate coordinate : itemTileBoxes.keySet()) {
+            new TileSubjectView(itemTileBoxes.get(coordinate), "cat_2");
+        }
     }
 }

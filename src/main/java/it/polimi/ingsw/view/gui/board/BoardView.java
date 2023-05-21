@@ -13,14 +13,13 @@ public class BoardView extends MyShelfieApplication {
 
     @Override
     public void start(Stage stage) {
-        Scene scene = MyShelfieApplication.setUpSceneWithPane("board/board-view.fxml");
 
-        setUpStage(stage, scene);
+        setUpSceneWithPane("board/board-view.fxml");
 
-        Platform.runLater( () -> setDynamicFontSize(scene));
-
-        stage.centerOnScreen();
+        setUpStage(stage);
 
         stage.show();
+
+        ((BoardViewController) getFxController()).fillUpBoard();
     }
 }

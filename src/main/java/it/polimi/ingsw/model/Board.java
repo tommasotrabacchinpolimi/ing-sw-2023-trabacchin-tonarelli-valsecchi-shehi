@@ -33,9 +33,6 @@ public class Board implements Serializable, OnUpdateNeededListener {
     private final List<OnBoardRefilledListener> onBoardRefilledListeners;
     private final List<OnBoardUpdatedListener> onBoardUpdatedListeners;
 
-
-
-
     public static final BoardSquareType[][] INIT_MATRIX = {
             {null, null, null, THREE_DOTS, FOUR_DOTS, null, null, null, null},
             {null, null, null, NO_DOTS, NO_DOTS, FOUR_DOTS, null, null, null},
