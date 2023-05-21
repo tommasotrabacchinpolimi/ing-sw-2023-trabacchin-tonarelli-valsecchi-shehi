@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.gui.loginpage;
 
-import it.polimi.ingsw.view.gui.ImageRoundCornersClipper;
 import it.polimi.ingsw.view.gui.MyShelfieController;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
