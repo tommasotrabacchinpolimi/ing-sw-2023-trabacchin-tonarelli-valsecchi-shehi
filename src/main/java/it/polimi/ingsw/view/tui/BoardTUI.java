@@ -50,16 +50,28 @@ public class BoardTUI {
     };
 
     public static void main( String[] args ) {
-        System.out.println("\07");
         System.out.print(colorize("                                                                     ", Attribute.GREEN_BACK()));
         System.out.print(colorize("MY SHELFIE: CHAT", Attribute.GREEN_BACK()));
-        System.out.print(colorize("                                                                     ", Attribute.GREEN_BACK()));
-      //  System.out.println(colorize("                                                                     MY SHELFIE: CHAT                                                         ", Attribute.GREEN_BACK()));
-        //print();
-       //printFitBoard();
-        //logo();
-        //printOthersBookShelf("paperino", "pluto", "paperino", bookshelf, bookshelf, bookshelf);
+        System.out.println(colorize("                                                                     ", Attribute.GREEN_BACK()));
+        printBookPoints();
+    }
 
+    private static void printBookPoints(){
+        System.out.println("               " + getDividerBookShelf(0));
+        for( int i = 0; i < DIMROW_BOOKSHELF; ++i ){
+            System.out.print("               ");
+            printLineBookShelf(i,bookshelf);
+            System.out.print("               ");
+            if(i < 5 ) {
+                System.out.print("Points " + i+1);
+            } else {
+                System.out.print(colorize("Total Points", Attribute.BOLD()) );
+            }
+
+            System.out.println();
+
+            System.out.println("               "+ getDividerBookShelf(i+1));
+        }
     }
 
     private static void printOthersBookShelf(String nickname1, String nickname2, String nickname3, char[][] bookShelf1, char[][] bookShelf2, char[][] bookShelf3){

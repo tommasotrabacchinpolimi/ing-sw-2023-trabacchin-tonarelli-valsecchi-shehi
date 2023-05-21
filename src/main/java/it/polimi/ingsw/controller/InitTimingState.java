@@ -6,8 +6,8 @@ import it.polimi.ingsw.model.PlayerState;
 
 public class InitTimingState extends TimingState{
 
-    public InitTimingState(TimingStateMachine timingStateMachine) {
-        super(timingStateMachine);
+    public InitTimingState(TimingStateMachine timingStateMachine, Player previousPlayer) {
+        super(timingStateMachine, previousPlayer);
     }
     @Override
     public synchronized void timerGoOff() {
@@ -16,5 +16,10 @@ public class InitTimingState extends TimingState{
     @Override
     public synchronized void currentPlayerStateChanged(Player player, PlayerState playerState) {
 
+    }
+
+    @Override
+    public boolean isDisconnectedTiming() {
+        return false;
     }
 }

@@ -52,7 +52,7 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
             verifyAdjacentTiles(player);
             verifyPersonalGoal(player);
             verifyCommonGoal(user);
-            verifyAllDisconnectedPlayer();
+            //verifyAllDisconnectedPlayer();
             setNextCurrentPlayer();
         }
         catch (NotEnoughSpaceInBookShelfException | NoTileTakenException | WrongChosenTilesFromBoardException e){
@@ -75,7 +75,8 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
     }
 
     //metodo che dice se tutti i player tranne quello passato per parametro sono disconnessi
-    private synchronized boolean verifyAllDisconnectedPlayer(){
+    /*private synchronized boolean verifyAllDisconnectedPlayer(){
+
         Player player = getController().getState().getCurrentPlayer();
         for(Player p: getController().getState().getPlayers()){
             if(p != player && p.getPlayerState() != PlayerState.DISCONNECTED){
@@ -86,22 +87,10 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
         getController().getState().setGameState(GameState.SUSPENDED);
         getController().setGameManager(new SuspendedGameManager(getController(), gameState));
         return true;
-    }
+    }*/
 
     private void verifyCommonGoal(ClientInterface user){
         Player player = getController().getState().getPlayerFromView(user);
-        /*CommonGoal commonGoal1, commonGoal2;
-        BookShelf bookShelf = player.getBookShelf();
-        commonGoal1 = getController().getActiveCommonGoal1();
-        commonGoal2 = getController().getActiveCommonGoal2();
-
-        if(commonGoal1.rule(bookShelf.toTileTypeMatrix()) != null){
-            player.getPointPlayer().setScoreCommonGoal1(commonGoal1.getAvailableScore());
-        }
-
-        if(commonGoal2.rule(bookShelf.toTileTypeMatrix()) != null){
-            player.getPointPlayer().setScoreCommonGoal2(commonGoal2.getAvailableScore());
-        }*/
         getController().getState().checkCommonGoal(player);
     }
 
@@ -167,8 +156,7 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
      */
     @Override
     protected synchronized void setNextCurrentPlayer() {
-        if (verifyAllDisconnectedPlayer())
-            return;
+
         if(getController().getState().getGameState() == GameState.END) return;
 
         int n = getController().getState().getPlayersNumber();
