@@ -4,9 +4,15 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.shape.Rectangle?>
+<?import java.lang.Double?>
 <AnchorPane fx:id="rootPane" cache="true" stylesheets="@LoginPage.css"
             xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="it.polimi.ingsw.view.gui.loginpage.LoginPageController" onMouseClicked="#setAllNonFocused">
+
+    <fx:define>
+        <Double fx:id="shapeArc" fx:value="17.0"/>
+    </fx:define>
 
     <GridPane fx:id="interfaceGrid" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
               AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" alignment="CENTER">
@@ -30,10 +36,15 @@
             </GridPane.margin>
         </Pane>
 
-        <AnchorPane fx:id="infoBoxContainer" GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.halignment="CENTER"
-                    GridPane.valignment="CENTER" GridPane.fillHeight="true" GridPane.fillWidth="true" cache="true">
-            <GridPane fx:id="infoContainer" alignment="CENTER" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="7.0"
-                      AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="7.0" cache="true" vgap="5">
+        <StackPane fx:id="infoBoxContainer" GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.halignment="CENTER"
+                   GridPane.valignment="CENTER" GridPane.fillHeight="true" GridPane.fillWidth="true" cache="true">
+
+            <shape>
+                <Rectangle width="${infoBoxContainer.width}" height="${infoBoxContainer.height}" arcHeight="$shapeArc"
+                           arcWidth="$shapeArc"/>
+            </shape>
+
+            <GridPane fx:id="infoContainer" alignment="CENTER" StackPane.alignment="CENTER" cache="true" vgap="5">
                 <columnConstraints>
                     <ColumnConstraints hgrow="ALWAYS" percentWidth="17"/>
                     <ColumnConstraints hgrow="ALWAYS" percentWidth="33"/>
@@ -45,6 +56,12 @@
                     <RowConstraints vgrow="ALWAYS" percentHeight="20"/>
                     <RowConstraints vgrow="ALWAYS" percentHeight="20"/>
                 </rowConstraints>
+
+                <shape>
+                    <Rectangle width="${infoBoxContainer.width}" height="${infoBoxContainer.height}"
+                               arcHeight="$shapeArc"
+                               arcWidth="$shapeArc"/>
+                </shape>
 
                 <Label fx:id="welcomeText" styleClass="welcome-text" GridPane.fillWidth="true"
                        GridPane.fillHeight="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER"
@@ -77,23 +94,38 @@
                         GridPane.columnIndex="1" GridPane.rowIndex="2" text="Create game"
                         onMouseClicked="#createGameSubmitted" onMouseEntered="#createGameButtonEntered"
                         onMouseExited="#createGameButtonExited" disable="true" alignment="CENTER" cache="true"
-                        wrapText="true"/>
+                        wrapText="true">
+                    <shape>
+                        <Rectangle height="${createButton.height}" width="${createButton.width}" arcWidth="$shapeArc"
+                                   arcHeight="$shapeArc"/>
+                    </shape>
+                </Button>
 
                 <Button fx:id="joinButton" styleClass="action-button" GridPane.halignment="CENTER"
                         GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
                         GridPane.columnIndex="2" GridPane.rowIndex="2" text="Join game"
                         onMouseClicked="#joinGameSubmitted" onMouseEntered="#joinGameButtonEntered"
                         onMouseExited="#joinGameButtonExited" disable="true" alignment="CENTER" cache="true"
-                        wrapText="true"/>
+                        wrapText="true">
+                    <shape>
+                        <Rectangle height="${joinButton.height}" width="${joinButton.width}" arcWidth="$shapeArc"
+                                   arcHeight="$shapeArc"/>
+                    </shape>
+                </Button>
 
                 <Button fx:id="playerNumberButton" styleClass="action-button" GridPane.halignment="CENTER"
                         GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
                         GridPane.columnIndex="1" GridPane.rowIndex="2" text="Submit"
                         onMouseClicked="#playerNumberSubmitted" onMouseEntered="#playerNumberButtonEntered"
                         onMouseExited="#playerNumberButtonExited" disable="true" alignment="CENTER" cache="true"
-                        wrapText="true" GridPane.columnSpan="2" visible="false"/>
+                        wrapText="true" GridPane.columnSpan="2" visible="false">
+                    <shape>
+                        <Rectangle height="${playerNumberButton.height}" width="${playerNumberButton.width}"
+                                   arcWidth="$shapeArc" arcHeight="$shapeArc"/>
+                    </shape>
+                </Button>
             </GridPane>
-        </AnchorPane>
+        </StackPane>
 
         <Pane fx:id="cranioCreationLogo" GridPane.fillHeight="true" GridPane.fillWidth="true"
               GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" GridPane.rowIndex="2" GridPane.columnIndex="2"

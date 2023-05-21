@@ -12,6 +12,10 @@
     -fx-background-position: center center;
 }
 
+#interfaceGrid{
+    -fx-background-color: rgba(0, 0, 0, 0.38);
+}
+
 #myShelfieTitleImageView {
     -fx-background-image: url('../../graphical.resources/publisher.material/title_big.png');
     -fx-background-size: contain;
@@ -19,22 +23,20 @@
     -fx-background-position: center center;
 }
 
-#interfaceGrid{
-    -fx-background-color: rgba(0, 0, 0, 0.38);
-}
-
 #infoBoxContainer {
     -fx-background-image: url('../../graphical.resources/misc/page_base_darken.jpg');
-    -fx-background-size: cover;
+    -fx-background-size: contain;
     -fx-background-position: center center;
     -fx-background-repeat: repeat-x;
+    -fx-padding: 0.7em;
 }
 
 #infoContainer {
     -fx-background-image: url('../../graphical.resources/misc/white_paper_texture.png');
-    -fx-background-size: cover;
+    -fx-background-size: contain;
     -fx-background-position: center center;
     -fx-alignment: center;
+    -fx-padding: 0.5em 1.3em 0.5em 1.3em;
 }
 
 .welcome-text {
@@ -50,7 +52,7 @@
     -fx-text-fill: rgba(28, 37, 41, 0.87);
     -fx-background-color: transparent;
     -fx-border-color: rgba(0, 0, 0, 0.93);
-    -fx-border-radius: 3%;
+    -fx-border-radius: 2%;
     -fx-font-size: 1.5em;
 }
 
@@ -78,7 +80,7 @@
     -fx-font-family: 'Special Elite Regular';
     -fx-text-fill: rgba(230, 221, 199, 0.90);
     -fx-background-image: url('../../graphical.resources/misc/page_base_lighten.png');
-    -fx-background-size: cover;
+    -fx-background-size: contain;
     -fx-background-position: center center;
     -fx-alignment: center;
     -fx-font-size: 1em;

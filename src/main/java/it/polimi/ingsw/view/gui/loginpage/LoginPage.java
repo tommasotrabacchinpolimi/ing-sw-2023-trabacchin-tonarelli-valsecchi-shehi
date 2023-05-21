@@ -14,11 +14,9 @@ public class LoginPage extends MyShelfieApplication {
     @Override
     public void start(Stage stage){
 
-        Scene scene = setUpScene("login/login-page.fxml");
+        setUpScene("login/login-page.fxml");
 
-        setUpStage(stage, scene);
-
-        Platform.runLater( () -> setDynamicFontSize(scene));
+        setUpStage(stage);
 
         stage.show();
     }

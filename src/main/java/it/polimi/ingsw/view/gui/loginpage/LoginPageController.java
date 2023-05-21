@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.gui.loginpage;
 
 import it.polimi.ingsw.view.gui.ImageRoundCornersClipper;
+import it.polimi.ingsw.view.gui.MyShelfieController;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.css.PseudoClass;
@@ -9,57 +10,72 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.effect.Bloom;
+import javafx.scene.effect.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import static java.util.Map.entry;
 
-public class LoginPageController {
+public class LoginPageController implements MyShelfieController {
 
     private static final Duration animationDuration = new Duration(400);
-    public AnchorPane rootPane;
-    public GridPane interfaceGrid;
-    public GridPane infoContainer;
-    public Label welcomeText;
-    public TextField nicknameInput;
-    public AnchorPane infoBoxContainer;
-    public Pane myShelfieTitleImageView;
-    public Button joinButton;
-    public Pane cranioCreationLogo;
-    public GridPane inputContainer;
-    public Button createButton;
+
     private static final PseudoClass errorClass = PseudoClass.getPseudoClass("error");
-    public Button playerNumberButton;
-    public TextField playerNumberInput;
-    public Label playerNumberText;
 
     @FXML
-    void initialize() {
-        //Load page with the focus on the pane and not on input field or button
-        Platform.runLater( () -> interfaceGrid.requestFocus() );
-
-        ImageRoundCornersClipper.roundClipper(infoContainer, 10);
-        ImageRoundCornersClipper.roundClipper(infoBoxContainer, 10);
-        ImageRoundCornersClipper.roundClipper(joinButton, 30);
-        ImageRoundCornersClipper.roundClipper(createButton, 30);
-        ImageRoundCornersClipper.roundClipper(playerNumberButton, 30);
-
-        setNicknameInputState();
-        setPlayerNumberInputState();
-    }
+    private AnchorPane rootPane;
 
     @FXML
-    public void setAllNonFocused(MouseEvent mouseEvent) {
+    private GridPane interfaceGrid;
+
+    @FXML
+    private GridPane infoContainer;
+
+    @FXML
+    private Label welcomeText;
+
+    @FXML
+    private TextField nicknameInput;
+
+    @FXML
+    private StackPane infoBoxContainer;
+
+    @FXML
+    private Pane myShelfieTitleImageView;
+
+    @FXML
+    private Button joinButton;
+
+    @FXML
+    private Pane cranioCreationLogo;
+
+    @FXML
+    private Button createButton;
+
+    @FXML
+    private Button playerNumberButton;
+
+    @FXML
+    private TextField playerNumberInput;
+
+    @FXML
+    private Label playerNumberText;
+
+    @FXML
+    private void setAllNonFocused(MouseEvent mouseEvent) {
         rootPane.requestFocus();
     }
 
@@ -254,5 +270,14 @@ public class LoginPageController {
         } else {
             node.setOpacity(1.0);
         }
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        //Load page with the focus on the pane and not on input field or button
+        Platform.runLater( () -> interfaceGrid.requestFocus() );
+
+        setNicknameInputState();
+        setPlayerNumberInputState();
     }
 }

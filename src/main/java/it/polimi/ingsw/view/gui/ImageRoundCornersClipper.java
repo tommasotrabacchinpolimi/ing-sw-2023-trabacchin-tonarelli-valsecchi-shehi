@@ -8,6 +8,7 @@ import javafx.scene.shape.Rectangle;
 
 import java.io.IOException;
 
+@Deprecated
 public class ImageRoundCornersClipper {
     public static void roundClipper(Region region, double arc){
         final Rectangle outputClip = new Rectangle();
