@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.gui.loginpage;
 
+import it.polimi.ingsw.view.gui.MyShelfieApplication;
 import it.polimi.ingsw.view.gui.MyShelfieButton;
 import it.polimi.ingsw.view.gui.MyShelfieController;
 import javafx.animation.FadeTransition;
@@ -7,6 +8,7 @@ import javafx.application.Platform;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -18,6 +20,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 
@@ -28,7 +31,7 @@ import java.util.ResourceBundle;
 
 import static java.util.Map.entry;
 
-public class LoginPageController implements MyShelfieController {
+public class LoginPageController extends MyShelfieController {
 
     private static final Duration animationDuration = new Duration(400);
 
@@ -116,6 +119,26 @@ public class LoginPageController implements MyShelfieController {
     @FXML
     public void playerNumberSubmitted(MouseEvent mouseEvent) {
         clearPlayerNumberInput();
+
+        displayGameInterface();
+    }
+
+    protected void displayGameInterface() {
+        Stage primaryStage = ((Stage) rootPane.getScene().getWindow());
+
+        primaryStage.close();
+
+        MyShelfieApplication myShelfieApplication = getMyShelfieApplicationLauncher();
+
+        Scene newScene = myShelfieApplication.setUpSceneWithPane("board/board-view.fxml");
+
+        primaryStage.setScene(newScene);
+
+        primaryStage.sizeToScene();
+
+        primaryStage.centerOnScreen();
+
+        primaryStage.show();
     }
 
 

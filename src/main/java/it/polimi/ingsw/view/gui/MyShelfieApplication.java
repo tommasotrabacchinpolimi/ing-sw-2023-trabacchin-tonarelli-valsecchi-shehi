@@ -8,9 +8,8 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
-import org.jetbrains.annotations.NotNull;
+import javafx.stage.WindowEvent;
 
 import java.awt.*;
 import java.io.IOException;
@@ -136,6 +135,8 @@ public abstract class MyShelfieApplication extends Application {
      * </ul>
      */
     public Scene setUpScene(final String FXMLFileName, final double percentWidth, final double percentHeight, Pane rootPaneContainer) {
+        Platform.setImplicitExit(false);
+
         loadMyShelfieFont();
 
         FXMLLoader fxmlLoader = new FXMLLoader(LoginPage.class.getResource(MyShelfieApplication.getFXMLFile(FXMLFileName)));
@@ -152,12 +153,18 @@ public abstract class MyShelfieApplication extends Application {
 
         setFxController(fxmlLoader.getController());
 
+        fxController.setMyShelfieApplicationLauncher(this);
+
         if (percentWidth > 0.0 && percentHeight > 0.0)
             scene = new Scene(rootPaneContainer, (SCREEN_WIDTH * percentWidth / 100.00), (SCREEN_HEIGHT * percentHeight / 100.00));
         else
             scene = new Scene(rootPaneContainer);
 
         setRootPane(rootPaneContainer);
+
+        Platform.runLater(() -> {
+            setDynamicFontSize(scene);
+        });
 
         return scene;
     }
@@ -210,12 +217,10 @@ public abstract class MyShelfieApplication extends Application {
         //center stage in screen
         stage.centerOnScreen();
 
+        stage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::closeWindowEvent);
+
         //set icon in taskbar
         stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream(GAME_ICON_PATH))));
-
-        Platform.runLater(() -> {
-            setDynamicFontSize(scene);
-        });
     }
 
     /**
@@ -279,5 +284,9 @@ public abstract class MyShelfieApplication extends Application {
 
     public void setFxController(MyShelfieController fxController) {
         this.fxController = fxController;
+    }
+
+    private void closeWindowEvent(WindowEvent event) {
+        Platform.exit();
     }
 }

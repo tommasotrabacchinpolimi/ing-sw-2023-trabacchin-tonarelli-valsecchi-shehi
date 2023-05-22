@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public class BoardViewController implements MyShelfieController {
+public class BoardViewController extends MyShelfieController {
 
     @FXML
     private StackPane rootPane;

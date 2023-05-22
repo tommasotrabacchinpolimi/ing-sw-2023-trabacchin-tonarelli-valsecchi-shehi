@@ -13,8 +13,17 @@ import javafx.fxml.Initializable;
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
  * @author Adem Shehi
- * @version 1.0
- * @since 20/05/2023
+ * @version 2.0
+ * @since 22/05/2023
  */
-public interface MyShelfieController extends Initializable {
+public abstract class MyShelfieController implements Initializable {
+    private MyShelfieApplication myShelfieApplicationLauncher;
+
+    public MyShelfieApplication getMyShelfieApplicationLauncher() {
+        return myShelfieApplicationLauncher;
+    }
+
+    public void setMyShelfieApplicationLauncher(MyShelfieApplication myShelfieApplicationLauncher) {
+        this.myShelfieApplicationLauncher = myShelfieApplicationLauncher;
+    }
 }
