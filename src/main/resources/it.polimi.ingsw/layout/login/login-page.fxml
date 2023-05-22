@@ -6,6 +6,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.shape.Rectangle?>
 <?import java.lang.Double?>
+<?import it.polimi.ingsw.view.gui.MyShelfieButton?>
 <AnchorPane fx:id="rootPane" cache="true" stylesheets="@LoginPage.css"
             xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="it.polimi.ingsw.view.gui.loginpage.LoginPageController" onMouseClicked="#setAllNonFocused">
@@ -89,41 +90,26 @@
                            GridPane.fillWidth="true" GridPane.fillHeight="true" GridPane.columnSpan="2"
                            onKeyPressed="#textFieldKeyPressed" visible="false" disable="true"/>
 
-                <Button fx:id="createButton" styleClass="action-button" GridPane.halignment="CENTER"
+                <MyShelfieButton fx:id="createButton" GridPane.halignment="CENTER"
                         GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
                         GridPane.columnIndex="1" GridPane.rowIndex="2" text="Create game"
-                        onMouseClicked="#createGameSubmitted" onMouseEntered="#createGameButtonEntered"
-                        onMouseExited="#createGameButtonExited" disable="true" alignment="CENTER" cache="true"
+                        onMouseClicked="#createGameSubmitted" disable="true" alignment="CENTER" cache="true"
                         wrapText="true">
-                    <shape>
-                        <Rectangle height="${createButton.height}" width="${createButton.width}" arcWidth="$shapeArc"
-                                   arcHeight="$shapeArc"/>
-                    </shape>
-                </Button>
+                </MyShelfieButton>
 
-                <Button fx:id="joinButton" styleClass="action-button" GridPane.halignment="CENTER"
+                <MyShelfieButton fx:id="joinButton" GridPane.halignment="CENTER"
                         GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
                         GridPane.columnIndex="2" GridPane.rowIndex="2" text="Join game"
-                        onMouseClicked="#joinGameSubmitted" onMouseEntered="#joinGameButtonEntered"
-                        onMouseExited="#joinGameButtonExited" disable="true" alignment="CENTER" cache="true"
+                        onMouseClicked="#joinGameSubmitted" disable="true" alignment="CENTER" cache="true"
                         wrapText="true">
-                    <shape>
-                        <Rectangle height="${joinButton.height}" width="${joinButton.width}" arcWidth="$shapeArc"
-                                   arcHeight="$shapeArc"/>
-                    </shape>
-                </Button>
+                </MyShelfieButton>
 
-                <Button fx:id="playerNumberButton" styleClass="action-button" GridPane.halignment="CENTER"
+                <MyShelfieButton fx:id="playerNumberButton" GridPane.halignment="CENTER"
                         GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
                         GridPane.columnIndex="1" GridPane.rowIndex="2" text="Submit"
-                        onMouseClicked="#playerNumberSubmitted" onMouseEntered="#playerNumberButtonEntered"
-                        onMouseExited="#playerNumberButtonExited" disable="true" alignment="CENTER" cache="true"
+                        onMouseClicked="#playerNumberSubmitted" disable="true" alignment="CENTER" cache="true"
                         wrapText="true" GridPane.columnSpan="2" visible="false">
-                    <shape>
-                        <Rectangle height="${playerNumberButton.height}" width="${playerNumberButton.width}"
-                                   arcWidth="$shapeArc" arcHeight="$shapeArc"/>
-                    </shape>
-                </Button>
+                </MyShelfieButton>
             </GridPane>
         </StackPane>
 

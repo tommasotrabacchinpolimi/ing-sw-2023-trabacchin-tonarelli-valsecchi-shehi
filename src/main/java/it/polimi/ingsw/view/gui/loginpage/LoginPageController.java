@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.gui.loginpage;
 
+import it.polimi.ingsw.view.gui.MyShelfieButton;
 import it.polimi.ingsw.view.gui.MyShelfieController;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
@@ -17,7 +18,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 
@@ -56,16 +56,16 @@ public class LoginPageController implements MyShelfieController {
     private Pane myShelfieTitleImageView;
 
     @FXML
-    private Button joinButton;
+    private MyShelfieButton joinButton;
 
     @FXML
     private Pane cranioCreationLogo;
 
     @FXML
-    private Button createButton;
+    private MyShelfieButton createButton;
 
     @FXML
-    private Button playerNumberButton;
+    private MyShelfieButton playerNumberButton;
 
     @FXML
     private TextField playerNumberInput;
@@ -114,47 +114,10 @@ public class LoginPageController implements MyShelfieController {
     }
 
     @FXML
-    public void createGameButtonEntered(MouseEvent mouseEvent) {
-        enhanceButton(createButton);
-    }
-
-    @FXML
-    public void createGameButtonExited(MouseEvent mouseEvent) {
-        reverseEnhanceButton(createButton);
-    }
-
-    @FXML
-    public void joinGameButtonEntered(MouseEvent mouseEvent) {
-        enhanceButton(joinButton);
-    }
-
-    @FXML
-    public void joinGameButtonExited(MouseEvent mouseEvent) {
-        reverseEnhanceButton(joinButton);
-    }
-
-    @FXML
     public void playerNumberSubmitted(MouseEvent mouseEvent) {
         clearPlayerNumberInput();
     }
 
-    @FXML
-    public void playerNumberButtonEntered(MouseEvent mouseEvent) {
-        enhanceButton(playerNumberButton);
-    }
-
-    @FXML
-    public void playerNumberButtonExited(MouseEvent mouseEvent) {
-        reverseEnhanceButton(playerNumberButton);
-    }
-
-    private void enhanceButton(Button button) {
-        button.setEffect(new Bloom());
-    }
-
-    private void reverseEnhanceButton(Button button) {
-        button.setEffect(null);
-    }
 
     private void clearNicknameInput() {
         nicknameInput.clear();

@@ -5,13 +5,16 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * <p>This class is used to define the default path and commands allowed by every class that has to deal with the graphics
@@ -36,6 +39,11 @@ public abstract class MyShelfieApplication extends Application {
      * <p>Path to the font used</p>
      */
     private static final String FONT_PATH = "/it.polimi.ingsw/graphical.resources/font/SpecialElite-Regular.ttf";
+
+    /**
+     * <p>Path to the font used</p>
+     */
+    private static final String GAME_ICON_PATH = "/it.polimi.ingsw/graphical.resources/publisher.material/icon_50x50px.png";
 
     /**
      * The screen size
@@ -201,6 +209,9 @@ public abstract class MyShelfieApplication extends Application {
 
         //center stage in screen
         stage.centerOnScreen();
+
+        //set icon in taskbar
+        stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream(GAME_ICON_PATH))));
 
         Platform.runLater(() -> {
             setDynamicFontSize(scene);
