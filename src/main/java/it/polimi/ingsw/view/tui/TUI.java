@@ -174,7 +174,6 @@ public class TUI extends UI implements Runnable{
                         break;
                     default :
                         reset();
-                        home();
                         if(state.equals(TUIState.CHAT)){
                             showChat();
                         } else if (state.equals(TUIState.OTHERS)) {
@@ -183,6 +182,8 @@ public class TUI extends UI implements Runnable{
                             printLegendMoves();
                         } else if (state.equals(TUIState.END)) {
                             showWinner();
+                        } else if (state.equals(TUIState.HOME)) {
+                            home();
                         }
                 }
             }
@@ -388,6 +389,7 @@ public class TUI extends UI implements Runnable{
         out.println();
         printOthersBookShelf(nicknames.get(0), nicknames.get(1), nicknames.get(2), othersBookshelves.get(0), othersBookshelves.get(1), othersBookshelves.get(2));
         printOthersPoint(nicknames.get(0), nicknames.get(1), nicknames.get(2), othersPoints.get(0), othersPoints.get(1), othersPoints.get(2), othersTotalPoints.get(0), othersTotalPoints.get(1), othersTotalPoints.get(2));
+        out.println(colorize("<--- Enter 'quit' to leave this game and start a new one. --->", Attribute.BOLD()));
     }
 
     private void printBoardBookShelfPersonalGoal(char[][] board, char[][] bookshelf, char[][] personalGoal){
