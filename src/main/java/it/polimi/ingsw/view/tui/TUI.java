@@ -1,6 +1,8 @@
 package it.polimi.ingsw.view.tui;
 
 import com.diogonunes.jcolor.Attribute;
+import it.polimi.ingsw.controller.exceptions.AlreadyInGameException;
+import it.polimi.ingsw.controller.exceptions.AlreadyTakenNicknameException;
 import it.polimi.ingsw.model.BoardSquareType;
 import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.TileSubject;
@@ -95,6 +97,9 @@ public class TUI extends UI implements Runnable{
             lock.lock();
             welcome(true);
             Thread.sleep(1000);
+            if(getModel().getPlayers().isEmpty()){
+                this.run();
+            }
             home();
             while(true) {
                 lock.unlock();
@@ -220,7 +225,6 @@ public class TUI extends UI implements Runnable{
 
     @Override
     public void onGameStateChanged() {
-
     }
 
     private void welcome(boolean fromTheBeginning) throws IOException, NotBoundException, ClassNotFoundException {
@@ -286,6 +290,9 @@ public class TUI extends UI implements Runnable{
 
         out.print("Here are all the players in the game: ");
         for(String name: getModel().getPlayers()){
+            if(getModel().getPlayersState().get(name)==null) {
+                continue;
+            }
             out.print(name);
             if(!Objects.equals(getModel().getPlayersState().get(name) , "CONNECTED")){
                 out.print("(" + colorize(getModel().getPlayersState().get(name).toLowerCase(), Attribute.ITALIC()) + ")");

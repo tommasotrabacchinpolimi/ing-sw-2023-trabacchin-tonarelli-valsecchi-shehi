@@ -51,6 +51,7 @@ public interface ClientInterface extends RemoteInterface,
         OnAchievedCommonGoalListener,
         OnAdjacentTilesUpdatedListener,
         OnChangedCommonGoalAvailableScoreListener,
-        OnWinnerChangedListener {
-
-}
+        OnWinnerChangedListener,
+        OnPlayersListChangedListener
+                                    {
+                                    }

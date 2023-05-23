@@ -36,19 +36,14 @@ public abstract class TimingState {
             return;
         }
         setTriggered();
-        System.out.println("changing player");
         if(player.getPlayerState().equals(PlayerState.CONNECTED)) {
-            System.out.println("connected " + player.getNickName());
-
             getTimingStateMachine().setTimingState(new ConnectedTimingState(getTimingStateMachine(), getTimingStateMachine().getController().getState().getCurrentPlayer()));
         }
         else if(player.getPlayerState().equals(PlayerState.DISCONNECTED)) {
             if(!getTimingStateMachine().getController().getGameManager().verifyAllDisconnectedPlayer(getPreviousPlayer())) {
-                System.out.println("disconnected");
                 getTimingStateMachine().setTimingState(new DisconnectedTimingState(getTimingStateMachine(), getTimingStateMachine().getController().getState().getCurrentPlayer()));
             }
             else {
-                System.out.println("pending suspension");
                 getTimingStateMachine().setTimingState(new PendingSuspensionDisconnectedTimingState(getTimingStateMachine(), getTimingStateMachine().getController().getState().getCurrentPlayer()));
             }
         }

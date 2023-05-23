@@ -327,6 +327,7 @@ public class LobbyController
         Controller c = viewControllerMap.get(user);
         controllerViewMap.get(c).remove(user);
         viewControllerMap.remove(user);
+        viewToNicknameMap.remove(user);
         dispatcher.removeController(user, c);
     }
 

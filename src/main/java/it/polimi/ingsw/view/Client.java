@@ -38,7 +38,7 @@ public class Client implements ClientInterface, LogicInterface {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Now choose your desired UI:");
         System.out.println("1) TUI");
-        System.out.println("2) UniqueUI");
+        System.out.println("2) GUI");
         UIChoice = bufferedReader.readLine();
 
         if (UIChoice.equals("1")) {
@@ -247,6 +247,10 @@ public class Client implements ClientInterface, LogicInterface {
         this.setServer(serverInterface);
     }
 
+    @Override
+    public void onPlayersListChanged(List<String> players) {
+        viewData.setPlayers(players);
+    }
 }
 
 

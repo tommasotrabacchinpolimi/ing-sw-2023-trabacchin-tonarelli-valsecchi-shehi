@@ -33,6 +33,9 @@ public class SuspendedGameManager extends GameManager {
     public synchronized void registerPlayer(ClientInterface view, String nickname) {
         Player player = getController().getState().getPlayerFromNick(nickname);
         if(player!=null && player.getPlayerState()==PlayerState.DISCONNECTED) {
+            ClientInterface oldView = getController().getState().getPlayerFromNick(nickname).getVirtualView();
+            getController().getState().removeOnPlayersListChangedListener(oldView);
+            getController().getState().setOnPlayersListChangedListener(view);
             registerListeners(view, nickname);
             player.setVirtualView(view);
             player.setPlayerState(PlayerState.CONNECTED);
