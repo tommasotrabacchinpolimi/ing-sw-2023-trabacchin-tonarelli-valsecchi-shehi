@@ -1,7 +1,5 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.view.LogicInterface;
-
 public abstract class UI {
     private LogicInterface logicController;
 
@@ -10,11 +8,11 @@ public abstract class UI {
         this.logicController = logicController;
     }
 
-    protected LogicInterface getLogicController() {
+    public LogicInterface getLogicController() {
         return logicController;
     }
 
-    public abstract void launch();
+    public abstract void launchUI();
 
     public ViewData getModel() {
         return model;
@@ -31,4 +29,6 @@ public abstract class UI {
     protected abstract void showWinner();
 
     public abstract void onException();
+
+    public abstract void onGameStateChanged();
 }

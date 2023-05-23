@@ -63,7 +63,7 @@ public class TUI extends UI implements Runnable{
     }
 
     @Override
-    public void launch() {
+    public void launchUI() {
         new Thread(this).start();
     }
 
@@ -207,6 +207,11 @@ public class TUI extends UI implements Runnable{
         lock.lock();
         out.println(getModel().getException());
         lock.unlock();
+    }
+
+    @Override
+    public void onGameStateChanged() {
+
     }
 
     private void welcome(boolean fromTheBeginning) throws IOException, NotBoundException, ClassNotFoundException {

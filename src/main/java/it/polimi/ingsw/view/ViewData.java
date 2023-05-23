@@ -71,6 +71,7 @@ public class ViewData {
 
     public void setGameState(String gameState) {
         this.gameState = gameState;
+        userInterface.onGameStateChanged();
     }
 
     public TileSubject[][] getBoard() {
