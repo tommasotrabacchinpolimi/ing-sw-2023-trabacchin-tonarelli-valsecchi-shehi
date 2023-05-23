@@ -70,8 +70,12 @@ public class TUI extends UI implements Runnable{
     @Override
     protected void onNewMessage(String sender) {
         lock.lock();
-        if(!sender.equals(getModel().getThisPlayer())) {
-            out.println("New Message from " + sender);
+        if(state != TUIState.CHAT) {
+            if (!sender.equals(getModel().getThisPlayer())) {
+                out.println("New Message from " + sender);
+            }
+        } else {
+            refresh();
         }
         lock.unlock();
     }
@@ -79,7 +83,11 @@ public class TUI extends UI implements Runnable{
     @Override
     protected void onCurrentPlayerChanged(String newCurrentPlayer) {
         lock.lock();
-        out.println("There is a new current player, please refresh the page...");
+        if(state != TUIState.HOME) {
+            out.println("There is a new current player, please refresh the page...");
+        } else {
+            refresh();
+        }
         lock.unlock();
     }
 
@@ -90,14 +98,13 @@ public class TUI extends UI implements Runnable{
             welcome(true);
             Thread.sleep(1000);
             home();
-            out.println("Please, enter help to learn how to play!");
             while(true) {
                 lock.unlock();
                 while(!bufferedReader.ready()) {
                     Thread.sleep(50);
                 }
-                lock.lock();
                 String input = bufferedReader.readLine();
+                lock.lock();
                 switch (input) {
                     case "help":
                         state = TUIState.LEGEND;
@@ -129,8 +136,7 @@ public class TUI extends UI implements Runnable{
                         }
                         out.println("Sending the message...");
                         getLogicController().sentMessage(text, rec);
-                        reset();
-                        home();
+                        refresh();
                         break;
                     case "chat":
                         state = TUIState.CHAT;
@@ -171,26 +177,31 @@ public class TUI extends UI implements Runnable{
                         int n = Integer.parseInt(String.valueOf(num.charAt(0)))-1;
                         getLogicController().dragTilesToBookShelf(tiles, n);
                         out.println("Moving...");
+                        refresh();
                         break;
                     default :
-                        reset();
-                        if(state.equals(TUIState.CHAT)){
-                            showChat();
-                        } else if (state.equals(TUIState.OTHERS)) {
-                            showBookshelves();
-                        } else if (state.equals(TUIState.LEGEND)) {
-                            printLegendMoves();
-                        } else if (state.equals(TUIState.END)) {
-                            showWinner();
-                        } else if (state.equals(TUIState.HOME)) {
-                            home();
-                        }
+                        refresh();
                 }
             }
         } catch (IOException | NotBoundException | ClassNotFoundException | InterruptedException e) {
             throw new RuntimeException(e);
         }
 
+    }
+
+    public void refresh(){
+        reset();
+        if(state.equals(TUIState.CHAT)){
+            showChat();
+        } else if (state.equals(TUIState.OTHERS)) {
+            showBookshelves();
+        } else if (state.equals(TUIState.LEGEND)) {
+            printLegendMoves();
+        } else if (state.equals(TUIState.END)) {
+            showWinner();
+        } else if (state.equals(TUIState.HOME)) {
+            home();
+        }
     }
 
     public void reset(){
@@ -317,6 +328,7 @@ public class TUI extends UI implements Runnable{
                 out.println(colorize("Current Player is " + getModel().getCurrentPlayer(), Attribute.BOLD(), Attribute.GREEN_TEXT()));
             }
         }
+        out.println(colorize("<--To learn how to play, please type 'help'.-->",Attribute.BOLD()));
     }
 
     private void showChat(){
@@ -328,14 +340,17 @@ public class TUI extends UI implements Runnable{
         if(messages == null){
             System.out.println("There aren't any messages yet.");
         } else {
+
+            out.println("NUMBER OF MESSAGES: " + messages.size());
+
             for (Triple<String, List<String>, String> message : messages) {
-                if (message.getSecond().contains(getModel().getThisPlayer())) {
+                if (message.getSecond().contains(getModel().getThisPlayer()) || message.getFirst().equals(getModel().getThisPlayer())) {
                     String sender = message.getFirst();
                     String priv = privateOrPublicMessage(message.getSecond());
                     if (sender.equals(getModel().getThisPlayer())) {
                         sender = "You";
                         if (priv.equals("(private)")) {
-                            priv = "(" + colorize("private with " + message.getSecond().get(0), Attribute.ITALIC()) + ") ";
+                            priv = "(private with " + message.getSecond().get(0) + ") " ;
                         }
                     }
                     out.println(colorize(sender + " " + priv, Attribute.BLUE_TEXT()) + " " + message.getThird());
@@ -357,6 +372,7 @@ public class TUI extends UI implements Runnable{
         printOthersBookShelf(nicknames.get(0), nicknames.get(1), nicknames.get(2), bookshelves.get(0), bookshelves.get(1), bookshelves.get(2));
         out.println();
         printOthersPoint(nicknames.get(0), nicknames.get(1), nicknames.get(2), pointPlayers.get(0), pointPlayers.get(1), pointPlayers.get(2), totalPoints.get(0), totalPoints.get(1), totalPoints.get(2));
+        out.println(colorize("<--If you want to return to the homepage, please type 'exit'.-->",Attribute.BOLD()));
     }
 
     @Override
@@ -764,8 +780,8 @@ public class TUI extends UI implements Runnable{
     }
 
     private String privateOrPublicMessage(List<String> receivers){
-        if(receivers.size() == 1) return "(" + colorize("private",Attribute.ITALIC()) + ")";
-        return "(" + colorize("public",Attribute.ITALIC()) + ")";
+        if(receivers.size() == 1) return "(private)" ;
+        return "(public)" ;
     }
 
     private List<String> getOtherPlayer(){
