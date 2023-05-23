@@ -9,7 +9,7 @@ import it.polimi.ingsw.net.RmiConnectionManager;
 import it.polimi.ingsw.net.SocketConnectionManager;
 import it.polimi.ingsw.utils.Coordinate;
 import it.polimi.ingsw.utils.Triple;
-import it.polimi.ingsw.view.gui.MyShelfieApplicationAdapter;
+//import it.polimi.ingsw.view.gui.MyShelfieApplicationAdapter;
 import it.polimi.ingsw.view.tui.TUI;
 
 import java.io.BufferedReader;
@@ -44,7 +44,7 @@ public class Client implements ClientInterface, LogicInterface {
         if (UIChoice.equals("1")) {
             ui = new TUI();
         } else if (UIChoice.equals("2")) {
-            ui = new MyShelfieApplicationAdapter();
+            //ui = new MyShelfieApplicationAdapter();
         }
 
         ui.setModel(viewData);
