@@ -25,7 +25,6 @@ public class PendingSuspensionDisconnectedTimingState extends TimingState{
             return;
         }
         setTriggered();
-        System.out.println("suspending");
         getTimingStateMachine().setTimingState(new InitTimingState(getTimingStateMachine(), getTimingStateMachine().getController().getState().getCurrentPlayer()));
         GameState gameState = getTimingStateMachine().getController().getState().getGameState();
         getTimingStateMachine().getController().getState().setGameState(GameState.SUSPENDED);

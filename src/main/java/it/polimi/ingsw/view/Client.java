@@ -237,6 +237,10 @@ public class Client implements ClientInterface, LogicInterface {
         this.setServer(serverInterface);
     }
 
+    @Override
+    public void onPlayersListChanged(List<String> players) {
+        viewData.setPlayers(players);
+    }
 }
 
 

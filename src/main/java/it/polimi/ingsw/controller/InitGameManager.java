@@ -81,6 +81,7 @@ public class InitGameManager extends GameManager {
         }
         else {
             Player newPlayer = new Player(nickname,view);
+            getController().getState().setOnPlayersListChangedListener(view);
             getController().getState().addPlayer(newPlayer);
             registerListeners(view, nickname);
             registerInternalListener(newPlayer);

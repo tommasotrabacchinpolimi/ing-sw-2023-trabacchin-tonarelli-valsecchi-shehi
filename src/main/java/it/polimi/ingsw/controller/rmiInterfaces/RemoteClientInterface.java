@@ -46,4 +46,6 @@ public interface RemoteClientInterface extends RemoteInterface {
     public void onChangedCommonGoalAvailableScore(int p0, int p1) throws RemoteException;
 
     public void onWinnerChanged(String nickname) throws RemoteException;
+
+    public void onPlayersListChanged(List<String> players) throws RemoteException;
 }

@@ -244,6 +244,11 @@ public class ClientTest implements ClientInterface {
     public void onWinnerChanged(String nickname) {
 
     }
+
+    @Override
+    public void onPlayersListChanged(List<String> players) {
+
+    }
 }
 
 

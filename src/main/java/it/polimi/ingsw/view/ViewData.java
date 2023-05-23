@@ -11,6 +11,8 @@ public class ViewData {
     private String currentPlayer;
     private String winnerPlayer;
     private Map<String, String> playersState;
+
+    private List<String> players;
     private String gameState;
     private TileSubject[][] board;
     private Map<String, TileSubject[][]> bookShelves;
@@ -34,6 +36,7 @@ public class ViewData {
         availableScores = new HashMap<>();
         this.userInterface = null;
         exception = "";
+        players = new ArrayList<>();
     }
 
     public String getException() {
@@ -45,6 +48,12 @@ public class ViewData {
         userInterface.onException();
     }
 
+    public void setPlayers(List<String> players) {
+        this.players = players;
+    }
+    public List<String> getPlayers() {
+        return this.players;
+    }
     public UI getUserInterface() {
         return userInterface;
     }
@@ -53,9 +62,6 @@ public class ViewData {
         this.userInterface = userInterface;
     }
 
-    public List<String> getPlayers() {
-        return playersState.keySet().stream().toList();
-    }
 
     public Map<String, String> getPlayersState() {
         return playersState;

@@ -68,6 +68,9 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
     public synchronized void registerPlayer(ClientInterface user, String nickname) {
         Player player = getController().getState().getPlayerFromNick(nickname);
         if(player != null && player.getPlayerState() == PlayerState.DISCONNECTED){
+            ClientInterface oldView = getController().getState().getPlayerFromNick(nickname).getVirtualView();
+            getController().getState().removeOnPlayersListChangedListener(oldView);
+            getController().getState().setOnPlayersListChangedListener(user);
             registerListeners(user, nickname);
             player.setVirtualView(user);
             player.setPlayerState(PlayerState.CONNECTED);

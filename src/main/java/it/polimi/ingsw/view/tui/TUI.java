@@ -272,6 +272,9 @@ public class TUI extends UI implements Runnable{
 
         out.print("Here are all the players in the game: ");
         for(String name: getModel().getPlayers()){
+            if(getModel().getPlayersState().get(name)==null) {
+                continue;
+            }
             out.print(name);
             if(!Objects.equals(getModel().getPlayersState().get(name) , "CONNECTED")){
                 out.print("(" + colorize(getModel().getPlayersState().get(name).toLowerCase(), Attribute.ITALIC()) + ")");

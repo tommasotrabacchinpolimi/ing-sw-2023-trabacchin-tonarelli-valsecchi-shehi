@@ -132,6 +132,9 @@ public class State implements Serializable, OnUpdateNeededListener {
     @ExcludedFromJSON
     private final List<OnWinnerChangedListener> onWinnerChangedListeners;
 
+    @ExcludedFromJSON
+    private final List<OnPlayersListChangedListener> onPlayersListChangedListeners;
+
     /**
      * Construct of the class that creates the fields of the class.
      *
@@ -159,6 +162,7 @@ public class State implements Serializable, OnUpdateNeededListener {
         onChangedCommonGoalAvailableScoreListenerListeners = new LinkedList<>();
         exceptionsListeners = new LinkedList<>();
         onWinnerChangedListeners = new LinkedList<>();
+        onPlayersListChangedListeners = new LinkedList<>();
     }
 
     public void setAchievedCommonGoalListener(OnAchievedCommonGoalListener listener) {
@@ -340,6 +344,7 @@ public class State implements Serializable, OnUpdateNeededListener {
         this.players.add(player);
         player.getPointPlayer().setPlayer(player);
         player.getBookShelf().setPlayer(player);
+        notifyOnPlayersListChanged();
         return true;
     }
 
@@ -637,34 +642,51 @@ public class State implements Serializable, OnUpdateNeededListener {
         notifyOnExceptionsListener(lastException);
     }
 
+    private void notifyOnPlayersListChanged() {
+        for(OnPlayersListChangedListener onPlayersListChangedListener : onPlayersListChangedListeners) {
+            onPlayersListChangedListener.onPlayersListChanged(players.stream().map(Player::getNickName).toList());
+            System.out.println("players list notified");
+        }
+    }
+    public void setOnPlayersListChangedListener(OnPlayersListChangedListener onPlayersListChangedListener) {
+        this.onPlayersListChangedListeners.add(onPlayersListChangedListener);
+    }
+    public void removeOnPlayersListChangedListener(OnWinnerChangedListener onWinnerChangedListener) {
+        this.onWinnerChangedListeners.remove(onWinnerChangedListener);
+    }
+
     @Override
     public void onUpdateNeededListener(Player player) {
 
-        stateChangedListeners.stream()
-                .filter(v -> v == player.getVirtualView()).forEach(v -> v.onStateChanged(gameState));
+        notifyOnPlayersListChanged();
+        //onPlayersListChangedListeners
+                        //.forEach(v -> v.onPlayersListChanged(players.stream().map(Player::getNickName).toList()));
+
+        stateChangedListeners
+                .forEach(v -> v.onStateChanged(gameState));
 
         if(currentPlayer != null) {
-            onCurrentPlayerChangedListeners.stream()
-                    .filter(v -> v == player.getVirtualView()).forEach(v -> v.onCurrentPlayerChangedListener(currentPlayer.getNickName()));
+            onCurrentPlayerChangedListeners
+                    .forEach(v -> v.onCurrentPlayerChangedListener(currentPlayer.getNickName()));
         }
 
         if(lastPlayer != null) {
-            lastPlayerUpdatedListeners.stream()
-                    .filter(v -> v == player.getVirtualView()).forEach(v -> v.onLastPlayerUpdated(lastPlayer.getNickName()));
+            lastPlayerUpdatedListeners
+                    .forEach(v -> v.onLastPlayerUpdated(lastPlayer.getNickName()));
 
         }
 
         if(this.getCommonGoal2() != null && this.getCommonGoal1() != null) {
-            onAssignedCommonGoalListeners.stream()
+            onAssignedCommonGoalListeners
                     .forEach(v -> {v.onAssignedCommonGoal(this.getCommonGoal1().getDescription(),1); v.onAssignedCommonGoal(this.getCommonGoal2().getDescription(), 2);});
-            onChangedCommonGoalAvailableScoreListenerListeners.stream().forEach(v -> {v.onChangedCommonGoalAvailableScore(this.getCommonGoal1().getAvailableScore(),1); v.onChangedCommonGoalAvailableScore(this.getCommonGoal2().getAvailableScore(), 2);});
+            onChangedCommonGoalAvailableScoreListenerListeners.forEach(v -> {v.onChangedCommonGoalAvailableScore(this.getCommonGoal1().getAvailableScore(),1); v.onChangedCommonGoalAvailableScore(this.getCommonGoal2().getAvailableScore(), 2);});
         }
 
 
         List<String> senderNicknames = messages.stream().map(m -> m.getSender().getNickName()).toList();
         List<List<String>> receiverNicknames = messages.stream().map(m -> m.getReceivers().stream().map(Player::getNickName).toList()).toList();
         List<String> texts = messages.stream().map(ChatMessage::getText).toList();
-        messageSentListeners.stream()
+        messageSentListeners
                 .forEach(v -> v.onMessagesSentUpdate(senderNicknames, receiverNicknames, texts));
     }
 

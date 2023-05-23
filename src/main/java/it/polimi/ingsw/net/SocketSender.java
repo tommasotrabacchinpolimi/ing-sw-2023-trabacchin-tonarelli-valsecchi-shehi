@@ -39,7 +39,7 @@ public class SocketSender<L extends RemoteInterface, R extends RemoteInterface> 
                 objectOutputStream.writeObject(message);
             } catch (IOException e) {
                 socketConnectionManager.connectionDown();
-                //e.printStackTrace();
+                e.printStackTrace();
             }
         });
         return null;
