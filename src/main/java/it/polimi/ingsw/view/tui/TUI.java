@@ -7,8 +7,6 @@ import it.polimi.ingsw.model.TileSubject;
 import it.polimi.ingsw.model.TileType;
 import it.polimi.ingsw.utils.Coordinate;
 import it.polimi.ingsw.utils.Triple;
-import it.polimi.ingsw.view.Client;
-import it.polimi.ingsw.view.LogicInterface;
 import it.polimi.ingsw.view.UI;
 
 import java.io.BufferedReader;
@@ -68,7 +66,7 @@ public class TUI extends UI implements Runnable{
     }
 
     @Override
-    protected void onNewMessage(String sender) {
+    public void onNewMessage(String sender) {
         lock.lock();
         if(state != TUIState.CHAT) {
             if (!sender.equals(getModel().getThisPlayer())) {
@@ -81,7 +79,7 @@ public class TUI extends UI implements Runnable{
     }
 
     @Override
-    protected void onCurrentPlayerChanged(String newCurrentPlayer) {
+    public void onCurrentPlayerChanged(String newCurrentPlayer) {
         lock.lock();
         if(state != TUIState.HOME) {
             out.println("There is a new current player, please refresh the page...");
@@ -376,7 +374,7 @@ public class TUI extends UI implements Runnable{
     }
 
     @Override
-    protected void showWinner(){
+    public void showWinner(){
         state = TUIState.END;
         System.out.print(colorize("                                                           ", Attribute.GREEN_BACK()));
         System.out.print(colorize("MY SHELFIE: HOME OF " + getModel().getThisPlayer(), Attribute.GREEN_BACK()));

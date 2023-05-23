@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.gui.loginpage;
 
+import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.view.gui.MyShelfieApplication;
 import it.polimi.ingsw.view.gui.MyShelfieButton;
 import it.polimi.ingsw.view.gui.MyShelfieController;
@@ -9,10 +10,8 @@ import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.effect.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -76,6 +75,19 @@ public class LoginPageController extends MyShelfieController {
     @FXML
     private Label playerNumberText;
 
+    private String nickName;
+
+    private int playersNumber;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        //Load page with the focus on the pane and not on input field or button
+        Platform.runLater( () -> rootPane.requestFocus() );
+
+        setNicknameInputState();
+        setPlayerNumberInputState();
+    }
+
     @FXML
     private void setAllNonFocused(MouseEvent mouseEvent) {
         rootPane.requestFocus();
@@ -105,42 +117,35 @@ public class LoginPageController extends MyShelfieController {
     }
 
     @FXML
-    public void joinGameSubmitted(MouseEvent mouseEvent) {
-        clearNicknameInput();
+    private void joinGameSubmitted(MouseEvent mouseEvent) {
+        getNickNameFromField();
+
+        MyShelfieApplication.getUi().getLogicController().joinGame(nickName);
     }
 
     @FXML
-    public void createGameSubmitted(MouseEvent mouseEvent) {
-        clearNicknameInput();
+    private void createGameSubmitted(MouseEvent mouseEvent) {
+        getNickNameFromField();
 
         gameCreationUI();
     }
 
     @FXML
-    public void playerNumberSubmitted(MouseEvent mouseEvent) {
+    private void playerNumberSubmitted(MouseEvent mouseEvent) {
+        getPlayersNumberFromField();
+
+        MyShelfieApplication.getUi().getLogicController().createGame(this.nickName, this.playersNumber);
+    }
+
+    private void getNickNameFromField() {
+        nickName = nicknameInput.getText();
+        clearNicknameInput();
+    }
+
+    private void getPlayersNumberFromField() {
+        playersNumber = Integer.parseInt(playerNumberInput.getText());
         clearPlayerNumberInput();
-
-        displayGameInterface();
     }
-
-    protected void displayGameInterface() {
-        Stage primaryStage = ((Stage) rootPane.getScene().getWindow());
-
-        primaryStage.close();
-
-        MyShelfieApplication myShelfieApplication = getMyShelfieApplicationLauncher();
-
-        Scene newScene = myShelfieApplication.setUpSceneWithPane("board/board-view.fxml");
-
-        primaryStage.setScene(newScene);
-
-        primaryStage.sizeToScene();
-
-        primaryStage.centerOnScreen();
-
-        primaryStage.show();
-    }
-
 
     private void clearNicknameInput() {
         nicknameInput.clear();
@@ -257,12 +262,33 @@ public class LoginPageController extends MyShelfieController {
         }
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        //Load page with the focus on the pane and not on input field or button
-        Platform.runLater( () -> interfaceGrid.requestFocus() );
+    private void displayGameInterface() {
+        Stage primaryStage = ((Stage) rootPane.getScene().getWindow());
 
-        setNicknameInputState();
-        setPlayerNumberInputState();
+        primaryStage.close();
+
+        MyShelfieApplication myShelfieApplication = getMyShelfieApplicationLauncher();
+
+        Scene newScene = myShelfieApplication.setUpSceneWithPane("board/board-view.fxml");
+
+        primaryStage.setScene(newScene);
+
+        primaryStage.sizeToScene();
+
+        primaryStage.centerOnScreen();
+
+        primaryStage.show();
+    }
+
+    @Override
+    public void onGameStateChangedNotified() {
+        if(MyShelfieApplication.getUi().getModel().getGameState().equals(GameState.INIT.toString())){
+            Platform.runLater(this::displayGameInterface);
+        }
+    }
+
+    @Override
+    public void onExceptionNotified() {
+        //alert display
     }
 }

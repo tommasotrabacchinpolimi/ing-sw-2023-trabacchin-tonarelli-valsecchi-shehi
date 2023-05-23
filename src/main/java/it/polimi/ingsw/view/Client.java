@@ -9,7 +9,7 @@ import it.polimi.ingsw.net.RmiConnectionManager;
 import it.polimi.ingsw.net.SocketConnectionManager;
 import it.polimi.ingsw.utils.Coordinate;
 import it.polimi.ingsw.utils.Triple;
-import it.polimi.ingsw.view.gui.MyShelfieApplicationAdapter;
+import it.polimi.ingsw.view.gui.MyShelfieAdapter;
 import it.polimi.ingsw.view.tui.TUI;
 
 import java.io.BufferedReader;
@@ -38,18 +38,20 @@ public class Client implements ClientInterface, LogicInterface {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Now choose your desired UI:");
         System.out.println("1) TUI");
-        System.out.println("2) GUI");
+        System.out.println("2) UniqueUI");
         UIChoice = bufferedReader.readLine();
 
         if (UIChoice.equals("1")) {
             ui = new TUI();
         } else if (UIChoice.equals("2")) {
-            ui = new MyShelfieApplicationAdapter();
+            ui = new MyShelfieAdapter();
+
         }
 
         ui.setModel(viewData);
 
         client = new Client(ui, viewData);
+        client.chosenSocket(1234,"localhost");
         ui.setLogicController(client);
         viewData.setUserInterface(ui);
         ui.launchUI();
