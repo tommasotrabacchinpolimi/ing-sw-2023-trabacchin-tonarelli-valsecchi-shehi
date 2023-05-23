@@ -80,7 +80,7 @@ class ShapeCommonGoalTest {
         if(index==1){
             ShapeCommonGoal shape = new ShapeCommonGoal(getRuleShape(1));
             assert getRandomShapeBookshelf(index) != null;
-            assertTrue(compareObjects(getExpected(12),shape.rule(getRandomShapeBookshelf(2))));
+            assertTrue(compareObjects(getExpected(1),shape.rule(getRandomShapeBookshelf(2))));
         } else if ((index > 1) && (index < 4)) {
 
         }
@@ -109,10 +109,10 @@ class ShapeCommonGoalTest {
         List<EntryPatternGoal> result = new ArrayList<>();
         switch (index) {
             case 1 -> {
-                result.add(new EntryPatternGoal(0,0,TileType.PLANT));
-                result.add(new EntryPatternGoal(0,4,TileType.PLANT));
-                result.add(new EntryPatternGoal(5,0,TileType.PLANT));
-                result.add(new EntryPatternGoal(5,4,TileType.PLANT));
+                result.add(new EntryPatternGoal(0,0,TileType.TROPHY));
+                result.add(new EntryPatternGoal(0,4,TileType.TROPHY));
+                result.add(new EntryPatternGoal(5,0,TileType.TROPHY));
+                result.add(new EntryPatternGoal(5,4,TileType.TROPHY));
             }
             case 2 -> {
                 result.add(new EntryPatternGoal(0,0,TileType.PLANT));
@@ -222,12 +222,12 @@ class ShapeCommonGoalTest {
         switch (index){
             case 1 -> {
                 return new TileType[][] {
-                        {TileType.PLANT, null, null, null, TileType.PLANT},
+                        {TileType.TROPHY, null, null, null, TileType.TROPHY},
                         {null, null, null, null, null},
                         {null, null, null, null, null},
                         {null, null, null, null, null},
                         {null, null, null, null, null},
-                        {TileType.PLANT, null, null, null, TileType.PLANT}
+                        {TileType.TROPHY, null, null, null, TileType.TROPHY}
                 };
             }
             case 2 -> {
