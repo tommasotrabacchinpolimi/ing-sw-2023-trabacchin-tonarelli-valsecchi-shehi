@@ -94,22 +94,19 @@
                         GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
                         GridPane.columnIndex="1" GridPane.rowIndex="2" text="Create game"
                         onMouseClicked="#createGameSubmitted" disable="true" alignment="CENTER" cache="true"
-                        wrapText="true">
-                </MyShelfieButton>
+                        wrapText="true"/>
 
                 <MyShelfieButton fx:id="joinButton" GridPane.halignment="CENTER"
                         GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
                         GridPane.columnIndex="2" GridPane.rowIndex="2" text="Join game"
                         onMouseClicked="#joinGameSubmitted" disable="true" alignment="CENTER" cache="true"
-                        wrapText="true">
-                </MyShelfieButton>
+                        wrapText="true" />
 
                 <MyShelfieButton fx:id="playerNumberButton" GridPane.halignment="CENTER"
                         GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
                         GridPane.columnIndex="1" GridPane.rowIndex="2" text="Submit"
                         onMouseClicked="#playerNumberSubmitted" disable="true" alignment="CENTER" cache="true"
-                        wrapText="true" GridPane.columnSpan="2" visible="false">
-                </MyShelfieButton>
+                        wrapText="true" GridPane.columnSpan="2" visible="false"/>
             </GridPane>
         </StackPane>
 

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.gui;
 
+import it.polimi.ingsw.view.LogicInterface;
 import javafx.fxml.Initializable;
 
 /**
@@ -19,6 +20,8 @@ import javafx.fxml.Initializable;
 public abstract class MyShelfieController implements Initializable {
     private MyShelfieApplication myShelfieApplicationLauncher;
 
+    private LogicInterface logicInterface;
+
     public MyShelfieApplication getMyShelfieApplicationLauncher() {
         return myShelfieApplicationLauncher;
     }
@@ -26,4 +29,16 @@ public abstract class MyShelfieController implements Initializable {
     public void setMyShelfieApplicationLauncher(MyShelfieApplication myShelfieApplicationLauncher) {
         this.myShelfieApplicationLauncher = myShelfieApplicationLauncher;
     }
+
+    public LogicInterface getLogicInterface() {
+        return logicInterface;
+    }
+
+    public void setLogicInterface(LogicInterface logicInterface) {
+        this.logicInterface = logicInterface;
+    }
+
+    public abstract void onGameStateChangedNotified();
+
+    public abstract void onExceptionNotified();
 }

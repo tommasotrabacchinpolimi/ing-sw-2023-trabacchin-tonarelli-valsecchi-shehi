@@ -198,4 +198,14 @@ public class BoardViewController extends MyShelfieController {
             new TileSubjectView(itemTileBoxes.get(coordinate), "cat_2");
         }
     }
+
+    @Override
+    public void onGameStateChangedNotified() {
+
+    }
+
+    @Override
+    public void onExceptionNotified() {
+
+    }
 }

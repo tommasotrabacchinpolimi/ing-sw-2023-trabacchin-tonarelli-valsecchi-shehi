@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.gui;
 
+import it.polimi.ingsw.view.UI;
 import it.polimi.ingsw.view.gui.loginpage.LoginPage;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -75,6 +76,8 @@ public abstract class MyShelfieApplication extends Application {
      * @see MyShelfieController
      */
     private MyShelfieController fxController;
+
+    private static MyShelfieAdapter ui;
 
     /**
      * This method loads the font in the graphical user interface
@@ -154,6 +157,8 @@ public abstract class MyShelfieApplication extends Application {
         setFxController(fxmlLoader.getController());
 
         fxController.setMyShelfieApplicationLauncher(this);
+
+        ui.setMyShelfieController(fxController);
 
         if (percentWidth > 0.0 && percentHeight > 0.0)
             scene = new Scene(rootPaneContainer, (SCREEN_WIDTH * percentWidth / 100.00), (SCREEN_HEIGHT * percentHeight / 100.00));
@@ -288,5 +293,13 @@ public abstract class MyShelfieApplication extends Application {
 
     private void closeWindowEvent(WindowEvent event) {
         Platform.exit();
+    }
+
+    public static UI getUi() {
+        return ui;
+    }
+
+    public static void setUI(MyShelfieAdapter ui) {
+        MyShelfieApplication.ui = ui;
     }
 }
