@@ -9,9 +9,9 @@ import it.polimi.ingsw.net.RmiConnectionManager;
 import it.polimi.ingsw.net.SocketConnectionManager;
 import it.polimi.ingsw.utils.Coordinate;
 import it.polimi.ingsw.utils.Triple;
+//import it.polimi.ingsw.view.gui.MyShelfieApplicationAdapter;
 import it.polimi.ingsw.view.tui.TUI;
 
-import javax.swing.text.View;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -34,31 +34,39 @@ public class Client implements ClientInterface, LogicInterface {
         String UIChoice;
         Client client = null;
         UI ui = null;
-        ViewData viewData = new ViewData(9,5,6);
+        ViewData viewData = new ViewData(9, 5, 6);
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Now choose your desired UI:");
         System.out.println("1) TUI");
         System.out.println("2) GUI");
         UIChoice = bufferedReader.readLine();
-        if(UIChoice.equals("1")) {
+
+        if (UIChoice.equals("1")) {
             ui = new TUI();
-            ui.setModel(viewData);
+        } else if (UIChoice.equals("2")) {
+            //ui = new MyShelfieApplicationAdapter();
         }
+
+        ui.setModel(viewData);
+
         client = new Client(ui, viewData);
         ui.setLogicController(client);
         viewData.setUserInterface(ui);
-        ui.launch();
+        ui.launchUI();
     }
 
     private ServerInterface getSocketConnection(String host, int port) throws IOException {
-        TypeToken<ServerInterface> typeToken = new TypeToken<>(){};
-        SocketConnectionManager<ClientInterface, ServerInterface>  socketConnectionManager = ConnectionBuilder.buildSocketConnection(host,port,this,typeToken);
+        TypeToken<ServerInterface> typeToken = new TypeToken<>() {
+        };
+        SocketConnectionManager<ClientInterface, ServerInterface> socketConnectionManager = ConnectionBuilder.buildSocketConnection(host, port, this, typeToken);
         return socketConnectionManager.getRemoteTarget();
     }
 
     private ServerInterface getRmiConnection(String host, int port) throws NotBoundException, IOException, ClassNotFoundException {
-        TypeToken<ClientInterface> typeToken1 = new TypeToken<>() {};
-        TypeToken<ServerInterface> typeToken2 = new TypeToken<>() {};
+        TypeToken<ClientInterface> typeToken1 = new TypeToken<>() {
+        };
+        TypeToken<ServerInterface> typeToken2 = new TypeToken<>() {
+        };
         RmiConnectionManager<ClientInterface, ServerInterface> rmiConnectionManager = ConnectionBuilder.buildRMIConnection(host, port, typeToken2, typeToken1, this);//port = 2148
         return rmiConnectionManager.getRemoteTarget();
     }
@@ -84,12 +92,12 @@ public class Client implements ClientInterface, LogicInterface {
 
     @Override
     public void onAssignedCommonGoal(String description, int n) {
-        viewData.getCommonGoals()[n-1] = description;
+        viewData.getCommonGoals()[n - 1] = description;
     }
 
     @Override
     public void onAssignedPersonalGoal(String nickname, List<EntryPatternGoal> goalPattern, Map<Integer, Integer> scoreMap) {
-        goalPattern.forEach(e ->viewData.getPersonalGoal()[e.getRow()][e.getColumn()] = e.getTileType());
+        goalPattern.forEach(e -> viewData.getPersonalGoal()[e.getRow()][e.getColumn()] = e.getTileType());
     }
 
     @Override
@@ -99,8 +107,8 @@ public class Client implements ClientInterface, LogicInterface {
 
     @Override
     public void onBoardUpdated(TileSubject[][] tileSubjects) {
-        for(int i = 0;i < tileSubjects.length; i++) {
-            for(int j = 0; j < tileSubjects[0].length; j++) {
+        for (int i = 0; i < tileSubjects.length; i++) {
+            for (int j = 0; j < tileSubjects[0].length; j++) {
                 viewData.getBoard()[i][j] = tileSubjects[i][j];
             }
         }
@@ -109,8 +117,8 @@ public class Client implements ClientInterface, LogicInterface {
     @Override
     public void onBookShelfUpdated(String nickname, TileSubject[][] bookShelf) {
         viewData.getBookShelves().computeIfAbsent(nickname, k -> new TileSubject[6][5]);
-        for(int i = 0;i < bookShelf.length; i++) {
-            for(int j = 0; j < bookShelf[0].length; j++) {
+        for (int i = 0; i < bookShelf.length; i++) {
+            for (int j = 0; j < bookShelf[0].length; j++) {
                 viewData.getBookShelves().get(nickname)[i][j] = bookShelf[i][j];
             }
         }
@@ -118,7 +126,7 @@ public class Client implements ClientInterface, LogicInterface {
 
     @Override
     public void onChangedCommonGoalAvailableScore(int score, int numberOfCommonGoal) {
-        viewData.getAvailableScores().put(numberOfCommonGoal-1, score);
+        viewData.getAvailableScores().put(numberOfCommonGoal - 1, score);
     }
 
     @Override
@@ -145,7 +153,7 @@ public class Client implements ClientInterface, LogicInterface {
     @Override
     public void onMessagesSentUpdate(List<String> senderNicknames, List<List<String>> receiverNicknames, List<String> texts) {
         List<Triple<String, List<String>, String>> messages = new ArrayList<>();
-        for(int i = 0; i < senderNicknames.size(); i++) {
+        for (int i = 0; i < senderNicknames.size(); i++) {
             messages.add(new Triple<>(senderNicknames.get(i), receiverNicknames.get(i), texts.get(i)));
         }
         viewData.setMessages(messages);
@@ -158,7 +166,7 @@ public class Client implements ClientInterface, LogicInterface {
 
     @Override
     public void onPointsUpdated(String nickName, int scoreAdjacentGoal, int scoreCommonGoal1, int scoreCommonGoal2, int scoreEndGame, int scorePersonalGoal) {
-        viewData.getPlayersPoints().computeIfAbsent(nickName, k -> Arrays.asList(0,0,0,0,0));
+        viewData.getPlayersPoints().computeIfAbsent(nickName, k -> Arrays.asList(0, 0, 0, 0, 0));
         viewData.getPlayersPointsByNickname(nickName).set(0, scoreAdjacentGoal);
         viewData.getPlayersPointsByNickname(nickName).set(1, scoreCommonGoal1);
         viewData.getPlayersPointsByNickname(nickName).set(2, scoreCommonGoal2);
@@ -199,14 +207,14 @@ public class Client implements ClientInterface, LogicInterface {
     @Override
     public void sentMessage(String text, String[] receiversNickname) {
         List<String> receivers = new ArrayList<>();
-        for(String nick : receiversNickname) {
-            if(nick!=null){
+        for (String nick : receiversNickname) {
+            if (nick != null) {
                 receivers.add(nick);
             }
         }
         String[] r = new String[receivers.size()];
         int i = 0;
-        for(String nick : receivers) {
+        for (String nick : receivers) {
             r[i] = nick;
             i++;
         }

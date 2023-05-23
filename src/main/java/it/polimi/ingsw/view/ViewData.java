@@ -27,6 +27,7 @@ public class ViewData {
 
     public ViewData(int BOARD_DIM, int BOOKSHELF_COL, int BOOKSHELF_ROW) {
         playersState = new HashMap<>();
+
         gameState = "";
         board = new TileSubject[BOARD_DIM][BOARD_DIM];
         bookShelves = new HashMap<>();
@@ -77,6 +78,7 @@ public class ViewData {
 
     public void setGameState(String gameState) {
         this.gameState = gameState;
+        userInterface.onGameStateChanged();
     }
 
     public TileSubject[][] getBoard() {
