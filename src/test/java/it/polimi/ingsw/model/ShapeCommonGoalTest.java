@@ -14,10 +14,31 @@ class ShapeCommonGoalTest {
         return new Integer[] {firstElement, secondElement};
     }
 
+
     private Integer[] getRandomRuleShapeEntry() {
         Random random = new Random();
         return getRuleShapeEntry(random.nextInt(), random.nextInt());
     }
+
+
+    @Test
+    void getRuleShape() {
+        Integer[] array = new Integer[2];
+        int n;
+        Random rand = new Random();
+        ArrayList<Integer[]> incr = new ArrayList<>(2);
+        n = rand.nextInt();
+        array[0] = n;
+        n = rand.nextInt();
+        array[1] = n;
+        incr.add(array);
+        ShapeCommonGoal sh = new ShapeCommonGoal(incr);
+        assertEquals(sh.getRuleShape(), incr);
+    }
+
+
+
+
 
     @Test
     void setRuleShape() {
@@ -41,6 +62,12 @@ class ShapeCommonGoalTest {
         assertEquals(shape.getRuleShape(), inc);
     }
 
+    @Test
+    void verifyInField(int maxColumnDim, int maxRowDim, int indexColumn, int indexRow, List<Integer[]> ruleCopy){
+
+
+    }
+
     //devo testare il metodo rule che prende in ingresso una bookshelf e se c'è uno dei common goal restituisce
     //la lista degli elementi della bookshelf che sono parte del common-goal
     @Test
@@ -53,7 +80,7 @@ class ShapeCommonGoalTest {
         if(index==1){
             ShapeCommonGoal shape = new ShapeCommonGoal(getRuleShape(1));
             assert getRandomShapeBookshelf(index) != null;
-            assertTrue(compareObjects(getExpected(4),shape.rule(getRandomShapeBookshelf(2))));
+            assertTrue(compareObjects(getExpected(12),shape.rule(getRandomShapeBookshelf(2))));
         } else if ((index > 1) && (index < 4)) {
 
         }
@@ -61,6 +88,9 @@ class ShapeCommonGoalTest {
         assert getRandomShapeBookshelf(index) != null;
         assertTrue(compareObjects(getExpected(15),shape.rule(getRandomShapeBookshelf(15))));
     }
+
+
+
 
     private boolean compareObjects(List<EntryPatternGoal> l1, List<EntryPatternGoal> l2) {
         if(l1.size() != l2.size()) {
@@ -114,51 +144,51 @@ class ShapeCommonGoalTest {
             }
             case 6 -> {
                 result.add(new EntryPatternGoal(0,0,TileType.PLANT));
-                result.add(new EntryPatternGoal(2,0,TileType.PLANT));
-                result.add(new EntryPatternGoal(1,1,TileType.PLANT));
                 result.add(new EntryPatternGoal(0,2,TileType.PLANT));
+                result.add(new EntryPatternGoal(1,1,TileType.PLANT));
+                result.add(new EntryPatternGoal(2,0,TileType.PLANT));
                 result.add(new EntryPatternGoal(2,2,TileType.PLANT));
             }
             case 7 -> {
                 result.add(new EntryPatternGoal(1,0,TileType.PLANT));
-                result.add(new EntryPatternGoal(3,0,TileType.PLANT));
-                result.add(new EntryPatternGoal(2,1,TileType.PLANT));
                 result.add(new EntryPatternGoal(1,2,TileType.PLANT));
+                result.add(new EntryPatternGoal(2,1,TileType.PLANT));
+                result.add(new EntryPatternGoal(3,0,TileType.PLANT));
                 result.add(new EntryPatternGoal(3,2,TileType.PLANT));
             }
             case 8 -> {
                 result.add(new EntryPatternGoal(2,0,TileType.PLANT));
-                result.add(new EntryPatternGoal(4,0,TileType.PLANT));
-                result.add(new EntryPatternGoal(3,1,TileType.PLANT));
                 result.add(new EntryPatternGoal(2,2,TileType.PLANT));
+                result.add(new EntryPatternGoal(3,1,TileType.PLANT));
+                result.add(new EntryPatternGoal(4,0,TileType.PLANT));
                 result.add(new EntryPatternGoal(4,2,TileType.PLANT));
             }
             case 9 -> {
                 result.add(new EntryPatternGoal(3,0,TileType.PLANT));
-                result.add(new EntryPatternGoal(5,0,TileType.PLANT));
-                result.add(new EntryPatternGoal(4,1,TileType.PLANT));
                 result.add(new EntryPatternGoal(3,2,TileType.PLANT));
+                result.add(new EntryPatternGoal(4,1,TileType.PLANT));
+                result.add(new EntryPatternGoal(5,0,TileType.PLANT));
                 result.add(new EntryPatternGoal(5,2,TileType.PLANT));
             }
             case 10 -> {
                 result.add(new EntryPatternGoal(0,2,TileType.PLANT));
-                result.add(new EntryPatternGoal(2,2,TileType.PLANT));
-                result.add(new EntryPatternGoal(1,3,TileType.PLANT));
                 result.add(new EntryPatternGoal(0,4,TileType.PLANT));
+                result.add(new EntryPatternGoal(1,3,TileType.PLANT));
+                result.add(new EntryPatternGoal(2,2,TileType.PLANT));
                 result.add(new EntryPatternGoal(2,4,TileType.PLANT));
             }
             case 11 -> {
                 result.add(new EntryPatternGoal(1,2,TileType.PLANT));
-                result.add(new EntryPatternGoal(3,2,TileType.PLANT));
-                result.add(new EntryPatternGoal(2,3,TileType.PLANT));
                 result.add(new EntryPatternGoal(1,4,TileType.PLANT));
+                result.add(new EntryPatternGoal(2,3,TileType.PLANT));
+                result.add(new EntryPatternGoal(3,2,TileType.PLANT));
                 result.add(new EntryPatternGoal(3,4,TileType.PLANT));
             }
             case 12 -> {
                 result.add(new EntryPatternGoal(2,2,TileType.PLANT));
-                result.add(new EntryPatternGoal(4,2,TileType.PLANT));
-                result.add(new EntryPatternGoal(3,3,TileType.PLANT));
                 result.add(new EntryPatternGoal(2,4,TileType.PLANT));
+                result.add(new EntryPatternGoal(3,3,TileType.PLANT));
+                result.add(new EntryPatternGoal(4,2,TileType.PLANT));
                 result.add(new EntryPatternGoal(4,4,TileType.PLANT));
             }
             case 13 -> {
@@ -170,16 +200,16 @@ class ShapeCommonGoalTest {
             }
             case 14 -> {
                 result.add(new EntryPatternGoal(0,1,TileType.PLANT));
-                result.add(new EntryPatternGoal(2,1,TileType.PLANT));
-                result.add(new EntryPatternGoal(1,2,TileType.PLANT));
                 result.add(new EntryPatternGoal(0,3,TileType.PLANT));
+                result.add(new EntryPatternGoal(1,2,TileType.PLANT));
+                result.add(new EntryPatternGoal(2,1,TileType.PLANT));
                 result.add(new EntryPatternGoal(2,3,TileType.PLANT));
             }
             case 15 -> {
                 result.add(new EntryPatternGoal(3,1,TileType.PLANT));
-                result.add(new EntryPatternGoal(5,1,TileType.PLANT));
-                result.add(new EntryPatternGoal(4,2,TileType.PLANT));
                 result.add(new EntryPatternGoal(3,3,TileType.PLANT));
+                result.add(new EntryPatternGoal(4,2,TileType.PLANT));
+                result.add(new EntryPatternGoal(5,1,TileType.PLANT));
                 result.add(new EntryPatternGoal(5,3,TileType.PLANT));
             }
         }
