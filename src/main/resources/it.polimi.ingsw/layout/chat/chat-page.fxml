@@ -1,99 +1,347 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.TextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane fx:id="mainContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="back" stylesheets="@ChatPage.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.chatpage.ChatPageController">
-    <GridPane fx:id="pageMainDivider" hgap="5" layoutX="38.0" layoutY="4.0" prefHeight="${mainContainer.height}" prefWidth="${mainContainer.width}" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="100" minWidth="10.0" percentWidth="100" />
-        </columnConstraints>
+<?import java.lang.Double?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.control.Label?>
+
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<StackPane fx:id="UpperContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+           prefHeight="400.0" prefWidth="600.0" stylesheets="@ChatPage.css"
+           xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="it.polimi.ingsw.view.gui.chatpage.ChatPageController">
+    <GridPane fx:id="InterfaceDivider" StackPane.alignment="CENTER" gridLinesVisible="true">
+        <fx:define>
+            <Double fx:id="FirstRow" fx:value="5.0"/>
+            <Double fx:id="SecondRow" fx:value="35.0"/>
+            <Double fx:id="ThirdRow" fx:value="35.0"/>
+            <Double fx:id="FourthRow" fx:value="20.0"/>
+            <Double fx:id="FifthRow" fx:value="5.0"/>
+
+            <Double fx:id="FirstColumn" fx:value="70"/>
+            <Double fx:id="SecondColumn" fx:value="20"/>
+            <Double fx:id="ThirdColumn" fx:value="10"/>
+        </fx:define>
+
         <rowConstraints>
-            <RowConstraints maxHeight="100.0" minHeight="10.0" percentHeight="10" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="100.0" minHeight="10.0" percentHeight="90" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="$FirstRow"/>
+            <RowConstraints percentHeight="$SecondRow"/>
+            <RowConstraints percentHeight="$ThirdRow"/>
+            <RowConstraints percentHeight="$FourthRow"/>
+            <RowConstraints percentHeight="$FifthRow"/>
         </rowConstraints>
-        <TextFlow cache="true" prefHeight="200.0" prefWidth="${pageMainDivider.width}" styleClass="B1" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="0" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
-        </TextFlow>
-        <GridPane fx:id="chatAndControlsDivider" hgap="5" GridPane.columnIndex="0" GridPane.fillHeight="true" GridPane.fillWidth="true" GridPane.rowIndex="1">
+        <columnConstraints>
+            <ColumnConstraints percentWidth="$FirstColumn"/>
+            <ColumnConstraints percentWidth="$SecondColumn"/>
+            <ColumnConstraints percentWidth="$ThirdColumn"/>
+        </columnConstraints>
+
+
+        <Pane fx:id="PaneBar" GridPane.rowIndex="0" GridPane.columnIndex="0" GridPane.columnSpan="3">
+            <Label text="This is some text shown at the very top of the page" textAlignment="CENTER" textFill="white"
+                   wrapText="true" alignment="CENTER" centerShape="true">
+            </Label>
+        </Pane>
+
+        <StackPane fx:id="scrollAndTextContainer" GridPane.fillWidth="false" GridPane.fillHeight="false"
+                   GridPane.valignment="CENTER" GridPane.halignment="CENTER" GridPane.rowSpan="3" GridPane.rowIndex="1"
+                   GridPane.columnIndex="0">
+            <ScrollPane fx:id="MyScroll" GridPane.fillHeight="true" GridPane.fillWidth="true"
+                        GridPane.valignment="CENTER"
+                        GridPane.halignment="CENTER">
+            </ScrollPane>
+
+            <Label fx:id="TextContainer" GridPane.fillWidth="false" GridPane.fillHeight="false"
+                   GridPane.valignment="CENTER"
+                   GridPane.halignment="CENTER">
+
+            </Label>
+
+        </StackPane>
+
+        <VBox fx:id="PlayersContainer" GridPane.halignment="CENTER" GridPane.valignment="CENTER"
+              GridPane.fillHeight="false" GridPane.fillWidth="false"
+              GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.rowSpan="3" GridPane.columnSpan="2">
+            <Pane fx:id="name1" GridPane.fillHeight="true" GridPane.fillWidth="true" GridPane.halignment="CENTER"
+                  GridPane.valignment="CENTER">
+                <Label fx:id="N1" text="E'il mio turno" textAlignment="CENTER" textFill="white" wrapText="true"
+                       alignment="CENTER" centerShape="true" contentDisplay="CENTER"/>
+            </Pane>
+            <Pane fx:id="name2" GridPane.fillHeight="true" GridPane.fillWidth="true" GridPane.halignment="CENTER"
+                  GridPane.valignment="CENTER">
+                <Label fx:id="N2" text="E'il mio turno" textAlignment="CENTER" textFill="white" wrapText="true"
+                       alignment="CENTER" centerShape="true" contentDisplay="CENTER"/>
+            </Pane>
+            <Pane fx:id="name3" GridPane.fillHeight="true" GridPane.fillWidth="true" GridPane.halignment="CENTER"
+                  GridPane.valignment="CENTER">
+                <Label fx:id="N3" text="E'il mio turno" textAlignment="CENTER" textFill="white" wrapText="true"
+                       alignment="CENTER" centerShape="true" contentDisplay="CENTER"/>
+            </Pane>
+            <Pane fx:id="name4" GridPane.fillHeight="true" GridPane.fillWidth="true" GridPane.halignment="CENTER"
+                  GridPane.valignment="CENTER">
+                <Label fx:id="N4" text="E'il mio turno" textAlignment="CENTER" textFill="white" wrapText="true"
+                       alignment="CENTER" centerShape="true" contentDisplay="CENTER"/>
+            </Pane>
+
+        </VBox>
+        <VBox fx:id="IconContainer" GridPane.rowIndex="1" GridPane.columnIndex="2" GridPane.valignment="CENTER"
+              GridPane.halignment="CENTER"
+              GridPane.fillWidth="true" GridPane.fillHeight="true">
+            <Pane fx:id="Icon1" GridPane.fillHeight="true" GridPane.fillWidth="true" GridPane.halignment="CENTER"
+                  GridPane.valignment="CENTER">
+            </Pane>
+            <Pane fx:id="Icon2" GridPane.fillHeight="true" GridPane.fillWidth="true" GridPane.halignment="CENTER"
+                  GridPane.valignment="CENTER">
+            </Pane>
+            <Pane fx:id="Icon3" GridPane.fillHeight="true" GridPane.fillWidth="true" GridPane.halignment="CENTER"
+                  GridPane.valignment="CENTER">
+            </Pane>
+        </VBox>
+
+    </GridPane>
+</StackPane>
+        <!--
+        <GridPane fx:id="FirstDivider" prefHeight="${mainContainer.height}" prefWidth="${mainContainer.width}" gridLinesVisible="false">
             <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="100" minWidth="10.0" percentWidth="70" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="100" minWidth="10.0" percentWidth="30" />
+                <ColumnConstraints hgrow="SOMETIMES" percentWidth="100"/>
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints minHeight="10.0" percentHeight="95" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" percentHeight="5" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints vgrow="SOMETIMES" percentHeight="10"/>
+                <RowConstraints vgrow="SOMETIMES" percentHeight="90"/>
             </rowConstraints>
+            <GridPane fx:id="back2" gridLinesVisible="true" GridPane.rowIndex="1" GridPane.columnIndex="0">
+                <columnConstraints>
+                    <ColumnConstraints fx:id="ColonnaPad" percentWidth="65" />
+                    <ColumnConstraints percentWidth="35"/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints percentHeight="80" />
+                </rowConstraints>
+                <Pane fx:id="back4" GridPane.columnIndex="0"  maxWidth="${back2.width}" maxHeight="${back2.height}"
+                      prefHeight="600" prefWidth="200" >
+                    <padding>
+                        <Insets top="50" left="10" right="10" bottom="5"/>
+                    </padding>
+                </Pane>
+            </GridPane>
+        </GridPane>
+    </AnchorPane>
 
-            <AnchorPane fx:id="chatWoodContainer" GridPane.columnIndex="0" GridPane.fillHeight="true" GridPane.fillWidth="true" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="0" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
 
-                <GridPane fx:id="chatElementsContainer" hgap="5" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+            <?xml version="1.0" encoding="UTF-8"?>
+
+            <?import javafx.geometry.Insets?>
+            <?import javafx.scene.control.ScrollPane?>
+            <?import javafx.scene.layout.AnchorPane?>
+            <?import javafx.scene.layout.ColumnConstraints?>
+            <?import javafx.scene.layout.GridPane?>
+            <?import javafx.scene.layout.RowConstraints?>
+            <?import javafx.scene.text.TextFlow?>
+
+            <?import java.lang.Double?>
+            <?import javafx.scene.image.ImageView?>
+            <?import javafx.scene.image.Image?>
+            <?import javafx.scene.layout.Pane?>
+            <?import javafx.scene.control.Label?>
+            <?import javafx.scene.control.skin.SplitPaneSkin.Content?>
+            <AnchorPane fx:id="mainContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                        styleClass="back" stylesheets="@ChatPage.css" xmlns="http://javafx.com/javafx/19"
+                        xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.chatpage.ChatPageController">
+                <GridPane fx:id="FirstDivider" prefHeight="${mainContainer.height}" prefWidth="${mainContainer.width}" gridLinesVisible="false">
                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="100" minWidth="10.0" percentWidth="100" />
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="100"/>
                     </columnConstraints>
                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" percentHeight="80" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" percentHeight="20" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints vgrow="SOMETIMES" percentHeight="10"/>
+                        <RowConstraints vgrow="SOMETIMES" percentHeight="90"/>
                     </rowConstraints>
-
-                    <HBox GridPane.columnIndex="0" GridPane.fillHeight="true" GridPane.fillWidth="true" GridPane.rowIndex="0">
-
-                    </HBox>
-
-                    <TextField prefHeight="100" prefWidth="${chatElementsContainer.width}" GridPane.columnIndex="0" GridPane.fillHeight="true" GridPane.fillWidth="true" GridPane.rowIndex="1" />
+                    <GridPane fx:id="back2" gridLinesVisible="true" GridPane.rowIndex="1" GridPane.columnIndex="0">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="65"/>
+                            <ColumnConstraints percentWidth="35"/>
+                        </columnConstraints>
+                        <rowConstraints>
+                            <RowConstraints percentHeight="100"/>
+                        </rowConstraints>
+                            <Pane fx:id="back4" GridPane.columnIndex="0"  maxWidth="${back2.width}" maxHeight="${back2.height}"
+                            prefHeight="600" prefWidth="200">
+                                <padding>
+                                    <Insets top="20.0"/>
+                                </padding>
+                            </Pane>
+                    </GridPane>
                 </GridPane>
             </AnchorPane>
 
-            <GridPane fx:id="controlsDivider" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                <columnConstraints>
-                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="100" minWidth="10.0" percentWidth="100" />
-                </columnConstraints>
-                <rowConstraints>
-                    <RowConstraints minHeight="10.0" percentHeight="40" prefHeight="30.0" vgrow="SOMETIMES" />
-                    <RowConstraints minHeight="10.0" percentHeight="60" prefHeight="30.0" vgrow="SOMETIMES" />
-                </rowConstraints>
 
-                <GridPane fx:id="buttonContainer" prefHeight="138.0" prefWidth="178.0" GridPane.columnIndex="0" GridPane.fillHeight="true" GridPane.fillWidth="true" GridPane.rowIndex="0">
+
+
+             <Pane fx:id="back4" GridPane.columnIndex="0" prefHeight="${back2.height}" prefWidth="${back2.width}">
+                        </Pane>
+
+
+            <AnchorPane fx:id="mainContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                        prefHeight="400.0" prefWidth="600.0" styleClass="back" stylesheets="@ChatPage.css"
+                        xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
+                        fx:controller="it.polimi.ingsw.view.gui.chatpage.ChatPageController">
+                <GridPane fx:id="pageMainDivider" hgap="5" layoutX="38.0" layoutY="4.0" prefHeight="${mainContainer.height}"
+                          prefWidth="${mainContainer.width}" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                          AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="100" minWidth="10.0" percentWidth="100" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="100" minWidth="10.0" percentWidth="100"/>
                     </columnConstraints>
                     <rowConstraints>
-                  <RowConstraints maxHeight="66.0" minHeight="10.0" percentHeight="33.3" prefHeight="58.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="66.0" minHeight="10.0" percentHeight="33.3" prefHeight="58.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="41.199981689453125" minHeight="10.0" percentHeight="33.3" prefHeight="34.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="100.0" minHeight="10.0" percentHeight="10" vgrow="SOMETIMES"/>
+                        <RowConstraints maxHeight="100.0" minHeight="10.0" percentHeight="90" vgrow="SOMETIMES"/>
                     </rowConstraints>
+                    <TextFlow cache="true" prefHeight="200.0" prefWidth="${pageMainDivider.width}" styleClass="B1"
+                              textAlignment="CENTER" GridPane.columnIndex="0" GridPane.halignment="CENTER"
+                              GridPane.hgrow="SOMETIMES" GridPane.rowIndex="0" GridPane.valignment="CENTER"
+                              GridPane.vgrow="SOMETIMES">
+                    </TextFlow>
+                    <GridPane fx:id="chatAndControlsDivider" hgap="5" GridPane.columnIndex="0" GridPane.fillHeight="true"
+                              GridPane.fillWidth="true" GridPane.rowIndex="1">
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="100" minWidth="10.0" percentWidth="70"/>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="100" minWidth="10.0" percentWidth="30"/>
+                        </columnConstraints>
+                        <rowConstraints>
+                            <RowConstraints minHeight="10.0" percentHeight="95" prefHeight="30.0" vgrow="SOMETIMES"/>
+                            <RowConstraints minHeight="10.0" percentHeight="5" prefHeight="30.0" vgrow="SOMETIMES"/>
+                        </rowConstraints>
+
+                        <AnchorPane fx:id="chatWoodContainer" GridPane.columnIndex="0" GridPane.fillHeight="true"
+                                    GridPane.fillWidth="true" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES"
+                                    GridPane.rowIndex="0" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
+
+                            <GridPane fx:id="chatElementsContainer" hgap="5" styleClass="ChatElem" AnchorPane.bottomAnchor="10.0"
+                                      AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                                <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="100" minWidth="10.0" percentWidth="100"/>
+                                </columnConstraints>
+                                <rowConstraints>
+                                    <RowConstraints minHeight="10.0" percentHeight="80" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                    <RowConstraints minHeight="10.0" percentHeight="20" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                </rowConstraints>
+                                <ScrollPane id="MyScroll" prefHeight="243.0" prefWidth="377.0" styleClass="ScrollChat">
+                                    <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="246.0" prefWidth="367.0">
+                                            <padding>
+                                                <Insets left="50.0"/>
+                                            </padding>
+                                        </AnchorPane>
+                                    </content>
+                                    <GridPane.margin>
+                                        <Insets bottom="10.0" left="10.0" right="5.0" top="5.0"/>
+                                    </GridPane.margin>
+                                </ScrollPane>
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="ChatElem" GridPane.rowIndex="1">
+                                    <children>
+                                        <AnchorPane layoutX="8.0" layoutY="-1.0" prefHeight="62.0" prefWidth="383.0"
+                                                    styleClass="Anch2" maxWidth="-Infinity" GridPane.hgrow="SOMETIMES" >
+                                            <padding>
+                                                <Insets top="20.0"/>
+                                            </padding>
+                                        </AnchorPane>
+                                    </children>
+                                </AnchorPane>
+                            </GridPane>
+                        </AnchorPane>
+
+                        <GridPane fx:id="controlsDivider" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="100" minWidth="10.0" percentWidth="100"/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints minHeight="10.0" percentHeight="40" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                <RowConstraints minHeight="10.0" percentHeight="60" prefHeight="30.0" vgrow="SOMETIMES"/>
+                            </rowConstraints>
+
+                            <GridPane fx:id="buttonContainer" prefHeight="104.0" prefWidth="178.0" GridPane.columnIndex="0"
+                                      GridPane.fillHeight="true" GridPane.fillWidth="true" GridPane.rowIndex="0"
+                                      gridLinesVisible="true">
+                                <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="100" minWidth="10.0" percentWidth="33"/>
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="100" minWidth="10.0" percentWidth="33"/>
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="100" minWidth="10.0" percentWidth="33"/>
+                                </columnConstraints>
+                                <rowConstraints>
+                                    <RowConstraints maxHeight="66.0" minHeight="1.0" percentHeight="33.3" prefHeight="58.0"
+                                                    vgrow="SOMETIMES"/>
+                                    <RowConstraints maxHeight="66.0" minHeight="1.0" percentHeight="33.3" prefHeight="58.0"
+                                                    vgrow="SOMETIMES"/>
+                                    <RowConstraints maxHeight="66" minHeight="1.0" percentHeight="33.3"
+                                                    prefHeight="34.0" vgrow="SOMETIMES"/>
+                                </rowConstraints>
+                                <children>
+                                    <ImageView fx:id="icon2" preserveRatio="true" GridPane.fillHeight="true"
+                                               GridPane.fillWidth="true"
+                                               GridPane.rowIndex="1" GridPane.columnIndex="2" GridPane.halignment="RIGHT"
+                                               GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS"
+                                               fitHeight="${buttonContainer.height * 0.33}"
+                                               fitWidth="${buttonContainer.width * 0.33}" GridPane.valignment="CENTER">
+                                        <Image url="@../../graphical.resources/icons/game-statistic-icon.png"/>
+                                    </ImageView>
+                                    <ImageView fx:id="icon3" preserveRatio="true" GridPane.fillHeight="true"
+                                               GridPane.fillWidth="true"
+                                               GridPane.rowIndex="2" GridPane.columnIndex="2" GridPane.halignment="RIGHT"
+                                               GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS"
+                                               fitHeight="${buttonContainer.height * 0.33}"
+                                               fitWidth="${buttonContainer.width * 0.33}" GridPane.valignment="CENTER">
+                                        <Image url="@../../graphical.resources/icons/chat-icon.png"/>
+                                    </ImageView>
+                                    <ImageView fx:id="icon1" preserveRatio="true" GridPane.fillHeight="true"
+                                               GridPane.fillWidth="true"
+                                               GridPane.rowIndex="0" GridPane.columnIndex="2" GridPane.halignment="RIGHT"
+                                               GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS"
+                                               fitHeight="${buttonContainer.height * 0.33}"
+                                               fitWidth="${buttonContainer.width * 0.33}" GridPane.valignment="CENTER">
+                                        <Image url="@../../graphical.resources/icons/main-menu.png"/>
+                                    </ImageView>
+                                </children>
+                            </GridPane>
+
+                            <GridPane fx:id="playerListContainer" vgap="5" GridPane.columnIndex="0" GridPane.fillHeight="true"
+                                      GridPane.fillWidth="true" GridPane.rowIndex="1">
+                                <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="100" minWidth="10.0" percentWidth="100"/>
+                                </columnConstraints>
+                                <rowConstraints>
+                                    <RowConstraints minHeight="10.0" percentHeight="25" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                    <RowConstraints minHeight="10.0" percentHeight="25" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                    <RowConstraints minHeight="10.0" percentHeight="25" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                </rowConstrairaints minHeight="10.0" percentHeight="25" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                    <RowConstnts>
+
+                                <TextFlow styleClass="T1" GridPane.columnIndex="0" GridPane.fillHeight="true"
+                                          GridPane.fillWidth="true" GridPane.rowIndex="0">
+                                </TextFlow>
+
+                                <TextFlow styleClass="T2" GridPane.columnIndex="0" GridPane.fillHeight="true"
+                                          GridPane.fillWidth="true" GridPane.rowIndex="1">
+                                </TextFlow>
+
+                                <TextFlow styleClass="T3" GridPane.columnIndex="0" GridPane.fillHeight="true"
+                                          GridPane.fillWidth="true" GridPane.rowIndex="2">
+                                </TextFlow>
+
+                                <TextFlow styleClass="T4" GridPane.columnIndex="0" GridPane.fillHeight="true"
+                                          GridPane.fillWidth="true" GridPane.rowIndex="3">
+                                </TextFlow>
+                            </GridPane>
+                        </GridPane>
+                    </GridPane>
 
                 </GridPane>
-
-                <GridPane fx:id="playerListContainer" vgap="5" GridPane.columnIndex="0" GridPane.fillHeight="true" GridPane.fillWidth="true" GridPane.rowIndex="1">
-                    <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="100" minWidth="10.0" percentWidth="100" />
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints minHeight="10.0" percentHeight="25" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" percentHeight="25" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" percentHeight="25" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" percentHeight="25" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-
-                    <TextFlow styleClass="T1" GridPane.columnIndex="0" GridPane.fillHeight="true" GridPane.fillWidth="true" GridPane.rowIndex="0">
-                    </TextFlow>
-
-                    <TextFlow styleClass="T2" GridPane.columnIndex="0" GridPane.fillHeight="true" GridPane.fillWidth="true" GridPane.rowIndex="1">
-                    </TextFlow>
-
-                    <TextFlow styleClass="T3" GridPane.columnIndex="0" GridPane.fillHeight="true" GridPane.fillWidth="true" GridPane.rowIndex="2">
-                    </TextFlow>
-
-                    <TextFlow styleClass="T4" GridPane.columnIndex="0" GridPane.fillHeight="true" GridPane.fillWidth="true" GridPane.rowIndex="3">
-                    </TextFlow>
-                </GridPane>
-            </GridPane>
-        </GridPane>
-
-    </GridPane>
-</AnchorPane>
+            </AnchorPane>
+            -->
