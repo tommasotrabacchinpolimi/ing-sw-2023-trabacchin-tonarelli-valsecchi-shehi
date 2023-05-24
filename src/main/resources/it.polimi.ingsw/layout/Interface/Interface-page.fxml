@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import java.lang.Double?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<StackPane fx:id="mainContainer" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
+           stylesheets="@InterfacePage.css"
+           fx:controller="it.polimi.ingsw.view.gui.interfacepage.InterfacePageController">
+    <GridPane fx:id="interfaceDivider" StackPane.alignment="CENTER">
+        <fx:define>
+            <Double fx:id="infoContainerHeightPercent" fx:value="5.0"/>
+            <Double fx:id="commonGoalContainerHeightPercent" fx:value="20.0"/>
+            <Double fx:id="actionContainerHeightPercent" fx:value="15.0"/>
+            <Double fx:id="bookShelfContainerHeightPercent" fx:value="60.0"/>
+
+            <Double fx:id="commonGoalContainerWidthPercent" fx:value="35.0"/>
+            <Double fx:id="personalGoalContainerWidthPercent" fx:value="20.0"/>
+            <Double fx:id="buttonContainerWidthPercent" fx:value="10.0"/>
+        </fx:define>
+        <rowConstraints>
+            <RowConstraints percentHeight="$infoContainerHeightPercent"/>
+            <RowConstraints percentHeight="$commonGoalContainerHeightPercent"/>
+            <RowConstraints percentHeight="$actionContainerHeightPercent"/>
+            <RowConstraints percentHeight="$bookShelfContainerHeightPercent"/>
+        </rowConstraints>
+        <columnConstraints>
+            <ColumnConstraints percentWidth="$commonGoalContainerWidthPercent"/>
+            <ColumnConstraints percentWidth="$commonGoalContainerWidthPercent"/>
+            <ColumnConstraints percentWidth="$personalGoalContainerWidthPercent"/>
+            <ColumnConstraints percentWidth="$buttonContainerWidthPercent"/>
+        </columnConstraints>
+        <Pane fx:id="PaneBarra" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="4">
+            <Label text="This is some text" fx:id="UpperLiable"
+                   textAlignment="CENTER" textFill="white" wrapText="true"
+                   alignment="CENTER" centerShape="true"/>
+        </Pane>
+        <Pane fx:id="common1" GridPane.rowIndex="1" GridPane.columnIndex="0" GridPane.fillHeight="false"
+              GridPane.fillWidth="false" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+            <shape>
+                <Rectangle height="${common1.height}" width="${common1.width}" arcHeight="10.0" arcWidth="10.0"/>
+            </shape>
+        </Pane>
+        <Pane fx:id="common2" GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.fillHeight="false"
+              GridPane.fillWidth="false" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+            <shape>
+                <Rectangle height="${common2.height}" width="${common2.width}" arcHeight="10.0" arcWidth="10.0"/>
+            </shape>
+        </Pane>
+        <Pane fx:id="BookShelfImage" GridPane.rowIndex="3" GridPane.ColumnIndex="0" GridPane.fillHeight="true"
+              GridPane.fillWidth="true" GridPane.valignment="CENTER" GridPane.halignment="CENTER"
+              GridPane.columnSpan="2">
+        </Pane>
+        <Pane fx:id="PersonalGoal" GridPane.rowIndex="1" GridPane.columnIndex="2" GridPane.fillHeight="true"
+              GridPane.fillWidth="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+        </Pane>
+        <VBox fx:id="IconContainer" GridPane.rowIndex="1" GridPane.columnIndex="3" GridPane.valignment="CENTER"
+              GridPane.halignment="CENTER"
+              GridPane.fillWidth="true" GridPane.fillHeight="true">
+            <Pane fx:id="Icon1" GridPane.fillHeight="true" GridPane.fillWidth="true" GridPane.halignment="CENTER"
+                  GridPane.valignment="CENTER">
+            </Pane>
+            <Pane fx:id="Icon2" GridPane.fillHeight="true" GridPane.fillWidth="true" GridPane.halignment="CENTER"
+                  GridPane.valignment="CENTER">
+            </Pane>
+            <Pane fx:id="Icon3" GridPane.fillHeight="true" GridPane.fillWidth="true" GridPane.halignment="CENTER"
+                  GridPane.valignment="CENTER">
+            </Pane>
+        </VBox>
+        <VBox fx:id="nameContainer" GridPane.rowIndex="3" GridPane.columnIndex="2" GridPane.valignment="CENTER"
+              GridPane.halignment="CENTER" GridPane.columnSpan="2">
+            <Pane fx:id="Name1" GridPane.fillHeight="true" GridPane.fillWidth="true" GridPane.halignment="CENTER"
+                  GridPane.valignment="CENTER">
+                <Label text="Ema BigBoss" fx:id="N1"
+                       textAlignment="CENTER" textFill="white" wrapText="true"
+                       alignment="CENTER" centerShape="true" contentDisplay="CENTER"/>
+            </Pane>
+            <Pane fx:id="Name2" GridPane.fillHeight="true" GridPane.fillWidth="true" GridPane.halignment="CENTER"
+                  GridPane.valignment="CENTER">
+                <Label text="E' il mio turno" fx:id="N2"
+                       textAlignment="CENTER" textFill="White" wrapText="true"
+                       alignment="CENTER" centerShape="true"/>
+            </Pane>
+            <Pane fx:id="Name3" GridPane.fillHeight="White" GridPane.fillWidth="true" GridPane.halignment="CENTER"
+                  GridPane.valignment="CENTER">
+                <Label text="E' il mio turno" fx:id="N3"
+                       textAlignment="CENTER" textFill="white" wrapText="true"
+                       alignment="CENTER" centerShape="true"/>
+            </Pane>
+            <Pane fx:id="Name4" GridPane.fillHeight="true" GridPane.fillWidth="true" GridPane.halignment="CENTER"
+                  GridPane.valignment="CENTER">
+                <Label text="E' il mio turno" fx:id="N4"
+                       textAlignment="CENTER" textFill="white" wrapText="true"
+                       alignment="CENTER" centerShape="true"/>
+            </Pane>
+        </VBox>
+        <VBox fx:id="ButtonContainer" GridPane.rowIndex="2" GridPane.columnIndex="1" GridPane.halignment="RIGHT"
+              GridPane.valignment="CENTER"
+              alignment="CENTER_RIGHT">
+            <Button fx:id="submit" text="ClickToPlay" onMouseEntered="#onMouseEnteredSubmit"
+                    onMouseExited="#onMouseExitedSubmit">
+                <shape>
+                    <Rectangle width="${submit.width}" height="${submit.height}" arcWidth="10.0" arcHeight="10.0"/>
+                </shape>
+            </Button>
+            <Button fx:id="Reverse" text="ClickToSubmit" onMouseEntered="#onMouseEnteredSubmit"
+                    onMouseExited="#onMouseExitedSubmit">
+                <shape>
+                    <Rectangle width="${submit.width}" height="${submit.height}" arcWidth="10.0" arcHeight="10.0"/>
+                </shape>
+            </Button>
+        </VBox>
+        <Pane fx:id="PaneTail" GridPane.rowIndex="2" GridPane.columnSpan="2" GridPane.valignment="CENTER"
+              GridPane.halignment="CENTER" >
+
+        </Pane>
+    </GridPane>
+</StackPane>
+
