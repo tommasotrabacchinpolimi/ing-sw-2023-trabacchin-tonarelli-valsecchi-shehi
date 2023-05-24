@@ -66,9 +66,9 @@ class ShapeCommonGoalTest {
     @Test
     void rule() {
 
-        for (int i = 0; i < 100; i++) {
-            Random random = new Random();
-            int index = random.nextInt(1, 16);
+
+        for (int index = 0; index < 16; index++) {
+
             if (index == 1) {
                 ShapeCommonGoal shape = new ShapeCommonGoal(getRuleShape(1));
                 assert getRandomShapeBookshelf(index) != null;
@@ -79,11 +79,12 @@ class ShapeCommonGoalTest {
             } else if (index == 4 || index == 5) {
                 ShapeCommonGoal shape = new ShapeCommonGoal(getRuleShape(3));
                 assertTrue(compareObjects(getExpected(index), shape.rule(getRandomShapeBookshelf(index))));
-            } else if (index >= 6 && index != 10 && index != 13) {
+            } else if (index >= 6) {
                 ShapeCommonGoal shape = new ShapeCommonGoal(getRuleShape(4));
                 assertTrue(compareObjects(getExpected(index), shape.rule(getRandomShapeBookshelf(index))));
             }
         }
+
     }
 
 
@@ -112,11 +113,11 @@ class ShapeCommonGoalTest {
                 result.add(new EntryPatternGoal(5,4,TileType.PLANT));
             }
             case 2 -> {
-                result.add(new EntryPatternGoal(0,0,TileType.PLANT));
-                result.add(new EntryPatternGoal(1,1,TileType.PLANT));
-                result.add(new EntryPatternGoal(2,2,TileType.PLANT));
-                result.add(new EntryPatternGoal(3,3,TileType.PLANT));
-                result.add(new EntryPatternGoal(4,4,TileType.PLANT));
+                result.add(new EntryPatternGoal(0,0,TileType.TROPHY));
+                result.add(new EntryPatternGoal(1,1,TileType.TROPHY));
+                result.add(new EntryPatternGoal(2,2,TileType.TROPHY));
+                result.add(new EntryPatternGoal(3,3,TileType.TROPHY));
+                result.add(new EntryPatternGoal(4,4,TileType.TROPHY));
             }
             case 3 -> {
                 result.add(new EntryPatternGoal(1,0,TileType.PLANT));
@@ -147,11 +148,11 @@ class ShapeCommonGoalTest {
                 result.add(new EntryPatternGoal(2,2,TileType.PLANT));
             }
             case 7 -> {
-                result.add(new EntryPatternGoal(1,0,TileType.PLANT));
-                result.add(new EntryPatternGoal(1,2,TileType.PLANT));
-                result.add(new EntryPatternGoal(2,1,TileType.PLANT));
-                result.add(new EntryPatternGoal(3,0,TileType.PLANT));
-                result.add(new EntryPatternGoal(3,2,TileType.PLANT));
+                result.add(new EntryPatternGoal(1,0,TileType.GAME));
+                result.add(new EntryPatternGoal(1,2,TileType.GAME));
+                result.add(new EntryPatternGoal(2,1,TileType.GAME));
+                result.add(new EntryPatternGoal(3,0,TileType.GAME));
+                result.add(new EntryPatternGoal(3,2,TileType.GAME));
             }
             case 8 -> {
                 result.add(new EntryPatternGoal(2,0,TileType.PLANT));
@@ -161,17 +162,17 @@ class ShapeCommonGoalTest {
                 result.add(new EntryPatternGoal(4,2,TileType.PLANT));
             }
             case 9 -> {
-                result.add(new EntryPatternGoal(3,0,TileType.PLANT));
-                result.add(new EntryPatternGoal(3,2,TileType.PLANT));
-                result.add(new EntryPatternGoal(4,1,TileType.PLANT));
-                result.add(new EntryPatternGoal(5,0,TileType.PLANT));
-                result.add(new EntryPatternGoal(5,2,TileType.PLANT));
+                result.add(new EntryPatternGoal(3,0,TileType.FRAME));
+                result.add(new EntryPatternGoal(3,2,TileType.FRAME));
+                result.add(new EntryPatternGoal(4,1,TileType.FRAME));
+                result.add(new EntryPatternGoal(5,0,TileType.FRAME));
+                result.add(new EntryPatternGoal(5,2,TileType.FRAME));
             }
             case 10 -> {
                 result.add(new EntryPatternGoal(0,2,TileType.PLANT));
-                result.add(new EntryPatternGoal(2,2,TileType.PLANT));
-                result.add(new EntryPatternGoal(1,3,TileType.PLANT));
                 result.add(new EntryPatternGoal(0,4,TileType.PLANT));
+                result.add(new EntryPatternGoal(1,3,TileType.PLANT));
+                result.add(new EntryPatternGoal(2,2,TileType.PLANT));
                 result.add(new EntryPatternGoal(2,4,TileType.PLANT));
             }
             case 11 -> {
@@ -189,11 +190,11 @@ class ShapeCommonGoalTest {
                 result.add(new EntryPatternGoal(4,4,TileType.PLANT));
             }
             case 13 -> {
-                result.add(new EntryPatternGoal(3,2,TileType.PLANT));
-                result.add(new EntryPatternGoal(5,2,TileType.PLANT));
-                result.add(new EntryPatternGoal(4,3,TileType.PLANT));
-                result.add(new EntryPatternGoal(3,4,TileType.PLANT));
-                result.add(new EntryPatternGoal(5,4,TileType.PLANT));
+                result.add(new EntryPatternGoal(3,2,TileType.CAT));
+                result.add(new EntryPatternGoal(3,4,TileType.CAT));
+                result.add(new EntryPatternGoal(4,3,TileType.CAT));
+                result.add(new EntryPatternGoal(5,2,TileType.CAT));
+                result.add(new EntryPatternGoal(5,4,TileType.CAT));
             }
             case 14 -> {
                 result.add(new EntryPatternGoal(0,1,TileType.PLANT));
@@ -203,11 +204,11 @@ class ShapeCommonGoalTest {
                 result.add(new EntryPatternGoal(2,3,TileType.PLANT));
             }
             case 15 -> {
-                result.add(new EntryPatternGoal(3,1,TileType.PLANT));
-                result.add(new EntryPatternGoal(3,3,TileType.PLANT));
-                result.add(new EntryPatternGoal(4,2,TileType.PLANT));
-                result.add(new EntryPatternGoal(5,1,TileType.PLANT));
-                result.add(new EntryPatternGoal(5,3,TileType.PLANT));
+                result.add(new EntryPatternGoal(3,1,TileType.BOOK));
+                result.add(new EntryPatternGoal(3,3,TileType.BOOK));
+                result.add(new EntryPatternGoal(4,2,TileType.BOOK));
+                result.add(new EntryPatternGoal(5,1,TileType.BOOK));
+                result.add(new EntryPatternGoal(5,3,TileType.BOOK));
             }
         }
         return  result;
@@ -229,11 +230,11 @@ class ShapeCommonGoalTest {
             }
             case 2 -> {
                 return new TileType[][]{
-                        {TileType.PLANT, null, null, null, null},
-                        {null, TileType.PLANT, null, null, null},
-                        {null, null, TileType.PLANT, null, null},
-                        {null, null, null, TileType.PLANT, null},
-                        {null, null, null, null, TileType.PLANT},
+                        {TileType.TROPHY, null, null, null, null},
+                        {null, TileType.TROPHY, null, null, null},
+                        {null, null, TileType.TROPHY, null, null},
+                        {null, null, null, TileType.TROPHY, null},
+                        {null, null, null, null, TileType.TROPHY},
                         {null, null, null, null, null}
                 };
             }
@@ -285,9 +286,9 @@ class ShapeCommonGoalTest {
             case 7 -> {
                 return new TileType[][]{
                         {null, null, null, null, null},
-                        {TileType.PLANT, null, TileType.PLANT, null, null},
-                        {null, TileType.PLANT, null, null, null},
-                        {TileType.PLANT, null, TileType.PLANT, null, null},
+                        {TileType.GAME, null, TileType.GAME, null, null},
+                        {null, TileType.GAME, null, null, null},
+                        {TileType.GAME, null, TileType.GAME, null, null},
                         {null, null, null, null, null},
                         {null, null, null, null, null},
 
@@ -309,9 +310,9 @@ class ShapeCommonGoalTest {
                         {null, null, null, null, null},
                         {null, null, null, null, null},
                         {null, null, null, null, null},
-                        {TileType.PLANT, null, TileType.PLANT, null, null},
-                        {null, TileType.PLANT, null, null, null},
-                        {TileType.PLANT, null, TileType.PLANT, null, null},
+                        {TileType.FRAME, null, TileType.FRAME, null, null},
+                        {null, TileType.FRAME, null, null, null},
+                        {TileType.FRAME, null, TileType.FRAME, null, null},
 
                 };
             }
@@ -351,9 +352,9 @@ class ShapeCommonGoalTest {
                         {null, null, null, null, null},
                         {null, null, null, null, null},
                         {null, null, null, null, null},
-                        {null, null, TileType.PLANT, null, TileType.PLANT},
-                        {null, null, null, TileType.PLANT, null},
-                        {null, null, TileType.PLANT, null, TileType.PLANT},
+                        {null, null, TileType.CAT, null, TileType.CAT},
+                        {null, null, null, TileType.CAT, null},
+                        {null, null, TileType.CAT, null, TileType.CAT},
                 };
             }
             case 14 -> {
@@ -371,9 +372,9 @@ class ShapeCommonGoalTest {
                         {null, null, null, null, null},
                         {null, null, null, null, null},
                         {null, null, null, null, null},
-                        {null, TileType.PLANT, null, TileType.PLANT, null},
-                        {null, null, TileType.PLANT, null, null},
-                        {null, TileType.PLANT, null, TileType.PLANT, null},
+                        {null, TileType.BOOK, null, TileType.BOOK, null},
+                        {null, null, TileType.BOOK, null, null},
+                        {null, TileType.BOOK, null, TileType.BOOK, null},
                 };
             }
 
