@@ -1,8 +1,6 @@
 package it.polimi.ingsw.view.gui;
 
-import it.polimi.ingsw.view.LogicInterface;
 import it.polimi.ingsw.view.UI;
-import it.polimi.ingsw.view.ViewData;
 import it.polimi.ingsw.view.gui.loginpage.LoginPage;
 import javafx.application.Application;
 
@@ -52,5 +50,11 @@ public class MyShelfieAdapter extends UI {
 
     public void setMyShelfieController(MyShelfieController myShelfieController) {
         this.myShelfieController = myShelfieController;
+    }
+
+    public void bindShelfieControllerAndAdapter(MyShelfieController myShelfieController) {
+        setMyShelfieController(myShelfieController);
+
+        this.myShelfieController.setLogicController(this.getLogicController());
     }
 }
