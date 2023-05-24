@@ -158,7 +158,8 @@ public abstract class MyShelfieApplication extends Application {
 
         fxController.setMyShelfieApplicationLauncher(this);
 
-        ui.setMyShelfieController(fxController);
+        if(ui != null)
+            ui.bindShelfieControllerAndAdapter(fxController);
 
         if (percentWidth > 0.0 && percentHeight > 0.0)
             scene = new Scene(rootPaneContainer, (SCREEN_WIDTH * percentWidth / 100.00), (SCREEN_HEIGHT * percentHeight / 100.00));
@@ -293,6 +294,7 @@ public abstract class MyShelfieApplication extends Application {
 
     private void closeWindowEvent(WindowEvent event) {
         Platform.exit();
+        System.exit(0);
     }
 
     public static UI getUi() {

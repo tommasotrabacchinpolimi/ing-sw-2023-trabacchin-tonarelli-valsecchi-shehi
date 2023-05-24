@@ -1,9 +1,12 @@
 package it.polimi.ingsw.view.gui;
 
 import javafx.beans.NamedArg;
+import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.effect.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -47,22 +50,28 @@ public class MyShelfieButton extends Button {
      *
      * @apiNote The value should be ranged between 0.0 and 100.0
      * <p>The value is a percentage of the minimum size between width and height of the button</p>
-     *
      * @apiNote default value is {@value DEFAULT_RADIUS}
      */
     private final double radius;
 
     /**
-     * <p>Construct a "MyShelfieButton" with personalization set as specified by parameters</p>
+     * <p>This value is true when the button is focused, and false otherwise</p>
      *
-     * @apiNote if the {@code radius} is set to a value grater than 100.0
-     * it will be automatically set at 100.0
+     * @see #handleMouseEnter(MouseEvent)
+     * @see #handleMouseExited(MouseEvent)
+     */
+    private boolean isFocused;
+
+    /**
+     * <p>Construct a "MyShelfieButton" with personalization set as specified by parameters</p>
      *
      * @param text    the text to show in the button
      * @param rounded boolean value that determinate if the button
      *                has to be rounded ({@code true}) or not ({@code false})
      * @param radius  the radius value to which the button must be set
      *                if the {@code rounded} parameter is set to {@code true}
+     * @apiNote if the {@code radius} is set to a value grater than 100.0
+     * it will be automatically set at 100.0
      * @see #radius
      * @see #roundedShape()
      * @see #myShelfieStyle()
@@ -71,6 +80,8 @@ public class MyShelfieButton extends Button {
                            @NamedArg("rounded") boolean rounded,
                            @NamedArg("radius") double radius) {
         super(text);
+
+        isFocused = false;
 
         this.radius = (radius > 100.0) ? 100.0 : radius;
 
@@ -88,6 +99,15 @@ public class MyShelfieButton extends Button {
         setOnMousePressed(this::handleMousePressed);
         setOnMouseReleased(this::handleMouseReleased);
         setOnMouseClicked(this::handleMouseClicked);
+        setOnKeyPressed(this::handleKeyPressed);
+        setOnKeyReleased(this::handleKeyReleased);
+
+        focusedProperty().addListener(changed -> {
+            if (isFocused())
+                handleMouseEnter(null);
+            else
+                handleMouseExited(null);
+        });
     }
 
     /**
@@ -173,6 +193,7 @@ public class MyShelfieButton extends Button {
 
     /**
      * <p>Applies the default style for the button including effects and CSS</p>
+     *
      * @apiNote this function is the combination of {@link #myShelfieStyleSheet()}
      * and {@link #setDefaultEffects()}
      */
@@ -225,28 +246,32 @@ public class MyShelfieButton extends Button {
      * @param mouseEvent the mouse action performed by the user
      */
     private void handleMouseEnter(MouseEvent mouseEvent) {
-        Bloom bloom = new Bloom();
-        bloom.setInput(getEffect());
-        setEffect(bloom);
+        if (!isFocused) {
+            Bloom bloom = new Bloom();
+            bloom.setInput(getEffect());
+            setEffect(bloom);
+            isFocused = true;
+        }
     }
 
     /**
      * <p>Applies the effects at the personalized button when the mouse exited it</p>
      *
      * @param mouseEvent the mouse action performed by the user
-     *
      * @see #resetToDefaultEffects()
      */
     private void handleMouseExited(MouseEvent mouseEvent) {
-        resetToDefaultEffects();
+        if (isFocused) {
+            resetToDefaultEffects();
+            isFocused = false;
+        }
     }
 
     /**
-     * <p>Applies the effects at the personalized button when the button is pressed</p>
-     *
-     * @apiNote the mouse event "pressed" is different from clicked
+     * <p>Applies the effects at the personalized button when is pressed</p>
      *
      * @param mouseEvent the mouse action performed by the user
+     * @apiNote the mouse event "pressed" is different from clicked
      */
     private void handleMousePressed(MouseEvent mouseEvent) {
         Glow glow = new Glow(0.2);
@@ -257,10 +282,8 @@ public class MyShelfieButton extends Button {
     /**
      * <p>Applies the effects at the personalized button when the mouse is released</p>
      *
-     * @apiNote the mouse event release always happens after the pressed evenet
-     *
      * @param mouseEvent the mouse action performed by the user
-     *
+     * @apiNote the mouse event release always happens after the pressed evenet
      * @see #resetToDefaultEffects()
      */
     private void handleMouseReleased(MouseEvent mouseEvent) {
@@ -268,13 +291,38 @@ public class MyShelfieButton extends Button {
     }
 
     /**
-     * <p>Applies the effects at the personalized button when the button is clicked</p>
+     * <p>Applies the effects at the personalized button when is clicked</p>
      *
      * @param mouseEvent the mouse action performed by the user
-     *
      * @see #resetToDefaultEffects()
      */
     private void handleMouseClicked(MouseEvent mouseEvent) {
         resetToDefaultEffects();
+    }
+
+    /**
+     * <p>Applies the effects at the personalized button when is pressed with the enter key from keyboard</p>
+     *
+     * @param keyEvent the key pressed
+     *
+     * @see #handleMousePressed(MouseEvent)
+     */
+    private void handleKeyPressed(KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.ENTER) {
+            handleMousePressed(null);
+        }
+    }
+
+    /**
+     * <p>Applies the effects at the personalized button when is released after the enter key is been typed</p>
+     *
+     * @param keyEvent the key pressed
+     *
+     * @see #handleMouseReleased(MouseEvent)
+     */
+    private void handleKeyReleased(KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.ENTER) {
+            handleMouseReleased(null);
+        }
     }
 }

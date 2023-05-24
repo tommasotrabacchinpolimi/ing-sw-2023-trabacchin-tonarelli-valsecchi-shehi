@@ -7,11 +7,13 @@ import it.polimi.ingsw.view.gui.MyShelfieController;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.css.PseudoClass;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.InputEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -94,7 +96,7 @@ public class LoginPageController extends MyShelfieController {
     }
 
     @FXML
-    public void textFieldKeyPressed(@NotNull KeyEvent keyEvent) {
+    private void textFieldKeyPressed(@NotNull KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ESCAPE) {
             interfaceGrid.requestFocus();
 
@@ -106,35 +108,51 @@ public class LoginPageController extends MyShelfieController {
         }
 
         if (keyEvent.getCode() == KeyCode.ENTER) {
-            if (nicknameInput.isVisible() && !nicknameInput.isDisabled()) {
-                //show small message
+            if (nicknameInput.isVisible() && !nicknameInput.isDisabled() && !verifyNickname()) {
+                //show an alert to decide if the player wants to join or to create a Game
             }
 
-            if (playerNumberInput.isVisible()) {
-                playerNumberSubmitted(null);
+            if (playerNumberInput.isVisible() && !playerNumberInput.isDisabled() && !verifyPlayerNumber()) {
+                executePlayerNumberSubmitted();
             }
         }
     }
 
     @FXML
-    private void joinGameSubmitted(MouseEvent mouseEvent) {
-        getNickNameFromField();
+    private void joinGameSubmitted(InputEvent inputEvent) {
+        if(isButtonActionCalled(inputEvent)){
+            getNickNameFromField();
 
-        MyShelfieApplication.getUi().getLogicController().joinGame(nickName);
+            getLogicController().joinGame(nickName);
+        }
     }
 
     @FXML
-    private void createGameSubmitted(MouseEvent mouseEvent) {
-        getNickNameFromField();
+    private void createGameSubmitted(InputEvent inputEvent) {
+        if(isButtonActionCalled(inputEvent)){
+            getNickNameFromField();
 
-        gameCreationUI();
+            gameCreationUI();
+        }
     }
 
     @FXML
-    private void playerNumberSubmitted(MouseEvent mouseEvent) {
+    private void playerNumberSubmitted(InputEvent inputEvent) {
+        if(isButtonActionCalled(inputEvent)){
+            executePlayerNumberSubmitted();
+        }
+    }
+
+    private void executePlayerNumberSubmitted() {
         getPlayersNumberFromField();
 
-        MyShelfieApplication.getUi().getLogicController().createGame(this.nickName, this.playersNumber);
+        getLogicController().createGame(this.nickName, this.playersNumber);
+    }
+
+    private boolean isButtonActionCalled(InputEvent inputEvent) {
+        return inputEvent.getEventType() == MouseEvent.MOUSE_PRESSED ||
+                (inputEvent.getEventType() == KeyEvent.KEY_PRESSED &&
+                        ((KeyEvent) inputEvent).getCode() == KeyCode.ENTER);
     }
 
     private void getNickNameFromField() {

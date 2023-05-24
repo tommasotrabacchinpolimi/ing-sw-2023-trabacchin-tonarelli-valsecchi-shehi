@@ -20,7 +20,7 @@ import javafx.fxml.Initializable;
 public abstract class MyShelfieController implements Initializable {
     private MyShelfieApplication myShelfieApplicationLauncher;
 
-    private LogicInterface logicInterface;
+    private LogicInterface logicController;
 
     public MyShelfieApplication getMyShelfieApplicationLauncher() {
         return myShelfieApplicationLauncher;
@@ -30,12 +30,12 @@ public abstract class MyShelfieController implements Initializable {
         this.myShelfieApplicationLauncher = myShelfieApplicationLauncher;
     }
 
-    public LogicInterface getLogicInterface() {
-        return logicInterface;
+    public LogicInterface getLogicController() {
+        return logicController;
     }
 
-    public void setLogicInterface(LogicInterface logicInterface) {
-        this.logicInterface = logicInterface;
+    public void setLogicController(LogicInterface logicController) {
+        this.logicController = logicController;
     }
 
     public abstract void onGameStateChangedNotified();
