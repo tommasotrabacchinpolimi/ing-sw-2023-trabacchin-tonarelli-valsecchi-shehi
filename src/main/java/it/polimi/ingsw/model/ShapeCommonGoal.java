@@ -94,7 +94,6 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
             }
             for(int j = 0; j < bookShelf[0].length; j++) {
 
-
                 if(!check)
                     result.clear();
 
