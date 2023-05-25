@@ -98,6 +98,7 @@ public class TUI extends UI implements Runnable{
             welcome(true);
             Thread.sleep(1000);
             if(getModel().getPlayers().isEmpty()){
+                lock.unlock();
                 this.run();
             }
             home();
