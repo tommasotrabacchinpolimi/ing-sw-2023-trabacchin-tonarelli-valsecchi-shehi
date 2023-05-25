@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view;
 
+import java.io.IOException;
+
 public abstract class UI{
     private LogicInterface logicController;
 
@@ -30,7 +32,7 @@ public abstract class UI{
 
     public abstract void showWinner();
 
-    public abstract void onException();
+    public abstract void onException() throws IOException;
 
-    public abstract void onGameStateChanged();
+    public abstract void onGameStateChanged() throws IOException;
 }

@@ -1,15 +1,14 @@
 package it.polimi.ingsw.view.tui;
 
 import com.diogonunes.jcolor.Attribute;
-import it.polimi.ingsw.controller.exceptions.AlreadyInGameException;
-import it.polimi.ingsw.controller.exceptions.AlreadyTakenNicknameException;
 import it.polimi.ingsw.model.BoardSquareType;
 import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.TileSubject;
 import it.polimi.ingsw.model.TileType;
 import it.polimi.ingsw.utils.Coordinate;
 import it.polimi.ingsw.utils.Triple;
-import it.polimi.ingsw.view.UI;
+import it.polimi.ingsw.view.LogicInterface;
+import it.polimi.ingsw.view.ViewData;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,14 +25,15 @@ import static com.diogonunes.jcolor.Ansi.colorize;
 import static it.polimi.ingsw.model.BoardSquareType.*;
 import static it.polimi.ingsw.model.BoardSquareType.THREE_DOTS;
 
-public class TUI extends UI implements Runnable{
+public class TUIStateGame extends TUIState{
+
     private static final int DIM_BOARD = 9;
     private static final int DIMCOL_BOOKSHELF = 5;
     private static final int DIMROW_BOOKSHELF = 6;
     private static final char EMPTY = '-';
     private final BufferedReader bufferedReader;
     private final PrintStream out = System.out;
-    private TUIState state;
+    private TUIView state;
     public static final BoardSquareType[][] INIT_MATRIX = {
             {null, null, null, THREE_DOTS, FOUR_DOTS, null, null, null, null},
             {null, null, null, NO_DOTS, NO_DOTS, FOUR_DOTS, null, null, null},
@@ -49,28 +49,24 @@ public class TUI extends UI implements Runnable{
     private final Lock lock = new ReentrantLock();
 
 
-    private enum TUIState{
+    private enum TUIView {
         HOME,
         CHAT,
         OTHERS,
         LEGEND,
         END
     }
-
-    public TUI() {
-        state = TUIState.HOME;
+    public TUIStateGame(TUIStateMachine tuiStateMachine) {
+        super(tuiStateMachine);
         bufferedReader = new BufferedReader(new InputStreamReader(System.in));
     }
-
     @Override
-    public void launchUI() {
-        new Thread(this).start();
+    protected void newLine(String line) {
+
     }
-
-    @Override
     public void onNewMessage(String sender) {
         lock.lock();
-        if(state != TUIState.CHAT) {
+        if(state != TUIView.CHAT) {
             if (!sender.equals(getModel().getThisPlayer())) {
                 out.println("New Message from " + sender);
             }
@@ -83,41 +79,50 @@ public class TUI extends UI implements Runnable{
     @Override
     public void onCurrentPlayerChanged(String newCurrentPlayer) {
         lock.lock();
-        if(state != TUIState.HOME) {
+        if(state != TUIView.HOME) {
             out.println("There is a new current player, please refresh the page...");
         } else {
             refresh();
         }
         lock.unlock();
     }
+    @Override
+    public void launchUI() {
+
+    }
+
 
     @Override
-    public void run() {
+    public void onException() {
+        lock.lock();
+        out.println(getModel().getException());
+        lock.unlock();
+    }
+
+    @Override
+    public void onGameStateChanged() {
+
+    }
+
+    @Override
+    public void setup() throws IOException {
         try {
             lock.lock();
-            welcome(true);
-            Thread.sleep(1000);
-            if(getModel().getPlayers().isEmpty()){
-                lock.unlock();
-                this.run();
-            }
             home();
             while(true) {
                 lock.unlock();
-                while(!bufferedReader.ready()) {
-                    Thread.sleep(50);
-                }
                 String input = bufferedReader.readLine();
                 lock.lock();
                 switch (input) {
                     case "help":
-                        state = TUIState.LEGEND;
+                        state = TUIView.LEGEND;
                         printLegendMoves();
                         break;
                     case "quit":
+                        setTriggered(true);
                         getLogicController().quitGame();
-                        welcome(false);
-                        break;
+                        getTuiStateMachine().setTuiState(new TUIStateInit(getTuiStateMachine()));
+                        return;
                     case "message":
                         out.println("Please, enter the following information:");
                         out.println("If you want the message to be private, enter the nickname of the player. Otherwise, enter type 'all' to send the message to all players");
@@ -143,20 +148,20 @@ public class TUI extends UI implements Runnable{
                         refresh();
                         break;
                     case "chat":
-                        state = TUIState.CHAT;
+                        state = TUIView.CHAT;
                         reset();
                         home();
                         showChat();
                         break;
                     case "others":
-                        state = TUIState.OTHERS;
+                        state = TUIView.OTHERS;
                         reset();
                         home();
                         showBookshelves();
                         break;
                     case "exit":
-                        if (state == TUIState.CHAT || state == TUIState.OTHERS || state == TUIState.LEGEND) {
-                            state = TUIState.HOME;
+                        if (state == TUIView.CHAT || state == TUIView.OTHERS || state == TUIView.LEGEND) {
+                            state = TUIView.HOME;
                             reset();
                             home();
                         }
@@ -187,23 +192,22 @@ public class TUI extends UI implements Runnable{
                         refresh();
                 }
             }
-        } catch (IOException | NotBoundException | ClassNotFoundException | InterruptedException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     public void refresh(){
         reset();
-        if(state.equals(TUIState.CHAT)){
+        if(state.equals(TUIView.CHAT)){
             showChat();
-        } else if (state.equals(TUIState.OTHERS)) {
+        } else if (state.equals(TUIView.OTHERS)) {
             showBookshelves();
-        } else if (state.equals(TUIState.LEGEND)) {
+        } else if (state.equals(TUIView.LEGEND)) {
             printLegendMoves();
-        } else if (state.equals(TUIState.END)) {
+        } else if (state.equals(TUIView.END)) {
             showWinner();
-        } else if (state.equals(TUIState.HOME)) {
+        } else if (state.equals(TUIView.HOME)) {
             home();
         }
     }
@@ -218,71 +222,8 @@ public class TUI extends UI implements Runnable{
         return input;
     }
 
-    public void onException(){
-        lock.lock();
-        out.println(getModel().getException());
-        lock.unlock();
-    }
-
-    @Override
-    public void onGameStateChanged() {
-    }
-
-    private void welcome(boolean fromTheBeginning) throws IOException, NotBoundException, ClassNotFoundException {
-        String choice;
-        out.print("""
-                          .         .                                                                                                                                   \s
-                         ,8.       ,8.   `8.`8888.      ,8'              d888888o.   8 8888        8 8 8888888888   8 8888         8 8888888888    8 8888 8 8888888888  \s
-                        ,888.     ,888.   `8.`8888.    ,8'             .`8888:' `88. 8 8888        8 8 8888         8 8888         8 8888          8 8888 8 8888        \s
-                       .`8888.   .`8888.   `8.`8888.  ,8'              8.`8888.   Y8 8 8888        8 8 8888         8 8888         8 8888          8 8888 8 8888        \s
-                      ,8.`8888. ,8.`8888.   `8.`8888.,8'               `8.`8888.     8 8888        8 8 8888         8 8888         8 8888          8 8888 8 8888        \s
-                     ,8'8.`8888,8^8.`8888.   `8.`88888'                 `8.`8888.    8 8888        8 8 888888888888 8 8888         8 888888888888  8 8888 8 888888888888\s
-                    ,8' `8.`8888' `8.`8888.   `8. 8888                   `8.`8888.   8 8888        8 8 8888         8 8888         8 8888          8 8888 8 8888        \s
-                   ,8'   `8.`88'   `8.`8888.   `8 8888                    `8.`8888.  8 8888888888888 8 8888         8 8888         8 8888          8 8888 8 8888        \s
-                  ,8'     `8.`'     `8.`8888.   8 8888                8b   `8.`8888. 8 8888        8 8 8888         8 8888         8 8888          8 8888 8 8888        \s
-                 ,8'       `8        `8.`8888.  8 8888                `8b.  ;8.`8888 8 8888        8 8 8888         8 8888         8 8888          8 8888 8 8888        \s
-                ,8'         `         `8.`8888. 8 8888                 `Y8888P ,88P' 8 8888        8 8 888888888888 8 888888888888 8 8888          8 8888 8 888888888888\s
-                """);
-        out.println("Welcome to My Shelfie!");
-        if(fromTheBeginning) {
-            System.out.println("Choose one of the following protocols:");
-            System.out.println("1) Socket");
-            System.out.println("2) Remote Methode Invocation");
-            String protocolChoice = bufferedReader.readLine();
-            System.out.println("Please enter the server address: ");
-            String host = bufferedReader.readLine();
-            System.out.println("Now enter the port number");
-            int port = Integer.parseInt(bufferedReader.readLine());
-            if(protocolChoice.equals("1")) {
-                getLogicController().chosenSocket(port, host);
-            }
-            else if(protocolChoice.equals("2")) {
-                getLogicController().chosenRMI(port, host);
-            }
-        }
-
-
-        out.println("Now insert your unique nickname: ");
-        String nickname = readLine();
-        out.println("Ok, now chose one of the following options: ");
-        out.println("1) create a new game");
-        out.println("2) join an existing game");
-        out.println("3) rejoin an existing game after a disconnection");
-        choice = readLine();
-        switch (choice) {
-            case "1" -> {
-                out.println("So you need to choose how many people there will be in the game (it has to be a number between 2 and 4, including you) :");
-                int numberOfPlayer = Integer.parseInt(readLine());
-                getLogicController().createGame(nickname, numberOfPlayer);
-            }
-            case "2", "3" -> getLogicController().joinGame(nickname);
-            default -> {
-            }
-        }
-    }
-
     private void home(){ //mostra le cose base
-        state = TUIState.HOME;
+        state = TUIView.HOME;
         out.print(colorize("                                                           ", Attribute.GREEN_BACK()));
         out.print(colorize("MY SHELFIE: HOME OF " + getModel().getThisPlayer(), Attribute.GREEN_BACK()));
         out.println(colorize("                                                           ", Attribute.GREEN_BACK()));
@@ -338,7 +279,7 @@ public class TUI extends UI implements Runnable{
     }
 
     private void showChat(){
-        state = TUIState.CHAT;
+        state = TUIView.CHAT;
         System.out.print(colorize("                                                                     ", Attribute.GREEN_BACK()));
         System.out.print(colorize("MY SHELFIE: CHAT", Attribute.GREEN_BACK()));
         System.out.println(colorize("                                                                     ", Attribute.GREEN_BACK()));
@@ -367,7 +308,7 @@ public class TUI extends UI implements Runnable{
     }
 
     private void showBookshelves(){
-        state = TUIState.OTHERS;
+        state = TUIView.OTHERS;
         System.out.print(colorize("                                    ", Attribute.GREEN_BACK()));
         System.out.print(colorize("MY SHELFIE: OTHER PLAYERS' BOOKSHELVES AND POINTS", Attribute.GREEN_BACK()));
         System.out.println(colorize("                                    ", Attribute.GREEN_BACK()));
@@ -383,7 +324,7 @@ public class TUI extends UI implements Runnable{
 
     @Override
     public void showWinner(){
-        state = TUIState.END;
+        state = TUIView.END;
         System.out.print(colorize("                                                           ", Attribute.GREEN_BACK()));
         System.out.print(colorize("MY SHELFIE: HOME OF " + getModel().getThisPlayer(), Attribute.GREEN_BACK()));
         System.out.println(colorize("                                                           ", Attribute.GREEN_BACK()));
@@ -435,7 +376,7 @@ public class TUI extends UI implements Runnable{
             } else if (i==6){
                 out.print("                                     ");
                 out.print("Personal Goal Points:");
-             } else if (i==7) {
+            } else if (i==7) {
                 out.print("p = PLANT\t b = BOOK \t \t \t \t p 1 | 2 | 4 | 6 | 9 | 12");
             } else {
                 out.print("t = TROPHY\t c = CAT \t \t \t \t p = points achieved with relative #");
@@ -847,31 +788,38 @@ public class TUI extends UI implements Runnable{
     }
 
     private String toPrintChar(char c){
-       switch(c) {
-           case EMPTY -> {
-               return " " + c + " ";
-           }
-           case 't' -> {
-               return colorize(" " + c + " ", Attribute.CYAN_BACK());
-           }
-           case 'f' -> {
-               return colorize(" " + c + " ", Attribute.BLUE_BACK());
-           }
-           case 'c' -> {
-               return colorize(" " + c + " ", Attribute.GREEN_BACK());
-           }
-           case 'g' -> {
-               return colorize(" " + c + " ", Attribute.YELLOW_BACK());
-           }
-           case 'p' -> {
-               return colorize(" " + c + " ", Attribute.MAGENTA_BACK());
-           }
-           case 'b' -> {
-               return colorize(" " + c + " ", Attribute.WHITE_BACK());
-           }
-           default -> {
-               return "   ";
-           }
-       }
+        switch(c) {
+            case EMPTY -> {
+                return " " + c + " ";
+            }
+            case 't' -> {
+                return colorize(" " + c + " ", Attribute.CYAN_BACK());
+            }
+            case 'f' -> {
+                return colorize(" " + c + " ", Attribute.BLUE_BACK());
+            }
+            case 'c' -> {
+                return colorize(" " + c + " ", Attribute.GREEN_BACK());
+            }
+            case 'g' -> {
+                return colorize(" " + c + " ", Attribute.YELLOW_BACK());
+            }
+            case 'p' -> {
+                return colorize(" " + c + " ", Attribute.MAGENTA_BACK());
+            }
+            case 'b' -> {
+                return colorize(" " + c + " ", Attribute.WHITE_BACK());
+            }
+            default -> {
+                return "   ";
+            }
+        }
+    }
+
+    private ViewData getModel() {
+        return getTuiStateMachine().getModel();
+    }
+    private LogicInterface getLogicController() {
+        return getTuiStateMachine().getLogicController();
     }
 }

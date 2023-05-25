@@ -29,4 +29,14 @@ public class ChatPageController extends MyShelfieController {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
+
+    @Override
+    public void onGameStateChangedNotified() {
+
+    }
+
+    @Override
+    public void onExceptionNotified() {
+
+    }
 }

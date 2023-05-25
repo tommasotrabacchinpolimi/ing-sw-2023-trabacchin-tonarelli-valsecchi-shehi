@@ -9,12 +9,8 @@ import it.polimi.ingsw.net.RmiConnectionManager;
 import it.polimi.ingsw.net.SocketConnectionManager;
 import it.polimi.ingsw.utils.Coordinate;
 import it.polimi.ingsw.utils.Triple;
-import it.polimi.ingsw.view.gui.MyShelfieAdapter;
-import it.polimi.ingsw.view.tui.TUI;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.*;
@@ -30,32 +26,7 @@ public class Client implements ClientInterface, LogicInterface {
         viewData = model;
     }
 
-    public static void main(String[] args) throws IOException, NotBoundException, ClassNotFoundException {
-        String UIChoice;
-        Client client = null;
-        UI ui = null;
-        ViewData viewData = new ViewData(9, 5, 6);
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("Now choose your desired UI:");
-        System.out.println("1) TUI");
-        System.out.println("2) GUI");
-        UIChoice = bufferedReader.readLine();
 
-        if (UIChoice.equals("1")) {
-            ui = new TUI();
-        } else if (UIChoice.equals("2")) {
-            ui = new MyShelfieAdapter();
-
-        }
-
-        ui.setModel(viewData);
-
-        client = new Client(ui, viewData);
-        client.chosenSocket(1234,"localhost");
-        ui.setLogicController(client);
-        viewData.setUserInterface(ui);
-        ui.launchUI();
-    }
 
     private ServerInterface getSocketConnection(String host, int port) throws IOException {
         TypeToken<ServerInterface> typeToken = new TypeToken<>() {
@@ -138,7 +109,12 @@ public class Client implements ClientInterface, LogicInterface {
 
     @Override
     public void onException(Exception e) {
-        viewData.setException(e.getMessage());
+        try{
+            viewData.setException(e.getMessage());
+        }catch(IOException e1) {
+            e1.printStackTrace();
+        }
+
     }
 
     @Override
@@ -178,7 +154,13 @@ public class Client implements ClientInterface, LogicInterface {
 
     @Override
     public void onStateChanged(GameState gameState) {
-        viewData.setGameState(gameState.toString());
+        try{
+            System.out.println("current state = "+ gameState);
+            viewData.setGameState(gameState.toString());
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
