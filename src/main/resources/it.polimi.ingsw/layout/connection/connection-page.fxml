@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.collections.FXCollections?>
+<?import it.polimi.ingsw.view.gui.MyShelfieButton?>
+<StackPane fx:id="rootPane" xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="it.polimi.ingsw.view.gui.connectioninterface.ConnectionPageController"
+           stylesheets="@ConnectionPage.css">
+    <fx:define>
+        <Double fx:id="shapeArc" fx:value="17.0"/>
+    </fx:define>
+
+    <StackPane fx:id="backgroundColorHover" StackPane.alignment="CENTER">
+        <StackPane fx:id="gridStackContainer" StackPane.alignment="CENTER">
+            <shape>
+                <Rectangle width="${gridStackContainer.width}" height="${gridStackContainer.height}"
+                           arcHeight="$shapeArc"
+                           arcWidth="$shapeArc"/>
+            </shape>
+
+            <GridPane fx:id="contentGrid" alignment="CENTER" StackPane.alignment="CENTER">
+                <fx:define>
+                    <Double fx:id="heightPercent" fx:value="100"/>
+                    <Double fx:id="infoWidthPercent" fx:value="40"/>
+                    <Double fx:id="inputWidthPercent" fx:value="60"/>
+                </fx:define>
+
+                <shape>
+                    <Rectangle width="${contentGrid.width}" height="${contentGrid.height}"
+                               arcHeight="$shapeArc" arcWidth="$shapeArc"/>
+                </shape>
+
+                <rowConstraints>
+                    <RowConstraints percentHeight="$heightPercent" vgrow="ALWAYS"/>
+                    <RowConstraints percentHeight="$heightPercent" vgrow="ALWAYS"/>
+                    <RowConstraints percentHeight="$heightPercent" vgrow="ALWAYS"/>
+                    <RowConstraints percentHeight="$heightPercent" vgrow="ALWAYS"/>
+                </rowConstraints>
+
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="$infoWidthPercent" hgrow="ALWAYS"/>
+                    <ColumnConstraints percentWidth="$inputWidthPercent" hgrow="ALWAYS"/>
+                </columnConstraints>
+
+                <Label fx:id="connectionLabel" styleClass="info-text" text="Protocol:"
+                       GridPane.halignment="RIGHT" GridPane.valignment="CENTER" wrapText="true"/>
+
+                <ChoiceBox fx:id="protocolBox" value="Choose a connection protocol" GridPane.valignment="CENTER"
+                           GridPane.halignment="LEFT" GridPane.rowIndex="0" GridPane.columnIndex="1">
+                    <shape>
+                        <Rectangle height="${protocolBox.height}" width="${protocolBox.width}" arcHeight="$shapeArc"
+                                   arcWidth="$shapeArc"/>
+                    </shape>
+
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:id="SocketChoice" fx:value="Socket"/>
+                            <String fx:id="RMIChoice" fx:value="Remote Methode Invocation"/>
+                        </FXCollections>
+                    </items>
+
+                </ChoiceBox>
+
+                <Label fx:id="serverLabel" styleClass="info-text" text="Server address:" GridPane.halignment="RIGHT"
+                       GridPane.valignment="CENTER" wrapText="true" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+
+                <TextField fx:id="serverAddressField" styleClass="connection-input" promptText="Insert server address"
+                           GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.valignment="CENTER"
+                           GridPane.halignment="LEFT"/>
+
+                <Label fx:id="portLabel" styleClass="info-text" text="Port number:" GridPane.halignment="RIGHT"
+                       GridPane.valignment="CENTER" wrapText="true" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+
+                <TextField fx:id="portNumberField" styleClass="connection-input" promptText="Insert port number"
+                           GridPane.rowIndex="2" GridPane.columnIndex="1" GridPane.valignment="CENTER"
+                           GridPane.halignment="LEFT"/>
+
+                <MyShelfieButton text="Submit" GridPane.rowIndex="3" GridPane.columnIndex="0" GridPane.columnSpan="2"
+                                 GridPane.halignment="CENTER" GridPane.valignment="CENTER" cache="true" wrapText="true"/>
+            </GridPane>
+
+        </StackPane>
+    </StackPane>
+</StackPane>
