@@ -2,21 +2,22 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.view.UI;
 import it.polimi.ingsw.view.gui.loginpage.LoginPage;
-import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import javafx.util.Duration;
 
 import java.awt.*;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 /**
  * <p>This class is used to define the default path and commands allowed by every class that has to deal with the graphics
@@ -61,6 +62,18 @@ public abstract class MyShelfieApplication extends Application {
      * The screen height
      */
     private static final int SCREEN_HEIGHT = SCREEN_DEVICE.getDisplayMode().getHeight();
+
+    /**
+     * <p>Width stage change listener</p>
+     * <p>This listener is used to preserve the aspect ratio of the stage according to the scene that is shown</p>
+     */
+    private ChangeListener<? super Number> widthChangeListener;
+
+    /**
+     * <p>Height stage change listener</p>
+     * <p>This listener is used to preserve the aspect ratio of the stage according to the scene that is shown</p>
+     */
+    private ChangeListener<? super Number> heightChangeListener;
 
     /**
      * The scene relative to the interface shown
@@ -130,18 +143,16 @@ public abstract class MyShelfieApplication extends Application {
     /**
      * <p>Construct a {@link Scene scene} from a specific file containing a static layout (.fxml)</p>
      *
-     *
-     * @param FXMLFileName the layout file reference
-     * @param percentWidth the percent width of the scene based on screen size
-     * @param percentHeight the percent height of the scene based on screen size
+     * @param FXMLFileName      the layout file reference
+     * @param percentWidth      the percent width of the scene based on screen size
+     * @param percentHeight     the percent height of the scene based on screen size
      * @param rootPaneContainer the main pane container for every graphical component in the layout file
      * @return the scene personalized as described
-     *
      * @apiNote <ul>
-     *     <li>if {@code percentWidth} and/or {@code percentHeight} are equals to {@code 0.0} (or negative),
-     *     the scene will be set to fit its content.</li>
-     *     <li>if {@code rootPaneContainer} is null, tha main container for the scene will be
-     *     the pane in the static layout file passed as parameter</li>
+     * <li>if {@code percentWidth} and/or {@code percentHeight} are equals to {@code 0.0} (or negative),
+     * the scene will be set to fit its content.</li>
+     * <li>if {@code rootPaneContainer} is null, tha main container for the scene will be
+     * the pane in the static layout file passed as parameter</li>
      * </ul>
      */
     public Scene setUpScene(final String FXMLFileName, final double percentWidth, final double percentHeight, Pane rootPaneContainer) {
@@ -149,37 +160,7 @@ public abstract class MyShelfieApplication extends Application {
 
         loadMyShelfieFont();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(LoginPage.class.getResource(MyShelfieApplication.getFXMLFile(FXMLFileName)));
-
-        try {
-            if(rootPaneContainer == null) {
-                rootPaneContainer = fxmlLoader.load();
-            } else {
-                rootPaneContainer.getChildren().add(fxmlLoader.load());
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        setFxController(fxmlLoader.getController());
-
-        fxController.setMyShelfieApplicationLauncher(this);
-
-        if(ui != null)
-            ui.bindShelfieControllerAndAdapter(fxController);
-
-        if (percentWidth > 0.0 && percentHeight > 0.0)
-            scene = new Scene(rootPaneContainer, (SCREEN_WIDTH * percentWidth / 100.00), (SCREEN_HEIGHT * percentHeight / 100.00));
-        else
-            scene = new Scene(rootPaneContainer);
-
-        setRootPane(rootPaneContainer);
-
-        Platform.runLater(() -> {
-            setDynamicFontSize(scene);
-        });
-
-        return scene;
+        return setScene(FXMLFileName, percentWidth, percentHeight, rootPaneContainer);
     }
 
     /**
@@ -191,7 +172,6 @@ public abstract class MyShelfieApplication extends Application {
      * @param percentWidth  the percent width of the scene based on screen size
      * @param percentHeight the percent height of the scene based on screen size
      * @return the scene personalized as described
-     *
      * @apiNote if {@code percentWidth} and/or {@code percentHeight} are equals to {@code 0.0} (or negative),
      * the scene will be set to fit its content.
      */
@@ -221,6 +201,55 @@ public abstract class MyShelfieApplication extends Application {
         return setUpSceneWithPane(FXMLFileName, 0.0, 0.0);
     }
 
+    public Scene setScene(final String FXMLFileName, final double percentWidth, final double percentHeight, Pane rootPaneContainer) {
+        FXMLLoader fxmlLoader = new FXMLLoader(LoginPage.class.getResource(MyShelfieApplication.getFXMLFile(FXMLFileName)));
+
+        try {
+            if (rootPaneContainer == null) {
+                rootPaneContainer = fxmlLoader.load();
+            } else {
+                rootPaneContainer.getChildren().add(fxmlLoader.load());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        setFxController(fxmlLoader.getController());
+
+        fxController.setMyShelfieApplicationLauncher(this);
+
+        if (ui != null)
+            ui.bindShelfieControllerAndAdapter(fxController);
+
+        if (percentWidth > 0.0 && percentHeight > 0.0)
+            scene = new Scene(rootPaneContainer, (SCREEN_WIDTH * percentWidth / 100.00), (SCREEN_HEIGHT * percentHeight / 100.00));
+        else
+            scene = new Scene(rootPaneContainer);
+
+        setRootPane(rootPaneContainer);
+
+        Platform.runLater(() -> {
+            setDynamicFontSize(scene);
+        });
+
+        return scene;
+    }
+
+    public Scene setScene(final String FXMLFileName, final double percentWidth, final double percentHeight) {
+        return setScene(FXMLFileName, percentWidth, percentHeight, null);
+    }
+
+    /**
+     * <p>Set up a scene with no preferred width or height</p>
+     * <p>The automatic size of the scene will be set to fit up the content</p>
+     *
+     * @param FXMLFileName the layout file reference
+     * @return the scene personalized as described
+     */
+    public Scene setScene(final String FXMLFileName) {
+        return setScene(FXMLFileName, 0.0, 0.0);
+    }
+
     public void setUpStage(final Stage stage) {
 
         this.stage = stage;
@@ -228,7 +257,8 @@ public abstract class MyShelfieApplication extends Application {
         this.stage.setScene(scene);
         //stage.initStyle(StageStyle.UTILITY);
 
-        this.stage.sizeToScene();
+        setPreserveRatio();
+        setMinStageSize();
 
         //center stage in screen
         this.stage.centerOnScreen();
@@ -271,8 +301,6 @@ public abstract class MyShelfieApplication extends Application {
         this.scene = newScene;
 
         stage.setScene(scene);
-
-        stage.sizeToScene();
 
         //center stage in screen
         stage.centerOnScreen();
@@ -329,5 +357,41 @@ public abstract class MyShelfieApplication extends Application {
 
     public static void setUI(MyShelfieAdapter ui) {
         MyShelfieApplication.ui = ui;
+    }
+
+    private void setPreserveRatio() {
+        stage.sizeToScene();
+
+        widthChangeListener = (observable, oldValue, newValue) -> {
+            stage.heightProperty().removeListener(heightChangeListener);
+            stage.setHeight(newValue.doubleValue() / 2.0);
+            stage.heightProperty().addListener(heightChangeListener);
+        };
+
+        heightChangeListener = (observable, oldValue, newValue) -> {
+            stage.widthProperty().removeListener(widthChangeListener);
+            stage.setWidth(newValue.doubleValue() * 2.0);
+            stage.widthProperty().addListener(widthChangeListener);
+        };
+
+        stage.widthProperty().addListener(widthChangeListener);
+        stage.heightProperty().addListener(heightChangeListener);
+
+        stage.maximizedProperty().addListener((observableValue, newValue, oldValue) -> {
+            if (observableValue.getValue().booleanValue()) {
+                stage.heightProperty().removeListener(heightChangeListener);
+                stage.widthProperty().removeListener(widthChangeListener);
+            } else if (newValue) {
+                stage.widthProperty().addListener(widthChangeListener);
+                stage.heightProperty().addListener(heightChangeListener);
+            }
+        });
+    }
+
+    private void setMinStageSize() {
+        stage.setOnShown( value -> {
+            stage.setMinHeight(stage.getHeight() * 0.67);
+            stage.setMinWidth(stage.getWidth() * 0.67);
+        });
     }
 }
