@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.view.UI;
 import it.polimi.ingsw.view.gui.loginpage.LoginPage;
+import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javafx.util.Duration;
 
 import java.awt.*;
 import java.io.IOException;
@@ -76,6 +78,11 @@ public abstract class MyShelfieApplication extends Application {
      * @see MyShelfieController
      */
     private MyShelfieController fxController;
+
+    /**
+     * Stage window of the whole application
+     */
+    private Stage stage;
 
     private static MyShelfieAdapter ui;
 
@@ -215,18 +222,21 @@ public abstract class MyShelfieApplication extends Application {
     }
 
     public void setUpStage(final Stage stage) {
-        stage.setScene(scene);
+
+        this.stage = stage;
+
+        this.stage.setScene(scene);
         //stage.initStyle(StageStyle.UTILITY);
 
-        stage.sizeToScene();
+        this.stage.sizeToScene();
 
         //center stage in screen
-        stage.centerOnScreen();
+        this.stage.centerOnScreen();
 
-        stage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::closeWindowEvent);
+        this.stage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::closeWindowEvent);
 
         //set icon in taskbar
-        stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream(GAME_ICON_PATH))));
+        this.stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream(GAME_ICON_PATH))));
     }
 
     /**
@@ -252,6 +262,22 @@ public abstract class MyShelfieApplication extends Application {
         }
 
         return scene;
+    }
+
+    public void changeScene(Scene newScene) {
+
+        stage.close();
+
+        this.scene = newScene;
+
+        stage.setScene(scene);
+
+        stage.sizeToScene();
+
+        //center stage in screen
+        stage.centerOnScreen();
+
+        stage.show();
     }
 
     /**

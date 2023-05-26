@@ -1,15 +1,20 @@
 package it.polimi.ingsw.view.gui.connectioninterface;
 
+import it.polimi.ingsw.view.gui.GUI;
 import it.polimi.ingsw.view.gui.MyShelfieButton;
 import it.polimi.ingsw.view.gui.MyShelfieController;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -98,6 +103,41 @@ public class ConnectionPageController extends MyShelfieController {
             portNumberField.pseudoClassStateChanged(errorClass, true);
             portNumberField.setPromptText("Missing Port Number!");
         }
+
+        if(chosenConnection != null && !serverAddress.equals("") && !portNumber.equals("")) {
+            try {
+                GUI gui = (GUI) getMyShelfieApplicationLauncher();
+
+                getMyShelfieApplicationLauncher().changeScene(gui.setUpScene(gui.getLoginPageLayout()));
+            }catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText(e.getMessage());
+                alert.setHeaderText(e.getCause().toString());
+                alert.showAndWait();
+            }
+        }
+    }
+
+    @FXML
+    private void textFieldKeyPressed(@NotNull KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.ESCAPE) {
+            rootPane.requestFocus();
+        }
+
+        if (keyEvent.getCode() == KeyCode.ENTER) {
+            if((keyEvent.getSource()).equals(serverAddressField) && portNumberField.getText().isEmpty()) {
+                portNumberField.requestFocus();
+            }
+
+            if((keyEvent.getSource()).equals(portNumber) && serverAddressField.getText().isEmpty()) {
+                serverAddressField.requestFocus();
+            }
+
+            if(((keyEvent.getSource()).equals(serverAddressField) && !portNumberField.getText().isEmpty()) ||
+                    ((keyEvent.getSource()).equals(portNumber) && !serverAddressField.getText().isEmpty())) {
+                submitButton.requestFocus();
+            }
+        }
     }
 
     private void setProtocolBoxErrorPseudoClass() {
@@ -119,5 +159,10 @@ public class ConnectionPageController extends MyShelfieController {
         portNumberField.textProperty().addListener(event -> {
             portNumberField.pseudoClassStateChanged(errorClass, portNumberField.getText().isEmpty());
         });
+    }
+
+    public void connectionSubmitted(KeyEvent keyEvent) {
+        if(keyEvent.getCode() == KeyCode.ENTER)
+            submitButtonClicked(null);
     }
 }

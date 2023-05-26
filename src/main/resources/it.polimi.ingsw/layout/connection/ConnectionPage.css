@@ -67,7 +67,7 @@
     -fx-background-image: url('../../graphical.resources/misc/page_base_darken.jpg');
     -fx-text-fill: rgba(230, 221, 199, 0.97);
     -fx-text-alignment: center;
-    -fx-font-size: 1.7em;
+    -fx-font-size: 1em;
 }
 
 #protocolBox .menu-item:focused {
