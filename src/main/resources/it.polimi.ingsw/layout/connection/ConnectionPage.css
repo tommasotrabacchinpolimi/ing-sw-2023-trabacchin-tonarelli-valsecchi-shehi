@@ -53,6 +53,7 @@
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
     -fx-mark-color: rgba(230, 221, 199, 0.97);
+    -fx-effect: dropshadow(gaussian, rgba(71, 40, 17, 0.97), 10.0, 0.0, 0.0, 0.0);
 }
 
 #protocolBox .label {
@@ -81,6 +82,18 @@
     -fx-effect: dropshadow(gaussian, rgba(245, 177, 61, 0.93), 10.0, 0.0, 0.0, 0.0);
 }
 
+#protocolBox:error {
+    -fx-background-image: url('../../graphical.resources/misc/page_base_lighten.png');
+    -fx-border-color: rgb(162, 15, 30, 0.93);
+    -fx-border-width: 0.1em;
+    -fx-effect: dropshadow(gaussian, rgba(198, 57, 10, 0.5), 10, 0, 0, 0);
+}
+
+#protocolBox:error .label {
+    -fx-text-fill: rgb(248, 231, 191, 0.97);
+    -fx-effect: dropshadow(gaussian, rgba(240, 85, 13, 0.9), 10, 0, 0, 0);
+}
+
 .connection-input {
     -fx-font-family: 'Special Elite Regular';
     -fx-text-fill: rgba(28, 37, 41, 0.87);
@@ -90,14 +103,23 @@
     -fx-font-size: 1.5em;
 }
 
-.nick-input:focused, .nick-input:focused:hover {
+.connection-input:focused, .connection-input:focused:hover {
     -fx-border-color: rgba(128, 165, 26, 0.93);
     -fx-text-fill: rgba(77, 84, 57, 1);
     -fx-effect: null;
 }
 
-.nick-input:hover {
+.connection-input:hover {
     -fx-border-color: rgba(128, 165, 26, 0.93);
     -fx-effect: dropshadow(three-pass-box, rgba(128, 165, 26, 0.2), 10, 0, 0, 0);
     -fx-text-fill: rgba(28, 37, 41, 0.97);
+}
+
+.connection-input:error, .connection-input:focused:error, .connection-input:filled:error, .connection-input:hover:error,
+.connection-input:focused:hover:error {
+    -fx-border-color: rgb(162, 15, 30, 0.93);
+    -fx-border-width: 2;
+    -fx-effect: dropshadow(gaussian, rgba(198, 57, 10, 0.1), 10, 0, 0, 0);
+    -fx-text-fill: rgba(95, 35, 41, 1);
+    -fx-prompt-text-fill: rgba(162, 15, 30, 0.53);
 }

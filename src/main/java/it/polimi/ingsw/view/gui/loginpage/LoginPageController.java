@@ -34,9 +34,9 @@ import static java.util.Map.entry;
 
 public class LoginPageController extends MyShelfieController {
 
-    private static final Duration animationDuration = new Duration(400);
+    private final Duration animationDuration = new Duration(400);
 
-    private static final PseudoClass errorClass = PseudoClass.getPseudoClass("error");
+    private final PseudoClass errorClass = PseudoClass.getPseudoClass("error");
 
     @FXML
     private AnchorPane rootPane;
