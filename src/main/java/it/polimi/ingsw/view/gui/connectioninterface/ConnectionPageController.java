@@ -110,10 +110,7 @@ public class ConnectionPageController extends MyShelfieController {
 
                 getMyShelfieApplicationLauncher().changeScene(gui.setUpScene(gui.getLoginPageLayout()));
             }catch (Exception e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText(e.getMessage());
-                alert.setHeaderText(e.getCause().toString());
-                alert.showAndWait();
+                displaySimpleAlert(e);
             }
         }
     }
