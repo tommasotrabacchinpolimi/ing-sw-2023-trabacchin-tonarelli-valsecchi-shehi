@@ -363,29 +363,23 @@ public abstract class MyShelfieApplication extends Application {
         stage.sizeToScene();
 
         widthChangeListener = (observable, oldValue, newValue) -> {
-            stage.heightProperty().removeListener(heightChangeListener);
-            stage.setHeight(newValue.doubleValue() / 2.0);
-            stage.heightProperty().addListener(heightChangeListener);
+            if(!stage.isMaximized()) {
+                stage.heightProperty().removeListener(heightChangeListener);
+                stage.setHeight(newValue.doubleValue() / 2.0);
+                stage.heightProperty().addListener(heightChangeListener);
+            }
         };
 
         heightChangeListener = (observable, oldValue, newValue) -> {
-            stage.widthProperty().removeListener(widthChangeListener);
-            stage.setWidth(newValue.doubleValue() * 2.0);
-            stage.widthProperty().addListener(widthChangeListener);
+            if(!stage.isMaximized()) {
+                stage.widthProperty().removeListener(widthChangeListener);
+                stage.setWidth(newValue.doubleValue() * 2.0);
+                stage.widthProperty().addListener(widthChangeListener);
+            }
         };
 
         stage.widthProperty().addListener(widthChangeListener);
         stage.heightProperty().addListener(heightChangeListener);
-
-        stage.maximizedProperty().addListener((observableValue, newValue, oldValue) -> {
-            if (observableValue.getValue().booleanValue()) {
-                stage.heightProperty().removeListener(heightChangeListener);
-                stage.widthProperty().removeListener(widthChangeListener);
-            } else if (newValue) {
-                stage.widthProperty().addListener(widthChangeListener);
-                stage.heightProperty().addListener(heightChangeListener);
-            }
-        });
     }
 
     private void setMinStageSize() {
