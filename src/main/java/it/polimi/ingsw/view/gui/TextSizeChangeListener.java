@@ -2,19 +2,15 @@ package it.polimi.ingsw.view.gui;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
-
-import java.awt.*;
 
 /**
  *
  * @version 3.0
- * @since 10/05/2023
+ * @since 27/05/2023
  */
-public class SizeChangeListener implements ChangeListener<Number> {
+public class TextSizeChangeListener implements ChangeListener<Number> {
     private final double fontSize = Font.getDefault().getSize();
 
     private final Pane rootPane;
@@ -25,25 +21,7 @@ public class SizeChangeListener implements ChangeListener<Number> {
 
     private final double initialScale;
 
-
-    public SizeChangeListener(final Pane rootPane) {
-
-        this.rootPane = rootPane;
-
-        if(rootPane.getWidth() != 0.0 && rootPane.getHeight() != 0.0) {
-            this.initialWidth = rootPane.getWidth();
-            this.initialHeight = rootPane.getHeight();
-        } else {
-            GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-
-            this.initialWidth = gd.getDisplayMode().getWidth() * 0.5;
-            this.initialHeight = gd.getDisplayMode().getHeight() * 0.5;
-        }
-
-        this.initialScale = this.initialWidth / this.initialHeight;
-    }
-
-    public SizeChangeListener(final Pane rootPane, final int screen_width, final int screen_height) {
+    public TextSizeChangeListener(final Pane rootPane, final int screen_width, final int screen_height) {
 
         this.rootPane = rootPane;
 

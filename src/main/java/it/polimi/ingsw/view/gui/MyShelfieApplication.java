@@ -10,14 +10,12 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import java.awt.*;
 import java.io.IOException;
 import java.util.Objects;
-import java.util.function.Predicate;
 
 /**
  * <p>This class is used to define the default path and commands allowed by every class that has to deal with the graphics
@@ -298,9 +296,14 @@ public abstract class MyShelfieApplication extends Application {
 
         stage.close();
 
+        stage.widthProperty().removeListener(widthChangeListener);
+        stage.heightProperty().removeListener(heightChangeListener);
+
         this.scene = newScene;
 
         stage.setScene(scene);
+
+        stage.setOnShown( value -> setPreserveRatio());
 
         //center stage in screen
         stage.centerOnScreen();
@@ -316,10 +319,10 @@ public abstract class MyShelfieApplication extends Application {
     public void setDynamicFontSize(Scene scene) {
         Pane rootPane = (Pane) scene.getRoot();
 
-        SizeChangeListener sizeChangeListener = new SizeChangeListener(rootPane, SCREEN_WIDTH, SCREEN_HEIGHT);
+        TextSizeChangeListener textSizeChangeListener = new TextSizeChangeListener(rootPane, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-        rootPane.widthProperty().addListener(sizeChangeListener);
-        rootPane.heightProperty().addListener(sizeChangeListener);
+        rootPane.widthProperty().addListener(textSizeChangeListener);
+        rootPane.heightProperty().addListener(textSizeChangeListener);
     }
 
     public Scene getScene() {
@@ -388,4 +391,6 @@ public abstract class MyShelfieApplication extends Application {
             stage.setMinWidth(stage.getWidth() * 0.67);
         });
     }
+
+
 }
