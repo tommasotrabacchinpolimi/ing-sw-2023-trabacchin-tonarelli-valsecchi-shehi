@@ -21,12 +21,13 @@ import java.util.Objects;
  * <p>This class is used to define the default path and commands allowed by every class that has to deal with the graphics
  * interface</p>
  *
+ * @see Application
+ *
  * @author Tommaso Trabacchin
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
  * @author Adem Shehi
  * @version 2.0
- * @see Application
  * @since 19/05/2023
  */
 public abstract class MyShelfieApplication extends Application {
@@ -83,8 +84,6 @@ public abstract class MyShelfieApplication extends Application {
      */
     private Stage stage;
 
-    private static MyShelfieAdapter ui;
-
     private WindowSizeChangeListener windowSizeChangeListener;
 
     /**
@@ -112,20 +111,6 @@ public abstract class MyShelfieApplication extends Application {
      */
     public static String getFXMLFile(String fileName) {
         return getFXMLFilePath() + fileName;
-    }
-
-    /**
-     * @return the screen width
-     */
-    public static int getScreenWidth() {
-        return SCREEN_WIDTH;
-    }
-
-    /**
-     * @return the screen height
-     */
-    public static int getScreenHeight() {
-        return SCREEN_HEIGHT;
     }
 
     /**
@@ -205,9 +190,6 @@ public abstract class MyShelfieApplication extends Application {
         setFxController(fxmlLoader.getController());
 
         fxController.setMyShelfieApplicationLauncher(this);
-
-        if (ui != null)
-            ui.bindShelfieControllerAndAdapter(fxController);
 
         if (percentWidth > 0.0 && percentHeight > 0.0)
             scene = new Scene(rootPaneContainer, (SCREEN_WIDTH * percentWidth / 100.00), (SCREEN_HEIGHT * percentHeight / 100.00));
@@ -303,6 +285,10 @@ public abstract class MyShelfieApplication extends Application {
         stage.show();
     }
 
+    public void changeScene(final String FXMLFileName) {
+        changeScene(setScene(FXMLFileName));
+    }
+
     /**
      * This method allows the user to resize the content in the page and font will change automatically according to it
      *
@@ -344,14 +330,6 @@ public abstract class MyShelfieApplication extends Application {
     private void closeWindowEvent(WindowEvent event) {
         Platform.exit();
         System.exit(0);
-    }
-
-    public static UI getUi() {
-        return ui;
-    }
-
-    public static void setUI(MyShelfieAdapter ui) {
-        MyShelfieApplication.ui = ui;
     }
 
     private void setPreserveRatio() {

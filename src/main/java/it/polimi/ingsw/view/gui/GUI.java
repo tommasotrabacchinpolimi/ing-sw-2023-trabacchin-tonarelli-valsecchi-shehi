@@ -1,42 +1,65 @@
 package it.polimi.ingsw.view.gui;
 
-import javafx.stage.Stage;
+import it.polimi.ingsw.view.Client;
+import it.polimi.ingsw.view.UI;
+import it.polimi.ingsw.view.ViewData;
 
-public class GUI extends MyShelfieApplication{
+import java.io.IOException;
 
-    private static final String LOGIN_PAGE_LAYOUT = "login/login-page.fxml";
+/**
+ * This class is used to manage the interaction between:
+ * <ul>
+ *     <li>client</li>
+ *     <li>user interface</li>
+ *     <li>server</li>
+ * </ul>
+ *
+ * @apiNote Please note that the real application launching the java-fx program is {@link GUILauncher}
+ *
+ * @see UI
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ * @version 2.0
+ * @since 30/05/2023
+ */
+public class GUI extends UI {
 
-    private static final String CONNECTION_PAGE_LAYOUT = "connection/connection-page.fxml";
+    public GUI() {
+        launchUI();
+    }
 
-    /**
-     * The main entry point for all JavaFX applications.
-     * The start method is called after the init method has returned,
-     * and after the system is ready for the application to begin running.
-     *
-     * <p>
-     * NOTE: This method is called on the JavaFX Application Thread.
-     * </p>
-     *
-     * @param stage the primary stage for this application, onto which
-     *                     the application scene can be set.
-     *                     Applications may create other stages, if needed, but they will not be
-     *                     primary stages.
-     * @throws Exception if something goes wrong
-     */
     @Override
-    public void start(Stage stage) throws Exception {
-        setUpScene(CONNECTION_PAGE_LAYOUT);
-
-        setUpStage(stage);
-
-        stage.show();
+    public void launchUI() {
+        setModel(new ViewData(9, 5, 6));
+        getModel().setUserInterface(this);
+        setLogicController(new Client(this, getModel()));
     }
 
-    public String getLoginPageLayout() {
-        return LOGIN_PAGE_LAYOUT;
+    @Override
+    public void onNewMessage(String sender) {
+
     }
 
-    public String getConnectionPageLayout() {
-        return CONNECTION_PAGE_LAYOUT;
+    @Override
+    public void onCurrentPlayerChanged(String newCurrentPlayer) {
+
+    }
+
+    @Override
+    public void showWinner() {
+
+    }
+
+    @Override
+    public void onException() throws IOException {
+
+    }
+
+    @Override
+    public void onGameStateChanged() throws IOException {
+
     }
 }
