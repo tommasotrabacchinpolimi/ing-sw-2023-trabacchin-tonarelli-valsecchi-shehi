@@ -28,14 +28,29 @@ public class WindowSizeChangeListener implements ChangeListener<Number> {
     public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
         if (!stage.isMaximized() && !stage.isIconified() && !stage.isFullScreen() && !isActive) {
             isActive = true;
-
-            if (observable == stage.heightProperty() && stage.getHeight() != oldValue.doubleValue() && oldValue.doubleValue() != newValue.doubleValue()) {
+            if (observable == stage.heightProperty() && keepHeightAspectRatio(oldValue, newValue)) {
                 stage.setWidth(newValue.doubleValue() * 2.0);
-            } else if (observable == stage.widthProperty() && stage.getWidth() != oldValue.doubleValue() && oldValue.doubleValue() != newValue.doubleValue()) {
+            } else if (observable == stage.widthProperty() && keepWidthAspectRatio(oldValue, newValue)) {
                 stage.setHeight(newValue.doubleValue() / 2.0);
             }
 
             isActive = false;
         }
+    }
+
+    private boolean hasRightProportion(){
+        return (stage.getWidth() / stage.getHeight()) == 2.0;
+    }
+
+    private boolean keepHeightAspectRatio(Number oldValue, Number newValue){
+        return stage.getHeight() != oldValue.doubleValue() &&
+                oldValue.doubleValue() != newValue.doubleValue() &&
+                !hasRightProportion();
+    }
+
+    private boolean keepWidthAspectRatio(Number oldValue, Number newValue){
+        return stage.getWidth() != oldValue.doubleValue() &&
+                oldValue.doubleValue() != newValue.doubleValue() &&
+                !hasRightProportion();
     }
 }
