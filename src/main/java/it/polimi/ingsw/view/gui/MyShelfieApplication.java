@@ -62,18 +62,6 @@ public abstract class MyShelfieApplication extends Application {
     private static final int SCREEN_HEIGHT = SCREEN_DEVICE.getDisplayMode().getHeight();
 
     /**
-     * <p>Width stage change listener</p>
-     * <p>This listener is used to preserve the aspect ratio of the stage according to the scene that is shown</p>
-     */
-    private ChangeListener<? super Number> widthChangeListener;
-
-    /**
-     * <p>Height stage change listener</p>
-     * <p>This listener is used to preserve the aspect ratio of the stage according to the scene that is shown</p>
-     */
-    private ChangeListener<? super Number> heightChangeListener;
-
-    /**
      * The scene relative to the interface shown
      */
     private Scene scene;
@@ -96,6 +84,8 @@ public abstract class MyShelfieApplication extends Application {
     private Stage stage;
 
     private static MyShelfieAdapter ui;
+
+    private WindowSizeChangeListener windowSizeChangeListener;
 
     /**
      * This method loads the font in the graphical user interface
@@ -255,8 +245,10 @@ public abstract class MyShelfieApplication extends Application {
         this.stage.setScene(scene);
         //stage.initStyle(StageStyle.UTILITY);
 
-        setPreserveRatio();
-        setMinStageSize();
+        stage.setOnShown(value -> {
+            setPreserveRatio();
+            setMinStageSize();
+        });
 
         //center stage in screen
         this.stage.centerOnScreen();
@@ -296,8 +288,8 @@ public abstract class MyShelfieApplication extends Application {
 
         stage.close();
 
-        stage.widthProperty().removeListener(widthChangeListener);
-        stage.heightProperty().removeListener(heightChangeListener);
+        stage.widthProperty().removeListener(windowSizeChangeListener);
+        stage.heightProperty().removeListener(windowSizeChangeListener);
 
         this.scene = newScene;
 
@@ -365,31 +357,15 @@ public abstract class MyShelfieApplication extends Application {
     private void setPreserveRatio() {
         stage.sizeToScene();
 
-        widthChangeListener = (observable, oldValue, newValue) -> {
-            if(!stage.isMaximized()) {
-                stage.heightProperty().removeListener(heightChangeListener);
-                stage.setHeight(newValue.doubleValue() / 2.0);
-                stage.heightProperty().addListener(heightChangeListener);
-            }
-        };
+        windowSizeChangeListener = new WindowSizeChangeListener(stage);
 
-        heightChangeListener = (observable, oldValue, newValue) -> {
-            if(!stage.isMaximized()) {
-                stage.widthProperty().removeListener(widthChangeListener);
-                stage.setWidth(newValue.doubleValue() * 2.0);
-                stage.widthProperty().addListener(widthChangeListener);
-            }
-        };
-
-        stage.widthProperty().addListener(widthChangeListener);
-        stage.heightProperty().addListener(heightChangeListener);
+        stage.widthProperty().addListener(windowSizeChangeListener);
+        stage.heightProperty().addListener(windowSizeChangeListener);
     }
 
     private void setMinStageSize() {
-        stage.setOnShown( value -> {
-            stage.setMinHeight(stage.getHeight() * 0.67);
-            stage.setMinWidth(stage.getWidth() * 0.67);
-        });
+        stage.setMinHeight(stage.getHeight() * 0.67);
+        stage.setMinWidth(stage.getWidth() * 0.67);
     }
 
 

@@ -21,7 +21,7 @@ public class TextSizeChangeListener implements ChangeListener<Number> {
 
     private final double initialScale;
 
-    public TextSizeChangeListener(final Pane rootPane, final int screen_width, final int screen_height) {
+    public TextSizeChangeListener(final Pane rootPane, final int screenWidth, final int screenHeight) {
 
         this.rootPane = rootPane;
 
@@ -29,8 +29,8 @@ public class TextSizeChangeListener implements ChangeListener<Number> {
             this.initialWidth = rootPane.getWidth();
             this.initialHeight = rootPane.getHeight();
         } else {
-            this.initialWidth = screen_width * 0.5;
-            this.initialHeight = screen_height * 0.5;
+            this.initialWidth = screenWidth * 0.5;
+            this.initialHeight = screenHeight * 0.5;
         }
 
         this.initialScale = this.initialWidth / this.initialHeight;
