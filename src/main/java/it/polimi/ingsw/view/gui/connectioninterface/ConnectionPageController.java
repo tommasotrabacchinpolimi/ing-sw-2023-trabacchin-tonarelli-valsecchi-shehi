@@ -121,9 +121,9 @@ public class ConnectionPageController extends MyShelfieController {
                 guiLauncher.goToLoginPage();
 
             }catch (ClassCastException e) {
-                displaySimpleAlert(e);
+                displayErrorAlert(e);
             } catch (NotBoundException | IOException | ClassNotFoundException e) {
-                displaySimpleAlert("Can't establish connection with server", "Connection Error");
+                displayErrorAlert("Can't establish connection with server", "Connection Error");
             }
         }
     }

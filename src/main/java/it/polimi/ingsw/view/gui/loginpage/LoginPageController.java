@@ -1,13 +1,11 @@
 package it.polimi.ingsw.view.gui.loginpage;
 
-import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.view.gui.MyShelfieApplication;
 import it.polimi.ingsw.view.gui.MyShelfieButton;
 import it.polimi.ingsw.view.gui.MyShelfieController;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.css.PseudoClass;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -109,7 +107,7 @@ public class LoginPageController extends MyShelfieController {
 
         if (keyEvent.getCode() == KeyCode.ENTER) {
             if (nicknameInput.isVisible() && !nicknameInput.isDisabled() && !verifyNickname()) {
-                displaySimpleAlert("Please choose an option between \"Create game\" and \"Join game\"");
+                displayErrorAlert("Please choose an option between \"Create game\" and \"Join game\"");
             }
 
             if (playerNumberInput.isVisible() && !playerNumberInput.isDisabled() && !verifyPlayerNumber()) {
@@ -123,7 +121,7 @@ public class LoginPageController extends MyShelfieController {
         if(isButtonActionCalled(inputEvent)){
             getNickNameFromField();
 
-            getLogicController().joinGame(nickName);
+            //getLogicController().joinGame(nickName);
         }
     }
 
@@ -146,7 +144,7 @@ public class LoginPageController extends MyShelfieController {
     private void executePlayerNumberSubmitted() {
         getPlayersNumberFromField();
 
-        getLogicController().createGame(this.nickName, this.playersNumber);
+        //getLogicController().createGame(this.nickName, this.playersNumber);
     }
 
     private boolean isButtonActionCalled(InputEvent inputEvent) {
@@ -301,9 +299,9 @@ public class LoginPageController extends MyShelfieController {
 
     @Override
     public void onGameStateChangedNotified() {
-        if(MyShelfieApplication.getUi().getModel().getGameState().equals(GameState.INIT.toString())){
+        /*if(MyShelfieApplication.getUi().getModel().getGameState().equals(GameState.INIT.toString())){
             Platform.runLater(this::displayGameInterface);
-        }
+        }*/
     }
 
     @Override
