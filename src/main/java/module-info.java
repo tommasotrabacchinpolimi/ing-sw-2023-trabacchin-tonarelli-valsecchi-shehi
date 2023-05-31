@@ -1,6 +1,5 @@
 module it.polimi.ingsw {
-
-    opens it.polimi.ingsw.view.gui.loginpage;
+    exports it.polimi.ingsw;
 
     requires java.rmi;
     requires com.google.gson;
@@ -23,13 +22,17 @@ module it.polimi.ingsw {
     requires annotations;
     requires JColor;
 
-    opens it.polimi.ingsw.view.gui to javafx.fxml;
-    exports it.polimi.ingsw;
+    exports it.polimi.ingsw.view.gui to javafx.fxml, javafx.graphics;
+    opens it.polimi.ingsw.view.gui to javafx.graphics, javafx.fxml;
 
     exports it.polimi.ingsw.view.gui.loginpage to javafx.fxml, javafx.graphics;
+    opens it.polimi.ingsw.view.gui.loginpage to javafx.fxml, javafx.graphics;
+
     exports it.polimi.ingsw.view.gui.board to javafx.fxml, javafx.graphics;
+    opens it.polimi.ingsw.view.gui.board to javafx.fxml, javafx.graphics;
+
     exports it.polimi.ingsw.view.gui.connectioninterface to  javafx.fxml, javafx.graphics;
-    exports it.polimi.ingsw.view.gui to javafx.fxml, javafx.graphics;
+    opens it.polimi.ingsw.view.gui.connectioninterface to javafx.fxml, javafx.graphics;
 
     exports it.polimi.ingsw.net to java.rmi;
     exports it.polimi.ingsw.controller.rmiInterfaces to java.rmi;
@@ -46,8 +49,6 @@ module it.polimi.ingsw {
     opens it.polimi.ingsw.controller.listeners;
     opens it.polimi.ingsw.controller.exceptions;
     opens it.polimi.ingsw.net;
-    opens it.polimi.ingsw.view.gui.board;
-    opens it.polimi.ingsw.utils;
 
-    opens it.polimi.ingsw.view.gui.connectioninterface to javafx.fxml;
+    opens it.polimi.ingsw.utils;
 }

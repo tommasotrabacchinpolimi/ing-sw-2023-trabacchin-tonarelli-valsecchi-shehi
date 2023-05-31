@@ -1,11 +1,11 @@
 package it.polimi.ingsw.view.gui.connectioninterface;
 
 import it.polimi.ingsw.view.gui.GUI;
+import it.polimi.ingsw.view.gui.GUILauncher;
 import it.polimi.ingsw.view.gui.MyShelfieButton;
 import it.polimi.ingsw.view.gui.MyShelfieController;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -16,7 +16,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.net.URL;
+import java.rmi.NotBoundException;
 import java.util.ResourceBundle;
 
 public class ConnectionPageController extends MyShelfieController {
@@ -105,12 +107,23 @@ public class ConnectionPageController extends MyShelfieController {
         }
 
         if(chosenConnection != null && !serverAddress.equals("") && !portNumber.equals("")) {
-            try {
-                GUI gui = (GUI) getMyShelfieApplicationLauncher();
+            GUILauncher guiLauncher;
 
-                getMyShelfieApplicationLauncher().changeScene(gui.setUpScene(gui.getLoginPageLayout()));
-            }catch (Exception e) {
+            try {
+                guiLauncher = (GUILauncher) getMyShelfieApplicationLauncher();
+                GUI gui = guiLauncher.getGUI();
+
+                if(chosenConnection.equals("Remote Methode Invocation"))
+                    gui.getLogicController().chosenRMI(Integer.parseInt(portNumber), serverAddress);
+                else if(chosenConnection.equals("Socket"))
+                    gui.getLogicController().chosenSocket(Integer.parseInt(portNumber), serverAddress);
+
+                guiLauncher.goToLoginPage();
+
+            }catch (ClassCastException e) {
                 displaySimpleAlert(e);
+            } catch (NotBoundException | IOException | ClassNotFoundException e) {
+                displaySimpleAlert("Can't establish connection with server", "Connection Error");
             }
         }
     }

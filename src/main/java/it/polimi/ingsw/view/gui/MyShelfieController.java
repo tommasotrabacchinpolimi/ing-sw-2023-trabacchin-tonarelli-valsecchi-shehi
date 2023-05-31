@@ -21,8 +21,6 @@ import javafx.scene.control.Alert;
 public abstract class MyShelfieController implements Initializable {
     private MyShelfieApplication myShelfieApplicationLauncher;
 
-    private LogicInterface logicController;
-
     public MyShelfieApplication getMyShelfieApplicationLauncher() {
         return myShelfieApplicationLauncher;
     }
@@ -31,30 +29,22 @@ public abstract class MyShelfieController implements Initializable {
         this.myShelfieApplicationLauncher = myShelfieApplicationLauncher;
     }
 
-    public LogicInterface getLogicController() {
-        return logicController;
-    }
-
-    public void setLogicController(LogicInterface logicController) {
-        this.logicController = logicController;
-    }
-
     public abstract void onGameStateChangedNotified();
 
     public abstract void onExceptionNotified();
 
-    public void displaySimpleAlert(String contentText, String headerText) {
+    public static void displaySimpleAlert(String contentText, String headerText) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setContentText(contentText);
         alert.setHeaderText(headerText);
         alert.showAndWait();
     }
 
-    public void displaySimpleAlert(String contentText) {
+    public static void displaySimpleAlert(String contentText) {
         displaySimpleAlert(contentText, null);
     }
 
-    public void displaySimpleAlert(Exception e) {
+    public static void displaySimpleAlert(Exception e) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setContentText(e.getMessage());
         alert.setHeaderText(e.getCause().toString());
