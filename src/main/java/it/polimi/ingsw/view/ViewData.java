@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.TileSubject;
 import it.polimi.ingsw.model.TileType;
 import it.polimi.ingsw.utils.Triple;
 
+import java.io.IOException;
 import java.util.*;
 
 public class ViewData {
@@ -44,7 +45,7 @@ public class ViewData {
         return exception;
     }
 
-    public void setException(String exception) {
+    public void setException(String exception) throws IOException {
         this.exception = exception;
         userInterface.onException();
     }
@@ -76,7 +77,7 @@ public class ViewData {
         return gameState;
     }
 
-    public void setGameState(String gameState) {
+    public void setGameState(String gameState) throws IOException {
         this.gameState = gameState;
         userInterface.onGameStateChanged();
     }

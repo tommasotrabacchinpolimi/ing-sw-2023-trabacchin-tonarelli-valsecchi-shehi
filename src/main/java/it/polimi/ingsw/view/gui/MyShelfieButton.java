@@ -1,7 +1,6 @@
 package it.polimi.ingsw.view.gui;
 
 import javafx.beans.NamedArg;
-import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.effect.*;
@@ -61,6 +60,18 @@ public class MyShelfieButton extends Button {
      * @see #handleMouseExited(MouseEvent)
      */
     private boolean isFocused;
+
+    /**
+     * <p>This boolean value is set to {@code true}
+     * if and only if the instance of the button is pressed once.</p>
+     *
+     * @apiNote Please note that after this boolean value
+     * has been set to {@code true} it will never be {@code false} again
+     *
+     * @see #hasBeenPressed()
+     * @see #handleMousePressed(MouseEvent)
+     */
+    private boolean pressedOccurred = false;
 
     /**
      * <p>Construct a "MyShelfieButton" with personalization set as specified by parameters</p>
@@ -274,6 +285,7 @@ public class MyShelfieButton extends Button {
      * @apiNote the mouse event "pressed" is different from clicked
      */
     private void handleMousePressed(MouseEvent mouseEvent) {
+        this.pressedOccurred = true;
         Glow glow = new Glow(0.2);
         glow.setInput(getEffect());
         setEffect(glow);
@@ -324,5 +336,9 @@ public class MyShelfieButton extends Button {
         if (keyEvent.getCode() == KeyCode.ENTER) {
             handleMouseReleased(null);
         }
+    }
+
+    public boolean hasBeenPressed() {
+        return pressedOccurred;
     }
 }

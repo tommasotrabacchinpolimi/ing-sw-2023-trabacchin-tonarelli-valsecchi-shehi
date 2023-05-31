@@ -15,8 +15,8 @@ public class MyShelfieAdapter extends UI {
 
     @Override
     public void launchUI() {
-        LoginPage.setUI(this);
-        Application.launch(LoginPage.class);
+        GUI.setUI(this);
+        Application.launch(GUI.class);
     }
 
     @Override

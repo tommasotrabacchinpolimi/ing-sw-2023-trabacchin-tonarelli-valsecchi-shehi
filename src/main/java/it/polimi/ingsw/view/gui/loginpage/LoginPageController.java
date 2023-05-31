@@ -34,9 +34,9 @@ import static java.util.Map.entry;
 
 public class LoginPageController extends MyShelfieController {
 
-    private static final Duration animationDuration = new Duration(400);
+    private final Duration animationDuration = new Duration(400);
 
-    private static final PseudoClass errorClass = PseudoClass.getPseudoClass("error");
+    private final PseudoClass errorClass = PseudoClass.getPseudoClass("error");
 
     @FXML
     private AnchorPane rootPane;
@@ -109,7 +109,7 @@ public class LoginPageController extends MyShelfieController {
 
         if (keyEvent.getCode() == KeyCode.ENTER) {
             if (nicknameInput.isVisible() && !nicknameInput.isDisabled() && !verifyNickname()) {
-                //show an alert to decide if the player wants to join or to create a Game
+                displaySimpleAlert("Please choose an option between \"Create game\" and \"Join game\"");
             }
 
             if (playerNumberInput.isVisible() && !playerNumberInput.isDisabled() && !verifyPlayerNumber()) {
@@ -151,6 +151,7 @@ public class LoginPageController extends MyShelfieController {
 
     private boolean isButtonActionCalled(InputEvent inputEvent) {
         return inputEvent.getEventType() == MouseEvent.MOUSE_PRESSED ||
+                inputEvent.getEventType() == MouseEvent.MOUSE_CLICKED ||
                 (inputEvent.getEventType() == KeyEvent.KEY_PRESSED &&
                         ((KeyEvent) inputEvent).getCode() == KeyCode.ENTER);
     }

@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.view.LogicInterface;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 
 /**
  * <p>Represent each controller inside the My Shelfie application.</p>
@@ -41,4 +42,22 @@ public abstract class MyShelfieController implements Initializable {
     public abstract void onGameStateChangedNotified();
 
     public abstract void onExceptionNotified();
+
+    public void displaySimpleAlert(String contentText, String headerText) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setContentText(contentText);
+        alert.setHeaderText(headerText);
+        alert.showAndWait();
+    }
+
+    public void displaySimpleAlert(String contentText) {
+        displaySimpleAlert(contentText, null);
+    }
+
+    public void displaySimpleAlert(Exception e) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setContentText(e.getMessage());
+        alert.setHeaderText(e.getCause().toString());
+        alert.showAndWait();
+    }
 }

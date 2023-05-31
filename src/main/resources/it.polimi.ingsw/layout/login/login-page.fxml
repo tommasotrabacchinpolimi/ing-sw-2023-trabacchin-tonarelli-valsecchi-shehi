@@ -60,8 +60,7 @@
 
                 <shape>
                     <Rectangle width="${infoBoxContainer.width}" height="${infoBoxContainer.height}"
-                               arcHeight="$shapeArc"
-                               arcWidth="$shapeArc"/>
+                               arcHeight="$shapeArc" arcWidth="$shapeArc"/>
                 </shape>
 
                 <Label fx:id="welcomeText" styleClass="welcome-text" GridPane.fillWidth="true"
