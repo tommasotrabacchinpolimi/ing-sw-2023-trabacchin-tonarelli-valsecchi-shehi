@@ -1,19 +1,17 @@
 package it.polimi.ingsw.view.gui;
 
-import it.polimi.ingsw.view.UI;
 import it.polimi.ingsw.view.gui.loginpage.LoginPage;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -50,17 +48,17 @@ public abstract class MyShelfieApplication extends Application {
     /**
      * The screen size
      */
-    private static final GraphicsDevice SCREEN_DEVICE = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+    private static final Screen SCREEN_DEVICE = Screen.getPrimary();
 
     /**
      * the screen width
      */
-    private static final int SCREEN_WIDTH = SCREEN_DEVICE.getDisplayMode().getWidth();
+    private static final double SCREEN_WIDTH = SCREEN_DEVICE.getVisualBounds().getWidth() * SCREEN_DEVICE.getOutputScaleX();
 
     /**
      * The screen height
      */
-    private static final int SCREEN_HEIGHT = SCREEN_DEVICE.getDisplayMode().getHeight();
+    private static final double SCREEN_HEIGHT = SCREEN_DEVICE.getVisualBounds().getHeight() * SCREEN_DEVICE.getOutputScaleY();
 
     /**
      * The scene relative to the interface shown
