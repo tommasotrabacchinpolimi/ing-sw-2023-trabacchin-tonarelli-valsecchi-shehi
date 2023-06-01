@@ -1,9 +1,6 @@
 package it.polimi.ingsw.view.gui.connectioninterface;
 
-import it.polimi.ingsw.view.gui.GUI;
-import it.polimi.ingsw.view.gui.GUILauncher;
-import it.polimi.ingsw.view.gui.MyShelfieButton;
-import it.polimi.ingsw.view.gui.MyShelfieController;
+import it.polimi.ingsw.view.gui.*;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
@@ -14,12 +11,15 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.net.URL;
 import java.rmi.NotBoundException;
 import java.util.ResourceBundle;
+
+import static it.polimi.ingsw.view.gui.MyShelfieAlertCreator.displayErrorAlert;
 
 public class ConnectionPageController extends MyShelfieController {
 
@@ -80,9 +80,9 @@ public class ConnectionPageController extends MyShelfieController {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        setProtocolBoxErrorPseudoClass();
-        setServerAddressErrorPseudoClass();
-        setPortNumberErrorPseudoClass();
+        setProtocolBoxPseudoClassState();
+        setServerAddressPseudoClassState();
+        setPortNumberPseudoClassState();
     }
 
     @FXML
@@ -150,7 +150,7 @@ public class ConnectionPageController extends MyShelfieController {
         }
     }
 
-    private void setProtocolBoxErrorPseudoClass() {
+    private void setProtocolBoxPseudoClassState() {
         protocolBox.getSelectionModel().selectedItemProperty().addListener(
                 (selected, oldString, newString) -> {
                     chosenConnection = newString;
@@ -159,20 +159,38 @@ public class ConnectionPageController extends MyShelfieController {
         );
     }
 
-    private void setServerAddressErrorPseudoClass() {
+    private void setServerAddressPseudoClassState() {
         serverAddressField.textProperty().addListener(event -> {
             serverAddressField.pseudoClassStateChanged(errorClass, serverAddressField.getText().isEmpty());
         });
     }
 
-    private void setPortNumberErrorPseudoClass() {
+    private void setPortNumberPseudoClassState() {
         portNumberField.textProperty().addListener(event -> {
-            portNumberField.pseudoClassStateChanged(errorClass, portNumberField.getText().isEmpty());
+            portNumberField.pseudoClassStateChanged(errorClass, verifyPortNumber());
+
+            submitButton.setDisable(verifyPortNumber());
         });
     }
 
     public void connectionSubmitted(KeyEvent keyEvent) {
         if(keyEvent.getCode() == KeyCode.ENTER)
             submitButtonClicked(null);
+    }
+
+    private boolean verifyPortNumber() {
+        return portNumberField.getText().isEmpty() || invalidNumberInput();
+    }
+
+    private boolean invalidNumberInput() {
+        if(portNumberField.getText().isEmpty())
+            return true;
+
+        try {
+            Integer.parseInt(portNumberField.getText());
+            return false;
+        } catch (NumberFormatException nfe) {
+            return true;
+        }
     }
 }

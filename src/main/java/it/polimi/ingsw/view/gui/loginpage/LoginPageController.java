@@ -28,11 +28,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import static it.polimi.ingsw.view.gui.MyShelfieAlertCreator.displayErrorAlert;
 import static java.util.Map.entry;
 
 public class LoginPageController extends MyShelfieController {
-
-    private final Duration animationDuration = new Duration(400);
 
     private final PseudoClass errorClass = PseudoClass.getPseudoClass("error");
 
@@ -81,9 +80,6 @@ public class LoginPageController extends MyShelfieController {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //Load page with the focus on the pane and not on input field or button
-        Platform.runLater( () -> rootPane.requestFocus() );
-
         setNicknameInputState();
         setPlayerNumberInputState();
     }
@@ -195,7 +191,7 @@ public class LoginPageController extends MyShelfieController {
      * @return true if the input is not valid
      */
     private boolean verifyNickname() {
-        return nicknameInput.getText().isEmpty() || nicknameInput.getText().contains("Errata");
+        return nicknameInput.getText().isEmpty();
     }
 
     /**
@@ -250,7 +246,7 @@ public class LoginPageController extends MyShelfieController {
         });
     }
 
-    private void showElements(Map<Node, Double> elementsOpacity) {
+    private void showElements(@NotNull Map<Node, Double> elementsOpacity) {
         elementsOpacity.forEach((element, opacity) -> {
             fadeElement(element, 0.0, opacity);
             element.setVisible(true);
@@ -259,7 +255,7 @@ public class LoginPageController extends MyShelfieController {
     }
 
     private void fadeElement(Node node, double fromValue, double toValue) {
-        FadeTransition fadeTransition = new FadeTransition(animationDuration);
+        FadeTransition fadeTransition = new FadeTransition(getAnimationDuration());
         fadeTransition.setNode(node);
         fadeTransition.setFromValue(fromValue);
         fadeTransition.setToValue(toValue);

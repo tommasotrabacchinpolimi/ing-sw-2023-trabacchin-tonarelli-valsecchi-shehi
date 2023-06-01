@@ -18,8 +18,8 @@ import java.io.IOException;
 import java.util.Objects;
 
 /**
- * <p>This class is used to define the default path and commands allowed by every class that has to deal with the graphics
- * interface</p>
+ * <p>This class is used to define some default path and commands allowed
+ * by every class that has to deal with the graphical user interface</p>
  *
  * @see Application
  *
@@ -84,6 +84,11 @@ public abstract class MyShelfieApplication extends Application {
      */
     private Stage stage;
 
+    /**
+     * Change listener size that preserves the aspect ratio of the window while resizing
+     *
+     * @see WindowSizeChangeListener
+     */
     private WindowSizeChangeListener windowSizeChangeListener;
 
     /**
@@ -228,8 +233,8 @@ public abstract class MyShelfieApplication extends Application {
         //stage.initStyle(StageStyle.UTILITY);
 
         stage.setOnShown(value -> {
+            setFocusOnBackground();
             setPreserveRatio();
-            setMinStageSize();
         });
 
         //center stage in screen
@@ -277,7 +282,10 @@ public abstract class MyShelfieApplication extends Application {
 
         stage.setScene(scene);
 
-        stage.setOnShown( value -> setPreserveRatio());
+        stage.setOnShown( value -> {
+            setFocusOnBackground();
+            setPreserveRatio();
+        });
 
         //center stage in screen
         stage.centerOnScreen();
@@ -327,6 +335,11 @@ public abstract class MyShelfieApplication extends Application {
         this.fxController = fxController;
     }
 
+    public void setFocusOnBackground() {
+        rootPane.setFocusTraversable(true);
+        rootPane.requestFocus();
+    }
+
     private void closeWindowEvent(WindowEvent event) {
         Platform.exit();
         System.exit(0);
@@ -340,11 +353,4 @@ public abstract class MyShelfieApplication extends Application {
         stage.widthProperty().addListener(windowSizeChangeListener);
         stage.heightProperty().addListener(windowSizeChangeListener);
     }
-
-    private void setMinStageSize() {
-        stage.setMinHeight(stage.getHeight() * 0.67);
-        stage.setMinWidth(stage.getWidth() * 0.67);
-    }
-
-
 }
