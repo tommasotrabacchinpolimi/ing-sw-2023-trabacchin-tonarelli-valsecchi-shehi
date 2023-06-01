@@ -1,25 +1,23 @@
 package it.polimi.ingsw.view.gui;
 
-import it.polimi.ingsw.view.UI;
 import it.polimi.ingsw.view.gui.loginpage.LoginPage;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.Objects;
 
 /**
- * <p>This class is used to define the default path and commands allowed by every class that has to deal with the graphics
- * interface</p>
+ * <p>This class is used to define some default path and commands allowed
+ * by every class that has to deal with the graphical user interface</p>
  *
  * @see Application
  *
@@ -50,17 +48,17 @@ public abstract class MyShelfieApplication extends Application {
     /**
      * The screen size
      */
-    private static final GraphicsDevice SCREEN_DEVICE = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+    private static final Screen SCREEN_DEVICE = Screen.getPrimary();
 
     /**
      * the screen width
      */
-    private static final int SCREEN_WIDTH = SCREEN_DEVICE.getDisplayMode().getWidth();
+    private static final double SCREEN_WIDTH = SCREEN_DEVICE.getVisualBounds().getWidth() * SCREEN_DEVICE.getOutputScaleX();
 
     /**
      * The screen height
      */
-    private static final int SCREEN_HEIGHT = SCREEN_DEVICE.getDisplayMode().getHeight();
+    private static final double SCREEN_HEIGHT = SCREEN_DEVICE.getVisualBounds().getHeight() * SCREEN_DEVICE.getOutputScaleY();
 
     /**
      * The scene relative to the interface shown
@@ -84,6 +82,11 @@ public abstract class MyShelfieApplication extends Application {
      */
     private Stage stage;
 
+    /**
+     * Change listener size that preserves the aspect ratio of the window while resizing
+     *
+     * @see WindowSizeChangeListener
+     */
     private WindowSizeChangeListener windowSizeChangeListener;
 
     /**
@@ -228,8 +231,8 @@ public abstract class MyShelfieApplication extends Application {
         //stage.initStyle(StageStyle.UTILITY);
 
         stage.setOnShown(value -> {
+            setFocusOnBackground();
             setPreserveRatio();
-            setMinStageSize();
         });
 
         //center stage in screen
@@ -277,7 +280,10 @@ public abstract class MyShelfieApplication extends Application {
 
         stage.setScene(scene);
 
-        stage.setOnShown( value -> setPreserveRatio());
+        stage.setOnShown( value -> {
+            setFocusOnBackground();
+            setPreserveRatio();
+        });
 
         //center stage in screen
         stage.centerOnScreen();
@@ -327,6 +333,11 @@ public abstract class MyShelfieApplication extends Application {
         this.fxController = fxController;
     }
 
+    public void setFocusOnBackground() {
+        rootPane.setFocusTraversable(true);
+        rootPane.requestFocus();
+    }
+
     private void closeWindowEvent(WindowEvent event) {
         Platform.exit();
         System.exit(0);
@@ -340,11 +351,4 @@ public abstract class MyShelfieApplication extends Application {
         stage.widthProperty().addListener(windowSizeChangeListener);
         stage.heightProperty().addListener(windowSizeChangeListener);
     }
-
-    private void setMinStageSize() {
-        stage.setMinHeight(stage.getHeight() * 0.67);
-        stage.setMinWidth(stage.getWidth() * 0.67);
-    }
-
-
 }

@@ -1,13 +1,11 @@
 package it.polimi.ingsw.view.gui.loginpage;
 
-import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.view.gui.MyShelfieApplication;
 import it.polimi.ingsw.view.gui.MyShelfieButton;
 import it.polimi.ingsw.view.gui.MyShelfieController;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.css.PseudoClass;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -30,11 +28,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import static it.polimi.ingsw.view.gui.MyShelfieAlertCreator.displayErrorAlert;
 import static java.util.Map.entry;
 
 public class LoginPageController extends MyShelfieController {
-
-    private final Duration animationDuration = new Duration(400);
 
     private final PseudoClass errorClass = PseudoClass.getPseudoClass("error");
 
@@ -83,9 +80,6 @@ public class LoginPageController extends MyShelfieController {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //Load page with the focus on the pane and not on input field or button
-        Platform.runLater( () -> rootPane.requestFocus() );
-
         setNicknameInputState();
         setPlayerNumberInputState();
     }
@@ -109,7 +103,7 @@ public class LoginPageController extends MyShelfieController {
 
         if (keyEvent.getCode() == KeyCode.ENTER) {
             if (nicknameInput.isVisible() && !nicknameInput.isDisabled() && !verifyNickname()) {
-                displaySimpleAlert("Please choose an option between \"Create game\" and \"Join game\"");
+                displayErrorAlert("Please choose an option between \"Create game\" and \"Join game\"");
             }
 
             if (playerNumberInput.isVisible() && !playerNumberInput.isDisabled() && !verifyPlayerNumber()) {
@@ -123,7 +117,7 @@ public class LoginPageController extends MyShelfieController {
         if(isButtonActionCalled(inputEvent)){
             getNickNameFromField();
 
-            getLogicController().joinGame(nickName);
+            //getLogicController().joinGame(nickName);
         }
     }
 
@@ -146,7 +140,7 @@ public class LoginPageController extends MyShelfieController {
     private void executePlayerNumberSubmitted() {
         getPlayersNumberFromField();
 
-        getLogicController().createGame(this.nickName, this.playersNumber);
+        //getLogicController().createGame(this.nickName, this.playersNumber);
     }
 
     private boolean isButtonActionCalled(InputEvent inputEvent) {
@@ -197,7 +191,7 @@ public class LoginPageController extends MyShelfieController {
      * @return true if the input is not valid
      */
     private boolean verifyNickname() {
-        return nicknameInput.getText().isEmpty() || nicknameInput.getText().contains("Errata");
+        return nicknameInput.getText().isEmpty();
     }
 
     /**
@@ -252,7 +246,7 @@ public class LoginPageController extends MyShelfieController {
         });
     }
 
-    private void showElements(Map<Node, Double> elementsOpacity) {
+    private void showElements(@NotNull Map<Node, Double> elementsOpacity) {
         elementsOpacity.forEach((element, opacity) -> {
             fadeElement(element, 0.0, opacity);
             element.setVisible(true);
@@ -261,7 +255,7 @@ public class LoginPageController extends MyShelfieController {
     }
 
     private void fadeElement(Node node, double fromValue, double toValue) {
-        FadeTransition fadeTransition = new FadeTransition(animationDuration);
+        FadeTransition fadeTransition = new FadeTransition(getAnimationDuration());
         fadeTransition.setNode(node);
         fadeTransition.setFromValue(fromValue);
         fadeTransition.setToValue(toValue);
@@ -301,9 +295,9 @@ public class LoginPageController extends MyShelfieController {
 
     @Override
     public void onGameStateChangedNotified() {
-        if(MyShelfieApplication.getUi().getModel().getGameState().equals(GameState.INIT.toString())){
+        /*if(MyShelfieApplication.getUi().getModel().getGameState().equals(GameState.INIT.toString())){
             Platform.runLater(this::displayGameInterface);
-        }
+        }*/
     }
 
     @Override

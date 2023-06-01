@@ -21,7 +21,7 @@ public class TextSizeChangeListener implements ChangeListener<Number> {
 
     private final double initialScale;
 
-    public TextSizeChangeListener(final Pane rootPane, final int screenWidth, final int screenHeight) {
+    public TextSizeChangeListener(final Pane rootPane, final double screenWidth, final double screenHeight) {
 
         this.rootPane = rootPane;
 
