@@ -58,7 +58,7 @@
                    GridPane.columnIndex="0">
             <ScrollPane fx:id="MyScroll" GridPane.fillHeight="true" GridPane.fillWidth="true"
                         GridPane.valignment="CENTER"
-                        GridPane.halignment="CENTER">
+                        GridPane.halignment="CENTER" hbarPolicy="NEVER">
             </ScrollPane>
 
             <Label fx:id="TextContainer" GridPane.fillWidth="false" GridPane.fillHeight="false"
