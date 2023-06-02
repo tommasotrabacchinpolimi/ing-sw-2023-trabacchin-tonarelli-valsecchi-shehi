@@ -43,6 +43,7 @@ module it.polimi.ingsw {
     exports it.polimi.ingsw.controller.exceptions;
     exports it.polimi.ingsw.view.tui;
     exports it.polimi.ingsw.view;
+    exports it.polimi.ingsw.view.gui.chatpage;
 
     opens it.polimi.ingsw.controller;
     opens it.polimi.ingsw.controller.rmiInterfaces;

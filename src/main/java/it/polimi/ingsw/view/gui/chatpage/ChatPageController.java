@@ -30,11 +30,13 @@ public class ChatPageController extends MyShelfieController {
 
     }
 
+    //per il server va bene l'operazione che si è fatta l'operazione da il "permesso" di cambiare anche a livello grafico
     @Override
     public void onGameStateChangedNotified() {
 
     }
 
+    //Questo invece serve per l'opposto se ho eccezione a lato server, qui viene mostrata l'eccezione.
     @Override
     public void onExceptionNotified() {
 
