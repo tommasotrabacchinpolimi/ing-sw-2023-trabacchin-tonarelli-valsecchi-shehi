@@ -19,7 +19,7 @@ import java.net.URL;
 import java.rmi.NotBoundException;
 import java.util.ResourceBundle;
 
-import static it.polimi.ingsw.view.gui.MyShelfieAlertCreator.displayErrorAlert;
+import static it.polimi.ingsw.view.gui.MyShelfieAlertCreator.*;
 
 public class ConnectionPageController extends MyShelfieController {
 
