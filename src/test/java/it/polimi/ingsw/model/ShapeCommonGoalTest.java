@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Stack;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,6 +21,41 @@ class ShapeCommonGoalTest {
         return getRuleShapeEntry(random.nextInt(), random.nextInt());
     }
 
+    @Test
+    void TestToString(){
+        List<Integer[]> ruleShape = new ArrayList<>();
+        ruleShape.add(getRuleShapeEntry(5, 0));
+        ruleShape.add(getRuleShapeEntry(0, 4));
+        ruleShape.add(getRuleShapeEntry(5, 4));
+        String description = "";
+        Stack<Integer> stack = new Stack<>();
+        stack.push(8);
+        stack.push(4);
+        ShapeCommonGoal cg = new ShapeCommonGoal(stack, description, ruleShape);
+
+        StringBuilder res = new StringBuilder();
+
+        res.append("ShapeCommonGoal{")
+                .append(System.getProperty("line.separator"))
+                .append("\tScoring Tokens: 8, 4, ")
+                .append(System.getProperty("line.separator")).append("\tDescription: ").append(cg.getDescription())
+                .append(System.getProperty("line.separator"))
+                .append("\tRule Shape:[");
+
+        cg.getRuleShape().forEach(x -> res
+                .append(System.getProperty("line.separator"))
+                .append("\t\t(")
+                .append(x[0])
+                .append(", ")
+                .append(x[1])
+                .append(")"));
+        res.append(System.getProperty("line.separator"))
+                .append("\t]")
+                .append(System.getProperty("line.separator"))
+                .append("}");
+
+        assertEquals(res.toString(), cg.toString());
+    }
 
     @Test
     void getRuleShape() {
@@ -35,10 +71,6 @@ class ShapeCommonGoalTest {
         ShapeCommonGoal sh = new ShapeCommonGoal(incr);
         assertEquals(sh.getRuleShape(), incr);
     }
-
-
-
-
 
     @Test
     void setRuleShape() {
@@ -62,11 +94,8 @@ class ShapeCommonGoalTest {
         assertEquals(shape.getRuleShape(), inc);
     }
 
-
     @Test
     void rule() {
-
-
         for (int index = 0; index < 16; index++) {
 
             if (index == 1) {
@@ -86,9 +115,6 @@ class ShapeCommonGoalTest {
         }
 
     }
-
-
-
 
     private boolean compareObjects(List<EntryPatternGoal> l1, List<EntryPatternGoal> l2) {
         if(l1.size() != l2.size()) {
@@ -214,8 +240,6 @@ class ShapeCommonGoalTest {
         return  result;
     }
 
-
-    // Sono 15 configurazioni possibili di bookshelf da passare al costruttore
     private TileType[][] getRandomShapeBookshelf(int index) {
         switch (index){
             case 1 -> {
@@ -385,8 +409,6 @@ class ShapeCommonGoalTest {
         }
     }
 
-    //qui sto dando io le posizioni che devono essere giuste, ora rule dovrebbe ritornarmi una di queste liste
-    //o del caso numero uno, due, tre oppure quattro.
     private List<Integer[]> getRuleShape(int shape) {
         List<Integer[]> result = new ArrayList<>();
         switch (shape){
@@ -420,9 +442,5 @@ class ShapeCommonGoalTest {
         return result;
     }
 
-    @Test
-    void notInShape(){
-
-    }
 
 }

@@ -192,7 +192,6 @@ class BookShelfTest<R extends ClientInterface> {
         assertEquals(bookShelf, bookShelf1);
     }
 
-
     @Test
     void testHashCode() {
         BookShelf bookShelf = new BookShelf();

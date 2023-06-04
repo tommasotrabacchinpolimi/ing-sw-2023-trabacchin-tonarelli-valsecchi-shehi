@@ -8,6 +8,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+//100%
 class ChatMessageTest<R extends ClientInterface> {
 
     @Test

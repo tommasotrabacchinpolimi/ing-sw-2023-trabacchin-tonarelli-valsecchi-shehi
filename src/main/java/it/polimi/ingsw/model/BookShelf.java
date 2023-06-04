@@ -160,7 +160,9 @@ public class BookShelf implements Serializable, OnUpdateNeededListener {
      */
     public void initTileSubjectTaken(){
         this.tileSubjectTaken = new TileSubject[row][column];
-        notifyOnBookShelfUpdated();
+        if(onBookShelfUpdatedListeners != null) {
+            notifyOnBookShelfUpdated();
+        }
     }
 
     /**
@@ -342,7 +344,7 @@ public class BookShelf implements Serializable, OnUpdateNeededListener {
                 .map(TileSubject[]::clone)
                 .toArray(TileSubject[][]::new);
 
-        for(OnBookShelfUpdatedListener onBookShelfUpdatedListener : onBookShelfUpdatedListeners) {
+        for(OnBookShelfUpdatedListener onBookShelfUpdatedListener :  onBookShelfUpdatedListeners) {
             onBookShelfUpdatedListener.onBookShelfUpdated(player.getNickName(), tileSubjects);
         }
     }

@@ -14,11 +14,12 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.Random;
 
+//43%
 class PersonalGoalTest {
 
     private final static int PATTERN_NUMBER = 10; //number of total patterns
     private final static Random RANDOM = new Random();
-    private final String inputFileName = "pattern" + RANDOM.nextInt(1,13);
+    private final String inputFileName = "pattern_" + RANDOM.nextInt(1,13);
 
     @Test
     void getGoalPattern(){
@@ -26,8 +27,8 @@ class PersonalGoalTest {
         PersonalGoal personalGoal1;
 
         try {
-            personalGoal = new PersonalGoal("pattern1");
-            personalGoal1 = new PersonalGoal("pattern2");
+            personalGoal = new PersonalGoal("pattern_1");
+            personalGoal1 = new PersonalGoal("pattern_2");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             personalGoal = new PersonalGoal();
@@ -47,8 +48,11 @@ class PersonalGoalTest {
         PersonalGoal personalGoal1;
 
         try {
-            personalGoal = new PersonalGoal("pattern1");
-            personalGoal1 = new PersonalGoal("pattern2");
+            personalGoal = new PersonalGoal("pattern_1");
+            personalGoal1 = new PersonalGoal("pattern_" +
+                    "" +
+                    "" +
+                    "2");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             personalGoal = new PersonalGoal();
@@ -87,4 +91,21 @@ class PersonalGoalTest {
                 scoreMap:{6=12, 5=9, 4=6, 3=4, 2=2, 1=1, 0=0}""";
         assertEquals(personalGoal.toString(), excepted);
     }
+
+    @Test
+    void equals() {
+        PersonalGoal personalGoal1;
+        PersonalGoal personalGoal2;
+        try {
+            personalGoal1 = new PersonalGoal("pattern_1");
+            personalGoal2 = new PersonalGoal("pattern_2");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            personalGoal1 = new PersonalGoal();
+            personalGoal2 = new PersonalGoal();
+        }
+        assertFalse(personalGoal1.equals(personalGoal2));
+        
+    }
+
 }

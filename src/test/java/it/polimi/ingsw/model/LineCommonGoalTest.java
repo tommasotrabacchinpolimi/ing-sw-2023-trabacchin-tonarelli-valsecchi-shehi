@@ -2,10 +2,7 @@ package it.polimi.ingsw.model;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,7 +12,9 @@ class LineCommonGoalTest {
     void getNumberOfTiles() {
         int incRow = 1, incCol = 0, numberLines = 2, numberTiles = 4;
         int[] differentTiles = {6};
-        LineCommonGoal goal = new LineCommonGoal(incRow, incCol, numberLines, numberTiles, differentTiles);
+        String description = "";
+
+        LineCommonGoal goal = new LineCommonGoal(description, incRow, incCol, numberLines, numberTiles, differentTiles);
         assertEquals(numberTiles, goal.getNumberOfTiles());
     }
 
@@ -23,7 +22,9 @@ class LineCommonGoalTest {
     void setNumberOfTiles() {
         int incRow = 1, incCol = 0, numberLines = 2, numberTiles = 4;
         int[] differentTiles = {6};
-        LineCommonGoal goal = new LineCommonGoal(incRow, incCol, numberLines, numberTiles, differentTiles);
+        String description = "";
+        Stack<Integer> stack = new Stack<>();
+        LineCommonGoal goal = new LineCommonGoal(stack, description, incRow, incCol, numberLines, numberTiles, differentTiles);
         assertEquals(numberTiles, goal.getNumberOfTiles());
         numberTiles = 6;
         goal.setNumberOfTiles(numberTiles);
@@ -113,6 +114,35 @@ class LineCommonGoalTest {
         for(int i = 0; i < goal.getDifferentTiles().length; i++ ){
             assertEquals(expectedDifferentTiles[i], goal.getDifferentTiles()[i]);
         }
+    }
+
+    @Test
+    void TestToString(){
+        int incRow = 1, incCol = 0, numberLines = 2, numberTiles = 4;
+        int[] differentTiles = {6};
+        String description = "Description.";
+        Stack<Integer> stack = new Stack<>();
+        stack.push(8);
+        stack.push(4);
+        LineCommonGoal goal = new LineCommonGoal(stack, description, incRow, incCol, numberLines, numberTiles, differentTiles);
+        String res = "LineCommonGoal{" +
+                System.getProperty("line.separator") +
+                "\tScoring Tokens: 8, 4, " +
+                System.getProperty("line.separator") +
+                "\tDescription: " + goal.getDescription() +
+                System.getProperty("line.separator") +
+                "\tIncrement Row: " + incRow +
+                System.getProperty("line.separator") +
+                "\tIncrement Column: " + incCol +
+                System.getProperty("line.separator") +
+                "\tLines Number: " + numberLines +
+                System.getProperty("line.separator") +
+                "\tNumber of Tiles: " + numberTiles +
+                System.getProperty("line.separator") +
+                "\tDifferent Tiles: " + Arrays.toString(differentTiles) +
+                System.getProperty("line.separator") +
+                '}';
+        assertEquals(goal.toString(), res);
     }
 
     @Test
@@ -414,6 +444,5 @@ class LineCommonGoalTest {
             }
         }
     }
-
 
 }

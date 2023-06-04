@@ -140,43 +140,6 @@ public class PersonalGoal implements Serializable {
     }
 
     /**
-     * This method was used inside the {@link #PersonalGoal(String fileName)} constructor and read line ny line of the json file
-     * configuration to set the fields.
-     *
-     * @deprecated <p>since version 2.3, replaced by {@link #PersonalGoal(String fileName)} constructor</p>
-     *             <p>This method was deprecated due to performance, security and robustness of the code</p>
-     *
-     * @param fileName complete path to the configuration file
-     * @apiNote If the number of Tiles entity that creates the pattern inside the personal goal card is not equals to the
-     *          maximum number of tiles that needs to be checked the card is not accepted and random configuration is set for the
-     *          personal goal pattern, while default configuration is set for score map.
-     * @see PersonalGoal
-     * @see #PersonalGoal(String fileName)
-     */
-    @Deprecated
-    private void usingJSONParser(String fileName) {
-        JSONObject jo;
-
-        // getting and parsing file "*.json"
-        try {
-            jo = (JSONObject) new JSONParser().parse(new FileReader(fileName));
-        } catch (IOException | ParseException e) {
-            throw new RuntimeException(e);
-        }
-
-        fillPersonalGoalFromJSON(((JSONArray) jo.get("goalPattern")).iterator());
-
-        fillScoreMapFromJSON((Map) jo.get("scoreMap"));
-
-        if(!verifyInput()){
-            goalPattern.clear();
-            scoreMap.clear();
-            createRandomGoalPattern();
-            setDefaultScoreMap();
-        }
-    }
-
-    /**
      * @return goal pattern configuration represented in the personal goal card
      */
     public List<EntryPatternGoal> getGoalPattern() {
@@ -210,118 +173,6 @@ public class PersonalGoal implements Serializable {
         scoreMap.put(4, 6);
         scoreMap.put(5, 9);
         scoreMap.put(6, 12);
-    }
-
-    /**
-     * This method is used to create personal goal card configuration from a JSON file that respect the correct formatting
-     *
-     * @deprecated <p>since version 2.3, replaced by {@link #PersonalGoal(String fileName)} constructor</p>
-     *             <p>This method was deprecated because with the new {@linkplain #PersonalGoal(String fileName) constructor}
-     *             it is no more necessary to call it</p>
-     *
-     * @param entryPatternIterator iterator used to browse the json file configuration for the entries of the personal goal card
-     * @see PersonalGoal
-     */
-    @Deprecated
-    private void fillPersonalGoalFromJSON(Iterator entryPatternIterator){
-        Map entryPatternAttributes;
-
-        while(entryPatternIterator.hasNext()){
-            entryPatternAttributes = (Map) entryPatternIterator.next();
-
-            this.goalPattern.add(
-                    new EntryPatternGoal(
-                            getRowConfig(entryPatternAttributes),
-                            getColumnConfig(entryPatternAttributes),
-                            getTileTypeConfig(entryPatternAttributes)
-                    )
-            );
-        }
-    }
-
-    /**
-     * This method is used to get the value (as a string) from a map representing a json file
-     *
-     * @deprecated <p>since version 2.3, replaced by {@link #PersonalGoal(String fileName)} constructor</p>
-     *             <p>This method was deprecated because with the new {@linkplain #PersonalGoal(String fileName) constructor}
-     *             it is no more necessary to call it</p>
-     *
-     * @param map reference to the map that contains the value of an attribute in JSON file
-     * @param attributeName the attribute name to be searched throw the map
-     * @return a string representing the value stored in the json file
-     */
-    @Deprecated
-    private String getAttributeConfig(Map map, String attributeName){
-        return map.get(attributeName).toString();
-    }
-
-    /**
-     * Retrieve the column value from the map passed as parameter
-     *
-     * @deprecated <p>since version 2.3, replaced by {@link #PersonalGoal(String fileName)} constructor</p>
-     *             <p>This method was deprecated because with the new {@linkplain #PersonalGoal(String fileName) constructor}
-     *             it is no more necessary to call it</p>
-     *
-     * @param map the map in which search for the value
-     * @return an integer representing the column of a single entry for the pattern goal configuration
-     */
-    @Deprecated
-    private int getColumnConfig(Map map){
-        return Integer.parseInt(getAttributeConfig(map, "column"));
-    }
-
-    /**
-     * Retrieve the row value from the map passed as parameter
-     *
-     * @deprecated <p>since version 2.3, replaced by {@link #PersonalGoal(String fileName)} constructor</p>
-     *             <p>This method was deprecated because with the new {@linkplain #PersonalGoal(String fileName) constructor}
-     *             it is no more necessary to call it</p>
-     *
-     * @param map the map in which search for the value
-     * @return an integer representing the row of a single entry for the pattern goal configuration
-     */
-    @Deprecated
-    private int getRowConfig(Map map){
-        return Integer.parseInt(getAttributeConfig(map, "row"));
-    }
-
-    /**
-     * Retrieve the TileType value from the map passed as parameter
-     *
-     * @deprecated <p>since version 2.3, replaced by {@link #PersonalGoal(String fileName)} constructor</p>
-     *             <p>This method was deprecated because with the new {@linkplain #PersonalGoal(String fileName) constructor}
-     *             it is no more necessary to call it</p>
-     *
-     * @param map the map in which search for the value
-     * @return a String representing the Tile type for a single entry for the pattern goal configuration
-     */
-    @Deprecated
-    private String getTileTypeConfig(Map map){
-        return getAttributeConfig(map, "tileType");
-    }
-
-    /**
-     * This method is used to create score map configuration from a JSON file that respect the correct formatting
-     *
-     * @deprecated <p>since version 2.3, replaced by {@link #PersonalGoal(String fileName)} constructor</p>
-     *             <p>This method was deprecated because with the new {@linkplain #PersonalGoal(String fileName) constructor}
-     *             it is no more necessary to call it</p>
-     *
-     * @param scoreMapData map used to browse the json file configuration for the entries of the personal goal card
-     * @see PersonalGoal
-     */
-    @Deprecated
-    private void fillScoreMapFromJSON(Map scoreMapData){
-        Iterator<Map.Entry> entryScoreMapAttributes = scoreMapData.entrySet().iterator();
-
-        while(entryScoreMapAttributes.hasNext()){
-            Map.Entry pair = entryScoreMapAttributes.next();
-
-            scoreMap.put(
-                    Integer.parseInt(pair.getKey().toString()),
-                    Integer.parseInt(pair.getValue().toString())
-            );
-        }
     }
 
     /**
@@ -429,7 +280,6 @@ public class PersonalGoal implements Serializable {
             System.out.println("The goal pattern insert does not respect rules");
             return false;
         }
-
         return true;
     }
 

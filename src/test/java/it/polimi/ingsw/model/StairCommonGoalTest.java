@@ -2,14 +2,31 @@ package it.polimi.ingsw.model;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class StairCommonGoalTest {
+
+    @Test
+    void TestToString(){
+        String description = "";
+        Stack<Integer> stack = new Stack<>();
+        stack.push(8);
+        stack.push(4);
+        StairCommonGoal cg = new StairCommonGoal(stack, description, 3);
+        StringBuilder res = new StringBuilder();
+
+        res.append("StairCommonGoal{")
+                .append(System.getProperty("line.separator"))
+                .append("\tScoring Tokens: 8, 4, ")
+                .append(System.getProperty("line.separator")).append("\tDescription: ").append(cg.getDescription())
+                .append(System.getProperty("line.separator"))
+                .append("\tNumber of Columns: 3")
+                .append(System.getProperty("line.separator"))
+                .append("}");
+        assertEquals(res.toString(), cg.toString());
+    }
 
     @Test
     void getNumberOfColumns() {

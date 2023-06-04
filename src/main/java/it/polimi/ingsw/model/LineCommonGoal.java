@@ -77,9 +77,6 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
      */
     private int[] differentTiles;
 
-    public LineCommonGoal() {
-        super();
-    }
     public LineCommonGoal(int incRow, int incCol, int linesNumber, int numberOfTiles, int[] differentTiles) {
         super();
         this.incRow = incRow;
@@ -257,8 +254,7 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
         if(numberOfTiles>copied_bookshelf.length && incCol==1) return null;
         if(numberOfTiles>copied_bookshelf[0].length && incRow==1) return null;
 
-        //checking the condition
-        for (int i = 0; i < copied_bookshelf.length; i += incCol) {
+        for (int i = 0; i < copied_bookshelf.length; i += incCol) { //checking the condition
             alreadyFoundType.clear();
             counterTile = 0;
 

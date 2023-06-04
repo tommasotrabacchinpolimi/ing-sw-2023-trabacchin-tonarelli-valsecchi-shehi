@@ -326,6 +326,10 @@ public class State implements Serializable, OnUpdateNeededListener {
      * @see Player
      */
     public void setPlayers(List<Player> players) {
+        if(players.size() > playersNumber){
+            throw new RuntimeException("Too many players inserted");
+            // alzare eccezione eventualmente
+        }
         this.players = players;
     }
 
@@ -339,7 +343,7 @@ public class State implements Serializable, OnUpdateNeededListener {
      * @see Player
      */
     public boolean addPlayer(Player player){
-        if(players.stream().anyMatch(p-> p.getNickName().equals(player.getNickName())))
+        if(players.stream().anyMatch(p-> p.getNickName().equals(player.getNickName())) || players.size() == playersNumber)
             return false;
         this.players.add(player);
         player.getPointPlayer().setPlayer(player);

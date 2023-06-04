@@ -134,17 +134,20 @@ class BoardTest {
         assertEquals(preLength-1, bagg.size());
     }
 
-
-
     @Test
     void bagToString() {
-
+        Board board = new Board();
+        List<TileSubject> bag = board.getBag();
+        StringBuilder expected = new StringBuilder("BAG: \n");
+        for (TileSubject el : bag) {
+            expected.append(el.name()).append("\n");
+        }
+        assertEquals(expected.toString(), board.bagToString());
     }
-
 
     // volendo puoi fare un metodo che assegna casualmetne un tipo di tile e aggiungerlo in una posizione
     // e controllare che la get funzioni correttamente
-@Test
+    @Test
     public void GetTileSubjectInBoard() {
         Board board = new Board();
         TileSubject tile = TileSubject.ORANGE_CAT;
@@ -166,10 +169,7 @@ class BoardTest {
         board.removeSelectedTileSubject(l1);
         r2 = CountNull(board);
         assertEquals(r1, r2-1);
-
-
     }
-
 
     @Test
     void refillBoard() {
@@ -263,11 +263,6 @@ class BoardTest {
         }
 
     }
-
-    @Test
-    void printBoard() {
-    }
-
 
     private int CountNull(Board bor)
     {

@@ -128,7 +128,7 @@ class TupleCommonGoalTest {
     }
 
     @Test
-    void rule() {
+    void rule() { //DA RIGUARDARE PERCHE' SBAGLIATO
         int groupNumber = 6;
         int adjacentParam = 1;
         boolean square = false;

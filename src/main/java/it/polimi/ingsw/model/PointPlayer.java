@@ -100,6 +100,7 @@ public class PointPlayer implements Serializable, OnUpdateNeededListener {
             onPointsUpdatedListener.onPointsUpdated(player.getNickName(), scoreAdjacentGoal, scoreCommonGoal1, scoreCommonGoal2, scoreEndGame, scorePersonalGoal);
         }
     }
+
     public void setOnPointsUpdatedListener(OnPointsUpdatedListener onPointsUpdatedListener) {
         onPointsUpdatedListeners.add(onPointsUpdatedListener);
     }

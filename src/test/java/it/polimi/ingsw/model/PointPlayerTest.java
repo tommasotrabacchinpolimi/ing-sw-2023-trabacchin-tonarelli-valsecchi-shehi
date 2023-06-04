@@ -89,4 +89,30 @@ class PointPlayerTest<R extends ClientInterface> {
         pointPlayer.setScoreAdjacentGoal(adjacentscore);
         assertEquals(sum, pointPlayer.getTotalScore().intValue());
     }
+
+    @Test
+    void getAndSetPlayer(){
+        Player player = new Player("Melanie");
+        PointPlayer pointPlayer = new PointPlayer();
+        pointPlayer.setPlayer(player);
+        assertEquals(player, pointPlayer.getPlayer());
+    }
+
+    @Test
+    void TestEquals(){
+        PointPlayer pointPlayer1 = new PointPlayer();
+        PointPlayer pointPlayer2 = new PointPlayer();
+        Player p1 = new Player("Adem");
+        Player p2 = new Player("Tommaso");
+        pointPlayer1.setPlayer(p1);
+        pointPlayer2.setPlayer(p1);
+        assertEquals(pointPlayer1, pointPlayer1);
+        assertNotEquals(pointPlayer1, null);
+        assertEquals(pointPlayer1, pointPlayer2);
+        pointPlayer2.setPlayer(p2);
+        assertNotEquals(pointPlayer1, pointPlayer2);
+        pointPlayer2.setPlayer(p1);
+        pointPlayer2.setScoreEndGame(1);
+        assertNotEquals(pointPlayer1, pointPlayer2);
+    }
 }

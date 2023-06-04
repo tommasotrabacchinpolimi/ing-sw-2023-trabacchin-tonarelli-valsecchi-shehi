@@ -140,24 +140,6 @@ public class Board implements Serializable, OnUpdateNeededListener {
         notifyOnBoardRefilled();
     }
 
-    @Deprecated
-    public void printBoard(int numPlayer){
-        for(int i = 0; i < board.length; i++){
-            for(int j = 0; j < board[0].length; j++){
-                if(INIT_MATRIX[i][j]==null) System.out.print("---\t\t\t");
-                else{
-                    if(isOkay(i,j,numPlayer)){
-                        if(board[i][j]==null) System.out.print("***\t\t\t");
-                        else System.out.print(board[i][j].toString()+"\t\t");
-                    } else {
-                        System.out.print("xxx\t\t\t");
-                    }
-                }
-            }
-            System.out.println();
-        }
-    }
-
     public void notifyOnBoardUpdated() {
         TileSubject[][] boardCopy = Arrays.stream(board).map(TileSubject[]::clone).toArray(TileSubject[][]::new);
         for(OnBoardUpdatedListener onBoardUpdatedListener : onBoardUpdatedListeners) {
@@ -193,9 +175,6 @@ public class Board implements Serializable, OnUpdateNeededListener {
     public void onUpdateNeededListener(Player player) {
         onBoardUpdatedListeners.stream().forEach(v->v.onBoardUpdated(Arrays.stream(board).map(TileSubject[]::clone).toArray(TileSubject[][]::new)));
     }
-
-
-
 
 }
 

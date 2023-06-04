@@ -6,6 +6,7 @@ import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+//100%
 class EntryPatternGoalTest {
 
     @Test
@@ -52,6 +53,11 @@ class EntryPatternGoalTest {
     }
 
     @Test
+    void fromStringToTileType(){
+        assertThrows(IllegalArgumentException.class, () -> {new EntryPatternGoal(2, 3, "D");});
+    }
+
+    @Test
     void getArrayIndexes(){
         int row, col;
         Random rnd = new Random();
@@ -77,6 +83,8 @@ class EntryPatternGoalTest {
         EntryPatternGoal entryPatternGoal = new EntryPatternGoal();
         EntryPatternGoal entryPatternGoal1 = new EntryPatternGoal();
 
+        assertEquals(entryPatternGoal1, entryPatternGoal1);
+        assertNotEquals(entryPatternGoal, null);
         assertEquals(entryPatternGoal1, entryPatternGoal);
 
         EntryPatternGoal entryPatternGoal2 = new EntryPatternGoal(1,2,"CAT");
@@ -94,4 +102,5 @@ class EntryPatternGoalTest {
 
         assertNotEquals(entryPatternGoal1.hashCode(), entryPatternGoal2.hashCode());
     }
+
 }

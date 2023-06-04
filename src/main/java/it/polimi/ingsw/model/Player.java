@@ -70,6 +70,7 @@ public class Player implements Serializable, OnUpdateNeededListener {
         onAssignedPersonalGoalListeners = new LinkedList<>();
         onUpdateNeededListeners = new LinkedList<>();
     }
+
     public Player(String nickName) {
         this.nickName = nickName;
         this.personalGoal = null;

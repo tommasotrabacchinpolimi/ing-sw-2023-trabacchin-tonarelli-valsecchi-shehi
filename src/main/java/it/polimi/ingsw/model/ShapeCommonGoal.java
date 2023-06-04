@@ -18,19 +18,13 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
       * @apiNote The key of this class is this parameter that contains offsets needed
       * to finds if there is a common-goal. This class makes the check of 3 candidate
       * common-goals (Common-goal 2, 3, 10).
-      *
-      * @author Tommaso Trabacchin
-      * @author Melanie Tonarelli
-      * @author Emanuele Valsecchi
-      * @author Adem Shehi
-      * @version 2.0
-      * @since 07/04/2023
       */
     private List<Integer[]> ruleShape;
 
     public ShapeCommonGoal() {
         super();
     }
+
     public ShapeCommonGoal(List<Integer[]> ruleShape) {
         super();
         this.ruleShape = ruleShape;
@@ -53,8 +47,7 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
     /**
      *
      * @return the list of arrays that contains the offsets that permit to implement
-     * for more detailed explanation
-     *
+     * for more detailed explanation.
      * For more click here: [{@link ShapeCommonGoal#ruleShape incrementRuleShape}]
      *
      */
@@ -159,7 +152,6 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
      *          score commongoal.
      */
     private boolean verifySurrounding(List<EntryPatternGoal> candidate, TileType[][] bookShelf){
-
         for(EntryPatternGoal e : candidate) {
             int row = e.getRow() - 1;
             int column = e.getColumn() - 1;
@@ -206,7 +198,7 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
         return ((row >= 0 &&  row < maxHeight) && (column >= 0  && column < maxWidth));
     }
 
-    private boolean verifyTileType(TileType[][] bookshelf, List<Integer[]> list) {
+    /*private boolean verifyTileType(TileType[][] bookshelf, List<Integer[]> list) {
         boolean result = true;
         TileType type = bookshelf[0][0];
         for (int i=1; i<list.size(); i++)
@@ -215,7 +207,7 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
             //ho una lista di posizioni.
         }
         return false;
-    }
+    }*/
 
     @Override
     public String toString() {
