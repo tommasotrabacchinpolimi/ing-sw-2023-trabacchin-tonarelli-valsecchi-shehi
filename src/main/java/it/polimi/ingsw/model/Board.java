@@ -68,20 +68,23 @@ public class Board implements Serializable, OnUpdateNeededListener {
     }
 
     private void createBag() {
-        int[] occurence = {NUMBER_OF_TILE, NUMBER_OF_TILE, RESERVE_TILE};
+        int[] occ = {NUMBER_OF_TILE, NUMBER_OF_TILE, RESERVE_TILE};
         int k = 0;
         for (TileSubject el : TileSubject.values()) {
             if (k % 3 == 0)
-                shuffleArray(occurence);
+                shuffleArray(occ);
 
-            for (int i = 0; i < occurence[k % 3]; i++) {
+            for (int i = 0; i < occ[k % 3]; i++) {
                 bag.add(el);
             }
             k++;
         }
     }
 
-    // method for extracting a casual TileSubject from bag
+    /**
+     * Method that extracts a casual tile from the bag.
+     * @return the tile extracted from the bag
+     */
     public TileSubject getRandomTileSubject() {
         Collections.shuffle(this.getBag());
         return this.bag.remove(0);
@@ -99,6 +102,10 @@ public class Board implements Serializable, OnUpdateNeededListener {
         return board[i][j];
     }
 
+    /**
+     * Method used to swap random elements in an array
+     * @param occurrence the array that need to be shuffled
+     */
     private void shuffleArray(int[] occurrence) {
         Random rnd = new Random();
         for (int i = occurrence.length - 1; i > 0; i--) {
@@ -107,6 +114,12 @@ public class Board implements Serializable, OnUpdateNeededListener {
         }
     }
 
+    /**
+     * Method to swap two elements in an array
+     * @param array the specified array where the elements are to be swapped
+     * @param i index of the element to be swapped.
+     * @param j index of the other element to be swapped
+     */
     private void swapArrayElement(int[] array, int i, int j) {
         int a = array[i];
         array[i] = array[j];

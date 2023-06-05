@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.ClientInterface;
+import it.polimi.ingsw.controller.listeners.OnPointsUpdatedListener;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -114,5 +115,27 @@ class PointPlayerTest<R extends ClientInterface> {
         pointPlayer2.setPlayer(p1);
         pointPlayer2.setScoreEndGame(1);
         assertNotEquals(pointPlayer1, pointPlayer2);
+    }
+
+    @Test
+    void onPointsUpdatedListener(){
+        PointPlayer pointPlayer = new PointPlayer();
+        Player p = new Player("P");
+        OnPointsUpdatedListener listener = new OnPointsUpdatedListener() {
+            @Override
+            public void onPointsUpdated(String nickName, int scoreAdjacentGoal, int scoreCommonGoal1, int scoreCommonGoal2, int scoreEndGame, int scorePersonalGoal) {
+                assertEquals("P", nickName);
+                assertEquals(0, scoreAdjacentGoal);
+                assertEquals(0, scoreCommonGoal1);
+                assertEquals(0, scoreCommonGoal2);
+                assertEquals(1, scoreEndGame);
+                assertEquals(0, scorePersonalGoal);
+            }
+        };
+        pointPlayer.setPlayer(p);
+        p.setPointPlayer(pointPlayer);
+        pointPlayer.setOnPointsUpdatedListener(listener);
+        pointPlayer.setScoreEndGame(1);
+        pointPlayer.removeOnPointsUpdatedListener(listener);
     }
 }

@@ -99,11 +99,12 @@ class ShapeCommonGoalTest {
         for (int index = 0; index < 16; index++) {
 
             if (index == 1) {
-                ShapeCommonGoal shape = new ShapeCommonGoal(getRuleShape(1));
+                ShapeCommonGoal shape = new ShapeCommonGoal();
+                shape.setRuleShape(getRuleShape(1));
                 assert getRandomShapeBookshelf(index) != null;
                 assertTrue(compareObjects(getExpected(1), shape.rule(getRandomShapeBookshelf(1))));
             } else if ((index == 2 || index == 3)) {
-                ShapeCommonGoal shape = new ShapeCommonGoal(getRuleShape(2));
+                ShapeCommonGoal shape = new ShapeCommonGoal("", getRuleShape(2));
                 assertTrue(compareObjects(getExpected(index), shape.rule(getRandomShapeBookshelf(index))));
             } else if (index == 4 || index == 5) {
                 ShapeCommonGoal shape = new ShapeCommonGoal(getRuleShape(3));

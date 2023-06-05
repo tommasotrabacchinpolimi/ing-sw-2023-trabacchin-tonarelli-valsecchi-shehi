@@ -286,7 +286,6 @@ class LineCommonGoalTest {
         }
     }
 
-
     private List<EntryPatternGoal> getExpectedResult(int incRow, int incCol, int numberLines, int numberTiles, int[] differentTiles, int number){
         List<EntryPatternGoal> result = new ArrayList<>();
         switch(number){

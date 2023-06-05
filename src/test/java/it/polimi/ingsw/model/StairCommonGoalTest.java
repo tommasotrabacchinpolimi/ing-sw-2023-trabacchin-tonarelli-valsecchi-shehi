@@ -15,17 +15,16 @@ class StairCommonGoalTest {
         stack.push(8);
         stack.push(4);
         StairCommonGoal cg = new StairCommonGoal(stack, description, 3);
-        StringBuilder res = new StringBuilder();
 
-        res.append("StairCommonGoal{")
-                .append(System.getProperty("line.separator"))
-                .append("\tScoring Tokens: 8, 4, ")
-                .append(System.getProperty("line.separator")).append("\tDescription: ").append(cg.getDescription())
-                .append(System.getProperty("line.separator"))
-                .append("\tNumber of Columns: 3")
-                .append(System.getProperty("line.separator"))
-                .append("}");
-        assertEquals(res.toString(), cg.toString());
+        String res = "StairCommonGoal{" +
+                System.getProperty("line.separator") +
+                "\tScoring Tokens: 8, 4, " +
+                System.getProperty("line.separator") + "\tDescription: " + cg.getDescription() +
+                System.getProperty("line.separator") +
+                "\tNumber of Columns: 3" +
+                System.getProperty("line.separator") +
+                "}";
+        assertEquals(res, cg.toString());
     }
 
     @Test

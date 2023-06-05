@@ -1,7 +1,13 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.ClientInterface;
+import it.polimi.ingsw.controller.listeners.OnAssignedPersonalGoalListener;
+import it.polimi.ingsw.controller.listeners.OnPlayerStateChangedListener;
 import org.junit.jupiter.api.Test;
+
+import java.io.FileNotFoundException;
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -78,6 +84,27 @@ class PlayerTest<R extends ClientInterface> {
     }
 
     @Test
+    void onPlayerStateChangedListeners(){
+        OnPlayerStateChangedListener listener = (nickname, playerState) -> {
+            assertEquals("QUITTED", playerState.toString());
+            assertEquals("P1", nickname);
+        };
+        Player p = new Player("P1");
+        p.setOnPlayerStateChangedListener(listener);
+        p.setPlayerState(PlayerState.QUITTED);
+        p.removeOnPlayerStateChangedListener(listener);
+    }
+
+    @Test
+    void onAssignedPersonalGoalListeners() throws FileNotFoundException {
+        OnAssignedPersonalGoalListener listener = (nickname, goalPattern, scoreMap) -> assertEquals("P", nickname);
+        Player p = new Player("P");
+        p.setOnAssignedPersonalGoalListener(listener);
+        p.setPersonalGoal(new PersonalGoal("pattern_1"));
+        p.removeOnAssignedPersonalGoalListener(listener);
+    }
+
+    @Test
     void testToString() {
         PersonalGoal goal = new PersonalGoal();
         Player player = new Player("Melanie", goal);
@@ -97,6 +124,12 @@ class PlayerTest<R extends ClientInterface> {
         p1.setPlayerState(PlayerState.CONNECTED);
         p3.setPlayerState(PlayerState.CONNECTED);
         assertEquals(p1, p3);
+    }
+
+    @Test
+    void testHashCode(){
+        Player p = new Player("P1");
+        assertEquals(p.hashCode(), p.hashCode());
     }
 
 }

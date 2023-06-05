@@ -1,10 +1,13 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.ClientInterface;
+import it.polimi.ingsw.controller.listeners.OnBookShelfUpdatedListener;
+import it.polimi.ingsw.model.exceptions.NoTileTakenException;
 import it.polimi.ingsw.model.exceptions.NotEnoughSpaceInBookShelfException;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -137,9 +140,9 @@ class BookShelfTest<R extends ClientInterface> {
         taken.add(TileSubject.COMIC_BOOK);
         taken.add(TileSubject.ORANGE_CAT);
 
-        try{
+        try {
             bookShelf.addTileSubjectTaken(taken, 0);
-        }catch(NotEnoughSpaceInBookShelfException e) {
+        } catch (NotEnoughSpaceInBookShelfException e) {
             assertNull(bookShelf.getTileSubjectTaken()[0][0]);
             assertNull(bookShelf.getTileSubjectTaken()[1][0]);
         }
@@ -156,6 +159,42 @@ class BookShelfTest<R extends ClientInterface> {
 
         assertEquals(taken.get(0).getTileType(), bookShelf.getTileSubjectTaken()[1][0].getTileType());
         assertEquals(taken.get(1).getTileType(), bookShelf.getTileSubjectTaken()[0][0].getTileType());
+
+        TileSubject[][] m = new TileSubject[][]{
+                {null, TileSubject.RISIKO_GAME, null, TileSubject.DICTIONARY_BOOK, TileSubject.BASIL_PLANT},
+                {null, TileSubject.BASIL_PLANT, null, TileSubject.CHESS_GAME, TileSubject.MONOPOLY_GAME},
+                {TileSubject.BASIL_PLANT, TileSubject.BLACK_CAT, null, TileSubject.COMIC_BOOK, TileSubject.DEGREE_FRAME},
+                {TileSubject.NOTE_BOOK, TileSubject.RISIKO_GAME, TileSubject.MUSIC_TROPHY, TileSubject.DICTIONARY_BOOK, TileSubject.BASIL_PLANT},
+                {TileSubject.COMIC_BOOK, TileSubject.BASIL_PLANT, TileSubject.DICTIONARY_BOOK, TileSubject.CHESS_GAME, TileSubject.MONOPOLY_GAME},
+                {TileSubject.BASIL_PLANT, TileSubject.BLACK_CAT, TileSubject.CHAMPION_TROPHY, TileSubject.COMIC_BOOK, TileSubject.DEGREE_FRAME}
+        };
+        bookShelf.setTileSubjectTaken(m);
+        List<TileSubject> list = new ArrayList<>();
+        list.add(TileSubject.LOVE_FRAME);
+        list.add(TileSubject.DICTIONARY_BOOK);
+        list.add(TileSubject.RISIKO_GAME);
+        assertThrows(NotEnoughSpaceInBookShelfException.class, () -> {
+            bookShelf.addTileSubjectTaken(list, 0);
+        });
+        assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
+            bookShelf.addTileSubjectTaken(list, -1);
+        });
+        assertThrows(NoTileTakenException.class, () -> {
+            bookShelf.addTileSubjectTaken(null, 0);
+        });
+
+        TileSubject[][] m1 = new TileSubject[][]{
+                {TileSubject.RISIKO_GAME, TileSubject.RISIKO_GAME, TileSubject.MUSIC_TROPHY, TileSubject.DICTIONARY_BOOK, TileSubject.BASIL_PLANT},
+                {TileSubject.COMIC_BOOK, TileSubject.BASIL_PLANT, TileSubject.DICTIONARY_BOOK, TileSubject.CHESS_GAME, TileSubject.MONOPOLY_GAME},
+                {TileSubject.BASIL_PLANT, TileSubject.BLACK_CAT, TileSubject.CHAMPION_TROPHY, TileSubject.COMIC_BOOK, TileSubject.DEGREE_FRAME},
+                {TileSubject.NOTE_BOOK, TileSubject.RISIKO_GAME, TileSubject.MUSIC_TROPHY, TileSubject.DICTIONARY_BOOK, TileSubject.BASIL_PLANT},
+                {TileSubject.COMIC_BOOK, TileSubject.BASIL_PLANT, TileSubject.DICTIONARY_BOOK, TileSubject.CHESS_GAME, TileSubject.MONOPOLY_GAME},
+                {TileSubject.BASIL_PLANT, TileSubject.BLACK_CAT, TileSubject.CHAMPION_TROPHY, TileSubject.COMIC_BOOK, TileSubject.DEGREE_FRAME}
+        };
+        bookShelf.setTileSubjectTaken(m1);
+        assertThrows(NotEnoughSpaceInBookShelfException.class, () -> {
+            bookShelf.addTileSubjectTaken(list, 0);
+        });
     }
 
     @Test
@@ -190,6 +229,31 @@ class BookShelfTest<R extends ClientInterface> {
         BookShelf bookShelf1 = new BookShelf(bookShelf);
 
         assertEquals(bookShelf, bookShelf1);
+        assertEquals(bookShelf, bookShelf);
+        assertNotNull(bookShelf);
+    }
+
+    @Test
+    void bookShelfUpdatedListener(){
+        BookShelf bookShelf = new BookShelf();
+        Player p = new Player("p1");
+        bookShelf.setPlayer(p);
+        TileSubject[][] matrix = new TileSubject[][]{
+                {null, TileSubject.RISIKO_GAME, null, TileSubject.DICTIONARY_BOOK, TileSubject.BASIL_PLANT},
+                {null, TileSubject.BASIL_PLANT, null, TileSubject.CHESS_GAME, TileSubject.MONOPOLY_GAME},
+                {TileSubject.BASIL_PLANT, TileSubject.BLACK_CAT, null, TileSubject.COMIC_BOOK, TileSubject.DEGREE_FRAME},
+                {TileSubject.NOTE_BOOK, TileSubject.RISIKO_GAME, TileSubject.MUSIC_TROPHY, TileSubject.DICTIONARY_BOOK, TileSubject.BASIL_PLANT},
+                {TileSubject.COMIC_BOOK, TileSubject.BASIL_PLANT, TileSubject.DICTIONARY_BOOK, TileSubject.CHESS_GAME, TileSubject.MONOPOLY_GAME},
+                {TileSubject.BASIL_PLANT, TileSubject.BLACK_CAT, TileSubject.CHAMPION_TROPHY, TileSubject.COMIC_BOOK, TileSubject.DEGREE_FRAME}
+        };
+        OnBookShelfUpdatedListener listener = (nickname, bookShelf1) -> {
+            boolean success = (Arrays.deepEquals(bookShelf.getTileSubjectTaken(), matrix));
+            assertTrue(success);
+        };
+        bookShelf.setOnBookShelfUpdated(listener);
+        bookShelf.setTileSubjectTaken(matrix);
+        bookShelf.onUpdateNeededListener(p);
+        bookShelf.removeOnBookShelfUpdated(listener);
     }
 
     @Test

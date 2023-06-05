@@ -56,6 +56,7 @@ public class Player implements Serializable, OnUpdateNeededListener {
 
     @ExcludedFromJSON
     private final List<OnAssignedPersonalGoalListener> onAssignedPersonalGoalListeners;
+
     @ExcludedFromJSON
     private final List<OnUpdateNeededListener> onUpdateNeededListeners;
 

@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model;
 
-import com.almasb.fxgl.entity.level.tiled.Tile;
+import it.polimi.ingsw.controller.listeners.OnBoardRefilledListener;
+import it.polimi.ingsw.controller.listeners.OnBoardUpdatedListener;
 import it.polimi.ingsw.utils.Coordinate;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -127,11 +127,11 @@ class BoardTest {
     @Test
     public void testGetRandomTileSubject() {
         Board board = new Board();
-        List<TileSubject> bagg = board.getBag();
-        int preLength = bagg.size();
+        List<TileSubject> bag = board.getBag();
+        int preLength = bag.size();
         TileSubject RandomTile = board.getRandomTileSubject();
-        assertTrue(bagg.contains(RandomTile));
-        assertEquals(preLength-1, bagg.size());
+        assertTrue(bag.contains(RandomTile));
+        assertEquals(preLength-1, bag.size());
     }
 
     @Test
@@ -145,8 +145,6 @@ class BoardTest {
         assertEquals(expected.toString(), board.bagToString());
     }
 
-    // volendo puoi fare un metodo che assegna casualmetne un tipo di tile e aggiungerlo in una posizione
-    // e controllare che la get funzioni correttamente
     @Test
     public void GetTileSubjectInBoard() {
         Board board = new Board();
@@ -224,48 +222,63 @@ class BoardTest {
 
         }
         numbersPlayer = 4;
-        if (numbersPlayer==4)
-        {
-            bo.refillBoard(numbersPlayer);
-            assertNotNull(bo.getBoard()[0][3]);
-            assertNotNull(bo.getBoard()[0][4]);
-            assertNotNull(bo.getBoard()[1][5]);
-            assertNotNull(bo.getBoard()[2][2]);
-            assertNotNull(bo.getBoard()[2][6]);
-            assertNotNull(bo.getBoard()[3][1]);
+        bo.refillBoard(numbersPlayer);
+        assertNotNull(bo.getBoard()[0][3]);
+        assertNotNull(bo.getBoard()[0][4]);
+        assertNotNull(bo.getBoard()[1][5]);
+        assertNotNull(bo.getBoard()[2][2]);
+        assertNotNull(bo.getBoard()[2][6]);
+        assertNotNull(bo.getBoard()[3][1]);
 
-            assertNotNull(bo.getBoard()[3][8]);
-            assertNotNull(bo.getBoard()[4][0]);
-            assertNotNull(bo.getBoard()[4][8]);
-            assertNotNull(bo.getBoard()[5][0]);
-            assertNotNull(bo.getBoard()[5][7]);
-            assertNotNull(bo.getBoard()[6][2]);
+        assertNotNull(bo.getBoard()[3][8]);
+        assertNotNull(bo.getBoard()[4][0]);
+        assertNotNull(bo.getBoard()[4][8]);
+        assertNotNull(bo.getBoard()[5][0]);
+        assertNotNull(bo.getBoard()[5][7]);
+        assertNotNull(bo.getBoard()[6][2]);
 
-            assertNotNull(bo.getBoard()[6][6]);
-            assertNotNull(bo.getBoard()[7][3]);
-            assertNotNull(bo.getBoard()[8][4]);
-            assertNotNull(bo.getBoard()[8][5]);
-        }
+        assertNotNull(bo.getBoard()[6][6]);
+        assertNotNull(bo.getBoard()[7][3]);
+        assertNotNull(bo.getBoard()[8][4]);
+        assertNotNull(bo.getBoard()[8][5]);
 
-        numbersPlayer = 3;
-        if(numbersPlayer==3)
-        {
-            assertNotNull(bo.getBoard()[0][3]);
-            assertNotNull(bo.getBoard()[2][2]);
-            assertNotNull(bo.getBoard()[2][6]);
+        assertNotNull(bo.getBoard()[0][3]);
+        assertNotNull(bo.getBoard()[2][2]);
+        assertNotNull(bo.getBoard()[2][6]);
 
-            assertNotNull(bo.getBoard()[3][8]);
-            assertNotNull(bo.getBoard()[5][0]);
-            assertNotNull(bo.getBoard()[6][2]);
+        assertNotNull(bo.getBoard()[3][8]);
+        assertNotNull(bo.getBoard()[5][0]);
+        assertNotNull(bo.getBoard()[6][2]);
 
-            assertNotNull(bo.getBoard()[6][6]);
-            assertNotNull(bo.getBoard()[8][5]);
-        }
-
+        assertNotNull(bo.getBoard()[6][6]);
+        assertNotNull(bo.getBoard()[8][5]);
     }
 
-    private int CountNull(Board bor)
-    {
+    @Test
+    void boardRefilledListener(){
+        Board board = new Board();
+        OnBoardRefilledListener listener = () -> {
+            boolean success = (board.getBoard() != null);
+            assertTrue(success);
+        };
+        board.setOnBoardRefilledListener(listener);
+        board.refillBoard(4);
+        board.removeOnBoardRefilledListener(listener);
+    }
+
+    @Test
+    void boardUpdatedListener(){
+        Board board = new Board();
+        OnBoardUpdatedListener listener = tileSubjects -> {
+            boolean success = (board.getBoard() != null);
+            assertTrue(success);
+        };
+        board.setOnBoardUpdatedListener(listener);
+        board.refillBoard(4);
+        board.removeOnBoardUpdatedListener(listener);
+    }
+
+    private int CountNull(Board bor) {
         int result = 0;
         for(int i = 0; i < bor.getBoard().length; i++)
         {
