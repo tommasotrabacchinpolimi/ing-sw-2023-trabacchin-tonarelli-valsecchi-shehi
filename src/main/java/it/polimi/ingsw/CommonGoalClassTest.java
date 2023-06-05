@@ -12,15 +12,21 @@ public class CommonGoalClassTest {
     public static void main(String[] args){
         List<EntryPatternGoal> list = new ArrayList<>();
         CommonGoalClassTest commonGoalClassTest = new CommonGoalClassTest();
-        commonGoalClassTest.createGroupDesign();
-        commonGoalClassTest.createGroupCommonGoal();
-        list = commonGoalClassTest.getCommonGoal().rule(commonGoalClassTest.getMatrix());
-        if (list != null) {
+        CommonGoal goal = new TupleCommonGoal(6, 1, false, true, false);
+        TileType[][] matrix = new TileType[][]{
+                {TileType.PLANT,  TileType.PLANT,  TileType.GAME,   TileType.GAME,   TileType.FRAME},
+                {null,            null,            TileType.PLANT,  null,            TileType.FRAME},
+                {null,            TileType.TROPHY, TileType.TROPHY, TileType.TROPHY, TileType.FRAME},
+                {TileType.CAT,    TileType.CAT,    TileType.PLANT,  TileType.TROPHY, TileType.FRAME},
+                {TileType.BOOK,   TileType.FRAME,  TileType.PLANT,  TileType.CAT,    TileType.CAT},
+                {TileType.BOOK,   TileType.BOOK,   TileType.BOOK,   TileType.PLANT,   TileType.PLANT}
+        };
+        list = goal.rule(matrix);
+        if (list != null){
             System.out.println("Common Goal verified!");
             commonGoalClassTest.printResult(list);
-        }
-        else {
-            System.out.println("Common Goal not verified!");
+        } else {
+            System.out.println("NOT SUCCEDED");
         }
     }
 
@@ -287,7 +293,10 @@ public class CommonGoalClassTest {
 
     private void printResult(List<EntryPatternGoal> list){
 
-        System.out.println(list.toString());
+        for(int i = 0; i < list.size(); i++){
+            System.out.println("result.add(new EntryPatternGoal("+ list.get(i).getRow()+","+list.get(i).getColumn()+", TileType."+ list.get(i).getTileType().toString()+"));");
+        }
+        //System.out.println(list.toString());
 
 
         TileType[][] matrix = new TileType[6][5];

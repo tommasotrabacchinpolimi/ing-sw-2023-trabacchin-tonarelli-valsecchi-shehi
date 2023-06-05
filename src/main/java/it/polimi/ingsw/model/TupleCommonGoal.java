@@ -66,6 +66,7 @@ public class TupleCommonGoal extends CommonGoal implements Serializable {
     public TupleCommonGoal() {
         super();
     }
+
     public TupleCommonGoal(int groupsNumber, int adjacentTilesPo2, boolean square, boolean separated, boolean sameTypeOnly) {
         super();
         this.groupsNumber = groupsNumber;
