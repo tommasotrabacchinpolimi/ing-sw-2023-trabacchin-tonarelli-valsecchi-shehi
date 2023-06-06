@@ -205,6 +205,62 @@ public class State implements Serializable, OnUpdateNeededListener {
         messageSentListeners.remove(listener);
     }
 
+    public void setOnCurrentPlayerChangedListener(OnCurrentPlayerChangedListener onCurrentPlayerChangedListener) {
+        this.onCurrentPlayerChangedListeners.add(onCurrentPlayerChangedListener);
+    }
+
+    public void removeOnCurrentPlayerChangedListener(OnCurrentPlayerChangedListener onCurrentPlayerChangedListener) {
+        this.onCurrentPlayerChangedListeners.remove(onCurrentPlayerChangedListener);
+    }
+
+    public void setOnAssignedCommonGoalListener(OnAssignedCommonGoalListener onAssignedCommonGoalListener) {
+        this.onAssignedCommonGoalListeners.add(onAssignedCommonGoalListener);
+    }
+
+    public void removeOnAssignedCommonGoalListener(OnAssignedCommonGoalListener onAssignedCommonGoalListener) {
+        this.onAssignedCommonGoalListeners.remove(onAssignedCommonGoalListener);
+    }
+
+    public void setOnAchievedPersonalGoalListener(OnAchievedPersonalGoalListener onAchievedPersonalGoalListener) {
+        onAchievedPersonalGoalListeners.add(onAchievedPersonalGoalListener);
+    }
+
+    public void removeOnAchievedPersonalGoalListener(OnAchievedPersonalGoalListener onAchievedPersonalGoalListener) {
+        onAchievedPersonalGoalListeners.remove(onAchievedPersonalGoalListener);
+    }
+
+    public void setOnChangedCommonGoalAvailableScoreListener(OnChangedCommonGoalAvailableScoreListener listener) {
+        this.onChangedCommonGoalAvailableScoreListenerListeners.add(listener);
+    }
+
+    public void removeOnChangedCommonGoalAvailableScoreListener(OnChangedCommonGoalAvailableScoreListener listener) {
+        this.onChangedCommonGoalAvailableScoreListenerListeners.remove(listener);
+    }
+
+    public void setOnExceptionsListener(OnExceptionsListener listener){
+        exceptionsListeners.add(listener);
+    }
+
+    public void removeOnExceptionsListener(OnExceptionsListener listener){
+        exceptionsListeners.remove(listener);
+    }
+
+    public void setOnPlayersListChangedListener(OnPlayersListChangedListener onPlayersListChangedListener) {
+        this.onPlayersListChangedListeners.add(onPlayersListChangedListener);
+    }
+
+    public void removeOnPlayersListChangedListener(OnPlayersListChangedListener onPlayersListChangedListener) {
+        this.onPlayersListChangedListeners.remove(onPlayersListChangedListener);
+    }
+
+    public void setOnWinnerChangedListener(OnWinnerChangedListener onWinnerChangedListener) {
+        this.onWinnerChangedListeners.add(onWinnerChangedListener);
+    }
+
+    public void removeOnWinnerChangedListener(OnWinnerChangedListener onWinnerChangedListener) {
+        this.onWinnerChangedListeners.remove(onWinnerChangedListener);
+    }
+
     public Player getLastPlayer() {
         return lastPlayer;
     }
@@ -234,7 +290,6 @@ public class State implements Serializable, OnUpdateNeededListener {
     public Player getWinner() {
         return winner;
     }
-
 
     public int getPlayersNumber() {
         return playersNumber;
@@ -306,7 +361,6 @@ public class State implements Serializable, OnUpdateNeededListener {
         this.commonGoal2 = commonGoal2;
         notifyAssignedCommonGoal();
         notifyChangedCommonGoalAvailableScore(commonGoal1.getAvailableScore(), 2);
-
     }
 
     /**
@@ -404,6 +458,15 @@ public class State implements Serializable, OnUpdateNeededListener {
     public void addMessage(ChatMessage message){
         this.messages.add(message);
         notifyMessageSent();
+    }
+
+    public Exception getLastException() {
+        return lastException;
+    }
+
+    public void setLastException(Exception lastException) {
+        this.lastException = lastException;
+        notifyOnExceptionsListener(lastException);
     }
 
     /**
@@ -553,30 +616,6 @@ public class State implements Serializable, OnUpdateNeededListener {
         System.out.println("messages sent");
     }
 
-    public void setOnCurrentPlayerChangedListener(OnCurrentPlayerChangedListener onCurrentPlayerChangedListener) {
-        this.onCurrentPlayerChangedListeners.add(onCurrentPlayerChangedListener);
-    }
-
-    public void removeOnCurrentPlayerChangedListener(OnCurrentPlayerChangedListener onCurrentPlayerChangedListener) {
-        this.onCurrentPlayerChangedListeners.remove(onCurrentPlayerChangedListener);
-    }
-
-    public void setOnAssignedCommonGoalListener(OnAssignedCommonGoalListener onAssignedCommonGoalListener) {
-        this.onAssignedCommonGoalListeners.add(onAssignedCommonGoalListener);
-    }
-
-    public void removeOnAssignedCommonGoalListener(OnAssignedCommonGoalListener onAssignedCommonGoalListener) {
-        this.onAssignedCommonGoalListeners.remove(onAssignedCommonGoalListener);
-    }
-
-    public void setOnAchievedPersonalGoalListener(OnAchievedPersonalGoalListener onAchievedPersonalGoalListener) {
-        onAchievedPersonalGoalListeners.add(onAchievedPersonalGoalListener);
-    }
-
-    public void removeOnAchievedPersonalGoalListener(OnAchievedPersonalGoalListener onAchievedPersonalGoalListener) {
-        onAchievedPersonalGoalListeners.remove(onAchievedPersonalGoalListener);
-    }
-
     public void notifyAssignedCommonGoal() {
         for(OnAssignedCommonGoalListener onAssignedCommonGoalListener : onAssignedCommonGoalListeners) {
             if(this.getCommonGoal1() != null) {
@@ -595,26 +634,10 @@ public class State implements Serializable, OnUpdateNeededListener {
         }
     }
 
-    public void setOnChangedCommonGoalAvailableScoreListener(OnChangedCommonGoalAvailableScoreListener listener) {
-        this.onChangedCommonGoalAvailableScoreListenerListeners.add(listener);
-    }
-
-    public void removeOnChangedCommonGoalAvailableScoreListener(OnChangedCommonGoalAvailableScoreListener listener) {
-        this.onChangedCommonGoalAvailableScoreListenerListeners.remove(listener);
-    }
-
     public void notifyChangedCommonGoalAvailableScore(int newScore, int numberOfCommonGoal){
         for(OnChangedCommonGoalAvailableScoreListener listener: onChangedCommonGoalAvailableScoreListenerListeners){
             listener.onChangedCommonGoalAvailableScore(newScore, numberOfCommonGoal);
         }
-    }
-
-    public void setOnExceptionsListener(OnExceptionsListener listener){
-        exceptionsListeners.add(listener);
-    }
-
-    public void removeOnExceptionsListener(OnExceptionsListener listener){
-        exceptionsListeners.remove(listener);
     }
 
     private void notifyOnExceptionsListener(Exception e){
@@ -623,27 +646,10 @@ public class State implements Serializable, OnUpdateNeededListener {
         }
     }
 
-    public void setOnWinnerChangedListener(OnWinnerChangedListener onWinnerChangedListener) {
-        this.onWinnerChangedListeners.add(onWinnerChangedListener);
-    }
-    public void removeOnWinnerChangedListener(OnWinnerChangedListener onWinnerChangedListener) {
-        this.onWinnerChangedListeners.remove(onWinnerChangedListener);
-    }
-
     public void notifyOnWinnerChanged() {
         for(OnWinnerChangedListener onWinnerChangedListener : onWinnerChangedListeners) {
             onWinnerChangedListener.onWinnerChanged(getWinner().getNickName());
         }
-    }
-
-
-    public Exception getLastException() {
-        return lastException;
-    }
-
-    public void setLastException(Exception lastException) {
-        this.lastException = lastException;
-        notifyOnExceptionsListener(lastException);
     }
 
     private void notifyOnPlayersListChanged() {
@@ -652,16 +658,9 @@ public class State implements Serializable, OnUpdateNeededListener {
             System.out.println("players list notified");
         }
     }
-    public void setOnPlayersListChangedListener(OnPlayersListChangedListener onPlayersListChangedListener) {
-        this.onPlayersListChangedListeners.add(onPlayersListChangedListener);
-    }
-    public void removeOnPlayersListChangedListener(OnWinnerChangedListener onWinnerChangedListener) {
-        this.onWinnerChangedListeners.remove(onWinnerChangedListener);
-    }
 
     @Override
     public void onUpdateNeededListener(Player player) {
-
         notifyOnPlayersListChanged();
         //onPlayersListChangedListeners
                         //.forEach(v -> v.onPlayersListChanged(players.stream().map(Player::getNickName).toList()));
