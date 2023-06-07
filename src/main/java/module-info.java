@@ -34,6 +34,9 @@ module it.polimi.ingsw {
     exports it.polimi.ingsw.view.gui.connectioninterface to  javafx.fxml, javafx.graphics;
     opens it.polimi.ingsw.view.gui.connectioninterface to javafx.fxml, javafx.graphics;
 
+    exports it.polimi.ingsw.view.gui.maininterface to javafx.fxml, javafx.graphics;
+    opens it.polimi.ingsw.view.gui.maininterface to javafx.fxml, javafx.graphics;
+
     exports it.polimi.ingsw.net to java.rmi;
     exports it.polimi.ingsw.controller.rmiInterfaces to java.rmi;
     exports it.polimi.ingsw.controller to java.rmi;
@@ -52,4 +55,8 @@ module it.polimi.ingsw {
     opens it.polimi.ingsw.net;
 
     opens it.polimi.ingsw.utils;
+    exports it.polimi.ingsw.view.gui.customcomponents to javafx.fxml, javafx.graphics;
+    opens it.polimi.ingsw.view.gui.customcomponents to javafx.fxml, javafx.graphics;
+    exports it.polimi.ingsw.view.gui.customcomponents.tileview to javafx.fxml, javafx.graphics;
+    opens it.polimi.ingsw.view.gui.customcomponents.tileview to javafx.fxml, javafx.graphics;
 }

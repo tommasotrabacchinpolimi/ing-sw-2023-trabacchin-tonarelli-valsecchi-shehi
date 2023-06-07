@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.gui;
+package it.polimi.ingsw.view.gui.customcomponents.tileview;
 
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;

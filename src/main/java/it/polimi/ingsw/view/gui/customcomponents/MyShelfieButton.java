@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.gui;
+package it.polimi.ingsw.view.gui.customcomponents;
 
 import javafx.beans.NamedArg;
 import javafx.scene.control.Button;

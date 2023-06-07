@@ -6,7 +6,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.shape.Rectangle?>
 <?import java.lang.Double?>
-<?import it.polimi.ingsw.view.gui.MyShelfieButton?>
+<?import it.polimi.ingsw.view.gui.customcomponents.MyShelfieButton?>
 <AnchorPane fx:id="loginRootPane" cache="true" stylesheets="@LoginPage.css"
             xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="it.polimi.ingsw.view.gui.loginpage.LoginPageController" onMouseClicked="#setAllNonFocused">

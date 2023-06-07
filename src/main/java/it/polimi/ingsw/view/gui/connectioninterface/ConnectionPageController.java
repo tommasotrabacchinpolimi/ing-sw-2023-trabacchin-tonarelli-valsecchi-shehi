@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.gui.connectioninterface;
 
 import it.polimi.ingsw.view.gui.*;
+import it.polimi.ingsw.view.gui.customcomponents.MyShelfieButton;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
@@ -18,7 +19,7 @@ import java.net.URL;
 import java.rmi.NotBoundException;
 import java.util.ResourceBundle;
 
-import static it.polimi.ingsw.view.gui.MyShelfieAlertCreator.*;
+import static it.polimi.ingsw.view.gui.customcomponents.MyShelfieAlertCreator.*;
 
 public class ConnectionPageController extends MyShelfieController {
 

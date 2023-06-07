@@ -1,5 +1,6 @@
-package it.polimi.ingsw.view.gui;
+package it.polimi.ingsw.view.gui.customcomponents;
 
+import it.polimi.ingsw.view.gui.MyShelfieController;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.Pane;

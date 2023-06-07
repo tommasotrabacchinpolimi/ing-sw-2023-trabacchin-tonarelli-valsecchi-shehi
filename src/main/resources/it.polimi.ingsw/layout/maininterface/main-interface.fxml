@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="mainRootPane" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            stylesheets="@MainInterface.css"
+            fx:controller="it.polimi.ingsw.view.gui.maininterface.MainInterfaceController">
+
+    <ScrollPane fx:id="mainScrollPane" pannable="true" hbarPolicy="NEVER" vbarPolicy="ALWAYS"
+                AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                AnchorPane.topAnchor="0.0" fitToWidth="true">
+        <VBox fx:id="scrollContentBox" alignment="CENTER">
+            <!--<fx:include fx:id="gameInterface" source="my-shelfie-game-interface.fxml"/>-->
+        </VBox>
+    </ScrollPane>
+
+</AnchorPane>

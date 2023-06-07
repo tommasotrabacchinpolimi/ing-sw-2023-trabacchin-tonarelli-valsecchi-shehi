@@ -2,7 +2,7 @@ package it.polimi.ingsw.view.gui.board;
 
 import it.polimi.ingsw.utils.Coordinate;
 import it.polimi.ingsw.view.gui.MyShelfieController;
-import it.polimi.ingsw.view.gui.TileSubjectView;
+import it.polimi.ingsw.view.gui.customcomponents.tileview.TileSubjectView;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;

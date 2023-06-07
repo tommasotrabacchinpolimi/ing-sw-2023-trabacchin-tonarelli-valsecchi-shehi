@@ -1,7 +1,7 @@
 package it.polimi.ingsw.view.gui.loginpage;
 
 import it.polimi.ingsw.view.gui.MyShelfieApplication;
-import it.polimi.ingsw.view.gui.MyShelfieButton;
+import it.polimi.ingsw.view.gui.customcomponents.MyShelfieButton;
 import it.polimi.ingsw.view.gui.MyShelfieController;
 import javafx.animation.FadeTransition;
 import javafx.css.PseudoClass;
@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import static it.polimi.ingsw.view.gui.MyShelfieAlertCreator.displayErrorAlert;
+import static it.polimi.ingsw.view.gui.customcomponents.MyShelfieAlertCreator.displayErrorAlert;
 import static java.util.Map.entry;
 
 public class LoginPageController extends MyShelfieController {

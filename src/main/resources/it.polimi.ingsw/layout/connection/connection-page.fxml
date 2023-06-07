@@ -8,7 +8,7 @@
 
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.collections.FXCollections?>
-<?import it.polimi.ingsw.view.gui.MyShelfieButton?>
+<?import it.polimi.ingsw.view.gui.customcomponents.MyShelfieButton?>
 <StackPane fx:id="connectionRootPane" xmlns="http://javafx.com/javafx"
            xmlns:fx="http://javafx.com/fxml"
            fx:controller="it.polimi.ingsw.view.gui.connectioninterface.ConnectionPageController"
