@@ -36,10 +36,21 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
      */
     private int numberOfColumns;
 
+    /**
+     * Constructor that class the constructor of superclass {@link CommonGoal}.
+     * @see CommonGoal#CommonGoal()
+     */
     public StairCommonGoal() {
         super();
     }
 
+    /**
+     * Constructor that sets the fields of the class to the parameter passed
+     * @param numberOfColumns Number of columns that forms the staircase
+     *
+     * @see StairCommonGoal#numberOfColumns
+     * @see CommonGoal#CommonGoal(String) CommonGoal(String description)
+     */
     public StairCommonGoal(int numberOfColumns) {
         super();
         this.numberOfColumns = numberOfColumns;
@@ -58,6 +69,15 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
         this.numberOfColumns = numberOfColumns;
     }
 
+    /**
+     * Constructor that sets the fields of the class to the parameter passed
+     * @param numberOfColumns Number of columns that forms the staircase
+     * @param description Textual description of the goal.
+     * @param scoringTokens Scoring tokens stack.
+     *
+     * @see StairCommonGoal#numberOfColumns
+     * @see CommonGoal#CommonGoal(String) CommonGoal(String description)
+     */
     public StairCommonGoal(Stack<Integer> scoringTokens, String description, int numberOfColumns) {
         super(scoringTokens, description);
         this.numberOfColumns = numberOfColumns;
@@ -241,6 +261,18 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
         return startIndexColumn + numberOfColumns <= numColumns || startIndexColumn - numberOfColumns + 1 >= 0;
     }
 
+    /**
+     * Overriding toString() default method.
+     * @return a {@link String} representing the {@link StairCommonGoal}.
+     * @apiNote Resulting String will be displayed on different lines as follows:
+     * <code>
+     *     StairCommonGoal{
+     *              Scoring Tokens:
+     *              Description:
+     *              Number of Columns:
+     *           }
+     * </code>
+     */
     @Override
     public String toString() {
         return "StairCommonGoal{" +

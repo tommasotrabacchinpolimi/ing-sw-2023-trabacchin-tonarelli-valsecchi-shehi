@@ -124,11 +124,10 @@ public class EntryPatternGoal implements Serializable {
 
     /**
      * Overriding toString() default method.
-     * {@inheritDoc}
      *
      * @return {@link String} that represent the {@link EntryPatternGoal} class
      *
-     * @apiNote Resulting String will be displayed on a single line with as follows:
+     * @apiNote Resulting String will be displayed on a single line as follows:
      * <code>{column, row, tileType}</code>
      */
     @Override
@@ -158,7 +157,6 @@ public class EntryPatternGoal implements Serializable {
 
     /**
      * This method checks if the {@code object} passed as parameter is equals to the instance that is calling the method
-     * {@inheritDoc}
      *
      * @param object the Object to be compared with the {@link EntryPatternGoal} instance
      * @return {@code true} if:

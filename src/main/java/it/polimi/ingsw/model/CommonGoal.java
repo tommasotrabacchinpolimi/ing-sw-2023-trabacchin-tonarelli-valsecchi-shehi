@@ -97,6 +97,10 @@ public abstract class CommonGoal implements Serializable {
         return scoringTokens;
     }
 
+    /**
+     * Method that look at the available score of the {@link CommonGoal} without changing it.
+     * @return the available score of the {@link CommonGoal}.
+     */
     public int getAvailableScore() {
         if(scoringTokens.size()==0)
             return 0;
@@ -105,6 +109,10 @@ public abstract class CommonGoal implements Serializable {
         }
     }
 
+    /**
+     * Removes the value at the top of the {@link #scoringTokens} stack and returns that value as the value of this function.
+     * @return the previous value at the top of the {@link #scoringTokens} stack.
+     */
     public int removeAvailableScore() {
         if(scoringTokens.size()==0)
             return 0;
@@ -132,6 +140,17 @@ public abstract class CommonGoal implements Serializable {
      */
     public abstract List<EntryPatternGoal> rule(TileType[][] bookShelf);
 
+    /**
+     * Overriding toString() default method.
+     * @return a {@link String} representing the {@link CommonGoal}.
+     * @apiNote Resulting String will be displayed on different lines as follows:
+     *     {@code
+     *          LineCommonGoal{
+     *               Scoring Tokens:
+     *               Description:
+     *          }
+     *      }
+     */
     @Override
     public String toString() {
         StringBuilder res = new StringBuilder("\tScoring Tokens: ");

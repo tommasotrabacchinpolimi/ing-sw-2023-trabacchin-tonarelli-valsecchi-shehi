@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
+ * Class that represents the points achieved by a player.
  * @author Tommaso Trabacchin
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
@@ -21,6 +22,9 @@ import java.util.Objects;
 public class PointPlayer implements Serializable, OnUpdateNeededListener {
     @Serial
     private static final long serialVersionUID = 973546426438574L;
+    /**
+     * Number of points
+     */
     private int scoreCommonGoal1;
     private int scoreCommonGoal2;
     private int scoreEndGame;
@@ -83,8 +87,12 @@ public class PointPlayer implements Serializable, OnUpdateNeededListener {
         notifyOnPointUpdated();
     }
 
+    /**
+     * Method that return the total points granted to the player.
+     * @return the total point of the player.
+     */
     public Integer getTotalScore(){
-        return Integer.valueOf(scoreAdjacentGoal + scoreEndGame + scorePersonalGoal + scoreCommonGoal1 + scoreCommonGoal2);
+        return scoreAdjacentGoal + scoreEndGame + scorePersonalGoal + scoreCommonGoal1 + scoreCommonGoal2;
     }
 
     public Player getPlayer() {
@@ -109,6 +117,12 @@ public class PointPlayer implements Serializable, OnUpdateNeededListener {
         onPointsUpdatedListeners.remove(onPointsUpdatedListener);
     }
 
+    /**
+     * Overriding equals() default method.
+     * This method checks if the {@code object} passed as parameter is equals to the instance that is calling the method
+     * @param o the reference object with which to compare
+     * @return {@code true} if and only if this object is the same as the object argument; {@code false} otherwise.
+     */
     @Override
     public boolean equals(Object o) {
         if(this == o)
@@ -127,6 +141,10 @@ public class PointPlayer implements Serializable, OnUpdateNeededListener {
                 Objects.equals(onPointsUpdatedListeners, that.onPointsUpdatedListeners) && Objects.equals(player, that.player);
     }
 
+    /**
+     * Overriding hashCode() default method.
+     * @return a hash code value for this object.
+     */
     @Override
     public int hashCode() {
         return Objects.hash(scoreCommonGoal1, scoreCommonGoal2, scoreEndGame, scorePersonalGoal, scoreAdjacentGoal, onPointsUpdatedListeners, player);

@@ -6,6 +6,24 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
 
+
+/**
+ * ShapeCommonGoal is a class that represents a generic {@link CommonGoal CommonGoal} which is satisfied if the
+ * {@link BookShelf BookShelf} contains a particular shape of the same tile type. TODO
+ *
+ *  @apiNote Valid combination of the parameters values are the following : .... TO DO
+ *
+ *  @see CommonGoal
+ *  @see BookShelf
+ *  @see EntryPatternGoal
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ * @version 2.0
+ * @since 03/04/2023
+ */
 public class ShapeCommonGoal extends CommonGoal implements Serializable {
     @Serial
     @ExcludedFromJSON
@@ -21,31 +39,47 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
       */
     private List<Integer[]> ruleShape;
 
+    /**
+     * Constructor that calls the constructor of superclass {@link CommonGoal}.
+     * @see CommonGoal#CommonGoal()
+     */
     public ShapeCommonGoal() {
         super();
     }
 
+    /**
+     * Constructor that sets the fields of the class to the parameter passed.
+     * @param ruleShape the list of arrays that permit to implement the function rule.
+     * @see CommonGoal#CommonGoal()
+     */
     public ShapeCommonGoal(List<Integer[]> ruleShape) {
         super();
         this.ruleShape = ruleShape;
     }
 
     /**
-     *
-     * @param ruleShape It is the list of arrays that permit to implement the function rule.
+     * Constructor that sets the fields of the class to the parameter passed.
+     * @param description Textual description of the goal.
+     * @param ruleShape the list of arrays that permit to implement the function rule.
      */
     public ShapeCommonGoal(String description, List<Integer[]> ruleShape) {
         super(description);
         this.ruleShape = ruleShape;
     }
 
+    /**
+     * Constructor that sets the fields of the class to the parameter passed.
+     * @param description Textual description of the goal.
+     * @param ruleShape the list of arrays that permit to implement the function rule.
+     * @param scoringTokens Scoring tokens stack.
+     */
     public ShapeCommonGoal(Stack<Integer> scoringTokens, String description, List<Integer[]> ruleShape) {
         super(scoringTokens, description);
         this.ruleShape = ruleShape;
     }
 
     /**
-     *
+     * Method that return the {@link #ruleShape} list.
      * @return the list of arrays that contains the offsets that permit to implement
      * for more detailed explanation.
      * For more click here: [{@link ShapeCommonGoal#ruleShape incrementRuleShape}]
@@ -56,8 +90,8 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
     }
 
     /**
-     *
-     * @param ruleShape needed to set the value of [{@link ShapeCommonGoal#ruleShape incrementRuleshape}]
+     * Method that sets the {@link #ruleShape} list.
+     * @param ruleShape list of integer that needs to set the value of [{@link ShapeCommonGoal#ruleShape incrementRuleshape}]
      */
     public void setRuleShape(List<Integer[]> ruleShape) {
         this.ruleShape = ruleShape;
@@ -129,7 +163,7 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
      *                     for tails.
      * @param indexColumn  It is the index of column of the current element being verified
      * @param indexRow     It is the index of row of the current element being verified
-     * @return If an element with indexes (i,j), added to the correspective array of the list incrementRuleShape
+     * @return If an element with indexes (i,j), added to the corresponding array of the list incrementRuleShape
      * @see #ruleShape
      *
      */
@@ -149,7 +183,7 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
      * @param bookShelf It is the same bookShelf being passed as parameter to the rule method
      * @return If around the exact shape needed to be done there is another tail of the same type.
      * @apiNote It is very important to verify that because for example a diagonal of 6 elements does not
-     *          score commongoal.
+     *          score common goal.
      */
     private boolean verifySurrounding(List<EntryPatternGoal> candidate, TileType[][] bookShelf){
         for(EntryPatternGoal e : candidate) {
@@ -198,17 +232,18 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
         return ((row >= 0 &&  row < maxHeight) && (column >= 0  && column < maxWidth));
     }
 
-    /*private boolean verifyTileType(TileType[][] bookshelf, List<Integer[]> list) {
-        boolean result = true;
-        TileType type = bookshelf[0][0];
-        for (int i=1; i<list.size(); i++)
-        {
-            if(!(type.equals(bookshelf[list.get(i)[0]][list.get(i)[1]])));
-            //ho una lista di posizioni.
-        }
-        return false;
-    }*/
-
+    /**
+     * Overriding toString() default method.
+     * @return a {@link String} representing the {@link ShapeCommonGoal}.
+     * @apiNote Resulting String will be displayed on different lines as follows:
+     * <code>
+     *     ShapeCommonGoal{
+     *              Scoring Tokens:
+     *              Description:
+     *              Rule Shape:
+     *           }
+     * </code>
+     */
     @Override
     public String toString() {
         StringBuilder res = new StringBuilder();
