@@ -36,15 +36,27 @@ public class Player implements Serializable, OnUpdateNeededListener {
      */
     private final String nickName;
 
+    /**
+     * Object that represent the {@link PersonalGoal personal goal} associated exclusively to the player.
+     */
     @ExcludedFromJSON
     private PersonalGoal personalGoal;
 
+    /**
+     * Object that represent the {@link BookShelf bookshelf} associated exclusively to the player.
+     */
     @ExcludedFromJSON
     private BookShelf bookShelf;
 
+    /**
+     * Object that represent the {@link PointPlayer  player's points}..
+     */
     @ExcludedFromJSON
     private PointPlayer pointPlayer;
 
+    /**
+     * Object that represent the {@link PlayerState state} of the player.
+     */
     @ExcludedFromJSON
     private PlayerState playerState;
 
@@ -60,6 +72,11 @@ public class Player implements Serializable, OnUpdateNeededListener {
     @ExcludedFromJSON
     private final List<OnUpdateNeededListener> onUpdateNeededListeners;
 
+    /**
+     * Constructor that sets the fields of the class to the parameter passed.
+     * @param nickName A {@link String} representing the nickname of the player.
+     * @param virtualView
+     */
     public Player(String nickName, ClientInterface virtualView) {
         this.nickName = nickName;
         this.personalGoal = null;
@@ -72,6 +89,10 @@ public class Player implements Serializable, OnUpdateNeededListener {
         onUpdateNeededListeners = new LinkedList<>();
     }
 
+    /**
+     * Constructor that sets the fields of the class to the parameter passed.
+     * @param nickName A {@link String} representing the nickname of the player.
+     */
     public Player(String nickName) {
         this.nickName = nickName;
         this.personalGoal = null;
@@ -101,10 +122,20 @@ public class Player implements Serializable, OnUpdateNeededListener {
         onUpdateNeededListeners = new LinkedList<>();
     }
 
+    /**
+     * Method that return the player's {@link #playerState state} associated with the player.
+     * @return the {@link #playerState state} associated to the player.
+     *
+     * @see PlayerState
+     */
     public PlayerState getPlayerState() {
         return playerState;
     }
 
+    /**
+     * Method that sets the player's {@link #playerState}.
+     * @param playerState the {@link PlayerState} that need to be set to {@link #playerState}.
+     */
     public void setPlayerState(PlayerState playerState) {
         PlayerState oldPlayerState = this.playerState;
         this.playerState = playerState;
@@ -122,22 +153,45 @@ public class Player implements Serializable, OnUpdateNeededListener {
         this.virtualView = virtualView;
     }
 
+    /**
+     * Method that return the {@link BookShelf} associated to the player.
+     * @return the player's {@link #bookShelf bookshelf}.
+     */
     public BookShelf getBookShelf() {
         return bookShelf;
     }
 
+    /**
+     * Method that sets the {@link #bookShelf bookshelf} associated to the player.
+     * @param bookShelf  the {@link BookShelf} that need to be set to the player..
+     */
     public void setBookShelf(BookShelf bookShelf) {
         this.bookShelf = bookShelf;
     }
 
+    /**
+     * Method that sets the {@code endGameScore} value to the attribute {@code scoreEndGame} in the player's {@link #pointPlayer}.
+     * @param endGameScore the value that need to be set to the {@code scoreEndGame} attribute in player's {@link #pointPlayer}.
+     * @see PointPlayer
+     */
     public void assignScoreEndGame(int endGameScore) {
         this.pointPlayer.setScoreEndGame(endGameScore);
     }
 
+    /**
+     * Method that returns the player's {@link #pointPlayer}.
+     * @return the {@link PointPlayer} associated to the player.
+     *
+     * @see {@link PointPlayer}
+     */
     public PointPlayer getPointPlayer() {
         return pointPlayer;
     }
 
+    /**
+     * Method that sets the player's {@link #pointPlayer}
+     * @param pointPlayer the {@link PointPlayer} that needs to be set to the player.
+     */
     public void setPointPlayer(PointPlayer pointPlayer) {
         this.pointPlayer = pointPlayer;
     }
@@ -160,14 +214,20 @@ public class Player implements Serializable, OnUpdateNeededListener {
         return personalGoal;
     }
 
+    /**
+     * Method that sets the {@link PersonalGoal} of the player.
+     * @param personalGoal the {@link PersonalGoal} that needs to be set to the player.
+     */
     public void setPersonalGoal(PersonalGoal personalGoal) {
         this.personalGoal = personalGoal;
         notifyOnAssignedPersonalGoal();
     }
 
     /**
-     * Method that returns a {@link String} representing the object {@link Player}.
+     * Overriding toString() default method.
      * @return A {@link String} representing the object {@link Player}.
+     * @apiNote Resulting String will be displayed only on a lines as follows:
+     * {@code Player{nickname= }}
      */
     @Override
     public String toString() {
@@ -226,6 +286,11 @@ public class Player implements Serializable, OnUpdateNeededListener {
         onUpdateNeededListeners.remove(onUpdateNeededListener);
     }
 
+    /**
+     * Overriding equals() default method.
+     * @param o the reference object with which to compare
+     * @return {@code true} if and only if this object is the same as the object argument; {@code false} otherwise.
+     */
     @Override
     public boolean equals(Object o) {
         if(this == o)
@@ -246,6 +311,10 @@ public class Player implements Serializable, OnUpdateNeededListener {
                 Objects.equals(onAssignedPersonalGoalListeners, thatPlayer.onAssignedPersonalGoalListeners);
     }
 
+    /**
+     * Overriding hashCode() default method.
+     * @return a hash code value for this object.
+     */
     @Override
     public int hashCode() {
         return Objects.hash(nickName, personalGoal, bookShelf, pointPlayer, playerState, virtualView, onPlayerStateChangedListeners, onAssignedPersonalGoalListeners);

@@ -77,6 +77,29 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
      */
     private int[] differentTiles;
 
+    /**
+     * Constructor that calls the constructor of superclass {@link CommonGoal}.
+     * @see CommonGoal#CommonGoal()
+     */
+    public LineCommonGoal(){
+        super();
+    }
+
+    /**
+     * Used to create the LineCommonGoal.
+     * @param incRow         Increment of row, that is set to 1 if and only if the lines that have to satisfy the condition are rows of a matrix.
+     * @param incCol         Increment of column, that is set to 1 if and only if the lines that have to satisfy the condition are columns of a matrix.
+     * @param linesNumber    The number of lines that needs to satisfy the condition.
+     * @param numberOfTiles  The minimum number of tiles that must be found in the lines.
+     * @param differentTiles The array that contains the number of different {@link TileType} that each lines needs to have.
+     *
+     * @apiNote The array differentTiles is sorted automatically and doesn't have duplicate elements.
+     * @see LineCommonGoal#incRow
+     * @see LineCommonGoal#incCol
+     * @see LineCommonGoal#linesNumber
+     * @see LineCommonGoal#numberOfTiles
+     * @see LineCommonGoal#differentTiles
+     */
     public LineCommonGoal(int incRow, int incCol, int linesNumber, int numberOfTiles, int[] differentTiles) {
         super();
         this.incRow = incRow;
@@ -87,7 +110,7 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
     }
 
     /**
-     * Used to create the SquareCommonGoal.
+     * Used to create the LineCommonGoal.
      * @param incRow         Increment of row, that is set to 1 if and only if the lines that have to satisfy the condition are rows of a matrix.
      * @param incCol         Increment of column, that is set to 1 if and only if the lines that have to satisfy the condition are columns of a matrix.
      * @param linesNumber    The number of lines that needs to satisfy the condition.
@@ -111,6 +134,23 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
         this.differentTiles = removeDuplicateAndSort(differentTiles);
     }
 
+    /**
+     * Used to create the LineCommonGoal.
+     * @param scoringTokens  Scoring tokens stack
+     * @param incRow         Increment of row, that is set to 1 if and only if the lines that have to satisfy the condition are rows of a matrix.
+     * @param incCol         Increment of column, that is set to 1 if and only if the lines that have to satisfy the condition are columns of a matrix.
+     * @param linesNumber    The number of lines that needs to satisfy the condition.
+     * @param numberOfTiles  The minimum number of tiles that must be found in the lines.
+     * @param differentTiles The array that contains the number of different {@link TileType} that each lines needs to have.
+     * @param description    The textual description of the goal.
+     *
+     * @apiNote The array differentTiles is sorted automatically and doesn't have duplicate elements.
+     * @see LineCommonGoal#incRow
+     * @see LineCommonGoal#incCol
+     * @see LineCommonGoal#linesNumber
+     * @see LineCommonGoal#numberOfTiles
+     * @see LineCommonGoal#differentTiles
+     */
     public LineCommonGoal(Stack<Integer> scoringTokens, String description, int incRow, int incCol, int linesNumber, int numberOfTiles, int[] differentTiles) {
         super(scoringTokens, description);
         this.incRow = incRow;
@@ -338,6 +378,23 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
                 .toArray();
     }
 
+    /**
+     * Overriding toString() default method.
+     * {@inheritDoc}
+     * @return a {@link String} representing the {@link LineCommonGoal}.
+     * @apiNote Resulting String will be displayed on different lines as follows:
+     * <code>
+     *     LineCommonGoal{
+     *         Scoring Tokens:
+     *         Description:
+     *         Increment Row:
+     *         Increment Column:
+     *         Lines Number:
+     *         Number of Tiles:
+     *         Different Tiles:
+     *     }
+     * </code>
+     */
     @Override
     public String toString() {
         return "LineCommonGoal{" +

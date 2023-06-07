@@ -58,6 +58,7 @@ public class State implements Serializable, OnUpdateNeededListener {
      */
     @ExcludedFromJSON
     private CommonGoal commonGoal1, commonGoal2;
+
     /**
      * List of {@link Player players} sorted from first logged in to last logged in.
      *
@@ -70,6 +71,7 @@ public class State implements Serializable, OnUpdateNeededListener {
      */
     @ExcludedFromJSON
     private List<Player> players;
+
     /**
      * The {@link Player} who will play in the current round of the Game.
      *
@@ -79,9 +81,15 @@ public class State implements Serializable, OnUpdateNeededListener {
     @ExcludedFromJSON
     private Player currentPlayer;
 
+    /**
+     * The number of player selected by the player that created the game.
+     */
     @ExcludedFromJSON
     private int playersNumber;
 
+    /**
+     * The {@link Player} that wins the game, which is the player with the highest score at the end of the game.
+     */
     @ExcludedFromJSON
     private Player winner;
 
@@ -94,9 +102,15 @@ public class State implements Serializable, OnUpdateNeededListener {
      */
     private transient List<ChatMessage> messages;
 
+    /**
+     * The {@link Player} that will play the last round in the game; after his turn, the game will end.
+     */
     @ExcludedFromJSON
     private Player lastPlayer;
 
+    /**
+     * The most recent {@link Exception} thrown during the game.
+     */
     private Exception lastException;
 
     @ExcludedFromJSON
@@ -261,19 +275,37 @@ public class State implements Serializable, OnUpdateNeededListener {
         this.onWinnerChangedListeners.remove(onWinnerChangedListener);
     }
 
+    /**
+     * Method that gets the {@link #lastPlayer}.
+     * @return the {@link Player} set as {@link #lastPlayer} in the game.
+     */
     public Player getLastPlayer() {
         return lastPlayer;
     }
 
+    /**
+     * Method that sets the {@link #lastPlayer}.
+     * param lastPlayer the {@link Player} that needs to be set as {@link #lastPlayer} in the game.
+     */
     public void setLastPlayer(Player lastPlayer) {
         this.lastPlayer = lastPlayer;
         notifyLastPlayerUpdated();
     }
 
+    /**
+     * Method that gets the {@link #gameState state} of the game.
+     * @return the {@link GameState} associated to this game.
+     * @see GameState
+     */
     public GameState getGameState() {
         return gameState;
     }
 
+    /**
+     * Method that sets the {@link #gameState} of the game.
+     * @param gameState the {@link GameState} that needs to be set to the game.
+     * @see GameState
+     */
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
         notifyStateChanged();
@@ -282,19 +314,35 @@ public class State implements Serializable, OnUpdateNeededListener {
         }
     }
 
+    /**
+     * Method that gets the {@link #winner} of the game
+     * @param winner the {@link Player} that has won the game.
+     */
     public void setWinner(Player winner) {
         this.winner = winner;
         notifyOnWinnerChanged();
     }
 
+    /**
+     * Method that sets the {@link #winner} of the game
+     * @return the {@link Player} that has won the game.
+     */
     public Player getWinner() {
         return winner;
     }
 
+    /**
+     * Method that gets the {@link #playersNumber}.
+     * @return the value of {@link #playersNumber}.
+     */
     public int getPlayersNumber() {
         return playersNumber;
     }
 
+    /**
+     * Method that sets the {@link #playersNumber}.
+     * @param playersNumber the value of {@link #playersNumber}.
+     */
     public void setPlayersNumber(int playersNumber) {
         this.playersNumber = playersNumber;
     }
@@ -460,10 +508,18 @@ public class State implements Serializable, OnUpdateNeededListener {
         notifyMessageSent();
     }
 
+    /**
+     * Method that gets {@link #lastException}
+     * @return the {@link #lastException} thrown in the game.
+     */
     public Exception getLastException() {
         return lastException;
     }
 
+    /**
+     * Method that sets {@link #lastException}
+     * @param lastException  the {@link #lastException} thrown in the game.
+     */
     public void setLastException(Exception lastException) {
         this.lastException = lastException;
         notifyOnExceptionsListener(lastException);
@@ -486,6 +542,10 @@ public class State implements Serializable, OnUpdateNeededListener {
         return players.stream().filter(player -> user == player.getVirtualView()).toList().get(0);
     }
 
+    /**
+     * Method that checks if the given {@link Player} has achieved the first e/o second {@link CommonGoal} and, if so, will assign the points to the player.
+     * @param player the {@link Player} whose {@link BookShelf} is being tested in case of achievement of one or both common goals.
+     */
     public void checkCommonGoal(Player player){
        List<EntryPatternGoal> result = new ArrayList<>();
         int newScore;
@@ -511,6 +571,10 @@ public class State implements Serializable, OnUpdateNeededListener {
        }
     }
 
+    /**
+     * Method that checks if the given {@link Player} has achieved his {@link PersonalGoal} and, if so, will assign the points to the player.
+     * @param player the {@link Player} whose {@link BookShelf} is being tested in case of achievement of his personal goal.
+     */
     public void checkPersonalGoal(Player player) {
         PersonalGoal personalGoal = player.getPersonalGoal();
         BookShelf bookShelf = player.getBookShelf();
@@ -530,6 +594,10 @@ public class State implements Serializable, OnUpdateNeededListener {
         }
     }
 
+    /**
+     * Method that checks if the given {@link Player} has groups of adjacent item tiles of the same type on his bookshelf and, if so, will assign the points to the player.
+     * @param player the {@link Player} whose {@link BookShelf} is being tested in case of groups of adjacent item tiles of the same type.
+     */
     public void checkAdjacentTiles(Player player) {
         int scoreAdjacentGoal = 0;
         BookShelf bookShelf = player.getBookShelf();
@@ -553,6 +621,11 @@ public class State implements Serializable, OnUpdateNeededListener {
         }
     }
 
+    /**
+     * Method that returns the number of points assigned when there is a group of {@code size} adjacent tiles of the same type
+     * @param size number of adjacent tiles of the same type.
+     * @return the points granted depending on how many tiles are connected
+     */
     private int adjacentGroupsScore(int size) {
         if(size >= 6) {
             return 8;
