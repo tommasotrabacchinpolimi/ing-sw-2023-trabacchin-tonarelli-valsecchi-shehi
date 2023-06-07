@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
 public class BoardViewController extends MyShelfieController {
 
     @FXML
-    private StackPane rootPane;
+    private StackPane boardRootPane;
 
     @FXML
     private GridPane livingRoomGridPane;

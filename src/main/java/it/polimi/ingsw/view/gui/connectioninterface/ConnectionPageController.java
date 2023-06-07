@@ -11,7 +11,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -24,25 +23,25 @@ import static it.polimi.ingsw.view.gui.MyShelfieAlertCreator.*;
 public class ConnectionPageController extends MyShelfieController {
 
     @FXML
-    private MyShelfieButton submitButton;
+    private StackPane connectionRootPane;
 
     @FXML
-    private StackPane rootPane;
+    private MyShelfieButton connectionSubmitButton;
 
     @FXML
-    private StackPane backgroundColorHover;
+    private StackPane connectionBackgroundColorHover;
 
     @FXML
-    private StackPane gridStackContainer;
+    private StackPane connectionGridStackContainer;
 
     @FXML
-    private GridPane contentGrid;
+    private GridPane connectionContentGrid;
 
     @FXML
     private Label connectionLabel;
 
     @FXML
-    private ChoiceBox<String> protocolBox;
+    private ChoiceBox<String> connectionProtocolBox;
 
     @FXML
     private String SocketChoice;
@@ -51,16 +50,16 @@ public class ConnectionPageController extends MyShelfieController {
     private String RMIChoice;
 
     @FXML
-    private Label serverLabel;
+    private Label connectionServerLabel;
 
     @FXML
-    private TextField serverAddressField;
+    private TextField connectionServerAddressField;
 
     @FXML
-    private Label portLabel;
+    private Label connectionPortLabel;
 
     @FXML
-    private TextField portNumberField;
+    private TextField connectionPortNumberField;
 
     private String chosenConnection = null;
     private String serverAddress = null;
@@ -88,22 +87,22 @@ public class ConnectionPageController extends MyShelfieController {
     @FXML
     private void submitButtonClicked(MouseEvent mouseEvent) {
         if(chosenConnection == null) {
-            protocolBox.setValue("Missing connection protocol!");
-            protocolBox.pseudoClassStateChanged(errorClass, true);
+            connectionProtocolBox.setValue("Missing connection protocol!");
+            connectionProtocolBox.pseudoClassStateChanged(errorClass, true);
         }
 
-        serverAddress = serverAddressField.getText();
+        serverAddress = connectionServerAddressField.getText();
 
         if(serverAddress == null || serverAddress.equals("")) {
-            serverAddressField.pseudoClassStateChanged(errorClass, true);
-            serverAddressField.setPromptText("Missing Server Address!");
+            connectionServerAddressField.pseudoClassStateChanged(errorClass, true);
+            connectionServerAddressField.setPromptText("Missing Server Address!");
         }
 
-        portNumber = portNumberField.getText();
+        portNumber = connectionPortNumberField.getText();
 
         if(portNumber == null || portNumber.equals("")) {
-            portNumberField.pseudoClassStateChanged(errorClass, true);
-            portNumberField.setPromptText("Missing Port Number!");
+            connectionPortNumberField.pseudoClassStateChanged(errorClass, true);
+            connectionPortNumberField.setPromptText("Missing Port Number!");
         }
 
         if(chosenConnection != null && !serverAddress.equals("") && !portNumber.equals("")) {
@@ -131,45 +130,45 @@ public class ConnectionPageController extends MyShelfieController {
     @FXML
     private void textFieldKeyPressed(@NotNull KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ESCAPE) {
-            rootPane.requestFocus();
+            connectionRootPane.requestFocus();
         }
 
         if (keyEvent.getCode() == KeyCode.ENTER) {
-            if((keyEvent.getSource()).equals(serverAddressField) && portNumberField.getText().isEmpty()) {
-                portNumberField.requestFocus();
+            if((keyEvent.getSource()).equals(connectionServerAddressField) && connectionPortNumberField.getText().isEmpty()) {
+                connectionPortNumberField.requestFocus();
             }
 
-            if((keyEvent.getSource()).equals(portNumber) && serverAddressField.getText().isEmpty()) {
-                serverAddressField.requestFocus();
+            if((keyEvent.getSource()).equals(portNumber) && connectionServerAddressField.getText().isEmpty()) {
+                connectionServerAddressField.requestFocus();
             }
 
-            if(((keyEvent.getSource()).equals(serverAddressField) && !portNumberField.getText().isEmpty()) ||
-                    ((keyEvent.getSource()).equals(portNumber) && !serverAddressField.getText().isEmpty())) {
-                submitButton.requestFocus();
+            if(((keyEvent.getSource()).equals(connectionServerAddressField) && !connectionPortNumberField.getText().isEmpty()) ||
+                    ((keyEvent.getSource()).equals(portNumber) && !connectionServerAddressField.getText().isEmpty())) {
+                connectionSubmitButton.requestFocus();
             }
         }
     }
 
     private void setProtocolBoxPseudoClassState() {
-        protocolBox.getSelectionModel().selectedItemProperty().addListener(
+        connectionProtocolBox.getSelectionModel().selectedItemProperty().addListener(
                 (selected, oldString, newString) -> {
                     chosenConnection = newString;
-                    protocolBox.pseudoClassStateChanged(errorClass, false);
+                    connectionProtocolBox.pseudoClassStateChanged(errorClass, false);
                 }
         );
     }
 
     private void setServerAddressPseudoClassState() {
-        serverAddressField.textProperty().addListener(event -> {
-            serverAddressField.pseudoClassStateChanged(errorClass, serverAddressField.getText().isEmpty());
+        connectionServerAddressField.textProperty().addListener(event -> {
+            connectionServerAddressField.pseudoClassStateChanged(errorClass, connectionServerAddressField.getText().isEmpty());
         });
     }
 
     private void setPortNumberPseudoClassState() {
-        portNumberField.textProperty().addListener(event -> {
-            portNumberField.pseudoClassStateChanged(errorClass, verifyPortNumber());
+        connectionPortNumberField.textProperty().addListener(event -> {
+            connectionPortNumberField.pseudoClassStateChanged(errorClass, verifyPortNumber());
 
-            submitButton.setDisable(verifyPortNumber());
+            connectionSubmitButton.setDisable(verifyPortNumber());
         });
     }
 
@@ -179,15 +178,15 @@ public class ConnectionPageController extends MyShelfieController {
     }
 
     private boolean verifyPortNumber() {
-        return portNumberField.getText().isEmpty() || invalidNumberInput();
+        return connectionPortNumberField.getText().isEmpty() || invalidNumberInput();
     }
 
     private boolean invalidNumberInput() {
-        if(portNumberField.getText().isEmpty())
+        if(connectionPortNumberField.getText().isEmpty())
             return true;
 
         try {
-            Integer.parseInt(portNumberField.getText());
+            Integer.parseInt(connectionPortNumberField.getText());
             return false;
         } catch (NumberFormatException nfe) {
             return true;

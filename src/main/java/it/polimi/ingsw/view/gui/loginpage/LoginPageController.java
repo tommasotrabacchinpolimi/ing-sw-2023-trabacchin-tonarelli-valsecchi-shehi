@@ -4,7 +4,6 @@ import it.polimi.ingsw.view.gui.MyShelfieApplication;
 import it.polimi.ingsw.view.gui.MyShelfieButton;
 import it.polimi.ingsw.view.gui.MyShelfieController;
 import javafx.animation.FadeTransition;
-import javafx.application.Platform;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -20,7 +19,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
@@ -36,43 +34,43 @@ public class LoginPageController extends MyShelfieController {
     private final PseudoClass errorClass = PseudoClass.getPseudoClass("error");
 
     @FXML
-    private AnchorPane rootPane;
+    private AnchorPane loginRootPane;
 
     @FXML
-    private GridPane interfaceGrid;
+    private GridPane loginInterfaceGrid;
 
     @FXML
-    private GridPane infoContainer;
+    private GridPane loginInfoContainer;
 
     @FXML
-    private Label welcomeText;
+    private Label loginWelcomeText;
 
     @FXML
-    private TextField nicknameInput;
+    private TextField loginNicknameInput;
 
     @FXML
-    private StackPane infoBoxContainer;
+    private StackPane loginInfoBoxContainer;
 
     @FXML
-    private Pane myShelfieTitleImageView;
+    private Pane loginTitleImageView;
 
     @FXML
-    private MyShelfieButton joinButton;
+    private MyShelfieButton loginJoinButton;
 
     @FXML
-    private Pane cranioCreationLogo;
+    private Pane loginPublisherLogo;
 
     @FXML
-    private MyShelfieButton createButton;
+    private MyShelfieButton loginCreateButton;
 
     @FXML
-    private MyShelfieButton playerNumberButton;
+    private MyShelfieButton loginPlayerNumberButton;
 
     @FXML
-    private TextField playerNumberInput;
+    private TextField loginPlayerNumberInput;
 
     @FXML
-    private Label playerNumberText;
+    private Label loginPlayerNumberText;
 
     private String nickName;
 
@@ -86,27 +84,27 @@ public class LoginPageController extends MyShelfieController {
 
     @FXML
     private void setAllNonFocused(MouseEvent mouseEvent) {
-        rootPane.requestFocus();
+        loginRootPane.requestFocus();
     }
 
     @FXML
     private void textFieldKeyPressed(@NotNull KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ESCAPE) {
-            interfaceGrid.requestFocus();
+            loginInterfaceGrid.requestFocus();
 
-            if(nicknameInput.isVisible() && !nicknameInput.isDisabled() && nicknameInput.getText().isEmpty())
-                nicknameInput.pseudoClassStateChanged(errorClass, false);
+            if(loginNicknameInput.isVisible() && !loginNicknameInput.isDisabled() && loginNicknameInput.getText().isEmpty())
+                loginNicknameInput.pseudoClassStateChanged(errorClass, false);
 
-            if(playerNumberInput.isVisible() && !playerNumberInput.isDisabled() && playerNumberInput.getText().isEmpty())
-                playerNumberInput.pseudoClassStateChanged(errorClass, false);
+            if(loginPlayerNumberInput.isVisible() && !loginPlayerNumberInput.isDisabled() && loginPlayerNumberInput.getText().isEmpty())
+                loginPlayerNumberInput.pseudoClassStateChanged(errorClass, false);
         }
 
         if (keyEvent.getCode() == KeyCode.ENTER) {
-            if (nicknameInput.isVisible() && !nicknameInput.isDisabled() && !verifyNickname()) {
+            if (loginNicknameInput.isVisible() && !loginNicknameInput.isDisabled() && !verifyNickname()) {
                 displayErrorAlert("Please choose an option between \"Create game\" and \"Join game\"");
             }
 
-            if (playerNumberInput.isVisible() && !playerNumberInput.isDisabled() && !verifyPlayerNumber()) {
+            if (loginPlayerNumberInput.isVisible() && !loginPlayerNumberInput.isDisabled() && !verifyPlayerNumber()) {
                 executePlayerNumberSubmitted();
             }
         }
@@ -151,39 +149,39 @@ public class LoginPageController extends MyShelfieController {
     }
 
     private void getNickNameFromField() {
-        nickName = nicknameInput.getText();
+        nickName = loginNicknameInput.getText();
         clearNicknameInput();
     }
 
     private void getPlayersNumberFromField() {
-        playersNumber = Integer.parseInt(playerNumberInput.getText());
+        playersNumber = Integer.parseInt(loginPlayerNumberInput.getText());
         clearPlayerNumberInput();
     }
 
     private void clearNicknameInput() {
-        nicknameInput.clear();
-        nicknameInput.pseudoClassStateChanged(errorClass, false);
+        loginNicknameInput.clear();
+        loginNicknameInput.pseudoClassStateChanged(errorClass, false);
     }
 
     private void clearPlayerNumberInput() {
-        playerNumberInput.clear();
-        playerNumberInput.pseudoClassStateChanged(errorClass, false);
+        loginPlayerNumberInput.clear();
+        loginPlayerNumberInput.pseudoClassStateChanged(errorClass, false);
     }
 
     private void setNicknameInputState() {
-        nicknameInput.textProperty().addListener(event -> {
-            nicknameInput.pseudoClassStateChanged(errorClass, verifyNickname());
+        loginNicknameInput.textProperty().addListener(event -> {
+            loginNicknameInput.pseudoClassStateChanged(errorClass, verifyNickname());
 
-            joinButton.setDisable(verifyNickname());
-            createButton.setDisable(verifyNickname());
+            loginJoinButton.setDisable(verifyNickname());
+            loginCreateButton.setDisable(verifyNickname());
         });
     }
 
     private void setPlayerNumberInputState() {
-        playerNumberInput.textProperty().addListener(event -> {
-            playerNumberInput.pseudoClassStateChanged(errorClass, verifyPlayerNumber());
+        loginPlayerNumberInput.textProperty().addListener(event -> {
+            loginPlayerNumberInput.pseudoClassStateChanged(errorClass, verifyPlayerNumber());
 
-            setDisableAfterTransition(playerNumberButton, verifyPlayerNumber());
+            setDisableAfterTransition(loginPlayerNumberButton, verifyPlayerNumber());
         });
     }
 
@@ -191,14 +189,14 @@ public class LoginPageController extends MyShelfieController {
      * @return true if the input is not valid
      */
     private boolean verifyNickname() {
-        return nicknameInput.getText().isEmpty();
+        return loginNicknameInput.getText().isEmpty();
     }
 
     /**
      * @return true if the number is not valid
      */
     private boolean verifyPlayerNumber() {
-        return playerNumberInput.getText().isEmpty() ||
+        return loginPlayerNumberInput.getText().isEmpty() ||
                 invalidNumberInput() ||
                 playerNumberInBounds();
     }
@@ -207,11 +205,11 @@ public class LoginPageController extends MyShelfieController {
      * @return false if the string inserted is a valid number
      */
     private boolean invalidNumberInput() {
-        if(playerNumberText.getText().isEmpty())
+        if(loginPlayerNumberText.getText().isEmpty())
             return true;
 
         try {
-            Integer.parseInt(playerNumberInput.getText());
+            Integer.parseInt(loginPlayerNumberInput.getText());
             return false;
         } catch (NumberFormatException nfe) {
             return true;
@@ -223,21 +221,21 @@ public class LoginPageController extends MyShelfieController {
      */
     private boolean playerNumberInBounds() {
         if (!invalidNumberInput())
-            return Integer.parseInt(playerNumberInput.getText()) <= 1 || Integer.parseInt(playerNumberInput.getText()) > 4;
+            return Integer.parseInt(loginPlayerNumberInput.getText()) <= 1 || Integer.parseInt(loginPlayerNumberInput.getText()) > 4;
 
         return false;
     }
 
     private void gameCreationUI() {
-        disappearingElements(List.of(joinButton, createButton, nicknameInput, welcomeText));
+        disappearingElements(List.of(loginJoinButton, loginCreateButton, loginNicknameInput, loginWelcomeText));
 
         showElements(
-                Map.ofEntries(entry(playerNumberInput, 1.0),
-                        entry(playerNumberText, 1.0),
-                        entry(playerNumberButton, 0.5))
+                Map.ofEntries(entry(loginPlayerNumberInput, 1.0),
+                        entry(loginPlayerNumberText, 1.0),
+                        entry(loginPlayerNumberButton, 0.5))
         );
 
-        rootPane.requestFocus();
+        loginRootPane.requestFocus();
     }
 
     private void disappearingElements(List<Node> nodes) {
@@ -276,7 +274,7 @@ public class LoginPageController extends MyShelfieController {
     }
 
     private void displayGameInterface() {
-        Stage primaryStage = ((Stage) rootPane.getScene().getWindow());
+        Stage primaryStage = ((Stage) loginRootPane.getScene().getWindow());
 
         primaryStage.close();
 

@@ -1,4 +1,4 @@
-#rootPane {
+#boardRootPane {
     -fx-padding: 0.3em;
     -fx-background-color: transparent;
 }
@@ -16,12 +16,6 @@
     -fx-vgap: 0.2em;
 }
 
-.item_tile {
+.item_tile_board_box {
     -fx-padding: 2em;
-}
-
-#changeButton {
-    -fx-font-size: 1em;
-    -fx-padding: 0.3em;
-    -fx-text-alignment: center;
 }
