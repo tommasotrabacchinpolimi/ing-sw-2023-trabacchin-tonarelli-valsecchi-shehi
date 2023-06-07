@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.collections.FXCollections?>
 <?import it.polimi.ingsw.view.gui.MyShelfieButton?>
-<StackPane fx:id="rootPane" xmlns="http://javafx.com/javafx"
+<StackPane fx:id="connectionRootPane" xmlns="http://javafx.com/javafx"
            xmlns:fx="http://javafx.com/fxml"
            fx:controller="it.polimi.ingsw.view.gui.connectioninterface.ConnectionPageController"
            stylesheets="@ConnectionPage.css">
@@ -17,15 +17,15 @@
         <Double fx:id="shapeArc" fx:value="17.0"/>
     </fx:define>
 
-    <StackPane fx:id="backgroundColorHover" StackPane.alignment="CENTER">
-        <StackPane fx:id="gridStackContainer" StackPane.alignment="CENTER">
+    <StackPane fx:id="connectionBackgroundColorHover" StackPane.alignment="CENTER">
+        <StackPane fx:id="connectionGridStackContainer" StackPane.alignment="CENTER">
             <shape>
-                <Rectangle width="${gridStackContainer.width}" height="${gridStackContainer.height}"
+                <Rectangle width="${connectionGridStackContainer.width}" height="${connectionGridStackContainer.height}"
                            arcHeight="$shapeArc"
                            arcWidth="$shapeArc"/>
             </shape>
 
-            <GridPane fx:id="contentGrid" alignment="CENTER" StackPane.alignment="CENTER">
+            <GridPane fx:id="connectionContentGrid" alignment="CENTER" StackPane.alignment="CENTER">
                 <fx:define>
                     <Double fx:id="heightPercent" fx:value="100"/>
                     <Double fx:id="infoWidthPercent" fx:value="40"/>
@@ -33,7 +33,7 @@
                 </fx:define>
 
                 <shape>
-                    <Rectangle width="${contentGrid.width}" height="${contentGrid.height}"
+                    <Rectangle width="${connectionContentGrid.width}" height="${connectionContentGrid.height}"
                                arcHeight="$shapeArc" arcWidth="$shapeArc"/>
                 </shape>
 
@@ -52,10 +52,10 @@
                 <Label fx:id="connectionLabel" styleClass="info-text" text="Protocol:"
                        GridPane.halignment="RIGHT" GridPane.valignment="CENTER" wrapText="true"/>
 
-                <ChoiceBox fx:id="protocolBox" value="Choose a connection protocol" GridPane.valignment="CENTER"
+                <ChoiceBox fx:id="connectionProtocolBox" value="Choose a connection protocol" GridPane.valignment="CENTER"
                            GridPane.halignment="LEFT" GridPane.rowIndex="0" GridPane.columnIndex="1">
                     <shape>
-                        <Rectangle height="${protocolBox.height}" width="${protocolBox.width}" arcHeight="$shapeArc"
+                        <Rectangle height="${connectionProtocolBox.height}" width="${connectionProtocolBox.width}" arcHeight="$shapeArc"
                                    arcWidth="$shapeArc"/>
                     </shape>
 
@@ -68,21 +68,21 @@
 
                 </ChoiceBox>
 
-                <Label fx:id="serverLabel" styleClass="info-text" text="Server address:" GridPane.halignment="RIGHT"
+                <Label fx:id="connectionServerLabel" styleClass="info-text" text="Server address:" GridPane.halignment="RIGHT"
                        GridPane.valignment="CENTER" wrapText="true" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
 
-                <TextField fx:id="serverAddressField" styleClass="connection-input" promptText="Insert server address"
+                <TextField fx:id="connectionServerAddressField" styleClass="connection-input" promptText="Insert server address"
                            GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.valignment="CENTER"
                            GridPane.halignment="LEFT" onKeyPressed="#textFieldKeyPressed"/>
 
-                <Label fx:id="portLabel" styleClass="info-text" text="Port number:" GridPane.halignment="RIGHT"
+                <Label fx:id="connectionPortLabel" styleClass="info-text" text="Port number:" GridPane.halignment="RIGHT"
                        GridPane.valignment="CENTER" wrapText="true" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
 
-                <TextField fx:id="portNumberField" styleClass="connection-input" promptText="Insert port number"
+                <TextField fx:id="connectionPortNumberField" styleClass="connection-input" promptText="Insert port number"
                            GridPane.rowIndex="2" GridPane.columnIndex="1" GridPane.valignment="CENTER"
                            GridPane.halignment="LEFT" onKeyPressed="#textFieldKeyPressed"/>
 
-                <MyShelfieButton fx:id="submitButton" text="Submit" GridPane.rowIndex="3" GridPane.columnIndex="0"
+                <MyShelfieButton fx:id="connectionSubmitButton" text="Submit" GridPane.rowIndex="3" GridPane.columnIndex="0"
                                  GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER"
                                  cache="true" wrapText="true" onMouseClicked="#submitButtonClicked" onKeyPressed="#connectionSubmitted"/>
             </GridPane>

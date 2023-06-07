@@ -12,18 +12,18 @@
     -fx-background-position: center center;
 }
 
-#interfaceGrid{
+#loginInterfaceGrid{
     -fx-background-color: rgba(0, 0, 0, 0.38);
 }
 
-#myShelfieTitleImageView {
+#loginTitleImageView {
     -fx-background-image: url('../../graphical.resources/publisher.material/title_big.png');
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center center;
 }
 
-#infoBoxContainer {
+#loginInfoBoxContainer {
     -fx-background-image: url('../../graphical.resources/misc/page_base_darken.jpg');
     -fx-background-size: contain;
     -fx-background-position: center center;
@@ -31,7 +31,7 @@
     -fx-padding: 0.7em;
 }
 
-#infoContainer {
+#loginInfoContainer {
     -fx-background-image: url('../../graphical.resources/misc/white_paper_texture.png');
     -fx-background-size: contain;
     -fx-background-position: center center;
@@ -76,7 +76,7 @@
     -fx-text-fill: rgba(95, 35, 41, 1);
 }
 
-#cranioCreationLogo {
+#loginPublisherLogo {
     -fx-background-image: url('../../graphical.resources/publisher.material/publisher.png');
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;

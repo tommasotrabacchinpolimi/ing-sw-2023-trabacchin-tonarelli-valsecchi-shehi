@@ -5,7 +5,7 @@
     src: local('Special Elite') url('../../graphical.resources/font/SpecialElite-Regular.ttf');
 }
 
-#rootPane {
+#connectionRootPane {
     -fx-background-image: url('../../graphical.resources/publisher.material/banner_1386x400px.png');
     -fx-background-repeat: no-repeat;
     -fx-background-position: left;
@@ -13,12 +13,12 @@
     -fx-padding: 0em;
 }
 
-#backgroundColorHover {
+#connectionBackgroundColorHover {
     -fx-background-color: rgba(28, 37, 41, 0.53);
     -fx-padding: 3em;
 }
 
-#gridStackContainer {
+#connectionGridStackContainer {
     -fx-background-image: url('../../graphical.resources/misc/page_base_darken.jpg');
     -fx-background-size: contain;
     -fx-background-position: center center;
@@ -26,7 +26,7 @@
     -fx-padding: 0.7em;
 }
 
-#contentGrid{
+#connectionContentGrid{
     -fx-background-image: url('../../graphical.resources/misc/white_paper_texture.png');
     -fx-background-size: contain;
     -fx-background-position: center;
@@ -44,7 +44,7 @@
     -fx-font-size: 1.7em;
 }
 
-#protocolBox {
+#connectionProtocolBox {
     -fx-background-image: url('../../graphical.resources/misc/page_base_darken.jpg');
     -fx-background-size: contain;
     -fx-background-position: center;
@@ -56,40 +56,40 @@
     -fx-effect: dropshadow(gaussian, rgba(71, 40, 17, 0.97), 10.0, 0.0, 0.0, 0.0);
 }
 
-#protocolBox .label {
+#connectionProtocolBox .label {
     -fx-font-family: 'Special Elite Regular';
     -fx-text-fill: rgba(230, 221, 199, 0.97);
     -fx-text-alignment: center;
     -fx-font-size: 1.7em;
 }
 
-#protocolBox .context-menu {
+#connectionProtocolBox .context-menu {
     -fx-background-image: url('../../graphical.resources/misc/page_base_darken.jpg');
     -fx-text-fill: rgba(230, 221, 199, 0.97);
     -fx-text-alignment: center;
     -fx-font-size: 1em;
 }
 
-#protocolBox .menu-item:focused {
+#connectionProtocolBox .menu-item:focused {
     -fx-background-color: rgba(230, 221, 199, 0.13);
 }
 
-#protocolBox .menu-item > .label {
+#connectionProtocolBox .menu-item > .label {
     -fx-text-fill: rgba(230, 221, 199, 0.97);
 }
 
-#protocolBox .menu-item:focused .label{
+#connectionProtocolBox .menu-item:focused .label{
     -fx-effect: dropshadow(gaussian, rgba(245, 177, 61, 0.93), 10.0, 0.0, 0.0, 0.0);
 }
 
-#protocolBox:error {
+#connectionProtocolBox:error {
     -fx-background-image: url('../../graphical.resources/misc/page_base_lighten.png');
     -fx-border-color: rgb(162, 15, 30, 0.93);
     -fx-border-width: 0.1em;
     -fx-effect: dropshadow(gaussian, rgba(198, 57, 10, 0.5), 10, 0, 0, 0);
 }
 
-#protocolBox:error .label {
+#connectionProtocolBox:error .label {
     -fx-text-fill: rgb(248, 231, 191, 0.97);
     -fx-effect: dropshadow(gaussian, rgba(240, 85, 13, 0.9), 10, 0, 0, 0);
 }
