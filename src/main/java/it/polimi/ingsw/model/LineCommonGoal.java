@@ -124,6 +124,7 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
      * @see LineCommonGoal#linesNumber
      * @see LineCommonGoal#numberOfTiles
      * @see LineCommonGoal#differentTiles
+     * @see CommonGoal#CommonGoal(String) CommonGoal(String description)
      */
     public LineCommonGoal(String description, int incRow, int incCol, int linesNumber, int numberOfTiles, int[] differentTiles) {
         super(description);
@@ -150,6 +151,7 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
      * @see LineCommonGoal#linesNumber
      * @see LineCommonGoal#numberOfTiles
      * @see LineCommonGoal#differentTiles
+     * @see CommonGoal#CommonGoal(Stack, String)
      */
     public LineCommonGoal(Stack<Integer> scoringTokens, String description, int incRow, int incCol, int linesNumber, int numberOfTiles, int[] differentTiles) {
         super(scoringTokens, description);
@@ -383,7 +385,7 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
      * {@inheritDoc}
      * @return a {@link String} representing the {@link LineCommonGoal}.
      * @apiNote Resulting String will be displayed on different lines as follows:
-     * <code>
+     * <pre>
      *     LineCommonGoal{
      *         Scoring Tokens:
      *         Description:
@@ -393,7 +395,7 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
      *         Number of Tiles:
      *         Different Tiles:
      *     }
-     * </code>
+     * </pres>
      */
     @Override
     public String toString() {

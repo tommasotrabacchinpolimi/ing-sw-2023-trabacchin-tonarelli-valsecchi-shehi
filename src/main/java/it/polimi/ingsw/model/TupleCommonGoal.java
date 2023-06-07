@@ -8,8 +8,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
+ * TupleCommonGoal is a class that represents a generic {@link CommonGoal CommonGoal} which is satisfied if the
+ * {@link BookShelf BookShelf} contains a given number of groups of adjacent tiles of the same type on a {@link BookShelf bookshelf}.
  *
- * @apiNote Valid combination of the parameters values are the following :
+ * @apiNote Valid combination of the parameters values, according to the rules of the game, are the following :
  * <ul>
  *     <li>groupsNumber = 6, adjacentTilesPo2 = 1, square = false, separate = true, sameTypeOnly = false</li>
  *     <li>groupsNumber = 4, adjacentTilesPo2 = 2, square = false, separate = true, sameTypeOnly = false</li>
@@ -63,10 +65,24 @@ public class TupleCommonGoal extends CommonGoal implements Serializable {
      */
     private boolean sameTypeOnly;//flag per indicare se i gruppi trovati devono essere tutti dello stesso tipo
 
+    /**
+     * Constructor that class the constructor of superclass {@link CommonGoal}.
+     * @see CommonGoal#CommonGoal()
+     */
     public TupleCommonGoal() {
         super();
     }
 
+    /**
+     * Constructor that sets the fields of the class to the parameter passed
+     * @param groupsNumber Number of groups searched.
+     * @param adjacentTilesPo2 Cardinality of a single group as power of 2
+     * @param square Flag to identify a square-shape of a group
+     * @param separated Flag used to check for separated groups or not
+     * @param sameTypeOnly Flag used to check for tile of the same {@link TileType type}
+     *
+     * @see CommonGoal#CommonGoal()
+     */
     public TupleCommonGoal(int groupsNumber, int adjacentTilesPo2, boolean square, boolean separated, boolean sameTypeOnly) {
         super();
         this.groupsNumber = groupsNumber;
@@ -76,6 +92,17 @@ public class TupleCommonGoal extends CommonGoal implements Serializable {
         this.sameTypeOnly = sameTypeOnly;
     }
 
+    /**
+     * Constructor that sets the fields of the class to the parameter passed
+     * @param groupsNumber Number of groups searched.
+     * @param adjacentTilesPo2 Cardinality of a single group as power of 2
+     * @param square Flag to identify a square-shape of a group
+     * @param separated Flag used to check for separated groups or not
+     * @param sameTypeOnly Flag used to check for tile of the same {@link TileType type}
+     * @param description explanation of common goal card
+     *
+     * @see CommonGoal#CommonGoal(String)
+     */
     public TupleCommonGoal(String description, int groupsNumber, int adjacentTilesPo2, boolean square, boolean separated, boolean sameTypeOnly) {
         super(description);
         this.groupsNumber = groupsNumber;
@@ -85,6 +112,17 @@ public class TupleCommonGoal extends CommonGoal implements Serializable {
         this.sameTypeOnly = sameTypeOnly;
     }
 
+    /**
+     * Constructor that sets the fields of the class to the parameter passed
+     * @param groupsNumber Number of groups searched.
+     * @param adjacentTilesPo2 Cardinality of a single group as power of 2
+     * @param square Flag to identify a square-shape of a group
+     * @param separated Flag used to check for separated groups or not
+     * @param sameTypeOnly Flag used to check for tile of the same {@link TileType type}
+     * @param scoringTokens scoring tokens stack
+     *
+     * @see CommonGoal#CommonGoal(Stack)
+     */
     public TupleCommonGoal(Stack<Integer> scoringTokens, int groupsNumber, int adjacentTilesPo2, boolean square, boolean separated, boolean sameTypeOnly) {
         super(scoringTokens);
         this.groupsNumber = groupsNumber;
@@ -94,6 +132,18 @@ public class TupleCommonGoal extends CommonGoal implements Serializable {
         this.sameTypeOnly = sameTypeOnly;
     }
 
+    /**
+     * Constructor that sets the fields of the class to the parameter passed
+     * @param groupsNumber Number of groups searched.
+     * @param adjacentTilesPo2 Cardinality of a single group as power of 2
+     * @param square Flag to identify a square-shape of a group
+     * @param separated Flag used to check for separated groups or not
+     * @param sameTypeOnly Flag used to check for tile of the same {@link TileType type}
+     * @param description explanation of common goal card
+     * @param scoringTokens scoring tokens stack
+     *
+     * @see CommonGoal#CommonGoal(Stack, String)
+     */
     public TupleCommonGoal(Stack<Integer> scoringTokens, String description, int groupsNumber, int adjacentTilesPo2, boolean square, boolean separated, boolean sameTypeOnly) {
         super(scoringTokens, description);
         this.groupsNumber = groupsNumber;
@@ -103,46 +153,99 @@ public class TupleCommonGoal extends CommonGoal implements Serializable {
         this.sameTypeOnly = sameTypeOnly;
     }
 
+    /**
+     * Method that returns {@link #groupsNumber}
+     * @return the value of {@link #groupsNumber}
+     */
     public int getGroupsNumber() {
         return groupsNumber;
     }
 
+    /**
+     * Method that sets {@link #groupsNumber}
+     * @param groupsNumber the value that need to be set as {@link #groupsNumber}
+     */
     public void setGroupsNumber(int groupsNumber) {
         this.groupsNumber = groupsNumber;
     }
 
+    /**
+     * Method that returns {@link #adjacentTilesPo2}
+     * @return the value of {@link #adjacentTilesPo2}
+     */
     public int getAdjacentTilesPo2() {
         return adjacentTilesPo2;
     }
 
+    /**
+     * Method that sets {@link #adjacentTilesPo2}
+     * @param adjacentTilesPo2 the value that need to be set as {@link #adjacentTilesPo2}
+     */
     public void setAdjacentTilesPo2(int adjacentTilesPo2) {
         this.adjacentTilesPo2 = adjacentTilesPo2;
     }
 
+    /**
+     * Method that returns {@link #square}
+     * @return the value of {@link #square}
+     */
     public boolean isSquare() {
         return square;
     }
 
+    /**
+     * Method that sets {@link #square}
+     * @param square the value that need to be set as {@link #square}
+     */
     public void setSquare(boolean square) {
         this.square = square;
     }
 
+    /**
+     * Method that returns {@link #separated}
+     * @return the value of {@link #separated}
+     */
     public boolean isSeparated() {
         return separated;
     }
 
+    /**
+     * Method that sets {@link #separated}
+     * @param separated the value that need to be set as {@link #separated}
+     */
     public void setSeparated(boolean separated) {
         this.separated = separated;
     }
 
+    /**
+     * Method that returns {@link #sameTypeOnly}
+     * @return the value of {@link #separated}
+     */
     public boolean isSameTypeOnly() {
         return sameTypeOnly;
     }
 
+    /**
+     * Method that sets {@link #sameTypeOnly}
+     * @param sameTypeOnly the value that need to be set as {@link #sameTypeOnly}
+     */
     public void setSameTypeOnly(boolean sameTypeOnly) {
         this.sameTypeOnly = sameTypeOnly;
     }
 
+    /**
+     * The method returns {@code null} if the {@link TupleCommonGoal} is not satisfied for
+     * the {@code bookShelf} passes as argument.
+     * If the {@link TupleCommonGoal} is satisfied then the method returns the list of the
+     * {@link EntryPatternGoal EntryPatternGoal} representing
+     * the cell in the <code>bookShelf</code> that satisfy the {@link TupleCommonGoal TupleCommonGoal}.
+     *
+     * @param bookShelf The bookShelf to check for the goal.
+     * @return <code>null</code> if the goal is not satisfied, otherwise the list of the {@link EntryPatternGoal#EntryPatternGoal EntryPatternGoal} representing
+     * the cell in the {@code bookShelf} that satisfy the goal.
+     *
+     * @see EntryPatternGoal
+     */
     @Override
     public List<EntryPatternGoal> rule(TileType[][] bookShelf) {
         List<List<Set<EntryPatternGoal>>> result = new ArrayList<>();
@@ -314,6 +417,23 @@ public class TupleCommonGoal extends CommonGoal implements Serializable {
             return Optional.of(max_row - min_row + 1);
         }
     }
+
+    /**
+     * Overriding toString() default method.
+     * @return a {@link String} representing the {@link TupleCommonGoal}.
+     *  @apiNote Resulting String will be displayed on different lines as follows:
+     *  <pre>
+     *   TupleCommonGoal{
+     *      Scoring Tokens:
+     *      Description:
+     *      Groups Number:
+     *      Adjacent Tiles Power 2:
+     *      Square:
+     *      Separated:
+     *      Same Type Only:
+     *      }
+     *  </pre>
+     */
     @Override
     public String toString() {
         return "TupleCommonGoal{" +

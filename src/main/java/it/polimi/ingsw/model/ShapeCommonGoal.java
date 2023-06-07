@@ -61,6 +61,7 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
      * Constructor that sets the fields of the class to the parameter passed.
      * @param description Textual description of the goal.
      * @param ruleShape the list of arrays that permit to implement the function rule.
+     * @see CommonGoal#CommonGoal(String) CommonGoal(String description)
      */
     public ShapeCommonGoal(String description, List<Integer[]> ruleShape) {
         super(description);
@@ -72,6 +73,7 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
      * @param description Textual description of the goal.
      * @param ruleShape the list of arrays that permit to implement the function rule.
      * @param scoringTokens Scoring tokens stack.
+     * @see CommonGoal#CommonGoal(Stack, String)
      */
     public ShapeCommonGoal(Stack<Integer> scoringTokens, String description, List<Integer[]> ruleShape) {
         super(scoringTokens, description);
@@ -236,13 +238,13 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
      * Overriding toString() default method.
      * @return a {@link String} representing the {@link ShapeCommonGoal}.
      * @apiNote Resulting String will be displayed on different lines as follows:
-     * <code>
+     * <pre>
      *     ShapeCommonGoal{
      *              Scoring Tokens:
      *              Description:
      *              Rule Shape:
      *           }
-     * </code>
+     * </pre>
      */
     @Override
     public String toString() {
