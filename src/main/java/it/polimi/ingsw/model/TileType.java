@@ -50,7 +50,6 @@ public enum TileType {
 
     /**
      * Get the name of each Tile type
-     * {@inheritDoc}
      *
      * @return name of each TileType
      * @see TileType

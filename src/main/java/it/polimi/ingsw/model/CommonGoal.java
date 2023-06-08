@@ -144,12 +144,12 @@ public abstract class CommonGoal implements Serializable {
      * Overriding toString() default method.
      * @return a {@link String} representing the {@link CommonGoal}.
      * @apiNote Resulting String will be displayed on different lines as follows:
-     *     {@code
-     *          LineCommonGoal{
-     *               Scoring Tokens:
-     *               Description:
-     *          }
-     *      }
+     * <pre>
+     *  LineCommonGoal{
+     *      Scoring Tokens:
+     *      Description:
+     *  }
+     *  </pre>
      */
     @Override
     public String toString() {

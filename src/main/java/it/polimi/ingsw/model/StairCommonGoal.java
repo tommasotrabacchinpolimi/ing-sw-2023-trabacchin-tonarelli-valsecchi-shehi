@@ -12,7 +12,7 @@ import java.util.*;
  * Starting from the first column on the left or on the right, each next column must be made of exactly one more tile.
  * In the {@link BookShelf}, {@link TileSubject tile} can be of any {@link TileType type}.
  *
- *  @apiNote Valid combination of the parameters values are the following : (numberOfColumns = 5)
+ *  @apiNote Valid combination of the parameters values, according to the rules of the game, are the following : {@code numberOfColumns = 5}
  *
  *  @see CommonGoal
  *  @see BookShelf
@@ -49,7 +49,7 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
      * @param numberOfColumns Number of columns that forms the staircase
      *
      * @see StairCommonGoal#numberOfColumns
-     * @see CommonGoal#CommonGoal(String) CommonGoal(String description)
+     * @see CommonGoal#CommonGoal() CommonGoal()
      */
     public StairCommonGoal(int numberOfColumns) {
         super();
@@ -76,7 +76,7 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
      * @param scoringTokens Scoring tokens stack.
      *
      * @see StairCommonGoal#numberOfColumns
-     * @see CommonGoal#CommonGoal(String) CommonGoal(String description)
+     * @see CommonGoal#CommonGoal(Stack, String)
      */
     public StairCommonGoal(Stack<Integer> scoringTokens, String description, int numberOfColumns) {
         super(scoringTokens, description);
@@ -265,13 +265,13 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
      * Overriding toString() default method.
      * @return a {@link String} representing the {@link StairCommonGoal}.
      * @apiNote Resulting String will be displayed on different lines as follows:
-     * <code>
+     * <pre>
      *     StairCommonGoal{
-     *              Scoring Tokens:
-     *              Description:
-     *              Number of Columns:
-     *           }
-     * </code>
+     *         Scoring Tokens:
+     *         Description:
+     *         Number of Columns:
+     *     }
+     * </pre>
      */
     @Override
     public String toString() {
