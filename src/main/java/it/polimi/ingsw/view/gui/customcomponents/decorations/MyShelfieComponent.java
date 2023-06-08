@@ -24,7 +24,7 @@ public interface MyShelfieComponent {
      * Apply to the calling customized component defaults
      * decoration
      */
-    default void resetDefaultMyShelfieDecorations() {
+    default void resetToDefaultDecorations() {
         getCustomizedNode().setEffect(null);
         getBaseDecorations().forEach(decoration -> decoration.customize(this));
     }
@@ -61,6 +61,7 @@ public interface MyShelfieComponent {
     /**
      * Applies to the calling customized component a
      * chosen {@linkplain MyShelfieDecoration decoration}
+     * on top of other decorations already present
      *
      * @param decoration the {@link MyShelfieDecoration decoration}
      *                   to apply at the component
@@ -72,6 +73,7 @@ public interface MyShelfieComponent {
     /**
      * Applies to the calling customized component some
      * chosen {@linkplain MyShelfieDecoration decorations}
+     * on top of other decorations already present
      *
      * @param decorations the {@link MyShelfieDecoration decorations}
      *                    to apply at the component
