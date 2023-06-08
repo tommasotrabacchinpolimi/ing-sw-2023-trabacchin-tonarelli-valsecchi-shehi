@@ -3,11 +3,11 @@ package it.polimi.ingsw.view.gui.customcomponents.uitoolkit;
 import javafx.util.Duration;
 
 public enum MyShelfieTransition {
-    DEF_DURATION(Duration.seconds(2)),
+    DEF_DURATION(new Duration(400)),
 
-    SHORT_DURATION(Duration.seconds(1)),
+    SHORT_DURATION(new Duration(100)),
 
-    LONG_DURATION(Duration.seconds(4));
+    LONG_DURATION(new Duration(800));
 
     MyShelfieTransition(Duration animationDuration) {
         this.animationDuration = animationDuration;

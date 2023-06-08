@@ -51,7 +51,7 @@ public class Coordinate implements Serializable {
     }
 
     /**
-     * Sets tile's column index in the bookshelf or in the board as specified
+     * Sets tile's row index in the bookshelf or in the board as specified
      *
      * @param x the tile's row index to be set
      */
@@ -90,6 +90,20 @@ public class Coordinate implements Serializable {
      */
     public String toString() {
         return "(" + x + ", " + y + ")";
+    }
+
+    /**
+     * Verify if the given row and column index given are equals
+     * to the ones stored in the instance calling
+     *
+     * @param x the row index to be verified
+     * @param y the column index to be verified
+     *
+     * @return {@code true} if the given row and column index
+     * matches the ones stored in the instance, {@code false} otherwise
+     */
+    public boolean equalsToCoordinates(int x, int y) {
+        return this.getX() == x && this.getY() == y;
     }
 
     /**

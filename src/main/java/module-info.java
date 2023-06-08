@@ -66,4 +66,10 @@ module it.polimi.ingsw {
 
     exports it.polimi.ingsw.view.gui.customcomponents.tileview to javafx.fxml, javafx.graphics;
     opens it.polimi.ingsw.view.gui.customcomponents.tileview to javafx.fxml, javafx.graphics;
+
+    exports it.polimi.ingsw.view.gui.bookshelf to javafx.fxml, javafx.graphics;
+    opens it.polimi.ingsw.view.gui.bookshelf to javafx.fxml, javafx.graphics;
+
+    exports it.polimi.ingsw.view.gui.gameinterface to javafx.fxml, javafx.graphics;
+    opens it.polimi.ingsw.view.gui.gameinterface to javafx.fxml, javafx.graphics;
 }

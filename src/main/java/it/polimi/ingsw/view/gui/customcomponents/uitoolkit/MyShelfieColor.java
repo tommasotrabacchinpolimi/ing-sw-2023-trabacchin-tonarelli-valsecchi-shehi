@@ -1,6 +1,8 @@
 package it.polimi.ingsw.view.gui.customcomponents.uitoolkit;
 
 import javafx.scene.paint.Color;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A set of color designed for MyShelfie application
@@ -166,6 +168,8 @@ public enum MyShelfieColor {
      * for that purpose please refer to
      * {@link #alpha(double aplha)}
      */
+    @NotNull
+    @Contract("_ -> new")
     public Color getColor(double alpha) {
         return new Color(this.color.getRed(), this.color.getGreen(), this.color.getBlue(), alpha);
     }
@@ -183,6 +187,8 @@ public enum MyShelfieColor {
      * for that purpose please refer to
      * {@link #alpha(double aplha)}
      */
+    @NotNull
+    @Contract("_ -> new")
     public Color getDarkenColor(double alpha){
         return new Color(darkenColor.getRed(), darkenColor.getGreen(), darkenColor.getBlue(), alpha);
     }
@@ -200,7 +206,226 @@ public enum MyShelfieColor {
      * for that purpose please refer to
      * {@link #alpha(double aplha)}
      */
+    @NotNull
+    @Contract("_ -> new")
     public Color getLightenColor(double alpha){
         return new Color(lightenColor.getRed(), lightenColor.getGreen(), lightenColor.getBlue(), alpha);
+    }
+
+    /**
+     * Retrieves the string of the color that can be used to set a
+     * CSS style in the code
+     *
+     * @return a string representing the RGB value for
+     * the color calling
+     *
+     * @apiNote result will appear as '{@code rgb(redValue, greenValue, blueValue)}'
+     */
+    @NotNull
+    public String getRGBStyleSheet() {
+        return "rgb(" + getRGBValue() + ")";
+    }
+
+    /**
+     * Retrieves the string of the color that can be used to set a
+     * CSS style in the code with the chosen transparency value
+     *
+     * @return a string representing the rgba value for
+     * the color calling
+     *
+     * @apiNote result will appear as '{@code rgba(redValue, greenValue, blueValue, alpha)}'
+     */
+    @NotNull
+    public String getRGBAStyleSheet(double alpha) {
+        return "rgb(" + getRGBValue() + ", " + alpha + ")";
+    }
+
+    /**
+     * Construct a string that has the Red, Green and Blue value
+     * for the color chosen
+     *
+     * @return a string with the red, blue and green value of the color
+     *
+     * @apiNote result will appear as '{@code redValue, greenValue, blueValue}'
+     */
+    @NotNull
+    private String getRGBValue() {
+        return getRedValue() + ", " + getGreenValue() + ", " + getBlueValue();
+    }
+
+    /**
+     * Retrieve the corresponding red value for the color
+     * in a 0-255 scale.
+     *
+     * @return the red value of the color
+     */
+    private int getRedValue() {
+        return Math.toIntExact(Math.round(getColor().getRed() * 255));
+    }
+
+    /**
+     * Retrieve the corresponding green value for the
+     * color in a 0-255 scale.
+     *
+     * @return the green value of the color
+     */
+    private int getGreenValue() {
+        return Math.toIntExact(Math.round(getColor().getGreen() * 255));
+    }
+
+    /**
+     * Retrieve the corresponding blue value for the color
+     * in a 0-255 scale.
+     *
+     * @return the blue value of the color
+     */
+    private int getBlueValue() {
+        return Math.toIntExact(Math.round(getColor().getBlue() * 255));
+    }
+
+    /**
+     * Retrieves the string of the darkened color
+     * that can be used to set a CSS style in the code
+     *
+     * @return a string representing the RGB value for
+     * the darkened color calling
+     *
+     * @apiNote result will appear as '{@code rgb(redValue, greenValue, blueValue)}'
+     */
+    @NotNull
+    public String getDarkenRGBStyleSheet() {
+        return "rgb(" + getDarkenRGBValue() + ")";
+    }
+
+    /**
+     * Retrieves the string of the darkened color that can be used
+     * to set a CSS style in the code with the chosen
+     * transparency value
+     *
+     * @return a string representing the rgba value for
+     * the darkened color calling
+     *
+     * @apiNote result will appear as '{@code rgba(redValue, greenValue, blueValue, alpha)}'
+     */
+    @NotNull
+    public String getDarkenRGBAStyleSheet(double alpha) {
+        return "rgb(" + getDarkenRGBValue() + ", " + alpha + ")";
+    }
+
+    /**
+     * Construct a string that has the Red, Green and Blue value
+     * for the darkened color chosen
+     *
+     * @return a string with the red, blue and green value of
+     * the darkened color
+     *
+     * @apiNote result will appear as '{@code redValue, greenValue, blueValue}'
+     */
+    @NotNull
+    private String getDarkenRGBValue() {
+        return getDarkenRedValue() + ", " + getDarkenGreenValue() + ", " + getDarkenBlueValue();
+    }
+
+    /**
+     * Retrieve the corresponding red value for the
+     * darkened color in a 0-255 scale.
+     *
+     * @return the red value of the darkened color
+     */
+    private int getDarkenRedValue() {
+        return Math.toIntExact(Math.round(getDarkenColor().getRed() * 255));
+    }
+
+    /**
+     * Retrieve the corresponding green value for the
+     * darkened color in a 0-255 scale.
+     *
+     * @return the green value of the darkened color
+     */
+    private int getDarkenGreenValue() {
+        return Math.toIntExact(Math.round(getDarkenColor().getGreen() * 255));
+    }
+
+    /**
+     * Retrieve the corresponding blue value for the
+     * darkened color in a 0-255 scale.
+     *
+     * @return the blue value of the darkened color
+     */
+    private int getDarkenBlueValue() {
+        return Math.toIntExact(Math.round(getDarkenColor().getBlue() * 255));
+    }
+
+    /**
+     * Retrieves the string of the lightened color
+     * that can be used to set a CSS style in the code
+     *
+     * @return a string representing the RGB value for
+     * the lightened color calling
+     *
+     * @apiNote result will appear as '{@code rgb(redValue, greenValue, blueValue)}'
+     */
+    @NotNull
+    public String getLightenRGBStyleSheet() {
+        return "rgb(" + getLightenRGBValue() + ")";
+    }
+
+    /**
+     * Retrieves the string of the lightened color that can be used
+     * to set a CSS style in the code with the chosen
+     * transparency value
+     *
+     * @return a string representing the rgba value for
+     * the lightened color calling
+     *
+     * @apiNote result will appear as '{@code rgba(redValue, greenValue, blueValue, alpha)}'
+     */
+    @NotNull
+    public String getLightenRGBAStyleSheet(double alpha) {
+        return "rgb(" + getLightenRGBValue() + ", " + alpha + ")";
+    }
+
+    /**
+     * Construct a string that has the Red, Green and Blue value
+     * for the lightened color chosen
+     *
+     * @return a string with the red, blue and green value of
+     * the lightened color
+     *
+     * @apiNote result will appear as '{@code redValue, greenValue, blueValue}'
+     */
+    @NotNull
+    private String getLightenRGBValue() {
+        return getLightenRedValue() + ", " + getLightenGreenValue() + ", " + getLightenBlueValue();
+    }
+
+    /**
+     * Retrieve the corresponding red value for the
+     * lightened color in a 0-255 scale.
+     *
+     * @return the red value of the lightened color
+     */
+    private int getLightenRedValue() {
+        return Math.toIntExact(Math.round(getLightenColor().getRed() * 255));
+    }
+
+    /**
+     * Retrieve the corresponding green value for the
+     * lightened color in a 0-255 scale.
+     *
+     * @return the green value of the lightened color
+     */
+    private int getLightenGreenValue() {
+        return Math.toIntExact(Math.round(getLightenColor().getGreen() * 255));
+    }
+
+    /**
+     * Retrieve the corresponding blue value for the
+     * lightened color in a 0-255 scale.
+     *
+     * @return the blue value of the lightened color
+     */
+    private int getLightenBlueValue() {
+        return Math.toIntExact(Math.round(getLightenColor().getBlue() * 255));
     }
 }

@@ -20,7 +20,7 @@ import static it.polimi.ingsw.view.gui.customcomponents.uitoolkit.MyShelfieTrans
 
 public class MyShelfieTriangleButton extends StackPane implements MyShelfieComponent {
 
-    private static final String BACKGROUND_IMAGE = "/it.polimi.ingsw/graphical.resources/misc/arrow_bookshelf_button.png.png";
+    private static final String BACKGROUND_IMAGE = "/it.polimi.ingsw/graphical.resources/misc/arrow_bookshelf_button.png";
 
     private boolean entered;
 
@@ -28,7 +28,7 @@ public class MyShelfieTriangleButton extends StackPane implements MyShelfieCompo
 
     private boolean active;
 
-    private Pane iconPane;
+    private final Pane iconPane;
 
     private PathTransition pathTransition;
 
@@ -42,7 +42,8 @@ public class MyShelfieTriangleButton extends StackPane implements MyShelfieCompo
 
         setStyle("-fx-background-color: transparent;");
 
-        getChildren().add(new MyShelfieGraphicIcon(BACKGROUND_IMAGE, 1, false, "contain"));
+        iconPane = new MyShelfieGraphicIcon(BACKGROUND_IMAGE, 1, false, "contain");
+        getChildren().add(iconPane);
 
         applyDecorationAsDefault(new MyShelfieDarkShadow());
 

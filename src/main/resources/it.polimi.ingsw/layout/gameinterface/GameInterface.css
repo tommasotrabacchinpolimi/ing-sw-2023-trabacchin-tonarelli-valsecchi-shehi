@@ -1,0 +1,5 @@
+#selectedTilesBox {
+    -fx-background-color: rgba(0, 0, 0, 0.37);
+    -fx-background-radius: 0.3em;
+    -fx-spacing: 0.5em;
+}

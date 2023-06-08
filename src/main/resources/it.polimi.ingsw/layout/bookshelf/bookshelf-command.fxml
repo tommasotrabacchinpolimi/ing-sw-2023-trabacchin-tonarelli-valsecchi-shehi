@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import it.polimi.ingsw.view.gui.customcomponents.MyShelfieTriangleButton?>
+<GridPane fx:id="bookshelfCommandRoot" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+          fx:controller="it.polimi.ingsw.view.gui.bookshelf.BookshelfCommandController">
+    <fx:define>
+        <Double fx:id="bookshelfCommandMaxDim" fx:value="100"/>
+    </fx:define>
+
+    <rowConstraints>
+        <RowConstraints percentHeight="10" valignment="CENTER" fillHeight="false" vgrow="NEVER"/>
+        <RowConstraints percentHeight="90" valignment="CENTER" fillHeight="false" vgrow="NEVER"/>
+    </rowConstraints>
+    <columnConstraints>
+        <ColumnConstraints percentWidth="$bookshelfCommandMaxDim" halignment="CENTER" hgrow="NEVER"/>
+    </columnConstraints>
+
+    <GridPane GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-padding: 0em 3.6em 0em 3.7em; -fx-hgap: 0.6em;">
+        <rowConstraints>
+            <RowConstraints percentHeight="100" valignment="CENTER" fillHeight="false" vgrow="NEVER"/>
+        </rowConstraints>
+        <columnConstraints>
+            <ColumnConstraints percentWidth="$bookshelfCommandMaxDim" halignment="CENTER" fillWidth="false" hgrow="NEVER"/>
+            <ColumnConstraints percentWidth="$bookshelfCommandMaxDim" halignment="CENTER" fillWidth="false" hgrow="NEVER"/>
+            <ColumnConstraints percentWidth="$bookshelfCommandMaxDim" halignment="CENTER" fillWidth="false" hgrow="NEVER"/>
+            <ColumnConstraints percentWidth="$bookshelfCommandMaxDim" halignment="CENTER" fillWidth="false" hgrow="NEVER"/>
+            <ColumnConstraints percentWidth="$bookshelfCommandMaxDim" halignment="CENTER" fillWidth="false" hgrow="NEVER"/>
+        </columnConstraints>
+
+        <MyShelfieTriangleButton fx:id="leftTriangle" GridPane.columnIndex="0" GridPane.rowIndex="0"
+                                 onMouseClicked="#selectedColumn"/>
+        <MyShelfieTriangleButton fx:id="midLeftTriangle" GridPane.columnIndex="1" GridPane.rowIndex="0"
+                                 onMouseClicked="#selectedColumn"/>
+        <MyShelfieTriangleButton fx:id="midTriangle" GridPane.columnIndex="2" GridPane.rowIndex="0"
+                                 onMouseClicked="#selectedColumn"/>
+        <MyShelfieTriangleButton fx:id="midRightTriangle" GridPane.columnIndex="3" GridPane.rowIndex="0"
+                                 onMouseClicked="#selectedColumn"/>
+        <MyShelfieTriangleButton fx:id="rightTriangle" GridPane.columnIndex="4" GridPane.rowIndex="0"
+                                 onMouseClicked="#selectedColumn"/>
+    </GridPane>
+
+    <fx:include fx:id="commandBookshelfView" source="../bookshelf/bookshelf.fxml" GridPane.columnIndex="0"
+                GridPane.rowIndex="1"/>
+</GridPane>

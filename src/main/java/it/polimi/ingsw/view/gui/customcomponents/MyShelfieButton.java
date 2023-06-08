@@ -18,6 +18,8 @@ import javafx.scene.text.TextAlignment;
 import java.util.ArrayList;
 import java.util.List;
 
+import static it.polimi.ingsw.view.gui.customcomponents.uitoolkit.MyShelfieColor.BONE;
+
 /**
  * @version 2.0
  * @since 08/06/2023
@@ -39,7 +41,7 @@ public class MyShelfieButton extends Button implements MyShelfieComponent {
     /**
      * <p>Holds the entire relative path to the icon file</p>
      *
-     * @apiNote if the button has no graphic inside it the value is setted to be null
+     * @apiNote if the button has no graphic inside it the value is set to be null
      *
      * @see #MyShelfieButton(String buttonText, String iconFile)
      */
@@ -94,14 +96,14 @@ public class MyShelfieButton extends Button implements MyShelfieComponent {
 
         isFocused = false;
 
-        if (rounded)
-            applyDecorationAsDefault(new MyShelfieRoundEdge(radius));
-
         setWrapText(true);
         setTextAlignment(TextAlignment.CENTER);
         setCache(true);
 
         setCSS();
+
+        if (rounded)
+            applyDecorationAsDefault(new MyShelfieRoundEdge(radius));
 
         applyDecorationAsDefault(new MyShelfieDarkShadow());
 
@@ -175,7 +177,7 @@ public class MyShelfieButton extends Button implements MyShelfieComponent {
      * @apiNote this constructor automatically set the button to be rounded
      * and with the default value ({@link MyShelfieRoundEdgeType#SMALL})
      */
-    public MyShelfieButton(@NamedArg("text") String text, @NamedArg("iconFile") String iconName) {
+    public MyShelfieButton(@NamedArg("text") String text, @NamedArg("iconName") String iconName) {
         this(text, true, MyShelfieRoundEdgeType.SMALL, iconName);
     }
 
@@ -184,7 +186,7 @@ public class MyShelfieButton extends Button implements MyShelfieComponent {
      */
     private void setCSS() {
         setStyle("-fx-font-family: 'Special Elite Regular';" +
-                "-fx-text-fill: rgba(230, 221, 199, 0.97);" +
+                "-fx-text-fill: " + BONE.getRGBAStyleSheet(0.97) +";" +
                 "-fx-background-image: url('" + getClass().getResource(BACKGROUND_IMAGE) + "');" +
                 "-fx-background-size: contain;" +
                 "-fx-background-position: center center;" +

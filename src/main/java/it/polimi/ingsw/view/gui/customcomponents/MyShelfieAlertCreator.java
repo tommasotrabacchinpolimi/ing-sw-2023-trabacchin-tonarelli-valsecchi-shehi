@@ -11,8 +11,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-import static it.polimi.ingsw.view.gui.customcomponents.uitoolkit.MyShelfieColor.CHARLESTON;
-
 /**
  * The class is final, so no one can extend it
  *

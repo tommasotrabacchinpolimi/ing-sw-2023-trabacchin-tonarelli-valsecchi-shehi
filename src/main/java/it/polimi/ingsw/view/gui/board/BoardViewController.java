@@ -3,13 +3,16 @@ package it.polimi.ingsw.view.gui.board;
 import it.polimi.ingsw.utils.Coordinate;
 import it.polimi.ingsw.view.gui.MyShelfieController;
 import it.polimi.ingsw.view.gui.customcomponents.tileview.TileSubjectView;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -172,6 +175,16 @@ public class BoardViewController extends MyShelfieController {
                 itemTileBox50, itemTileBox51, itemTileBox52, itemTileBox53, itemTileBox54, itemTileBox55, itemTileBox56,
                 itemTileBox57, itemTileBox62, itemTileBox63, itemTileBox64, itemTileBox65, itemTileBox66, itemTileBox73,
                 itemTileBox74, itemTileBox75, itemTileBox84, itemTileBox85);
+
+        itemTileBoxes.values()
+                .forEach(box -> box.getChildren().addListener((ListChangeListener<? super Node>) change -> {
+                    while (change.next()) {
+                        if (change.wasAdded())
+                            box.setStyle("-fx-padding: 0.1em;");
+                        if (change.wasRemoved())
+                            box.setStyle("-fx-padding: 2em;");
+                    }
+                }));
     }
 
     private void setUpBoxesMap(StackPane... itemTileBoxes) {
@@ -194,9 +207,31 @@ public class BoardViewController extends MyShelfieController {
     }
 
     public void fillUpBoard() {
-        for(Coordinate coordinate : itemTileBoxes.keySet()) {
+        for (Coordinate coordinate : itemTileBoxes.keySet()) {
             new TileSubjectView(itemTileBoxes.get(coordinate), "cat_2");
         }
+    }
+
+    public StackPane getItemTileBox(Coordinate coordinate) {
+        if (itemTileBoxes.keySet()
+                .stream()
+                .filter(c -> c.equals(coordinate))
+                .toList()
+                .size() > 0) {
+            return itemTileBoxes.get(coordinate);
+        } else {
+            return null;
+        }
+    }
+
+    public StackPane getItemTileBox(int x, int y) {
+        List<Coordinate> itemTileBoxCoordinate = itemTileBoxes.keySet()
+                .stream()
+                .filter(c -> c.equalsToCoordinates(x, y)).toList();
+        if (itemTileBoxCoordinate.size() == 1)
+            return getItemTileBox(itemTileBoxCoordinate.get(0));
+        else
+            return null;
     }
 
     @Override

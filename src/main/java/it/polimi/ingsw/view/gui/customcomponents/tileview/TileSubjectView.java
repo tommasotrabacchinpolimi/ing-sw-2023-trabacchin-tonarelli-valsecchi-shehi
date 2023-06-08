@@ -5,29 +5,25 @@ import it.polimi.ingsw.view.gui.customcomponents.uitoolkit.MyShelfieRoundEdgeTyp
 import it.polimi.ingsw.view.gui.customcomponents.uitoolkit.MyShelfieShadowType;
 import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
-import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
-import javafx.scene.effect.BlurType;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Glow;
-import javafx.scene.effect.InnerShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.PathElement;
-import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static it.polimi.ingsw.view.gui.customcomponents.uitoolkit.MyShelfieTransition.DEF_DURATION;
 
 /**
  * @version 3.0
@@ -84,9 +80,6 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
         setCSS();
 
         applyDecorationAsDefault(new MyShelfieDarkShadow(MyShelfieShadowType.SHORT), new MyShelfieRoundEdge(MyShelfieRoundEdgeType.SMALL));
-
-        //?????!!!!
-        parent.setStyle("-fx-padding: 0.1em;");
 
         setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
 
@@ -263,7 +256,7 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
 
         PathTransition pathTransition = new PathTransition();
         pathTransition.setNode(this);
-        pathTransition.setDuration(Duration.seconds(1));
+        pathTransition.setDuration(DEF_DURATION.getDuration());
         pathTransition.setInterpolator(Interpolator.LINEAR);
         pathTransition.setCycleCount(1);
         pathTransition.setAutoReverse(false);
@@ -275,8 +268,8 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
 
     @NotNull
     private LineTo createCenterLineTo(Bounds startingBounds, Bounds endingBounds) {
-        double endX = endingBounds.getMinX() - startingBounds.getMinX() + (endingBounds.getWidth() / 2.0 - (getPadding().getLeft() / 2));
-        double endY = endingBounds.getMinY() - startingBounds.getMinY() + (endingBounds.getHeight() / 2.0 - (getPadding().getTop() / 2));
+        double endX = endingBounds.getMinX() - startingBounds.getMinX() + (endingBounds.getWidth() / 2.0);
+        double endY = endingBounds.getMinY() - startingBounds.getMinY() + (endingBounds.getHeight() / 2.0);
 
         return new LineTo(endX, endY);
     }
