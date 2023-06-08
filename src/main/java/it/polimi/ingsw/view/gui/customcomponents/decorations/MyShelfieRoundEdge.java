@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.gui.customcomponents.decorations;
 
+import it.polimi.ingsw.view.gui.customcomponents.uitoolkit.MyShelfieRoundEdgeType;
 import javafx.scene.layout.Region;
 import javafx.scene.shape.Rectangle;
 
@@ -10,19 +11,17 @@ import javafx.scene.shape.Rectangle;
  *
  * <p>This effect modifies the shape of the desired
  * {@linkplain MyShelfieComponent component} to have rounder
- * border even if it has an image as background</p>
+ * corners even if it has an image as background</p>
  *
  * @apiNote This effect is applied only once, and can't
- * be removed, or it will result in a bad user experience
+ * be removed, or it will result in a bad user experience.
+ * <p>The type of round edge that can be applied on a component for making
+ * round corners are defined in {@link MyShelfieRoundEdgeType}</p>
  *
  * @see javafx.scene.shape.Shape
+ * @see MyShelfieRoundEdgeType
  */
 public class MyShelfieRoundEdge implements MyShelfieDecoration {
-
-    /**
-     * Default-edge radius for the component
-     */
-    public static final double RADIUS = 0.57;
 
     /**
      * The actual radius applied at the corners
@@ -38,20 +37,20 @@ public class MyShelfieRoundEdge implements MyShelfieDecoration {
 
     /**
      * <p>Creates a new instance of {@code MyShelfieRoundEdge}
-     * with standard {@linkplain #RADIUS radius} edge</p>
+     * with standard {@linkplain MyShelfieRoundEdgeType#NORMAL radius} edge</p>
      */
     public MyShelfieRoundEdge() {
-        this(RADIUS);
+        this(MyShelfieRoundEdgeType.NORMAL);
     }
 
     /**
      * <p>Creates a new instance of {@code MyShelfieRoundEdge}
      * with specified {@code radius} edge</p>
      *
-     * @param radius the desired radius applied at the edges
+     * @param myShelfieRoundEdgeType the desired radius applied at the corners
      */
-    public MyShelfieRoundEdge(double radius) {
-        this.radius = radius;
+    public MyShelfieRoundEdge(MyShelfieRoundEdgeType myShelfieRoundEdgeType) {
+        this.radius = myShelfieRoundEdgeType.getEdgeRadius();
         this.applied = false;
     }
 

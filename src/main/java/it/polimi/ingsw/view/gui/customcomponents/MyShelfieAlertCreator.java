@@ -43,9 +43,9 @@ public final class MyShelfieAlertCreator {
 
         if(graphic == null){
             switch (alertType){
-                case ERROR -> graphic = new MyShelfieGraphicIcon(ERROR_ICON);
-                case WARNING -> graphic = new MyShelfieGraphicIcon(WARNING_ICON);
-                case INFORMATION -> graphic = new MyShelfieGraphicIcon(INFORMATION_ICON);
+                case ERROR -> graphic = new MyShelfieGraphicIcon(ERROR_ICON, 2.5);
+                case WARNING -> graphic = new MyShelfieGraphicIcon(WARNING_ICON, 2.5);
+                case INFORMATION -> graphic = new MyShelfieGraphicIcon(INFORMATION_ICON, 2.5);
             }
         }
 

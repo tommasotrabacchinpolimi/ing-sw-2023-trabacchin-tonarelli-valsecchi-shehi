@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.gui.customcomponents.tileview;
 
 import it.polimi.ingsw.view.gui.customcomponents.decorations.*;
+import it.polimi.ingsw.view.gui.customcomponents.uitoolkit.MyShelfieRoundEdgeType;
 import it.polimi.ingsw.view.gui.customcomponents.uitoolkit.MyShelfieShadowType;
 import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
@@ -82,7 +83,7 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
 
         setCSS();
 
-        applyDecorationAsDefault(new MyShelfieDarkShadow(MyShelfieShadowType.SHORT), new MyShelfieRoundEdge(0.27));
+        applyDecorationAsDefault(new MyShelfieDarkShadow(MyShelfieShadowType.SHORT), new MyShelfieRoundEdge(MyShelfieRoundEdgeType.SMALL));
 
         //?????!!!!
         parent.setStyle("-fx-padding: 0.1em;");
