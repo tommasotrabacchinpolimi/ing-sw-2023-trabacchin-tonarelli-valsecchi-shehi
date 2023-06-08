@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.gui.customcomponents;
 
 import it.polimi.ingsw.view.gui.MyShelfieController;
+import it.polimi.ingsw.view.gui.customcomponents.uitoolkit.MyShelfieShadowType;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.Pane;
@@ -10,6 +11,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
+import static it.polimi.ingsw.view.gui.customcomponents.uitoolkit.MyShelfieColor.CHARLESTON;
+
 /**
  * The class is final, so no one can extend it
  *
@@ -17,77 +20,18 @@ import java.util.Objects;
  * @since 02/06/2023
  */
 public final class MyShelfieAlertCreator {
-    private final static String ALERT_STYLE_SHEET = "/it.polimi.ingsw/layout/MyShelfieErrorAlert.css";
+    private final static String ALERT_STYLE_SHEET = "/it.polimi.ingsw/layout/MyShelfieAlert.css";
 
     private final static String ERROR_ICON = "/it.polimi.ingsw/graphical.resources/icons/error_cat_icon.png";
 
     private final static String WARNING_ICON = "/it.polimi.ingsw/graphical.resources/icons/warning_game_icon.png";
 
-    private final static String INFO_ICON = "/it.polimi.ingsw/graphical.resources/icons/info_book_icon.png";
+    private final static String INFORMATION_ICON = "/it.polimi.ingsw/graphical.resources/icons/info_book_icon.png";
 
     /**
      * Default constructor made private, so no one can create an instance of this class
      */
     private MyShelfieAlertCreator(){
-    }
-
-    @NotNull
-    private static Node getDefaultErrorAlertGraphic() {
-        Pane graphicPane = new Pane();
-
-        setDefaultCSSGraphic(graphicPane, ERROR_ICON);
-
-        setDefaultShapeGraphic(graphicPane);
-
-        return graphicPane;
-    }
-
-    @NotNull
-    private static Node getDefaultWarningAlertGraphic() {
-        Pane graphicPane = new Pane();
-
-        setDefaultCSSGraphic(graphicPane, WARNING_ICON);
-
-        setDefaultShapeGraphic(graphicPane);
-
-        return graphicPane;
-    }
-
-    @NotNull
-    private static Node getDefaultInformationAlertGraphic() {
-        Pane graphicPane = new Pane();
-
-        setDefaultCSSGraphic(graphicPane, INFO_ICON);
-
-        setDefaultShapeGraphic(graphicPane);
-
-        return graphicPane;
-    }
-
-    private static void setDefaultCSSGraphic(@NotNull Pane graphicPane, String iconFilePath) {
-        graphicPane.setStyle(
-                "-fx-background-image: url('" + MyShelfieController.class.getResource(iconFilePath) + "');" +
-                        "-fx-background-position: center;" +
-                        "-fx-background-repeat: no-repeat;" +
-                        "-fx-background-size: cover;" +
-                        "-fx-padding: 2.5em;" +
-                        "-fx-effect: dropshadow(gaussian, rgba(16, 27, 31, 0.93), 10.0, 0.0, 0.0, 0.0)");
-    }
-
-    private static void setDefaultShapeGraphic(@NotNull Pane graphicPane) {
-        Rectangle clipper = new Rectangle();
-
-        graphicPane.layoutBoundsProperty().addListener((observableValue, oldValue, newValue) -> {
-            clipper.setHeight(newValue.getHeight());
-            clipper.setWidth(newValue.getWidth());
-
-            double radiusSize = Math.min(newValue.getHeight(), newValue.getWidth());
-
-            clipper.setArcWidth(radiusSize * 0.10);
-            clipper.setArcHeight(radiusSize * 0.10);
-        });
-
-        graphicPane.setShape(clipper);
     }
 
     @NotNull
@@ -99,9 +43,9 @@ public final class MyShelfieAlertCreator {
 
         if(graphic == null){
             switch (alertType){
-                case ERROR -> graphic = getDefaultErrorAlertGraphic();
-                case WARNING -> graphic = getDefaultWarningAlertGraphic();
-                case INFORMATION -> graphic = getDefaultInformationAlertGraphic();
+                case ERROR -> graphic = new MyShelfieGraphicIcon(ERROR_ICON);
+                case WARNING -> graphic = new MyShelfieGraphicIcon(WARNING_ICON);
+                case INFORMATION -> graphic = new MyShelfieGraphicIcon(INFORMATION_ICON);
             }
         }
 

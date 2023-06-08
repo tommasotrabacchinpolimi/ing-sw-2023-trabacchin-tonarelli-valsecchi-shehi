@@ -272,6 +272,7 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
         return pathTransition;
     }
 
+    @NotNull
     private LineTo createCenterLineTo(Bounds startingBounds, Bounds endingBounds) {
         double endX = endingBounds.getMinX() - startingBounds.getMinX() + (endingBounds.getWidth() / 2.0 - (getPadding().getLeft() / 2));
         double endY = endingBounds.getMinY() - startingBounds.getMinY() + (endingBounds.getHeight() / 2.0 - (getPadding().getTop() / 2));
