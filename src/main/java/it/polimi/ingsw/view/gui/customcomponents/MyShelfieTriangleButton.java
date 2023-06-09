@@ -16,7 +16,7 @@ import javafx.scene.shape.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.ingsw.view.gui.customcomponents.uitoolkit.MyShelfieTransition.SHORT_DURATION;
+import static it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieTransition.SHORT_DURATION;
 
 public class MyShelfieTriangleButton extends StackPane implements MyShelfieComponent {
 

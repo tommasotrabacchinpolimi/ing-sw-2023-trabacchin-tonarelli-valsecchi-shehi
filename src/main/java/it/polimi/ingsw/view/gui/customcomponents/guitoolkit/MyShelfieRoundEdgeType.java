@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.gui.customcomponents.uitoolkit;
+package it.polimi.ingsw.view.gui.customcomponents.guitoolkit;
 
 /**
  * This class represent the default edge radius value that

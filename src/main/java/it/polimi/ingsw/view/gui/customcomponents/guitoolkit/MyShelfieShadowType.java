@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.gui.customcomponents.uitoolkit;
+package it.polimi.ingsw.view.gui.customcomponents.guitoolkit;
 
 import it.polimi.ingsw.view.gui.customcomponents.decorations.MyShelfieInnerShadow;
 import it.polimi.ingsw.view.gui.customcomponents.decorations.MyShelfieShadow;

@@ -1,8 +1,8 @@
 package it.polimi.ingsw.view.gui.customcomponents.tileview;
 
 import it.polimi.ingsw.view.gui.customcomponents.decorations.*;
-import it.polimi.ingsw.view.gui.customcomponents.uitoolkit.MyShelfieRoundEdgeType;
-import it.polimi.ingsw.view.gui.customcomponents.uitoolkit.MyShelfieShadowType;
+import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieRoundEdgeType;
+import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieShadowType;
 import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
 import javafx.geometry.Bounds;
@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static it.polimi.ingsw.view.gui.customcomponents.uitoolkit.MyShelfieTransition.DEF_DURATION;
+import static it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieTransition.DEF_DURATION;
 
 /**
  * @version 3.0

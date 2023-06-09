@@ -1,7 +1,7 @@
 package it.polimi.ingsw.view.gui.customcomponents;
 
 import it.polimi.ingsw.view.gui.customcomponents.decorations.*;
-import it.polimi.ingsw.view.gui.customcomponents.uitoolkit.MyShelfieRoundEdgeType;
+import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieRoundEdgeType;
 import javafx.beans.NamedArg;
 import javafx.scene.Node;
 import javafx.scene.control.Button;

@@ -6,13 +6,11 @@ import it.polimi.ingsw.view.gui.board.BoardViewController;
 import it.polimi.ingsw.view.gui.bookshelf.BookshelfCommandController;
 import it.polimi.ingsw.view.gui.customcomponents.MyShelfieButton;
 import it.polimi.ingsw.view.gui.customcomponents.tileview.TileSubjectView;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.util.Pair;
 
 import java.net.URL;
 import java.util.ArrayList;

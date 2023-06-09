@@ -1,6 +1,6 @@
 package it.polimi.ingsw.view.gui.customcomponents.decorations;
 
-import it.polimi.ingsw.view.gui.customcomponents.uitoolkit.MyShelfieRoundEdgeType;
+import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieRoundEdgeType;
 import javafx.scene.layout.Region;
 import javafx.scene.shape.Rectangle;
 

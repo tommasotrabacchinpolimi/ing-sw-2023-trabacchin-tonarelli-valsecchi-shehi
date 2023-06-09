@@ -1,9 +1,9 @@
-package it.polimi.ingsw.view.gui.customcomponents.uitoolkit;
+package it.polimi.ingsw.view.gui.customcomponents.guitoolkit;
 
 import javafx.util.Duration;
 
 public enum MyShelfieTransition {
-    DEF_DURATION(new Duration(400)),
+    DEF_DURATION(new Duration(600)),
 
     SHORT_DURATION(new Duration(100)),
 

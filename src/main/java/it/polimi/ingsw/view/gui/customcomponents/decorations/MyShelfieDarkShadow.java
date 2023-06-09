@@ -1,7 +1,7 @@
 package it.polimi.ingsw.view.gui.customcomponents.decorations;
 
 import it.polimi.ingsw.utils.color.MyShelfieColor;
-import it.polimi.ingsw.view.gui.customcomponents.uitoolkit.MyShelfieShadowType;
+import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieShadowType;
 import javafx.scene.paint.Color;
 import org.jetbrains.annotations.NotNull;
 

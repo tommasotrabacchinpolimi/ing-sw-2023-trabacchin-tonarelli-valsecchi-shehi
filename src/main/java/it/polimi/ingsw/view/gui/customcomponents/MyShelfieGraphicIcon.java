@@ -4,7 +4,7 @@ import it.polimi.ingsw.view.gui.customcomponents.decorations.MyShelfieComponent;
 import it.polimi.ingsw.view.gui.customcomponents.decorations.MyShelfieDarkShadow;
 import it.polimi.ingsw.view.gui.customcomponents.decorations.MyShelfieDecoration;
 import it.polimi.ingsw.view.gui.customcomponents.decorations.MyShelfieRoundEdge;
-import it.polimi.ingsw.view.gui.customcomponents.uitoolkit.MyShelfieRoundEdgeType;
+import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieRoundEdgeType;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 

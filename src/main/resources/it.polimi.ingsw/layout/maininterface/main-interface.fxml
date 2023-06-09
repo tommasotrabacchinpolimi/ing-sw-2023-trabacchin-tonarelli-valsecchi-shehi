@@ -14,7 +14,7 @@
                 AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                 AnchorPane.topAnchor="0.0" fitToWidth="true">
         <VBox fx:id="scrollContentBox" alignment="CENTER">
-            <!--<fx:include fx:id="gameInterface" source="my-shelfie-game-interface.fxml"/>-->
+            <fx:include fx:id="gameInterface" source="../gameinterface/game-interface.fxml"/>
         </VBox>
     </ScrollPane>
 

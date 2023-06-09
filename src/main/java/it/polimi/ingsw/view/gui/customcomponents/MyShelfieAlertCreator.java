@@ -1,12 +1,9 @@
 package it.polimi.ingsw.view.gui.customcomponents;
 
 import it.polimi.ingsw.view.gui.MyShelfieController;
-import it.polimi.ingsw.view.gui.customcomponents.uitoolkit.MyShelfieShadowType;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
-import javafx.scene.shape.Rectangle;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
