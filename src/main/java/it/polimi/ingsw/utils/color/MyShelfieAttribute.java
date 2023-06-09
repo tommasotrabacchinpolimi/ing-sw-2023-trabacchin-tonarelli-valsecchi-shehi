@@ -44,7 +44,7 @@ public abstract class MyShelfieAttribute {
     }
 
     public static MyShelfieAttribute BLUE_TEXT() {
-        return TEXT_COLOR(BICE_BLUE.getRedValue(), BICE_BLUE.getGreenValue(), BICE_BLUE.getBlueValue());
+        return TEXT_COLOR(SAPPHIRE.getRedValue(), SAPPHIRE.getGreenValue(), SAPPHIRE.getBlueValue());
     }
 
     public static MyShelfieAttribute MAGENTA_TEXT() {
@@ -73,7 +73,7 @@ public abstract class MyShelfieAttribute {
     }
 
     public static MyShelfieAttribute BLUE_BACK() {
-        return BACK_COLOR(BICE_BLUE.getRedValue(), BICE_BLUE.getGreenValue(), BICE_BLUE.getBlueValue());
+        return BACK_COLOR(SAPPHIRE.getRedValue(), SAPPHIRE.getGreenValue(), SAPPHIRE.getBlueValue());
     }
 
     public static MyShelfieAttribute MAGENTA_BACK() {
@@ -102,7 +102,7 @@ public abstract class MyShelfieAttribute {
     }
 
     public static MyShelfieAttribute BRIGHT_BLUE_TEXT() {
-        return TEXT_COLOR(BICE_BLUE.getLightenRedValue(), BICE_BLUE.getLightenGreenValue(), BICE_BLUE.getLightenBlueValue());
+        return TEXT_COLOR(SAPPHIRE.getLightenRedValue(), SAPPHIRE.getLightenGreenValue(), SAPPHIRE.getLightenBlueValue());
     }
 
     public static MyShelfieAttribute BRIGHT_MAGENTA_TEXT() {
@@ -131,7 +131,7 @@ public abstract class MyShelfieAttribute {
     }
 
     public static MyShelfieAttribute BRIGHT_BLUE_BACK() {
-        return BACK_COLOR(BICE_BLUE.getLightenRedValue(), BICE_BLUE.getLightenGreenValue(), BICE_BLUE.getLightenBlueValue());
+        return BACK_COLOR(SAPPHIRE.getLightenRedValue(), SAPPHIRE.getLightenGreenValue(), SAPPHIRE.getLightenBlueValue());
     }
 
     public static MyShelfieAttribute BRIGHT_MAGENTA_BACK() {
@@ -160,7 +160,7 @@ public abstract class MyShelfieAttribute {
     }
 
     public static MyShelfieAttribute DARKEN_BLUE_TEXT() {
-        return TEXT_COLOR(BICE_BLUE.getDarkenRedValue(), BICE_BLUE.getDarkenGreenValue(), BICE_BLUE.getDarkenBlueValue());
+        return TEXT_COLOR(SAPPHIRE.getDarkenRedValue(), SAPPHIRE.getDarkenGreenValue(), SAPPHIRE.getDarkenBlueValue());
     }
 
     public static MyShelfieAttribute DARKEN_MAGENTA_TEXT() {
@@ -189,7 +189,7 @@ public abstract class MyShelfieAttribute {
     }
 
     public static MyShelfieAttribute DARKEN_BLUE_BACK() {
-        return BACK_COLOR(BICE_BLUE.getDarkenRedValue(), BICE_BLUE.getDarkenGreenValue(), BICE_BLUE.getDarkenBlueValue());
+        return BACK_COLOR(SAPPHIRE.getDarkenRedValue(), SAPPHIRE.getDarkenGreenValue(), SAPPHIRE.getDarkenBlueValue());
     }
 
     public static MyShelfieAttribute DARKEN_MAGENTA_BACK() {

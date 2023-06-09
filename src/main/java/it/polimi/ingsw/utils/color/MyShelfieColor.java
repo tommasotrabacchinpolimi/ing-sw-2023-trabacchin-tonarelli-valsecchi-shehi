@@ -34,7 +34,7 @@ public enum MyShelfieColor {
     /**
      * Caput-Mortuum color set
      */
-    CAPUT_MORTUUM(Color.rgb(95, 35, 41),
+    RED_RUBY(Color.rgb(95, 35, 41),
             Color.rgb(65, 19, 24),
             Color.rgb(162, 15, 30)),
 
@@ -76,9 +76,27 @@ public enum MyShelfieColor {
     /**
      * Middle-Green-Yellow color set
      */
-    MIDDLE_GREEN(Color.rgb(171, 194, 112),
+    APPLE_GREEN(Color.rgb(171, 194, 112),
             Color.rgb(123, 151, 50),
-            Color.rgb(197, 237, 95));
+            Color.rgb(197, 237, 95)),
+
+    /**
+     * Blue-Sapphire color set
+     */
+    SAPPHIRE(Color.rgb(0, 103, 145),
+            Color.rgb(0, 68, 94),
+            Color.rgb(0, 137, 191)),
+
+    /**
+     * Magenta color set
+     */
+    MAGENTA(Color.rgb(204, 77, 124),
+            Color.rgb(151, 34, 77),
+            Color.rgb(240, 70, 133)),
+
+    VERDIGRIS(Color.rgb(106, 183, 183),
+            Color.rgb(52, 140, 140),
+            Color.rgb(85, 234, 234));
 
     /**
      * The color associated with each type

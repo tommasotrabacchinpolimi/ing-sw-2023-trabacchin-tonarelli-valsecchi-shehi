@@ -246,7 +246,7 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
                         .map(destinationPane -> destinationPane.localToScene(destinationPane.getBoundsInLocal()))
                         .toList();
 
-        MoveTo start = new MoveTo((boundsInScene.getWidth() / 2 - getPadding().getLeft() / 2), (boundsInScene.getHeight() / 2 - getPadding().getTop() / 2));
+        MoveTo start = new MoveTo(getWidth() / 2, getHeight() / 2);
 
         List<PathElement> lineTos = new ArrayList<>(List.of(start));
 
@@ -268,8 +268,8 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
 
     @NotNull
     private LineTo createCenterLineTo(Bounds startingBounds, Bounds endingBounds) {
-        double endX = endingBounds.getMinX() - startingBounds.getMinX() + (endingBounds.getWidth() / 2.0);
-        double endY = endingBounds.getMinY() - startingBounds.getMinY() + (endingBounds.getHeight() / 2.0);
+        double endX = endingBounds.getMinX() - startingBounds.getMinX() - (startingBounds.getWidth() - getWidth()) / 2.0 + (endingBounds.getWidth() / 2.0);
+        double endY = endingBounds.getMinY() - startingBounds.getMinY() - (startingBounds.getHeight() - getHeight()) / 2.0 + (endingBounds.getHeight() / 2.0);
 
         return new LineTo(endX, endY);
     }
