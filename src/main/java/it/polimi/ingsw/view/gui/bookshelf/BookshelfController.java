@@ -17,8 +17,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import static it.polimi.ingsw.view.gui.customcomponents.uitoolkit.MyShelfieColor.GAMBOGE;
-import static it.polimi.ingsw.view.gui.customcomponents.uitoolkit.MyShelfieColor.KOBICHA;
+import static it.polimi.ingsw.utils.color.MyShelfieColor.GAMBOGE;
+import static it.polimi.ingsw.utils.color.MyShelfieColor.KOBICHA;
 
 public class BookshelfController extends MyShelfieController {
 

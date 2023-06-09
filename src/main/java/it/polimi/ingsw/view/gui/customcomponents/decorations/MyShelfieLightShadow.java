@@ -2,7 +2,7 @@ package it.polimi.ingsw.view.gui.customcomponents.decorations;
 
 import javafx.scene.paint.Color;
 
-import static it.polimi.ingsw.view.gui.customcomponents.uitoolkit.MyShelfieColor.GAMBOGE;
+import static it.polimi.ingsw.utils.color.MyShelfieColor.GAMBOGE;
 
 /**
  * <p>Direct implementation of the {@link MyShelfieShadow}

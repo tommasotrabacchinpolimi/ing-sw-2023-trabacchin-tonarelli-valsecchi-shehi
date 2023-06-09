@@ -20,7 +20,6 @@ module it.polimi.ingsw {
     requires java.desktop;
     requires java.compiler;
     requires annotations;
-    requires JColor;
 
     exports it.polimi.ingsw.net to java.rmi;
     opens it.polimi.ingsw.net;
@@ -72,4 +71,6 @@ module it.polimi.ingsw {
 
     exports it.polimi.ingsw.view.gui.gameinterface to javafx.fxml, javafx.graphics;
     opens it.polimi.ingsw.view.gui.gameinterface to javafx.fxml, javafx.graphics;
+    exports it.polimi.ingsw.utils.color;
+    opens it.polimi.ingsw.utils.color;
 }

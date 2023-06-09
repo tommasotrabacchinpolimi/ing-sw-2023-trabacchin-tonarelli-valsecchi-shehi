@@ -1,6 +1,6 @@
 package it.polimi.ingsw.view.tui;
 
-import com.diogonunes.jcolor.Attribute;
+import it.polimi.ingsw.utils.color.MyShelfieAttribute;
 import it.polimi.ingsw.model.BoardSquareType;
 import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.TileSubject;
@@ -14,14 +14,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
-import java.rmi.NotBoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import static com.diogonunes.jcolor.Ansi.colorize;
+import static it.polimi.ingsw.utils.color.MyShelfieAnsi.colorize;
 import static it.polimi.ingsw.model.BoardSquareType.*;
 import static it.polimi.ingsw.model.BoardSquareType.THREE_DOTS;
 
@@ -167,7 +166,7 @@ public class TUIStateGame extends TUIState{
                         }
                         break;
                     case "play":
-                        out.println("It's your turn to play! Please enter the coordinate of the tiles you want to take from the board, then type " + colorize("end", Attribute.BOLD()));
+                        out.println("It's your turn to play! Please enter the coordinate of the tiles you want to take from the board, then type " + colorize("end", MyShelfieAttribute.BOLD()));
                         List<Coordinate> tiles = new ArrayList<>();
                         String coord = "";
                         while (true) {
@@ -224,9 +223,9 @@ public class TUIStateGame extends TUIState{
 
     private void home(){ //mostra le cose base
         state = TUIView.HOME;
-        out.print(colorize("                                                           ", Attribute.GREEN_BACK()));
-        out.print(colorize("MY SHELFIE: HOME OF " + getModel().getThisPlayer(), Attribute.GREEN_BACK()));
-        out.println(colorize("                                                           ", Attribute.GREEN_BACK()));
+        out.print(colorize("                                                           ", MyShelfieAttribute.GREEN_BACK()));
+        out.print(colorize("MY SHELFIE: HOME OF " + getModel().getThisPlayer(), MyShelfieAttribute.GREEN_BACK()));
+        out.println(colorize("                                                           ", MyShelfieAttribute.GREEN_BACK()));
 
         printGameState(getModel().getGameState());
 
@@ -237,7 +236,7 @@ public class TUIStateGame extends TUIState{
             }
             out.print(name);
             if(!Objects.equals(getModel().getPlayersState().get(name) , "CONNECTED")){
-                out.print("(" + colorize(getModel().getPlayersState().get(name).toLowerCase(), Attribute.ITALIC()) + ")");
+                out.print("(" + colorize(getModel().getPlayersState().get(name).toLowerCase(), MyShelfieAttribute.ITALIC()) + ")");
             }
             out.print("   ");
         }
@@ -245,20 +244,20 @@ public class TUIStateGame extends TUIState{
 
         List<Integer> points = getModel().getPlayersPoints().get(getModel().getThisPlayer());
         if(points!=null) {
-            out.println(colorize("Your points: ",Attribute.BOLD()));
+            out.println(colorize("Your points: ", MyShelfieAttribute.BOLD()));
             out.println("Adjacent Tiles = " + points.get(0) + printPointOrPoints(points.get(0)));
             out.println("Common Goal 1 =  " + points.get(1) + printPointOrPoints(points.get(1)));
             out.println("Common Goal 2 =  "+ points.get(2) + printPointOrPoints(points.get(2)));
             out.println("End Game =       " + points.get(3) + printPointOrPoints(points.get(3)));
             out.println("Personal Goal =  " + points.get(4) + printPointOrPoints(points.get(4)));
             int totalScore = getModel().getTotalPointByNickname(getModel().getThisPlayer());
-            out.println(colorize("Total Points", Attribute.BOLD()) + " =   " + totalScore + printPointOrPoints(totalScore));
+            out.println(colorize("Total Points", MyShelfieAttribute.BOLD()) + " =   " + totalScore + printPointOrPoints(totalScore));
         }
 
         if(getModel().getCommonGoals()[0]!=null || getModel().getCommonGoals()[1]!=null) {
             out.println();
-            out.println(colorize("Common Goal 1: ", Attribute.BOLD()) + getModel().getCommonGoals()[0] + "\n     " + "Available Score = " + getModel().getAvailableScores().get(0));
-            out.println(colorize("Common Goal 2: ", Attribute.BOLD()) + getModel().getCommonGoals()[1] + "\n     " + "Available Score = " + getModel().getAvailableScores().get(1));
+            out.println(colorize("Common Goal 1: ", MyShelfieAttribute.BOLD()) + getModel().getCommonGoals()[0] + "\n     " + "Available Score = " + getModel().getAvailableScores().get(0));
+            out.println(colorize("Common Goal 2: ", MyShelfieAttribute.BOLD()) + getModel().getCommonGoals()[1] + "\n     " + "Available Score = " + getModel().getAvailableScores().get(1));
         }
 
         out.println();
@@ -270,19 +269,19 @@ public class TUIStateGame extends TUIState{
 
         if(getModel().getCurrentPlayer() != null && !getModel().getGameState().equals(GameState.SUSPENDED.toString()) && !getModel().getGameState().equals(GameState.END.toString())) {
             if(getModel().getCurrentPlayer().equals(getModel().getThisPlayer())){
-                out.println(colorize("It's your turn to play!", Attribute.BOLD(), Attribute.GREEN_TEXT()));
+                out.println(colorize("It's your turn to play!", MyShelfieAttribute.BOLD(), MyShelfieAttribute.GREEN_TEXT()));
             } else {
-                out.println(colorize("Current Player is " + getModel().getCurrentPlayer(), Attribute.BOLD(), Attribute.GREEN_TEXT()));
+                out.println(colorize("Current Player is " + getModel().getCurrentPlayer(), MyShelfieAttribute.BOLD(), MyShelfieAttribute.GREEN_TEXT()));
             }
         }
-        out.println(colorize("<--To learn how to play, please type 'help'.-->",Attribute.BOLD()));
+        out.println(colorize("<--To learn how to play, please type 'help'.-->", MyShelfieAttribute.BOLD()));
     }
 
     private void showChat(){
         state = TUIView.CHAT;
-        System.out.print(colorize("                                                                     ", Attribute.GREEN_BACK()));
-        System.out.print(colorize("MY SHELFIE: CHAT", Attribute.GREEN_BACK()));
-        System.out.println(colorize("                                                                     ", Attribute.GREEN_BACK()));
+        System.out.print(colorize("                                                                     ", MyShelfieAttribute.GREEN_BACK()));
+        System.out.print(colorize("MY SHELFIE: CHAT", MyShelfieAttribute.GREEN_BACK()));
+        System.out.println(colorize("                                                                     ", MyShelfieAttribute.GREEN_BACK()));
         List<Triple<String, List<String>, String>> messages = getModel().getMessages();
         if(messages == null){
             System.out.println("There aren't any messages yet.");
@@ -300,18 +299,18 @@ public class TUIStateGame extends TUIState{
                             priv = "(private with " + message.getSecond().get(0) + ") " ;
                         }
                     }
-                    out.println(colorize(sender + " " + priv, Attribute.BLUE_TEXT()) + " " + message.getThird());
+                    out.println(colorize(sender + " " + priv, MyShelfieAttribute.BLUE_TEXT()) + " " + message.getThird());
                 }
             }
         }
-        out.println(colorize("<--There aren't any more messages. If you want to return to the homepage, please type 'exit'.-->",Attribute.BOLD()));
+        out.println(colorize("<--There aren't any more messages. If you want to return to the homepage, please type 'exit'.-->", MyShelfieAttribute.BOLD()));
     }
 
     private void showBookshelves(){
         state = TUIView.OTHERS;
-        System.out.print(colorize("                                    ", Attribute.GREEN_BACK()));
-        System.out.print(colorize("MY SHELFIE: OTHER PLAYERS' BOOKSHELVES AND POINTS", Attribute.GREEN_BACK()));
-        System.out.println(colorize("                                    ", Attribute.GREEN_BACK()));
+        System.out.print(colorize("                                    ", MyShelfieAttribute.GREEN_BACK()));
+        System.out.print(colorize("MY SHELFIE: OTHER PLAYERS' BOOKSHELVES AND POINTS", MyShelfieAttribute.GREEN_BACK()));
+        System.out.println(colorize("                                    ", MyShelfieAttribute.GREEN_BACK()));
         List<String> nicknames = getOtherPlayer();
         List<char[][]> bookshelves = getOtherBookShelves();
         List<List<Integer>> pointPlayers = getOtherPoints();
@@ -319,17 +318,17 @@ public class TUIStateGame extends TUIState{
         printOthersBookShelf(nicknames.get(0), nicknames.get(1), nicknames.get(2), bookshelves.get(0), bookshelves.get(1), bookshelves.get(2));
         out.println();
         printOthersPoint(nicknames.get(0), nicknames.get(1), nicknames.get(2), pointPlayers.get(0), pointPlayers.get(1), pointPlayers.get(2), totalPoints.get(0), totalPoints.get(1), totalPoints.get(2));
-        out.println(colorize("<--If you want to return to the homepage, please type 'exit'.-->",Attribute.BOLD()));
+        out.println(colorize("<--If you want to return to the homepage, please type 'exit'.-->", MyShelfieAttribute.BOLD()));
     }
 
     @Override
     public void showWinner(){
         state = TUIView.END;
-        System.out.print(colorize("                                                           ", Attribute.GREEN_BACK()));
-        System.out.print(colorize("MY SHELFIE: HOME OF " + getModel().getThisPlayer(), Attribute.GREEN_BACK()));
-        System.out.println(colorize("                                                           ", Attribute.GREEN_BACK()));
+        System.out.print(colorize("                                                           ", MyShelfieAttribute.GREEN_BACK()));
+        System.out.print(colorize("MY SHELFIE: HOME OF " + getModel().getThisPlayer(), MyShelfieAttribute.GREEN_BACK()));
+        System.out.println(colorize("                                                           ", MyShelfieAttribute.GREEN_BACK()));
         printGameState(getModel().getGameState());
-        out.println("The winner is..." + colorize(getModel().getWinnerPlayer(), Attribute.BOLD(), Attribute.BRIGHT_YELLOW_TEXT()) + "!");
+        out.println("The winner is..." + colorize(getModel().getWinnerPlayer(), MyShelfieAttribute.BOLD(), MyShelfieAttribute.BRIGHT_YELLOW_TEXT()) + "!");
         out.println("Here are the bookshelves and the point of all players:");
 
         char[][] bookshelf = fromTileSubjectToChar(getModel().getBookShelfByNickname(getModel().getThisPlayer()), false);
@@ -349,7 +348,7 @@ public class TUIStateGame extends TUIState{
             if(i < 5 ) {
                 printPoint(pointPlayer, i);
             } else {
-                out.print(colorize("Total Points", Attribute.BOLD()) + " =   " + totalScore + printPointOrPoints(totalScore));
+                out.print(colorize("Total Points", MyShelfieAttribute.BOLD()) + " =   " + totalScore + printPointOrPoints(totalScore));
             }
             out.println();
             out.println("               "+ getDividerBookShelf(i+1));
@@ -357,7 +356,7 @@ public class TUIStateGame extends TUIState{
         out.println();
         printOthersBookShelf(nicknames.get(0), nicknames.get(1), nicknames.get(2), othersBookshelves.get(0), othersBookshelves.get(1), othersBookshelves.get(2));
         printOthersPoint(nicknames.get(0), nicknames.get(1), nicknames.get(2), othersPoints.get(0), othersPoints.get(1), othersPoints.get(2), othersTotalPoints.get(0), othersTotalPoints.get(1), othersTotalPoints.get(2));
-        out.println(colorize("<--- Enter 'quit' to leave this game and start a new one. --->", Attribute.BOLD()));
+        out.println(colorize("<--- Enter 'quit' to leave this game and start a new one. --->", MyShelfieAttribute.BOLD()));
     }
 
     private void printBoardBookShelfPersonalGoal(char[][] board, char[][] bookshelf, char[][] personalGoal){
@@ -400,34 +399,34 @@ public class TUIStateGame extends TUIState{
     private String getDividerBoard(int row) {
         switch(row) {
             case 0 -> {
-                return colorize("   ┌───┬───┬───╔═══╦═══╗───┬───┬───┬───┐", Attribute.TEXT_COLOR(245,245,246));
+                return colorize("   ┌───┬───┬───╔═══╦═══╗───┬───┬───┬───┐", MyShelfieAttribute.TEXT_COLOR(245,245,246));
             }
             case 1 -> {
-                return colorize("   ├───┼───┼───╠═══╬═══╬═══╗───┼───┼───┤", Attribute.TEXT_COLOR(245,245,246));
+                return colorize("   ├───┼───┼───╠═══╬═══╬═══╗───┼───┼───┤", MyShelfieAttribute.TEXT_COLOR(245,245,246));
             }
             case 2 -> {
-                return colorize("   ├───┼───╔═══╬═══╬═══╬═══╬═══╗───┼───┤", Attribute.TEXT_COLOR(245,245,246));
+                return colorize("   ├───┼───╔═══╬═══╬═══╬═══╬═══╗───┼───┤", MyShelfieAttribute.TEXT_COLOR(245,245,246));
             }
             case 3 -> {
-                return colorize("   ├───╔═══╬═══╬═══╬═══╬═══╬═══╬═══╦═══╗", Attribute.TEXT_COLOR(245,245,246));
+                return colorize("   ├───╔═══╬═══╬═══╬═══╬═══╬═══╬═══╦═══╗", MyShelfieAttribute.TEXT_COLOR(245,245,246));
             }
             case 4 -> {
-                return colorize("   ╔═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╣", Attribute.TEXT_COLOR(245,245,246));
+                return colorize("   ╔═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╣", MyShelfieAttribute.TEXT_COLOR(245,245,246));
             }
             case 5 -> {
-                return colorize("   ╠═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╝", Attribute.TEXT_COLOR(245,245,246));
+                return colorize("   ╠═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╝", MyShelfieAttribute.TEXT_COLOR(245,245,246));
             }
             case 6 -> {
-                return colorize("   ╚═══╩═══╬═══╬═══╬═══╬═══╬═══╬═══╝───┤", Attribute.TEXT_COLOR(245,245,246));
+                return colorize("   ╚═══╩═══╬═══╬═══╬═══╬═══╬═══╬═══╝───┤", MyShelfieAttribute.TEXT_COLOR(245,245,246));
             }
             case 7 -> {
-                return colorize("   ├───┼───╚═══╬═══╬═══╬═══╬═══╝───┼───┤", Attribute.TEXT_COLOR(245,245,246));
+                return colorize("   ├───┼───╚═══╬═══╬═══╬═══╬═══╝───┼───┤", MyShelfieAttribute.TEXT_COLOR(245,245,246));
             }
             case 8 -> {
-                return colorize("   ├───┼───┼───╚═══╬═══╬═══╣───┼───┼───┤", Attribute.TEXT_COLOR(245,245,246));
+                return colorize("   ├───┼───┼───╚═══╬═══╬═══╣───┼───┼───┤", MyShelfieAttribute.TEXT_COLOR(245,245,246));
             }
             case 9 -> {
-                return colorize("   └───┴───┴───┴───╚═══╩═══╝───┴───┴───┘", Attribute.TEXT_COLOR(245,245,246));
+                return colorize("   └───┴───┴───┴───╚═══╩═══╝───┴───┴───┘", MyShelfieAttribute.TEXT_COLOR(245,245,246));
             }
             default -> {
                 return null;
@@ -437,18 +436,18 @@ public class TUIStateGame extends TUIState{
 
     private String getDividerBookShelf(int row){
         switch (row){
-            case 0 -> { return colorize("╔═══╦═══╦═══╦═══╦═══╗", Attribute.TEXT_COLOR(245,245,246)); }
-            case 1, 2, 3, 4, 5 -> { return colorize("╠═══╬═══╬═══╬═══╬═══╣", Attribute.TEXT_COLOR(245,245,246)); }
-            case 6 -> { return colorize("╚═══╩═══╩═══╩═══╩═══╝", Attribute.TEXT_COLOR(245,245,246)); }
+            case 0 -> { return colorize("╔═══╦═══╦═══╦═══╦═══╗", MyShelfieAttribute.TEXT_COLOR(245,245,246)); }
+            case 1, 2, 3, 4, 5 -> { return colorize("╠═══╬═══╬═══╬═══╬═══╣", MyShelfieAttribute.TEXT_COLOR(245,245,246)); }
+            case 6 -> { return colorize("╚═══╩═══╩═══╩═══╩═══╝", MyShelfieAttribute.TEXT_COLOR(245,245,246)); }
             default -> { return ""; }
         }
     }
 
     private String getDividerPersonalGoal(int row){
         switch (row){
-            case 0 -> { return colorize("┌───┬───┬───┬───┬───┐", Attribute.TEXT_COLOR(245,245,246)); }
-            case 1, 2, 3, 4, 5 -> { return colorize("├───┼───┼───┼───┼───┤", Attribute.TEXT_COLOR(245,245,246)); }
-            case 6 -> { return colorize("└───┴───┴───┴───┴───┘", Attribute.TEXT_COLOR(245,245,246)); }
+            case 0 -> { return colorize("┌───┬───┬───┬───┬───┐", MyShelfieAttribute.TEXT_COLOR(245,245,246)); }
+            case 1, 2, 3, 4, 5 -> { return colorize("├───┼───┼───┼───┼───┤", MyShelfieAttribute.TEXT_COLOR(245,245,246)); }
+            case 6 -> { return colorize("└───┴───┴───┴───┴───┘", MyShelfieAttribute.TEXT_COLOR(245,245,246)); }
             default -> { return ""; }
         }
     }
@@ -463,19 +462,19 @@ public class TUIStateGame extends TUIState{
 
         switch (r) {
             case 0, 1, 7 -> {
-                result.append(colorize("│   │   │   ", Attribute.TEXT_COLOR(245,245,246)));
+                result.append(colorize("│   │   │   ", MyShelfieAttribute.TEXT_COLOR(245,245,246)));
                 c = 3;
             }
             case 2, 6 -> {
-                result.append(colorize("│   │   ", Attribute.TEXT_COLOR(245,245,246)));
+                result.append(colorize("│   │   ", MyShelfieAttribute.TEXT_COLOR(245,245,246)));
                 c = 2;
             }
             case 3 -> {
-                result.append(colorize("│   ", Attribute.TEXT_COLOR(245,245,246)));
+                result.append(colorize("│   ", MyShelfieAttribute.TEXT_COLOR(245,245,246)));
                 c = 1;
             }
             case 8 -> {
-                result.append(colorize("│   │   │   │   ", Attribute.TEXT_COLOR(245,245,246)));
+                result.append(colorize("│   │   │   │   ", MyShelfieAttribute.TEXT_COLOR(245,245,246)));
                 c = 4;
             }
             default -> {
@@ -492,19 +491,19 @@ public class TUIStateGame extends TUIState{
             default -> n = 9;
         }
 
-        result.append( colorize("║", Attribute.TEXT_COLOR(245,245,246)) );
+        result.append( colorize("║", MyShelfieAttribute.TEXT_COLOR(245,245,246)) );
 
         for( i = 0; i < n; ++i ){
             result.append( toPrintChar(board[r][c + i]) );
 
             if( i < n - 1 )
-                result.append(colorize("║", Attribute.TEXT_COLOR(245,245,246)));
+                result.append(colorize("║", MyShelfieAttribute.TEXT_COLOR(245,245,246)));
         }
 
-        result.append( colorize("║", Attribute.TEXT_COLOR(245,245,246)) );
+        result.append( colorize("║", MyShelfieAttribute.TEXT_COLOR(245,245,246)) );
 
         for( i += c ; i < DIM_BOARD; ++i ){
-            result.append( colorize("   │", Attribute.TEXT_COLOR(245,245,246)) );
+            result.append( colorize("   │", MyShelfieAttribute.TEXT_COLOR(245,245,246)) );
         }
 
         out.print(result.toString());
@@ -514,11 +513,11 @@ public class TUIStateGame extends TUIState{
         if(matrix!=null) {
             for (int j = 0; j < DIMCOL_BOOKSHELF; j++) {
                 if (j == 0)
-                    out.print(colorize("│", Attribute.TEXT_COLOR(245, 245, 246)) + toPrintChar(matrix[row][j]) + colorize("│", Attribute.TEXT_COLOR(245, 245, 246)));
+                    out.print(colorize("│", MyShelfieAttribute.TEXT_COLOR(245, 245, 246)) + toPrintChar(matrix[row][j]) + colorize("│", MyShelfieAttribute.TEXT_COLOR(245, 245, 246)));
                 else if (j < DIMCOL_BOOKSHELF - 1)
-                    out.print(toPrintChar(matrix[row][j]) + colorize("│", Attribute.TEXT_COLOR(245, 245, 246)));
+                    out.print(toPrintChar(matrix[row][j]) + colorize("│", MyShelfieAttribute.TEXT_COLOR(245, 245, 246)));
                 else
-                    out.print(toPrintChar(matrix[row][j]) + colorize("│", Attribute.TEXT_COLOR(245, 245, 246)));
+                    out.print(toPrintChar(matrix[row][j]) + colorize("│", MyShelfieAttribute.TEXT_COLOR(245, 245, 246)));
             }
         }
     }
@@ -527,11 +526,11 @@ public class TUIStateGame extends TUIState{
         if(matrix!=null) {
             for (int j = 0; j < DIMCOL_BOOKSHELF; j++) {
                 if (j == 0)
-                    out.print(colorize("║", Attribute.TEXT_COLOR(245, 245, 246)) + toPrintChar(matrix[row][j]) + colorize("║", Attribute.TEXT_COLOR(245, 245, 246)));
+                    out.print(colorize("║", MyShelfieAttribute.TEXT_COLOR(245, 245, 246)) + toPrintChar(matrix[row][j]) + colorize("║", MyShelfieAttribute.TEXT_COLOR(245, 245, 246)));
                 else if (j < DIMCOL_BOOKSHELF - 1)
-                    out.print(toPrintChar(matrix[row][j]) + colorize("║", Attribute.TEXT_COLOR(245, 245, 246)));
+                    out.print(toPrintChar(matrix[row][j]) + colorize("║", MyShelfieAttribute.TEXT_COLOR(245, 245, 246)));
                 else
-                    out.print(toPrintChar(matrix[row][j]) + colorize("║", Attribute.TEXT_COLOR(245, 245, 246)));
+                    out.print(toPrintChar(matrix[row][j]) + colorize("║", MyShelfieAttribute.TEXT_COLOR(245, 245, 246)));
             }
         }
     }
@@ -633,7 +632,7 @@ public class TUIStateGame extends TUIState{
         printPoint(pointPlayer2, 4);
         printPoint(pointPlayer3, 4);
         out.println();
-        out.print(colorize("Total points:    ", Attribute.BOLD()));
+        out.print(colorize("Total points:    ", MyShelfieAttribute.BOLD()));
         if(total1 != null) {
             out.print(total1 + " " + printPointOrPoints(total1) + "               ");
         }
@@ -773,18 +772,18 @@ public class TUIStateGame extends TUIState{
     }
 
     private void printLegendMoves(){
-        out.print(colorize("                                                                   ", Attribute.GREEN_BACK()));
-        out.print(colorize("MY SHELFIE: LEGEND", Attribute.GREEN_BACK()));
-        out.print(colorize("                                                                   ", Attribute.GREEN_BACK()));
-        out.println(colorize("Here are the actions you can make during the game:", Attribute.ITALIC()));
-        out.println(colorize(" TYPE        DESCRIPTION", Attribute.ITALIC()));
+        out.print(colorize("                                                                   ", MyShelfieAttribute.GREEN_BACK()));
+        out.print(colorize("MY SHELFIE: LEGEND", MyShelfieAttribute.GREEN_BACK()));
+        out.print(colorize("                                                                   ", MyShelfieAttribute.GREEN_BACK()));
+        out.println(colorize("Here are the actions you can make during the game:", MyShelfieAttribute.ITALIC()));
+        out.println(colorize(" TYPE        DESCRIPTION", MyShelfieAttribute.ITALIC()));
         out.println(" play        use it during your turn in order to move tiles from the board to your bookshelf.");
         out.println(" message     use it to send messages to other players.");
         out.println(" chat        use it to see the chat.");
         out.println(" others      use it to see other players' bookshelves and points.");
         out.println(" exit        use this to leave chat, others visual or help legend.");
         out.println(" quit        use it to leave the game, you will be directed to the welcome page so you can play again.");
-        out.println(colorize("<--- Please enter exit to return to the homepage. --->", Attribute.BOLD()));
+        out.println(colorize("<--- Please enter exit to return to the homepage. --->", MyShelfieAttribute.BOLD()));
     }
 
     private String toPrintChar(char c){
@@ -793,22 +792,22 @@ public class TUIStateGame extends TUIState{
                 return " " + c + " ";
             }
             case 't' -> {
-                return colorize(" " + c + " ", Attribute.CYAN_BACK());
+                return colorize(" " + c + " ", MyShelfieAttribute.CYAN_BACK());
             }
             case 'f' -> {
-                return colorize(" " + c + " ", Attribute.BLUE_BACK());
+                return colorize(" " + c + " ", MyShelfieAttribute.BLUE_BACK());
             }
             case 'c' -> {
-                return colorize(" " + c + " ", Attribute.GREEN_BACK());
+                return colorize(" " + c + " ", MyShelfieAttribute.GREEN_BACK());
             }
             case 'g' -> {
-                return colorize(" " + c + " ", Attribute.YELLOW_BACK());
+                return colorize(" " + c + " ", MyShelfieAttribute.YELLOW_BACK());
             }
             case 'p' -> {
-                return colorize(" " + c + " ", Attribute.MAGENTA_BACK());
+                return colorize(" " + c + " ", MyShelfieAttribute.MAGENTA_BACK());
             }
             case 'b' -> {
-                return colorize(" " + c + " ", Attribute.WHITE_BACK());
+                return colorize(" " + c + " ", MyShelfieAttribute.WHITE_BACK());
             }
             default -> {
                 return "   ";

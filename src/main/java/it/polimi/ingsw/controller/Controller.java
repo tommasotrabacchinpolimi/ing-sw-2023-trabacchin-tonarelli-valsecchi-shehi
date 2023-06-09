@@ -23,8 +23,7 @@ public class Controller implements OnConnectionLostListener<ClientInterface>, Co
     private GameManager gameManager;
     private final ChatManager chatManager;
     private LobbyController lobbyController;
-
-    private TimingStateMachine timingStateMachine;
+    private final TimingStateMachine timingStateMachine;
 
     public Controller(State state, LobbyController lobbyController) throws FileNotFoundException {
         this.state = state;

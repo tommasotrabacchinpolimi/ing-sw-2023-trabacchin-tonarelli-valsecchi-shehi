@@ -6,19 +6,15 @@ import javafx.beans.NamedArg;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
-import javafx.scene.effect.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextAlignment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.ingsw.view.gui.customcomponents.uitoolkit.MyShelfieColor.BONE;
+import static it.polimi.ingsw.utils.color.MyShelfieColor.BONE;
 
 /**
  * @version 2.0

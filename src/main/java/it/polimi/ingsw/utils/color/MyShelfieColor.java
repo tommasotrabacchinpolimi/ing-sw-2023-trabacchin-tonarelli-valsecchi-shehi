@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.gui.customcomponents.uitoolkit;
+package it.polimi.ingsw.utils.color;
 
 import javafx.scene.paint.Color;
 import org.jetbrains.annotations.Contract;
@@ -259,7 +259,7 @@ public enum MyShelfieColor {
      *
      * @return the red value of the color
      */
-    private int getRedValue() {
+    protected int getRedValue() {
         return Math.toIntExact(Math.round(getColor().getRed() * 255));
     }
 
@@ -269,7 +269,7 @@ public enum MyShelfieColor {
      *
      * @return the green value of the color
      */
-    private int getGreenValue() {
+    protected int getGreenValue() {
         return Math.toIntExact(Math.round(getColor().getGreen() * 255));
     }
 
@@ -279,7 +279,7 @@ public enum MyShelfieColor {
      *
      * @return the blue value of the color
      */
-    private int getBlueValue() {
+    protected int getBlueValue() {
         return Math.toIntExact(Math.round(getColor().getBlue() * 255));
     }
 
@@ -322,7 +322,7 @@ public enum MyShelfieColor {
      * @apiNote result will appear as '{@code redValue, greenValue, blueValue}'
      */
     @NotNull
-    private String getDarkenRGBValue() {
+    protected String getDarkenRGBValue() {
         return getDarkenRedValue() + ", " + getDarkenGreenValue() + ", " + getDarkenBlueValue();
     }
 
@@ -332,7 +332,7 @@ public enum MyShelfieColor {
      *
      * @return the red value of the darkened color
      */
-    private int getDarkenRedValue() {
+    protected int getDarkenRedValue() {
         return Math.toIntExact(Math.round(getDarkenColor().getRed() * 255));
     }
 
@@ -342,7 +342,7 @@ public enum MyShelfieColor {
      *
      * @return the green value of the darkened color
      */
-    private int getDarkenGreenValue() {
+    protected int getDarkenGreenValue() {
         return Math.toIntExact(Math.round(getDarkenColor().getGreen() * 255));
     }
 
@@ -352,7 +352,7 @@ public enum MyShelfieColor {
      *
      * @return the blue value of the darkened color
      */
-    private int getDarkenBlueValue() {
+    protected int getDarkenBlueValue() {
         return Math.toIntExact(Math.round(getDarkenColor().getBlue() * 255));
     }
 
@@ -405,7 +405,7 @@ public enum MyShelfieColor {
      *
      * @return the red value of the lightened color
      */
-    private int getLightenRedValue() {
+    protected int getLightenRedValue() {
         return Math.toIntExact(Math.round(getLightenColor().getRed() * 255));
     }
 
@@ -415,7 +415,7 @@ public enum MyShelfieColor {
      *
      * @return the green value of the lightened color
      */
-    private int getLightenGreenValue() {
+    protected int getLightenGreenValue() {
         return Math.toIntExact(Math.round(getLightenColor().getGreen() * 255));
     }
 
@@ -425,7 +425,8 @@ public enum MyShelfieColor {
      *
      * @return the blue value of the lightened color
      */
-    private int getLightenBlueValue() {
+    protected int getLightenBlueValue() {
         return Math.toIntExact(Math.round(getLightenColor().getBlue() * 255));
     }
+
 }

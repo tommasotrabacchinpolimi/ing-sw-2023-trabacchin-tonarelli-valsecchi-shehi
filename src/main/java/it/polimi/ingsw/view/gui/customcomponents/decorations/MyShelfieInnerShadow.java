@@ -5,7 +5,7 @@ import javafx.scene.effect.BlurType;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.paint.Color;
 
-import static it.polimi.ingsw.view.gui.customcomponents.uitoolkit.MyShelfieColor.GAMBOGE;
+import static it.polimi.ingsw.utils.color.MyShelfieColor.GAMBOGE;
 
 /**
  * <p>{@code MyShelfieInnerShadow} effect is one of the

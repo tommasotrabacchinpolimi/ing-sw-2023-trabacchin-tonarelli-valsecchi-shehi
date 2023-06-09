@@ -1,11 +1,11 @@
 package it.polimi.ingsw.view.gui.customcomponents.decorations;
 
-import it.polimi.ingsw.view.gui.customcomponents.uitoolkit.MyShelfieColor;
+import it.polimi.ingsw.utils.color.MyShelfieColor;
 import it.polimi.ingsw.view.gui.customcomponents.uitoolkit.MyShelfieShadowType;
 import javafx.scene.paint.Color;
 import org.jetbrains.annotations.NotNull;
 
-import static it.polimi.ingsw.view.gui.customcomponents.uitoolkit.MyShelfieColor.KOBICHA;
+import static it.polimi.ingsw.utils.color.MyShelfieColor.KOBICHA;
 
 /**
  * <p>Direct implementation of the {@link MyShelfieShadow}

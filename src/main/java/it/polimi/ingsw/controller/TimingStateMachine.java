@@ -14,7 +14,7 @@ public class TimingStateMachine implements OnPlayerStateChangedListener, OnCurre
     private TimingState timingState;
     private Controller controller;
 
-    private Timer timer;
+    private final Timer timer;
 
     public TimingStateMachine(Controller controller) {
         timer = new Timer();
