@@ -29,6 +29,14 @@ public class InputCheck {
 
     }
 
+    /**
+     * Retrieves a list of coordinates that correspond
+     * to the TileSubject selectable in the board
+     *
+     * @param board the board matrix
+     *
+     * @return coordinates of clickable tiles on board
+     */
     public static List<Coordinate> findIndexAllActiveTilesInBoard(TileSubject[][] board) {
         List<Coordinate> result = new ArrayList<>();
 
@@ -48,6 +56,17 @@ public class InputCheck {
         return result;
     }
 
+    /**
+     * Retrieves a list of coordinates that correspond
+     * to the TileSubject selectable in the board given
+     * a selected tile
+     *
+     * @param board the board matrix
+     * @param c1 the coordinate of the selected tiles
+     * @param bookShelf the player's bookshelf
+     * @return coordinates of clickable tiles on board
+     * given a selected tile
+     */
     public static List<Coordinate> findIndexActiveAfterOneChosenTile(TileSubject[][] board, Coordinate c1, TileSubject[][] bookShelf){
         List<Coordinate> coordinates = new ArrayList<>();
         List<Coordinate> active = findIndexAllActiveTilesInBoard(board);
@@ -65,6 +84,21 @@ public class InputCheck {
         return coordinates;
     }
 
+    /**
+     * Retrieves a list of coordinates that correspond
+     * to the TileSubject selectable in the board given
+     * two selected tiles
+     *
+     * @param board the board matrix
+     * @param c1 the coordinate of the first selected tile
+     * @param c2 the coordinate of the second selected tile
+     * @param bookShelf the player's bookshelf
+     * @return coordinates of clickable tiles on board
+     * given a selected tile
+     *
+     * @apiNote The order in which the tiles are selected
+     * is irrelevant
+     */
     public static List<Coordinate> findIndexActiveAfterTwoChosenTiles(TileSubject[][] board, Coordinate c1, Coordinate c2, TileSubject[][] bookShelf){
         List<Coordinate> active = findIndexAllActiveTilesInBoard(board);
         if(getMaxDimensionChosenTiles(bookShelf) <= 2) return null;

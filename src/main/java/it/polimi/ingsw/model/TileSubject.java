@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 import java.io.Serializable;
 
 /**
@@ -12,24 +15,24 @@ import java.io.Serializable;
  */
 
 public enum TileSubject implements Serializable {
-    GRAY_CAT( TileType.CAT ), //Gatti1.3
-    ORANGE_CAT( TileType.CAT), //Gatti1.1
-    BLACK_CAT( TileType.CAT ), //Gatti1.2
-    MUSIC_TROPHY( TileType.TROPHY), //Trofei1.2
-    CHAMPION_TROPHY( TileType.TROPHY), //Trofei1.3
-    GYM_TROPHY( TileType.TROPHY), //Trofei1.1
-    LOVE_FRAME( TileType.FRAME), //Cornici1.3
-    MEMORIES_FRAME( TileType.FRAME), //Cornici1.1
-    DEGREE_FRAME( TileType.FRAME ), //Cornici1.2
-    BASIL_PLANT( TileType.PLANT ), //Piante1.3
-    GREEN_PLANT( TileType.PLANT), //Piante1.2
-    MONSTERA_PLANT( TileType.PLANT), //Piante1.1
-    MONOPOLY_GAME( TileType.GAME), //Giochi1.2
-    RISIKO_GAME( TileType.GAME ), //Giochi1.1
-    CHESS_GAME( TileType.GAME), //Giochi1.3
-    DICTIONARY_BOOK( TileType.BOOK), //Libri1.3
-    COMIC_BOOK( TileType.BOOK ), //Libri1.1
-    NOTE_BOOK(TileType.BOOK); //Libri1.2
+    CAT_GRAY( TileType.CAT ),
+    CAT_ORANGE( TileType.CAT),
+    CAT_BLACK( TileType.CAT ),
+    TROPHY_MUSIC( TileType.TROPHY),
+    TROPHY_CHAMPION( TileType.TROPHY),
+    TROPHY_GYM( TileType.TROPHY),
+    FRAME_LOVE( TileType.FRAME),
+    FRAME_MEMORIES( TileType.FRAME),
+    FRAME_DEGREE( TileType.FRAME ),
+    PLANT_BASIL( TileType.PLANT ),
+    PLANT_GREEN( TileType.PLANT),
+    PLANT_MONSTERA( TileType.PLANT),
+    GAME_MONOPOLY( TileType.GAME),
+    GAME_RISIKO( TileType.GAME ),
+    GAME_CHESS( TileType.GAME),
+    BOOK_DICTIONARY( TileType.BOOK),
+    BOOK_COMIC( TileType.BOOK ),
+    BOOK_NOTE(TileType.BOOK);
 
     private static final long serialVersionUID = 5341537492L;
     final private TileType tileType;
@@ -42,6 +45,8 @@ public enum TileSubject implements Serializable {
         return this.tileType;
     }
 
+    @NotNull
+    @Contract(pure = true)
     public String getTileTypeName(){
         return this.tileType.toString();
     }

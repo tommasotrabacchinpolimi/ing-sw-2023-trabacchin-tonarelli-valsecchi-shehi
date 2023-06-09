@@ -1,7 +1,9 @@
 package it.polimi.ingsw.view.gui.board;
 
+import it.polimi.ingsw.model.TileSubject;
 import it.polimi.ingsw.utils.Coordinate;
 import it.polimi.ingsw.view.gui.MyShelfieController;
+import it.polimi.ingsw.view.gui.customcomponents.MyShelfieAlertCreator;
 import it.polimi.ingsw.view.gui.customcomponents.tileview.TileSubjectView;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
@@ -208,7 +210,7 @@ public class BoardViewController extends MyShelfieController {
 
     public void fillUpBoard() {
         for (Coordinate coordinate : itemTileBoxes.keySet()) {
-            new TileSubjectView(itemTileBoxes.get(coordinate), "cat_2");
+            new TileSubjectView(itemTileBoxes.get(coordinate), TileSubject.CAT_BLACK);
         }
     }
 
@@ -232,6 +234,46 @@ public class BoardViewController extends MyShelfieController {
             return getItemTileBox(itemTileBoxCoordinate.get(0));
         else
             return null;
+    }
+
+    private TileSubject[][] toTileSubjectMatrix() {
+        TileSubject[][] boardMatrix = new TileSubject[getMaxBoardRow()][getMaxBoardColumn()];
+
+        itemTileBoxes.forEach( (coordinate, pane) -> {
+            if(pane.getChildren().size() > 0 && pane.getChildren().size() == 1){
+                try{
+                    boardMatrix[coordinate.getX()][coordinate.getY()] = ((TileSubjectView) pane.getChildren().get(0)).getTileSubject();
+                }catch(ClassCastException e) {
+                    MyShelfieAlertCreator.displayErrorAlert(e);
+                }
+            }
+        });
+
+        return boardMatrix;
+    }
+
+    private int getMaxBoardRow() {
+        int maxRow = 0;
+
+        for(Coordinate coordinate : itemTileBoxes.keySet()) {
+            if(coordinate.hasGraterRow(maxRow)){
+                maxRow = coordinate.getX();
+            }
+        }
+
+        return maxRow;
+    }
+
+    private int getMaxBoardColumn() {
+        int maxColumn = 0;
+
+        for(Coordinate coordinate : itemTileBoxes.keySet()) {
+            if(coordinate.hasGraterColumn(maxColumn)){
+                maxColumn = coordinate.getY();
+            }
+        }
+
+        return maxColumn;
     }
 
     @Override

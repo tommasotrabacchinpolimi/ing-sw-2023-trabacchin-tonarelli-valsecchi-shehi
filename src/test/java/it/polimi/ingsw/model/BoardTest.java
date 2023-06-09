@@ -148,9 +148,9 @@ class BoardTest {
     @Test
     public void GetTileSubjectInBoard() {
         Board board = new Board();
-        TileSubject tile = TileSubject.ORANGE_CAT;
+        TileSubject tile = TileSubject.CAT_ORANGE;
         placeTile(tile, 1, 1, board);
-        TileSubject expected = TileSubject.ORANGE_CAT;
+        TileSubject expected = TileSubject.CAT_ORANGE;
         TileSubject actual = board.getTileSubjectInBoard(1, 1);
         assertEquals(expected, actual);
     }
@@ -160,7 +160,7 @@ class BoardTest {
         Board board = new Board();
         int r1, r2;
         List<Coordinate> l1 =new ArrayList<Coordinate>();
-        board.getBoard()[4][4] = TileSubject.ORANGE_CAT;
+        board.getBoard()[4][4] = TileSubject.CAT_ORANGE;
         Coordinate coo = new Coordinate(4, 4);
         l1.add(coo);
         r1 = CountNull(board);

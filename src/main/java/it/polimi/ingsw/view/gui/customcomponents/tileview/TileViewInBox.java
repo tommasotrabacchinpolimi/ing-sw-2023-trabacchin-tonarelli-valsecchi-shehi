@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.gui.customcomponents.tileview;
 
+import it.polimi.ingsw.view.gui.customcomponents.MyShelfieAlertCreator;
 import javafx.animation.PathTransition;
 import javafx.scene.layout.Pane;
 import org.jetbrains.annotations.NotNull;
@@ -19,8 +20,7 @@ public class TileViewInBox implements TileSubjectViewState{
     public void tileStateAction(@NotNull TileSubjectView tileSubjectView, Pane... panes) {
 
         if(panes == null) {
-            //display error
-            System.err.println("new Parent is null");
+            MyShelfieAlertCreator.displayErrorAlert("New Parent is null", "Tile moving failed");
             return;
         }
 

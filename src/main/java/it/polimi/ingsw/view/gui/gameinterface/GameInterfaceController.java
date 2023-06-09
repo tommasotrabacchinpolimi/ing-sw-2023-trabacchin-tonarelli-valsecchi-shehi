@@ -1,9 +1,11 @@
 package it.polimi.ingsw.view.gui.gameinterface;
 
+import it.polimi.ingsw.model.TileSubject;
 import it.polimi.ingsw.utils.Coordinate;
 import it.polimi.ingsw.view.gui.MyShelfieController;
 import it.polimi.ingsw.view.gui.board.BoardViewController;
 import it.polimi.ingsw.view.gui.bookshelf.BookshelfCommandController;
+import it.polimi.ingsw.view.gui.customcomponents.MyShelfieAlertCreator;
 import it.polimi.ingsw.view.gui.customcomponents.MyShelfieButton;
 import it.polimi.ingsw.view.gui.customcomponents.tileview.TileSubjectView;
 import javafx.fxml.FXML;
@@ -47,18 +49,18 @@ public class GameInterfaceController extends MyShelfieController {
     }
 
     public void fillBoard(MouseEvent mouseEvent) {
-        tilesOnBoard.add(new TileSubjectView(gameBoardViewController.getItemTileBox(0, 3), "book_1"));
-        tilesOnBoard.add(new TileSubjectView(gameBoardViewController.getItemTileBox(0, 4), "book_2"));
-        tilesOnBoard.add(new TileSubjectView(gameBoardViewController.getItemTileBox(1, 3), "book_3"));
-        tilesOnBoard.add(new TileSubjectView(gameBoardViewController.getItemTileBox(1, 4), "cat_1"));
-        tilesOnBoard.add(new TileSubjectView(gameBoardViewController.getItemTileBox(1, 5), "cat_2"));
-        tilesOnBoard.add(new TileSubjectView(gameBoardViewController.getItemTileBox(2, 2), "cat_3"));
-        tilesOnBoard.add(new TileSubjectView(gameBoardViewController.getItemTileBox(2, 3), "frame_1"));
-        tilesOnBoard.add(new TileSubjectView(gameBoardViewController.getItemTileBox(2, 4), "frame_2"));
-        tilesOnBoard.add(new TileSubjectView(gameBoardViewController.getItemTileBox(2, 5), "frame_3"));
-        tilesOnBoard.add(new TileSubjectView(gameBoardViewController.getItemTileBox(2, 6), "game_1"));
-        tilesOnBoard.add(new TileSubjectView(gameBoardViewController.getItemTileBox(3, 1), "game_2"));
-        tilesOnBoard.add(new TileSubjectView(gameBoardViewController.getItemTileBox(3, 2), "game_3"));
+        tilesOnBoard.add(new TileSubjectView(gameBoardViewController.getItemTileBox(0, 3), TileSubject.BOOK_COMIC));
+        tilesOnBoard.add(new TileSubjectView(gameBoardViewController.getItemTileBox(0, 4), TileSubject.BOOK_DICTIONARY));
+        tilesOnBoard.add(new TileSubjectView(gameBoardViewController.getItemTileBox(1, 3), TileSubject.BOOK_NOTE));
+        tilesOnBoard.add(new TileSubjectView(gameBoardViewController.getItemTileBox(1, 4), TileSubject.CAT_BLACK));
+        tilesOnBoard.add(new TileSubjectView(gameBoardViewController.getItemTileBox(1, 5), TileSubject.CAT_GRAY));
+        tilesOnBoard.add(new TileSubjectView(gameBoardViewController.getItemTileBox(2, 2), TileSubject.CAT_ORANGE));
+        tilesOnBoard.add(new TileSubjectView(gameBoardViewController.getItemTileBox(2, 3), TileSubject.FRAME_LOVE));
+        tilesOnBoard.add(new TileSubjectView(gameBoardViewController.getItemTileBox(2, 4), TileSubject.FRAME_DEGREE));
+        tilesOnBoard.add(new TileSubjectView(gameBoardViewController.getItemTileBox(2, 5), TileSubject.FRAME_MEMORIES));
+        tilesOnBoard.add(new TileSubjectView(gameBoardViewController.getItemTileBox(2, 6), TileSubject.GAME_CHESS));
+        tilesOnBoard.add(new TileSubjectView(gameBoardViewController.getItemTileBox(3, 1), TileSubject.GAME_MONOPOLY));
+        tilesOnBoard.add(new TileSubjectView(gameBoardViewController.getItemTileBox(3, 2), TileSubject.GAME_RISIKO));
     }
 
     @FXML
@@ -67,16 +69,17 @@ public class GameInterfaceController extends MyShelfieController {
         List<TileSubjectView> boxSelected = getTilesFromBox();
 
         if (boardSelected.size() != 0 && boxSelected.size() != 0) {
-            //displayError
-            System.err.print("Can't select at the same time from board and box");
+            MyShelfieAlertCreator.displayWarningAlert("Can't select at the same time from board and box",
+                    "Insertion in bookshelf failed");
 
         } else if (boardSelected.size() > 0) {
             if (boardSelected.size() > 3) {
-                //displayWarningAlert
-                System.out.println("To many tiles selected");
+                MyShelfieAlertCreator.displayInformationAlert("You can't select more than 3 tiles from board",
+                        "To many tiles selected");
             } else if (selectedTilesBox.getChildren().size() + boardSelected.size() > 3) {
-                //display warning
-                System.err.print("Too much tiles");
+                MyShelfieAlertCreator.displayInformationAlert(
+                        "You have already " + selectedTilesBox.getChildren().size() + "tiles in your box, you can't",
+                        "To many tiles in box");
                 boardSelected.forEach(TileSubjectView::resetClick);
             } else {
                 tilesOnBoard.removeAll(boardSelected);
@@ -85,8 +88,9 @@ public class GameInterfaceController extends MyShelfieController {
             }
         } else if (boxSelected.size() > 0) {
             if (boxSelected.size() != tileBoxChildListener.getOrderedSelectedTiles().size()) {
-                //display warning
-                System.err.print("You have to select all tiles");
+                MyShelfieAlertCreator.displayWarningAlert(
+                        "You have to select all tiles to fill in your bookshelf",
+                        "Select all tiles from box");
             } else {
                 if(gameBookshelfCommandViewController.getSelectedColumn() != -1) {
 
@@ -98,8 +102,9 @@ public class GameInterfaceController extends MyShelfieController {
                     gameBookshelfCommandViewController.deselectAnyColumn();
 
                 }else {
-                    //Error message
-                    System.out.println("First of all select a column");
+                    MyShelfieAlertCreator.displayInformationAlert(
+                            "Before putting the tiles in your bookshelf, choose a column",
+                            "Select a Column");
                 }
             }
         }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.gui.customcomponents.tileview;
 
+import it.polimi.ingsw.model.TileSubject;
 import it.polimi.ingsw.view.gui.customcomponents.decorations.*;
 import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieRoundEdgeType;
 import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieShadowType;
@@ -35,7 +36,7 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
 
     private Pane parent;
 
-    private final String fileName;
+    private final TileSubject tileSubject;
 
     /**
      * Used to verify if the tile is clicked ({@code true}) or not ({@code false})
@@ -62,17 +63,12 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
      */
     private final List<MyShelfieDecoration> baseDecorations = new ArrayList<>();
 
-    /**
-     *
-     * @param parent
-     * @param fileName no extension, just name
-     */
-    public TileSubjectView(Pane parent, String fileName) {
+    public TileSubjectView(Pane parent, TileSubject tileSubject) {
         setParent(parent);
 
-        this.fileName = fileName;
-
         this.currentState = new TileViewInBoard();
+
+        this.tileSubject = tileSubject;
 
         this.clicked = false;
         this.disabled = false;
@@ -88,10 +84,6 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
         setOnMousePressed(this::onMousePressedHandler);
     }
 
-    public TileSubjectView(StackPane parent) {
-        this(parent, "error");
-    }
-
     private void setParent(@NotNull Pane parent){
         this.parent = parent;
         parent.getChildren().add(this);
@@ -99,7 +91,7 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
 
     private void setCSS() {
         setStyle("-fx-padding: 1.9em;" +
-                "-fx-background-image: url('" + getImageFile(fileName) + "');" +
+                "-fx-background-image: url('" + getImageFile(tileSubject.toString().toLowerCase()) + "');" +
                 "-fx-background-repeat: no-repeat;" +
                 "-fx-background-position: center;" +
                 "-fx-background-size: cover;");
@@ -264,6 +256,10 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
         pathTransition.setPath(transitionPath);
 
         return pathTransition;
+    }
+
+    public TileSubject getTileSubject() {
+        return tileSubject;
     }
 
     @NotNull

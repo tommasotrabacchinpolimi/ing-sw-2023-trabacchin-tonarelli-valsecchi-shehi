@@ -17,12 +17,12 @@ class BookShelfTest<R extends ClientInterface> {
     @Test
     void setTileSubjectTaken() {
         TileSubject[][] matrix = new TileSubject[][]{
-                {TileSubject.NOTE_BOOK, TileSubject.RISIKO_GAME, TileSubject.MUSIC_TROPHY, TileSubject.DICTIONARY_BOOK, TileSubject.BASIL_PLANT},
-                {TileSubject.COMIC_BOOK, TileSubject.BASIL_PLANT, TileSubject.DICTIONARY_BOOK, TileSubject.CHESS_GAME, TileSubject.MONOPOLY_GAME},
-                {TileSubject.BASIL_PLANT, TileSubject.BLACK_CAT, TileSubject.CHAMPION_TROPHY, TileSubject.COMIC_BOOK, TileSubject.DEGREE_FRAME},
-                {TileSubject.NOTE_BOOK, TileSubject.RISIKO_GAME, TileSubject.MUSIC_TROPHY, TileSubject.DICTIONARY_BOOK, TileSubject.BASIL_PLANT},
-                {TileSubject.COMIC_BOOK, TileSubject.BASIL_PLANT, TileSubject.DICTIONARY_BOOK, TileSubject.CHESS_GAME, TileSubject.MONOPOLY_GAME},
-                {TileSubject.BASIL_PLANT, TileSubject.BLACK_CAT, TileSubject.CHAMPION_TROPHY, TileSubject.COMIC_BOOK, TileSubject.DEGREE_FRAME}
+                {TileSubject.BOOK_NOTE, TileSubject.GAME_RISIKO, TileSubject.TROPHY_MUSIC, TileSubject.BOOK_DICTIONARY, TileSubject.PLANT_BASIL},
+                {TileSubject.BOOK_COMIC, TileSubject.PLANT_BASIL, TileSubject.BOOK_DICTIONARY, TileSubject.GAME_CHESS, TileSubject.GAME_MONOPOLY},
+                {TileSubject.PLANT_BASIL, TileSubject.CAT_BLACK, TileSubject.TROPHY_CHAMPION, TileSubject.BOOK_COMIC, TileSubject.FRAME_DEGREE},
+                {TileSubject.BOOK_NOTE, TileSubject.GAME_RISIKO, TileSubject.TROPHY_MUSIC, TileSubject.BOOK_DICTIONARY, TileSubject.PLANT_BASIL},
+                {TileSubject.BOOK_COMIC, TileSubject.PLANT_BASIL, TileSubject.BOOK_DICTIONARY, TileSubject.GAME_CHESS, TileSubject.GAME_MONOPOLY},
+                {TileSubject.PLANT_BASIL, TileSubject.CAT_BLACK, TileSubject.TROPHY_CHAMPION, TileSubject.BOOK_COMIC, TileSubject.FRAME_DEGREE}
         };
 
         BookShelf bookShelf = new BookShelf();
@@ -39,12 +39,12 @@ class BookShelfTest<R extends ClientInterface> {
     @Test
     void getTileSubjectTaken() {
         TileSubject[][] matrix = new TileSubject[][]{
-                {TileSubject.NOTE_BOOK, TileSubject.RISIKO_GAME, TileSubject.MUSIC_TROPHY, TileSubject.DICTIONARY_BOOK, TileSubject.BASIL_PLANT},
-                {TileSubject.COMIC_BOOK, TileSubject.BASIL_PLANT, TileSubject.DICTIONARY_BOOK, TileSubject.CHESS_GAME, TileSubject.MONOPOLY_GAME},
-                {TileSubject.BASIL_PLANT, TileSubject.BLACK_CAT, TileSubject.CHAMPION_TROPHY, TileSubject.COMIC_BOOK, TileSubject.DEGREE_FRAME},
-                {TileSubject.NOTE_BOOK, TileSubject.RISIKO_GAME, TileSubject.MUSIC_TROPHY, TileSubject.DICTIONARY_BOOK, TileSubject.BASIL_PLANT},
-                {TileSubject.COMIC_BOOK, TileSubject.BASIL_PLANT, TileSubject.DICTIONARY_BOOK, TileSubject.CHESS_GAME, TileSubject.MONOPOLY_GAME},
-                {TileSubject.BASIL_PLANT, TileSubject.BLACK_CAT, TileSubject.CHAMPION_TROPHY, TileSubject.COMIC_BOOK, TileSubject.DEGREE_FRAME}
+                {TileSubject.BOOK_NOTE, TileSubject.GAME_RISIKO, TileSubject.TROPHY_MUSIC, TileSubject.BOOK_DICTIONARY, TileSubject.PLANT_BASIL},
+                {TileSubject.BOOK_COMIC, TileSubject.PLANT_BASIL, TileSubject.BOOK_DICTIONARY, TileSubject.GAME_CHESS, TileSubject.GAME_MONOPOLY},
+                {TileSubject.PLANT_BASIL, TileSubject.CAT_BLACK, TileSubject.TROPHY_CHAMPION, TileSubject.BOOK_COMIC, TileSubject.FRAME_DEGREE},
+                {TileSubject.BOOK_NOTE, TileSubject.GAME_RISIKO, TileSubject.TROPHY_MUSIC, TileSubject.BOOK_DICTIONARY, TileSubject.PLANT_BASIL},
+                {TileSubject.BOOK_COMIC, TileSubject.PLANT_BASIL, TileSubject.BOOK_DICTIONARY, TileSubject.GAME_CHESS, TileSubject.GAME_MONOPOLY},
+                {TileSubject.PLANT_BASIL, TileSubject.CAT_BLACK, TileSubject.TROPHY_CHAMPION, TileSubject.BOOK_COMIC, TileSubject.FRAME_DEGREE}
         };
 
         BookShelf bookShelf = new BookShelf();
@@ -61,12 +61,12 @@ class BookShelfTest<R extends ClientInterface> {
     @Test
     void isFull() {
         TileSubject[][] matrix = new TileSubject[][]{
-                {TileSubject.NOTE_BOOK, TileSubject.RISIKO_GAME, TileSubject.MUSIC_TROPHY, TileSubject.DICTIONARY_BOOK, TileSubject.BASIL_PLANT},
-                {TileSubject.COMIC_BOOK, TileSubject.BASIL_PLANT, TileSubject.DICTIONARY_BOOK, TileSubject.CHESS_GAME, TileSubject.MONOPOLY_GAME},
-                {TileSubject.BASIL_PLANT, TileSubject.BLACK_CAT, TileSubject.CHAMPION_TROPHY, TileSubject.COMIC_BOOK, TileSubject.DEGREE_FRAME},
-                {TileSubject.NOTE_BOOK, TileSubject.RISIKO_GAME, TileSubject.MUSIC_TROPHY, TileSubject.DICTIONARY_BOOK, TileSubject.BASIL_PLANT},
-                {TileSubject.COMIC_BOOK, TileSubject.BASIL_PLANT, TileSubject.DICTIONARY_BOOK, TileSubject.CHESS_GAME, TileSubject.MONOPOLY_GAME},
-                {TileSubject.BASIL_PLANT, TileSubject.BLACK_CAT, TileSubject.CHAMPION_TROPHY, TileSubject.COMIC_BOOK, TileSubject.DEGREE_FRAME}
+                {TileSubject.BOOK_NOTE, TileSubject.GAME_RISIKO, TileSubject.TROPHY_MUSIC, TileSubject.BOOK_DICTIONARY, TileSubject.PLANT_BASIL},
+                {TileSubject.BOOK_COMIC, TileSubject.PLANT_BASIL, TileSubject.BOOK_DICTIONARY, TileSubject.GAME_CHESS, TileSubject.GAME_MONOPOLY},
+                {TileSubject.PLANT_BASIL, TileSubject.CAT_BLACK, TileSubject.TROPHY_CHAMPION, TileSubject.BOOK_COMIC, TileSubject.FRAME_DEGREE},
+                {TileSubject.BOOK_NOTE, TileSubject.GAME_RISIKO, TileSubject.TROPHY_MUSIC, TileSubject.BOOK_DICTIONARY, TileSubject.PLANT_BASIL},
+                {TileSubject.BOOK_COMIC, TileSubject.PLANT_BASIL, TileSubject.BOOK_DICTIONARY, TileSubject.GAME_CHESS, TileSubject.GAME_MONOPOLY},
+                {TileSubject.PLANT_BASIL, TileSubject.CAT_BLACK, TileSubject.TROPHY_CHAMPION, TileSubject.BOOK_COMIC, TileSubject.FRAME_DEGREE}
         };
 
         BookShelf bookShelf = new BookShelf();
@@ -75,12 +75,12 @@ class BookShelfTest<R extends ClientInterface> {
         assertTrue(bookShelf.isFull());
 
         matrix = new TileSubject[][]{
-                {TileSubject.NOTE_BOOK, TileSubject.RISIKO_GAME, null, TileSubject.DICTIONARY_BOOK, TileSubject.BASIL_PLANT},
-                {TileSubject.COMIC_BOOK, TileSubject.BASIL_PLANT, null, TileSubject.CHESS_GAME, TileSubject.MONOPOLY_GAME},
-                {TileSubject.BASIL_PLANT, TileSubject.BLACK_CAT, TileSubject.CHAMPION_TROPHY, TileSubject.COMIC_BOOK, TileSubject.DEGREE_FRAME},
-                {TileSubject.NOTE_BOOK, TileSubject.RISIKO_GAME, TileSubject.MUSIC_TROPHY, TileSubject.DICTIONARY_BOOK, TileSubject.BASIL_PLANT},
-                {TileSubject.COMIC_BOOK, TileSubject.BASIL_PLANT, TileSubject.DICTIONARY_BOOK, TileSubject.CHESS_GAME, TileSubject.MONOPOLY_GAME},
-                {TileSubject.BASIL_PLANT, TileSubject.BLACK_CAT, TileSubject.CHAMPION_TROPHY, TileSubject.COMIC_BOOK, TileSubject.DEGREE_FRAME}
+                {TileSubject.BOOK_NOTE, TileSubject.GAME_RISIKO, null, TileSubject.BOOK_DICTIONARY, TileSubject.PLANT_BASIL},
+                {TileSubject.BOOK_COMIC, TileSubject.PLANT_BASIL, null, TileSubject.GAME_CHESS, TileSubject.GAME_MONOPOLY},
+                {TileSubject.PLANT_BASIL, TileSubject.CAT_BLACK, TileSubject.TROPHY_CHAMPION, TileSubject.BOOK_COMIC, TileSubject.FRAME_DEGREE},
+                {TileSubject.BOOK_NOTE, TileSubject.GAME_RISIKO, TileSubject.TROPHY_MUSIC, TileSubject.BOOK_DICTIONARY, TileSubject.PLANT_BASIL},
+                {TileSubject.BOOK_COMIC, TileSubject.PLANT_BASIL, TileSubject.BOOK_DICTIONARY, TileSubject.GAME_CHESS, TileSubject.GAME_MONOPOLY},
+                {TileSubject.PLANT_BASIL, TileSubject.CAT_BLACK, TileSubject.TROPHY_CHAMPION, TileSubject.BOOK_COMIC, TileSubject.FRAME_DEGREE}
         };
 
         bookShelf.setTileSubjectTaken(matrix);
@@ -91,12 +91,12 @@ class BookShelfTest<R extends ClientInterface> {
     @Test
     void toTileTypeMatrix() {
         TileSubject[][] matrix = new TileSubject[][]{
-                {null, TileSubject.RISIKO_GAME, TileSubject.MUSIC_TROPHY, TileSubject.DICTIONARY_BOOK, TileSubject.BASIL_PLANT},
-                {TileSubject.COMIC_BOOK, TileSubject.BASIL_PLANT, TileSubject.DICTIONARY_BOOK, TileSubject.CHESS_GAME, TileSubject.MONOPOLY_GAME},
-                {TileSubject.BASIL_PLANT, TileSubject.BLACK_CAT, TileSubject.CHAMPION_TROPHY, TileSubject.COMIC_BOOK, TileSubject.DEGREE_FRAME},
-                {TileSubject.NOTE_BOOK, TileSubject.RISIKO_GAME, TileSubject.MUSIC_TROPHY, TileSubject.DICTIONARY_BOOK, TileSubject.BASIL_PLANT},
-                {TileSubject.COMIC_BOOK, TileSubject.BASIL_PLANT, TileSubject.DICTIONARY_BOOK, TileSubject.CHESS_GAME, TileSubject.MONOPOLY_GAME},
-                {TileSubject.BASIL_PLANT, TileSubject.BLACK_CAT, TileSubject.CHAMPION_TROPHY, TileSubject.COMIC_BOOK, TileSubject.DEGREE_FRAME}
+                {null, TileSubject.GAME_RISIKO, TileSubject.TROPHY_MUSIC, TileSubject.BOOK_DICTIONARY, TileSubject.PLANT_BASIL},
+                {TileSubject.BOOK_COMIC, TileSubject.PLANT_BASIL, TileSubject.BOOK_DICTIONARY, TileSubject.GAME_CHESS, TileSubject.GAME_MONOPOLY},
+                {TileSubject.PLANT_BASIL, TileSubject.CAT_BLACK, TileSubject.TROPHY_CHAMPION, TileSubject.BOOK_COMIC, TileSubject.FRAME_DEGREE},
+                {TileSubject.BOOK_NOTE, TileSubject.GAME_RISIKO, TileSubject.TROPHY_MUSIC, TileSubject.BOOK_DICTIONARY, TileSubject.PLANT_BASIL},
+                {TileSubject.BOOK_COMIC, TileSubject.PLANT_BASIL, TileSubject.BOOK_DICTIONARY, TileSubject.GAME_CHESS, TileSubject.GAME_MONOPOLY},
+                {TileSubject.PLANT_BASIL, TileSubject.CAT_BLACK, TileSubject.TROPHY_CHAMPION, TileSubject.BOOK_COMIC, TileSubject.FRAME_DEGREE}
         };
 
         BookShelf bookShelf = new BookShelf();
@@ -123,12 +123,12 @@ class BookShelfTest<R extends ClientInterface> {
     @Test
     void addTileSubjectTaken() {
         TileSubject[][] matrix = new TileSubject[][]{
-                {null, TileSubject.RISIKO_GAME, null, TileSubject.DICTIONARY_BOOK, TileSubject.BASIL_PLANT},
-                {null, TileSubject.BASIL_PLANT, null, TileSubject.CHESS_GAME, TileSubject.MONOPOLY_GAME},
-                {TileSubject.BASIL_PLANT, TileSubject.BLACK_CAT, null, TileSubject.COMIC_BOOK, TileSubject.DEGREE_FRAME},
-                {TileSubject.NOTE_BOOK, TileSubject.RISIKO_GAME, TileSubject.MUSIC_TROPHY, TileSubject.DICTIONARY_BOOK, TileSubject.BASIL_PLANT},
-                {TileSubject.COMIC_BOOK, TileSubject.BASIL_PLANT, TileSubject.DICTIONARY_BOOK, TileSubject.CHESS_GAME, TileSubject.MONOPOLY_GAME},
-                {TileSubject.BASIL_PLANT, TileSubject.BLACK_CAT, TileSubject.CHAMPION_TROPHY, TileSubject.COMIC_BOOK, TileSubject.DEGREE_FRAME}
+                {null, TileSubject.GAME_RISIKO, null, TileSubject.BOOK_DICTIONARY, TileSubject.PLANT_BASIL},
+                {null, TileSubject.PLANT_BASIL, null, TileSubject.GAME_CHESS, TileSubject.GAME_MONOPOLY},
+                {TileSubject.PLANT_BASIL, TileSubject.CAT_BLACK, null, TileSubject.BOOK_COMIC, TileSubject.FRAME_DEGREE},
+                {TileSubject.BOOK_NOTE, TileSubject.GAME_RISIKO, TileSubject.TROPHY_MUSIC, TileSubject.BOOK_DICTIONARY, TileSubject.PLANT_BASIL},
+                {TileSubject.BOOK_COMIC, TileSubject.PLANT_BASIL, TileSubject.BOOK_DICTIONARY, TileSubject.GAME_CHESS, TileSubject.GAME_MONOPOLY},
+                {TileSubject.PLANT_BASIL, TileSubject.CAT_BLACK, TileSubject.TROPHY_CHAMPION, TileSubject.BOOK_COMIC, TileSubject.FRAME_DEGREE}
         };
 
         BookShelf bookShelf = new BookShelf();
@@ -136,9 +136,9 @@ class BookShelfTest<R extends ClientInterface> {
         bookShelf.setTileSubjectTaken(matrix);
 
         List<TileSubject> taken = new ArrayList<>();
-        taken.add(TileSubject.LOVE_FRAME);
-        taken.add(TileSubject.COMIC_BOOK);
-        taken.add(TileSubject.ORANGE_CAT);
+        taken.add(TileSubject.FRAME_LOVE);
+        taken.add(TileSubject.BOOK_COMIC);
+        taken.add(TileSubject.CAT_ORANGE);
 
         try {
             bookShelf.addTileSubjectTaken(taken, 0);
@@ -161,18 +161,18 @@ class BookShelfTest<R extends ClientInterface> {
         assertEquals(taken.get(1).getTileType(), bookShelf.getTileSubjectTaken()[0][0].getTileType());
 
         TileSubject[][] m = new TileSubject[][]{
-                {null, TileSubject.RISIKO_GAME, null, TileSubject.DICTIONARY_BOOK, TileSubject.BASIL_PLANT},
-                {null, TileSubject.BASIL_PLANT, null, TileSubject.CHESS_GAME, TileSubject.MONOPOLY_GAME},
-                {TileSubject.BASIL_PLANT, TileSubject.BLACK_CAT, null, TileSubject.COMIC_BOOK, TileSubject.DEGREE_FRAME},
-                {TileSubject.NOTE_BOOK, TileSubject.RISIKO_GAME, TileSubject.MUSIC_TROPHY, TileSubject.DICTIONARY_BOOK, TileSubject.BASIL_PLANT},
-                {TileSubject.COMIC_BOOK, TileSubject.BASIL_PLANT, TileSubject.DICTIONARY_BOOK, TileSubject.CHESS_GAME, TileSubject.MONOPOLY_GAME},
-                {TileSubject.BASIL_PLANT, TileSubject.BLACK_CAT, TileSubject.CHAMPION_TROPHY, TileSubject.COMIC_BOOK, TileSubject.DEGREE_FRAME}
+                {null, TileSubject.GAME_RISIKO, null, TileSubject.BOOK_DICTIONARY, TileSubject.PLANT_BASIL},
+                {null, TileSubject.PLANT_BASIL, null, TileSubject.GAME_CHESS, TileSubject.GAME_MONOPOLY},
+                {TileSubject.PLANT_BASIL, TileSubject.CAT_BLACK, null, TileSubject.BOOK_COMIC, TileSubject.FRAME_DEGREE},
+                {TileSubject.BOOK_NOTE, TileSubject.GAME_RISIKO, TileSubject.TROPHY_MUSIC, TileSubject.BOOK_DICTIONARY, TileSubject.PLANT_BASIL},
+                {TileSubject.BOOK_COMIC, TileSubject.PLANT_BASIL, TileSubject.BOOK_DICTIONARY, TileSubject.GAME_CHESS, TileSubject.GAME_MONOPOLY},
+                {TileSubject.PLANT_BASIL, TileSubject.CAT_BLACK, TileSubject.TROPHY_CHAMPION, TileSubject.BOOK_COMIC, TileSubject.FRAME_DEGREE}
         };
         bookShelf.setTileSubjectTaken(m);
         List<TileSubject> list = new ArrayList<>();
-        list.add(TileSubject.LOVE_FRAME);
-        list.add(TileSubject.DICTIONARY_BOOK);
-        list.add(TileSubject.RISIKO_GAME);
+        list.add(TileSubject.FRAME_LOVE);
+        list.add(TileSubject.BOOK_DICTIONARY);
+        list.add(TileSubject.GAME_RISIKO);
         assertThrows(NotEnoughSpaceInBookShelfException.class, () -> {
             bookShelf.addTileSubjectTaken(list, 0);
         });
@@ -184,12 +184,12 @@ class BookShelfTest<R extends ClientInterface> {
         });
 
         TileSubject[][] m1 = new TileSubject[][]{
-                {TileSubject.RISIKO_GAME, TileSubject.RISIKO_GAME, TileSubject.MUSIC_TROPHY, TileSubject.DICTIONARY_BOOK, TileSubject.BASIL_PLANT},
-                {TileSubject.COMIC_BOOK, TileSubject.BASIL_PLANT, TileSubject.DICTIONARY_BOOK, TileSubject.CHESS_GAME, TileSubject.MONOPOLY_GAME},
-                {TileSubject.BASIL_PLANT, TileSubject.BLACK_CAT, TileSubject.CHAMPION_TROPHY, TileSubject.COMIC_BOOK, TileSubject.DEGREE_FRAME},
-                {TileSubject.NOTE_BOOK, TileSubject.RISIKO_GAME, TileSubject.MUSIC_TROPHY, TileSubject.DICTIONARY_BOOK, TileSubject.BASIL_PLANT},
-                {TileSubject.COMIC_BOOK, TileSubject.BASIL_PLANT, TileSubject.DICTIONARY_BOOK, TileSubject.CHESS_GAME, TileSubject.MONOPOLY_GAME},
-                {TileSubject.BASIL_PLANT, TileSubject.BLACK_CAT, TileSubject.CHAMPION_TROPHY, TileSubject.COMIC_BOOK, TileSubject.DEGREE_FRAME}
+                {TileSubject.GAME_RISIKO, TileSubject.GAME_RISIKO, TileSubject.TROPHY_MUSIC, TileSubject.BOOK_DICTIONARY, TileSubject.PLANT_BASIL},
+                {TileSubject.BOOK_COMIC, TileSubject.PLANT_BASIL, TileSubject.BOOK_DICTIONARY, TileSubject.GAME_CHESS, TileSubject.GAME_MONOPOLY},
+                {TileSubject.PLANT_BASIL, TileSubject.CAT_BLACK, TileSubject.TROPHY_CHAMPION, TileSubject.BOOK_COMIC, TileSubject.FRAME_DEGREE},
+                {TileSubject.BOOK_NOTE, TileSubject.GAME_RISIKO, TileSubject.TROPHY_MUSIC, TileSubject.BOOK_DICTIONARY, TileSubject.PLANT_BASIL},
+                {TileSubject.BOOK_COMIC, TileSubject.PLANT_BASIL, TileSubject.BOOK_DICTIONARY, TileSubject.GAME_CHESS, TileSubject.GAME_MONOPOLY},
+                {TileSubject.PLANT_BASIL, TileSubject.CAT_BLACK, TileSubject.TROPHY_CHAMPION, TileSubject.BOOK_COMIC, TileSubject.FRAME_DEGREE}
         };
         bookShelf.setTileSubjectTaken(m1);
         assertThrows(NotEnoughSpaceInBookShelfException.class, () -> {
@@ -239,12 +239,12 @@ class BookShelfTest<R extends ClientInterface> {
         Player p = new Player("p1");
         bookShelf.setPlayer(p);
         TileSubject[][] matrix = new TileSubject[][]{
-                {null, TileSubject.RISIKO_GAME, null, TileSubject.DICTIONARY_BOOK, TileSubject.BASIL_PLANT},
-                {null, TileSubject.BASIL_PLANT, null, TileSubject.CHESS_GAME, TileSubject.MONOPOLY_GAME},
-                {TileSubject.BASIL_PLANT, TileSubject.BLACK_CAT, null, TileSubject.COMIC_BOOK, TileSubject.DEGREE_FRAME},
-                {TileSubject.NOTE_BOOK, TileSubject.RISIKO_GAME, TileSubject.MUSIC_TROPHY, TileSubject.DICTIONARY_BOOK, TileSubject.BASIL_PLANT},
-                {TileSubject.COMIC_BOOK, TileSubject.BASIL_PLANT, TileSubject.DICTIONARY_BOOK, TileSubject.CHESS_GAME, TileSubject.MONOPOLY_GAME},
-                {TileSubject.BASIL_PLANT, TileSubject.BLACK_CAT, TileSubject.CHAMPION_TROPHY, TileSubject.COMIC_BOOK, TileSubject.DEGREE_FRAME}
+                {null, TileSubject.GAME_RISIKO, null, TileSubject.BOOK_DICTIONARY, TileSubject.PLANT_BASIL},
+                {null, TileSubject.PLANT_BASIL, null, TileSubject.GAME_CHESS, TileSubject.GAME_MONOPOLY},
+                {TileSubject.PLANT_BASIL, TileSubject.CAT_BLACK, null, TileSubject.BOOK_COMIC, TileSubject.FRAME_DEGREE},
+                {TileSubject.BOOK_NOTE, TileSubject.GAME_RISIKO, TileSubject.TROPHY_MUSIC, TileSubject.BOOK_DICTIONARY, TileSubject.PLANT_BASIL},
+                {TileSubject.BOOK_COMIC, TileSubject.PLANT_BASIL, TileSubject.BOOK_DICTIONARY, TileSubject.GAME_CHESS, TileSubject.GAME_MONOPOLY},
+                {TileSubject.PLANT_BASIL, TileSubject.CAT_BLACK, TileSubject.TROPHY_CHAMPION, TileSubject.BOOK_COMIC, TileSubject.FRAME_DEGREE}
         };
         OnBookShelfUpdatedListener listener = (nickname, bookShelf1) -> {
             boolean success = (Arrays.deepEquals(bookShelf.getTileSubjectTaken(), matrix));

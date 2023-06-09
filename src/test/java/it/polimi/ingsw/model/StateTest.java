@@ -215,7 +215,7 @@ class StateTest {
         state.checkPersonalGoal(p);
         assertEquals(0, p.getPointPlayer().getScorePersonalGoal());
         m = new TileSubject[][]{
-                {TileSubject.BASIL_PLANT, null, null, null, null},
+                {TileSubject.PLANT_BASIL, null, null, null, null},
                 {null, null, null, null, null},
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -226,7 +226,7 @@ class StateTest {
         state.checkPersonalGoal(p);
         assertEquals(1, p.getPointPlayer().getScorePersonalGoal());
         m = new TileSubject[][]{
-                {TileSubject.BASIL_PLANT, null, TileSubject.DEGREE_FRAME, null, null},
+                {TileSubject.PLANT_BASIL, null, TileSubject.FRAME_DEGREE, null, null},
                 {null, null, null, null, null},
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -237,8 +237,8 @@ class StateTest {
         state.checkPersonalGoal(p);
         assertEquals(2, p.getPointPlayer().getScorePersonalGoal());
         m = new TileSubject[][]{
-                {TileSubject.BASIL_PLANT, null, TileSubject.DEGREE_FRAME, null, null},
-                {null, null, null, null, TileSubject.BLACK_CAT},
+                {TileSubject.PLANT_BASIL, null, TileSubject.FRAME_DEGREE, null, null},
+                {null, null, null, null, TileSubject.CAT_BLACK},
                 {null, null, null, null, null},
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -248,9 +248,9 @@ class StateTest {
         state.checkPersonalGoal(p);
         assertEquals(4, p.getPointPlayer().getScorePersonalGoal());
         m = new TileSubject[][]{
-                {TileSubject.BASIL_PLANT, null, TileSubject.DEGREE_FRAME, null, null},
-                {null, null, null, null, TileSubject.BLACK_CAT},
-                {null, null, null, TileSubject.COMIC_BOOK, null},
+                {TileSubject.PLANT_BASIL, null, TileSubject.FRAME_DEGREE, null, null},
+                {null, null, null, null, TileSubject.CAT_BLACK},
+                {null, null, null, TileSubject.BOOK_COMIC, null},
                 {null, null, null, null, null},
                 {null, null, null, null, null},
                 {null, null, null, null, null}
@@ -259,10 +259,10 @@ class StateTest {
         state.checkPersonalGoal(p);
         assertEquals(6, p.getPointPlayer().getScorePersonalGoal());
         m = new TileSubject[][]{
-                {TileSubject.BASIL_PLANT, null, TileSubject.DEGREE_FRAME, null, null},
-                {null, null, null, null, TileSubject.BLACK_CAT},
-                {null, null, null, TileSubject.COMIC_BOOK, null},
-                {null, TileSubject.RISIKO_GAME, null, null, null},
+                {TileSubject.PLANT_BASIL, null, TileSubject.FRAME_DEGREE, null, null},
+                {null, null, null, null, TileSubject.CAT_BLACK},
+                {null, null, null, TileSubject.BOOK_COMIC, null},
+                {null, TileSubject.GAME_RISIKO, null, null, null},
                 {null, null, null, null, null},
                 {null, null, null, null, null}
         };
@@ -270,12 +270,12 @@ class StateTest {
         state.checkPersonalGoal(p);
         assertEquals(9, p.getPointPlayer().getScorePersonalGoal());
         m = new TileSubject[][]{
-                {TileSubject.BASIL_PLANT, null, TileSubject.DEGREE_FRAME, null, null},
-                {null, null, null, null, TileSubject.BLACK_CAT},
-                {null, null, null, TileSubject.COMIC_BOOK, null},
-                {null, TileSubject.RISIKO_GAME, null, null, null},
+                {TileSubject.PLANT_BASIL, null, TileSubject.FRAME_DEGREE, null, null},
+                {null, null, null, null, TileSubject.CAT_BLACK},
+                {null, null, null, TileSubject.BOOK_COMIC, null},
+                {null, TileSubject.GAME_RISIKO, null, null, null},
                 {null, null, null, null, null},
-                {null, null, TileSubject.CHAMPION_TROPHY, null, null}
+                {null, null, TileSubject.TROPHY_CHAMPION, null, null}
         };
         p.getBookShelf().setTileSubjectTaken(m);
         state.checkPersonalGoal(p);
@@ -286,12 +286,12 @@ class StateTest {
     @Test
     void checkAdjacentTiles(){
         TileSubject[][] bookShelf = new TileSubject[][]{
-                {TileSubject.RISIKO_GAME, null, null, null, null},
-                {TileSubject.RISIKO_GAME, TileSubject.COMIC_BOOK, null, null, null},
-                {TileSubject.RISIKO_GAME, TileSubject.COMIC_BOOK, TileSubject.BASIL_PLANT, null, null},
-                {TileSubject.RISIKO_GAME, TileSubject.COMIC_BOOK, TileSubject.BASIL_PLANT, TileSubject.GRAY_CAT, null},
-                {TileSubject.RISIKO_GAME, TileSubject.COMIC_BOOK, TileSubject.BASIL_PLANT, TileSubject.GRAY_CAT, null},
-                {TileSubject.RISIKO_GAME, TileSubject.COMIC_BOOK, TileSubject.BASIL_PLANT, TileSubject.GRAY_CAT, TileSubject.DEGREE_FRAME},
+                {TileSubject.GAME_RISIKO, null, null, null, null},
+                {TileSubject.GAME_RISIKO, TileSubject.BOOK_COMIC, null, null, null},
+                {TileSubject.GAME_RISIKO, TileSubject.BOOK_COMIC, TileSubject.PLANT_BASIL, null, null},
+                {TileSubject.GAME_RISIKO, TileSubject.BOOK_COMIC, TileSubject.PLANT_BASIL, TileSubject.CAT_GRAY, null},
+                {TileSubject.GAME_RISIKO, TileSubject.BOOK_COMIC, TileSubject.PLANT_BASIL, TileSubject.CAT_GRAY, null},
+                {TileSubject.GAME_RISIKO, TileSubject.BOOK_COMIC, TileSubject.PLANT_BASIL, TileSubject.CAT_GRAY, TileSubject.FRAME_DEGREE},
         };
         BookShelf b = new BookShelf();
         State state = createStateWithPlayers();
@@ -345,11 +345,11 @@ class StateTest {
         goal2.getScoringTokens().push(8);
         TileSubject[][] bookshelf = new TileSubject[][]{
                 {null,  null, null, null, null},
-                {TileSubject.BLACK_CAT, null, null, null, null},
-                {TileSubject.BLACK_CAT, TileSubject.BLACK_CAT, null, null, null},
-                {TileSubject.BLACK_CAT, TileSubject.BLACK_CAT, TileSubject.BLACK_CAT, null, null},
-                {TileSubject.BLACK_CAT, TileSubject.BLACK_CAT, TileSubject.BLACK_CAT, TileSubject.BLACK_CAT, null},
-                {TileSubject.BLACK_CAT, TileSubject.BLACK_CAT, TileSubject.BLACK_CAT, TileSubject.BLACK_CAT, TileSubject.BLACK_CAT}
+                {TileSubject.CAT_BLACK, null, null, null, null},
+                {TileSubject.CAT_BLACK, TileSubject.CAT_BLACK, null, null, null},
+                {TileSubject.CAT_BLACK, TileSubject.CAT_BLACK, TileSubject.CAT_BLACK, null, null},
+                {TileSubject.CAT_BLACK, TileSubject.CAT_BLACK, TileSubject.CAT_BLACK, TileSubject.CAT_BLACK, null},
+                {TileSubject.CAT_BLACK, TileSubject.CAT_BLACK, TileSubject.CAT_BLACK, TileSubject.CAT_BLACK, TileSubject.CAT_BLACK}
         };
         Player p = state.getPlayers().get(0);
         p.setPointPlayer(new PointPlayer());
@@ -437,11 +437,11 @@ class StateTest {
         state.setCommonGoal2(goal2);
         TileSubject[][] bookshelf = new TileSubject[][]{
                 {null,  null, null, null, null},
-                {TileSubject.BLACK_CAT, null, null, null, null},
-                {TileSubject.BLACK_CAT, TileSubject.BLACK_CAT, null, null, null},
-                {TileSubject.BLACK_CAT, TileSubject.BLACK_CAT, TileSubject.BLACK_CAT, null, null},
-                {TileSubject.BLACK_CAT, TileSubject.BLACK_CAT, TileSubject.BLACK_CAT, TileSubject.BLACK_CAT, null},
-                {TileSubject.BLACK_CAT, TileSubject.BLACK_CAT, TileSubject.BLACK_CAT, TileSubject.BLACK_CAT, TileSubject.BLACK_CAT}
+                {TileSubject.CAT_BLACK, null, null, null, null},
+                {TileSubject.CAT_BLACK, TileSubject.CAT_BLACK, null, null, null},
+                {TileSubject.CAT_BLACK, TileSubject.CAT_BLACK, TileSubject.CAT_BLACK, null, null},
+                {TileSubject.CAT_BLACK, TileSubject.CAT_BLACK, TileSubject.CAT_BLACK, TileSubject.CAT_BLACK, null},
+                {TileSubject.CAT_BLACK, TileSubject.CAT_BLACK, TileSubject.CAT_BLACK, TileSubject.CAT_BLACK, TileSubject.CAT_BLACK}
         };
         Player p = state.getPlayers().get(0);
         p.setPointPlayer(new PointPlayer());

@@ -107,6 +107,62 @@ public class Coordinate implements Serializable {
     }
 
     /**
+     * Check if the given coordinate has a grater row value
+     * then the calling one
+     *
+     * @param other a second coordinate instance that is
+     *              compared with the calling one
+     * @return {@code true} if the calling coordinate
+     * instance has a grater row index than the one
+     * passed, {@code false} otherwise
+     */
+    public boolean hasGraterRow(Coordinate other) {
+        return getX() > other.getX();
+    }
+
+    /**
+     * Check if the given coordinate has a grater column
+     * value then the calling one
+     *
+     * @param other a second coordinate instance that is
+     *              compared with the calling one
+     * @return {@code true} if the calling coordinate
+     * instance has a grater column index than the one
+     * passed, {@code false} otherwise
+     */
+    public boolean hasGraterColumn(Coordinate other) {
+        return getY() > other.getY();
+    }
+
+    /**
+     * Check if the given coordinate has a grater row value
+     * then the one passed as parameter
+     *
+     * @param rowValue a value that represents a row
+     *                 coordinate
+     * @return {@code true} if the calling coordinate
+     * instance has a grater row index than the one
+     * passed, {@code false} otherwise
+     */
+    public boolean hasGraterRow(int rowValue) {
+        return getX() > rowValue;
+    }
+
+    /**
+     * Check if the given coordinate has a grater column
+     * value then the one passed as parameter
+     *
+     * @param columnValue a value that represents
+     *                    a column coordinate
+     * @return {@code true} if the calling coordinate
+     * instance has a grater row index than the one
+     * passed, {@code false} otherwise
+     */
+    public boolean hasGraterColumn(int columnValue) {
+        return getY() > columnValue;
+    }
+
+    /**
      * <p>Indicates whether some other object ({@code o}) is "logically equal to" the caller.</p>
      *
      * @apiNote Two {@linkplain Coordinate coordinate} object are logically equals if

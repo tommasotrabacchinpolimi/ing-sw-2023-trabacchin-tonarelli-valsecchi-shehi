@@ -6,19 +6,17 @@ import it.polimi.ingsw.controller.listeners.OnPlayerStateChangedListener;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
-import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest<R extends ClientInterface> {
     TileSubject[][] matrix = new TileSubject[][]{
-            {TileSubject.NOTE_BOOK, TileSubject.RISIKO_GAME, TileSubject.MUSIC_TROPHY, TileSubject.DICTIONARY_BOOK, TileSubject.BASIL_PLANT},
-            {TileSubject.COMIC_BOOK, TileSubject.BASIL_PLANT, TileSubject.DICTIONARY_BOOK, TileSubject.CHESS_GAME, TileSubject.MONOPOLY_GAME},
-            {TileSubject.BASIL_PLANT, TileSubject.BLACK_CAT, TileSubject.CHAMPION_TROPHY, TileSubject.COMIC_BOOK, TileSubject.DEGREE_FRAME},
-            {TileSubject.NOTE_BOOK, TileSubject.RISIKO_GAME, TileSubject.MUSIC_TROPHY, TileSubject.DICTIONARY_BOOK, TileSubject.BASIL_PLANT},
-            {TileSubject.COMIC_BOOK, TileSubject.BASIL_PLANT, TileSubject.DICTIONARY_BOOK, TileSubject.CHESS_GAME, TileSubject.MONOPOLY_GAME},
-            {TileSubject.BASIL_PLANT, TileSubject.BLACK_CAT, TileSubject.CHAMPION_TROPHY, TileSubject.COMIC_BOOK, TileSubject.DEGREE_FRAME}
+            {TileSubject.BOOK_NOTE, TileSubject.GAME_RISIKO, TileSubject.TROPHY_MUSIC, TileSubject.BOOK_DICTIONARY, TileSubject.PLANT_BASIL},
+            {TileSubject.BOOK_COMIC, TileSubject.PLANT_BASIL, TileSubject.BOOK_DICTIONARY, TileSubject.GAME_CHESS, TileSubject.GAME_MONOPOLY},
+            {TileSubject.PLANT_BASIL, TileSubject.CAT_BLACK, TileSubject.TROPHY_CHAMPION, TileSubject.BOOK_COMIC, TileSubject.FRAME_DEGREE},
+            {TileSubject.BOOK_NOTE, TileSubject.GAME_RISIKO, TileSubject.TROPHY_MUSIC, TileSubject.BOOK_DICTIONARY, TileSubject.PLANT_BASIL},
+            {TileSubject.BOOK_COMIC, TileSubject.PLANT_BASIL, TileSubject.BOOK_DICTIONARY, TileSubject.GAME_CHESS, TileSubject.GAME_MONOPOLY},
+            {TileSubject.PLANT_BASIL, TileSubject.CAT_BLACK, TileSubject.TROPHY_CHAMPION, TileSubject.BOOK_COMIC, TileSubject.FRAME_DEGREE}
     };
 
     @Test
