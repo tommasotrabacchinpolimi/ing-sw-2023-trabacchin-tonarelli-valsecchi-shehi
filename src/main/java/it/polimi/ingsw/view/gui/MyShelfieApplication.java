@@ -178,7 +178,7 @@ public abstract class MyShelfieApplication extends Application {
     }
 
     public Scene setScene(final String FXMLFileName, final double percentWidth, final double percentHeight, Pane rootPaneContainer) {
-        FXMLLoader fxmlLoader = new FXMLLoader(LoginPage.class.getResource(MyShelfieApplication.getFXMLFile(FXMLFileName)));
+        FXMLLoader fxmlLoader = new FXMLLoader(MyShelfieApplication.class.getResource(MyShelfieApplication.getFXMLFile(FXMLFileName)));
 
         try {
             if (rootPaneContainer == null) {

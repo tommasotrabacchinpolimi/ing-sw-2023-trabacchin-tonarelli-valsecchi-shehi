@@ -1,6 +1,8 @@
 package it.polimi.ingsw.view.gui.gameinterface;
 
-import it.polimi.ingsw.view.gui.bookshelf.BookshelfCommandController;
+import it.polimi.ingsw.view.gui.board.BoardView;
+import it.polimi.ingsw.view.gui.board.BoardViewController;
+import it.polimi.ingsw.view.gui.bookshelf.PersonalBookshelfController;
 import it.polimi.ingsw.view.gui.customcomponents.tileview.TileSubjectView;
 import javafx.collections.ListChangeListener;
 import javafx.event.EventHandler;
@@ -17,16 +19,19 @@ class TileBoxChildListener implements ListChangeListener<Node> {
 
     private final HBox selectedTilesBox;
 
-    private final BookshelfCommandController gameBookshelfCommandViewController;
+    private final PersonalBookshelfController gameBookshelfCommandViewController;
+
+    private final BoardViewController boardViewController;
 
     private final List<TileSubjectView> tilesOnBoard;
 
     private final List<Pair<EventHandler<MouseEvent>, TileSubjectView>> orderedSelectedTiles = new ArrayList<>();
 
-    public TileBoxChildListener(HBox selectedTilesBox, BookshelfCommandController gameBookshelfCommandViewController, List<TileSubjectView> tilesOnBoard) {
+    public TileBoxChildListener(HBox selectedTilesBox, PersonalBookshelfController gameBookshelfCommandViewController, BoardViewController boardViewController) {
         this.selectedTilesBox = selectedTilesBox;
         this.gameBookshelfCommandViewController = gameBookshelfCommandViewController;
-        this.tilesOnBoard = tilesOnBoard;
+        this.boardViewController = boardViewController;
+        this.tilesOnBoard = boardViewController.getTilesOnBoard();
     }
 
     @Override
@@ -53,10 +58,7 @@ class TileBoxChildListener implements ListChangeListener<Node> {
                 if(selectedTilesBox.getChildren().size() == 0) {
                     selectedTilesBox.setStyle("-fx-padding: 0em");
                     gameBookshelfCommandViewController.disableAllButtons();
-                }
-
-                if(selectedTilesBox.getChildren().size() < 3) {
-                    tilesOnBoard.forEach(TileSubjectView::setClickable);
+                    boardViewController.setActiveTilesOnBoard();
                 }
 
                 change.getRemoved()

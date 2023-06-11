@@ -1,10 +1,7 @@
 #bookshelfGrid {
     -fx-padding: 2em 3.6em 3.8em 3.7em;
     -fx-hgap: 0.6em;
-}
-
-.item_tile_bookshelf_cell {
-    -fx-padding: 2em;
+    -fx-grid-lines-visible: true;
 }
 
 #bookshelfImagePane {
@@ -12,4 +9,14 @@
     -fx-background-size: cover;
     -fx-background-repeat: no-repeat;
     -fx-padding: 17em 17em 17em 17em;
+}
+
+.filled_bookshelf_cell {
+    -fx-padding: 0.1em;
+    -fx-background-color: rgba(101, 61, 30, 0.37);
+}
+
+.empty_bookshelf_cell {
+    -fx-padding: 2em;
+    -fx-background-color: transparent;
 }

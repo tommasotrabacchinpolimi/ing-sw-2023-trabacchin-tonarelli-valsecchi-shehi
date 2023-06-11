@@ -19,9 +19,6 @@ import java.util.Objects;
  * @since 22/05/2023
  */
 public abstract class MyShelfieController implements Initializable {
-
-    private final Duration animationDuration = new Duration(400);
-
     private MyShelfieApplication myShelfieApplicationLauncher;
 
     public MyShelfieApplication getMyShelfieApplicationLauncher() {
@@ -35,8 +32,4 @@ public abstract class MyShelfieController implements Initializable {
     public abstract void onGameStateChangedNotified();
 
     public abstract void onExceptionNotified();
-
-    public Duration getAnimationDuration() {
-        return new Duration(animationDuration.toSeconds());
-    }
 }

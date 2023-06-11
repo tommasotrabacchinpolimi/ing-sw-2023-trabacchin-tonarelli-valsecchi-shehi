@@ -2,6 +2,8 @@ package it.polimi.ingsw.view.gui.bookshelf;
 
 import it.polimi.ingsw.utils.Coordinate;
 import it.polimi.ingsw.view.gui.MyShelfieController;
+import it.polimi.ingsw.view.gui.customcomponents.BookshelfView;
+import it.polimi.ingsw.view.gui.customcomponents.MyShelfieAlertCreator;
 import it.polimi.ingsw.view.gui.customcomponents.MyShelfieTriangleButton;
 import it.polimi.ingsw.view.gui.customcomponents.tileview.TileSubjectView;
 import javafx.fxml.FXML;
@@ -11,15 +13,17 @@ import javafx.scene.layout.StackPane;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
-public class BookshelfCommandController extends MyShelfieController {
+import static it.polimi.ingsw.utils.color.MyShelfieColor.GAMBOGE;
+
+public class PersonalBookshelfController extends BookshelfController{
 
     @FXML
-    private GridPane bookshelfCommandRoot;
+    private BookshelfView personalBookshelfView;
+
+    @FXML
+    private GridPane personalBookshelfRoot;
 
     @FXML
     private MyShelfieTriangleButton leftTriangle;
@@ -36,30 +40,12 @@ public class BookshelfCommandController extends MyShelfieController {
     @FXML
     private MyShelfieTriangleButton rightTriangle;
 
-    @FXML
-    private StackPane commandBookshelfView;
-
-    @FXML
-    private BookshelfController commandBookshelfViewController;
-
     private int selectedColumn;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         selectedColumn = -1;
-    }
-
-    public void insertTilesInBookshelf(@NotNull List<TileSubjectView> tiles, @NotNull List<Coordinate> coordinates) {
-        if (tiles.size() != coordinates.size()) {
-            //display Error
-            return;
-        }
-
-        tiles.forEach(tile -> tile.performAction(getTriangleButton(), commandBookshelfViewController.getTileCellAt(coordinates.get(tiles.indexOf(tile)))));
-    }
-
-    public void insertTilesInBookshelf(@NotNull List<TileSubjectView> tiles, @NotNull Coordinate... coordinates) {
-        insertTilesInBookshelf(tiles, Arrays.asList(coordinates));
+        bookshelfCells = personalBookshelfView.getBookshelfCells();
     }
 
     @FXML
@@ -80,13 +66,33 @@ public class BookshelfCommandController extends MyShelfieController {
     private void updateSelectedColumn(int chosen) {
         if (selectedColumn == -1) {
             selectedColumn = chosen;
-            commandBookshelfViewController.highlightSelectedColum(selectedColumn);
+            highlightSelectedColum(selectedColumn);
             disableButtons(chosen);
         } else if (selectedColumn == chosen) {
             selectedColumn = -1;
-            commandBookshelfViewController.resetSelectedColum(chosen);
+            resetSelectedColum(chosen);
             enableButtons(chosen);
         }
+    }
+
+    /**
+     *
+     * @param column
+     */
+    protected void highlightSelectedColum(int column) {
+        bookshelfCells.keySet()
+                .stream()
+                .filter(c -> c.getY() == column)
+                .forEach(c ->
+                        bookshelfCells.get(c)
+                                .setStyle("-fx-background-color:" + GAMBOGE.getRGBAStyleSheet(0.57) + ";"));
+    }
+
+    protected void resetSelectedColum(int column) {
+        bookshelfCells.keySet()
+                .stream()
+                .filter(c -> c.getY() == column)
+                .forEach(c -> bookshelfCells.get(c).setStyle("-fx-background-color: transparent;"));
     }
 
     private void disableButtons(int chosen) {
@@ -125,7 +131,7 @@ public class BookshelfCommandController extends MyShelfieController {
         if (selectedColumn == -1)
             return;
 
-        commandBookshelfViewController.resetSelectedColum(selectedColumn);
+        resetSelectedColum(selectedColumn);
 
         selectedColumn = -1;
 
@@ -139,7 +145,7 @@ public class BookshelfCommandController extends MyShelfieController {
         return selectedColumn;
     }
 
-    private MyShelfieTriangleButton getTriangleButton(){
+    protected MyShelfieTriangleButton getTriangleButton(){
         switch (selectedColumn) {
             case 0 -> {
                 return leftTriangle;
@@ -171,5 +177,12 @@ public class BookshelfCommandController extends MyShelfieController {
     @Override
     public void onExceptionNotified() {
 
+    }
+
+    @Override
+    public void insertTilesInBookshelf(@NotNull Map<Coordinate, TileSubjectView> coordinateTiles) {
+        coordinateTiles.forEach((coordinate, tile) -> {
+            tile.performAction(getTriangleButton(), getBookshelfCellAt(coordinate).orElseThrow());
+        });
     }
 }

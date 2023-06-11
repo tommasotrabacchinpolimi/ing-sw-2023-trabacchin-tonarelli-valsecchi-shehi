@@ -7,10 +7,11 @@
 <?import javafx.scene.layout.*?>
 
 <?import it.polimi.ingsw.view.gui.customcomponents.MyShelfieTriangleButton?>
-<GridPane fx:id="bookshelfCommandRoot" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-          fx:controller="it.polimi.ingsw.view.gui.bookshelf.BookshelfCommandController">
+<?import it.polimi.ingsw.view.gui.customcomponents.BookshelfView?>
+<GridPane fx:id="personalBookshelfRoot" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+          fx:controller="it.polimi.ingsw.view.gui.bookshelf.PersonalBookshelfController">
     <fx:define>
-        <Double fx:id="bookshelfCommandMaxDim" fx:value="100"/>
+        <Double fx:id="personalBookshelfMaxDim" fx:value="100.0"/>
     </fx:define>
 
     <rowConstraints>
@@ -18,7 +19,7 @@
         <RowConstraints percentHeight="90" valignment="CENTER" fillHeight="false" vgrow="NEVER"/>
     </rowConstraints>
     <columnConstraints>
-        <ColumnConstraints percentWidth="$bookshelfCommandMaxDim" halignment="CENTER" hgrow="NEVER"/>
+        <ColumnConstraints percentWidth="$personalBookshelfMaxDim" halignment="CENTER" hgrow="NEVER"/>
     </columnConstraints>
 
     <GridPane GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-padding: 0em 3.6em 0em 3.7em; -fx-hgap: 0.6em;">
@@ -26,11 +27,16 @@
             <RowConstraints percentHeight="100" valignment="CENTER" fillHeight="false" vgrow="NEVER"/>
         </rowConstraints>
         <columnConstraints>
-            <ColumnConstraints percentWidth="$bookshelfCommandMaxDim" halignment="CENTER" fillWidth="false" hgrow="NEVER"/>
-            <ColumnConstraints percentWidth="$bookshelfCommandMaxDim" halignment="CENTER" fillWidth="false" hgrow="NEVER"/>
-            <ColumnConstraints percentWidth="$bookshelfCommandMaxDim" halignment="CENTER" fillWidth="false" hgrow="NEVER"/>
-            <ColumnConstraints percentWidth="$bookshelfCommandMaxDim" halignment="CENTER" fillWidth="false" hgrow="NEVER"/>
-            <ColumnConstraints percentWidth="$bookshelfCommandMaxDim" halignment="CENTER" fillWidth="false" hgrow="NEVER"/>
+            <ColumnConstraints percentWidth="$personalBookshelfMaxDim" halignment="CENTER" fillWidth="false"
+                               hgrow="NEVER"/>
+            <ColumnConstraints percentWidth="$personalBookshelfMaxDim" halignment="CENTER" fillWidth="false"
+                               hgrow="NEVER"/>
+            <ColumnConstraints percentWidth="$personalBookshelfMaxDim" halignment="CENTER" fillWidth="false"
+                               hgrow="NEVER"/>
+            <ColumnConstraints percentWidth="$personalBookshelfMaxDim" halignment="CENTER" fillWidth="false"
+                               hgrow="NEVER"/>
+            <ColumnConstraints percentWidth="$personalBookshelfMaxDim" halignment="CENTER" fillWidth="false"
+                               hgrow="NEVER"/>
         </columnConstraints>
 
         <MyShelfieTriangleButton fx:id="leftTriangle" GridPane.columnIndex="0" GridPane.rowIndex="0"
@@ -45,6 +51,5 @@
                                  onMouseClicked="#selectedColumn"/>
     </GridPane>
 
-    <fx:include fx:id="commandBookshelfView" source="../bookshelf/bookshelf.fxml" GridPane.columnIndex="0"
-                GridPane.rowIndex="1"/>
+    <BookshelfView fx:id="personalBookshelfView" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
 </GridPane>

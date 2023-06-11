@@ -19,7 +19,5 @@ public class BoardView extends MyShelfieApplication {
         setUpStage(stage);
 
         stage.show();
-
-        ((BoardViewController) getFxController()).fillUpBoard();
     }
 }

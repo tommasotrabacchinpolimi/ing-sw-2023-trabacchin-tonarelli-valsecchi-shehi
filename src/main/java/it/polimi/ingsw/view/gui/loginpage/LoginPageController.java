@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.gui.loginpage;
 import it.polimi.ingsw.view.gui.MyShelfieApplication;
 import it.polimi.ingsw.view.gui.customcomponents.MyShelfieButton;
 import it.polimi.ingsw.view.gui.MyShelfieController;
+import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieTransition;
 import javafx.animation.FadeTransition;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
@@ -27,6 +28,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import static it.polimi.ingsw.view.gui.customcomponents.MyShelfieAlertCreator.displayErrorAlert;
+import static it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieTransition.DEF_DURATION;
 import static java.util.Map.entry;
 
 public class LoginPageController extends MyShelfieController {
@@ -253,7 +255,7 @@ public class LoginPageController extends MyShelfieController {
     }
 
     private void fadeElement(Node node, double fromValue, double toValue) {
-        FadeTransition fadeTransition = new FadeTransition(getAnimationDuration());
+        FadeTransition fadeTransition = new FadeTransition(DEF_DURATION.getDuration());
         fadeTransition.setNode(node);
         fadeTransition.setFromValue(fromValue);
         fadeTransition.setToValue(toValue);

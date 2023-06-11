@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.gui.bookshelf;
 
 import it.polimi.ingsw.utils.Coordinate;
 import it.polimi.ingsw.view.gui.MyShelfieController;
+import it.polimi.ingsw.view.gui.customcomponents.MyShelfieAlertCreator;
 import it.polimi.ingsw.view.gui.customcomponents.tileview.TileSubjectView;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
@@ -9,201 +10,99 @@ import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
-import static it.polimi.ingsw.utils.color.MyShelfieColor.GAMBOGE;
 import static it.polimi.ingsw.utils.color.MyShelfieColor.KOBICHA;
 
-public class BookshelfController extends MyShelfieController {
+/**
+ * @version 2.0
+ * @since 10/06/2023
+ */
+abstract class BookshelfController extends MyShelfieController{
 
-    @FXML
-    private StackPane bookshelfRootPane;
+    /**
+     *
+     */
+    Map<Coordinate, StackPane> bookshelfCells;
 
-    @FXML
-    private GridPane bookshelfGrid;
+    /**
+     * Given a bookshelf cell that is a child of
+     * the graphical component representing the bookshelf
+     * view, it returns the coordinate that corresponds
+     * to that cell
+     *
+     * @param bookshelfCell the bookshelf cell whose
+     *                      position one wants to know
+     * @return the coordinates corresponding to the cell
+     * given if the cell given as parameter is inside the
+     * graphical component representing the bookshelf,
+     * an empty {@code Optional} otherwise.
+     */
+    protected Optional<Coordinate> getBookshelfCellCoordinate(StackPane bookshelfCell) {
+        if(GridPane.getRowIndex(bookshelfCell) != null && GridPane.getColumnIndex(bookshelfCell) != null)
+            return Optional.of(new Coordinate(GridPane.getRowIndex(bookshelfCell), GridPane.getColumnIndex(bookshelfCell)));
 
-    @FXML
-    private StackPane cell00;
-
-    @FXML
-    private StackPane cell01;
-
-    @FXML
-    private StackPane cell02;
-
-    @FXML
-    private StackPane cell03;
-
-    @FXML
-    private StackPane cell04;
-
-    @FXML
-    private StackPane cell10;
-
-    @FXML
-    private StackPane cell11;
-
-    @FXML
-    private StackPane cell12;
-
-    @FXML
-    private StackPane cell13;
-
-    @FXML
-    private StackPane cell14;
-
-    @FXML
-    private StackPane cell20;
-
-    @FXML
-    private StackPane cell21;
-
-    @FXML
-    private StackPane cell22;
-
-    @FXML
-    private StackPane cell23;
-
-    @FXML
-    private StackPane cell24;
-
-    @FXML
-    private StackPane cell30;
-
-    @FXML
-    private StackPane cell31;
-
-    @FXML
-    private StackPane cell32;
-
-    @FXML
-    private StackPane cell33;
-
-    @FXML
-    private StackPane cell34;
-
-    @FXML
-    private StackPane cell40;
-
-    @FXML
-    private StackPane cell41;
-
-    @FXML
-    private StackPane cell42;
-
-    @FXML
-    private StackPane cell43;
-
-    @FXML
-    private StackPane cell44;
-
-    @FXML
-    private StackPane cell50;
-
-    @FXML
-    private StackPane cell51;
-
-    @FXML
-    private StackPane cell52;
-
-    @FXML
-    private StackPane cell53;
-
-    @FXML
-    private StackPane cell54;
-
-    @FXML
-    private Pane bookshelfImagePane;
-
-    private Map<Coordinate, StackPane> bookshelfCells;
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        bookshelfCells = new HashMap<>();
-
-        setupBookshelfMap(cell00, cell01, cell02, cell03, cell04,
-                cell10, cell11, cell12, cell13, cell14,
-                cell20, cell21, cell22, cell23, cell24,
-                cell30, cell31, cell32, cell33, cell34,
-                cell40, cell41, cell42, cell43, cell44,
-                cell50, cell51, cell52, cell53, cell54);
-
-        bookshelfCells.forEach((coordinate, cell) -> {
-            cell.getChildren().addListener((ListChangeListener<? super Node>) node -> {
-
-                while(node.next()) {
-                    if (node.wasRemoved())
-                        cell.setStyle("-fx-padding: 2em;" +
-                                "-fx-background-color: transparent;");
-
-                    if(node.wasAdded()){
-                        cell.setStyle("-fx-padding: 0.1em;"+
-                                "-fx-background-color: " + KOBICHA.getRGBAStyleSheet(0.37) + ";");
-
-                        node.getList()
-                                .stream()
-                                .map(element -> (TileSubjectView) element)
-                                .forEach(TileSubjectView::disable);
-                    }
-                }
-            });
-        });
+        return Optional.empty();
     }
 
-    private void setupBookshelfMap(@NotNull StackPane... bookshelfCells) {
-
-        for (StackPane bookshelfCell : bookshelfCells) {
-            insertInBookshelfMap(bookshelfCell);
-        }
-    }
-
-    private void insertInBookshelfMap(StackPane bookshelfCell) {
-        bookshelfCells.put(getItemTileBoxCoordinate(bookshelfCell), bookshelfCell);
-    }
-
-    @NotNull
-    @Contract("_ -> new")
-    private Coordinate getItemTileBoxCoordinate(StackPane bookshelfCell) {
-        return new Coordinate(GridPane.getRowIndex(bookshelfCell), GridPane.getColumnIndex(bookshelfCell));
-    }
-
-    public Pane getTileCellAt(Coordinate c) {
-        for (Coordinate coordinate : bookshelfCells.keySet()) {
-            if (coordinate.equals(c)) {
-                return bookshelfCells.get(coordinate);
+    /**
+     * Retrieves the bookshelf cell at the given coordinate
+     *
+     * @param coordinate the coordinate that has to contain
+     *                   a bookshelf cell
+     * @return the bookshelf cell if the coordinate given
+     * is in the real {@linkplain #bookshelfCells bookshelf},
+     * an empty {@code Optional} otherwise.
+     */
+    protected Optional<StackPane> getBookshelfCellAt(Coordinate coordinate) {
+        for (Coordinate c : bookshelfCells.keySet()) {
+            if (c.equals(coordinate)) {
+                return Optional.of(bookshelfCells.get(c));
             }
         }
 
-        return null;
+        return Optional.empty();
     }
 
-    protected void highlightSelectedColum(int column) {
-        bookshelfCells.keySet()
-                .stream()
-                .filter(c -> c.getY() == column)
-                .forEach(c -> bookshelfCells.get(c).setStyle("-fx-background-color:" + GAMBOGE.getRGBAStyleSheet(0.57) + ";"));
+    /**
+     * Retrieves the bookshelf cell at the given row and
+     * column
+     *
+     * @param row the row at which search the bookshelf cell
+     * @param column the column at which search the bookshelf cell
+     * @return the bookshelf cell if the row and column index given
+     * is in the real {@linkplain #bookshelfCells bookshelf},
+     * an empty {@code Optional} otherwise.
+     */
+    protected Optional<StackPane> getBookshelfCellAt(int row, int column) {
+        return getBookshelfCellAt(new Coordinate(row, column));
     }
 
-    protected void resetSelectedColum(int column) {
-        bookshelfCells.keySet()
-                .stream()
-                .filter(c -> c.getY() == column)
-                .forEach(c -> bookshelfCells.get(c).setStyle("-fx-background-color: transparent;"));
+    protected void insertTilesInBookshelf(@NotNull List<TileSubjectView> tiles, @NotNull List<Coordinate> coordinates) {
+        if (tiles.size() != coordinates.size()) {
+            MyShelfieAlertCreator.displayErrorAlert(
+                    "You have specified a different amount of tiles than expected",
+                    "Bookshelf can't contain these tiles"
+            );
+
+            return;
+        }
+
+        Map<Coordinate, TileSubjectView> coordinateTiles = new HashMap<>();
+
+        for(int i = 0; i < tiles.size(); ++i) {
+            coordinateTiles.put(coordinates.get(i), tiles.get(i));
+        }
+
+        insertTilesInBookshelf(coordinateTiles);
     }
 
-    @Override
-    public void onGameStateChangedNotified() {
-
+    public void insertTilesInBookshelf(@NotNull List<TileSubjectView> tiles, @NotNull Coordinate... coordinates) {
+        insertTilesInBookshelf(tiles, Arrays.asList(coordinates));
     }
 
-    @Override
-    public void onExceptionNotified() {
-
-    }
+    abstract void insertTilesInBookshelf(@NotNull Map<Coordinate, TileSubjectView> coordinateTiles);
 }

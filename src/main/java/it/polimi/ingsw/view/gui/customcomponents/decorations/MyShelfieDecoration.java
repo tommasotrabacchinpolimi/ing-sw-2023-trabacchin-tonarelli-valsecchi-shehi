@@ -4,8 +4,8 @@ package it.polimi.ingsw.view.gui.customcomponents.decorations;
  * Represents a "MyShelfie decoration" applied to a
  * custom graphical component according to the design of the game.
  *
- * @apiNote This class is designed to be used
- * with {@link MyShelfieComponent} class
+ * @apiNote <p>This class is designed to be used
+ * with {@link MyShelfieComponent component} class</p>
  *
  * @see MyShelfieBloom
  * @see MyShelfieDarkShadow

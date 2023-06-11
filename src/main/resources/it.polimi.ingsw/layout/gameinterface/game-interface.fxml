@@ -42,7 +42,7 @@
         <HBox fx:id="selectedTilesBox" GridPane.fillHeight="false" GridPane.fillWidth="false" GridPane.columnIndex="0"
               GridPane.rowIndex="0" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
 
-        <fx:include fx:id="gameBookshelfCommandView" source="../bookshelf/bookshelf-command.fxml" GridPane.columnIndex="0"
+        <fx:include fx:id="gamePersonalBookshelf" source="../bookshelf/personal-bookshelf.fxml" GridPane.columnIndex="0"
                     GridPane.rowIndex="1" GridPane.fillHeight="false" GridPane.fillWidth="false"/>
 
         <VBox GridPane.columnIndex="0" GridPane.rowIndex="2" alignment="CENTER" spacing="10">

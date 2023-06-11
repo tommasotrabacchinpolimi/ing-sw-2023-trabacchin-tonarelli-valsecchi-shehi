@@ -218,9 +218,11 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
     }
 
     public void disable() {
-        disabled = true;
+        if(!disabled){
+            disabled = true;
 
-        applyDecoration(new MyShelfieObscured());
+            applyDecoration(new MyShelfieObscured());
+        }
     }
 
     public void setClickable() {
