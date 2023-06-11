@@ -1,8 +1,6 @@
 package it.polimi.ingsw.view.gui.board;
 
 import it.polimi.ingsw.view.gui.MyShelfieApplication;
-import javafx.application.Platform;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class BoardView extends MyShelfieApplication {
@@ -14,9 +12,9 @@ public class BoardView extends MyShelfieApplication {
     @Override
     public void start(Stage stage) {
 
-        setUpSceneWithPane("board/board-view.fxml");
+        setupSceneWithPane("board/board-view.fxml");
 
-        setUpStage(stage);
+        setupStage(stage);
 
         stage.show();
     }

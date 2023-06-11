@@ -12,9 +12,9 @@ public class LoginPage extends MyShelfieApplication {
     @Override
     public void start(Stage stage){
 
-        setUpScene("login/login-page.fxml");
+        setupScene("login/login-page.fxml");
 
-        setUpStage(stage);
+        setupStage(stage);
 
         stage.show();
     }

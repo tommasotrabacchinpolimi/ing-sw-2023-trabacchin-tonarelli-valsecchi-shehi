@@ -3,7 +3,6 @@ package it.polimi.ingsw.view.gui.loginpage;
 import it.polimi.ingsw.view.gui.MyShelfieApplication;
 import it.polimi.ingsw.view.gui.customcomponents.MyShelfieButton;
 import it.polimi.ingsw.view.gui.MyShelfieController;
-import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieTransition;
 import javafx.animation.FadeTransition;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
@@ -282,7 +281,7 @@ public class LoginPageController extends MyShelfieController {
 
         MyShelfieApplication myShelfieApplication = getMyShelfieApplicationLauncher();
 
-        Scene newScene = myShelfieApplication.setUpSceneWithPane("board/board-view.fxml");
+        Scene newScene = myShelfieApplication.setupSceneWithPane("board/board-view.fxml");
 
         primaryStage.setScene(newScene);
 

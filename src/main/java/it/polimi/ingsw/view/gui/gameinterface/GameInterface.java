@@ -1,7 +1,6 @@
 package it.polimi.ingsw.view.gui.gameinterface;
 
 import it.polimi.ingsw.view.gui.MyShelfieApplication;
-import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class GameInterface extends MyShelfieApplication {
@@ -12,9 +11,9 @@ public class GameInterface extends MyShelfieApplication {
 
     @Override
     public void start(Stage stage) {
-        setUpScene("gameinterface/game-interface.fxml");
+        setupScene("gameinterface/game-interface.fxml");
 
-        setUpStage(stage);
+        setupStage(stage);
 
         stage.show();
     }

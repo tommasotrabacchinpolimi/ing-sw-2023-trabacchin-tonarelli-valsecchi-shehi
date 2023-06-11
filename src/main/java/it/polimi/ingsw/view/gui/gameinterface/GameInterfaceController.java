@@ -107,6 +107,7 @@ public class GameInterfaceController extends MyShelfieController {
                     "Insertion in bookshelf failed");
 
         } else if (boardSelected.size() > 0) {
+
             if (boardSelected.size() > 3) {
                 MyShelfieAlertCreator.displayInformationAlert("You can't select more than 3 tiles from board",
                         "To many tiles selected");
@@ -120,6 +121,7 @@ public class GameInterfaceController extends MyShelfieController {
                 boardSelected.forEach(tile -> tile.performAction(selectedTilesBox));
                 boardSelected.forEach(TileSubjectView::resetClick);
             }
+
         } else if (boxSelected.size() > 0) {
             if (boxSelected.size() != tileBoxChildListener.getOrderedSelectedTiles().size()) {
                 MyShelfieAlertCreator.displayWarningAlert(
@@ -129,9 +131,7 @@ public class GameInterfaceController extends MyShelfieController {
                 if (gamePersonalBookshelfController.getSelectedColumn() != -1) {
 
                     gamePersonalBookshelfController.insertTilesInBookshelf(tileBoxChildListener.getOrderedTilesFromBox(),
-                            new Coordinate(5, gamePersonalBookshelfController.getSelectedColumn()),
-                            new Coordinate(4, gamePersonalBookshelfController.getSelectedColumn()),
-                            new Coordinate(3, gamePersonalBookshelfController.getSelectedColumn()));
+                            gamePersonalBookshelfController.getSelectedColumn());
 
                     gamePersonalBookshelfController.deselectAnyColumn();
                 } else {

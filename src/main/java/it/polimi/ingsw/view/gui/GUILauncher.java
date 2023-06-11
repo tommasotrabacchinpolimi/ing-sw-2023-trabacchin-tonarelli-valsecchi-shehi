@@ -58,9 +58,9 @@ public class GUILauncher extends MyShelfieApplication {
      */
     @Override
     public void start(Stage stage) throws Exception {
-        setUpScene(CONNECTION_PAGE_LAYOUT);
+        setupScene(CONNECTION_PAGE_LAYOUT);
 
-        setUpStage(stage);
+        setupStage(stage);
 
         stage.show();
     }

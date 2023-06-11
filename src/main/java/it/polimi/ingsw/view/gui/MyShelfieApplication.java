@@ -19,13 +19,12 @@ import java.util.Objects;
  * <p>This class is used to define some default path and commands allowed
  * by every class that has to deal with the graphical user interface</p>
  *
- * @see Application
- *
  * @author Tommaso Trabacchin
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
  * @author Adem Shehi
  * @version 2.0
+ * @see Application
  * @since 19/05/2023
  */
 public abstract class MyShelfieApplication extends Application {
@@ -117,7 +116,8 @@ public abstract class MyShelfieApplication extends Application {
     }
 
     /**
-     * <p>Construct a {@link Scene scene} from a specific file containing a static layout (.fxml)</p>
+     * <p>Construct a {@link Scene scene} from a specific file containing a static layout
+     * ({@code .fxml})</p>
      *
      * @param FXMLFileName      the layout file reference
      * @param percentWidth      the percent width of the scene based on screen size
@@ -125,13 +125,14 @@ public abstract class MyShelfieApplication extends Application {
      * @param rootPaneContainer the main pane container for every graphical component in the layout file
      * @return the scene personalized as described
      * @apiNote <ul>
-     * <li>if {@code percentWidth} and/or {@code percentHeight} are equals to {@code 0.0} (or negative),
-     * the scene will be set to fit its content.</li>
-     * <li>if {@code rootPaneContainer} is null, tha main container for the scene will be
-     * the pane in the static layout file passed as parameter</li>
+     *     <li>if {@code percentWidth} and/or {@code percentHeight} are equals to {@code 0.0} (or negative),
+     *     the scene will be set to fit its content.</li>
+     *
+     *     <li>if {@code rootPaneContainer} is null, tha main container for the scene will be
+     *     the pane in the static layout file passed as parameter</li>
      * </ul>
      */
-    public Scene setUpScene(final String FXMLFileName, final double percentWidth, final double percentHeight, Pane rootPaneContainer) {
+    public Scene setupScene(final String FXMLFileName, final double percentWidth, final double percentHeight, Pane rootPaneContainer) {
         Platform.setImplicitExit(false);
 
         loadMyShelfieFont();
@@ -151,8 +152,8 @@ public abstract class MyShelfieApplication extends Application {
      * @apiNote if {@code percentWidth} and/or {@code percentHeight} are equals to {@code 0.0} (or negative),
      * the scene will be set to fit its content.
      */
-    public Scene setUpScene(final String FXMLFileName, final double percentWidth, final double percentHeight) {
-        return setUpScene(FXMLFileName, percentWidth, percentHeight, null);
+    public Scene setupScene(final String FXMLFileName, final double percentWidth, final double percentHeight) {
+        return setupScene(FXMLFileName, percentWidth, percentHeight, null);
     }
 
     /**
@@ -162,19 +163,19 @@ public abstract class MyShelfieApplication extends Application {
      * @param FXMLFileName the layout file reference
      * @return the scene personalized as described
      */
-    public Scene setUpScene(final String FXMLFileName) {
-        return setUpScene(FXMLFileName, 0.0, 0.0);
+    public Scene setupScene(final String FXMLFileName) {
+        return setupScene(FXMLFileName, 0.0, 0.0);
     }
 
-    public Scene setUpSceneWithPane(final String FXMLFileName, final double percentWidth, final double percentHeight) {
+    public Scene setupSceneWithPane(final String FXMLFileName, final double percentWidth, final double percentHeight) {
         Pane rootPane = new Pane();
         rootPane.setId("rootPaneContainer");
 
-        return setUpScene(FXMLFileName, percentWidth, percentHeight, rootPane);
+        return setupScene(FXMLFileName, percentWidth, percentHeight, rootPane);
     }
 
-    public Scene setUpSceneWithPane(final String FXMLFileName) {
-        return setUpSceneWithPane(FXMLFileName, 0.0, 0.0);
+    public Scene setupSceneWithPane(final String FXMLFileName) {
+        return setupSceneWithPane(FXMLFileName, 0.0, 0.0);
     }
 
     public Scene setScene(final String FXMLFileName, final double percentWidth, final double percentHeight, Pane rootPaneContainer) {
@@ -223,7 +224,7 @@ public abstract class MyShelfieApplication extends Application {
         return setScene(FXMLFileName, 0.0, 0.0);
     }
 
-    public void setUpStage(final Stage stage) {
+    public void setupStage(final Stage stage) {
 
         this.stage = stage;
 
@@ -244,29 +245,11 @@ public abstract class MyShelfieApplication extends Application {
         this.stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream(GAME_ICON_PATH))));
     }
 
-    /**
-     * <p>This method can be used to construct a {@link Scene scene} from a
-     * specific file containing the layout (.fxml)</p>
-     * <p>More precisely the scene retrieved by this method will have {@code height} and {@code width}
-     * based on screen size (full screen)</p>
-     *
-     * @param FXMLFileName the layout file reference
-     * @return the scene personalized as described
-     */
-    public Scene setUpFullScreenScene(final String FXMLFileName) {
-        loadMyShelfieFont();
+    public void setupMaximizedStage(final Stage stage) {
+        setupStage(stage);
 
-        FXMLLoader fxmlLoader = new FXMLLoader(LoginPage.class.getResource(MyShelfieApplication.getFXMLFile(FXMLFileName)));
-
-        Scene scene = null;
-
-        try {
-            scene = new Scene(fxmlLoader.load(), SCREEN_WIDTH, SCREEN_HEIGHT);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        return scene;
+        this.stage.setMaximized(true);
+        this.stage.setResizable(false);
     }
 
     public void changeScene(Scene newScene) {
@@ -280,7 +263,7 @@ public abstract class MyShelfieApplication extends Application {
 
         stage.setScene(scene);
 
-        stage.setOnShown( value -> {
+        stage.setOnShown(value -> {
             setFocusOnBackground();
             setPreserveRatio();
         });
@@ -309,24 +292,8 @@ public abstract class MyShelfieApplication extends Application {
         rootPane.heightProperty().addListener(textSizeChangeListener);
     }
 
-    public Scene getScene() {
-        return scene;
-    }
-
-    public void setScene(Scene scene) {
-        this.scene = scene;
-    }
-
-    public Pane getRootPane() {
-        return rootPane;
-    }
-
     public void setRootPane(Pane rootPane) {
         this.rootPane = rootPane;
-    }
-
-    public MyShelfieController getFxController() {
-        return fxController;
     }
 
     public void setFxController(MyShelfieController fxController) {

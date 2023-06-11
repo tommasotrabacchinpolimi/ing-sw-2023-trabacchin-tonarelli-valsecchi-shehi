@@ -63,9 +63,7 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
      */
     private final List<MyShelfieDecoration> baseDecorations = new ArrayList<>();
 
-    public TileSubjectView(Pane parent, TileSubject tileSubject) {
-        setParent(parent);
-
+    public TileSubjectView(TileSubject tileSubject) {
         this.currentState = new TileViewInBoard();
 
         this.tileSubject = tileSubject;
@@ -82,6 +80,12 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
         setOnMouseEntered(this::onMouseEnteredHandler);
         setOnMouseExited(this::onMouseExitedHandler);
         setOnMousePressed(this::onMousePressedHandler);
+    }
+
+    public TileSubjectView(Pane parent, TileSubject tileSubject) {
+        this(tileSubject);
+
+        setParent(parent);
     }
 
     private void setParent(@NotNull Pane parent){
@@ -111,7 +115,7 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
 
     private void onMouseEnteredHandler(MouseEvent mouseEvent) {
         if(!clicked && !disabled){
-            applyDecorationFromZero(new MyShelfieLightShadow(), new MyShelfieInnerShadow());
+            applyDecorationFromZero(new MyShelfieLightShadow(), new MyShelfieInnerShadow(), new MyShelfieLightBorder());
         }
     }
 
@@ -132,11 +136,6 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
 
             clicked = !clicked;
         }
-    }
-
-    protected void setOnMouseClickedEffect() {
-        setEffect(null);
-        setEffect(new Glow(0.2));
     }
 
     public void setClicked(boolean clicked) {

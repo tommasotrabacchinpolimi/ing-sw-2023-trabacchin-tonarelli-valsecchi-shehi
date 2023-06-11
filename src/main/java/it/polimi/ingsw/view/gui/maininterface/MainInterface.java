@@ -1,7 +1,6 @@
 package it.polimi.ingsw.view.gui.maininterface;
 
 import it.polimi.ingsw.view.gui.MyShelfieApplication;
-import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class MainInterface extends MyShelfieApplication {
@@ -13,9 +12,9 @@ public class MainInterface extends MyShelfieApplication {
     @Override
     public void start(Stage stage) {
 
-        setUpScene("maininterface/main-interface.fxml");
+        setupScene("maininterface/main-interface.fxml");
 
-        setUpStage(stage);
+        setupMaximizedStage(stage);
 
         stage.show();
     }

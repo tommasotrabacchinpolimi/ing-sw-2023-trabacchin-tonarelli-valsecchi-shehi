@@ -49,9 +49,7 @@ class TileBoxChildListener implements ListChangeListener<Node> {
                             addInOrder(tile);
                         });
 
-                if(selectedTilesBox.getChildren().size() == 3){
-                    tilesOnBoard.forEach(TileSubjectView::disable);
-                }
+                tilesOnBoard.forEach(TileSubjectView::disable);
             }
 
             if(change.wasRemoved()) {
