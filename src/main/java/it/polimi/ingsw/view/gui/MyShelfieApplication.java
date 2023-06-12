@@ -12,6 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 
 import java.io.IOException;
@@ -228,7 +229,7 @@ public abstract class MyShelfieApplication extends Application {
 
     public void setupStage(final Stage stage) {
 
-        initStage(stage, false);
+        initStage(stage, false, false);
 
         this.stage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::closeWindowEvent);
 
@@ -237,10 +238,14 @@ public abstract class MyShelfieApplication extends Application {
     }
 
     public void setupFullScreenStage(final Stage stage) {
-        initStage(stage, true);
+        initStage(stage, true, false);
     }
 
-    private void initStage(final Stage stage, final boolean fullScreen) {
+    public void setupMaximizedStage(final Stage stage) {
+        initStage(stage, false, true);
+    }
+
+    private void initStage(final Stage stage, final boolean fullScreen, final boolean maximized) {
         this.stage = stage;
 
         this.stage.setScene(scene);
@@ -248,6 +253,10 @@ public abstract class MyShelfieApplication extends Application {
         if(fullScreen){
             this.stage.setFullScreen(true);
             this.stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        }else if(maximized) {
+            this.stage.setMaximized(true);
+            this.stage.initStyle(StageStyle.UNDECORATED);
+            this.stage.setFullScreen(false);
         }
 
         stage.setOnShown(value -> {
