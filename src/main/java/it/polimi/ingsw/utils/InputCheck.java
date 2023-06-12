@@ -73,22 +73,21 @@ public class InputCheck {
         List<Coordinate> active = findIndexAllActiveTilesInBoard(board);
         if(getMaxDimensionChosenTiles(bookShelf) <= 1) return null;
         if(active.contains(c1)){
-            coordinates = active.stream()
-                    .filter(c -> ( (c.getX()==c1.getX() && (c.getY()+1==c1.getY() || c.getY()-1==c1.getY())) ||
-                                    (c.getY()==c1.getY() && (c.getX()+1==c1.getX() || c.getX()-1==c1.getX())) ||
-                                    (c.getX()==c1.getX() && (c.getY()+2==c1.getY() || c.getY()-2==c1.getY())) ||
-                                    (c.getY()==c1.getY() && (c.getX()+2==c1.getX() || c.getX()-2==c1.getX()))
-                            )
-                    )
-                    .collect(Collectors.toList());
-            for(Coordinate c: coordinates){
-                if(checkIfIsolated(coordinates, c)){
-                    coordinates.remove(c);
-                }
-            }
-
+            addSelectableTiles(coordinates, active, new Coordinate(c1.getX() - 1, c1.getY()), new Coordinate(c1.getX() - 2, c1.getY()));
+            addSelectableTiles(coordinates, active, new Coordinate(c1.getX()+1, c1.getY()), new Coordinate(c1.getX() + 2, c1.getY()));
+            addSelectableTiles(coordinates, active, new Coordinate(c1.getX(), c1.getY()+1), new Coordinate(c1.getX(), c1.getY() + 2));
+            addSelectableTiles(coordinates, active, new Coordinate(c1.getX(), c1.getY()-1), new Coordinate(c1.getX(), c1.getY() - 2));
         }
         return coordinates;
+    }
+
+    private static void addSelectableTiles(List<Coordinate> coordinates, List<Coordinate> active, Coordinate one, Coordinate two) {
+        if(active.contains(one)){
+            coordinates.add(one);
+            if(active.contains(two)){
+                coordinates.add(two);
+            }
+        }
     }
 
     /**
@@ -138,15 +137,6 @@ public class InputCheck {
         result = coordinates.stream().map(Coordinate::getX).sorted().toList();
 
         return result;
-    }
-
-    private static boolean checkIfIsolated(List<Coordinate> tiles, Coordinate c){
-        for(Coordinate c1 : tiles){
-            if ((c.getX()==c1.getX() && (c.getY()+1==c1.getY() || c.getY()-1==c1.getY())) ||
-                    (c.getY()==c1.getY() && (c.getX()+1==c1.getX() || c.getX()-1==c1.getX())))
-                return false;
-        }
-        return true;
     }
 
     private static List<Integer> orderedYCoordinate(List<Coordinate> coordinates){

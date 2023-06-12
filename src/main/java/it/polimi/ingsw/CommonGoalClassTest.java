@@ -1,33 +1,40 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.utils.Coordinate;
+import it.polimi.ingsw.utils.InputCheck;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static it.polimi.ingsw.model.TileSubject.*;
 
 public class CommonGoalClassTest {
     TileType[][] matrix;
     CommonGoal commonGoal;
 
     public static void main(String[] args){
-        List<EntryPatternGoal> list = new ArrayList<>();
-        CommonGoalClassTest commonGoalClassTest = new CommonGoalClassTest();
-        CommonGoal goal = new TupleCommonGoal(6, 1, false, true, false);
-        TileType[][] matrix = new TileType[][]{
-                {TileType.PLANT,  TileType.PLANT,  TileType.GAME,   TileType.GAME,   TileType.FRAME},
-                {null,            null,            TileType.PLANT,  null,            TileType.FRAME},
-                {null,            TileType.TROPHY, TileType.TROPHY, TileType.TROPHY, TileType.FRAME},
-                {TileType.CAT,    TileType.CAT,    TileType.PLANT,  TileType.TROPHY, TileType.FRAME},
-                {TileType.BOOK,   TileType.FRAME,  TileType.PLANT,  TileType.CAT,    TileType.CAT},
-                {TileType.BOOK,   TileType.BOOK,   TileType.BOOK,   TileType.PLANT,   TileType.PLANT}
+        TileSubject[][] bookShelf = new TileSubject[][]{
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
         };
-        list = goal.rule(matrix);
-        if (list != null){
-            System.out.println("Common Goal verified!");
-            commonGoalClassTest.printResult(list);
-        } else {
-            System.out.println("NOT SUCCEDED");
-        }
+        TileSubject[][] board = new TileSubject[][]{
+                {null, null, null, BOOK_COMIC, BOOK_DICTIONARY, null, null, null, null},
+                {null, null, null, BOOK_NOTE, CAT_BLACK, CAT_GRAY, null, null, null},
+                {null, null, CAT_ORANGE, FRAME_DEGREE, FRAME_LOVE, FRAME_MEMORIES, GAME_CHESS, null, null},
+                {null, GAME_MONOPOLY, GAME_RISIKO, PLANT_BASIL, PLANT_GREEN, PLANT_MONSTERA, TROPHY_CHAMPION, null, null},
+                {BOOK_COMIC, BOOK_DICTIONARY, BOOK_NOTE, CAT_BLACK, CAT_GRAY, CAT_ORANGE, FRAME_DEGREE, null, null},
+                {GAME_CHESS, GAME_MONOPOLY, GAME_RISIKO, PLANT_BASIL, PLANT_GREEN, PLANT_MONSTERA, TROPHY_CHAMPION, null, null},
+                {null, null, TROPHY_GYM, TROPHY_MUSIC, BOOK_COMIC, BOOK_DICTIONARY, BOOK_NOTE, null, null},
+                {null, null, null, CAT_BLACK, CAT_GRAY, CAT_ORANGE, null, null, null},
+                {null, null, null, null, FRAME_DEGREE, FRAME_LOVE, null, null, null}
+        };
+        System.out.println(InputCheck.findIndexActiveAfterOneChosenTile(board, new Coordinate(5, 0), bookShelf));
+        System.out.println(InputCheck.findIndexActiveAfterTwoChosenTiles(board, new Coordinate(5, 0), new Coordinate(5, 1), bookShelf));
     }
 
     /**
