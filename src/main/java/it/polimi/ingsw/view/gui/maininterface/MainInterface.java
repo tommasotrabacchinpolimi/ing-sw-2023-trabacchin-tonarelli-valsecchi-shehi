@@ -12,7 +12,7 @@ public class MainInterface extends MyShelfieApplication {
     @Override
     public void start(Stage stage) {
 
-        setupScene("maininterface/main-interface.fxml");
+        setupMaximizedScene("maininterface/main-interface.fxml");
 
         setupMaximizedStage(stage);
 

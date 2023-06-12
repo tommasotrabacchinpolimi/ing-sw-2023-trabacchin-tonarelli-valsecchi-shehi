@@ -181,7 +181,11 @@ public abstract class MyShelfieApplication extends Application {
         return setupSceneWithPane(FXMLFileName, 0.0, 0.0);
     }
 
-    public Scene setScene(final String FXMLFileName, final double percentWidth, final double percentHeight, Pane rootPaneContainer) {
+    public Scene setupMaximizedScene(final String FXMLFileName) {
+        return setScene(FXMLFileName, 100.0, 100.0, null);
+    }
+
+    private Scene setScene(final String FXMLFileName, double percentWidth, double percentHeight, Pane rootPaneContainer) {
         FXMLLoader fxmlLoader = new FXMLLoader(MyShelfieApplication.class.getResource(MyShelfieApplication.getFXMLFile(FXMLFileName)));
 
         try {
@@ -198,9 +202,11 @@ public abstract class MyShelfieApplication extends Application {
 
         fxController.setMyShelfieApplicationLauncher(this);
 
-        if (percentWidth > 0.0 && percentHeight > 0.0)
+        if (percentWidth > 0.0 && percentHeight > 0.0) {
+            percentHeight = Math.min(percentHeight, 100.0);
+            percentWidth = Math.min(percentWidth, 100.0);
             scene = new Scene(rootPaneContainer, (SCREEN_WIDTH * percentWidth / 100.00), (SCREEN_HEIGHT * percentHeight / 100.00));
-        else
+        }else
             scene = new Scene(rootPaneContainer);
 
         setRootPane(rootPaneContainer);
@@ -255,8 +261,8 @@ public abstract class MyShelfieApplication extends Application {
             this.stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         }else if(maximized) {
             this.stage.setMaximized(true);
-            this.stage.initStyle(StageStyle.UNDECORATED);
             this.stage.setFullScreen(false);
+            this.stage.setResizable(false);
         }
 
         stage.setOnShown(value -> {
