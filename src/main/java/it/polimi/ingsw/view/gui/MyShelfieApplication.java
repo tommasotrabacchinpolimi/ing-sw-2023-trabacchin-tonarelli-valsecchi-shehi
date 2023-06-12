@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.gui;
 import it.polimi.ingsw.view.gui.loginpage.LoginPage;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -247,6 +248,7 @@ public abstract class MyShelfieApplication extends Application {
         if(fullScreen){
             this.stage.setFullScreen(true);
             this.stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+            this.stage.getScene().getWindow().addEventHandler(WindowEvent.ANY, this::resizeEvent);
         }
 
         stage.setOnShown(value -> {
@@ -255,6 +257,10 @@ public abstract class MyShelfieApplication extends Application {
         });
 
         this.stage.centerOnScreen();
+    }
+
+    private <T extends Event> void resizeEvent(T t) {
+        System.out.println(t.toString());
     }
 
     public void changeScene(Scene newScene) {
