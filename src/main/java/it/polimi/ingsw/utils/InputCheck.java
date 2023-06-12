@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class InputCheck {
     
@@ -79,7 +80,13 @@ public class InputCheck {
                                     (c.getY()==c1.getY() && (c.getX()+2==c1.getX() || c.getX()-2==c1.getX()))
                             )
                     )
-                    .toList();
+                    .collect(Collectors.toList());
+            for(Coordinate c: coordinates){
+                if(checkIfIsolated(coordinates, c)){
+                    coordinates.remove(c);
+                }
+            }
+
         }
         return coordinates;
     }
@@ -131,6 +138,15 @@ public class InputCheck {
         result = coordinates.stream().map(Coordinate::getX).sorted().toList();
 
         return result;
+    }
+
+    private static boolean checkIfIsolated(List<Coordinate> tiles, Coordinate c){
+        for(Coordinate c1 : tiles){
+            if ((c.getX()==c1.getX() && (c.getY()+1==c1.getY() || c.getY()-1==c1.getY())) ||
+                    (c.getY()==c1.getY() && (c.getX()+1==c1.getX() || c.getX()-1==c1.getX())))
+                return false;
+        }
+        return true;
     }
 
     private static List<Integer> orderedYCoordinate(List<Coordinate> coordinates){
