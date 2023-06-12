@@ -10,7 +10,7 @@
             stylesheets="@MainInterface.css"
             fx:controller="it.polimi.ingsw.view.gui.maininterface.MainInterfaceController">
 
-    <ScrollPane fx:id="mainScrollPane" pannable="true" hbarPolicy="NEVER" vbarPolicy="ALWAYS"
+    <ScrollPane fx:id="mainScrollPane" hbarPolicy="NEVER" vbarPolicy="ALWAYS"
                 AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                 AnchorPane.topAnchor="0.0" fitToWidth="true">
         <VBox fx:id="scrollContentBox" alignment="CENTER">

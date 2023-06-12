@@ -1,7 +1,6 @@
 #bookshelfGrid {
     -fx-padding: 2em 3.6em 3.8em 3.7em;
     -fx-hgap: 0.6em;
-    -fx-grid-lines-visible: true;
 }
 
 #bookshelfImagePane {

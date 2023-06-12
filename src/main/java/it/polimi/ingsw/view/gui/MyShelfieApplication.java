@@ -226,18 +226,7 @@ public abstract class MyShelfieApplication extends Application {
 
     public void setupStage(final Stage stage) {
 
-        this.stage = stage;
-
-        this.stage.setScene(scene);
-        //stage.initStyle(StageStyle.UTILITY);
-
-        stage.setOnShown(value -> {
-            setFocusOnBackground();
-            setPreserveRatio();
-        });
-
-        //center stage in screen
-        this.stage.centerOnScreen();
+        initStage(stage, false);
 
         this.stage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::closeWindowEvent);
 
@@ -246,10 +235,26 @@ public abstract class MyShelfieApplication extends Application {
     }
 
     public void setupMaximizedStage(final Stage stage) {
-        setupStage(stage);
+        initStage(stage, true);
 
-        this.stage.setMaximized(true);
         this.stage.setResizable(false);
+    }
+
+    private void initStage(final Stage stage, final boolean maximized) {
+        this.stage = stage;
+
+        this.stage.setScene(scene);
+
+        //stage.initStyle(StageStyle.UTILITY);
+
+        this.stage.setFullScreen(maximized);
+
+        stage.setOnShown(value -> {
+            setFocusOnBackground();
+            setPreserveRatio();
+        });
+
+        this.stage.centerOnScreen();
     }
 
     public void changeScene(Scene newScene) {
