@@ -14,7 +14,7 @@ public class MainInterface extends MyShelfieApplication {
 
         setupScene("maininterface/main-interface.fxml");
 
-        setupMaximizedStage(stage);
+        setupFullScreenStage(stage);
 
         stage.show();
     }

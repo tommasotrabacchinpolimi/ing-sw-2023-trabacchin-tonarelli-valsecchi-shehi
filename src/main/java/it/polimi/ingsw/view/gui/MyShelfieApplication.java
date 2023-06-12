@@ -6,6 +6,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
@@ -234,20 +235,19 @@ public abstract class MyShelfieApplication extends Application {
         this.stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream(GAME_ICON_PATH))));
     }
 
-    public void setupMaximizedStage(final Stage stage) {
+    public void setupFullScreenStage(final Stage stage) {
         initStage(stage, true);
-
-        this.stage.setResizable(false);
     }
 
-    private void initStage(final Stage stage, final boolean maximized) {
+    private void initStage(final Stage stage, final boolean fullScreen) {
         this.stage = stage;
 
         this.stage.setScene(scene);
 
-        //stage.initStyle(StageStyle.UTILITY);
-
-        this.stage.setFullScreen(maximized);
+        if(fullScreen){
+            this.stage.setFullScreen(true);
+            this.stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        }
 
         stage.setOnShown(value -> {
             setFocusOnBackground();
