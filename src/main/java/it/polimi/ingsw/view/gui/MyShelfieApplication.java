@@ -55,12 +55,12 @@ public abstract class MyShelfieApplication extends Application {
     /**
      * the screen width
      */
-    private static final double SCREEN_WIDTH = SCREEN_DEVICE.getVisualBounds().getWidth() * SCREEN_DEVICE.getOutputScaleX();
+    private static final double SCREEN_WIDTH = SCREEN_DEVICE.getVisualBounds().getWidth();
 
     /**
      * The screen height
      */
-    private static final double SCREEN_HEIGHT = SCREEN_DEVICE.getVisualBounds().getHeight() * SCREEN_DEVICE.getOutputScaleY();
+    private static final double SCREEN_HEIGHT = SCREEN_DEVICE.getVisualBounds().getHeight();
 
     /**
      * The scene relative to the interface shown
@@ -182,7 +182,7 @@ public abstract class MyShelfieApplication extends Application {
     }
 
     public Scene setupMaximizedScene(final String FXMLFileName) {
-        return setScene(FXMLFileName, 100.0, 100.0, null);
+        return setupScene(FXMLFileName, 100.0, 100.0, null);
     }
 
     private Scene setScene(final String FXMLFileName, double percentWidth, double percentHeight, Pane rootPaneContainer) {
