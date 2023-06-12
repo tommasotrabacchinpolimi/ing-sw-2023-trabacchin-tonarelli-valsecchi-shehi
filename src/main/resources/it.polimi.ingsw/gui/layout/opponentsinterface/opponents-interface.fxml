@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane fx:id="opponentsInterfaceRootPane" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+          fx:controller="it.polimi.ingsw.view.gui.layout.opponentsinterface.OpponentsInterfaceController">
+
+    <fx:define>
+        <Double fx:id="opponentsInterfaceGridPercent" fx:value="100.0"/>
+    </fx:define>
+
+    <columnConstraints>
+        <ColumnConstraints percentWidth="$opponentsInterfaceGridPercent" halignment="CENTER" fillWidth="false"
+                           hgrow="NEVER"/>
+        <ColumnConstraints percentWidth="$opponentsInterfaceGridPercent" halignment="CENTER" fillWidth="false"
+                           hgrow="NEVER"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints percentHeight="$opponentsInterfaceGridPercent" valignment="CENTER" fillHeight="false"
+                        vgrow="NEVER"/>
+    </rowConstraints>
+
+    <VBox fx:id="opponentsVBoxContainer" GridPane.columnIndex="0" GridPane.rowIndex="0" alignment="CENTER"
+          fillWidth="false" mouseTransparent="true">
+    </VBox>
+</GridPane>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import it.polimi.ingsw.view.gui.customcomponents.BookshelfView?>
+<?import javafx.scene.shape.Rectangle?>
+<GridPane fx:id="opponentBookshelfRootPane" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+          fx:controller="it.polimi.ingsw.view.gui.layout.bookshelf.OpponentBookShelfController">
+    <fx:define>
+        <Double fx:id="bookshelfCommandMaxDim" fx:value="100"/>
+    </fx:define>
+
+    <rowConstraints>
+        <RowConstraints percentHeight="10" valignment="CENTER" fillHeight="false" vgrow="NEVER"/>
+        <RowConstraints percentHeight="80" valignment="CENTER" fillHeight="false" vgrow="NEVER"/>
+        <RowConstraints percentHeight="10" valignment="CENTER" fillHeight="false" vgrow="NEVER"/>
+    </rowConstraints>
+    <columnConstraints>
+        <ColumnConstraints percentWidth="$bookshelfCommandMaxDim" halignment="CENTER" hgrow="NEVER"/>
+    </columnConstraints>
+
+    <GridPane GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-padding: 0em 3.6em 0em 3.7em; -fx-hgap: 0.6em;">
+        <rowConstraints>
+            <RowConstraints percentHeight="100" valignment="CENTER" vgrow="NEVER"/>
+        </rowConstraints>
+        <columnConstraints>
+            <ColumnConstraints percentWidth="$bookshelfCommandMaxDim" halignment="CENTER" hgrow="NEVER"/>
+            <ColumnConstraints percentWidth="$bookshelfCommandMaxDim" halignment="CENTER" hgrow="NEVER"/>
+            <ColumnConstraints percentWidth="$bookshelfCommandMaxDim" halignment="CENTER" hgrow="NEVER"/>
+            <ColumnConstraints percentWidth="$bookshelfCommandMaxDim" halignment="CENTER" hgrow="NEVER"/>
+            <ColumnConstraints percentWidth="$bookshelfCommandMaxDim" halignment="CENTER" hgrow="NEVER"/>
+        </columnConstraints>
+
+        <StackPane fx:id="leftPane" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <StackPane fx:id="midLeftPane" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+        <StackPane fx:id="midPane" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+        <StackPane fx:id="midRightPane" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+        <StackPane fx:id="rightPane" GridPane.columnIndex="4" GridPane.rowIndex="0"/>
+    </GridPane>
+
+    <BookshelfView fx:id="opponentBookshelfView" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+
+    <Label fx:id="opponentBookshelfName" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.fillWidth="true"
+           labelFor="$opponentBookshelfRootPane" mouseTransparent="true"/>
+</GridPane>

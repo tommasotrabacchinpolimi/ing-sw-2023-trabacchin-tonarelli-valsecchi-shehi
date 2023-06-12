@@ -48,17 +48,17 @@ module it.polimi.ingsw {
     exports it.polimi.ingsw.view.gui to javafx.fxml, javafx.graphics;
     opens it.polimi.ingsw.view.gui to javafx.graphics, javafx.fxml;
 
-    exports it.polimi.ingsw.view.gui.loginpage to javafx.fxml, javafx.graphics;
-    opens it.polimi.ingsw.view.gui.loginpage to javafx.fxml, javafx.graphics;
+    exports it.polimi.ingsw.view.gui.layout.loginpage to javafx.fxml, javafx.graphics;
+    opens it.polimi.ingsw.view.gui.layout.loginpage to javafx.fxml, javafx.graphics;
 
-    exports it.polimi.ingsw.view.gui.board to javafx.fxml, javafx.graphics;
-    opens it.polimi.ingsw.view.gui.board to javafx.fxml, javafx.graphics;
+    exports it.polimi.ingsw.view.gui.layout.board to javafx.fxml, javafx.graphics;
+    opens it.polimi.ingsw.view.gui.layout.board to javafx.fxml, javafx.graphics;
 
-    exports it.polimi.ingsw.view.gui.connectioninterface to  javafx.fxml, javafx.graphics;
-    opens it.polimi.ingsw.view.gui.connectioninterface to javafx.fxml, javafx.graphics;
+    exports it.polimi.ingsw.view.gui.layout.connectioninterface to  javafx.fxml, javafx.graphics;
+    opens it.polimi.ingsw.view.gui.layout.connectioninterface to javafx.fxml, javafx.graphics;
 
-    exports it.polimi.ingsw.view.gui.maininterface to javafx.fxml, javafx.graphics;
-    opens it.polimi.ingsw.view.gui.maininterface to javafx.fxml, javafx.graphics;
+    exports it.polimi.ingsw.view.gui.layout.maininterface to javafx.fxml, javafx.graphics;
+    opens it.polimi.ingsw.view.gui.layout.maininterface to javafx.fxml, javafx.graphics;
 
     exports it.polimi.ingsw.view.gui.customcomponents to javafx.fxml, javafx.graphics;
     opens it.polimi.ingsw.view.gui.customcomponents to javafx.fxml, javafx.graphics;
@@ -66,11 +66,15 @@ module it.polimi.ingsw {
     exports it.polimi.ingsw.view.gui.customcomponents.tileview to javafx.fxml, javafx.graphics;
     opens it.polimi.ingsw.view.gui.customcomponents.tileview to javafx.fxml, javafx.graphics;
 
-    exports it.polimi.ingsw.view.gui.bookshelf to javafx.fxml, javafx.graphics;
-    opens it.polimi.ingsw.view.gui.bookshelf to javafx.fxml, javafx.graphics;
+    exports it.polimi.ingsw.view.gui.layout.bookshelf to javafx.fxml, javafx.graphics;
+    opens it.polimi.ingsw.view.gui.layout.bookshelf to javafx.fxml, javafx.graphics;
 
-    exports it.polimi.ingsw.view.gui.gameinterface to javafx.fxml, javafx.graphics;
-    opens it.polimi.ingsw.view.gui.gameinterface to javafx.fxml, javafx.graphics;
+    exports it.polimi.ingsw.view.gui.layout.gameinterface to javafx.fxml, javafx.graphics;
+    opens it.polimi.ingsw.view.gui.layout.gameinterface to javafx.fxml, javafx.graphics;
+
+    exports it.polimi.ingsw.view.gui.layout.opponentsinterface to javafx.fxml, javafx.graphics;
+    opens it.polimi.ingsw.view.gui.layout.opponentsinterface to javafx.fxml, javafx.graphics;
+
     exports it.polimi.ingsw.utils.color;
     opens it.polimi.ingsw.utils.color;
 }

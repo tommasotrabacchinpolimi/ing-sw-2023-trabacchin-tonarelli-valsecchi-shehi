@@ -1,9 +1,8 @@
 package it.polimi.ingsw.view.gui;
 
-import it.polimi.ingsw.view.gui.loginpage.LoginPage;
+import it.polimi.ingsw.view.gui.layout.loginpage.LoginPage;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -12,7 +11,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 
 import java.io.IOException;
@@ -35,7 +33,7 @@ public abstract class MyShelfieApplication extends Application {
     /**
      * <p>Default FXML file path folder where every layout is located</p>
      */
-    private static final String FXML_FILE_PATH = "/it.polimi.ingsw/layout/";
+    private static final String FXML_FILE_PATH = "/it.polimi.ingsw/gui/layout/";
 
     /**
      * <p>Path to the font used</p>
@@ -95,7 +93,7 @@ public abstract class MyShelfieApplication extends Application {
      * This method loads the font in the graphical user interface
      */
     private static void loadMyShelfieFont() {
-        Font.loadFont(LoginPage.class.getResourceAsStream(FONT_PATH), Font.getDefault().getSize());
+        Font.loadFont(MyShelfieApplication.class.getResourceAsStream(FONT_PATH), Font.getDefault().getSize());
     }
 
     /**

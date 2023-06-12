@@ -27,7 +27,7 @@ public class BookshelfView extends StackPane implements MyShelfieComponent {
      * The Cascading-Style-Sheet path to the file containing
      * the customization of the bookshelf
      */
-    private static final String CSS_FILE_PATH = "/it.polimi.ingsw/layout/bookshelf/Bookshelf.css";
+    private static final String CSS_FILE_PATH = "/it.polimi.ingsw/gui/layout/bookshelf/Bookshelf.css";
 
     /**
      * The default class applied to the cells of the bookshelf

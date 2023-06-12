@@ -1,0 +1,125 @@
+@font-face {
+    font-family: 'Special Elite Regular';
+    font-weight: normal;
+    font-style: normal;
+    src: local('Special Elite') url('../../../graphical.resources/font/SpecialElite-Regular.ttf');
+}
+
+#connectionRootPane {
+    -fx-background-image: url('../../../graphical.resources/publisher.material/banner_1386x400px.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: left;
+    -fx-background-size: cover;
+    -fx-padding: 0em;
+}
+
+#connectionBackgroundColorHover {
+    -fx-background-color: rgba(28, 37, 41, 0.53);
+    -fx-padding: 3em;
+}
+
+#connectionGridStackContainer {
+    -fx-background-image: url('../../../graphical.resources/misc/page_base_darken.jpg');
+    -fx-background-size: contain;
+    -fx-background-position: center center;
+    -fx-background-repeat: repeat-x;
+    -fx-padding: 0.7em;
+}
+
+#connectionContentGrid{
+    -fx-background-image: url('../../../graphical.resources/misc/white_paper_texture.png');
+    -fx-background-size: contain;
+    -fx-background-position: center;
+    -fx-alignment: center;
+    -fx-padding: 0.5em 1.3em 0.5em 1.3em;
+    -fx-vgap: 3em;
+    -fx-hgap: 1em;
+}
+
+.info-text {
+    -fx-font-family: 'Special Elite Regular';
+    -fx-text-alignment: center;
+    -fx-wrap-text: true;
+    -fx-snap-to-pixel: true;
+    -fx-font-size: 1.7em;
+}
+
+#connectionProtocolBox {
+    -fx-background-image: url('../../../graphical.resources/misc/page_base_darken.jpg');
+    -fx-background-size: contain;
+    -fx-background-position: center;
+    -fx-alignment: center;
+    -fx-border-color: transparent;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-mark-color: rgba(230, 221, 199, 0.97);
+    -fx-effect: dropshadow(gaussian, rgba(71, 40, 17, 0.97), 10.0, 0.0, 0.0, 0.0);
+}
+
+#connectionProtocolBox .label {
+    -fx-font-family: 'Special Elite Regular';
+    -fx-text-fill: rgba(230, 221, 199, 0.97);
+    -fx-text-alignment: center;
+    -fx-font-size: 1.7em;
+}
+
+#connectionProtocolBox .context-menu {
+    -fx-background-image: url('../../../graphical.resources/misc/page_base_darken.jpg');
+    -fx-text-fill: rgba(230, 221, 199, 0.97);
+    -fx-text-alignment: center;
+    -fx-font-size: 1em;
+}
+
+#connectionProtocolBox .menu-item:focused {
+    -fx-background-color: rgba(230, 221, 199, 0.13);
+}
+
+#connectionProtocolBox .menu-item > .label {
+    -fx-text-fill: rgba(230, 221, 199, 0.97);
+}
+
+#connectionProtocolBox .menu-item:focused .label{
+    -fx-effect: dropshadow(gaussian, rgba(245, 177, 61, 0.93), 10.0, 0.0, 0.0, 0.0);
+}
+
+#connectionProtocolBox:error {
+    -fx-background-image: url('../../../graphical.resources/misc/page_base_lighten.png');
+    -fx-border-color: rgb(162, 15, 30, 0.93);
+    -fx-border-width: 0.1em;
+    -fx-effect: dropshadow(gaussian, rgba(198, 57, 10, 0.5), 10, 0, 0, 0);
+}
+
+#connectionProtocolBox:error .label {
+    -fx-text-fill: rgb(248, 231, 191, 0.97);
+    -fx-effect: dropshadow(gaussian, rgba(240, 85, 13, 0.9), 10, 0, 0, 0);
+}
+
+.connection-input {
+    -fx-font-family: 'Special Elite Regular';
+    -fx-text-fill: rgba(28, 37, 41, 0.87);
+    -fx-background-color: transparent;
+    -fx-border-color: rgba(0, 0, 0, 0.93);
+    -fx-border-radius: 2%;
+    -fx-font-size: 1.5em;
+}
+
+.connection-input:focused, .connection-input:focused:hover {
+    -fx-border-color: rgba(128, 165, 26, 0.93);
+    -fx-text-fill: rgba(77, 84, 57, 1);
+    -fx-effect: null;
+}
+
+.connection-input:hover {
+    -fx-border-color: rgba(128, 165, 26, 0.93);
+    -fx-effect: dropshadow(three-pass-box, rgba(128, 165, 26, 0.2), 10, 0, 0, 0);
+    -fx-text-fill: rgba(28, 37, 41, 0.97);
+}
+
+.connection-input:error, .connection-input:focused:error, .connection-input:filled:error, .connection-input:hover:error,
+.connection-input:focused:hover:error {
+    -fx-border-color: rgb(162, 15, 30, 0.93);
+    -fx-border-width: 2;
+    -fx-effect: dropshadow(gaussian, rgba(198, 57, 10, 0.1), 10, 0, 0, 0);
+    -fx-text-fill: rgba(95, 35, 41, 1);
+    -fx-prompt-text-fill: rgba(162, 15, 30, 0.53);
+}

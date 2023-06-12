@@ -15,7 +15,7 @@ import java.util.Objects;
  * @since 02/06/2023
  */
 public final class MyShelfieAlertCreator {
-    private final static String ALERT_STYLE_SHEET = "/it.polimi.ingsw/layout/MyShelfieAlert.css";
+    private final static String ALERT_STYLE_SHEET = "/it.polimi.ingsw/gui/layout/MyShelfieAlert.css";
 
     private final static String ERROR_ICON = "/it.polimi.ingsw/graphical.resources/icons/error_cat_icon.png";
 

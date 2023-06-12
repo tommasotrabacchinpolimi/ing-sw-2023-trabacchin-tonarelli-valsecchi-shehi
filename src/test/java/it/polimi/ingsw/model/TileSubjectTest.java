@@ -18,9 +18,9 @@ class TileSubjectTest {
 
     @Test
     void testToString() {
-        assertEquals("GRAY_CAT", TileSubject.CAT_GRAY.toString());
-        assertEquals("ORANGE_CAT", TileSubject.CAT_ORANGE.toString());
-        assertEquals("BLACK_CAT", TileSubject.CAT_BLACK.toString());
-        assertEquals("MUSIC_TROPHY", TileSubject.TROPHY_MUSIC.toString());
+        assertEquals("CAT_GRAY", TileSubject.CAT_GRAY.toString());
+        assertEquals("CAT_ORANGE", TileSubject.CAT_ORANGE.toString());
+        assertEquals("CAT_BLACK", TileSubject.CAT_BLACK.toString());
+        assertEquals("TROPHY_MUSIC", TileSubject.TROPHY_MUSIC.toString());
     }
 }

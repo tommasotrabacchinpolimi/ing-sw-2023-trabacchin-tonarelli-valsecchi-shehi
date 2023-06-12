@@ -127,14 +127,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.diogonunes/JColor
-        JColor for CLI interface-->
-        <dependency>
-            <groupId>com.diogonunes</groupId>
-            <artifactId>JColor</artifactId>
-            <version>5.5.1</version>
-        </dependency>
-
     </dependencies>
 
     <build>
@@ -160,7 +152,7 @@
                             <addClasspath>true</addClasspath>
                             <!-- Specifies that all dependencies of our application are found -->
                             <!-- Configures the main class of the application -->
-                            <mainClass>it.polimi.ingsw.view.gui.loginpage.LoginPage</mainClass>
+                            <mainClass>it.polimi.ingsw.view.MainApp</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -192,7 +184,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>it.polimi.ingsw.view.gui.loginpage.LoginPage</mainClass>
+                            <mainClass>it.polimi.ingsw.view.MainApp</mainClass>
                             <launcher>MyShelfie</launcher>
                             <jlinkZipName>MyShelfie</jlinkZipName>
                             <jlinkImageName>MyShelfie</jlinkImageName>

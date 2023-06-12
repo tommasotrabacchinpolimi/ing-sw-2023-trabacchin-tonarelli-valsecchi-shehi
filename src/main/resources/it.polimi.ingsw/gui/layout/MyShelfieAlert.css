@@ -1,0 +1,60 @@
+@font-face {
+    font-family: 'Special Elite Regular';
+    font-weight: normal;
+    font-style: normal;
+    src: local('Special Elite') url('../../graphical.resources/font/SpecialElite-Regular.ttf');
+}
+
+.dialog-pane{
+    -fx-font-family: 'Special Elite Regular';
+    -fx-background-image: url('../../graphical.resources/misc/white_paper_texture.png');
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+}
+
+/**Customization of The Bar where the buttons are located**/
+.dialog-pane > .button-bar > .container {
+    -fx-border-width: 0.1em 0em 0em 0em;
+    -fx-border-color: rgba(101, 61, 30, 0.87);
+    -fx-text-fill: rgba(28, 37, 41);
+}
+
+.dialog-pane > .content.label {
+    -fx-background-color: transparent;
+    -fx-padding: 0.2em 0.2em 0.2em 0.2em;
+    -fx-text-fill: rgba(28, 37, 41, 0.97);
+    -fx-font-size: 1.5em;
+    -fx-wrap-text: true;
+}
+
+/**Costumization of DialogPane Header**/
+.dialog-pane:header .header-panel {
+    -fx-background-color: transparent;
+}
+
+.dialog-pane:header .header-panel .label{
+    -fx-text-fill: rgba(65, 19, 24, 0.97);
+    -fx-font-size: 2em;
+    -fx-wrap-text: true;
+}
+
+
+/**Costumization of Buttons**/
+.dialog-pane .button{
+    -fx-background-color: rgba(101, 61, 30, 0.98);
+    -fx-text-fill: rgba(230, 221, 199, 0.97);
+    -fx-font-size: 1em;
+    -fx-wrap-text: true;
+    -fx-border-color: transparent;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-effect: dropshadow(gaussian, rgba(71, 40, 17, 0.97), 10.0, 0.0, 0.0, 0.0);
+    -fx-cursor: hand;
+}
+
+.dialog-pane .button:hover{
+    -fx-text-fill: rgb(248, 231, 191, 0.97);
+    -fx-background-color: rgba(71, 40, 17, 0.98);
+    -fx-effect: dropshadow(gaussian, rgba(218, 158, 55, 0.9), 10, 0, 0, 0);
+}
