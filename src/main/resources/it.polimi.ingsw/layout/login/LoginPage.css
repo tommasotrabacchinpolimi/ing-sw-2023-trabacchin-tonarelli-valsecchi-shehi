@@ -5,7 +5,7 @@
     src: local('Special Elite') url('../../graphical.resources/font/SpecialElite-Regular.ttf');
 }
 
-#rootPane {
+#loginRootPane {
     -fx-background-image: url('../../graphical.resources/publisher.material/display_5.jpg');
     -fx-background-repeat: no-repeat;
     -fx-background-size: cover;
