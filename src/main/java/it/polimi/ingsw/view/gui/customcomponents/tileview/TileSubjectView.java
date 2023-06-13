@@ -8,11 +8,9 @@ import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
-import javafx.scene.effect.Glow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
-import javafx.scene.layout.StackPane;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
@@ -113,9 +111,13 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
         return fileURL;
     }
 
+    private void highlightEffect() {
+        applyDecorationFromZero(new MyShelfieLightShadow(), new MyShelfieInnerShadow(), new MyShelfieRustBorder());
+    }
+
     private void onMouseEnteredHandler(MouseEvent mouseEvent) {
         if(!clicked && !disabled){
-            applyDecorationFromZero(new MyShelfieLightShadow(), new MyShelfieInnerShadow(), new MyShelfieLightBorder());
+            highlightEffect();
         }
     }
 
@@ -129,7 +131,7 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
         if(!disabled){
 
             if(clicked) {
-                resetToDefaultDecorations();
+                highlightEffect();
             } else {
                 applyDecoration(new MyShelfieGlow());
             }
@@ -229,6 +231,10 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
             resetInteractionState();
             resetToDefaultDecorations();
         }
+    }
+
+    public boolean isEnabled() {
+        return !disabled;
     }
 
     protected PathTransition createPathTransition(Pane... destinationPanes) {

@@ -7,13 +7,17 @@ import it.polimi.ingsw.view.gui.layout.bookshelf.PersonalBookshelfController;
 import it.polimi.ingsw.view.gui.customcomponents.MyShelfieAlertCreator;
 import it.polimi.ingsw.view.gui.customcomponents.MyShelfieButton;
 import it.polimi.ingsw.view.gui.customcomponents.tileview.TileSubjectView;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.util.Pair;
+import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -53,6 +57,10 @@ public class GameInterfaceController extends MyShelfieController {
 
     private TileBoxChildListener tileBoxChildListener;
 
+    private List<TileSubjectView> tilesOnBoard;
+
+    private final List<Pair<EventHandler<MouseEvent>, TileSubjectView>> tileBoardHandler = new ArrayList<>();
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         gamePersonalBookshelfController.disableAllButtons();
@@ -60,6 +68,9 @@ public class GameInterfaceController extends MyShelfieController {
         tileBoxChildListener = new TileBoxChildListener(selectedTilesBox, gamePersonalBookshelfController, gameBoardViewController);
 
         selectedTilesBox.getChildren().addListener(tileBoxChildListener);
+
+        tilesOnBoard = gameBoardViewController.getTilesOnBoard();
+
     }
 
     public void fillBoard(MouseEvent mouseEvent) {
@@ -78,11 +89,13 @@ public class GameInterfaceController extends MyShelfieController {
 
         gameBoardViewController.fillUpBoard(tilesOnBoard);
 
+        this.tilesOnBoard.forEach(this::addTilesOnBoardListener);
+
         myShelfieButton.setDisable(true);
         myShelfieButton.setVisible(false);
     }
 
-    private List<TileSubjectView> getClickedTilesFromBoard() {
+    protected List<TileSubjectView> getClickedTilesFromBoard() {
         return gameBoardViewController.getTilesOnBoard().stream()
                 .filter(TileSubjectView::isClicked)
                 .toList();
@@ -96,8 +109,61 @@ public class GameInterfaceController extends MyShelfieController {
                 .toList();
     }
 
+    private void addTilesOnBoardListener(TileSubjectView tile) {
+        EventHandler<MouseEvent> pressHandler = mouseEvent -> {
+
+            if (!tile.isEnabled())
+                return;
+
+            if (mouseEvent.getEventType().equals(MouseEvent.MOUSE_CLICKED)) {
+                if (getClickedTilesFromBoard().size() == 1 && getClickedTilesFromBoard().get(0) == tile) {
+                    gameBoardViewController.setActiveTilesOnBoardOneSelected(
+                            gamePersonalBookshelfController.getTileSubjectBookshelfMatrix(),
+                            tile);
+
+                } else if (getClickedTilesFromBoard().size() == 2) {
+                    gameBoardViewController.setActiveTilesOnBoardTwoSelected(
+                            gamePersonalBookshelfController.getTileSubjectBookshelfMatrix(),
+                            tile, getClickedTilesFromBoard()
+                                    .stream()
+                                    .filter(tile2 -> tile2 != tile)
+                                    .toList()
+                                    .get(0));
+
+                } else if(getClickedTilesFromBoard().size() == 3) {
+                    tilesOnBoard.stream()
+                            .filter(otherTile -> !getClickedTilesFromBoard().contains(otherTile))
+                            .forEach(TileSubjectView::disable);
+
+                } else if (getClickedTilesFromBoard().size() == 0) {
+                    gameBoardViewController.setActiveTilesOnBoardNoneSelected();
+                }
+            }
+        };
+
+        tileBoardHandler.add(new Pair<>(pressHandler, tile));
+
+        tile.addEventHandler(MouseEvent.MOUSE_CLICKED, pressHandler);
+    }
+
+    private void removeBoardHandlerTilePair(TileSubjectView tile) {
+
+        Pair<EventHandler<MouseEvent>, TileSubjectView> removed = getHandlerTilePair(tile);
+
+        removed.getValue().removeEventHandler(MouseEvent.MOUSE_CLICKED, removed.getKey());
+
+        tileBoardHandler.remove(getHandlerTilePair(tile));
+    }
+
+    private Pair<EventHandler<MouseEvent>, TileSubjectView> getHandlerTilePair(TileSubjectView tile) {
+        return tileBoardHandler.stream()
+                .filter(pair -> pair.getValue().equals(tile))
+                .toList()
+                .get(0);
+    }
+
     @FXML
-    private void handleTileAction(MouseEvent mouseEvent) {
+    private void handleSubmitAction(MouseEvent mouseEvent) {
         List<TileSubjectView> boardSelected = getClickedTilesFromBoard();
         List<TileSubjectView> boxSelected = getTilesFromBox();
 
@@ -109,19 +175,27 @@ public class GameInterfaceController extends MyShelfieController {
 
             if (boardSelected.size() > 3) {
                 MyShelfieAlertCreator.displayInformationAlert("You can't select more than 3 tiles from board",
-                        "To many tiles selected");
+                        "Too many tiles selected");
             } else if (selectedTilesBox.getChildren().size() + boardSelected.size() > 3) {
                 MyShelfieAlertCreator.displayInformationAlert(
-                        "You have already " + selectedTilesBox.getChildren().size() + " tiles in your box, you can't",
-                        "To many tiles in box");
+                        "You have already " + selectedTilesBox.getChildren().size() + " tiles in your box, you can't add more tiles",
+                        "Too many tiles in box");
                 boardSelected.forEach(TileSubjectView::resetClick);
             } else {
                 gameBoardViewController.getTilesOnBoard().removeAll(boardSelected);
-                boardSelected.forEach(tile -> tile.performAction(selectedTilesBox));
-                boardSelected.forEach(TileSubjectView::resetClick);
+
+                boardSelected.forEach(tile -> {
+                    removeBoardHandlerTilePair(tile);
+                    tile.performAction(selectedTilesBox);
+                    tile.resetClick();
+                });
             }
 
-        } else if (boxSelected.size() > 0) {
+        } else if( boxSelected.size() == 0 && gamePersonalBookshelfController.getSelectedColumn() != -1) {
+            MyShelfieAlertCreator.displayWarningAlert(
+                    "You have to select all tiles to fill in your bookshelf",
+                    "Select all tiles from box");
+        }else if (boxSelected.size() > 0) {
             if (boxSelected.size() != tileBoxChildListener.getOrderedSelectedTiles().size()) {
                 MyShelfieAlertCreator.displayWarningAlert(
                         "You have to select all tiles to fill in your bookshelf",
@@ -147,25 +221,38 @@ public class GameInterfaceController extends MyShelfieController {
         List<TileSubjectView> boardSelected = getClickedTilesFromBoard();
         List<TileSubjectView> boxSelected = getTilesFromBox();
 
-        if(boardSelected.size() != 0 && boxSelected.size() != 0) {
+        if (boardSelected.size() != 0 && boxSelected.size() != 0) {
             MyShelfieAlertCreator.displayWarningAlert("Can't select at the same time from board and box",
                     "Insertion in bookshelf failed");
-        }else if(boardSelected.size() > 0) {
+        } else if (boardSelected.size() > 0) {
             boardSelected.forEach(TileSubjectView::resetClick);
-        }else if(boxSelected.size() > 0) {
+
+            gameBoardViewController.setActiveTilesOnBoardNoneSelected();
+
+        } else if (boxSelected.size() == 0) {
+            selectedTilesBox.getChildren()
+                    .stream()
+                    .map(node -> (TileSubjectView) node)
+                    .forEach(this::reinsertTilesOnBoard);
+
+            gamePersonalBookshelfController.deselectAnyColumn();
+        } else {
             if (selectedTilesBox.getChildren().size() != boxSelected.size()) {
                 MyShelfieAlertCreator.displayWarningAlert(
                         "In order to re-insert tiles on board you need to select all tiles in box",
                         "Select all tiles in box");
             } else {
-                boxSelected.forEach( tile -> {
-                    tile.reverseAction();
-                    gameBoardViewController.getTilesOnBoard().add(tile);
-                });
+                boxSelected.forEach(this::reinsertTilesOnBoard);
             }
 
             gamePersonalBookshelfController.deselectAnyColumn();
         }
+    }
+
+    private void reinsertTilesOnBoard(@NotNull TileSubjectView tile) {
+        tile.reverseAction();
+        gameBoardViewController.getTilesOnBoard().add(tile);
+        addTilesOnBoardListener(tile);
     }
 
     @Override

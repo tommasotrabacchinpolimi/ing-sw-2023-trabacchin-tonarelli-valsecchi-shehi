@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.gui.customcomponents.decorations;
 
-import it.polimi.ingsw.utils.color.MyShelfieColor;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.effect.BlurType;
@@ -9,7 +8,7 @@ import javafx.scene.paint.Color;
 
 import static it.polimi.ingsw.utils.color.MyShelfieColor.*;
 
-public class MyShelfieLightBorder implements MyShelfieDecoration{
+public class MyShelfieRustBorder implements MyShelfieDecoration{
 
     private static final BlurType BLUR_TYPE = BlurType.ONE_PASS_BOX;
 
@@ -23,7 +22,7 @@ public class MyShelfieLightBorder implements MyShelfieDecoration{
 
     private final InnerShadow border;
 
-    public MyShelfieLightBorder() {
+    public MyShelfieRustBorder() {
         border = new InnerShadow();
         border.setBlurType(BLUR_TYPE);
         border.setColor(BORDER_COLOR);

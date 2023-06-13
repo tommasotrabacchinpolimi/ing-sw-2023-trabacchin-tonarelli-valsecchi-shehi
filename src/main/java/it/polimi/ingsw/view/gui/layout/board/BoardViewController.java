@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.gui.layout.board;
 
-import com.almasb.fxgl.entity.level.tiled.Tile;
 import it.polimi.ingsw.model.TileSubject;
 import it.polimi.ingsw.utils.Coordinate;
 import it.polimi.ingsw.utils.InputCheck;
@@ -16,6 +15,7 @@ import javafx.scene.layout.StackPane;
 
 import java.net.URL;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class BoardViewController extends MyShelfieController {
 
@@ -189,7 +189,7 @@ public class BoardViewController extends MyShelfieController {
                             box.setStyle("-fx-padding: 2em;");
                         }
 
-                        setActiveTilesOnBoard();
+                        setActiveTilesOnBoardNoneSelected();
                     }
                 }));
     }
@@ -211,7 +211,7 @@ public class BoardViewController extends MyShelfieController {
     public void fillUpBoard(TileSubject[][] boardMatrix) {
         for (int i = 0; i < boardMatrix.length; ++i) {
             for (int j = 0; j < boardMatrix[i].length; ++j) {
-                if(boardMatrix[i][j] != null)
+                if (boardMatrix[i][j] != null)
                     tilesOnBoard.add(new TileSubjectView(getItemTileBox(i, j), boardMatrix[i][j]));
             }
         }
@@ -228,7 +228,7 @@ public class BoardViewController extends MyShelfieController {
                 MyShelfieAlertCreator.displayErrorAlert(e);
                 return null;
             }
-        }else return null;
+        } else return null;
     }
 
     public StackPane getItemTileBox(Coordinate coordinate) {
@@ -296,15 +296,63 @@ public class BoardViewController extends MyShelfieController {
         return (maxColumn + 1);
     }
 
-    public void setActiveTilesOnBoard() {
-        List<Coordinate> activeTileCoordinates = InputCheck.findIndexAllActiveTilesInBoard(toTileSubjectMatrix());
+    private Optional<Coordinate> getCoordinateFromTile(TileSubjectView tile) {
 
-        for(Coordinate coordinate : itemTileBoxes.keySet()) {
-            if(activeTileCoordinates.contains(coordinate)){
-                if(getTileSubjectView(coordinate) != null)
+        for (StackPane box : itemTileBoxes.values()) {
+            if (box.getChildren().size() == 1 && box.getChildren().get(0) == tile) {
+                return Optional.of(getItemTileBoxCoordinate(box));
+            }
+        }
+
+        return Optional.empty();
+    }
+
+    public void setActiveTilesOnBoardNoneSelected() {
+        System.out.println("From none selected: " + InputCheck.findIndexAllActiveTilesInBoard(toTileSubjectMatrix()));
+
+        setActiveTilesOnBoard(InputCheck.findIndexAllActiveTilesInBoard(toTileSubjectMatrix()));
+    }
+
+    public void setActiveTilesOnBoardOneSelected(TileSubject[][] bookshelf, TileSubjectView tile) {
+
+        System.out.println("From one selected: " + InputCheck.findIndexActiveAfterOneChosenTile(toTileSubjectMatrix(),
+                getCoordinateFromTile(tile).orElseThrow(), bookshelf));
+
+        setActiveTilesOnBoard(InputCheck.findIndexActiveAfterOneChosenTile(toTileSubjectMatrix(),
+                getCoordinateFromTile(tile).orElseThrow(), bookshelf), getCoordinateFromTile(tile).orElse(null));
+        tile.setClickable();
+    }
+
+    public void setActiveTilesOnBoardTwoSelected(TileSubject[][] bookshelf, TileSubjectView tile1, TileSubjectView tile2) {
+
+        System.out.println("From two selected: " + InputCheck.findIndexActiveAfterTwoChosenTiles(toTileSubjectMatrix(),
+                getCoordinateFromTile(tile1).orElseThrow(), getCoordinateFromTile(tile2).orElseThrow(), bookshelf));
+
+        setActiveTilesOnBoard(InputCheck.findIndexActiveAfterTwoChosenTiles(toTileSubjectMatrix(),
+                getCoordinateFromTile(tile1).orElseThrow(), getCoordinateFromTile(tile2).orElseThrow(), bookshelf),
+                getCoordinateFromTile(tile1).orElse(null), getCoordinateFromTile(tile2).orElse(null));
+        tile1.setClickable();
+        tile2.setClickable();
+    }
+
+    public void setActiveTilesOnBoard(List<Coordinate> activeTileCoordinates, Coordinate... excluded) {
+
+        Set<Coordinate> coordinates;
+
+        if(Arrays.asList(excluded).size() > 0)
+            coordinates = itemTileBoxes.keySet()
+                .stream()
+                .filter(c -> !Arrays.asList(excluded).contains(c))
+                .collect(Collectors.toSet());
+        else
+            coordinates = itemTileBoxes.keySet();
+
+        for (Coordinate coordinate : coordinates) {
+            if (activeTileCoordinates.contains(coordinate)) {
+                if (getTileSubjectView(coordinate) != null)
                     getTileSubjectView(coordinate).setClickable();
             } else {
-                if(getTileSubjectView(coordinate) != null)
+                if (getTileSubjectView(coordinate) != null)
                     getTileSubjectView(coordinate).disable();
             }
         }

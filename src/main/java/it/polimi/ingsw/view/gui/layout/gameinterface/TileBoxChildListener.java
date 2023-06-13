@@ -26,7 +26,9 @@ class TileBoxChildListener implements ListChangeListener<Node> {
 
     private final List<Pair<EventHandler<MouseEvent>, TileSubjectView>> orderedSelectedTiles = new ArrayList<>();
 
-    public TileBoxChildListener(HBox selectedTilesBox, PersonalBookshelfController gameBookshelfCommandViewController, BoardViewController boardViewController) {
+    public TileBoxChildListener(HBox selectedTilesBox,
+                                PersonalBookshelfController gameBookshelfCommandViewController,
+                                BoardViewController boardViewController) {
         this.selectedTilesBox = selectedTilesBox;
         this.gameBookshelfCommandViewController = gameBookshelfCommandViewController;
         this.boardViewController = boardViewController;
@@ -55,7 +57,7 @@ class TileBoxChildListener implements ListChangeListener<Node> {
                 if(selectedTilesBox.getChildren().size() == 0) {
                     selectedTilesBox.setStyle("-fx-padding: 0em");
                     gameBookshelfCommandViewController.disableAllButtons();
-                    boardViewController.setActiveTilesOnBoard();
+                    boardViewController.setActiveTilesOnBoardNoneSelected();
                 }
 
                 change.getRemoved()

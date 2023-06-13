@@ -115,11 +115,11 @@ public interface MyShelfieComponent {
     Node getCustomizedNode();
 
     /**
-     * Retrieves the set of default decorations
+     * Retrieves the list of default decorations
      * that are applied on a customized
      * {@linkplain MyShelfieComponent component}
      *
-     * @return the set
+     * @return the list of default decorations
      */
     List<MyShelfieDecoration> getBaseDecorations();
 }

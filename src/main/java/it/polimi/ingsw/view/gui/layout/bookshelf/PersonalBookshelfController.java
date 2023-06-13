@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.gui.layout.bookshelf;
 
+import it.polimi.ingsw.model.TileSubject;
 import it.polimi.ingsw.utils.Coordinate;
 import it.polimi.ingsw.view.gui.customcomponents.BookshelfView;
 import it.polimi.ingsw.view.gui.customcomponents.MyShelfieTriangleButton;
@@ -164,6 +165,10 @@ public class PersonalBookshelfController extends BookshelfController{
                 return null;
             }
         }
+    }
+
+    public TileSubject[][] getTileSubjectBookshelfMatrix() {
+        return personalBookshelfView.toTileSubjectMatrix();
     }
 
     @Override

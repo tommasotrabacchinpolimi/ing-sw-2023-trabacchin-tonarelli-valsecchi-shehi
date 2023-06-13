@@ -49,7 +49,7 @@
             <MyShelfieButton fx:id="myShelfieButton" text="Fill board" onMouseClicked="#fillBoard"/>
 
             <MyShelfieButton fx:id="confirmButton" text="Confirm choice" iconName="play-icon.png"
-                             onMouseClicked="#handleTileAction"/>
+                             onMouseClicked="#handleSubmitAction"/>
 
             <MyShelfieButton fx:id="reverseButton" text="Reverse" iconName="reset-icon.png"
                              onMouseClicked="#handleReverseAction"/>
