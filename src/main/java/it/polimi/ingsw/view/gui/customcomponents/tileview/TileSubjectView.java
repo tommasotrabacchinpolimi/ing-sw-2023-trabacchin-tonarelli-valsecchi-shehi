@@ -133,7 +133,7 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
             if(clicked) {
                 highlightEffect();
             } else {
-                applyDecoration(new MyShelfieGlow());
+                applyDecoration(new MyShelfieGlow(0.4));
             }
 
             clicked = !clicked;
@@ -187,7 +187,7 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
         resetToDefaultDecorations();
     }
 
-    protected void changeParent(Pane newParent, double x, double y) {
+    public void changeParent(Pane newParent, double x, double y) {
         if(!disabled && !clicked){
             changeParent(newParent);
 

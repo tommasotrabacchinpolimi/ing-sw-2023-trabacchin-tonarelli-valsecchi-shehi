@@ -55,7 +55,7 @@ public class GameInterfaceController extends MyShelfieController {
     @FXML
     private PersonalBookshelfController gamePersonalBookshelfController;
 
-    private TileBoxChildListener tileBoxChildListener;
+    private TileBoxChildManager tileBoxChildManager;
 
     private List<TileSubjectView> tilesOnBoard;
 
@@ -65,12 +65,11 @@ public class GameInterfaceController extends MyShelfieController {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         gamePersonalBookshelfController.disableAllButtons();
 
-        tileBoxChildListener = new TileBoxChildListener(selectedTilesBox, gamePersonalBookshelfController, gameBoardViewController);
+        tileBoxChildManager = new TileBoxChildManager(selectedTilesBox, gamePersonalBookshelfController, gameBoardViewController);
 
-        selectedTilesBox.getChildren().addListener(tileBoxChildListener);
+        selectedTilesBox.getChildren().addListener(tileBoxChildManager);
 
         tilesOnBoard = gameBoardViewController.getTilesOnBoard();
-
     }
 
     public void fillBoard(MouseEvent mouseEvent) {
@@ -102,11 +101,7 @@ public class GameInterfaceController extends MyShelfieController {
     }
 
     private List<TileSubjectView> getTilesFromBox() {
-        return selectedTilesBox.getChildren()
-                .stream()
-                .map(node -> (TileSubjectView) node)
-                .filter(TileSubjectView::isClicked)
-                .toList();
+        return tileBoxChildManager.getSelectedTilesFromContainer();
     }
 
     private void addTilesOnBoardListener(TileSubjectView tile) {
@@ -163,7 +158,7 @@ public class GameInterfaceController extends MyShelfieController {
     }
 
     @FXML
-    private void handleSubmitAction(MouseEvent mouseEvent) {
+    private void handleSubmitAction(MouseEvent mouseEvent) throws InterruptedException {
         List<TileSubjectView> boardSelected = getClickedTilesFromBoard();
         List<TileSubjectView> boxSelected = getTilesFromBox();
 
@@ -176,19 +171,9 @@ public class GameInterfaceController extends MyShelfieController {
             if (boardSelected.size() > 3) {
                 MyShelfieAlertCreator.displayInformationAlert("You can't select more than 3 tiles from board",
                         "Too many tiles selected");
-            } else if (selectedTilesBox.getChildren().size() + boardSelected.size() > 3) {
-                MyShelfieAlertCreator.displayInformationAlert(
-                        "You have already " + selectedTilesBox.getChildren().size() + " tiles in your box, you can't add more tiles",
-                        "Too many tiles in box");
-                boardSelected.forEach(TileSubjectView::resetClick);
             } else {
-                gameBoardViewController.getTilesOnBoard().removeAll(boardSelected);
-
-                boardSelected.forEach(tile -> {
-                    removeBoardHandlerTilePair(tile);
-                    tile.performAction(selectedTilesBox);
-                    tile.resetClick();
-                });
+                tilesOnBoard.removeAll(boardSelected);
+                boardSelected.forEach(this::fromBoardToBoxOperations);
             }
 
         } else if( boxSelected.size() == 0 && gamePersonalBookshelfController.getSelectedColumn() != -1) {
@@ -196,14 +181,14 @@ public class GameInterfaceController extends MyShelfieController {
                     "You have to select all tiles to fill in your bookshelf",
                     "Select all tiles from box");
         }else if (boxSelected.size() > 0) {
-            if (boxSelected.size() != tileBoxChildListener.getOrderedSelectedTiles().size()) {
+            if (boxSelected.size() != tileBoxChildManager.getAllTilesFromBox().size()) {
                 MyShelfieAlertCreator.displayWarningAlert(
                         "You have to select all tiles to fill in your bookshelf",
                         "Select all tiles from box");
             } else {
                 if (gamePersonalBookshelfController.getSelectedColumn() != -1) {
 
-                    gamePersonalBookshelfController.insertTilesInBookshelf(tileBoxChildListener.getOrderedTilesFromBox(),
+                    gamePersonalBookshelfController.insertTilesInBookshelf(tileBoxChildManager.getOrderedTilesFromBox(),
                             gamePersonalBookshelfController.getSelectedColumn());
 
                     gamePersonalBookshelfController.deselectAnyColumn();
@@ -214,6 +199,12 @@ public class GameInterfaceController extends MyShelfieController {
                 }
             }
         }
+    }
+
+    private void fromBoardToBoxOperations(TileSubjectView tile) {
+        removeBoardHandlerTilePair(tile);
+        tile.performAction(selectedTilesBox);
+        tile.resetClick();
     }
 
     @FXML
