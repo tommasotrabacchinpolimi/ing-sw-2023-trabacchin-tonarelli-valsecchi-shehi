@@ -1,5 +1,6 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.controller.exceptions.WrongChosenTilesFromBoardException;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.utils.Coordinate;
 import it.polimi.ingsw.utils.InputCheck;
@@ -13,7 +14,7 @@ public class CommonGoalClassTest {
     TileType[][] matrix;
     CommonGoal commonGoal;
 
-    public static void main(String[] args){
+    public static void main(String[] args)  {
         TileSubject[][] bookShelf = new TileSubject[][]{
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -23,18 +24,32 @@ public class CommonGoalClassTest {
                 {null, null, null, null, null}
         };
         TileSubject[][] board = new TileSubject[][]{
-                {null, null, null, BOOK_COMIC, BOOK_DICTIONARY, null, null, null, null},
-                {null, null, null, BOOK_NOTE, CAT_BLACK, CAT_GRAY, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
                 {null, null, CAT_ORANGE, FRAME_DEGREE, FRAME_LOVE, FRAME_MEMORIES, GAME_CHESS, null, null},
-                {null, GAME_MONOPOLY, GAME_RISIKO, PLANT_BASIL, PLANT_GREEN, PLANT_MONSTERA, TROPHY_CHAMPION, null, null},
-                {BOOK_COMIC, BOOK_DICTIONARY, BOOK_NOTE, CAT_BLACK, CAT_GRAY, CAT_ORANGE, FRAME_DEGREE, null, null},
-                {GAME_CHESS, GAME_MONOPOLY, GAME_RISIKO, PLANT_BASIL, PLANT_GREEN, PLANT_MONSTERA, TROPHY_CHAMPION, null, null},
+                {null, GAME_MONOPOLY, GAME_RISIKO, PLANT_BASIL, PLANT_GREEN, PLANT_MONSTERA, TROPHY_CHAMPION, TROPHY_CHAMPION, null},
+                {BOOK_COMIC, BOOK_DICTIONARY, BOOK_NOTE, CAT_BLACK, CAT_GRAY, CAT_ORANGE, FRAME_DEGREE, TROPHY_CHAMPION, null},
+                {GAME_CHESS, GAME_MONOPOLY, GAME_RISIKO, PLANT_BASIL, PLANT_GREEN, PLANT_MONSTERA, TROPHY_CHAMPION, TROPHY_CHAMPION, null},
                 {null, null, TROPHY_GYM, TROPHY_MUSIC, BOOK_COMIC, BOOK_DICTIONARY, BOOK_NOTE, null, null},
                 {null, null, null, CAT_BLACK, CAT_GRAY, CAT_ORANGE, null, null, null},
                 {null, null, null, null, FRAME_DEGREE, FRAME_LOVE, null, null, null}
         };
-        System.out.println(InputCheck.findIndexActiveAfterOneChosenTile(board, new Coordinate(5, 0), bookShelf));
-        System.out.println(InputCheck.findIndexActiveAfterTwoChosenTiles(board, new Coordinate(5, 0), new Coordinate(5, 1), bookShelf));
+
+        try {
+            System.out.println("1) " + InputCheck.findIndexActiveAfterOneChosenTile(board, new Coordinate(2, 4), bookShelf));
+        } catch(WrongChosenTilesFromBoardException e){
+            System.out.println("1) " +e.getMessage() );
+        }
+        try {
+            System.out.println("2) " +InputCheck.findIndexActiveAfterTwoChosenTiles(board, new Coordinate(2, 4), new Coordinate(2, 5), bookShelf));
+        } catch(WrongChosenTilesFromBoardException e){
+            System.out.println("2) " +e.getMessage() );
+        }
+        try {
+            System.out.println("3) " +InputCheck.findIndexActiveAfterTwoChosenTiles(board, new Coordinate(2, 4), new Coordinate(2, 6), bookShelf));
+        } catch (WrongChosenTilesFromBoardException e ){
+            System.out.println("3) " +e.getMessage() + " SECOND");
+        }
     }
 
     /**
