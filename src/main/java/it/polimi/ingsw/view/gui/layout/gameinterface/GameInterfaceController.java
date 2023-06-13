@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.gui.layout.gameinterface;
 
+import it.polimi.ingsw.controller.exceptions.WrongChosenTilesFromBoardException;
 import it.polimi.ingsw.model.TileSubject;
 import it.polimi.ingsw.view.gui.MyShelfieController;
 import it.polimi.ingsw.view.gui.layout.board.BoardViewController;
@@ -111,19 +112,41 @@ public class GameInterfaceController extends MyShelfieController {
                 return;
 
             if (mouseEvent.getEventType().equals(MouseEvent.MOUSE_CLICKED)) {
-                if (getClickedTilesFromBoard().size() == 1 && getClickedTilesFromBoard().get(0) == tile) {
-                    gameBoardViewController.setActiveTilesOnBoardOneSelected(
-                            gamePersonalBookshelfController.getTileSubjectBookshelfMatrix(),
-                            tile);
+                List<TileSubjectView> clickedTiles = getClickedTilesFromBoard()
+                        .stream()
+                        .toList();
+
+                if (clickedTiles.size() == 1 && clickedTiles.get(0) == tile) {
+                    try{
+                        gameBoardViewController.setActiveTilesOnBoardOneSelected(
+                                gamePersonalBookshelfController.getTileSubjectBookshelfMatrix(),
+                                clickedTiles.get(0));
+                    }catch(WrongChosenTilesFromBoardException e) {
+                        MyShelfieAlertCreator.displayErrorAlert(
+                                "Tiles selected are not adjacent, so you can not select them",
+                                "Can't select these tiles"
+                        );
+
+
+                    }
 
                 } else if (getClickedTilesFromBoard().size() == 2) {
-                    gameBoardViewController.setActiveTilesOnBoardTwoSelected(
-                            gamePersonalBookshelfController.getTileSubjectBookshelfMatrix(),
-                            tile, getClickedTilesFromBoard()
-                                    .stream()
-                                    .filter(tile2 -> tile2 != tile)
-                                    .toList()
-                                    .get(0));
+
+                    try{
+                        gameBoardViewController.setActiveTilesOnBoardTwoSelected(
+                                gamePersonalBookshelfController.getTileSubjectBookshelfMatrix(),
+                                clickedTiles.get(0), clickedTiles.get(1));
+                    }catch(WrongChosenTilesFromBoardException e) {
+
+                        MyShelfieAlertCreator.displayInformationAlert(
+                                "Tiles selected are not adjacent, so you can not select them",
+                                "Can't select these tiles"
+                        );
+
+                        getClickedTilesFromBoard().forEach(TileSubjectView::resetClick);
+
+                        gameBoardViewController.setActiveTilesOnBoardNoneSelected();
+                    }
 
                 } else if(getClickedTilesFromBoard().size() == 3) {
                     tilesOnBoard.stream()
@@ -196,6 +219,9 @@ public class GameInterfaceController extends MyShelfieController {
                     MyShelfieAlertCreator.displayInformationAlert(
                             "Before putting the tiles in your bookshelf, choose a column",
                             "Select a Column");
+
+                    boardSelected.forEach(TileSubjectView::resetClick);
+                    gameBoardViewController.setActiveTilesOnBoardNoneSelected();
                 }
             }
         }

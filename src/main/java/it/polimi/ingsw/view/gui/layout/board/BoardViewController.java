@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.gui.layout.board;
 
+import it.polimi.ingsw.controller.exceptions.WrongChosenTilesFromBoardException;
 import it.polimi.ingsw.model.TileSubject;
 import it.polimi.ingsw.utils.Coordinate;
 import it.polimi.ingsw.utils.InputCheck;
@@ -313,8 +314,7 @@ public class BoardViewController extends MyShelfieController {
         setActiveTilesOnBoard(InputCheck.findIndexAllActiveTilesInBoard(toTileSubjectMatrix()));
     }
 
-    public void setActiveTilesOnBoardOneSelected(TileSubject[][] bookshelf, TileSubjectView tile) {
-
+    public void setActiveTilesOnBoardOneSelected(TileSubject[][] bookshelf, TileSubjectView tile) throws WrongChosenTilesFromBoardException{
         System.out.println("From one selected: " + InputCheck.findIndexActiveAfterOneChosenTile(toTileSubjectMatrix(),
                 getCoordinateFromTile(tile).orElseThrow(), bookshelf));
 
@@ -323,27 +323,27 @@ public class BoardViewController extends MyShelfieController {
         tile.setClickable();
     }
 
-    public void setActiveTilesOnBoardTwoSelected(TileSubject[][] bookshelf, TileSubjectView tile1, TileSubjectView tile2) {
+    public void setActiveTilesOnBoardTwoSelected(TileSubject[][] bookshelf, TileSubjectView tile1, TileSubjectView tile2) throws WrongChosenTilesFromBoardException{
 
         System.out.println("From two selected: " + InputCheck.findIndexActiveAfterTwoChosenTiles(toTileSubjectMatrix(),
                 getCoordinateFromTile(tile1).orElseThrow(), getCoordinateFromTile(tile2).orElseThrow(), bookshelf));
 
         setActiveTilesOnBoard(InputCheck.findIndexActiveAfterTwoChosenTiles(toTileSubjectMatrix(),
-                getCoordinateFromTile(tile1).orElseThrow(), getCoordinateFromTile(tile2).orElseThrow(), bookshelf),
+                        getCoordinateFromTile(tile1).orElseThrow(), getCoordinateFromTile(tile2).orElseThrow(), bookshelf),
                 getCoordinateFromTile(tile1).orElse(null), getCoordinateFromTile(tile2).orElse(null));
         tile1.setClickable();
         tile2.setClickable();
     }
 
-    public void setActiveTilesOnBoard(List<Coordinate> activeTileCoordinates, Coordinate... excluded) {
+    public void setActiveTilesOnBoard(List<Coordinate> activeTileCoordinates, Coordinate... excluded){
 
         Set<Coordinate> coordinates;
 
-        if(Arrays.asList(excluded).size() > 0)
+        if (Arrays.asList(excluded).size() > 0)
             coordinates = itemTileBoxes.keySet()
-                .stream()
-                .filter(c -> !Arrays.asList(excluded).contains(c))
-                .collect(Collectors.toSet());
+                    .stream()
+                    .filter(c -> !Arrays.asList(excluded).contains(c))
+                    .collect(Collectors.toSet());
         else
             coordinates = itemTileBoxes.keySet();
 
