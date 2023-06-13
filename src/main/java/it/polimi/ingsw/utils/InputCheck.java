@@ -68,25 +68,22 @@ public class InputCheck {
      * @return coordinates of clickable tiles on board
      * given a selected tile
      */
-    public static List<Coordinate> findIndexActiveAfterOneChosenTile(TileSubject[][] board, Coordinate c1, TileSubject[][] bookShelf){
+    public static List<Coordinate> findIndexActiveAfterOneChosenTile(TileSubject[][] board, Coordinate c1, TileSubject[][] bookShelf) throws WrongChosenTilesFromBoardException {
         List<Coordinate> coordinates = new ArrayList<>();
         List<Coordinate> active = findIndexAllActiveTilesInBoard(board);
         if(getMaxDimensionChosenTiles(bookShelf) <= 1) return null;
-        if(active.contains(c1)){
-            addSelectableTiles(coordinates, active, new Coordinate(c1.getX() - 1, c1.getY()), new Coordinate(c1.getX() - 2, c1.getY()));
-            addSelectableTiles(coordinates, active, new Coordinate(c1.getX()+1, c1.getY()), new Coordinate(c1.getX() + 2, c1.getY()));
-            addSelectableTiles(coordinates, active, new Coordinate(c1.getX(), c1.getY()+1), new Coordinate(c1.getX(), c1.getY() + 2));
-            addSelectableTiles(coordinates, active, new Coordinate(c1.getX(), c1.getY()-1), new Coordinate(c1.getX(), c1.getY() - 2));
-        }
+        if(!active.contains(c1)) throw new WrongChosenTilesFromBoardException();
+
+        addSelectableTiles(coordinates, active, new Coordinate(c1.getX() - 1, c1.getY()));
+        addSelectableTiles(coordinates, active, new Coordinate(c1.getX()+1, c1.getY()));
+        addSelectableTiles(coordinates, active, new Coordinate(c1.getX(), c1.getY()+1));
+        addSelectableTiles(coordinates, active, new Coordinate(c1.getX(), c1.getY()-1));
         return coordinates;
     }
 
-    private static void addSelectableTiles(List<Coordinate> coordinates, List<Coordinate> active, Coordinate one, Coordinate two) {
-        if(active.contains(one)){
-            coordinates.add(one);
-            if(active.contains(two)){
-                coordinates.add(two);
-            }
+    private static void addSelectableTiles(List<Coordinate> coordinates, List<Coordinate> active, Coordinate c) {
+        if(active.contains(c)){
+            coordinates.add(c);
         }
     }
 
@@ -105,14 +102,19 @@ public class InputCheck {
      * @apiNote The order in which the tiles are selected
      * is irrelevant
      */
-    public static List<Coordinate> findIndexActiveAfterTwoChosenTiles(TileSubject[][] board, Coordinate c1, Coordinate c2, TileSubject[][] bookShelf){
+    public static List<Coordinate> findIndexActiveAfterTwoChosenTiles(TileSubject[][] board, Coordinate c1, Coordinate c2, TileSubject[][] bookShelf) throws WrongChosenTilesFromBoardException {
         List<Coordinate> active = findIndexAllActiveTilesInBoard(board);
-        if(getMaxDimensionChosenTiles(bookShelf) <= 2) return null;
-        if(c1.getX()==c2.getX() && c1.getY()==c2.getY()) return active;
         List<Coordinate> list = new ArrayList<>();
         List<Coordinate> result = new ArrayList<>();
         list.add(c1);
         list.add(c2);
+
+        if(!active.contains(c1) || !active.contains(c2)) throw new WrongChosenTilesFromBoardException();
+        if(c1.getX()==c2.getX() && c1.getY()==c2.getY()) return active;
+        if((checkIfSameX(list) && !checkIfAdjacent(orderedYCoordinate(list))) || (checkIfSameY(list) && !checkIfAdjacent(orderedXCoordinate(list))))
+            throw new WrongChosenTilesFromBoardException("You have selected two non-adjacent tiles!");
+        if(getMaxDimensionChosenTiles(bookShelf) <= 2) return null;
+
         if(checkIfSameX(list)){
             int i = orderedYCoordinate(list).get(0);
             int j = orderedYCoordinate(list).get(1);
