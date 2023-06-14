@@ -261,14 +261,19 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
     }
 
     protected ParallelTransition createToSmallerPathTransition(Pane... destinationPanes) {
-        return new ParallelTransition(this, createPathTransitionToCombine(destinationPanes), createToLowerBoundsTransitionToCombine());
+        return new ParallelTransition(this, createPathTransition(false, destinationPanes), createToLowerBoundsTransition());
     }
 
     protected ParallelTransition createToBiggerPathTransition(Pane... destinationPanes) {
-        return new ParallelTransition(this, createPathTransitionToCombine(destinationPanes), createToBiggerBoundsTransitionToCombine());
+        return new ParallelTransition(this, createPathTransition(false, destinationPanes), createToBiggerBoundsTransition());
     }
 
-    protected PathTransition createPathTransitionToCombine(Pane... destinationPanes) {
+    protected PathTransition createPathTransition(Pane... destinationPanes) {
+        return createPathTransition(true, destinationPanes);
+    }
+
+    @NotNull
+    private PathTransition createPathTransition(boolean apply, Pane... destinationPanes) {
         Bounds boundsInScene = localToScene(getBoundsInLocal());
 
         List<Bounds> destinationBounds =
@@ -285,6 +290,10 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
         Path transitionPath = new Path(lineTos);
 
         PathTransition pathTransition = new PathTransition();
+
+        if(apply)
+            pathTransition.setNode(this);
+
         pathTransition.setDuration(DEF_DURATION.getDuration());
         pathTransition.setInterpolator(Interpolator.LINEAR);
         pathTransition.setCycleCount(1);
@@ -295,14 +304,15 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
         return pathTransition;
     }
 
-    protected ScaleTransition createToLowerBoundsTransitionToCombine() {
+    protected ScaleTransition createToLowerBoundsTransition() {
         return createScaleTransition(1.0, 1.0, 0.71, 0.71);
     }
 
-    protected ScaleTransition createToBiggerBoundsTransitionToCombine() {
-        return createScaleTransition(1.0, 1.0, 1.71, 1.71);
+    protected ScaleTransition createToBiggerBoundsTransition() {
+        return createScaleTransition(1.0, 1.0, 1.4, 1.4);
     }
 
+    @NotNull
     private ScaleTransition createScaleTransition(double fromX, double fromY, double toX, double toY) {
         ScaleTransition scaleTransition = new ScaleTransition();
         scaleTransition.setDuration(DEF_DURATION.getDuration());
@@ -315,34 +325,6 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
         scaleTransition.setAutoReverse(false);
 
         return scaleTransition;
-    }
-
-    protected PathTransition createPathTransition(Pane... destinationPanes) {
-        Bounds boundsInScene = localToScene(getBoundsInLocal());
-
-        List<Bounds> destinationBounds =
-                Arrays.stream(destinationPanes)
-                        .map(destinationPane -> destinationPane.localToScene(destinationPane.getBoundsInLocal()))
-                        .toList();
-
-        MoveTo start = new MoveTo(getWidth() / 2, getHeight() / 2);
-
-        List<PathElement> lineTos = new ArrayList<>(List.of(start));
-
-        destinationBounds.forEach( destinationBound -> lineTos.add(createCenterLineTo(boundsInScene, destinationBound)));
-
-        Path transitionPath = new Path(lineTos);
-
-        PathTransition pathTransition = new PathTransition();
-        pathTransition.setNode(this);
-        pathTransition.setDuration(DEF_DURATION.getDuration());
-        pathTransition.setInterpolator(Interpolator.LINEAR);
-        pathTransition.setCycleCount(1);
-        pathTransition.setAutoReverse(false);
-
-        pathTransition.setPath(transitionPath);
-
-        return pathTransition;
     }
 
     public TileSubject getTileSubject() {

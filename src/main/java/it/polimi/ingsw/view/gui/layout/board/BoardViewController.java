@@ -309,25 +309,16 @@ public class BoardViewController extends MyShelfieController {
     }
 
     public void setActiveTilesOnBoardNoneSelected() {
-        System.out.println("From none selected: " + InputCheck.findIndexAllActiveTilesInBoard(toTileSubjectMatrix()));
-
         setActiveTilesOnBoard(InputCheck.findIndexAllActiveTilesInBoard(toTileSubjectMatrix()));
     }
 
     public void setActiveTilesOnBoardOneSelected(TileSubject[][] bookshelf, TileSubjectView tile) throws WrongChosenTilesFromBoardException{
-        System.out.println("From one selected: " + InputCheck.findIndexActiveAfterOneChosenTile(toTileSubjectMatrix(),
-                getCoordinateFromTile(tile).orElseThrow(), bookshelf));
-
         setActiveTilesOnBoard(InputCheck.findIndexActiveAfterOneChosenTile(toTileSubjectMatrix(),
                 getCoordinateFromTile(tile).orElseThrow(), bookshelf), getCoordinateFromTile(tile).orElse(null));
         tile.setClickable();
     }
 
     public void setActiveTilesOnBoardTwoSelected(TileSubject[][] bookshelf, TileSubjectView tile1, TileSubjectView tile2) throws WrongChosenTilesFromBoardException{
-
-        System.out.println("From two selected: " + InputCheck.findIndexActiveAfterTwoChosenTiles(toTileSubjectMatrix(),
-                getCoordinateFromTile(tile1).orElseThrow(), getCoordinateFromTile(tile2).orElseThrow(), bookshelf));
-
         setActiveTilesOnBoard(InputCheck.findIndexActiveAfterTwoChosenTiles(toTileSubjectMatrix(),
                         getCoordinateFromTile(tile1).orElseThrow(), getCoordinateFromTile(tile2).orElseThrow(), bookshelf),
                 getCoordinateFromTile(tile1).orElse(null), getCoordinateFromTile(tile2).orElse(null));
