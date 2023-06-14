@@ -5,7 +5,9 @@ import it.polimi.ingsw.view.gui.customcomponents.decorations.*;
 import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieRoundEdgeType;
 import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieShadowType;
 import javafx.animation.Interpolator;
+import javafx.animation.ParallelTransition;
 import javafx.animation.PathTransition;
+import javafx.animation.ScaleTransition;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
@@ -31,6 +33,8 @@ import static it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieTran
 public class TileSubjectView extends Pane implements MyShelfieComponent {
 
     private static final String ITEM_TILE_PATH_FOLDER = "/it.polimi.ingsw/graphical.resources/item.tiles/";
+
+    private static final double INITIAL_PADDING = 2.8;
 
     private Pane parent;
 
@@ -69,7 +73,7 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
         this.clicked = false;
         this.disabled = false;
 
-        setCSS();
+        setCSS(INITIAL_PADDING);
 
         applyDecorationAsDefault(new MyShelfieDarkShadow(MyShelfieShadowType.SHORT), new MyShelfieRoundEdge(MyShelfieRoundEdgeType.SMALL));
 
@@ -91,12 +95,31 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
         parent.getChildren().add(this);
     }
 
-    private void setCSS() {
-        setStyle("-fx-padding: 1.9em;" +
+    private void setCSS(double padding) {
+        setStyle("-fx-padding: " + padding + "em;" +
                 "-fx-background-image: url('" + getImageFile(tileSubject.toString().toLowerCase()) + "');" +
                 "-fx-background-repeat: no-repeat;" +
                 "-fx-background-position: center;" +
                 "-fx-background-size: cover;");
+    }
+
+    protected void updatedCSS(double padding) {
+        setCSS(padding);
+        resetScaleProperties();
+    }
+
+    protected void resetCSS() {
+        setCSS(INITIAL_PADDING);
+        resetScaleProperties();
+    }
+
+    private void resetScaleProperties() {
+        setScaleProperties(1.0, 1.0);
+    }
+
+    private void setScaleProperties(double x, double y) {
+        setScaleX(x);
+        setScaleY(y);
     }
 
     private URL getImageFile(String fileName) {
@@ -235,6 +258,63 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
 
     public boolean isEnabled() {
         return !disabled;
+    }
+
+    protected ParallelTransition createToSmallerPathTransition(Pane... destinationPanes) {
+        return new ParallelTransition(this, createPathTransitionToCombine(destinationPanes), createToLowerBoundsTransitionToCombine());
+    }
+
+    protected ParallelTransition createToBiggerPathTransition(Pane... destinationPanes) {
+        return new ParallelTransition(this, createPathTransitionToCombine(destinationPanes), createToBiggerBoundsTransitionToCombine());
+    }
+
+    protected PathTransition createPathTransitionToCombine(Pane... destinationPanes) {
+        Bounds boundsInScene = localToScene(getBoundsInLocal());
+
+        List<Bounds> destinationBounds =
+                Arrays.stream(destinationPanes)
+                        .map(destinationPane -> destinationPane.localToScene(destinationPane.getBoundsInLocal()))
+                        .toList();
+
+        MoveTo start = new MoveTo(getWidth() / 2, getHeight() / 2);
+
+        List<PathElement> lineTos = new ArrayList<>(List.of(start));
+
+        destinationBounds.forEach( destinationBound -> lineTos.add(createCenterLineTo(boundsInScene, destinationBound)));
+
+        Path transitionPath = new Path(lineTos);
+
+        PathTransition pathTransition = new PathTransition();
+        pathTransition.setDuration(DEF_DURATION.getDuration());
+        pathTransition.setInterpolator(Interpolator.LINEAR);
+        pathTransition.setCycleCount(1);
+        pathTransition.setAutoReverse(false);
+
+        pathTransition.setPath(transitionPath);
+
+        return pathTransition;
+    }
+
+    protected ScaleTransition createToLowerBoundsTransitionToCombine() {
+        return createScaleTransition(1.0, 1.0, 0.71, 0.71);
+    }
+
+    protected ScaleTransition createToBiggerBoundsTransitionToCombine() {
+        return createScaleTransition(1.0, 1.0, 1.71, 1.71);
+    }
+
+    private ScaleTransition createScaleTransition(double fromX, double fromY, double toX, double toY) {
+        ScaleTransition scaleTransition = new ScaleTransition();
+        scaleTransition.setDuration(DEF_DURATION.getDuration());
+        scaleTransition.setInterpolator(Interpolator.LINEAR);
+        scaleTransition.setFromX(fromX);
+        scaleTransition.setFromY(fromY);
+        scaleTransition.setToX(toX);
+        scaleTransition.setToY(toY);
+        scaleTransition.setCycleCount(1);
+        scaleTransition.setAutoReverse(false);
+
+        return scaleTransition;
     }
 
     protected PathTransition createPathTransition(Pane... destinationPanes) {

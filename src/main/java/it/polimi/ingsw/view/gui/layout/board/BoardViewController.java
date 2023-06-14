@@ -187,7 +187,7 @@ public class BoardViewController extends MyShelfieController {
                             box.setStyle("-fx-padding: 0.1em;");
                         }
                         if (change.wasRemoved() && box.getChildren().size() == 0) {
-                            box.setStyle("-fx-padding: 2em;");
+                            box.setStyle("-fx-padding: 2.9em;");
                         }
 
                         setActiveTilesOnBoardNoneSelected();
