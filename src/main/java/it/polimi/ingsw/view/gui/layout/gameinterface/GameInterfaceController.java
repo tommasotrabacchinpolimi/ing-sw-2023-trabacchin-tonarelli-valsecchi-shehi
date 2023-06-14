@@ -112,11 +112,9 @@ public class GameInterfaceController extends MyShelfieController {
                 return;
 
             if (mouseEvent.getEventType().equals(MouseEvent.MOUSE_CLICKED)) {
-                List<TileSubjectView> clickedTiles = getClickedTilesFromBoard()
-                        .stream()
-                        .toList();
+                List<TileSubjectView> clickedTiles = getClickedTilesFromBoard();
 
-                if (clickedTiles.size() == 1 && clickedTiles.get(0) == tile) {
+                if (clickedTiles.size() == 1) {
                     try{
                         gameBoardViewController.setActiveTilesOnBoardOneSelected(
                                 gamePersonalBookshelfController.getTileSubjectBookshelfMatrix(),
@@ -130,7 +128,7 @@ public class GameInterfaceController extends MyShelfieController {
 
                     }
 
-                } else if (getClickedTilesFromBoard().size() == 2) {
+                } else if (clickedTiles.size() == 2) {
 
                     try{
                         gameBoardViewController.setActiveTilesOnBoardTwoSelected(
