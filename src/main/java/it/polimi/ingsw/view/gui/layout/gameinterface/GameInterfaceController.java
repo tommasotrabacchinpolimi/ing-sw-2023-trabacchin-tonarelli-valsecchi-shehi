@@ -247,11 +247,7 @@ public class GameInterfaceController extends MyShelfieController {
             gameBoardViewController.setActiveTilesOnBoardNoneSelected();
 
         } else if (boxSelected.size() == 0) {
-            selectedTilesBox.getChildren()
-                    .stream()
-                    .map(node -> (TileSubjectView) node)
-                    .forEach(this::reinsertTilesOnBoard);
-
+            tileBoxChildManager.getAllTilesFromBox().forEach(this::reinsertTilesOnBoard);
             gamePersonalBookshelfController.deselectAnyColumn();
         } else {
             if (selectedTilesBox.getChildren().size() != boxSelected.size()) {
