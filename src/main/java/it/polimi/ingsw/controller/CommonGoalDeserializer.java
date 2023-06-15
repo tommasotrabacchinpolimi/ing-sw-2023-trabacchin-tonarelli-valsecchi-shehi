@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import it.polimi.ingsw.model.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -31,28 +32,6 @@ public class CommonGoalDeserializer {
     private static final String COMMON_GOAL_CONFIGURATION = "./src/main/resources/it.polimi.ingsw/common.goal.configuration/";
 
     /**
-     * Initialize every common goal card with the scoring tokens according to the number of player connected to the game
-     */
-    @Deprecated
-    public Stack<Integer> initScoringTokens(){
-        Stack<Integer> scoringTokens = new Stack<>();
-
-        int numberOfPlayers = controller.getState().getPlayersNumber();
-
-        if(numberOfPlayers == 4)
-            scoringTokens.push(2);
-
-        scoringTokens.push(4);
-
-        if (numberOfPlayers >= 3)
-            scoringTokens.push(6);
-
-        scoringTokens.push(8);
-
-        return scoringTokens;
-    }
-
-    /**
      * Retrieves all possible {@linkplain CommonGoal common goals} inside every "*.json" configuration file
      *
      * @return a set containing all possible common goals configuration
@@ -67,6 +46,60 @@ public class CommonGoalDeserializer {
                 .map(this::getCommonGoalConfig)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toSet());
+    }
+
+    /**
+     * Retrieves all the classes that represent a
+     * {@linkplain CommonGoal common goal}
+     *
+     * @return classes that are a common goal
+     *
+     * @see CommonGoal
+     * @see LineCommonGoal
+     * @see ShapeCommonGoal
+     * @see StairCommonGoal
+     * @see TupleCommonGoal
+     */
+    @NotNull
+    private Set<Class<? extends CommonGoal>> getCommonGoalClasses(){
+        Set<Class<? extends CommonGoal>> commonGoalClasses = new HashSet<>();
+
+        //From String to Classes
+        getCommonGoalClassesName().forEach(name -> {
+            try {
+                commonGoalClasses.add(Class.forName("it.polimi.ingsw.model." + name).asSubclass(CommonGoal.class));
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        return commonGoalClasses;
+    }
+
+    /**
+     * Retrieves all names of classes that represent a common goal
+     *
+     * @return names of classes representing a common goal
+     */
+    @NotNull
+    private List<String> getCommonGoalClassesName(){
+        List<String> commonGoalClassesName = new ArrayList<>();
+
+        //Walking through each Directory contained in "COMMON_GOAL_CONFIGURATION" directory to search for "main directory"
+        //representing a common goal class
+        try (Stream<Path> path = Files.walk(Paths.get(COMMON_GOAL_CONFIGURATION))) {
+
+            path.filter(Files::isDirectory)
+                    .filter(e -> e.getNameCount() - Paths.get(COMMON_GOAL_CONFIGURATION).getNameCount() >= 1) //exclude starting folder
+                    .forEach(p -> commonGoalClassesName.add(
+                            p.toString().substring(COMMON_GOAL_CONFIGURATION.length())
+                    ));
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return commonGoalClassesName;
     }
 
     /**
@@ -89,6 +122,7 @@ public class CommonGoalDeserializer {
      * @see StairCommonGoal
      * @see TupleCommonGoal
      */
+    @NotNull
     private Set<CommonGoal> getCommonGoalConfig(Class<? extends CommonGoal> c) {
         Set<CommonGoal> res = new HashSet<>();
         Gson gson = new GsonBuilder().setExclusionStrategies(new JSONExclusionStrategy()).create();
@@ -111,90 +145,15 @@ public class CommonGoalDeserializer {
     }
 
     /**
-     * Return the literal representing the file path of each "*.json" configuration file
+     * Return the literal representing the full file path of
+     * each "*.json" configuration file
      *
-     * @param c the class to which map the common goal
-     * @return path to the configuration file
+     * @param c the class that will be mapped to the common
+     *          goal
      *
-     * @deprecated <p>Since version 1.0, replaced by {@link #getFullCommonGoalConfigPath(Class commonGoal)}</p>
-     * <p>This method was deprecated due to performance, security and robustness of the code</p>
-     *
-     * @see CommonGoal
-     * @see LineCommonGoal
-     * @see ShapeCommonGoal
-     * @see StairCommonGoal
-     * @see TupleCommonGoal
-     */
-    @Deprecated
-    private String getCommonGoalConfigurationPath(Class<? extends CommonGoal> c){
-        StringBuilder path = new StringBuilder();
-
-        path.append(COMMON_GOAL_CONFIGURATION)
-                .append(c.getSimpleName())
-                .append("/")
-                .append(1)
-                .append(".json");
-
-        return path.toString();
-    }
-
-    /**
-     * Use this method to get all the classes that represent a {@linkplain CommonGoal common goal}
-     *
-     * @return classes that are a common goal
-     *
-     * @see CommonGoal
-     * @see LineCommonGoal
-     * @see ShapeCommonGoal
-     * @see StairCommonGoal
-     * @see TupleCommonGoal
-     */
-    private Set<Class<? extends CommonGoal>> getCommonGoalClasses(){
-        Set<Class<? extends CommonGoal>> commonGoalClasses = new HashSet<>();
-
-        //From String to Classes
-        getCommonGoalClassesName().forEach(n -> {
-            try {
-                commonGoalClasses.add(Class.forName("it.polimi.ingsw.model." + n).asSubclass(CommonGoal.class));
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-        });
-
-        return commonGoalClasses;
-    }
-
-    /**
-     * Retrieves all name of classes that represent a common goal
-     *
-     * @return names of classes representing a common goal
-     */
-    private List<String> getCommonGoalClassesName(){
-        List<String> commonGoalClassesName = new ArrayList<>();
-
-        //Walking through each Directory contained in "COMMON_GOAL_CONFIGURATION" directory to search for "main directory"
-        //representing a common goal class
-        try (Stream<Path> path = Files.walk(Paths.get(COMMON_GOAL_CONFIGURATION))) {
-
-            path.filter(Files::isDirectory)
-                    .filter(e -> e.getNameCount() - Paths.get(COMMON_GOAL_CONFIGURATION).getNameCount() >= 1) //exclude starting folder
-                    .forEach(p -> commonGoalClassesName.add(
-                            p.toString().substring(COMMON_GOAL_CONFIGURATION.length())
-                    ));
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        return commonGoalClassesName;
-    }
-
-    /**
-     * Return the literal representing the full file path of each "*.json" configuration file
-     *
-     * @param c the class to which map the common goal
      * @return full path to the configuration file
      */
+    @NotNull
     private List<String> getFullCommonGoalConfigPath(Class<? extends CommonGoal> c){
         List<String> fullPathConfigFile = new ArrayList<>();
 
@@ -212,10 +171,13 @@ public class CommonGoalDeserializer {
     }
 
     /**
-     * This method takes a {@linkplain CommonGoal common goal} and modify its scoring tokens according
-     * to the number of players in the game
+     * This method takes a {@linkplain CommonGoal common goal} and
+     * modify its scoring tokens, according to the number of
+     * players in the game
      *
-     * @param commonGoal the commonGoal to which modify the scoring tokens pattern
+     * @param commonGoal the commonGoal that will have a modified
+     *                   scoring tokens
+     *
      * @return the common goal with the stack modified
      * @see CommonGoal
      */
@@ -233,5 +195,19 @@ public class CommonGoalDeserializer {
             );
 
         return commonGoal;
+    }
+
+    public static String getCommonGoalImage(String description) throws FileNotFoundException {
+        Gson gson = new Gson();
+        JsonReader jsonReader = new JsonReader(new FileReader(COMMON_GOAL_CONFIGURATION + "commongoalmap.json"));
+
+        //Map<Image, Description>
+        Map<String, String> commonGoalMap = gson.fromJson(jsonReader, Map.class);
+
+        return commonGoalMap.keySet()
+                .stream()
+                .filter(key -> commonGoalMap.get(key).equals(description))
+                .findFirst()
+                .orElseThrow();
     }
 }

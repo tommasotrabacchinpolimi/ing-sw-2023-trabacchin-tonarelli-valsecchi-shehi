@@ -12,7 +12,6 @@ public class ViewData {
     private String currentPlayer;
     private String winnerPlayer;
     private Map<String, String> playersState;
-
     private List<String> players;
     private String gameState;
     private TileSubject[][] board;

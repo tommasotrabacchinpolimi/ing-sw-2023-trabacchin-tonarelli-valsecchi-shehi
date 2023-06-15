@@ -81,9 +81,9 @@
                   GridPane.fillWidth="false" GridPane.fillHeight="false">
 
             <rowConstraints>
-                <RowConstraints percentHeight="20" valignment="CENTER"/>
-                <RowConstraints percentHeight="20" valignment="CENTER"/>
-                <RowConstraints percentHeight="60" valignment="CENTER"/>
+                <RowConstraints percentHeight="25" valignment="CENTER"/>
+                <RowConstraints percentHeight="25" valignment="CENTER"/>
+                <RowConstraints percentHeight="50" valignment="CENTER"/>
             </rowConstraints>
 
             <columnConstraints>

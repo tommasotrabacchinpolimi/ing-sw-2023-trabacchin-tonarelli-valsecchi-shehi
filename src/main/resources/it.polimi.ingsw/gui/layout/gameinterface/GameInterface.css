@@ -7,3 +7,7 @@
 #gameButtonActionsContainer {
     -fx-spacing: 1em;
 }
+
+#gameGridGoalContainer {
+    -fx-vgap: 2em;
+}

@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.gui.layout.gameinterface;
 import it.polimi.ingsw.controller.exceptions.WrongChosenTilesFromBoardException;
 import it.polimi.ingsw.model.TileSubject;
 import it.polimi.ingsw.view.gui.MyShelfieController;
+import it.polimi.ingsw.view.gui.customcomponents.CommonGoalView;
 import it.polimi.ingsw.view.gui.layout.board.BoardViewController;
 import it.polimi.ingsw.view.gui.layout.bookshelf.PersonalBookshelfController;
 import it.polimi.ingsw.view.gui.customcomponents.MyShelfieAlertCreator;
@@ -14,17 +15,25 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import static it.polimi.ingsw.model.TileSubject.*;
 
 public class GameInterfaceController extends MyShelfieController {
+
+    @FXML
+    private GridPane gameGridActionContainer;
+
+    @FXML
+    private VBox gameButtonActionsContainer;
+
+    @FXML
+    private GridPane gameGridGoalContainer;
 
     @FXML
     private GridPane gameRootPane;
@@ -50,6 +59,8 @@ public class GameInterfaceController extends MyShelfieController {
     @FXML
     private MyShelfieButton reverseButton;
 
+    private final List<Pair<CommonGoalView, Integer>> commonGoals = new ArrayList<>();
+
     @FXML
     private BoardViewController gameBoardViewController;
 
@@ -71,6 +82,12 @@ public class GameInterfaceController extends MyShelfieController {
         selectedTilesBox.getChildren().addListener(tileBoxChildManager);
 
         tilesOnBoard = gameBoardViewController.getTilesOnBoard();
+
+        commonGoals.add(new Pair<>(new CommonGoalView("Four tiles of the same type in the four corners of the bookshelf."), 1));
+        commonGoals.add(new Pair<>(new CommonGoalView(""), 2));
+
+        gameGridGoalContainer.add(commonGoals.get(0).getKey(), 0, 0);
+        gameGridGoalContainer.add(commonGoals.get(1).getKey(), 0, 1);
     }
 
     public void fillBoard(MouseEvent mouseEvent) {
