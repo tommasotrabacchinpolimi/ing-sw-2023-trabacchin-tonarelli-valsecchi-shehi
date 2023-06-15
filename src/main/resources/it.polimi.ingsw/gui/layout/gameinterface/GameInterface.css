@@ -3,3 +3,7 @@
     -fx-background-radius: 0.3em;
     -fx-spacing: 0.5em;
 }
+
+#gameButtonActionsContainer {
+    -fx-spacing: 1em;
+}

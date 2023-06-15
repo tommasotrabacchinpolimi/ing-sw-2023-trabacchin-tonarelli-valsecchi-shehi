@@ -1,0 +1,8 @@
+#opponentsRootPane {
+    -fx-hgap: 0.5em;
+}
+
+#opponentsInfoDisplacer {
+    -fx-spacing: 5em;
+    -fx-padding: 0.5em;
+}

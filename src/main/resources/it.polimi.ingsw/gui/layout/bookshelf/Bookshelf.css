@@ -3,11 +3,23 @@
     -fx-hgap: 0.6em;
 }
 
+#bookshelfOpponentGrid {
+    -fx-padding: 1.5em 2.7em 2.85em 2.77em;
+    -fx-hgap: 0.6em;
+}
+
 #bookshelfImagePane {
     -fx-background-image: url('../../../graphical.resources/boards/bookshelf.png');
     -fx-background-size: cover;
     -fx-background-repeat: no-repeat;
-    -fx-padding: 17em 17em 17em 17em;
+    -fx-padding: 17em;
+}
+
+#bookshelfOpponentImagePane {
+    -fx-background-image: url('../../../graphical.resources/boards/bookshelf.png');
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+    -fx-padding: 12.75em;
 }
 
 .filled_bookshelf_cell {
@@ -17,5 +29,10 @@
 
 .empty_bookshelf_cell {
     -fx-padding: 2em;
+    -fx-background-color: transparent;
+}
+
+.opponent_empty_bookshelf_cell {
+    -fx-padding: 1.5em;
     -fx-background-color: transparent;
 }

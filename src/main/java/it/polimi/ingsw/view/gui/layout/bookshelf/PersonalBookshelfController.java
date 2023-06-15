@@ -2,8 +2,8 @@ package it.polimi.ingsw.view.gui.layout.bookshelf;
 
 import it.polimi.ingsw.model.TileSubject;
 import it.polimi.ingsw.utils.Coordinate;
-import it.polimi.ingsw.view.gui.customcomponents.BookshelfView;
 import it.polimi.ingsw.view.gui.customcomponents.MyShelfieTriangleButton;
+import it.polimi.ingsw.view.gui.customcomponents.bookshelf.PersonalBookshelfView;
 import it.polimi.ingsw.view.gui.customcomponents.tileview.TileSubjectView;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
@@ -18,7 +18,7 @@ import static it.polimi.ingsw.utils.color.MyShelfieColor.GAMBOGE;
 public class PersonalBookshelfController extends BookshelfController{
 
     @FXML
-    private BookshelfView personalBookshelfView;
+    private PersonalBookshelfView personalBookshelfView;
 
     @FXML
     private GridPane personalBookshelfRoot;

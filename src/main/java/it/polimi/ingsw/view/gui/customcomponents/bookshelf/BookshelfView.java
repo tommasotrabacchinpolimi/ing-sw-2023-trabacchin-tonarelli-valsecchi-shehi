@@ -1,8 +1,9 @@
-package it.polimi.ingsw.view.gui.customcomponents;
+package it.polimi.ingsw.view.gui.customcomponents.bookshelf;
 
 import it.polimi.ingsw.model.BookShelf;
 import it.polimi.ingsw.model.TileSubject;
 import it.polimi.ingsw.utils.Coordinate;
+import it.polimi.ingsw.view.gui.customcomponents.MyShelfieAlertCreator;
 import it.polimi.ingsw.view.gui.customcomponents.decorations.MyShelfieComponent;
 import it.polimi.ingsw.view.gui.customcomponents.decorations.MyShelfieDecoration;
 import it.polimi.ingsw.view.gui.customcomponents.tileview.TileSubjectView;
@@ -19,34 +20,16 @@ import java.util.*;
 /**
  * <p>The graphical component representing the bookshelf</p>
  *
- * @version 1.0
- * @since 10/06/2023
+ * @version 2.0
+ * @since 15/06/2023
  */
-public class BookshelfView extends StackPane implements MyShelfieComponent {
+abstract class BookshelfView extends StackPane implements MyShelfieComponent {
 
     /**
      * The Cascading-Style-Sheet path to the file containing
      * the customization of the bookshelf
      */
     private static final String CSS_FILE_PATH = "/it.polimi.ingsw/gui/layout/bookshelf/Bookshelf.css";
-
-    /**
-     * The default class applied to the cells of the bookshelf
-     * when they don't contain a tile
-     */
-    private static final String EMPTY_CELL = "empty_bookshelf_cell";
-
-    /**
-     * The default class applied to the cells of the bookshelf
-     * when they contain a tile
-     */
-    private static final String FILLED_CELL = "filled_bookshelf_cell";
-
-    /**
-     * The unique ID applied on the graphical component
-     * representing the bookshelf grid
-     */
-    private static final String GRID_PANE_ID = "bookshelfGrid";
 
     /**
      * List that contains a series of default decorations
@@ -63,14 +46,23 @@ public class BookshelfView extends StackPane implements MyShelfieComponent {
     private Map<Coordinate, StackPane> bookshelfCells;
 
     /**
+     * A type that qualifies the bookshelf
+     *
+     * @see BookshelfViewType
+     */
+    private final BookshelfViewType bookshelfType;
+
+    /**
      * Construct a graphical bookshelf component with the
      * standard number of {@linkplain BookShelf#STANDARD_ROW row}
      * and {@linkplain BookShelf#STANDARD_COLUMN column}
      *
+     * @param bookshelfType the different bookshelf type
+     *
      * @see BookShelf
      */
-    public BookshelfView() {
-        this(BookShelf.STANDARD_ROW, BookShelf.STANDARD_COLUMN);
+    public BookshelfView(BookshelfViewType bookshelfType) {
+        this(BookShelf.STANDARD_ROW, BookShelf.STANDARD_COLUMN, bookshelfType);
     }
 
     /**
@@ -79,8 +71,10 @@ public class BookshelfView extends StackPane implements MyShelfieComponent {
      *
      * @see BookShelf
      */
-    private BookshelfView(int row, int column) {
+     private BookshelfView(int row, int column, BookshelfViewType bookshelfType) {
         super();
+
+        this.bookshelfType = bookshelfType;
 
         getStylesheets().add(Objects.requireNonNull(getClass().getResource(CSS_FILE_PATH)).toExternalForm());
 
@@ -88,7 +82,7 @@ public class BookshelfView extends StackPane implements MyShelfieComponent {
 
         setupBookshelfGrid(row, column);
 
-        setupBookshelfImage();
+         setupBookshelfImage();
     }
 
     /**
@@ -107,43 +101,36 @@ public class BookshelfView extends StackPane implements MyShelfieComponent {
     }
 
     /**
-     * Initialize and retrieves a tile's container
-     * for the {@linkplain #bookshelfCells bookshelf}
-     * that by default:
+     * Initialize and retrieves a tile's container for the
+     * {@linkplain #bookshelfCells bookshelf} that by default:
      * <ul>
      *     <li><p>will have an ID format as follows:
      *     {@code cell + row + column};</p>
      *     <p>where:</p>
-     *     <ul>
-     *         <li>cell: is a standard string</li>
-     *         <li>row: is a number representing
-     *         the row in which the element is
-     *         placed</li>
-     *         <li>column: is a number representing
-     *         the column in which the element is
-     *         placed</li>
-     *     </ul>
+     *      <ul>
+     *          <li>cell: is a standard string</li>
+     *          <li>row: is a number representing the row in
+     *          which the element is placed</li>
+     *          <li>column: is a number representing the column
+     *          in which the element is placed</li>
+     *      </ul>
      *     </li>
-     *     <li>a style class that corresponds to
-     *     the {@value #EMPTY_CELL} constant</li>
-     *     <li>a listener that is used to updated
-     *     the style class of the cell based on
-     *     it's children
-     *     ({@link #setupCellListener(StackPane)
-     *     click for more information})</li>
+     *     <li>a style class that corresponds to the
+     *     {@linkplain  BookshelfViewType} chosen</li>
+     *     <li>a listener that is used to updated the style class
+     *     of the cell based on it's children
+     *     ({@link #setupCellListener(StackPane) click for more
+     *     information})</li>
      * </ul>
      *
-     * @param cellId the unique ID to set at the
-     *               bookshelf's cell
+     * @param cellId the unique ID to set at the bookshelf's cell
      * @return a tile's container for the
      * {@linkplain #bookshelfCells bookshelf}
      *
-     * @apiNote <p>The ID of the bookshelf's cell
-     * returned can be omitted, but it is very
-     * unwise</p>
-     * <p>More than one ID can be specified but
-     * only the first one will be considered for
-     * setting the ID to the cell</p>
+     * @apiNote <p>The ID of the bookshelf's cell returned can be
+     * omitted, but it is very unwise</p>
+     * <p>More than one ID can be specified but only the first one
+     * will be considered for setting the ID to the cell</p>
      */
     @NotNull
     private StackPane initBookShelfCell(String... cellId) {
@@ -151,36 +138,33 @@ public class BookshelfView extends StackPane implements MyShelfieComponent {
 
         Arrays.stream(cellId).findFirst().ifPresent(cell::setId);
 
-        cell.getStyleClass().add(EMPTY_CELL);
+        cell.getStyleClass().add(bookshelfType.getEmptyCellClass());
         setupCellListener(cell);
 
         return cell;
     }
 
     /**
-     * <p>Add a listener at the {@code cell} passed
-     * as parameter.</p>
-     * <p>The listener is used to switch between
-     * the two different style classes for the
-     * {@linkplain #bookshelfCells}
-     * ({@value #EMPTY_CELL} and
-     * {@value #FILLED_CELL})</p>
+     * <p>Add a listener at the {@code cell} passed as parameter.</p>
+     * <p>The listener is used to switch between different
+     * {@linkplain #bookshelfCells bookshelf-cell}'s style
+     * according to the different
+     * {@linkplain BookshelfViewType bookshelf-type}</p>
      *
-     * @param cell the bookshelf cell on which
-     *             apply the listener
+     * @param cell the bookshelf cell on which applies the listener
      */
     private void setupCellListener(@NotNull StackPane cell) {
         cell.getChildren().addListener((ListChangeListener<? super Node>) node -> {
             while(node.next()) {
                 if (node.wasRemoved()) {
-                    cell.getStyleClass().remove(FILLED_CELL);
-                    cell.getStyleClass().add(EMPTY_CELL);
+                    cell.getStyleClass().remove(bookshelfType.getFilledCellClass());
+                    cell.getStyleClass().add(bookshelfType.getEmptyCellClass());
                 }
 
                 if(node.wasAdded()){
 
-                    cell.getStyleClass().remove(EMPTY_CELL);
-                    cell.getStyleClass().add(FILLED_CELL);
+                    cell.getStyleClass().remove(bookshelfType.getEmptyCellClass());
+                    cell.getStyleClass().add(bookshelfType.getFilledCellClass());
 
                     node.getList()
                             .stream()
@@ -201,17 +185,17 @@ public class BookshelfView extends StackPane implements MyShelfieComponent {
     private void setupBookshelfGrid(int row, int column) {
         GridPane gridPane = new GridPane();
 
-        gridPane.setId(GRID_PANE_ID);
+        gridPane.setId(bookshelfType.getBookshelfGrid());
 
         ColumnConstraints columnConstraints = new ColumnConstraints();
         columnConstraints.setPercentWidth(100.0);
         columnConstraints.setHalignment(HPos.CENTER);
-        columnConstraints.setFillWidth(true);
+        columnConstraints.setFillWidth(false);
 
         RowConstraints rowConstraints = new RowConstraints();
         rowConstraints.setPercentHeight(100.0);
         rowConstraints.setValignment(VPos.CENTER);
-        rowConstraints.setFillHeight(true);
+        rowConstraints.setFillHeight(false);
 
         for(int i = 0; i < column; ++i)
             gridPane.getColumnConstraints().add(columnConstraints);
@@ -233,7 +217,7 @@ public class BookshelfView extends StackPane implements MyShelfieComponent {
      */
     private void setupBookshelfImage() {
         Pane bookshelfImagePane = new Pane();
-        bookshelfImagePane.setId("bookshelfImagePane");
+        bookshelfImagePane.setId(bookshelfType.getBookshelfImagePaneId());
 
         getChildren().add(bookshelfImagePane);
     }

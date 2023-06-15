@@ -33,7 +33,7 @@ public class GameInterfaceController extends MyShelfieController {
     private StackPane gameBoardView;
 
     @FXML
-    private GridPane gridActionContainer;
+    private GridPane gridGameDivider;
 
     @FXML
     private HBox selectedTilesBox;

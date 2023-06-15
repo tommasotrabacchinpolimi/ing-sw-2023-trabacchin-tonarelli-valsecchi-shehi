@@ -1,0 +1,8 @@
+.single_opponent_root_pane {
+    -fx-spacing: 1em;
+}
+
+#transparentGridPaneContainer {
+    -fx-padding: 0em 3.6em 0em 3.7em;
+    -fx-hgap: 0.6em;
+}

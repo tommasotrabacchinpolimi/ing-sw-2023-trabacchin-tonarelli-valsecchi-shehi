@@ -78,6 +78,12 @@ module it.polimi.ingsw {
     exports it.polimi.ingsw.view.gui.customcomponents.decorations;
     opens it.polimi.ingsw.view.gui.customcomponents.decorations;
 
+    exports it.polimi.ingsw.view.gui.customcomponents.pointpane to javafx.fxml, javafx.graphics;
+    opens it.polimi.ingsw.view.gui.customcomponents.pointpane to javafx.fxml, javafx.graphics;
+
+    exports it.polimi.ingsw.view.gui.customcomponents.bookshelf to javafx.fxml, javafx.graphics;
+    opens it.polimi.ingsw.view.gui.customcomponents.bookshelf to javafx.fxml, javafx.graphics;
+
     exports it.polimi.ingsw.utils.color;
     opens it.polimi.ingsw.utils.color;
 }

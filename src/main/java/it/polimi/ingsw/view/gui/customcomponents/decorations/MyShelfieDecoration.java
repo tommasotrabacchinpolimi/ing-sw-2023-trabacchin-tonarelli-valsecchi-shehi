@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view.gui.customcomponents.decorations;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Represents a "MyShelfie decoration" applied to a
  * custom graphical component according to the design of the game.
@@ -24,5 +26,5 @@ public interface MyShelfieDecoration {
      *
      * @param decoratedComponent the component that needs to be customized
      */
-    void customize(MyShelfieComponent decoratedComponent);
+    void customize(@NotNull MyShelfieComponent decoratedComponent);
 }

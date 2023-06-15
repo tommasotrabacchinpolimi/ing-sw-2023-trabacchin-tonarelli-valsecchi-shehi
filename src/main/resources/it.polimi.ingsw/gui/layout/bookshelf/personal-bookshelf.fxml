@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 
 <?import it.polimi.ingsw.view.gui.customcomponents.MyShelfieTriangleButton?>
-<?import it.polimi.ingsw.view.gui.customcomponents.BookshelfView?>
+<?import it.polimi.ingsw.view.gui.customcomponents.bookshelf.PersonalBookshelfView?>
 <GridPane fx:id="personalBookshelfRoot" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
           fx:controller="it.polimi.ingsw.view.gui.layout.bookshelf.PersonalBookshelfController">
     <fx:define>
@@ -51,5 +51,5 @@
                                  onMouseClicked="#selectedColumn"/>
     </GridPane>
 
-    <BookshelfView fx:id="personalBookshelfView" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+    <PersonalBookshelfView fx:id="personalBookshelfView" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
 </GridPane>

@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.*?>
 
 <?import it.polimi.ingsw.view.gui.customcomponents.MyShelfieButton?>
+<?import it.polimi.ingsw.view.gui.customcomponents.pointpane.HPointPane?>
 <GridPane fx:id="gameRootPane" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
           fx:controller="it.polimi.ingsw.view.gui.layout.gameinterface.GameInterfaceController"
           stylesheets="@GameInterface.css">
@@ -27,32 +28,68 @@
                 GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.fillHeight="false"
                 GridPane.fillWidth="false"/>
 
-    <GridPane fx:id="gridActionContainer" GridPane.rowIndex="0" GridPane.columnIndex="1" GridPane.valignment="CENTER"
+    <GridPane fx:id="gridGameDivider" GridPane.rowIndex="0" GridPane.columnIndex="1" GridPane.valignment="CENTER"
               GridPane.halignment="CENTER" alignment="CENTER">
 
         <columnConstraints>
-            <ColumnConstraints percentWidth="$percentCellDim" halignment="CENTER"/>
+            <ColumnConstraints percentWidth="63" halignment="CENTER"/>
+            <ColumnConstraints percentWidth="37" halignment="CENTER"/>
         </columnConstraints>
         <rowConstraints>
-            <RowConstraints percentHeight="10" valignment="CENTER"/>
-            <RowConstraints percentHeight="60" valignment="CENTER"/>
-            <RowConstraints percentHeight="30" valignment="CENTER"/>
+            <RowConstraints percentHeight="7" valignment="CENTER"/>
+            <RowConstraints percentHeight="93" valignment="CENTER"/>
         </rowConstraints>
 
-        <HBox fx:id="selectedTilesBox" GridPane.fillHeight="false" GridPane.fillWidth="false" GridPane.columnIndex="0"
-              GridPane.rowIndex="0" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+        <GridPane fx:id="gameGridActionContainer" GridPane.rowIndex="1" GridPane.columnIndex="0"
+                  GridPane.fillWidth="false"
+                  GridPane.fillHeight="false">
 
-        <fx:include fx:id="gamePersonalBookshelf" source="../bookshelf/personal-bookshelf.fxml" GridPane.columnIndex="0"
-                    GridPane.rowIndex="1" GridPane.fillHeight="false" GridPane.fillWidth="false"/>
+            <rowConstraints>
+                <RowConstraints percentHeight="15" valignment="CENTER"/>
+                <RowConstraints percentHeight="70" valignment="CENTER"/>
+                <RowConstraints percentHeight="15" valignment="CENTER"/>
+            </rowConstraints>
 
-        <VBox GridPane.columnIndex="0" GridPane.rowIndex="2" alignment="CENTER" spacing="10">
-            <MyShelfieButton fx:id="myShelfieButton" text="Fill board" onMouseClicked="#fillBoard"/>
+            <columnConstraints>
+                <ColumnConstraints percentWidth="60" halignment="CENTER"/>
+                <ColumnConstraints percentWidth="40" halignment="CENTER"/>
+            </columnConstraints>
 
-            <MyShelfieButton fx:id="confirmButton" text="Confirm choice" iconName="play-icon.png"
-                             onMouseClicked="#handleSubmitAction"/>
+            <HBox fx:id="selectedTilesBox" GridPane.fillHeight="false" GridPane.fillWidth="false"
+                  GridPane.columnIndex="0" GridPane.rowIndex="0"/>
 
-            <MyShelfieButton fx:id="reverseButton" text="Reverse" iconName="reset-icon.png"
-                             onMouseClicked="#handleReverseAction"/>
-        </VBox>
+            <MyShelfieButton fx:id="myShelfieButton" text="Fill board" onMouseClicked="#fillBoard"
+                             GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+
+            <VBox fx:id="gameButtonActionsContainer" GridPane.columnIndex="1" GridPane.rowIndex="0" alignment="CENTER">
+                <MyShelfieButton fx:id="confirmButton" text="Submit" iconName="play-icon.png"
+                                 onMouseClicked="#handleSubmitAction"/>
+
+                <MyShelfieButton fx:id="reverseButton" text="Reverse" iconName="reset-icon.png"
+                                 onMouseClicked="#handleReverseAction"/>
+            </VBox>
+
+            <fx:include fx:id="gamePersonalBookshelf" source="../bookshelf/personal-bookshelf.fxml"
+                        GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.fillHeight="false"
+                        GridPane.fillWidth="false" GridPane.columnSpan="2"/>
+
+            <HPointPane GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.columnSpan="2"
+                        GridPane.fillHeight="false" GridPane.fillWidth="false" GridPane.valignment="BOTTOM"/>
+        </GridPane>
+
+        <GridPane fx:id="gameGridGoalContainer" GridPane.columnIndex="1" GridPane.rowIndex="1"
+                  GridPane.fillWidth="false" GridPane.fillHeight="false">
+
+            <rowConstraints>
+                <RowConstraints percentHeight="20" valignment="CENTER"/>
+                <RowConstraints percentHeight="20" valignment="CENTER"/>
+                <RowConstraints percentHeight="60" valignment="CENTER"/>
+            </rowConstraints>
+
+            <columnConstraints>
+                <ColumnConstraints percentWidth="100" halignment="RIGHT"/>
+            </columnConstraints>
+
+        </GridPane>
     </GridPane>
 </GridPane>

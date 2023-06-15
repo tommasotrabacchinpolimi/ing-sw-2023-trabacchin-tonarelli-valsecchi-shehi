@@ -6,25 +6,27 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane fx:id="opponentsInterfaceRootPane" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-          fx:controller="it.polimi.ingsw.view.gui.layout.opponentsinterface.OpponentsInterfaceController">
+<GridPane fx:id="opponentsRootPane" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+          fx:controller="it.polimi.ingsw.view.gui.layout.opponentsinterface.OpponentsInterfaceController"
+          stylesheets="@OpponentsInterface.css">
 
     <fx:define>
-        <Double fx:id="opponentsInterfaceGridPercent" fx:value="100.0"/>
+        <Double fx:id="opponentsRootPanePercent" fx:value="70.0"/>
+        <Double fx:id="chatRootPanePercent" fx:value="30.0"/>
+        <Double fx:id="maxGridPercentExtension" fx:value="100.0"/>
     </fx:define>
 
     <columnConstraints>
-        <ColumnConstraints percentWidth="$opponentsInterfaceGridPercent" halignment="CENTER" fillWidth="false"
-                           hgrow="NEVER"/>
-        <ColumnConstraints percentWidth="$opponentsInterfaceGridPercent" halignment="CENTER" fillWidth="false"
-                           hgrow="NEVER"/>
+        <ColumnConstraints percentWidth="$opponentsRootPanePercent" halignment="CENTER" hgrow="NEVER"/>
+        <ColumnConstraints percentWidth="$chatRootPanePercent" halignment="CENTER" hgrow="NEVER"/>
     </columnConstraints>
+
     <rowConstraints>
-        <RowConstraints percentHeight="$opponentsInterfaceGridPercent" valignment="CENTER" fillHeight="false"
-                        vgrow="NEVER"/>
+        <RowConstraints percentHeight="$maxGridPercentExtension" valignment="CENTER" fillHeight="false" vgrow="NEVER"/>
     </rowConstraints>
 
-    <VBox fx:id="opponentsVBoxContainer" GridPane.columnIndex="0" GridPane.rowIndex="0" alignment="CENTER"
-          fillWidth="false" mouseTransparent="true">
-    </VBox>
+    <HBox fx:id="opponentsInfoDisplacer" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.fillWidth="true"
+          GridPane.fillHeight="false" alignment="CENTER">
+
+    </HBox>
 </GridPane>

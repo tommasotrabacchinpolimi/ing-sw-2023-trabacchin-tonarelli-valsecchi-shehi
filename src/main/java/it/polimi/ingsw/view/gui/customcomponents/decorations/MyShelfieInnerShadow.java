@@ -4,6 +4,7 @@ import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieShadowType;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.paint.Color;
+import org.jetbrains.annotations.NotNull;
 
 import static it.polimi.ingsw.utils.color.MyShelfieColor.GAMBOGE;
 
@@ -62,7 +63,7 @@ public class MyShelfieInnerShadow implements MyShelfieDecoration{
      * @param decoratedComponent the component that needs to be customized
      */
     @Override
-    public void customize(MyShelfieComponent decoratedComponent) {
+    public void customize(@NotNull MyShelfieComponent decoratedComponent) {
         innerShadow.setInput(null);
 
         innerShadow.setInput(decoratedComponent.getCustomizedNode().getEffect());
