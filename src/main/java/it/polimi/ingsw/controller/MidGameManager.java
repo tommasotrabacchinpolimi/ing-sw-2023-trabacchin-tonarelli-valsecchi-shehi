@@ -12,6 +12,26 @@ import java.util.concurrent.*;
 
 /**
  *
+ * The {@code MidGameManager} class is responsible for managing the game flow during the mid phase of the game.
+ * <br>
+ *
+ * It extends the {@code GameManager} class and provides specific behavior for the mid game phase.
+ *
+ * <p>
+ * This class overrides methods from the {@code GameManager} class to provide custom behavior for the mid game phase.
+ * <br>
+ *
+ * It includes methods for dragging tiles to the bookshelf, registering players during reconnection, verifying game conditions,
+ *
+ * and setting the next current player.
+ *
+ * </p>
+ * @param <R> the type of the client interface
+ *
+ * @see GameManager
+ *
+ * @see ClientInterface
+ *
  * @param <R>
  *
  * @author Tommaso Trabacchin
@@ -23,10 +43,25 @@ import java.util.concurrent.*;
  */
 public class MidGameManager<R extends ClientInterface> extends GameManager {
 
+    /**
+     Constructs a new {@code MidGameManager} with the specified controller.
+     @param controller the controller for the game
+     */
     public MidGameManager(Controller controller){
         super(controller);
     }
 
+    /**
+     *
+     *   {@inheritDoc}
+     *
+     * This method allows the user to drag tiles to the bookshelf.
+     * It verifies the validity of the chosen tiles and updates the game state accordingly.
+     *
+     * @param user the client interface of the user
+     * @param chosenTiles the list of coordinates representing the chosen tiles
+     * @param chosenColumn the chosen column in the bookshelf
+     */
     @Override
     public synchronized void dragTilesToBookShelf(ClientInterface user, List<Coordinate> chosenTiles, int chosenColumn){
         try {
@@ -64,6 +99,15 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
     //se registerPlayer viene chiamata in fase di MID o FINAL della partita allora vuol dire che il giocatore
     // si era disconnesso e ora sta cercando di ri-connettersi, quindi controllo che effettivamente ciò è vero e
     // nel caso ri-setto la view del player corrispondente
+
+    /**
+
+     {@inheritDoc}
+     This method is called when a player tries to register during reconnection.
+     If the player is successfully reconnected, their virtual view is updated and their state is changed to connected.
+     @param user the client interface of the user
+     @param nickname the nickname of the player
+     */
     @Override
     public synchronized void registerPlayer(ClientInterface user, String nickname) {
         Player player = getController().getState().getPlayerFromNick(nickname);
@@ -151,8 +195,8 @@ public class MidGameManager<R extends ClientInterface> extends GameManager {
     }
 
     /**
-     * Method that sets the next player who will play.
-     *
+     * {@inheritDoc}
+     * Sets the next player who will play based on the current game state and player states.
      * @see Controller
      * @see State
      * @see Player
