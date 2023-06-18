@@ -10,6 +10,12 @@ import java.util.stream.Collectors;
 
 /**
  *
+ * The game manager class responsible for initializing the game state and managing the initial game flow.
+ * <br>
+ * It extends the abstract class GameManager and implements specific game-related methods.
+ * <br>
+ * This class initializes the personal goals and common goals decks, registers players, and sets up the game state.
+ *
  * @author Tommaso Trabacchin
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
@@ -23,6 +29,11 @@ public class InitGameManager extends GameManager {
     private List<PersonalGoal> personalGoalsDeck;
     private List<CommonGoal> commonGoalsDeck;
 
+    /**
+     * Constructs a new InitGameManager with the specified controller.
+     * @param controller the Controller instance managing the game.
+     * @throws FileNotFoundException if the personal goals configuration files are not found.
+     */
     public InitGameManager(Controller controller) throws FileNotFoundException {
         super(controller);
         initPersonalGoals();

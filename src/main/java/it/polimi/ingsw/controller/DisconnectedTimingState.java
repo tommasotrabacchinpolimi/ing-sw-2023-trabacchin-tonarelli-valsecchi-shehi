@@ -6,8 +6,27 @@ import it.polimi.ingsw.model.PlayerState;
 
 import java.util.TimerTask;
 
+/**
+ * Represents the timing state when a player is disconnected during the game turn.
+ * <br>
+ * Extends the abstract class {@link TimingState}.
+ * <br>
+ *
+ *  @author Tommaso Trabacchin
+ *  @author Melanie Tonarelli
+ *  @author Emanuele Valsecchi
+ *  @author Adem Shehi
+ *  @version 3.0
+ *  @since 06/04/2023
+ */
 public class DisconnectedTimingState extends TimingState{
 
+    /**
+     * Constructs a new DisconnectedTimingState with the specified TimingStateMachine and previousPlayer.
+     * <br>
+     * @param timingStateMachine the TimingStateMachine managing the timing state machine.
+     * @param previousPlayer the player who was disconnected.
+     */
     public DisconnectedTimingState(TimingStateMachine timingStateMachine, Player previousPlayer) {
 
         super(timingStateMachine, previousPlayer);
