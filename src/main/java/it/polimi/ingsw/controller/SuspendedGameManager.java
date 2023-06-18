@@ -8,7 +8,9 @@ import it.polimi.ingsw.utils.Coordinate;
 import java.util.List;
 
 /**
- *
+ * The SuspendedGameManager class is responsible for managing the game when it is suspended.
+ * <br>
+ * It extends the GameManager class.
  * @author Tommaso Trabacchin
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
@@ -19,16 +21,37 @@ import java.util.List;
 public class SuspendedGameManager extends GameManager {
     GameState previousGameState;
 
+    /**
+     * Constructs a new SuspendedGameManager with the specified Controller and GameState.
+     * <br>
+     * @param controller the Controller instance
+     * @param gameState the previous GameState before the game was suspended
+     */
     public SuspendedGameManager(Controller controller, GameState gameState) {
         super(controller);
         previousGameState = gameState;
     }
 
+    /**
+     * {@inheritDoc}
+     * This method is called when dragging tiles to the bookshelf in the suspended state.
+     * <br>
+     * It prints an error message to indicate that the method was called in the suspended state.
+     */
     @Override
     public synchronized void dragTilesToBookShelf(ClientInterface view, List<Coordinate> chosenTiles, int chosenColumn) {
         System.err.println("called dragTilesToBookShelf in SUSPENDED State");
     }
 
+    /**
+     * {@inheritDoc}
+     * This method is called when registering a player in the suspended state.
+     * If the player exists and is in a disconnected state, it updates the player's view and state to connected.
+     * If there are still enough connected players to resume the game, it restores the previous game state and transitions to the MidGameManager.
+     *
+     * @param view the ClientInterface of the player
+     * @param nickname the nickname of the player
+     */
     @Override
     public synchronized void registerPlayer(ClientInterface view, String nickname) {
         Player player = getController().getState().getPlayerFromNick(nickname);
@@ -47,10 +70,23 @@ public class SuspendedGameManager extends GameManager {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * This method is overridden and does nothing in the suspended state.
+     */
+
     @Override
     protected void setNextCurrentPlayer() {
         return;
     }
+
+    /**
+     * Checks if there are enough connected players to resume the game.
+     * It counts the number of players in the connected state and returns true if there are more than one.
+     *
+     * @return true if there are more than one connected player, false otherwise
+     */
+
 
     private boolean checkIfNotSuspended(){
         int numberPlayerConnected = (int) getController().getState().getPlayers().stream().filter(player -> player.getPlayerState()==PlayerState.CONNECTED).count();
