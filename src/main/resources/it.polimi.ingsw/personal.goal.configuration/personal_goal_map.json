@@ -1,0 +1,109 @@
+{
+  "personal_goal_1": [
+    ["PLANT", null, "FRAME", null, null],
+    [null, null, null, null, "CAT"],
+    [null, null, null, "BOOK", null],
+    [null, "GAME", null, null, null],
+    [null, null, null, null, null],
+    [null, null, "TROPHY", null, null]
+  ],
+
+  "personal_goal_2": [
+    [null, null, null, null, null],
+    [null, "PLANT", null, null, null],
+    ["CAT", null, "GAME", null, null],
+    [null, null, null, null, "BOOK"],
+    [null, null, null, "TROPHY", null],
+    [null, null, null, null, "FRAME"]
+  ],
+
+  "personal_goal_3": [
+    [null, null, null, null, null],
+    ["FRAME", null, null, "GAME", null],
+    [null, null, "PLANT", null, null],
+    [null, "CAT", null, null, "TROPHY"],
+    [null, null, null, null, null],
+    ["BOOK", null, null, null, null]
+  ],
+
+  "personal_goal_4": [
+    [null, null, null, null, "GAME"],
+    [null, null, null, null, null],
+    ["TROPHY", null, "FRAME", null, null],
+    [null, null, null, "PLANT", null],
+    [null, "BOOK", "CAT", null, null],
+    [null, null, null, null, null]
+  ],
+
+  "personal_goal_5": [
+    [null, null, null, null, null],
+    [null, "TROPHY", null, null, null],
+    [null, null, null, null, null],
+    [null, "FRAME", "BOOK", null, null],
+    [null, null, null, null, "PLANT"],
+    ["GAME", null, null, "CAT", null]
+  ],
+
+  "personal_goal_6": [
+    [null, null, "TROPHY", null, "CAT"],
+    [null, null, null, null, null],
+    [null, null, null, "BOOK", null],
+    [null, null, null, null, null],
+    [null, "GAME", null, "FRAME", null],
+    ["PLANT", null, null, null, null]
+  ],
+
+  "personal_goal_7": [
+    ["CAT", null, null, null, null],
+    [null, null, null, "FRAME", null],
+    [null, "PLANT", null, null, null],
+    ["TROPHY", null, null, null, null],
+    [null, null, null, null, "GAME"],
+    [null, null, "BOOK", null, null]
+  ],
+
+  "personal_goal_8": [
+    [null, null, null, null, "FRAME"],
+    [null, "CAT", null, null, null],
+    [null, null, "TROPHY", null, null],
+    ["PLANT", null, null, null, null],
+    [null, null, null, "BOOK", null],
+    [null, null, null, "GAME", null]
+  ],
+
+  "personal_goal_9": [
+    [null, null, "GAME", null, null],
+    [null, null, null, null, null],
+    [null, null, "CAT", null, null],
+    [null, null, null, null, "BOOK"],
+    [null, "TROPHY", null, null, "PLANT"],
+    ["FRAME", null, null, null, null]
+  ],
+
+  "personal_goal_10": [
+    [null, null, null, null, "TROPHY"],
+    [null, "GAME", null, null, null],
+    ["BOOK", null, null, null, null],
+    [null, null, null, "CAT", null],
+    [null, "FRAME", null, null, null],
+    [null, null, null, "PLANT", null]
+  ],
+
+  "personal_goal_11": [
+    [null, null, "PLANT", null, null],
+    [null, "BOOK", null, null, null],
+    ["GAME", null, null, null, null],
+    [null, null, "FRAME", null, null],
+    [null, null, null, null, "CAT"],
+    [null, null, null, "TROPHY", null]
+  ],
+
+  "personal_goal_12": [
+    [null, null, "BOOK", null, null],
+    [null, "PLANT", null, null, null],
+    [null, null, "FRAME", null, null],
+    [null, null, null, "TROPHY", null],
+    [null, null, null, null, "GAME"],
+    ["CAT", null, null, null, null]
+  ]
+}
