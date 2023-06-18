@@ -197,6 +197,18 @@ public class CommonGoalDeserializer {
         return commonGoal;
     }
 
+    /**
+
+     * Retrieves the image file path associated with a common goal description.
+
+     * It reads a JSON file that maps common goal descriptions to their image file paths.
+
+     * @param description the description of the common goal
+
+     * @return the image file path associated with the description
+
+     * @throws FileNotFoundException if the JSON file is not found
+     */
     public static String getCommonGoalImage(String description) throws FileNotFoundException {
         Gson gson = new Gson();
         JsonReader jsonReader = new JsonReader(new FileReader(COMMON_GOAL_CONFIGURATION + "commongoalmap.json"));
