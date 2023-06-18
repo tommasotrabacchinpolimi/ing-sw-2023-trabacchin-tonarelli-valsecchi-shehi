@@ -52,11 +52,16 @@ public class InitTimingState extends TimingState{
     public synchronized void timerGoOff() {
 
     }
+
     @Override
     public synchronized void currentPlayerStateChanged(Player player, PlayerState playerState) {
 
     }
 
+    /**
+     *{@inheritDoc}
+     *Returns {@code false} since the initialization timing state is not a disconnected timing state.
+     */
     @Override
     public boolean isDisconnectedTiming() {
         return false;
