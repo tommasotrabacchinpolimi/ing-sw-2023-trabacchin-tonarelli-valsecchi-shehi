@@ -2,14 +2,17 @@ package it.polimi.ingsw.view.gui.customcomponents.guitoolkit;
 
 import javafx.util.Duration;
 
-public enum MyShelfieTransition {
-    DEF_DURATION(new Duration(600)),
+public enum MyShelfieTransitionDurationType {
 
     SHORT_DURATION(new Duration(100)),
 
-    LONG_DURATION(new Duration(800));
+    DEF_DURATION(new Duration(600)),
 
-    MyShelfieTransition(Duration animationDuration) {
+    LONG_DURATION(new Duration(800)),
+
+    EXTREME_LONG_DURATION(new Duration(5000));
+
+    MyShelfieTransitionDurationType(Duration animationDuration) {
         this.animationDuration = animationDuration;
     }
 
