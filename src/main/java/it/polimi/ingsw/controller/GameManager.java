@@ -7,6 +7,16 @@ import java.util.List;
 
 /**
  *
+ * The abstract class representing the game manager responsible for managing the game flow and interactions.
+ * Subclasses must implement specific game-related methods.
+ *
+ * This class provides methods for dragging tiles to the bookshelf, registering players,
+ * setting the next current player, and quitting the game. It also includes methods for
+ * registering listeners for various game events and verifying if all players except
+ * a specified player are disconnected.
+ *
+ * The GameManager requires a Controller instance to manage the game.
+ *
  * @author Tommaso Trabacchin
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
@@ -17,20 +27,55 @@ import java.util.List;
 public abstract class GameManager {
     private final Controller controller;
 
+    /**
+     * Constructs a new GameManager with the specified controller.
+     *
+     * @param controller the Controller instance managing the game.
+     */
     public GameManager(Controller controller){
         this.controller = controller;
     }
 
+    /**
+     * Returns the Controller instance associated with this GameManager.
+     * <br>
+     * @return the controller associated to this GameManager.
+     */
     public Controller getController() {
         return controller;
     }
 
+    /**
+     * Abstract method to be implemented by subclasses.
+     * <br>
+     * Allows dragging tiles to the bookshelf.
+     *
+     * @param view the ClientInterface view of the player.
+     * @param chosenTiles the list of chosen tile coordinates.
+     * @param chosenColumn the chosen column index.
+     */
     public abstract void dragTilesToBookShelf(ClientInterface view, List<Coordinate> chosenTiles, int chosenColumn);
 
+    /**
+     * Abstract method to be implemented by subclasses.
+     * Registers a player with the specified nickname and view.
+     *
+     * @param view the ClientInterface view of the player.
+     * @param nickname the nickname of the player.
+     */
     public abstract void registerPlayer(ClientInterface view, String nickname);
 
+    /**
+     * Protected abstract method to be implemented by subclasses.
+     * Sets the next current player in the game.
+     */
     protected abstract void setNextCurrentPlayer();
 
+    /**
+     * Method that handles to process to quit the game
+     * Updates the player's state, triggers necessary events, and <br>most important, checks if the game should end.
+     * @param view the ClientInterface view of the player.
+     */
     public synchronized void quitGame(ClientInterface view) {
         getController().getState().getPlayerFromView(view).setPlayerState(PlayerState.QUITTED);
         getController().getLobbyController().onQuitGame(view);
@@ -40,6 +85,14 @@ public abstract class GameManager {
             getController().getLobbyController().onEndGame(getController());
         }
     }
+
+    /**
+     * Registers listeners for the specified player with the given nickname and view.
+     * <br>
+     * Replaces old listeners with the new ones.
+     * @param view the ClientInterface view of the player.
+     * @param nickname of the player.
+     */
 
     public void registerListeners(ClientInterface view, String nickname){
         ClientInterface oldView = getController().getState().getPlayerFromNick(nickname).getVirtualView();
@@ -93,6 +146,16 @@ public abstract class GameManager {
         //getController().getState().getPlayers().forEach(p->p.getPointPlayer().setOnPointsUpdatedListener(view));
     }
 
+    /**
+     * Boolean Method used to verify if all players except
+     * <br>
+     *  the player passed as parameter are disconnected.
+     * <br>
+     * @param player to be excepted from the check of disconnection
+     * @return True if all players except the one passed as parameter
+     * <br>
+     * are disconnected and false viceversa
+     */
     protected boolean verifyAllDisconnectedPlayer(Player player){
 
         //Player player = getController().getState().getCurrentPlayer();
