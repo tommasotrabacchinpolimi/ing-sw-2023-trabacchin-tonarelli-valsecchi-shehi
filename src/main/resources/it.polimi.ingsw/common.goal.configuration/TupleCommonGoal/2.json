@@ -1,6 +1,7 @@
 {
   "description": "Four groups each containing at least 4 tiles of the same type (not necessarily in the depicted shape). The tiles of one group can be different from those of another group.",
   "scoringTokens": [2, 4, 6, 8],
+  "id": "tuple_common_goal_2",
   "groupsNumber": 4,
   "adjacentTilesPo2": 2,
   "square": false,

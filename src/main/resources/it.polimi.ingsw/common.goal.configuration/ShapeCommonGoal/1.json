@@ -1,6 +1,7 @@
 {
   "description" : "Four tiles of the same type in the four corners of the bookshelf.",
   "scoringTokens": [2, 4, 6, 8],
+  "id": "shape_common_goal_1",
   "ruleShape": [
     [0, 4], [5, 0], [5, 4]
   ]

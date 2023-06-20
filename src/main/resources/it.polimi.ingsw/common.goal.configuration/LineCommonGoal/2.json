@@ -1,6 +1,7 @@
 {
   "description": "Two lines each formed by 5 different types of tiles. One line can show the same or a different combination of the other line.",
   "scoringTokens": [2, 4, 6, 8],
+  "id": "line_common_goal_2",
   "incRow": 1,
   "incCol": 0,
   "linesNumber": 2,
