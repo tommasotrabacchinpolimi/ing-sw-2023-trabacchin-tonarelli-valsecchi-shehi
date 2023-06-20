@@ -1,8 +1,9 @@
 package it.polimi.ingsw.view.gui.customcomponents.tileview;
 
-import it.polimi.ingsw.view.gui.customcomponents.MyShelfieAlertCreator;
+import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieAlertCreator;
 import javafx.animation.ParallelTransition;
 import javafx.animation.PathTransition;
+import javafx.animation.Transition;
 import javafx.scene.layout.Pane;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,7 +26,7 @@ public class TileViewInBox implements TileSubjectViewState{
             return;
         }
 
-        PathTransition toNewParent = tileSubjectView.createPathTransition(panes);
+        Transition toNewParent = tileSubjectView.createPathTransition(panes);
 
         toNewParent.playFromStart();
 
@@ -36,7 +37,7 @@ public class TileViewInBox implements TileSubjectViewState{
     @Override
     public void reverseStateAction(TileSubjectView tileSubjectView) {
 
-        ParallelTransition toOldParent = tileSubjectView.createToBiggerPathTransition(oldParent);
+        Transition toOldParent = tileSubjectView.createToBiggerPathTransition(oldParent);
 
         toOldParent.playFromStart();
 

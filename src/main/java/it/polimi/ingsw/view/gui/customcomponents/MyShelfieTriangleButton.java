@@ -16,11 +16,11 @@ import javafx.scene.shape.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieTransition.SHORT_DURATION;
+import static it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieTransitionDurationType.SHORT_DURATION;
 
 public class MyShelfieTriangleButton extends StackPane implements MyShelfieComponent {
 
-    private static final String BACKGROUND_IMAGE = "/it.polimi.ingsw/graphical.resources/misc/arrow_bookshelf_button.png";
+    private static final String TRIANGLE_IMAGE_PATH = "/it.polimi.ingsw/graphical.resources/misc/arrow_bookshelf_button.png";
 
     private boolean entered;
 
@@ -42,7 +42,7 @@ public class MyShelfieTriangleButton extends StackPane implements MyShelfieCompo
 
         setStyle("-fx-background-color: transparent;");
 
-        iconPane = new MyShelfieGraphicIcon(BACKGROUND_IMAGE, 1, false, "contain");
+        iconPane = new MyShelfieGraphicIcon(TRIANGLE_IMAGE_PATH, 1, null, "contain");
         getChildren().add(iconPane);
 
         applyDecorationAsDefault(new MyShelfieDarkShadow());

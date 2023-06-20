@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.gui.layout.bookshelf;
 
 import it.polimi.ingsw.model.TileSubject;
+import it.polimi.ingsw.model.TileType;
 import it.polimi.ingsw.utils.Coordinate;
 import it.polimi.ingsw.view.gui.customcomponents.MyShelfieTriangleButton;
 import it.polimi.ingsw.view.gui.customcomponents.bookshelf.PersonalBookshelfView;
@@ -47,7 +48,7 @@ public class PersonalBookshelfController extends BookshelfController{
     }
 
     @FXML
-    private void selectedColumn(MouseEvent mouseEvent) {
+    private void selectedColumn(@NotNull MouseEvent mouseEvent) {
         if (mouseEvent.getSource().equals(leftTriangle) && leftTriangle.isActive()) {
             updateSelectedColumn(0);
         } else if (mouseEvent.getSource().equals(midLeftTriangle) && midLeftTriangle.isActive()) {
@@ -169,6 +170,16 @@ public class PersonalBookshelfController extends BookshelfController{
 
     public TileSubject[][] getTileSubjectBookshelfMatrix() {
         return personalBookshelfView.toTileSubjectMatrix();
+    }
+
+    public void highlightPersonalTargetCells(Map<Coordinate, TileType> personalGoalConfiguration) {
+        if(personalGoalConfiguration != null)
+            personalBookshelfView.addTileTypeHint(personalGoalConfiguration);
+    }
+
+    public void resetPersonalTargetCells(Map<Coordinate, TileType> personalGoalConfiguration) {
+        if(personalGoalConfiguration != null)
+            personalBookshelfView.hideTileTypeHint(personalGoalConfiguration);
     }
 
     @Override

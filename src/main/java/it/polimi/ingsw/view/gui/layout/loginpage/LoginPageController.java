@@ -26,8 +26,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import static it.polimi.ingsw.view.gui.customcomponents.MyShelfieAlertCreator.displayErrorAlert;
-import static it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieTransition.DEF_DURATION;
+import static it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieAlertCreator.displayErrorAlert;
+import static it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieTransitionDurationType.DEF_DURATION;
 import static java.util.Map.entry;
 
 public class LoginPageController extends MyShelfieController {

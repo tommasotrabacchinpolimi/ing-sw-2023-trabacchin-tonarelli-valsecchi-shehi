@@ -8,6 +8,7 @@
 
 <?import it.polimi.ingsw.view.gui.customcomponents.MyShelfieButton?>
 <?import it.polimi.ingsw.view.gui.customcomponents.pointpane.HPointPane?>
+
 <GridPane fx:id="gameRootPane" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
           fx:controller="it.polimi.ingsw.view.gui.layout.gameinterface.GameInterfaceController"
           stylesheets="@GameInterface.css">
@@ -40,9 +41,12 @@
             <RowConstraints percentHeight="93" valignment="CENTER"/>
         </rowConstraints>
 
+        <HBox fx:id="testingBox" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-spacing: 0.7em;"
+              fillHeight="false" GridPane.fillWidth="true" alignment="CENTER" GridPane.columnSpan="2">
+        </HBox>
+
         <GridPane fx:id="gameGridActionContainer" GridPane.rowIndex="1" GridPane.columnIndex="0"
-                  GridPane.fillWidth="false"
-                  GridPane.fillHeight="false">
+                  GridPane.fillWidth="false" GridPane.fillHeight="false">
 
             <rowConstraints>
                 <RowConstraints percentHeight="15" valignment="CENTER"/>
@@ -58,9 +62,6 @@
             <HBox fx:id="selectedTilesBox" GridPane.fillHeight="false" GridPane.fillWidth="false"
                   GridPane.columnIndex="0" GridPane.rowIndex="0"/>
 
-            <MyShelfieButton fx:id="myShelfieButton" text="Fill board" onMouseClicked="#fillBoard"
-                             GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-
             <VBox fx:id="gameButtonActionsContainer" GridPane.columnIndex="1" GridPane.rowIndex="0" alignment="CENTER">
                 <MyShelfieButton fx:id="confirmButton" text="Submit" iconName="play-icon.png"
                                  onMouseClicked="#handleSubmitAction"/>
@@ -73,7 +74,7 @@
                         GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.fillHeight="false"
                         GridPane.fillWidth="false" GridPane.columnSpan="2"/>
 
-            <HPointPane GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.columnSpan="2"
+            <HPointPane fx:id="personalPointPane" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.columnSpan="2"
                         GridPane.fillHeight="false" GridPane.fillWidth="false" GridPane.valignment="BOTTOM"/>
         </GridPane>
 

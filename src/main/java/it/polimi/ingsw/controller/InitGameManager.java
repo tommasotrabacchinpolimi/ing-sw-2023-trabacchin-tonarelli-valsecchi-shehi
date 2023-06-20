@@ -54,8 +54,7 @@ public class InitGameManager extends GameManager {
     }
 
     private void initCommonGoals() {
-        CommonGoalDeserializer commonGoalDeserializer = new CommonGoalDeserializer();
-        commonGoalsDeck = new LinkedList<>(commonGoalDeserializer.getCommonGoalsDeck());
+        commonGoalsDeck = new LinkedList<>(CommonGoalDeserializer.getCommonGoalsDeck());
         for(CommonGoal commonGoal : commonGoalsDeck) {
 
             if (getController().getState().getPlayersNumber() == 4) {
@@ -74,6 +73,7 @@ public class InitGameManager extends GameManager {
                 commonGoal.getScoringTokens().push(8);
             }
         }
+
         Collections.shuffle(commonGoalsDeck);
     }
 

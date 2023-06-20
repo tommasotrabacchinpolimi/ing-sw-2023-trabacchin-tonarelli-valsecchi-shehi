@@ -333,8 +333,8 @@ class StateTest {
         State state = createStateWithPlayers();
         state.setPlayersNumber(4);
         BookShelf bookShelf = new BookShelf();
-        CommonGoal goal1 = new StairCommonGoal(new Stack<>(), "Common Goal 1", 5);
-        CommonGoal goal2 = new LineCommonGoal(new Stack<>(), "Common Goal 2" ,1,0,4,5, new int[]{1});
+        CommonGoal goal1 = new StairCommonGoal(new Stack<>(), "Common Goal 1", "", 5);
+        CommonGoal goal2 = new LineCommonGoal(new Stack<>(), "Common Goal 2" , "", 1,0,4,5, new int[]{1});
         goal1.getScoringTokens().push(2);
         goal1.getScoringTokens().push(4);
         goal1.getScoringTokens().push(6);

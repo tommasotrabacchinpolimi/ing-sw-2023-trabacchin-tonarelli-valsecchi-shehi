@@ -2,9 +2,12 @@ package it.polimi.ingsw.view.gui.customcomponents.decorations;
 
 import javafx.scene.Node;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * <p>Represents a customizable node</p>
@@ -122,4 +125,122 @@ public interface MyShelfieComponent {
      * @return the list of default decorations
      */
     List<MyShelfieDecoration> getBaseDecorations();
+
+    /**
+     * Used to load image file from the project structure
+     *
+     * @param filePath     Complete path from the root of the
+     *                     resource folder to the file itself
+     *
+     * @return The {@linkplain String complete path} to the
+     * desired file if it is found, {@code null} otherwise.
+     * @apiNote <p>The {@code filePath} parameter must specify also
+     * the file extension type</p>
+     * <p>The returned path is expressed as a string</p>
+     */
+    @Nullable
+    default String getMyShelfieResourceStringPath(String filePath) {
+        return String.valueOf(getOptionalMyShelfieResource(filePath, (String) null).orElse(null));
+    }
+
+    /**
+     * Used to load image file from the project structure
+     *
+     * @param filePath     Complete path from the root of the
+     *                     resource folder to the file itself
+     *
+     * @return The {@linkplain URL complete path} to the
+     * desired file if it is found, {@code null} otherwise.
+     * @apiNote The {@code filePath} parameter must specify also
+     * the file extension type
+     */
+    @Nullable
+    default URL getMyShelfieResource(String filePath) {
+        return getOptionalMyShelfieResource(filePath, (String) null).orElse(null);
+    }
+
+    /**
+     * Used to load image file from the project structure
+     *
+     * @param filePath     Complete path from the root of the
+     *                     resource folder to the file itself
+     * @param errormessage an error message to display at video
+     *                     if the resource specified is not
+     *                     found in the project structure
+     *
+     * @return The {@linkplain URL complete path} to the
+     * desired file if it is found, {@code null} otherwise.
+     * @apiNote The {@code filePath} parameter must specify also
+     * the file extension type
+     */
+    @Nullable
+    default URL getMyShelfieResource(String filePath, String errormessage) {
+        return getOptionalMyShelfieResource(filePath, errormessage).orElse(null);
+    }
+
+    /**
+     * Used to load image file from the project structure
+     * If the main file path specified doesn't correspond
+     * to a file in the project, the second path is
+     * considered
+     *
+     * @param mainPath     Complete path from the root of the
+     *                     resource folder to the file itself
+     * @param supportPath  A second path that corresponds to
+     *                     another file in the project.
+     * @param errormessage an error message to display at video
+     *                     if the resource specified is not
+     *                     found in the project structure
+     *
+     * @return The {@linkplain URL complete path} to the
+     * desired file if it is found, the path to the support
+     * file if the first one is not found; in the end
+     * {@code null} if neither the first nor the second file
+     * is found
+     *
+     * @apiNote <p>The {@code filePath} parameter must specify also
+     * the file extension type</p>
+     * <p>The {@code supportPath} specified as second
+     * parameter should contain a standard file that is
+     * certainly reachable in the project</p>
+     */
+    @Nullable
+    default URL getMyShelfieResource(String mainPath, String supportPath, String errormessage) {
+        return getOptionalMyShelfieResource(mainPath, errormessage).orElse(
+                getOptionalMyShelfieResource(supportPath).orElse(null)
+        );
+    }
+
+    /**
+     * Load image file from the project structure if it is found,
+     * returns an {@link Optional empty optional} if the file
+     * doesn't exist
+     *
+     * @param filePath     complete path from the root of the
+     *                     resource folder to the file itself
+     * @param errormessage the optional error message to
+     *                     display at video if the resource
+     *                     specified is not found in the
+     *                     project structure
+     * @return the {@linkplain URL complete path} to the
+     * desired file if it is found, null otherwise.
+     * @apiNote <p>Error message can be omitted, but in that
+     * case a default message will be printed on screen.</p>
+     * <p>More than one message can be specified, but only
+     * the first one is considered.</p>
+     * <p>The {@code filePath} parameter must specify also
+     * the file extension type</p>
+     */
+    static Optional<URL> getOptionalMyShelfieResource(String filePath, String... errormessage) {
+
+        Optional<URL> fileURL = Optional.empty();
+
+        try {
+            fileURL = Optional.ofNullable(MyShelfieComponent.class.getResource(filePath));
+        } catch (NullPointerException e) {
+            System.out.println(Arrays.stream(errormessage).findFirst().orElse("Can't load requested resource"));
+        }
+
+        return fileURL;
+    }
 }

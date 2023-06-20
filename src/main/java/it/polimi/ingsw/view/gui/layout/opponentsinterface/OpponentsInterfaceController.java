@@ -1,7 +1,10 @@
 package it.polimi.ingsw.view.gui.layout.opponentsinterface;
 
+import it.polimi.ingsw.model.TileSubject;
+import it.polimi.ingsw.utils.Coordinate;
 import it.polimi.ingsw.view.gui.MyShelfieController;
-import it.polimi.ingsw.view.gui.customcomponents.MyShelfieAlertCreator;
+import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieAlertCreator;
+import it.polimi.ingsw.view.gui.customcomponents.tileview.TileSubjectView;
 import it.polimi.ingsw.view.gui.layout.bookshelf.SingleOpponentBookShelfController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,13 +12,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Pair;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class OpponentsInterfaceController extends MyShelfieController {
 
@@ -71,5 +72,36 @@ public class OpponentsInterfaceController extends MyShelfieController {
 
     private SingleOpponentBookShelfController getLastOpponentBookshelfController() {
         return opponentsBookshelfViewController.get((opponentsBookshelfViewController.size() - 1)).getValue();
+    }
+
+    private SingleOpponentBookShelfController getOpponentBookshelf(String playerName) throws NoSuchElementException {
+        return opponentsBookshelfViewController.stream()
+                .filter(pair -> pair.getKey().getId().equals(playerName))
+                .map(Pair::getValue)
+                .findFirst()
+                .orElseThrow();
+    }
+
+    public void updateOpponentBookshelf(@NotNull Map<String, TileSubject[][]> playerBookshelves,
+                                        @NotNull Map<Coordinate, TileSubjectView> takenTiles) {
+        playerBookshelves.forEach((playerName, bookshelf) -> {
+            try{
+                getOpponentBookshelf(playerName).insertTilesInOpponentBookshelf(bookshelf, takenTiles);
+            }catch(IllegalArgumentException e) {
+                MyShelfieAlertCreator.displayErrorAlert(e);
+            }
+        });
+    }
+
+    public void startTokenAnimationToOpponent2() {
+
+    }
+
+    public void startTokenAnimationToOpponent1() {
+
+    }
+
+    public void startEndGameTokenAnimationToOpponent() {
+
     }
 }

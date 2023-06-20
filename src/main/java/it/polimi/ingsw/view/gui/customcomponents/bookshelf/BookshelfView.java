@@ -3,7 +3,7 @@ package it.polimi.ingsw.view.gui.customcomponents.bookshelf;
 import it.polimi.ingsw.model.BookShelf;
 import it.polimi.ingsw.model.TileSubject;
 import it.polimi.ingsw.utils.Coordinate;
-import it.polimi.ingsw.view.gui.customcomponents.MyShelfieAlertCreator;
+import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieAlertCreator;
 import it.polimi.ingsw.view.gui.customcomponents.decorations.MyShelfieComponent;
 import it.polimi.ingsw.view.gui.customcomponents.decorations.MyShelfieDecoration;
 import it.polimi.ingsw.view.gui.customcomponents.tileview.TileSubjectView;
@@ -43,7 +43,7 @@ abstract class BookshelfView extends StackPane implements MyShelfieComponent {
      * An object that maps the coordinates of the bookshelf
      * to each container that can hold a tile.
      */
-    private Map<Coordinate, StackPane> bookshelfCells;
+    protected Map<Coordinate, StackPane> bookshelfCells;
 
     /**
      * A type that qualifies the bookshelf
@@ -76,13 +76,13 @@ abstract class BookshelfView extends StackPane implements MyShelfieComponent {
 
         this.bookshelfType = bookshelfType;
 
-        getStylesheets().add(Objects.requireNonNull(getClass().getResource(CSS_FILE_PATH)).toExternalForm());
+        getStylesheets().add(Objects.requireNonNull(getMyShelfieResource(CSS_FILE_PATH)).toExternalForm());
 
         setupBookshelfMap(row, column);
 
         setupBookshelfGrid(row, column);
 
-         setupBookshelfImage();
+        setupBookshelfImage();
     }
 
     /**

@@ -80,7 +80,7 @@ abstract class PointPane extends GridPane implements MyShelfieComponent {
     }
 
     private void setCSS() {
-        setStyle("-fx-background-image: url('" + getBackgroundImage() + "');" +
+        setStyle("-fx-background-image: url('" + getMyShelfieResource(BACKGROUND_IMAGE) + "');" +
                 "-fx-background-repeat: no-repeat;" +
                 "-fx-background-position: center;" +
                 "-fx-background-size: cover;" +
@@ -89,16 +89,14 @@ abstract class PointPane extends GridPane implements MyShelfieComponent {
                 "-fx-padding: 1em;");
     }
 
-    private URL getBackgroundImage() {
-
-        URL fileURL = getClass().getResource(BACKGROUND_IMAGE);
-
-        if(fileURL == null) {
-            System.err.println("Image source for point pane not found");
-            System.exit(1);
+    public PointCell getFreePointCell() throws NullPointerException {
+        for (PointCell cell : pointCells) {
+            if (cell.getChildren().size() == 0) {
+                return cell;
+            }
         }
 
-        return fileURL;
+        throw new NullPointerException();
     }
 
     /**

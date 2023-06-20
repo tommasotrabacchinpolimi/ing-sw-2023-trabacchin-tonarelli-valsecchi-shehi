@@ -64,7 +64,7 @@ class TileBoxChildManager implements ListChangeListener<Node> {
         }
     }
 
-    private void handleAddedChild(Change<? extends Node> change) {
+    private void handleAddedChild(@NotNull Change<? extends Node> change) {
         try {
             change.getAddedSubList()
                     .stream()

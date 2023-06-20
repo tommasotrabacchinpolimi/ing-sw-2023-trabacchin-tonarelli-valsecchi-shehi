@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.gui.customcomponents.pointpane;
 
 import it.polimi.ingsw.view.gui.customcomponents.decorations.*;
+import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieAlertCreator;
 import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieRoundEdgeType;
 import javafx.collections.ListChangeListener;
 import javafx.scene.Node;
@@ -34,12 +35,22 @@ class PointCell extends StackPane implements MyShelfieComponent {
 
         setCSS(DEFAULT_PADDING);
 
-        applyDecorationAsDefault(new MyShelfieRoundEdge(MyShelfieRoundEdgeType.MINIMUM), new MyShelfieDarkShadow(), new MyShelfieInnerLighting());
+        applyDecorationAsDefault(new MyShelfieRoundEdge(MyShelfieRoundEdgeType.MINIMUM), new MyShelfieDarkShadow());
+
+        applyDecoration(new MyShelfieInnerLighting());
 
         getChildren().addListener((ListChangeListener<? super Node>) change -> {
             while(change.next()) {
                 if(change.wasAdded()) {
-                    setCSS(0.1);
+                    if(getChildren().size() == 1){
+                        setCSS(0.5);
+                        resetToDefaultDecorations();
+                    }else {
+                        MyShelfieAlertCreator.displayErrorAlert(
+                                "Cannot insert more than one scoring token in a point cell",
+                                "Scoring Token cannot be insert"
+                        );
+                    }
                 }
             }
         });

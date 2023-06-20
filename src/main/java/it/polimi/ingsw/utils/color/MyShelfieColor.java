@@ -446,5 +446,4 @@ public enum MyShelfieColor {
     protected int getLightenBlueValue() {
         return Math.toIntExact(Math.round(getLightenColor().getBlue() * 255));
     }
-
 }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.gui.customcomponents.tileview;
 
 import javafx.animation.ParallelTransition;
+import javafx.animation.Transition;
 import javafx.scene.layout.Pane;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,7 +14,7 @@ public class TileViewInBoard implements TileSubjectViewState{
 
         Pane oldParent = tileSubjectView.getParentPane();
 
-        ParallelTransition toNewParent = tileSubjectView.createToSmallerPathTransition(panes);
+        Transition toNewParent = tileSubjectView.createToSmallerPathTransition(panes);
 
         // Start the animation
         toNewParent.playFromStart();

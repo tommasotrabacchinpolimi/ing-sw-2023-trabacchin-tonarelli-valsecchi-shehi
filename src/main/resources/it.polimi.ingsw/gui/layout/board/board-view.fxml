@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.scene.shape.Rectangle?>
+<?import it.polimi.ingsw.view.gui.customcomponents.EndGameTokenView?>
 <StackPane fx:id="boardRootPane" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
            fx:controller="it.polimi.ingsw.view.gui.layout.board.BoardViewController"
            stylesheets="@BoardView.css">
@@ -225,4 +226,10 @@
             </StackPane>
         </GridPane>
     </AnchorPane>
+
+    <StackPane fx:id="boardEndGameBoxContainer" mouseTransparent="true">
+        <StackPane fx:id="endGameBox">
+            <EndGameTokenView fx:id="endGameTokenView" rotate="8.0"/>
+        </StackPane>
+    </StackPane>
 </StackPane>

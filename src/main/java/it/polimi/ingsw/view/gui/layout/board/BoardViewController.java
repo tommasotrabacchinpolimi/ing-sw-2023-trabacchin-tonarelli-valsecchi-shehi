@@ -5,13 +5,20 @@ import it.polimi.ingsw.model.TileSubject;
 import it.polimi.ingsw.utils.Coordinate;
 import it.polimi.ingsw.utils.InputCheck;
 import it.polimi.ingsw.view.gui.MyShelfieController;
-import it.polimi.ingsw.view.gui.customcomponents.MyShelfieAlertCreator;
+import it.polimi.ingsw.view.gui.customcomponents.EndGameTokenView;
+import it.polimi.ingsw.view.gui.customcomponents.animations.MyShelfieAnimation;
+import it.polimi.ingsw.view.gui.customcomponents.animations.MyShelfiePathTransition;
+import it.polimi.ingsw.view.gui.customcomponents.animations.MyShelfieRotateTransition;
+import it.polimi.ingsw.view.gui.customcomponents.animations.MyShelfieScaleTransition;
+import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieAlertCreator;
 import it.polimi.ingsw.view.gui.customcomponents.tileview.TileSubjectView;
+import javafx.animation.Transition;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
 import java.net.URL;
@@ -19,6 +26,15 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class BoardViewController extends MyShelfieController {
+
+    @FXML
+    private EndGameTokenView endGameTokenView;
+
+    @FXML
+    private StackPane endGameBox;
+
+    @FXML
+    private StackPane boardEndGameBoxContainer;
 
     @FXML
     private StackPane boardRootPane;
@@ -193,6 +209,14 @@ public class BoardViewController extends MyShelfieController {
                         setActiveTilesOnBoardNoneSelected();
                     }
                 }));
+
+        endGameBox.getChildren().addListener((ListChangeListener<? super Node>) change -> {
+            while (change.next()) {
+                if (change.wasRemoved()) {
+                    endGameBox.setStyle("-fx-padding: 3.2em;");
+                }
+            }
+        });
     }
 
     private void setUpBoxesMap(StackPane... itemTileBoxes) {
@@ -312,13 +336,13 @@ public class BoardViewController extends MyShelfieController {
         setActiveTilesOnBoard(InputCheck.findIndexAllActiveTilesInBoard(toTileSubjectMatrix()));
     }
 
-    public void setActiveTilesOnBoardOneSelected(TileSubject[][] bookshelf, TileSubjectView tile) throws WrongChosenTilesFromBoardException{
+    public void setActiveTilesOnBoardOneSelected(TileSubject[][] bookshelf, TileSubjectView tile) throws WrongChosenTilesFromBoardException {
         setActiveTilesOnBoard(InputCheck.findIndexActiveAfterOneChosenTile(toTileSubjectMatrix(),
                 getCoordinateFromTile(tile).orElseThrow(), bookshelf), getCoordinateFromTile(tile).orElse(null));
         tile.setClickable();
     }
 
-    public void setActiveTilesOnBoardTwoSelected(TileSubject[][] bookshelf, TileSubjectView tile1, TileSubjectView tile2) throws WrongChosenTilesFromBoardException{
+    public void setActiveTilesOnBoardTwoSelected(TileSubject[][] bookshelf, TileSubjectView tile1, TileSubjectView tile2) throws WrongChosenTilesFromBoardException {
         setActiveTilesOnBoard(InputCheck.findIndexActiveAfterTwoChosenTiles(toTileSubjectMatrix(),
                         getCoordinateFromTile(tile1).orElseThrow(), getCoordinateFromTile(tile2).orElseThrow(), bookshelf),
                 getCoordinateFromTile(tile1).orElse(null), getCoordinateFromTile(tile2).orElse(null));
@@ -326,7 +350,7 @@ public class BoardViewController extends MyShelfieController {
         tile2.setClickable();
     }
 
-    public void setActiveTilesOnBoard(List<Coordinate> activeTileCoordinates, Coordinate... excluded){
+    public void setActiveTilesOnBoard(List<Coordinate> activeTileCoordinates, Coordinate... excluded) {
 
         Set<Coordinate> coordinates;
 
@@ -339,14 +363,52 @@ public class BoardViewController extends MyShelfieController {
             coordinates = itemTileBoxes.keySet();
 
         for (Coordinate coordinate : coordinates) {
-            if (activeTileCoordinates.contains(coordinate)) {
-                if (getTileSubjectView(coordinate) != null)
-                    getTileSubjectView(coordinate).setClickable();
-            } else {
-                if (getTileSubjectView(coordinate) != null)
-                    getTileSubjectView(coordinate).disable();
+            if (activeTileCoordinates != null) {
+                if (activeTileCoordinates.contains(coordinate)) {
+                    if (getTileSubjectView(coordinate) != null)
+                        getTileSubjectView(coordinate).setClickable();
+                } else {
+                    if (getTileSubjectView(coordinate) != null)
+                        getTileSubjectView(coordinate).disable();
+                }
             }
         }
+    }
+
+    public void moveEndGameTokenView(Pane destinationPane) {
+        MyShelfieAnimation.build()
+                .addAnimation(new MyShelfieRotateTransition(8.0, 0.0).getTransition())
+                .addAnimation(new MyShelfiePathTransition(endGameTokenView, destinationPane).getTransition())
+                .addAnimation(new MyShelfieScaleTransition(0.7, 0.7).getTransition())
+                .playMyShelfieAnimation(endGameTokenView, value -> {
+                    endGameBox.getChildren().remove(endGameTokenView);
+
+                    destinationPane.getChildren().add(endGameTokenView);
+
+                    endGameTokenView.setStyle(endGameTokenView.getStyle() + "-fx-padding: 2.2em;");
+
+                    endGameTokenView.setScaleX(1.0);
+                    endGameTokenView.setScaleY(1.0);
+
+                    endGameTokenView.setTranslateX(0.0);
+                    endGameTokenView.setTranslateY(0.0);
+                });
+    }
+
+    public Map<Coordinate, TileSubjectView> getBoardState() {
+        Map<Coordinate, TileSubjectView> boardState = new HashMap<>();
+
+        itemTileBoxes.forEach((coordinate, box) -> {
+
+            try {
+                TileSubjectView tileInBox = (TileSubjectView) box.getChildren().stream().findFirst().orElse(null);
+                boardState.put(coordinate, tileInBox);
+            } catch (ClassCastException e) {
+                MyShelfieAlertCreator.displayErrorAlert(e);
+            }
+        });
+
+        return boardState;
     }
 
     public List<TileSubjectView> getTilesOnBoard() {

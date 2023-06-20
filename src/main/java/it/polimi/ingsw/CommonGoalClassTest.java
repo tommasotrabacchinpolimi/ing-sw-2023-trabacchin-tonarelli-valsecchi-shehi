@@ -165,7 +165,7 @@ public class CommonGoalClassTest {
         };*/
 
         // 5
-        matrix = new TileType[][]{
+       matrix = new TileType[][]{
                 {null,  null, null, null, null},
                 {null, TileType.CAT, null, null, null},
                 {null, TileType.CAT, null, null, null},
@@ -174,7 +174,7 @@ public class CommonGoalClassTest {
                 {TileType.CAT, TileType.CAT, TileType.CAT, /*TileType.CAT*/ null, TileType.CAT}
         };
 
-        //6
+       //6
        /*matrix = new TileType[][]{
                 {null,  null, null, null, null},
                 {TileType.CAT, TileType.CAT, null, null, null},

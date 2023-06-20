@@ -35,13 +35,14 @@ public class MyShelfieButton extends Button implements MyShelfieComponent {
     private static final String ICON_PATH = "/it.polimi.ingsw/graphical.resources/icons/";
 
     /**
-     * <p>Holds the entire relative path to the icon file</p>
+     * <p>Holds the icon file's name</p>
      *
-     * @apiNote if the button has no graphic inside it the value is set to be null
+     * @apiNote <p>In case that the button has no graphic inside it the value is set to be null</p>
+     * <p>The icon file must specifies also the extension of the file</p>
      *
      * @see #MyShelfieButton(String buttonText, String iconFile)
      */
-    private final String fullIconPath;
+    private final String iconFile;
 
     /**
      * <p>This value is true when the button is focused, and false otherwise</p>
@@ -104,11 +105,11 @@ public class MyShelfieButton extends Button implements MyShelfieComponent {
         applyDecorationAsDefault(new MyShelfieDarkShadow());
 
         if (iconName != null){
-            this.fullIconPath = ICON_PATH + iconName;
+            this.iconFile = iconName;
             setContentDisplay(ContentDisplay.RIGHT);
-            setGraphic(new MyShelfieGraphicIcon(fullIconPath, 0.5, false,"contain"));
+            setGraphic(new MyShelfieGraphicIcon(ICON_PATH + iconFile, 0.5, null,"contain"));
         }else {
-            fullIconPath = null;
+            iconFile = null;
         }
 
         setOnMouseEntered(this::handleMouseEnter);
@@ -183,7 +184,7 @@ public class MyShelfieButton extends Button implements MyShelfieComponent {
     private void setCSS() {
         setStyle("-fx-font-family: 'Special Elite Regular';" +
                 "-fx-text-fill: " + BONE.getRGBAStyleSheet(0.97) +";" +
-                "-fx-background-image: url('" + getClass().getResource(BACKGROUND_IMAGE) + "');" +
+                "-fx-background-image: url('" + getMyShelfieResource(BACKGROUND_IMAGE) + "');" +
                 "-fx-background-size: contain;" +
                 "-fx-background-position: center center;" +
                 "-fx-alignment: center;" +

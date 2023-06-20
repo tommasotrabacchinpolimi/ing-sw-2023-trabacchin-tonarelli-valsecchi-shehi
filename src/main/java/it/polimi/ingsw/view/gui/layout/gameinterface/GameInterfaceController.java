@@ -2,11 +2,15 @@ package it.polimi.ingsw.view.gui.layout.gameinterface;
 
 import it.polimi.ingsw.controller.exceptions.WrongChosenTilesFromBoardException;
 import it.polimi.ingsw.model.TileSubject;
+import it.polimi.ingsw.model.TileType;
+import it.polimi.ingsw.utils.Coordinate;
 import it.polimi.ingsw.view.gui.MyShelfieController;
 import it.polimi.ingsw.view.gui.customcomponents.commongoal.CommonGoalView;
+import it.polimi.ingsw.view.gui.customcomponents.PersonalGoalView;
+import it.polimi.ingsw.view.gui.customcomponents.pointpane.HPointPane;
 import it.polimi.ingsw.view.gui.layout.board.BoardViewController;
 import it.polimi.ingsw.view.gui.layout.bookshelf.PersonalBookshelfController;
-import it.polimi.ingsw.view.gui.customcomponents.MyShelfieAlertCreator;
+import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieAlertCreator;
 import it.polimi.ingsw.view.gui.customcomponents.MyShelfieButton;
 import it.polimi.ingsw.view.gui.customcomponents.tileview.TileSubjectView;
 import javafx.event.EventHandler;
@@ -23,8 +27,15 @@ import java.net.URL;
 import java.util.*;
 
 import static it.polimi.ingsw.model.TileSubject.*;
+import static it.polimi.ingsw.model.TileType.*;
+import static it.polimi.ingsw.model.TileType.TROPHY;
 
 public class GameInterfaceController extends MyShelfieController {
+
+    public HBox testingBox;
+
+    @FXML
+    private HPointPane personalPointPane;
 
     @FXML
     private GridPane gameGridActionContainer;
@@ -51,15 +62,14 @@ public class GameInterfaceController extends MyShelfieController {
     private GridPane gamePersonalBookshelf;
 
     @FXML
-    private MyShelfieButton myShelfieButton;
-
-    @FXML
     private MyShelfieButton confirmButton;
 
     @FXML
     private MyShelfieButton reverseButton;
 
-    private final List<Pair<CommonGoalView, Integer>> commonGoals = new ArrayList<>();
+    private final List<CommonGoalView> commonGoals = new ArrayList<>();
+
+    private PersonalGoalView personalGoal;
 
     @FXML
     private BoardViewController gameBoardViewController;
@@ -83,33 +93,45 @@ public class GameInterfaceController extends MyShelfieController {
 
         tilesOnBoard = gameBoardViewController.getTilesOnBoard();
 
-        commonGoals.add(new Pair<>(new CommonGoalView("Four tiles of the same type in the four corners of the bookshelf."), 1));
-        commonGoals.add(new Pair<>(new CommonGoalView(""), 2));
+        Stack<Integer> scoringTokens = new Stack<>();
 
-        gameGridGoalContainer.add(commonGoals.get(0).getKey(), 0, 0);
-        gameGridGoalContainer.add(commonGoals.get(1).getKey(), 0, 1);
-    }
+        scoringTokens.push(2);
+        scoringTokens.push(4);
+        scoringTokens.push(6);
+        scoringTokens.push(8);
 
-    public void fillBoard(MouseEvent mouseEvent) {
+        commonGoals.add(new CommonGoalView(
+                "line_common_goal_1",
+                "Four lines each formed by 5 tiles of maximum three different types. " +
+                        "One line can show the same or a different combination of another line.",
+                scoringTokens));
 
-        TileSubject[][] tilesOnBoard = new TileSubject[][]{
-                {null, null, null, BOOK_COMIC, BOOK_DICTIONARY, null, null, null, null},
-                {null, null, null, BOOK_NOTE, CAT_BLACK, CAT_GRAY, null, null, null},
-                {null, null, CAT_ORANGE, FRAME_DEGREE, FRAME_LOVE, FRAME_MEMORIES, GAME_CHESS, null, null},
-                {null, GAME_MONOPOLY, GAME_RISIKO, PLANT_BASIL, PLANT_GREEN, PLANT_MONSTERA, TROPHY_CHAMPION, TROPHY_GYM, TROPHY_MUSIC},
-                {BOOK_COMIC, BOOK_DICTIONARY, BOOK_NOTE, CAT_BLACK, CAT_GRAY, CAT_ORANGE, FRAME_DEGREE, FRAME_LOVE, FRAME_MEMORIES},
-                {GAME_CHESS, GAME_MONOPOLY, GAME_RISIKO, PLANT_BASIL, PLANT_GREEN, PLANT_MONSTERA, TROPHY_CHAMPION, TROPHY_GYM, null},
-                {null, null, TROPHY_GYM, TROPHY_MUSIC, BOOK_COMIC, BOOK_DICTIONARY, BOOK_NOTE, null, null},
-                {null, null, null, CAT_BLACK, CAT_GRAY, CAT_ORANGE, null, null, null},
-                {null, null, null, null, FRAME_DEGREE, FRAME_LOVE, null, null, null}
+        scoringTokens.remove(3);
+
+        commonGoals.add(new CommonGoalView("error_common_goal", "My personal description"));
+
+        TileType[][] configuration = new TileType[][]{
+                {null, null, null, null, TROPHY},
+                {null, GAME, null, null, null},
+                {BOOK, null, null, null, null},
+                {null, null, null, CAT, null},
+                {null, FRAME, null, null, null},
+                {null, null, null, PLANT, null}
         };
 
-        gameBoardViewController.fillUpBoard(tilesOnBoard);
+        personalGoal = new PersonalGoalView(configuration);
 
-        this.tilesOnBoard.forEach(this::addTilesOnBoardListener);
+        gameGridGoalContainer.add(commonGoals.get(0), 0, 0);
+        gameGridGoalContainer.add(commonGoals.get(1), 0, 1);
+        gameGridGoalContainer.add(personalGoal, 0, 2);
 
-        myShelfieButton.setDisable(true);
-        myShelfieButton.setVisible(false);
+        personalGoal.setOnMouseEntered(value -> {
+            gamePersonalBookshelfController.highlightPersonalTargetCells(personalGoal.getPersonalConfiguration());
+        });
+
+        personalGoal.setOnMouseExited(value -> {
+            gamePersonalBookshelfController.resetPersonalTargetCells(personalGoal.getPersonalConfiguration());
+        });
     }
 
     protected List<TileSubjectView> getClickedTilesFromBoard() {
@@ -132,11 +154,11 @@ public class GameInterfaceController extends MyShelfieController {
                 List<TileSubjectView> clickedTiles = getClickedTilesFromBoard();
 
                 if (clickedTiles.size() == 1) {
-                    try{
+                    try {
                         gameBoardViewController.setActiveTilesOnBoardOneSelected(
                                 gamePersonalBookshelfController.getTileSubjectBookshelfMatrix(),
                                 clickedTiles.get(0));
-                    }catch(WrongChosenTilesFromBoardException e) {
+                    } catch (WrongChosenTilesFromBoardException e) {
                         MyShelfieAlertCreator.displayErrorAlert(
                                 "Tiles selected are not adjacent, so you can not select them",
                                 "Can't select these tiles"
@@ -147,11 +169,11 @@ public class GameInterfaceController extends MyShelfieController {
 
                 } else if (clickedTiles.size() == 2) {
 
-                    try{
+                    try {
                         gameBoardViewController.setActiveTilesOnBoardTwoSelected(
                                 gamePersonalBookshelfController.getTileSubjectBookshelfMatrix(),
                                 clickedTiles.get(0), clickedTiles.get(1));
-                    }catch(WrongChosenTilesFromBoardException e) {
+                    } catch (WrongChosenTilesFromBoardException e) {
 
                         MyShelfieAlertCreator.displayInformationAlert(
                                 "Tiles selected are not adjacent, so you can not select them",
@@ -163,7 +185,7 @@ public class GameInterfaceController extends MyShelfieController {
                         gameBoardViewController.setActiveTilesOnBoardNoneSelected();
                     }
 
-                } else if(getClickedTilesFromBoard().size() == 3) {
+                } else if (getClickedTilesFromBoard().size() == 3) {
                     tilesOnBoard.stream()
                             .filter(otherTile -> !getClickedTilesFromBoard().contains(otherTile))
                             .forEach(TileSubjectView::disable);
@@ -188,6 +210,10 @@ public class GameInterfaceController extends MyShelfieController {
         tileBoardHandler.remove(getHandlerTilePair(tile));
     }
 
+    public Map<Coordinate, TileSubjectView> retrieveBoardState() {
+        return gameBoardViewController.getBoardState();
+    }
+
     private Pair<EventHandler<MouseEvent>, TileSubjectView> getHandlerTilePair(TileSubjectView tile) {
         return tileBoardHandler.stream()
                 .filter(pair -> pair.getValue().equals(tile))
@@ -201,6 +227,7 @@ public class GameInterfaceController extends MyShelfieController {
         List<TileSubjectView> boxSelected = getTilesFromBox();
 
         if (boardSelected.size() != 0 && boxSelected.size() != 0) {
+            //Can never be true but is insert for strong software resistance
             MyShelfieAlertCreator.displayWarningAlert("Can't select at the same time from board and box",
                     "Insertion in bookshelf failed");
 
@@ -214,11 +241,11 @@ public class GameInterfaceController extends MyShelfieController {
                 boardSelected.forEach(this::fromBoardToBoxOperations);
             }
 
-        } else if( boxSelected.size() == 0 && gamePersonalBookshelfController.getSelectedColumn() != -1) {
+        } else if (boxSelected.size() == 0 && gamePersonalBookshelfController.getSelectedColumn() != -1) {
             MyShelfieAlertCreator.displayWarningAlert(
                     "You have to select all tiles to fill in your bookshelf",
                     "Select all tiles from box");
-        }else if (boxSelected.size() > 0) {
+        } else if (boxSelected.size() > 0) {
             if (boxSelected.size() != tileBoxChildManager.getAllTilesFromBox().size()) {
                 MyShelfieAlertCreator.displayWarningAlert(
                         "You have to select all tiles to fill in your bookshelf",
@@ -283,6 +310,15 @@ public class GameInterfaceController extends MyShelfieController {
         addTilesOnBoardListener(tile);
     }
 
+    public void removeOpponentTakenTiles(List<TileSubjectView> tilesTakenByOpponent) {
+        tilesOnBoard.removeAll(tilesTakenByOpponent);
+
+        tilesTakenByOpponent.forEach(tile -> {
+            removeBoardHandlerTilePair(tile);
+            tile.resetClick();
+        });
+    }
+
     @Override
     public void onGameStateChangedNotified() {
 
@@ -293,5 +329,67 @@ public class GameInterfaceController extends MyShelfieController {
 
     }
 
+    //For testing purpose
 
+    public void fillBoard(@NotNull MouseEvent mouseEvent) {
+
+        TileSubject[][] tilesOnBoard = new TileSubject[][]{
+                {null, null, null, BOOK_COMIC, BOOK_DICTIONARY, null, null, null, null},
+                {null, null, null, BOOK_NOTE, CAT_BLACK, CAT_GRAY, null, null, null},
+                {null, null, CAT_ORANGE, FRAME_DEGREE, FRAME_LOVE, FRAME_MEMORIES, GAME_CHESS, null, null},
+                {null, GAME_MONOPOLY, GAME_RISIKO, PLANT_BASIL, PLANT_GREEN, PLANT_MONSTERA, TROPHY_CHAMPION, TROPHY_GYM, TROPHY_MUSIC},
+                {BOOK_COMIC, BOOK_DICTIONARY, BOOK_NOTE, CAT_BLACK, CAT_GRAY, CAT_ORANGE, FRAME_DEGREE, FRAME_LOVE, FRAME_MEMORIES},
+                {GAME_CHESS, GAME_MONOPOLY, GAME_RISIKO, PLANT_BASIL, PLANT_GREEN, PLANT_MONSTERA, TROPHY_CHAMPION, TROPHY_GYM, null},
+                {null, null, TROPHY_GYM, TROPHY_MUSIC, BOOK_COMIC, BOOK_DICTIONARY, BOOK_NOTE, null, null},
+                {null, null, null, CAT_BLACK, CAT_GRAY, CAT_ORANGE, null, null, null},
+                {null, null, null, null, FRAME_DEGREE, FRAME_LOVE, null, null, null}
+        };
+
+        gameBoardViewController.fillUpBoard(tilesOnBoard);
+
+        this.tilesOnBoard.forEach(this::addTilesOnBoardListener);
+
+        ((MyShelfieButton) mouseEvent.getSource()).setDisable(true);
+        ((MyShelfieButton) mouseEvent.getSource()).setVisible(false);
+
+        ((HBox) ((MyShelfieButton) mouseEvent.getSource()).getParent()).getChildren().remove(((MyShelfieButton) mouseEvent.getSource()));
+    }
+
+    public void startTokenAnimation1(MouseEvent mouseEvent) {
+        try {
+            commonGoals.get(0).moveScoringTokenView(personalPointPane.getFreePointCell());
+        } catch (NullPointerException | EmptyStackException e) {
+            MyShelfieAlertCreator.displayErrorAlert(
+                    "There are no more points that can be obtained from this common goal",
+                    "Can't assign common goal point"
+            );
+        }
+    }
+
+    public void startTokenAnimation2(MouseEvent mouseEvent) {
+        try {
+            commonGoals.get(1).moveScoringTokenView(personalPointPane.getFreePointCell());
+        } catch (NullPointerException e) {
+            MyShelfieAlertCreator.displayErrorAlert(
+                    "The player has obtained all possible point, so he can't obtain another point token",
+                    "Player point table full"
+            );
+        } catch (EmptyStackException e) {
+            MyShelfieAlertCreator.displayErrorAlert(
+                    "There are no more points that can be obtained from this common goal",
+                    "Can't assign common goal point"
+            );
+        }
+    }
+
+    public void startEndGameTokenAnimation(MouseEvent mouseEvent) {
+        try {
+            gameBoardViewController.moveEndGameTokenView(personalPointPane.getFreePointCell());
+        } catch (NullPointerException e) {
+            MyShelfieAlertCreator.displayErrorAlert(
+                    "The player has obtained all possible point, so he can't obtain another point token",
+                    "Player point table full"
+            );
+        }
+    }
 }

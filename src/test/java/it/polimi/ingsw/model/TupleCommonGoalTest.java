@@ -266,7 +266,7 @@ class TupleCommonGoalTest {
                 result.add(new EntryPatternGoal(0, 0, TileType.PLANT));
                 result.add(new EntryPatternGoal(1, 1, TileType.PLANT));
             }
-            case 11, 12 -> { //in realtÃ  il 12 dovrebbe tornare null
+            case 11, 12 -> { //in realtà il 12 dovrebbe tornare null
                 result.add(new EntryPatternGoal(4, 1, TileType.CAT));
                 result.add(new EntryPatternGoal(4, 0, TileType.CAT));
                 result.add(new EntryPatternGoal(5, 1, TileType.CAT));

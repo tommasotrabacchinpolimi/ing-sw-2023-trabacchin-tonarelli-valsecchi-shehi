@@ -8,14 +8,22 @@
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-background-size: cover;
-    -fx-padding: 1.9em 2em 1.9em 1.7em;
+    -fx-padding: 2.75em 2.9em 2.75em 2.46em;
 }
 
 #livingRoomGridPane {
-    -fx-hgap: 0.2em;
-    -fx-vgap: 0.2em;
+    -fx-hgap: 0.29em;
+    -fx-vgap: 0.29em;
 }
 
 .item_tile_board_box {
     -fx-padding: 2.9em;
+}
+
+#boardEndGameBoxContainer {
+    -fx-padding: 41.65em 5.2em 11.9em 49.1em;
+}
+
+#endGameBox {
+    -fx-padding: 0.1em;
 }

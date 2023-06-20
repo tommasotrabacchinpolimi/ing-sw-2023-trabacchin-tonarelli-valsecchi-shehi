@@ -54,7 +54,7 @@ class StairCommonGoalTest {
         goal = new StairCommonGoal(numberOfColumns);
         assertNull(goal.rule(createStairDesign(1))); //testing illegal parameter
 
-        for(index = 1; index <= 6; index++){
+       for(index = 1; index <= 6; index++){
             for(numberOfColumns = 2; numberOfColumns <= 5; numberOfColumns++){
                 if ( (index == 4 && numberOfColumns !=2) || index == 5 || (index == 6 && numberOfColumns == 5)) {
                     goal = new StairCommonGoal(numberOfColumns);
@@ -69,7 +69,7 @@ class StairCommonGoalTest {
             }
         }
 
-        assertNull(goal.rule(null));
+       assertNull(goal.rule(null));
     }
 
     private TileType[][] createStairDesign(int number){

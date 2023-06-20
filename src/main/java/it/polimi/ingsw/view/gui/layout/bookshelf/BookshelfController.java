@@ -2,7 +2,7 @@ package it.polimi.ingsw.view.gui.layout.bookshelf;
 
 import it.polimi.ingsw.utils.Coordinate;
 import it.polimi.ingsw.view.gui.MyShelfieController;
-import it.polimi.ingsw.view.gui.customcomponents.MyShelfieAlertCreator;
+import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieAlertCreator;
 import it.polimi.ingsw.view.gui.customcomponents.tileview.TileSubjectView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -100,7 +100,8 @@ abstract class BookshelfController extends MyShelfieController{
         return (freeColumnCells.size() > 0) ? Optional.of(freeColumnCells) : Optional.empty();
     }
 
-    protected void insertTilesInBookshelf(@NotNull List<TileSubjectView> tiles, @NotNull List<Coordinate> coordinates) {
+    protected void insertTilesInBookshelf(@NotNull List<TileSubjectView> tiles,
+                                          @NotNull List<Coordinate> coordinates) {
         if (tiles.size() != coordinates.size()) {
             MyShelfieAlertCreator.displayErrorAlert(
                     "You have specified a different amount of tiles than expected",

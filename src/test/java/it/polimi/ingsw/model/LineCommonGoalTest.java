@@ -145,7 +145,7 @@ class LineCommonGoalTest {
 
     @Test
     void rule() {
-        int[] differentTiles; // puÃ² essere {1,2,3} oppure {5} / {6}
+        int[] differentTiles; // può essere {1,2,3} oppure {5} / {6}
         int incRow, incCol; // 1 o 0, opposti incCol=(incRow+1)%2
         int numberLines; //numero di righe che devono soddisfare la condizione: 2 o 3
         int numberTiles; //per colonne sei, per righe 5

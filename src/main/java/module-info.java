@@ -86,6 +86,13 @@ module it.polimi.ingsw {
 
     exports it.polimi.ingsw.utils.color;
     opens it.polimi.ingsw.utils.color;
+
+    exports it.polimi.ingsw.view.gui.customcomponents.guitoolkit to javafx.fxml, javafx.graphics;
+    opens it.polimi.ingsw.view.gui.customcomponents.guitoolkit to javafx.fxml, javafx.graphics;
+
     exports it.polimi.ingsw.view.gui.customcomponents.commongoal to javafx.fxml, javafx.graphics;
     opens it.polimi.ingsw.view.gui.customcomponents.commongoal to javafx.fxml, javafx.graphics;
+
+    exports it.polimi.ingsw.view.gui.customcomponents.animations to javafx.fxml, javafx.graphics;
+    opens it.polimi.ingsw.view.gui.customcomponents.animations to javafx.fxml, javafx.graphics;
 }
