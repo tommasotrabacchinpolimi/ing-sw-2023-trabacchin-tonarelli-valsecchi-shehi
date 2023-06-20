@@ -362,15 +362,22 @@ public class BoardViewController extends MyShelfieController {
         else
             coordinates = itemTileBoxes.keySet();
 
+        if(activeTileCoordinates == null) {
+            for(Coordinate coordinate : coordinates) {
+                if (getTileSubjectView(coordinate) != null)
+                    getTileSubjectView(coordinate).disable();
+            }
+
+            return;
+        }
+
         for (Coordinate coordinate : coordinates) {
-            if (activeTileCoordinates != null) {
-                if (activeTileCoordinates.contains(coordinate)) {
-                    if (getTileSubjectView(coordinate) != null)
-                        getTileSubjectView(coordinate).setClickable();
-                } else {
-                    if (getTileSubjectView(coordinate) != null)
-                        getTileSubjectView(coordinate).disable();
-                }
+            if (activeTileCoordinates.contains(coordinate)) {
+                if (getTileSubjectView(coordinate) != null)
+                    getTileSubjectView(coordinate).setClickable();
+            } else {
+                if (getTileSubjectView(coordinate) != null)
+                    getTileSubjectView(coordinate).disable();
             }
         }
     }
