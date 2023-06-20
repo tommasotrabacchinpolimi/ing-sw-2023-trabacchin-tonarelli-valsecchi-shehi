@@ -108,6 +108,20 @@ public class MyShelfieAnimation {
         }
 
         /**
+         * Adds a "My Shelfie" animation to the chain of transitions
+         * that will be applied on a node
+         *
+         * @param myShelfieTransition the transition that will be
+         *                            applied on a node
+         * @return the instance of {@link MyShelfieAnimation.Builder
+         * builder} that is creating the animation
+         */
+        public MyShelfieAnimation.Builder addAnimation(@NotNull MyShelfieTransition myShelfieTransition) {
+            addAnimation(myShelfieTransition.getTransition());
+            return this;
+        }
+
+        /**
          * Specify the combine logic used to apply different animations
          * on the same node
          *

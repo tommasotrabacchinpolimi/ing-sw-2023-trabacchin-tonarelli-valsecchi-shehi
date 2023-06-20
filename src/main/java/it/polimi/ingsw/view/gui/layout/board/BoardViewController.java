@@ -384,9 +384,9 @@ public class BoardViewController extends MyShelfieController {
 
     public void moveEndGameTokenView(Pane destinationPane) {
         MyShelfieAnimation.build()
-                .addAnimation(new MyShelfieRotateTransition(8.0, 0.0).getTransition())
-                .addAnimation(new MyShelfiePathTransition(endGameTokenView, destinationPane).getTransition())
-                .addAnimation(new MyShelfieScaleTransition(0.7, 0.7).getTransition())
+                .addAnimation(new MyShelfieRotateTransition(8.0, 0.0))
+                .addAnimation(new MyShelfiePathTransition(endGameTokenView, destinationPane))
+                .addAnimation(new MyShelfieScaleTransition(0.7, 0.7))
                 .playMyShelfieAnimation(endGameTokenView, value -> {
                     endGameBox.getChildren().remove(endGameTokenView);
 
