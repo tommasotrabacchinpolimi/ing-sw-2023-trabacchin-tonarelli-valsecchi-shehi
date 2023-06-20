@@ -39,11 +39,17 @@ public abstract class CommonGoal implements Serializable {
     private final Stack<Integer> scoringTokens;
 
     /**
-     * Explanation for the Common Goal Card
+     * Explanation of the Common Goal Card
      *
      * @see CommonGoal
      */
     private final String description;
+
+    /**
+     * A unique id representing the common goal and is used
+     * to distinguish different common goal of the same type
+     */
+    private final String id;
 
     /**
      * <p>Create a common goal with default values for both {@linkplain #scoringTokens scoring tokens stack} and
@@ -52,8 +58,7 @@ public abstract class CommonGoal implements Serializable {
      * @see CommonGoal
      */
     public CommonGoal() {
-        this.scoringTokens = new Stack<>();
-        this.description = "Empty Description";
+        this(new Stack<>(), "No description", "error_common_goal");
     }
 
     /**
@@ -62,20 +67,8 @@ public abstract class CommonGoal implements Serializable {
      *
      * @param description explanation of common goal card
      */
-    public CommonGoal(String description){
-        this.scoringTokens = new Stack<>();
-        this.description = description;
-    }
-
-    /**
-     * <p>Create a common goal with default values for {@linkplain #description explanation of the card}.
-     * On the other hand the {@linkplain #scoringTokens scoring tokens stack} is set according to the parameter</p>
-     *
-     * @param scoringTokens scoring tokens stack
-     */
-    public CommonGoal(Stack<Integer> scoringTokens) {
-        this.scoringTokens = scoringTokens;
-        this.description = "Empty Description";
+    public CommonGoal(String description, String id){
+        this(new Stack<>(), description, id);
     }
 
     /**
@@ -85,9 +78,10 @@ public abstract class CommonGoal implements Serializable {
      * @param scoringTokens scoring tokens stack
      * @param description explanation of common goal card
      */
-    public CommonGoal(Stack<Integer> scoringTokens, String description) {
+    public CommonGoal(Stack<Integer> scoringTokens, String description, String id) {
         this.scoringTokens = scoringTokens;
         this.description = description;
+        this.id = id;
     }
 
     /**
@@ -127,6 +121,15 @@ public abstract class CommonGoal implements Serializable {
      */
     public String getDescription() {
         return description;
+    }
+
+    /**
+     * Retrieve the unique ID associated to each common goal.
+     *
+     * @return an ID representing the common goal
+     */
+    public String getId() {
+        return id;
     }
 
     /**
