@@ -27,11 +27,10 @@ class ShapeCommonGoalTest {
         ruleShape.add(getRuleShapeEntry(5, 0));
         ruleShape.add(getRuleShapeEntry(0, 4));
         ruleShape.add(getRuleShapeEntry(5, 4));
-        String description = "";
         Stack<Integer> stack = new Stack<>();
         stack.push(8);
         stack.push(4);
-        ShapeCommonGoal cg = new ShapeCommonGoal(stack, description, ruleShape);
+        ShapeCommonGoal cg = new ShapeCommonGoal(stack, "", "", ruleShape);
 
         StringBuilder res = new StringBuilder();
 
@@ -104,7 +103,7 @@ class ShapeCommonGoalTest {
                 assert getRandomShapeBookshelf(index) != null;
                 assertTrue(compareObjects(getExpected(1), shape.rule(getRandomShapeBookshelf(1))));
             } else if ((index == 2 || index == 3)) {
-                ShapeCommonGoal shape = new ShapeCommonGoal("", getRuleShape(2));
+                ShapeCommonGoal shape = new ShapeCommonGoal("", "", getRuleShape(2));
                 assertTrue(compareObjects(getExpected(index), shape.rule(getRandomShapeBookshelf(index))));
             } else if (index == 4 || index == 5) {
                 ShapeCommonGoal shape = new ShapeCommonGoal(getRuleShape(3));

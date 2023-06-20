@@ -12,9 +12,8 @@ class LineCommonGoalTest {
     void getNumberOfTiles() {
         int incRow = 1, incCol = 0, numberLines = 2, numberTiles = 4;
         int[] differentTiles = {6};
-        String description = "";
 
-        LineCommonGoal goal = new LineCommonGoal(description, incRow, incCol, numberLines, numberTiles, differentTiles);
+        LineCommonGoal goal = new LineCommonGoal("", "", incRow, incCol, numberLines, numberTiles, differentTiles);
         assertEquals(numberTiles, goal.getNumberOfTiles());
     }
 
@@ -22,9 +21,8 @@ class LineCommonGoalTest {
     void setNumberOfTiles() {
         int incRow = 1, incCol = 0, numberLines = 2, numberTiles = 4;
         int[] differentTiles = {6};
-        String description = "";
         Stack<Integer> stack = new Stack<>();
-        LineCommonGoal goal = new LineCommonGoal(stack, description, incRow, incCol, numberLines, numberTiles, differentTiles);
+        LineCommonGoal goal = new LineCommonGoal(stack, "", "", incRow, incCol, numberLines, numberTiles, differentTiles);
         assertEquals(numberTiles, goal.getNumberOfTiles());
         numberTiles = 6;
         goal.setNumberOfTiles(numberTiles);
@@ -124,7 +122,7 @@ class LineCommonGoalTest {
         Stack<Integer> stack = new Stack<>();
         stack.push(8);
         stack.push(4);
-        LineCommonGoal goal = new LineCommonGoal(stack, description, incRow, incCol, numberLines, numberTiles, differentTiles);
+        LineCommonGoal goal = new LineCommonGoal(stack, description, "", incRow, incCol, numberLines, numberTiles, differentTiles);
         String res = "LineCommonGoal{" +
                 System.getProperty("line.separator") +
                 "\tScoring Tokens: 8, 4, " +
@@ -147,7 +145,7 @@ class LineCommonGoalTest {
 
     @Test
     void rule() {
-        int[] differentTiles; // può essere {1,2,3} oppure {5} / {6}
+        int[] differentTiles; // puÃ² essere {1,2,3} oppure {5} / {6}
         int incRow, incCol; // 1 o 0, opposti incCol=(incRow+1)%2
         int numberLines; //numero di righe che devono soddisfare la condizione: 2 o 3
         int numberTiles; //per colonne sei, per righe 5
