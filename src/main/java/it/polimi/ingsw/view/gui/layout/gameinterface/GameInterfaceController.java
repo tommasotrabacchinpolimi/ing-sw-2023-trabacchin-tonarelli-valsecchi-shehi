@@ -163,8 +163,6 @@ public class GameInterfaceController extends MyShelfieController {
                                 "Tiles selected are not adjacent, so you can not select them",
                                 "Can't select these tiles"
                         );
-
-
                     }
 
                 } else if (clickedTiles.size() == 2) {

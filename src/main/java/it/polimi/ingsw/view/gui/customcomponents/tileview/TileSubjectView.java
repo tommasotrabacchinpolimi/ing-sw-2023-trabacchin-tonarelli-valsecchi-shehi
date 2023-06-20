@@ -225,6 +225,17 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
         }
     }
 
+    public void toOpponentBookShelf(Pane... panes){
+        disabled = true;
+        clicked = false;
+
+        currentState = new TileViewInOpponent();
+
+        currentState.tileStateAction(this, panes);
+
+        resetToDefaultDecorations();
+    }
+
     public void disable() {
         if(!disabled){
             disabled = true;
@@ -246,23 +257,23 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
 
     protected Transition createToSmallerPathTransition(Pane... destinationPanes) {
         return MyShelfieAnimation.build()
-                .addAnimation(new MyShelfiePathTransition(this, destinationPanes).getTransition())
-                .addAnimation(new MyShelfieScaleTransition(1.0, 1.0, 0.71, 0.71).getTransition())
+                .addAnimation(new MyShelfiePathTransition(this, destinationPanes))
+                .addAnimation(new MyShelfieScaleTransition(1.0, 1.0, 0.71, 0.71))
                 .setCombineLogic(MyShelfieAnimationCombineLogic.PARALLEL_ANIMATION)
                 .buildAnimation(this);
     }
 
     protected Transition createToBiggerPathTransition(Pane... destinationPanes) {
         return MyShelfieAnimation.build()
-                .addAnimation(new MyShelfiePathTransition(this, destinationPanes).getTransition())
-                .addAnimation(new MyShelfieScaleTransition(1.0, 1.0, 1.4, 1.4).getTransition())
+                .addAnimation(new MyShelfiePathTransition(this, destinationPanes))
+                .addAnimation(new MyShelfieScaleTransition(1.0, 1.0, 1.4, 1.4))
                 .setCombineLogic(MyShelfieAnimationCombineLogic.PARALLEL_ANIMATION)
                 .buildAnimation(this);
     }
 
     protected Transition createPathTransition(Pane... destinationPanes) {
         return MyShelfieAnimation.build()
-                .addAnimation(new MyShelfiePathTransition(this, destinationPanes).getTransition())
+                .addAnimation(new MyShelfiePathTransition(this, destinationPanes))
                 .setCombineLogic(MyShelfieAnimationCombineLogic.PARALLEL_ANIMATION)
                 .buildAnimation(this);
     }

@@ -55,7 +55,7 @@ public class MainInterfaceController extends MyShelfieController {
         setupTestingButton();
     }
 
-    private void transferTilesToOpponent(TileSubject[][] board, Map<String, TileSubject[][]> playerBookshelves){
+    private void transferTilesToOpponent(TileSubject[][] board, Map<String, TileSubject[][]> playerBookshelves) {
 
         Map<Coordinate, TileSubjectView> takenTiles = getTakenTilesFromBoard(board);
 
@@ -64,6 +64,16 @@ public class MainInterfaceController extends MyShelfieController {
         opponentsInterfaceController.updateOpponentBookshelf(playerBookshelves, takenTiles);
     }
 
+    /**
+     * Retrieves all the {@linkplain TileSubjectView graphical tile subjects}
+     * and their {@linkplain Coordinate position} from the {@code matrix board}
+     * passed as parameter that are different from the actual board displayed
+     *
+     * @param board the updated board that has potentially different from the
+     *              one displayed
+     * @return every graphical tile displayed with its coordinate that is
+     * different from the content of {@code board} (parameter)
+     */
     @NotNull
     private Map<Coordinate, TileSubjectView> getTakenTilesFromBoard(TileSubject[][] board) {
         return gameInterfaceController.retrieveBoardState()
@@ -73,7 +83,19 @@ public class MainInterfaceController extends MyShelfieController {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
-    private boolean boardHasDifferentContent(@NotNull Map.Entry<Coordinate, TileSubjectView> boardEntry, @NotNull TileSubject[][] board){
+    /**
+     * Verify if a {@code boardEntry} (composed by a couple formed of
+     * {@linkplain Coordinate coordinate} and {@linkplain TileSubjectView
+     * tile} have a different content (tile subject) than the
+     * {@code board} in same row and column coordinate
+     *
+     * @param boardEntry the board entry to be checked
+     * @param board      the matrix representing the board
+     *
+     * @return {@code true} if the {@code boardEntry} has a different content
+     * than the content of {@code board} in the same position
+     */
+    private boolean boardHasDifferentContent(@NotNull Map.Entry<Coordinate, TileSubjectView> boardEntry, @NotNull TileSubject[][] board) {
         return boardEntry.getValue().getTileSubject() != board[boardEntry.getKey().getX()][boardEntry.getKey().getY()];
     }
 

@@ -362,24 +362,31 @@ public class BoardViewController extends MyShelfieController {
         else
             coordinates = itemTileBoxes.keySet();
 
+        if(activeTileCoordinates == null) {
+            for(Coordinate coordinate : coordinates) {
+                if (getTileSubjectView(coordinate) != null)
+                    getTileSubjectView(coordinate).disable();
+            }
+
+            return;
+        }
+
         for (Coordinate coordinate : coordinates) {
-            if (activeTileCoordinates != null) {
-                if (activeTileCoordinates.contains(coordinate)) {
-                    if (getTileSubjectView(coordinate) != null)
-                        getTileSubjectView(coordinate).setClickable();
-                } else {
-                    if (getTileSubjectView(coordinate) != null)
-                        getTileSubjectView(coordinate).disable();
-                }
+            if (activeTileCoordinates.contains(coordinate)) {
+                if (getTileSubjectView(coordinate) != null)
+                    getTileSubjectView(coordinate).setClickable();
+            } else {
+                if (getTileSubjectView(coordinate) != null)
+                    getTileSubjectView(coordinate).disable();
             }
         }
     }
 
     public void moveEndGameTokenView(Pane destinationPane) {
         MyShelfieAnimation.build()
-                .addAnimation(new MyShelfieRotateTransition(8.0, 0.0).getTransition())
-                .addAnimation(new MyShelfiePathTransition(endGameTokenView, destinationPane).getTransition())
-                .addAnimation(new MyShelfieScaleTransition(0.7, 0.7).getTransition())
+                .addAnimation(new MyShelfieRotateTransition(8.0, 0.0))
+                .addAnimation(new MyShelfiePathTransition(endGameTokenView, destinationPane))
+                .addAnimation(new MyShelfieScaleTransition(0.7, 0.7))
                 .playMyShelfieAnimation(endGameTokenView, value -> {
                     endGameBox.getChildren().remove(endGameTokenView);
 

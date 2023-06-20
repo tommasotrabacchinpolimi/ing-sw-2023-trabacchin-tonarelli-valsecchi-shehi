@@ -164,9 +164,9 @@ public class CommonGoalView extends StackPane implements MyShelfieComponent {
         ScoringTokenView movingToken = getTopToken();
 
         MyShelfieAnimation.build()
-                .addAnimation(new MyShelfieRotateTransition(SCORING_TOKEN_ROTATION, 0.0).getTransition())
-                .addAnimation(new MyShelfiePathTransition(movingToken, destinationPane).getTransition())
-                .addAnimation(new MyShelfieScaleTransition(0.81, 0.81).getTransition())
+                .addAnimation(new MyShelfieRotateTransition(SCORING_TOKEN_ROTATION, 0.0))
+                .addAnimation(new MyShelfiePathTransition(movingToken, destinationPane))
+                .addAnimation(new MyShelfieScaleTransition(0.81, 0.81))
                 .playMyShelfieAnimation(movingToken, value -> {
                     getChildren().remove(movingToken);
                     destinationPane.getChildren().add(movingToken);
