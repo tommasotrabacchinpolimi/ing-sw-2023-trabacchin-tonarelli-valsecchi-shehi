@@ -21,26 +21,33 @@ public class TUIStateInit extends TUIState{
     private String readLine() throws IOException {
         return bufferedReader.readLine();
     }
+
+    @Override
     public void launchUI() {
 
     }
 
+    @Override
     public void onNewMessage(String sender) {
         //nothing
     }
 
+    @Override
     public void onCurrentPlayerChanged(String newCurrentPlayer) {
         //nothing
     }
 
+    @Override
     public void showWinner() {
         //nothing
     }
 
+    @Override
     public void onException() {
 
     }
 
+    @Override
     public void onGameStateChanged() {
 
     }
@@ -50,6 +57,7 @@ public class TUIStateInit extends TUIState{
 
     }
 
+    @Override
     public void setup() throws IOException {
         String choice;
         out.print("""

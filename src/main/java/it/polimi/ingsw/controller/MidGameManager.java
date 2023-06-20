@@ -22,17 +22,14 @@ import java.util.concurrent.*;
  * <br>
  *
  * It includes methods for dragging tiles to the bookshelf, registering players during reconnection, verifying game conditions,
- *
  * and setting the next current player.
  *
  * </p>
- * @param <R> the type of the client interface
  *
  * @see GameManager
  *
  * @see ClientInterface
  *
- * @param <R>
  *
  * @author Tommaso Trabacchin
  * @author Melanie Tonarelli
@@ -41,7 +38,7 @@ import java.util.concurrent.*;
  * @version 6.0
  * @since 27/04/2023
  */
-public class MidGameManager<R extends ClientInterface> extends GameManager {
+public class MidGameManager extends GameManager {
 
     /**
      Constructs a new {@code MidGameManager} with the specified controller.
