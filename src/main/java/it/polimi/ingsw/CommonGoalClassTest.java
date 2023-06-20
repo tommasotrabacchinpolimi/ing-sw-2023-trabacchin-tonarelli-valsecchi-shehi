@@ -10,6 +10,7 @@ import java.util.List;
 
 import static it.polimi.ingsw.model.TileSubject.*;
 
+@Deprecated
 public class CommonGoalClassTest {
     TileType[][] matrix;
     CommonGoal commonGoal;
@@ -68,7 +69,7 @@ public class CommonGoalClassTest {
         boolean square = false;
         boolean separate = true;
         boolean sameTypeOnly = false;
-        this.commonGoal = new TupleCommonGoal("Description", groupsNumber, adjacentTilesPo2, square,separate, sameTypeOnly);
+        this.commonGoal = new TupleCommonGoal("Description", "", groupsNumber, adjacentTilesPo2, square,separate, sameTypeOnly);
     }
 
     private void createGroupDesign(){
@@ -164,7 +165,7 @@ public class CommonGoalClassTest {
         };*/
 
         // 5
-       matrix = new TileType[][]{
+        matrix = new TileType[][]{
                 {null,  null, null, null, null},
                 {null, TileType.CAT, null, null, null},
                 {null, TileType.CAT, null, null, null},
@@ -173,7 +174,7 @@ public class CommonGoalClassTest {
                 {TileType.CAT, TileType.CAT, TileType.CAT, /*TileType.CAT*/ null, TileType.CAT}
         };
 
-       //6
+        //6
        /*matrix = new TileType[][]{
                 {null,  null, null, null, null},
                 {TileType.CAT, TileType.CAT, null, null, null},

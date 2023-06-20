@@ -1,6 +1,6 @@
 package it.polimi.ingsw.view.gui.customcomponents;
 
-import it.polimi.ingsw.controller.CommonGoalDeserializer;
+import it.polimi.ingsw.utils.CommonGoalDeserializer;
 import it.polimi.ingsw.view.gui.customcomponents.decorations.MyShelfieComponent;
 import it.polimi.ingsw.view.gui.customcomponents.decorations.MyShelfieDarkShadow;
 import it.polimi.ingsw.view.gui.customcomponents.decorations.MyShelfieDecoration;

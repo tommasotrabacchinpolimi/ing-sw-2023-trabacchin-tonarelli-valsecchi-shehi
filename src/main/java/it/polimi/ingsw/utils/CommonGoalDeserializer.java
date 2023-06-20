@@ -1,9 +1,12 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
+import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.controller.JSONExclusionStrategy;
 import it.polimi.ingsw.model.*;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.FileNotFoundException;
@@ -25,11 +28,16 @@ import java.util.stream.Stream;
  * @version 2.0
  * @since 10/04/2023
  */
-public class CommonGoalDeserializer {
-
-    private Controller controller;
+public final class CommonGoalDeserializer {
 
     private static final String COMMON_GOAL_CONFIGURATION = "./src/main/resources/it.polimi.ingsw/common.goal.configuration/";
+
+    /**
+     * Added a private constructor to prevent the instance
+     * creation for this class
+     */
+    private CommonGoalDeserializer() {
+    }
 
     /**
      * Retrieves all possible {@linkplain CommonGoal common goals} inside every "*.json" configuration file
@@ -41,9 +49,9 @@ public class CommonGoalDeserializer {
      * @see StairCommonGoal
      * @see TupleCommonGoal
      */
-    public Set<CommonGoal> getCommonGoalsDeck(){
+    public static Set<CommonGoal> getCommonGoalsDeck(){
         return getCommonGoalClasses().stream()
-                .map(this::getCommonGoalConfig)
+                .map(CommonGoalDeserializer::getCommonGoalConfig)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toSet());
     }
@@ -61,7 +69,7 @@ public class CommonGoalDeserializer {
      * @see TupleCommonGoal
      */
     @NotNull
-    private Set<Class<? extends CommonGoal>> getCommonGoalClasses(){
+    private static Set<Class<? extends CommonGoal>> getCommonGoalClasses(){
         Set<Class<? extends CommonGoal>> commonGoalClasses = new HashSet<>();
 
         //From String to Classes
@@ -82,7 +90,7 @@ public class CommonGoalDeserializer {
      * @return names of classes representing a common goal
      */
     @NotNull
-    private List<String> getCommonGoalClassesName(){
+    private static List<String> getCommonGoalClassesName(){
         List<String> commonGoalClassesName = new ArrayList<>();
 
         //Walking through each Directory contained in "COMMON_GOAL_CONFIGURATION" directory to search for "main directory"
@@ -123,7 +131,7 @@ public class CommonGoalDeserializer {
      * @see TupleCommonGoal
      */
     @NotNull
-    private Set<CommonGoal> getCommonGoalConfig(Class<? extends CommonGoal> c) {
+    private static Set<CommonGoal> getCommonGoalConfig(Class<? extends CommonGoal> c) {
         Set<CommonGoal> res = new HashSet<>();
         Gson gson = new GsonBuilder().setExclusionStrategies(new JSONExclusionStrategy()).create();
         JsonReader reader;
@@ -154,7 +162,7 @@ public class CommonGoalDeserializer {
      * @return full path to the configuration file
      */
     @NotNull
-    private List<String> getFullCommonGoalConfigPath(Class<? extends CommonGoal> c){
+    private static List<String> getFullCommonGoalConfigPath(@NotNull Class<? extends CommonGoal> c){
         List<String> fullPathConfigFile = new ArrayList<>();
 
         //Walking through each Directory contained in "COMMON_GOAL_CONFIGURATION"  to search for "*.json" file
@@ -181,7 +189,8 @@ public class CommonGoalDeserializer {
      * @return the common goal with the stack modified
      * @see CommonGoal
      */
-    private CommonGoal adjustScoringTokens(CommonGoal commonGoal){
+    @Contract("_, _ -> param2")
+    private CommonGoal adjustScoringTokens(@NotNull Controller controller, CommonGoal commonGoal){
         int numberOfPlayers = controller.getState().getPlayersNumber();
 
         if(numberOfPlayers < 4)

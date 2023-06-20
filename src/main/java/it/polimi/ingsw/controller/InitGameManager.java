@@ -1,12 +1,12 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.utils.CommonGoalDeserializer;
 import it.polimi.ingsw.utils.Coordinate;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  *

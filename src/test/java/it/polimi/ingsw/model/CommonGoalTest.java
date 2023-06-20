@@ -18,7 +18,7 @@ class CommonGoalTest {
         expStack.push(8);
         expStack.push(4);
 
-        CommonGoal goal = new StairCommonGoal(stack,"Description",5);
+        CommonGoal goal = new StairCommonGoal(stack,"Description", "", 5);
 
         assertEquals(expStack.pop(), goal.getAvailableScore());
         goal.removeAvailableScore();
@@ -27,7 +27,7 @@ class CommonGoalTest {
 
     @Test
     void getDescription() {
-        CommonGoal goal = new StairCommonGoal("Description added.", 5);
+        CommonGoal goal = new StairCommonGoal("Description added.", "", 5);
         assertEquals("Description added.", goal.getDescription());
     }
 
@@ -45,7 +45,7 @@ class CommonGoalTest {
         expStack.push(4);
         expStack.push(2);
 
-        CommonGoal commonGoal = new CommonGoal(stack) {
+        CommonGoal commonGoal = new CommonGoal(stack, "", "") {
             @Override
             public List<EntryPatternGoal> rule(TileType[][] bookShelf) {
                 return null;
@@ -69,7 +69,7 @@ class CommonGoalTest {
         stack.push(8);
         stack.push(4);
         String description = "Common Goal Description.";
-        CommonGoal commonGoal = new CommonGoal(stack, description) {
+        CommonGoal commonGoal = new CommonGoal(stack, description, "") {
             @Override
             public List<EntryPatternGoal> rule(TileType[][] bookShelf) {
                 return null;

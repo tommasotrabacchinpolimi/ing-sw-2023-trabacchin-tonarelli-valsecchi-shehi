@@ -10,27 +10,24 @@ import java.util.List;
 import java.util.Stack;
 
 /**
- *  {@link LineCommonGoal} is a class that represents a generic {@link CommonGoal} which is satisfied if the {@link BookShelf} contains a given number
- *  of lines (rows or columns) each having a given number of different {@link TileType tile type}.
- *
- *  @apiNote Valid combination of the parameters values are the following :
- *          (incRow = 1, incCol = 0, linesNumber = 4, numberOfTiles = 5, differentTiles = {1,2,3}),
- *          (incRow = 1, incCol = 0, linesNumber = 2, numberOfTiles = 5, differentTiles = {5}),
- *          (incRow = 0, incCol = 1, linesNumber = 3, numberOfTiles = 6, differentTiles = {1,2,3}) e
- *          (incRow = 0, incCol = 1, linesNumber = 2, numberOfTiles = 6, differentTiles = {6})
- *
- *  @see CommonGoal
- *  @see BookShelf
- *  @see EntryPatternGoal
- *  @see TileType
+ * {@link LineCommonGoal} is a class that represents a generic {@link CommonGoal} which is satisfied if the {@link BookShelf} contains a given number
+ * of lines (rows or columns) each having a given number of different {@link TileType tile type}.
  *
  * @author Tommaso Trabacchin
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
  * @author Adem Shehi
  * @version 2.0
+ * @apiNote Valid combination of the parameters values are the following :
+ * (incRow = 1, incCol = 0, linesNumber = 4, numberOfTiles = 5, differentTiles = {1,2,3}),
+ * (incRow = 1, incCol = 0, linesNumber = 2, numberOfTiles = 5, differentTiles = {5}),
+ * (incRow = 0, incCol = 1, linesNumber = 3, numberOfTiles = 6, differentTiles = {1,2,3}) e
+ * (incRow = 0, incCol = 1, linesNumber = 2, numberOfTiles = 6, differentTiles = {6})
+ * @see CommonGoal
+ * @see BookShelf
+ * @see EntryPatternGoal
+ * @see TileType
  * @since 07/04/2023
- *
  */
 public class LineCommonGoal extends CommonGoal implements Serializable {
     @Serial
@@ -49,6 +46,7 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
 
     /**
      * Increment of column, that is set to 1 if and only if the lines that have to satisfy the given condition are columns of a matrix.
+     *
      * @apiNote if <code>incCol</code> is set to 1, then {@link LineCommonGoal#incRow} must be set to 0.
      * @see LineCommonGoal#getIncCol()
      * @see LineCommonGoal#setIncCol(int)
@@ -58,6 +56,7 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
 
     /**
      * The number of lines that needs to satisfy the condition in order to complete the Goal
+     *
      * @see LineCommonGoal#getLinesNumber()
      * @see LineCommonGoal#setLinesNumber(int)
      */
@@ -65,6 +64,7 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
 
     /**
      * The minimum number of tiles that must be found in the lines to satisfy the given condition.
+     *
      * @see LineCommonGoal#getNumberOfTiles()
      * @see LineCommonGoal#setNumberOfTiles(int)
      */
@@ -72,6 +72,7 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
 
     /**
      * The array that contains the number of different {@link TileType tile types} that each lines needs to have in order to satisfy the Goal. The array of int is ordered.
+     *
      * @apiNote If <code>differentTiles = {6}</code> then in the lines there has to be 6 different {@link TileType tile type} in order to satisfy the given condition.
      * If <code>differentTiles = {1, 2, 3}</code> then in the lines there has to be maximum 3 different {@link TileType tile type} in order to satisfy the given condition; in other words,the lines must be formed of 1, 2 or 3 different {@link TileType tile types}.
      */
@@ -79,20 +80,21 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
 
     /**
      * Constructor that calls the constructor of superclass {@link CommonGoal}.
+     *
      * @see CommonGoal#CommonGoal()
      */
-    public LineCommonGoal(){
+    public LineCommonGoal() {
         super();
     }
 
     /**
      * Used to create the LineCommonGoal.
+     *
      * @param incRow         Increment of row, that is set to 1 if and only if the lines that have to satisfy the condition are rows of a matrix.
      * @param incCol         Increment of column, that is set to 1 if and only if the lines that have to satisfy the condition are columns of a matrix.
      * @param linesNumber    The number of lines that needs to satisfy the condition.
      * @param numberOfTiles  The minimum number of tiles that must be found in the lines.
      * @param differentTiles The array that contains the number of different {@link TileType} that each lines needs to have.
-     *
      * @apiNote The array differentTiles is sorted automatically and doesn't have duplicate elements.
      * @see LineCommonGoal#incRow
      * @see LineCommonGoal#incCol
@@ -102,41 +104,34 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
      */
     public LineCommonGoal(int incRow, int incCol, int linesNumber, int numberOfTiles, int[] differentTiles) {
         super();
-        this.incRow = incRow;
-        this.incCol = incCol;
-        this.linesNumber = linesNumber;
-        this.numberOfTiles = numberOfTiles;
-        this.differentTiles = removeDuplicateAndSort(differentTiles);
+        initLineGoalProperties(incRow, incCol, linesNumber, numberOfTiles, differentTiles);
     }
 
     /**
      * Used to create the LineCommonGoal.
+     *
      * @param incRow         Increment of row, that is set to 1 if and only if the lines that have to satisfy the condition are rows of a matrix.
      * @param incCol         Increment of column, that is set to 1 if and only if the lines that have to satisfy the condition are columns of a matrix.
      * @param linesNumber    The number of lines that needs to satisfy the condition.
      * @param numberOfTiles  The minimum number of tiles that must be found in the lines.
      * @param differentTiles The array that contains the number of different {@link TileType} that each lines needs to have.
      * @param description    The textual description of the goal.
-     *
      * @apiNote The array differentTiles is sorted automatically and doesn't have duplicate elements.
      * @see LineCommonGoal#incRow
      * @see LineCommonGoal#incCol
      * @see LineCommonGoal#linesNumber
      * @see LineCommonGoal#numberOfTiles
      * @see LineCommonGoal#differentTiles
-     * @see CommonGoal#CommonGoal(String) CommonGoal(String description)
+     * @see CommonGoal#CommonGoal(String description, String id)
      */
-    public LineCommonGoal(String description, int incRow, int incCol, int linesNumber, int numberOfTiles, int[] differentTiles) {
-        super(description);
-        this.incRow = incRow;
-        this.incCol = incCol;
-        this.linesNumber = linesNumber;
-        this.numberOfTiles = numberOfTiles;
-        this.differentTiles = removeDuplicateAndSort(differentTiles);
+    public LineCommonGoal(String description, String id, int incRow, int incCol, int linesNumber, int numberOfTiles, int[] differentTiles) {
+        super(description, id);
+        initLineGoalProperties(incRow, incCol, linesNumber, numberOfTiles, differentTiles);
     }
 
     /**
      * Used to create the LineCommonGoal.
+     *
      * @param scoringTokens  Scoring tokens stack
      * @param incRow         Increment of row, that is set to 1 if and only if the lines that have to satisfy the condition are rows of a matrix.
      * @param incCol         Increment of column, that is set to 1 if and only if the lines that have to satisfy the condition are columns of a matrix.
@@ -144,17 +139,30 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
      * @param numberOfTiles  The minimum number of tiles that must be found in the lines.
      * @param differentTiles The array that contains the number of different {@link TileType} that each lines needs to have.
      * @param description    The textual description of the goal.
-     *
      * @apiNote The array differentTiles is sorted automatically and doesn't have duplicate elements.
      * @see LineCommonGoal#incRow
      * @see LineCommonGoal#incCol
      * @see LineCommonGoal#linesNumber
      * @see LineCommonGoal#numberOfTiles
      * @see LineCommonGoal#differentTiles
-     * @see CommonGoal#CommonGoal(Stack, String)
+     * @see CommonGoal#CommonGoal(Stack scoringTokens, String description, String id)
      */
-    public LineCommonGoal(Stack<Integer> scoringTokens, String description, int incRow, int incCol, int linesNumber, int numberOfTiles, int[] differentTiles) {
-        super(scoringTokens, description);
+    public LineCommonGoal(Stack<Integer> scoringTokens, String description, String id, int incRow, int incCol, int linesNumber, int numberOfTiles, int[] differentTiles) {
+        super(scoringTokens, description, id);
+        initLineGoalProperties(incRow, incCol, linesNumber, numberOfTiles, differentTiles);
+    }
+
+    /**
+     * Initialize the specific properties for the Line Common Goal
+     * class
+     *
+     * @param incRow         Increment of row, that is set to 1 if and only if the lines that have to satisfy the condition are rows of a matrix.
+     * @param incCol         Increment of column, that is set to 1 if and only if the lines that have to satisfy the condition are columns of a matrix.
+     * @param linesNumber    The number of lines that needs to satisfy the condition.
+     * @param numberOfTiles  The minimum number of tiles that must be found in the lines.
+     * @param differentTiles The array that contains the number of different {@link TileType} that each lines needs to have.
+     */
+    private void initLineGoalProperties(int incRow, int incCol, int linesNumber, int numberOfTiles, int[] differentTiles) {
         this.incRow = incRow;
         this.incCol = incCol;
         this.linesNumber = linesNumber;
@@ -164,8 +172,8 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
 
     /**
      * Get the minimum number of tiles that must be found in the lines to satisfy the goal.
-     * @return the minimum number of tiles that must be found in the lines to satisfy the goal.
      *
+     * @return the minimum number of tiles that must be found in the lines to satisfy the goal.
      * @see LineCommonGoal#numberOfTiles
      */
     public int getNumberOfTiles() {
@@ -174,8 +182,8 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
 
     /**
      * Set the minimum number of tiles that must be found in the lines to satisfy the goal.
-     * @param numberOfTiles the minimum number of tiles that must be found in the lines to satisfy the goal.
      *
+     * @param numberOfTiles the minimum number of tiles that must be found in the lines to satisfy the goal.
      * @see LineCommonGoal#numberOfTiles
      */
     public void setNumberOfTiles(int numberOfTiles) {
@@ -184,6 +192,7 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
 
     /**
      * Get the increment of row.
+     *
      * @return incRow value.
      * @see LineCommonGoal#incRow
      */
@@ -193,6 +202,7 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
 
     /**
      * Sets the increment of row.
+     *
      * @param incRow The value of incRow.
      * @see LineCommonGoal#incRow
      */
@@ -202,6 +212,7 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
 
     /**
      * Get the increment of column.
+     *
      * @return incCol value.
      * @see LineCommonGoal#incCol
      */
@@ -211,6 +222,7 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
 
     /**
      * Sets the increment of column.
+     *
      * @param incCol The value of incCol.
      * @see LineCommonGoal#incCol
      */
@@ -220,6 +232,7 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
 
     /**
      * Get the number of lines that needs to satisfy the condition in order to complete the goal.
+     *
      * @return The number of lines that needs to satisfy the condition in order to complete the goal.
      * @see LineCommonGoal#linesNumber
      */
@@ -229,6 +242,7 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
 
     /**
      * Set the number of lines that needs to satisfy the condition in order to complete the goal.
+     *
      * @param linesNumber The number of lines that needs to satisfy the condition in order to complete the goal.
      * @see LineCommonGoal#linesNumber
      */
@@ -238,6 +252,7 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
 
     /**
      * Get The array that contains the number of different {@link TileType} that each lines needs to have.
+     *
      * @return The array that contains the number of different {@link TileType} that each lines needs to have.
      * @see LineCommonGoal#differentTiles
      * @see TileType
@@ -248,6 +263,7 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
 
     /**
      * Set the array that contains the number of different {@link TileType} that each lines needs to have.
+     *
      * @param differentTiles The array that contains the number of different {@link TileType} that each lines needs to have.
      * @apiNote The array differentTiles passed as parameter is sorted automatically and the duplicate element are deleted automatically.
      * @see LineCommonGoal#differentTiles
@@ -267,7 +283,6 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
      * @param bookShelf The bookShelf to check for the goal.
      * @return <code>null</code> if the goal is not satisfied, otherwise the list of the {@link EntryPatternGoal#EntryPatternGoal EntryPatternGoal} representing
      * the cell in the {@code bookShelf} that satisfy the goal.
-     *
      * @see EntryPatternGoal
      * @see LineCommonGoal#containsNumber(int count)
      */
@@ -279,22 +294,29 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
         List<EntryPatternGoal> result = new ArrayList<>();
 
         //illegal arguments
-        if(bookShelf==null) return null;
-        else copied_bookshelf = Arrays.stream(bookShelf).map(TileType[]::clone).toArray(TileType[][]::new); //added to make this thread-safe
+        if (bookShelf == null) return null;
+        else
+            copied_bookshelf = Arrays.stream(bookShelf).map(TileType[]::clone).toArray(TileType[][]::new); //added to make this thread-safe
 
-        if((incCol!=1 && incCol!=0) || (incRow!=0 && incRow!=1)) return null; //nothing is to be returned if argument incCol and incRow doesn't have value 0 or 1.
-        if((incRow==1 && incCol==1)||(incRow==0 && incCol==0)) return null; // nothing is to be returned if arguments incCol and incRow have the same values
-        if(linesNumber <= 0) return null; //the argument linesNumber is illegal because it is zero or negative
-        if(linesNumber>copied_bookshelf.length && incRow==1) return null; //the argument linesNumber is illegal because it is bigger then the number of rows found in the bookshelf
-        if(linesNumber>copied_bookshelf[0].length && incCol==1) return null; //the argument linesNumber is illegal because it is bigger then the number of columns found in the bookshelf
+        if ((incCol != 1 && incCol != 0) || (incRow != 0 && incRow != 1))
+            return null; //nothing is to be returned if argument incCol and incRow doesn't have value 0 or 1.
+        if ((incRow == 1 && incCol == 1) || (incRow == 0 && incCol == 0))
+            return null; // nothing is to be returned if arguments incCol and incRow have the same values
+        if (linesNumber <= 0) return null; //the argument linesNumber is illegal because it is zero or negative
+        if (linesNumber > copied_bookshelf.length && incRow == 1)
+            return null; //the argument linesNumber is illegal because it is bigger then the number of rows found in the bookshelf
+        if (linesNumber > copied_bookshelf[0].length && incCol == 1)
+            return null; //the argument linesNumber is illegal because it is bigger then the number of columns found in the bookshelf
         for (int differentTile : differentTiles) {
             if (differentTile <= 0)
                 return null; //the argument differentTiles is illegal, because it can only have positive value elements
         }
-        if(differentTiles[differentTiles.length-1] > TileType.values().length || differentTiles[differentTiles.length-1] > numberOfTiles) return null; //the argument differentTiles is illegal, this condition needs to be discussed with the other colleagues
-        if(numberOfTiles<=0)return null; //the argument numberOfTiles is illegal, because it can only have positive values
-        if(numberOfTiles>copied_bookshelf.length && incCol==1) return null;
-        if(numberOfTiles>copied_bookshelf[0].length && incRow==1) return null;
+        if (differentTiles[differentTiles.length - 1] > TileType.values().length || differentTiles[differentTiles.length - 1] > numberOfTiles)
+            return null; //the argument differentTiles is illegal, this condition needs to be discussed with the other colleagues
+        if (numberOfTiles <= 0)
+            return null; //the argument numberOfTiles is illegal, because it can only have positive values
+        if (numberOfTiles > copied_bookshelf.length && incCol == 1) return null;
+        if (numberOfTiles > copied_bookshelf[0].length && incRow == 1) return null;
 
         for (int i = 0; i < copied_bookshelf.length; i += incCol) { //checking the condition
             alreadyFoundType.clear();
@@ -313,8 +335,7 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
                     if (counterTile >= numberOfTiles && containsNumber(alreadyFoundType.size())) {
                         counterLines++;
                         if (counterLines == linesNumber) return result;
-                    }
-                    else {
+                    } else {
                         for (int k = 0; k < counterTile; k++)
                             result.remove(result.size() - 1);
                     }
@@ -329,8 +350,7 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
             if (counterTile >= numberOfTiles && incRow == 1 && containsNumber(alreadyFoundType.size())) {
                 counterLines++;
                 if (counterLines == linesNumber) return result;
-            }
-            else {
+            } else {
                 for (int k = 0; k < counterTile; k++)
                     result.remove(result.size() - 1);
             }
@@ -344,9 +364,9 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
 
     /**
      * Method that return {@code true} if and only if the parameter {@code count} is contained in the array {@link LineCommonGoal#differentTiles differentTiles}.
+     *
      * @param count Searched value inside {@link LineCommonGoal#differentTiles differentTiles}.
      * @return {@code true} if and only if the parameter {@code count} is contained in the array {@link LineCommonGoal#differentTiles differentTiles}.
-     *
      * @apiNote Here is an example: given {@code differentTiles = {1, 2, 3 } } and given {@code count = 2}, the method returns <code>true</code>. Otherwise, if {@code count = 4}
      * then the method returns <code>false</code>.
      * @see LineCommonGoal#differentTiles
@@ -361,16 +381,16 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
 
     /**
      * Method that sort and delete duplicate elements from the given array of {@code int}.
+     *
      * @param array Array that need to be sorted and whose duplicate elements need to be deleted.
      * @return Array of {@code int} that contains all the sorted and distinct elements of the given {@code array}.
-     *
      * @apiNote This method is used to sort and delete duplicates form {@link LineCommonGoal#differentTiles}.
      * @see LineCommonGoal#differentTiles
      */
-    private int[] removeDuplicateAndSort(int[] array){
+    private int[] removeDuplicateAndSort(int[] array) {
         List<Integer> temp = new ArrayList<>();
 
-        for(int i: array){
+        for (int i : array) {
             temp.add(i);
         }
         return temp.stream()
@@ -383,6 +403,7 @@ public class LineCommonGoal extends CommonGoal implements Serializable {
     /**
      * Overriding toString() default method.
      * {@inheritDoc}
+     *
      * @return a {@link String} representing the {@link LineCommonGoal}.
      * @apiNote Resulting String will be displayed on different lines as follows:
      * <pre>
