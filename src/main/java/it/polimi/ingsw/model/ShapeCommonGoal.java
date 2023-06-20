@@ -29,14 +29,14 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
     @ExcludedFromJSON
     private static final long serialVersionUID = 746524795L;
     /**
-      * the list of array elements needed to this class to implement the Shape-CommonGoal
-      *
-      * @see #getRuleShape()
-      *
-      * @apiNote The key of this class is this parameter that contains offsets needed
-      * to finds if there is a common-goal. This class makes the check of 3 candidate
-      * common-goals (Common-goal 2, 3, 10).
-      */
+     * the list of array elements needed to this class to implement the Shape-CommonGoal
+     *
+     * @see #getRuleShape()
+     *
+     * @apiNote The key of this class is this parameter that contains offsets needed
+     * to finds if there is a common-goal. This class makes the check of 3 candidate
+     * common-goals (Common-goal 2, 3, 10).
+     */
     private List<Integer[]> ruleShape;
 
     /**
@@ -61,10 +61,10 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
      * Constructor that sets the fields of the class to the parameter passed.
      * @param description Textual description of the goal.
      * @param ruleShape the list of arrays that permit to implement the function rule.
-     * @see CommonGoal#CommonGoal(String) CommonGoal(String description)
+     * @see CommonGoal#CommonGoal(String, String) CommonGoal(String description, String id)
      */
-    public ShapeCommonGoal(String description, List<Integer[]> ruleShape) {
-        super(description);
+    public ShapeCommonGoal(String description, String id, List<Integer[]> ruleShape) {
+        super(description, id);
         this.ruleShape = ruleShape;
     }
 
@@ -73,10 +73,10 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
      * @param description Textual description of the goal.
      * @param ruleShape the list of arrays that permit to implement the function rule.
      * @param scoringTokens Scoring tokens stack.
-     * @see CommonGoal#CommonGoal(Stack, String)
+     * @see CommonGoal#CommonGoal(Stack scoringTokens, String description, String id)
      */
-    public ShapeCommonGoal(Stack<Integer> scoringTokens, String description, List<Integer[]> ruleShape) {
-        super(scoringTokens, description);
+    public ShapeCommonGoal(Stack<Integer> scoringTokens, String description, String id, List<Integer[]> ruleShape) {
+        super(scoringTokens, description, id);
         this.ruleShape = ruleShape;
     }
 
@@ -195,9 +195,9 @@ public class ShapeCommonGoal extends CommonGoal implements Serializable {
                 for (int j = 0; j < 3; j++) {
                     if(insideBookshelfBound(row + i,column + j, bookShelf.length, bookShelf[0].length) &&
                             notInShape(row + i, column + j, candidate)){
-                            if(e.getTileType().equals(bookShelf[row + i][column + j])){
-                                return false;
-                            }
+                        if(e.getTileType().equals(bookShelf[row + i][column + j])){
+                            return false;
+                        }
                     }
                 }
             }
