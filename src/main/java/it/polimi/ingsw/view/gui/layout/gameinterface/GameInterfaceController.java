@@ -3,7 +3,7 @@ package it.polimi.ingsw.view.gui.layout.gameinterface;
 import it.polimi.ingsw.controller.exceptions.WrongChosenTilesFromBoardException;
 import it.polimi.ingsw.model.TileSubject;
 import it.polimi.ingsw.view.gui.MyShelfieController;
-import it.polimi.ingsw.view.gui.customcomponents.CommonGoalView;
+import it.polimi.ingsw.view.gui.customcomponents.commongoal.CommonGoalView;
 import it.polimi.ingsw.view.gui.layout.board.BoardViewController;
 import it.polimi.ingsw.view.gui.layout.bookshelf.PersonalBookshelfController;
 import it.polimi.ingsw.view.gui.customcomponents.MyShelfieAlertCreator;
