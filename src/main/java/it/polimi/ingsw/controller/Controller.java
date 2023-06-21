@@ -2,6 +2,8 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.net.OnConnectionLostListener;
+import it.polimi.ingsw.net_alternative.OnClientConnectionLostListener;
+import it.polimi.ingsw.net_alternative.OnServerConnectionLostListener;
 import it.polimi.ingsw.utils.Coordinate;
 
 import java.io.FileNotFoundException;
@@ -18,7 +20,7 @@ import java.util.TimerTask;
  * @version 3.0
  * @since 06/04/2023
  */
-public class Controller implements OnConnectionLostListener<ClientInterface>, ControllerInterface {
+public class Controller implements OnServerConnectionLostListener, ControllerInterface {
     private State state;
     private GameManager gameManager;
     private final ChatManager chatManager;
@@ -80,7 +82,6 @@ public class Controller implements OnConnectionLostListener<ClientInterface>, Co
         gameManager.dragTilesToBookShelf(view, chosenTiles, chosenColumn);
     }
 
-    @Override
     public synchronized void registerPlayer(ClientInterface view, String nickname) {
         gameManager.registerPlayer(view, nickname);
 
@@ -108,4 +109,5 @@ public class Controller implements OnConnectionLostListener<ClientInterface>, Co
     public TimingStateMachine getTimingStateMachine() {
         return timingStateMachine;
     }
+
 }

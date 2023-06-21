@@ -7,6 +7,8 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerState;
 import it.polimi.ingsw.model.State;
 import it.polimi.ingsw.net.*;
+import it.polimi.ingsw.net_alternative.OnServerConnectionLostListener;
+import it.polimi.ingsw.net_alternative.ServerDispatcherInterface;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.FileNotFoundException;
@@ -24,7 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *     <li>The user {@linkplain #onConnectionLost(ClientInterface) has been disconnected}</li>
  *     <li>After connection lost a user is trying to {@linkplain #reconnectPlayer(ClientInterface, String)
  *     reconnecting to a game}</li>
- *     <li>Verify if a user {@linkplain #nop(ClientInterface) is still connected}</li>
+ *     <li>Verify if a user {@linkplain #nop() is still connected}</li>
  *     <li>A match has finished so players can join or create new match</li>
  * </ul>
  * </p>
@@ -44,7 +46,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @since 26/04/2023
  */
 public class LobbyController
-        implements UserAccepter<ClientInterface>, OnConnectionLostListener<ClientInterface>, LobbyControllerInterface{
+        implements OnServerConnectionLostListener, LobbyControllerInterface{
     /**
      * <p>Holds a match between different controllers and all the users that are assigned to that controller.</p>
      * <p>This fields is used to retrieve all the {@linkplain ClientInterface users} at once that are assigned to a specific
@@ -100,37 +102,21 @@ public class LobbyController
      * @see Dispatcher
      * @see Dispatcher#invoke(Object proxy, Method method, Object[] args)
      */
-    private Dispatcher dispatcher;
+    private ControllerDispatcher dispatcher;
 
     /**
      * Binds a {@linkplain Dispatcher dispatcher} instance to the calling object
      *
      * @param dispatcher the dispatcher to be bound
      */
-    public void setDispatcher(Dispatcher dispatcher) {
+    public void setDispatcher(ControllerDispatcher dispatcher) {
         this.dispatcher = dispatcher;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @param user {@inheritDoc}
-     * @return true
-     */
-    @Override
-    public boolean acceptUser(User<ClientInterface> user) {
-        return true;
-    }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @param user {@inheritDoc}
-     */
-    @Override
-    public void registerConnectionDownListener(@NotNull User<ClientInterface> user) {
-        user.getConnectionManager().setOnConnectionLostListener(this);
-    }
+
+
+
 
     /**
      * {@inheritDoc}
@@ -234,11 +220,10 @@ public class LobbyController
     /**
      * {@inheritDoc}
      *
-     * @param view {@inheritDoc}
      * @throws RemoteException {@inheritDoc}
      */
     @Override
-    public void nop(ClientInterface view) throws RemoteException {
+    public void nop() {
 
     }
 
@@ -325,6 +310,9 @@ public class LobbyController
      */
     public synchronized void onQuitGame(ClientInterface user){
         Controller c = viewControllerMap.get(user);
+        if(c != null) {
+            c.quitGame(user);
+        }
         controllerViewMap.get(c).remove(user);
         viewControllerMap.remove(user);
         viewToNicknameMap.remove(user);
@@ -444,9 +432,9 @@ public class LobbyController
         dispatcher.setController(user, controller);
 
         System.out.println(nickname + " joining " + controller);
-
-        controller.registerPlayer(user, nickname);
         controller.setNumberPlayers(numberOfPlayer);
+        controller.registerPlayer(user, nickname);
+
         list.add(user);
 
         //If there are players inside the waitingUsers list, they are added to the new game match created

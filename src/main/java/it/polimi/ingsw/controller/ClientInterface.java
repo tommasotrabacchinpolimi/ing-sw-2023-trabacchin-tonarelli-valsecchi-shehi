@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.controller.listeners.*;
 import it.polimi.ingsw.controller.listeners.OnWinnerChangedListener;
 import it.polimi.ingsw.net.RemoteInterface;
+import it.polimi.ingsw.net_alternative.OnClientConnectionLostListener;
 
 /**
  * <p>Represents a "physical" user that wants to play the game.</p>
@@ -34,8 +35,7 @@ import it.polimi.ingsw.net.RemoteInterface;
  * @version 1.0
  * @since 03/05/23
  */
-public interface ClientInterface extends RemoteInterface,
-        OnBoardRefilledListener,
+public interface ClientInterface extends OnBoardRefilledListener,
         OnBoardUpdatedListener,
         OnBookShelfUpdatedListener,
         OnCurrentPlayerChangedListener,
@@ -53,5 +53,7 @@ public interface ClientInterface extends RemoteInterface,
         OnChangedCommonGoalAvailableScoreListener,
         OnWinnerChangedListener,
         OnPlayersListChangedListener
+        //OnClientConnectionLostListener
                                     {
+                                        void nop();
                                     }

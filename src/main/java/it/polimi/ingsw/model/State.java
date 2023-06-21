@@ -343,8 +343,13 @@ public class State implements Serializable, OnUpdateNeededListener {
      * @see Player
      */
     public boolean addPlayer(Player player){
+        System.out.println("adding player");
         if(players.stream().anyMatch(p-> p.getNickName().equals(player.getNickName())) || players.size() == playersNumber)
+        {
+            System.out.println("player not added");
             return false;
+        }
+
         this.players.add(player);
         player.getPointPlayer().setPlayer(player);
         player.getBookShelf().setPlayer(player);

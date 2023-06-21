@@ -58,8 +58,6 @@ public interface LobbyControllerInterface {
     /**
      * <p>This method is used only to test if a {@linkplain ClientInterface client} is still connected.</p>
      *
-     * @param view the {@linkplain ClientInterface client} to test if it is still connected to the game
-     * @throws RemoteException in case of connection failure
      */
-    void nop(ClientInterface view) throws RemoteException;
+    void nop();
 }

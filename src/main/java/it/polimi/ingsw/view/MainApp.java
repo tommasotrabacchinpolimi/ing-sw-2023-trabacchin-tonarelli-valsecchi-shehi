@@ -15,10 +15,10 @@ public class MainApp {
     private static final int DIMROW_BOOKSHELF = 6;
 
     public static void main(String[] args) throws NotBoundException, IOException, ClassNotFoundException {
-        if(args[0].equals("tui"))
-            TUISetup("socket", "localhost", 1234);
-        else if(args[0].equals("gui"))
-            GUISetup(args);
+        //if(args[0].equals("tui"))
+            TUISetup("rmi", "localhost", 4321);
+        //else if(args[0].equals("gui"))
+            //GUISetup(args);
     }
 
     public static void TUISetup(String choice, String host, int port) throws IOException, NotBoundException, ClassNotFoundException {

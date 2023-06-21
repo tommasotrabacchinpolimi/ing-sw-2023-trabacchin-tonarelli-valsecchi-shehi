@@ -4,9 +4,12 @@ import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.controller.ClientInterface;
 import it.polimi.ingsw.controller.ServerInterface;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.net.ConnectionBuilder;
+import it.polimi.ingsw.net.ConnectionManager;
 import it.polimi.ingsw.net.RmiConnectionManager;
 import it.polimi.ingsw.net.SocketConnectionManager;
+import it.polimi.ingsw.net_alternative.ClientDispatcher;
+import it.polimi.ingsw.net_alternative.ConnectionBuilder;
+import it.polimi.ingsw.net_alternative.OnClientConnectionLostListener;
 import it.polimi.ingsw.utils.Coordinate;
 import it.polimi.ingsw.utils.Triple;
 
@@ -15,7 +18,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.*;
 
-public class Client implements ClientInterface, LogicInterface {
+public class Client implements ClientInterface, LogicInterface, OnClientConnectionLostListener {
     private final UI ui;
     private ServerInterface server;
 
@@ -29,19 +32,11 @@ public class Client implements ClientInterface, LogicInterface {
 
 
     private ServerInterface getSocketConnection(String host, int port) throws IOException {
-        TypeToken<ServerInterface> typeToken = new TypeToken<>() {
-        };
-        SocketConnectionManager<ClientInterface, ServerInterface> socketConnectionManager = ConnectionBuilder.buildSocketConnection(host, port, this, typeToken);
-        return socketConnectionManager.getRemoteTarget();
+        return ConnectionBuilder.buildSocketConnection(port, host, new ClientDispatcher(this), this);
     }
 
     private ServerInterface getRmiConnection(String host, int port) throws NotBoundException, IOException, ClassNotFoundException {
-        TypeToken<ClientInterface> typeToken1 = new TypeToken<>() {
-        };
-        TypeToken<ServerInterface> typeToken2 = new TypeToken<>() {
-        };
-        RmiConnectionManager<ClientInterface, ServerInterface> rmiConnectionManager = ConnectionBuilder.buildRMIConnection(host, port, typeToken2, typeToken1, this);//port = 2148
-        return rmiConnectionManager.getRemoteTarget();
+        return ConnectionBuilder.buildRmiConnection(port, host, new ClientDispatcher(this), this);
     }
 
     public void setServer(ServerInterface server) {
@@ -164,7 +159,11 @@ public class Client implements ClientInterface, LogicInterface {
     }
 
     @Override
-    public void nop() throws RemoteException {
+    public void nop() {
+
+    }
+    @Override
+    public void onConnectionLost() {
 
     }
 

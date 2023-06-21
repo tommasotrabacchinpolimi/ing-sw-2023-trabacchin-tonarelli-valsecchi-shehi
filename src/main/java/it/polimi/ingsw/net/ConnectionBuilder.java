@@ -35,7 +35,7 @@ public class ConnectionBuilder {
         RemoteAccepterInterface remoteAccepterInterfaceInterface = (RemoteAccepterInterface) registry.lookup("default");
         Class<?> localThrowingTargetClass = ClassRewriting.getThrowingClass(localTargetClass.getRawType());
         RemoteInterface localRemoteObject = (RemoteInterface) Proxy.newProxyInstance(localThrowingTargetClass.getClassLoader(),new Class[]{localThrowingTargetClass},new BaseInvocationHandler(rmiReceiver));
-        UnicastRemoteObject.exportObject(localRemoteObject,portNumber);
+        UnicastRemoteObject.exportObject(localRemoteObject);
         RemoteInterface remoteObject = remoteAccepterInterfaceInterface.register(localRemoteObject);
         RmiConnectionManager<L,R> rmiConnectionManager = new RmiConnectionManager<>();
         rmiReceiver.setRmiConnectionManager(rmiConnectionManager);

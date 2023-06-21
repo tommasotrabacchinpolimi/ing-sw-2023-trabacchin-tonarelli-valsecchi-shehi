@@ -50,6 +50,9 @@ module it.polimi.ingsw {
     opens it.polimi.ingsw.controller.listeners;
     opens it.polimi.ingsw.controller.exceptions;
     opens it.polimi.ingsw.net;
-
+    opens it.polimi.ingsw.net_alternative;
+    exports it.polimi.ingsw.net_alternative;
     opens it.polimi.ingsw.utils;
+    exports it.polimi.ingsw.net_alternative.servermessages;
+    exports it.polimi.ingsw.net_alternative.clientmessage;
 }
