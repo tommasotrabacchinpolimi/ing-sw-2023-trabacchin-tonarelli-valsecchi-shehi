@@ -1,3 +1,4 @@
+/*
 #UpperContainer
 {
     -fx-background-image: url("../../../graphical.resources/misc/parquet_background.jpg");
@@ -103,6 +104,9 @@
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-padding: 1.7em 1.7em 1.7em 1.7em;
+}*/
+
+#chatPageRootPane {
+    -fx-background-image: url('../../../graphical.resources/misc/page_base_darken.jpg');
+    -fx-spacing: 2em;
 }
-
-

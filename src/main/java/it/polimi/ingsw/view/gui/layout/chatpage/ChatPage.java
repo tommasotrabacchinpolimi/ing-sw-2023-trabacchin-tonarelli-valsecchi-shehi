@@ -1,5 +1,5 @@
 
-package it.polimi.ingsw.view.gui.chatpage;
+package it.polimi.ingsw.view.gui.layout.chatpage;
 
 import it.polimi.ingsw.view.gui.MyShelfieApplication;
 import javafx.stage.Stage;

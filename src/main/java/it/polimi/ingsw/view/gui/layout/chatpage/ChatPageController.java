@@ -1,7 +1,8 @@
-package it.polimi.ingsw.view.gui.chatpage;
+package it.polimi.ingsw.view.gui.layout.chatpage;
 
 
 import it.polimi.ingsw.view.gui.MyShelfieController;
+import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -41,4 +42,5 @@ public class ChatPageController extends MyShelfieController {
     public void onExceptionNotified() {
 
     }
+
 }
