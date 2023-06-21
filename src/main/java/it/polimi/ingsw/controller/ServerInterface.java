@@ -20,7 +20,7 @@ import java.util.List;
  * @version 2.0
  * @since 27/04/2023
  */
-public interface ServerInterface extends RemoteInterface {
+public interface ServerInterface {
 
     /**
      * Defines the action of dragging the tiles from the board to the bookshelf
@@ -71,4 +71,7 @@ public interface ServerInterface extends RemoteInterface {
      * @see it.polimi.ingsw.model.State
      */
     void sentMessage(String text, String[] receiversNickname);
+
+
+    void nop();
 }
