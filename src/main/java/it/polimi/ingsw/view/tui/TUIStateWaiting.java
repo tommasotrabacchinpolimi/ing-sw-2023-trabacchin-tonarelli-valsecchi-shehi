@@ -71,5 +71,7 @@ public class TUIStateWaiting extends TUIState{
     @Override
     public void setup() throws IOException {
         System.out.println("Please wait until a game is available");
+        new Thread(new ConsoleAsynchReader(this.getTuiStateMachine())).start();
+
     }
 }

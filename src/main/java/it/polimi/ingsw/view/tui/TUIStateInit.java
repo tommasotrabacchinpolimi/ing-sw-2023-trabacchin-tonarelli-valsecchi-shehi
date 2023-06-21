@@ -82,14 +82,20 @@ public class TUIStateInit extends TUIState{
         out.println("3) rejoin an existing game after a disconnection");
         choice = readLine();
         getTuiStateMachine().setTuiState(new TUIStateWaiting(getTuiStateMachine()));
-        getTuiStateMachine().getTuiState().setup();
+
         switch (choice) {
             case "1" -> {
                 out.println("So you need to choose how many people there will be in the game (it has to be a number between 2 and 4, including you) :");
                 int numberOfPlayer = Integer.parseInt(readLine());
                 getTuiStateMachine().getLogicController().createGame(nickname, numberOfPlayer);
+                getTuiStateMachine().getTuiState().setup();
             }
-            case "2", "3" -> getTuiStateMachine().getLogicController().joinGame(nickname);
+            case "2", "3" -> {
+                getTuiStateMachine().getLogicController().joinGame(nickname);
+                getTuiStateMachine().getTuiState().setup();
+            }
+
+
             default -> {
             }
         }

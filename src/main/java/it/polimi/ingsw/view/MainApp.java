@@ -34,7 +34,6 @@ public class MainApp {
         tuiStateMachine.setLogicController(client);
         viewData.setUserInterface(tuiStateMachine);
         tuiStateMachine.setModel(viewData);
-        //new Thread(new ConsoleAsynchReader(tuiStateMachine)).start();
         tuiStateMachine.setup();
     }
 

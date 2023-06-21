@@ -312,11 +312,12 @@ public class LobbyController
         Controller c = viewControllerMap.get(user);
         if(c != null) {
             c.quitGame(user);
+            controllerViewMap.get(c).remove(user);
+            dispatcher.removeController(user, c);
         }
-        controllerViewMap.get(c).remove(user);
         viewControllerMap.remove(user);
         viewToNicknameMap.remove(user);
-        dispatcher.removeController(user, c);
+
     }
 
     /**
