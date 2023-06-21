@@ -12,7 +12,6 @@ import it.polimi.ingsw.view.gui.customcomponents.animations.MyShelfieRotateTrans
 import it.polimi.ingsw.view.gui.customcomponents.animations.MyShelfieScaleTransition;
 import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieAlertCreator;
 import it.polimi.ingsw.view.gui.customcomponents.tileview.TileSubjectView;
-import javafx.animation.Transition;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -284,7 +283,12 @@ public class BoardViewController extends MyShelfieController {
     public TileSubject[][] toTileSubjectMatrix() {
         TileSubject[][] boardMatrix = new TileSubject[getMaxBoardRow()][getMaxBoardColumn()];
 
-        itemTileBoxes.forEach((coordinate, pane) -> {
+        getBoardState().forEach((coordinate, tile) -> {
+            if(tile != null)
+                boardMatrix[coordinate.getX()][coordinate.getY()] = tile.getTileSubject();
+        });
+
+        /*itemTileBoxes.forEach((coordinate, pane) -> {
             if (pane.getChildren().size() > 0 && pane.getChildren().size() == 1) {
                 try {
                     boardMatrix[coordinate.getX()][coordinate.getY()] = ((TileSubjectView) pane.getChildren().get(0)).getTileSubject();
@@ -292,7 +296,7 @@ public class BoardViewController extends MyShelfieController {
                     MyShelfieAlertCreator.displayErrorAlert(e);
                 }
             }
-        });
+        });*/
 
         return boardMatrix;
     }
@@ -406,7 +410,6 @@ public class BoardViewController extends MyShelfieController {
         Map<Coordinate, TileSubjectView> boardState = new HashMap<>();
 
         itemTileBoxes.forEach((coordinate, box) -> {
-
             try {
                 TileSubjectView tileInBox = (TileSubjectView) box.getChildren().stream().findFirst().orElse(null);
                 boardState.put(coordinate, tileInBox);

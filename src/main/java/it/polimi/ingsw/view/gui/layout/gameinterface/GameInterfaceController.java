@@ -16,10 +16,7 @@ import it.polimi.ingsw.view.gui.customcomponents.tileview.TileSubjectView;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.util.Pair;
 import org.jetbrains.annotations.NotNull;
 
@@ -317,6 +314,57 @@ public class GameInterfaceController extends MyShelfieController {
         });
     }
 
+    public void  startEndGameTokenAnimation(MouseEvent mouseEvent) {
+        transferEndGameToken(personalPointPane.getFreePointCell());
+    }
+
+    public void assignEndGameTokenToOpponent(Pane destinationPane) {
+        transferEndGameToken(destinationPane);
+    }
+
+    private void transferEndGameToken(Pane destionationPane) {
+        try {
+            gameBoardViewController.moveEndGameTokenView(destionationPane);
+        } catch (NullPointerException e) {
+            MyShelfieAlertCreator.displayErrorAlert(
+                    "The player has obtained all possible point, so he can't obtain another point token",
+                    "Player point table full"
+            );
+        }
+    }
+
+    public void startTokenAnimation1(MouseEvent mouseEvent) {
+        transferToken(commonGoals.get(0), personalPointPane.getFreePointCell());
+    }
+
+    public void assignToken1ToOpponent(Pane destinationPane) {
+        transferToken(commonGoals.get(0), destinationPane);
+    }
+
+    public void startTokenAnimation2(MouseEvent mouseEvent) {
+        transferToken(commonGoals.get(1), personalPointPane.getFreePointCell());
+    }
+
+    public void assignToken2ToOpponent(Pane destinationPane) {
+        transferToken(commonGoals.get(1), destinationPane);
+    }
+
+    public void transferToken(CommonGoalView commonGoalView, Pane destinationPane) {
+        try {
+            commonGoalView.moveScoringTokenView(destinationPane);
+        } catch (NullPointerException e) {
+            MyShelfieAlertCreator.displayErrorAlert(
+                    "The player has obtained all possible point, so he can't obtain another point token",
+                    "Player point table full"
+            );
+        } catch (EmptyStackException e) {
+            MyShelfieAlertCreator.displayErrorAlert(
+                    "There are no more points that can be obtained from this common goal",
+                    "Can't assign common goal point"
+            );
+        }
+    }
+
     @Override
     public void onGameStateChangedNotified() {
 
@@ -353,41 +401,7 @@ public class GameInterfaceController extends MyShelfieController {
         ((HBox) ((MyShelfieButton) mouseEvent.getSource()).getParent()).getChildren().remove(((MyShelfieButton) mouseEvent.getSource()));
     }
 
-    public void startTokenAnimation1(MouseEvent mouseEvent) {
-        try {
-            commonGoals.get(0).moveScoringTokenView(personalPointPane.getFreePointCell());
-        } catch (NullPointerException | EmptyStackException e) {
-            MyShelfieAlertCreator.displayErrorAlert(
-                    "There are no more points that can be obtained from this common goal",
-                    "Can't assign common goal point"
-            );
-        }
-    }
-
-    public void startTokenAnimation2(MouseEvent mouseEvent) {
-        try {
-            commonGoals.get(1).moveScoringTokenView(personalPointPane.getFreePointCell());
-        } catch (NullPointerException e) {
-            MyShelfieAlertCreator.displayErrorAlert(
-                    "The player has obtained all possible point, so he can't obtain another point token",
-                    "Player point table full"
-            );
-        } catch (EmptyStackException e) {
-            MyShelfieAlertCreator.displayErrorAlert(
-                    "There are no more points that can be obtained from this common goal",
-                    "Can't assign common goal point"
-            );
-        }
-    }
-
-    public void startEndGameTokenAnimation(MouseEvent mouseEvent) {
-        try {
-            gameBoardViewController.moveEndGameTokenView(personalPointPane.getFreePointCell());
-        } catch (NullPointerException e) {
-            MyShelfieAlertCreator.displayErrorAlert(
-                    "The player has obtained all possible point, so he can't obtain another point token",
-                    "Player point table full"
-            );
-        }
+    public TileSubject[][] getTilesOnBoardMatrix() {
+        return gameBoardViewController.toTileSubjectMatrix();
     }
 }

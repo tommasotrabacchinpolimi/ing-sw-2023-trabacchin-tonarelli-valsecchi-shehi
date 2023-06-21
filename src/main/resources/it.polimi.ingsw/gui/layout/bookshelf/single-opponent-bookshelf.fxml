@@ -39,5 +39,5 @@
 
     <OpponentBookshelfView fx:id="opponentBookshelfView"/>
 
-    <SquarePointPane/>
+    <SquarePointPane fx:id="singleOpponentPointPane"/>
 </VBox>

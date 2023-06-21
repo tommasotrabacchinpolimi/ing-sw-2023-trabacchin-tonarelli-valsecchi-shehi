@@ -1,7 +1,6 @@
 package it.polimi.ingsw.view.gui.layout.opponentsinterface;
 
 import it.polimi.ingsw.model.TileSubject;
-import it.polimi.ingsw.utils.Coordinate;
 import it.polimi.ingsw.view.gui.MyShelfieController;
 import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieAlertCreator;
 import it.polimi.ingsw.view.gui.customcomponents.tileview.TileSubjectView;
@@ -10,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 import org.jetbrains.annotations.NotNull;
@@ -43,9 +43,9 @@ public class OpponentsInterfaceController extends MyShelfieController {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        addOpponentBookshelf("Wizzo");
-        addOpponentBookshelf("Nicco");
-        addOpponentBookshelf("Vito");
+        addOpponentBookshelf("Adem");
+        addOpponentBookshelf("Melanie");
+        addOpponentBookshelf("Tommy");
     }
 
     private void addOpponentBookshelf(String playerName) {
@@ -74,19 +74,26 @@ public class OpponentsInterfaceController extends MyShelfieController {
         return opponentsBookshelfViewController.get((opponentsBookshelfViewController.size() - 1)).getValue();
     }
 
-    private SingleOpponentBookShelfController getOpponentBookshelf(String playerName) throws NoSuchElementException {
+    private SingleOpponentBookShelfController getSingleOpponentBookshelfController(String playerName) throws NoSuchElementException {
         return opponentsBookshelfViewController.stream()
-                .filter(pair -> pair.getKey().getId().equals(playerName))
+                .filter(pair -> pair.getKey().getId().equals(playerName + OPPONENT_BOOKSHELF_ROOT_PREFIX))
                 .map(Pair::getValue)
                 .findFirst()
                 .orElseThrow();
     }
 
-    public void updateOpponentBookshelf(@NotNull Map<String, TileSubject[][]> playerBookshelves,
-                                        @NotNull Map<Coordinate, TileSubjectView> takenTiles) {
-        playerBookshelves.forEach((playerName, bookshelf) -> {
+    /**
+     * Updates the bookshelf of all opponent players in the game
+     *
+     * @param updatedPlayerBookshelves the updated opponent players
+     *                          bookshelf
+     * @param takenTiles
+     */
+    public void updateOpponentBookshelf(@NotNull Map<String, TileSubject[][]> updatedPlayerBookshelves,
+                                        @NotNull List<TileSubjectView> takenTiles) {
+        updatedPlayerBookshelves.forEach((playerName, bookshelf) -> {
             try{
-                getOpponentBookshelf(playerName).insertTilesInOpponentBookshelf(bookshelf, takenTiles);
+                getSingleOpponentBookshelfController(playerName).insertTilesInOpponentBookshelf(bookshelf, takenTiles);
             }catch(IllegalArgumentException e) {
                 MyShelfieAlertCreator.displayErrorAlert(e);
             }
@@ -101,7 +108,12 @@ public class OpponentsInterfaceController extends MyShelfieController {
 
     }
 
-    public void startEndGameTokenAnimationToOpponent() {
+    public Pane getFreeOpponentPointCell(String opponentName) {
+        return getSingleOpponentBookshelfController(opponentName).getEndGameTokenPointCell();
+    }
 
+    //For testing
+    public TileSubject[][] getBookshelfFromName(String name) {
+        return getSingleOpponentBookshelfController(name).getOpponentBookshelf();
     }
 }

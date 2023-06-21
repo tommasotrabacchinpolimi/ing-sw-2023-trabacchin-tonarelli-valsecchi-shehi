@@ -55,11 +55,18 @@ public class MainInterfaceController extends MyShelfieController {
         setupTestingButton();
     }
 
+    /**
+     * Handles all the operations necessary to updates the board and
+     * the bookshelf of the opponents
+     *
+     * @param board             the updated board
+     * @param playerBookshelves the updated opponent player bookshelf
+     */
     private void transferTilesToOpponent(TileSubject[][] board, Map<String, TileSubject[][]> playerBookshelves) {
 
-        Map<Coordinate, TileSubjectView> takenTiles = getTakenTilesFromBoard(board);
+        List<TileSubjectView> takenTiles = getTakenTilesFromBoard(board);
 
-        gameInterfaceController.removeOpponentTakenTiles(takenTiles.values().stream().toList());
+        gameInterfaceController.removeOpponentTakenTiles(takenTiles);
 
         opponentsInterfaceController.updateOpponentBookshelf(playerBookshelves, takenTiles);
     }
@@ -69,18 +76,19 @@ public class MainInterfaceController extends MyShelfieController {
      * and their {@linkplain Coordinate position} from the {@code matrix board}
      * passed as parameter that are different from the actual board displayed
      *
-     * @param board the updated board that has potentially different from the
+     * @param board the updated board that is potentially different from the
      *              one displayed
      * @return every graphical tile displayed with its coordinate that is
      * different from the content of {@code board} (parameter)
      */
     @NotNull
-    private Map<Coordinate, TileSubjectView> getTakenTilesFromBoard(TileSubject[][] board) {
+    private List<TileSubjectView> getTakenTilesFromBoard(TileSubject[][] board) {
         return gameInterfaceController.retrieveBoardState()
                 .entrySet()
                 .stream()
                 .filter(entry -> boardHasDifferentContent(entry, board))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                .map(Map.Entry::getValue)
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     /**
@@ -91,7 +99,6 @@ public class MainInterfaceController extends MyShelfieController {
      *
      * @param boardEntry the board entry to be checked
      * @param board      the matrix representing the board
-     *
      * @return {@code true} if the {@code boardEntry} has a different content
      * than the content of {@code board} in the same position
      */
@@ -99,6 +106,17 @@ public class MainInterfaceController extends MyShelfieController {
         return boardEntry.getValue().getTileSubject() != board[boardEntry.getKey().getX()][boardEntry.getKey().getY()];
     }
 
+    private void transferEndTokenToOpponent(String opponentName) {
+        gameInterfaceController.assignEndGameTokenToOpponent(opponentsInterfaceController.getFreeOpponentPointCell(opponentName));
+    }
+
+    private void transferToken1ToOpponent(String opponentName) {
+        gameInterfaceController.assignToken1ToOpponent(opponentsInterfaceController.getFreeOpponentPointCell(opponentName));
+    }
+
+    private void transferToken2ToOpponent(String opponentName) {
+        gameInterfaceController.assignToken2ToOpponent(opponentsInterfaceController.getFreeOpponentPointCell(opponentName));
+    }
 
     //For testing purpose
 
@@ -121,22 +139,63 @@ public class MainInterfaceController extends MyShelfieController {
 
         MyShelfieButton assignEndGame = new MyShelfieButton("EndToken Opponent");
         assignEndGame.setId("assignEndGame");
-        assignEndGame.setOnMouseClicked(value -> opponentsInterfaceController.startEndGameTokenAnimationToOpponent());
+        assignEndGame.setOnMouseClicked(value -> transferEndTokenToOpponent("Adem"));
 
         MyShelfieButton assignTokenOpponent1 = new MyShelfieButton("Opponent Token1");
         assignTokenOpponent1.setId("assignTokenOpponent1");
-        assignTokenOpponent1.setOnMouseClicked(value -> opponentsInterfaceController.startTokenAnimationToOpponent1());
+        assignTokenOpponent1.setOnMouseClicked(value -> transferToken1ToOpponent("Tommy"));
 
         MyShelfieButton assignTokenOpponent2 = new MyShelfieButton("Opponent Token2");
         assignTokenOpponent2.setId("assignTokenOpponent2");
-        assignTokenOpponent2.setOnMouseClicked(value -> opponentsInterfaceController.startTokenAnimationToOpponent2());
+        assignTokenOpponent2.setOnMouseClicked(value -> transferToken2ToOpponent("Tommy"));
 
         MyShelfieButton tilesToOpponent = new MyShelfieButton("Opponent Tiles");
         tilesToOpponent.setId("tilesToOpponent");
-        //tilesToOpponent.setOnMouseClicked(value -> transferTilesToOpponent());
+        tilesToOpponent.setOnMouseClicked(value -> {
+            TileSubject[][] differentBoard = getDifferentBoard();
+            transferTilesToOpponent(differentBoard, getDifferentBookshelvesMap(differentBoard));
+        });
 
         gameInterfaceController.testingBox.getChildren().addAll(fillBoardButton,
                 testTokenAnimation1, testTokenAnimation2, getEndGame, assignEndGame, assignTokenOpponent1,
                 assignTokenOpponent2, tilesToOpponent);
+    }
+
+    private TileSubject[][] getDifferentBoard() {
+        TileSubject[][] modifiedBoard = gameInterfaceController.getTilesOnBoardMatrix();
+
+        int get = 0;
+
+        for (int i = 0; i < modifiedBoard.length; ++i) {
+            for (int j = 0; j < modifiedBoard[i].length; ++j) {
+                if(modifiedBoard[i][j] != null) {
+                    modifiedBoard[i][j] = null;
+                    ++get;
+                }
+
+                if(get == 3)
+                    return modifiedBoard;
+            }
+        }
+
+        return modifiedBoard;
+    }
+
+    @NotNull
+    private Map<String, TileSubject[][]> getDifferentBookshelvesMap(TileSubject[][] modifiedBoard) {
+        List<TileSubjectView> taken = getTakenTilesFromBoard(modifiedBoard);
+
+        Map<String, TileSubject[][]> updates = new HashMap<>();
+
+        TileSubject[][] opponentBookshelf = opponentsInterfaceController.getBookshelfFromName("Melanie");
+
+        for (int i = 5; i > 2; --i) {
+            opponentBookshelf[i][0] = taken.get(0).getTileSubject();
+            taken.remove(0);
+        }
+
+        updates.put("Melanie", opponentBookshelf);
+
+        return updates;
     }
 }

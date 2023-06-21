@@ -282,6 +282,10 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
         return tileSubject;
     }
 
+    public boolean isEqualTileSubject(TileSubject otherTileSubject) {
+        return otherTileSubject == this.tileSubject;
+    }
+
     /**
      * Retrieve the element that has to be customized
      *
