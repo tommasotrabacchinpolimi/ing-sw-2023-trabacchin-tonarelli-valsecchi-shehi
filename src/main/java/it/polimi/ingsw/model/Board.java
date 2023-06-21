@@ -226,14 +226,14 @@ public class Board implements Serializable, OnUpdateNeededListener {
         notifyOnBoardRefilled();
     }
 
-    public void notifyOnBoardUpdated() {
+    private void notifyOnBoardUpdated() {
         TileSubject[][] boardCopy = Arrays.stream(board).map(TileSubject[]::clone).toArray(TileSubject[][]::new);
         for(OnBoardUpdatedListener onBoardUpdatedListener : onBoardUpdatedListeners) {
             onBoardUpdatedListener.onBoardUpdated(boardCopy);
         }
     }
 
-    public void notifyOnBoardRefilled() {
+    private void notifyOnBoardRefilled() {
         for(OnBoardRefilledListener onBoardRefilledListener : onBoardRefilledListeners) {
             if(onBoardRefilledListener != null) {
                 onBoardRefilledListener.onBoardRefilled();

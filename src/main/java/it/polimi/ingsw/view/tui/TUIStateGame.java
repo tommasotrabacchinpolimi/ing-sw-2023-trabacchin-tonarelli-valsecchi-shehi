@@ -33,7 +33,7 @@ public class TUIStateGame extends TUIState{
     private final BufferedReader bufferedReader;
     private final PrintStream out = System.out;
     private TUIView state;
-    public static final BoardSquareType[][] INIT_MATRIX = {
+    private static final BoardSquareType[][] INIT_MATRIX = {
             {null, null, null, THREE_DOTS, FOUR_DOTS, null, null, null, null},
             {null, null, null, NO_DOTS, NO_DOTS, FOUR_DOTS, null, null, null},
             {null, null, THREE_DOTS, NO_DOTS, NO_DOTS, NO_DOTS, THREE_DOTS, null, null},
@@ -44,9 +44,7 @@ public class TUIStateGame extends TUIState{
             {null, null, null, FOUR_DOTS, NO_DOTS, NO_DOTS, null, null, null},
             {null, null, null, null, FOUR_DOTS, THREE_DOTS, null, null, null}
     };
-
     private final Lock lock = new ReentrantLock();
-
 
     private enum TUIView {
         HOME,
@@ -55,14 +53,17 @@ public class TUIStateGame extends TUIState{
         LEGEND,
         END
     }
+
     public TUIStateGame(TUIStateMachine tuiStateMachine) {
         super(tuiStateMachine);
         bufferedReader = new BufferedReader(new InputStreamReader(System.in));
     }
+
     @Override
     protected void newLine(String line) {
-
     }
+
+    @Override
     public void onNewMessage(String sender) {
         lock.lock();
         if(state != TUIView.CHAT) {
@@ -85,11 +86,11 @@ public class TUIStateGame extends TUIState{
         }
         lock.unlock();
     }
+
     @Override
     public void launchUI() {
 
     }
-
 
     @Override
     public void onException() {
@@ -196,7 +197,7 @@ public class TUIStateGame extends TUIState{
         }
     }
 
-    public void refresh(){
+    private void refresh(){
         reset();
         if(state.equals(TUIView.CHAT)){
             showChat();
@@ -211,7 +212,7 @@ public class TUIStateGame extends TUIState{
         }
     }
 
-    public void reset(){
+    private void reset(){
         out.println("\033[2J");
     }
 
@@ -818,6 +819,7 @@ public class TUIStateGame extends TUIState{
     private ViewData getModel() {
         return getTuiStateMachine().getModel();
     }
+
     private LogicInterface getLogicController() {
         return getTuiStateMachine().getLogicController();
     }

@@ -644,7 +644,7 @@ public class State implements Serializable, OnUpdateNeededListener {
         }
     }
 
-    public void notifyOnAchievedPersonalGoal(List<EntryPatternGoal> tiles, Player player) {
+    private void notifyOnAchievedPersonalGoal(List<EntryPatternGoal> tiles, Player player) {
         for(OnAchievedPersonalGoalListener onAchievedPersonalGoalListener : onAchievedPersonalGoalListeners) {
             List<Coordinate> list = new ArrayList<>();
             for(EntryPatternGoal tile : tiles){
@@ -654,7 +654,7 @@ public class State implements Serializable, OnUpdateNeededListener {
         }
     }
 
-    public void notifyOnAchievedCommonGoal(List<EntryPatternGoal> tiles, Player player, int numberCommonGoal){
+    private void notifyOnAchievedCommonGoal(List<EntryPatternGoal> tiles, Player player, int numberCommonGoal){
         List<EntryPatternGoal> copy_result = new ArrayList<>();
         for (EntryPatternGoal entry : tiles) {
             copy_result.add(new EntryPatternGoal(entry.getRow(), entry.getColumn(), entry.getTileType()));
@@ -664,14 +664,14 @@ public class State implements Serializable, OnUpdateNeededListener {
         }
     }
 
-    public void notifyStateChanged(){
+    private void notifyStateChanged(){
         for(OnStateChangedListener stateChangedListener : stateChangedListeners){
             System.out.println("game state changed notified");
             stateChangedListener.onStateChanged(this.getGameState());
         }
     }
 
-    public void notifyLastPlayerUpdated(){
+    private void notifyLastPlayerUpdated(){
         if(lastPlayer != null) {
             for (OnLastPlayerUpdatedListener lastPlayerUpdatedListener : lastPlayerUpdatedListeners) {
                 lastPlayerUpdatedListener.onLastPlayerUpdated(lastPlayer.getNickName());
@@ -679,7 +679,7 @@ public class State implements Serializable, OnUpdateNeededListener {
         }
     }
 
-    public void notifyMessageSent() {
+    private void notifyMessageSent() {
         System.out.println("try messages sent");
         ChatMessage message = messages.get(messages.size()-1);
         List<String> nicknameReceivers = message.getReceivers().stream().map(Player::getNickName).toList();
@@ -689,7 +689,7 @@ public class State implements Serializable, OnUpdateNeededListener {
         System.out.println("messages sent");
     }
 
-    public void notifyAssignedCommonGoal() {
+    private void notifyAssignedCommonGoal() {
         for(OnAssignedCommonGoalListener onAssignedCommonGoalListener : onAssignedCommonGoalListeners) {
             if(this.getCommonGoal1() != null) {
                 onAssignedCommonGoalListener.onAssignedCommonGoal(this.getCommonGoal1().getDescription(), 1);
@@ -701,13 +701,13 @@ public class State implements Serializable, OnUpdateNeededListener {
         }
     }
 
-    public void notifyCurrentPlayerChanged() {
+    private void notifyCurrentPlayerChanged() {
         for(OnCurrentPlayerChangedListener onCurrentPlayerChangedListener :onCurrentPlayerChangedListeners) {
             onCurrentPlayerChangedListener.onCurrentPlayerChangedListener(currentPlayer.getNickName());
         }
     }
 
-    public void notifyChangedCommonGoalAvailableScore(int newScore, int numberOfCommonGoal){
+    private void notifyChangedCommonGoalAvailableScore(int newScore, int numberOfCommonGoal){
         for(OnChangedCommonGoalAvailableScoreListener listener: onChangedCommonGoalAvailableScoreListenerListeners){
             listener.onChangedCommonGoalAvailableScore(newScore, numberOfCommonGoal);
         }
@@ -719,7 +719,7 @@ public class State implements Serializable, OnUpdateNeededListener {
         }
     }
 
-    public void notifyOnWinnerChanged() {
+    private void notifyOnWinnerChanged() {
         for(OnWinnerChangedListener onWinnerChangedListener : onWinnerChangedListeners) {
             onWinnerChangedListener.onWinnerChanged(getWinner().getNickName());
         }

@@ -4,10 +4,10 @@ import java.io.IOException;
 
 public class TUIStateWaiting extends TUIState{
 
-
     public TUIStateWaiting(TUIStateMachine tuiStateMachine) {
         super(tuiStateMachine);
     }
+
     @Override
     protected void newLine(String line) throws IOException {
         if(line.equals("quit") && !isTriggered()) {
