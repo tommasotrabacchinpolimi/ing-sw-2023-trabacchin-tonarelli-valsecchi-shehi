@@ -5,7 +5,7 @@ import it.polimi.ingsw.net_alternative.ClientDispatcherInterface;
 
 public class LastPlayerUpdatedNetMessage implements ClientMessage {
 
-    private String nicknameLastPlayer;
+    private final String nicknameLastPlayer;
 
     public LastPlayerUpdatedNetMessage(String nicknameLastPlayer) {
         this.nicknameLastPlayer = nicknameLastPlayer;

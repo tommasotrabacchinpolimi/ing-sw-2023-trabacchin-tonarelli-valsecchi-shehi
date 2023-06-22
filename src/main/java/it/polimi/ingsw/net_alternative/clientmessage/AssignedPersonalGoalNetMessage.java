@@ -1,6 +1,6 @@
 package it.polimi.ingsw.net_alternative.clientmessage;
 
-import it.polimi.ingsw.model.EntryPatternGoal;
+import  it.polimi.ingsw.model.EntryPatternGoal;
 import it.polimi.ingsw.net_alternative.ClientMessage;
 import it.polimi.ingsw.net_alternative.ClientDispatcherInterface;
 

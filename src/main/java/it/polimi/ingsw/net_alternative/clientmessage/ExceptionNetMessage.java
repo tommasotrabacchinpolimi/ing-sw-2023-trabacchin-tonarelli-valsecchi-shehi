@@ -4,7 +4,7 @@ import it.polimi.ingsw.net_alternative.ClientMessage;
 import it.polimi.ingsw.net_alternative.ClientDispatcherInterface;
 
 public class ExceptionNetMessage implements ClientMessage {
-    private Exception exception;
+    private final Exception exception;
 
     public ExceptionNetMessage(Exception exception) {
         this.exception = exception;
