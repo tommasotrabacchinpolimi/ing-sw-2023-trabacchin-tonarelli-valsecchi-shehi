@@ -10,6 +10,12 @@ import it.polimi.ingsw.net_alternative.ClientDispatcherInterface;
  * refilled. This typically occurs when certain game actions or events trigger a refill of the game board tiles.
  * </p>
  *
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+
  */
 public class BoardRefilledNetMessage implements ClientMessage {
 

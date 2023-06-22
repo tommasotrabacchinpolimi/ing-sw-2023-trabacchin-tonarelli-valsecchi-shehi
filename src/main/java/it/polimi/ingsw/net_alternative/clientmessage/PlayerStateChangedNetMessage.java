@@ -8,6 +8,12 @@ import it.polimi.ingsw.net_alternative.ClientDispatcherInterface;
  *  Represents a client message indicating that the player state has changed.
  *  <br>
  *  Extends {@link ClientMessage} Interface.
+ * <br>
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+
  */
 public class PlayerStateChangedNetMessage implements ClientMessage {
 
@@ -42,7 +48,7 @@ public class PlayerStateChangedNetMessage implements ClientMessage {
     }
 
     /**
-     * It dispatches the message from the client
+     * It dispatches the message to the client
      * @param clientDispatcherInterface is the handler of the message.
      */
     @Override

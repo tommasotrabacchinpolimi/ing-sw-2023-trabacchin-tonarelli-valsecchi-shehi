@@ -9,6 +9,12 @@ import java.util.List;
 /**
  * Represents a client message indicating that a Common goal has been achieved.
  * It implements the {@link ClientMessage} interface.
+ *
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
  */
 public class AchievedCommonGoalNetMessage implements ClientMessage {
     private String nicknamePlayer;
@@ -55,7 +61,7 @@ public class AchievedCommonGoalNetMessage implements ClientMessage {
     }
 
     /**
-     * Method that allows to dispatch the message from the client
+     * Method that allows to dispatch the message to the client
      * @param clientDispatcherInterface is the handler of the message
      */
     @Override

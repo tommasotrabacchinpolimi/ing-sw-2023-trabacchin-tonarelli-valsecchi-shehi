@@ -4,8 +4,14 @@ import it.polimi.ingsw.net_alternative.ClientMessage;
 import it.polimi.ingsw.net_alternative.ClientDispatcherInterface;
 
 /**
- * Represents a client message indicating a change in the available score for common goals.
+ * Represents message for the client indicating a change in the available score for common goals.
  * It implements the {@link ClientMessage} interface.
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+
  */
 public class ChangedCommonGoalAvailableScoreNetMessage implements ClientMessage {
 
@@ -40,7 +46,7 @@ public class ChangedCommonGoalAvailableScoreNetMessage implements ClientMessage 
     }
 
     /**
-     * It dispatches the message from the client
+     * It dispatches the message to the client
      * @param clientDispatcherInterface is the handler of the message.
      */
     @Override

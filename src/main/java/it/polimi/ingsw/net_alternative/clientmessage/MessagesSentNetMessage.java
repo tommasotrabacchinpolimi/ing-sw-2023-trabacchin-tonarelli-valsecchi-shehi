@@ -8,7 +8,13 @@ import java.util.List;
 /**
  * Represents the chat being sent.
  * <br>
- * It can be utilized when a client lost his connection and needs to sent again all the chat
+ * It can be utilized when a client lost his connection and needs to sent again all the chat.
+ * <br>
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+
  */
 public class MessagesSentNetMessage implements ClientMessage {
 
@@ -55,7 +61,7 @@ public class MessagesSentNetMessage implements ClientMessage {
     }
 
     /**
-     * It dispatches the message from the client
+     * It dispatches the message to the client
      * @param clientDispatcherInterface is the handler of the message.
      */
     @Override

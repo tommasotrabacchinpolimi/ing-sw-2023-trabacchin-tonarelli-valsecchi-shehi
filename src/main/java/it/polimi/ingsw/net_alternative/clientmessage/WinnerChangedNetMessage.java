@@ -9,7 +9,12 @@ import it.polimi.ingsw.net_alternative.ClientDispatcherInterface;
  * The {@code WinnerChangedNetMessage} class is a client message that notifies the client about a change in the winner
  * of the game. It contains the nickname of the new winner.
  * </p>
- *
+ * <br>
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+
  */
 public class WinnerChangedNetMessage implements ClientMessage {
 

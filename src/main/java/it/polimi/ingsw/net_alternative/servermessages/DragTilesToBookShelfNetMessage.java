@@ -9,8 +9,8 @@ import java.util.List;
 
 public class DragTilesToBookShelfNetMessage implements ServerMessage {
 
-    private List<Coordinate> chosenTiles;
-    private int chosenColumn;
+    private final List<Coordinate> chosenTiles;
+    private final int chosenColumn;
     public DragTilesToBookShelfNetMessage(List<Coordinate> chosenTiles, int chosenColumn) {
         this.chosenTiles = chosenTiles;
         this.chosenColumn = chosenColumn;

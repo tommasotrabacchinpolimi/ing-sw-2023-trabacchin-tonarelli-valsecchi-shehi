@@ -9,6 +9,12 @@ import java.util.List;
  * Represents a client message indicating that the Player list has changed.
  * <br>
  * Extends {@link ClientMessage} Interface.
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+
  */
 public class PlayersListChangedNetMessage implements ClientMessage {
     private final List<String> players;
@@ -31,7 +37,7 @@ public class PlayersListChangedNetMessage implements ClientMessage {
 
 
     /**
-     * It dispatches the message from the client
+     * It dispatches the message to the client
      * @param clientDispatcherInterface is the handler of the message.
      */
     @Override

@@ -9,7 +9,12 @@ import it.polimi.ingsw.net_alternative.ClientDispatcherInterface;
  * The {@code StateChangedNetMessage} class is a client message that notifies the client about a change in the game state.
  * It contains the updated {@link GameState} value representing the new state of the game.
  * </p>
- *
+ * <br>
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+
  */
 
 public class StateChangedNetMessage implements ClientMessage {

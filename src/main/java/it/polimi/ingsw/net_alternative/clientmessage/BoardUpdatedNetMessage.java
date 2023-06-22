@@ -5,9 +5,15 @@ import it.polimi.ingsw.net_alternative.ClientMessage;
 import it.polimi.ingsw.net_alternative.ClientDispatcherInterface;
 
 /**
- * Class used to allow the client notify the change of board.
+ * Class used to allow the client to be notified about the change of board.
  * <br>
  * It extends {@link ClientMessage} Interface.
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+
  */
 public class BoardUpdatedNetMessage implements ClientMessage {
 
@@ -33,7 +39,7 @@ public class BoardUpdatedNetMessage implements ClientMessage {
     }
 
     /**
-     * It dispatches the message from the client
+     * It dispatches the message to the client
      * @param clientDispatcherInterface is the handler of the message.
      */
     @Override

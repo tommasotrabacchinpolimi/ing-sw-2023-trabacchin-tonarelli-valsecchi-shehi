@@ -6,9 +6,15 @@ import it.polimi.ingsw.net_alternative.ClientDispatcherInterface;
 import java.util.List;
 
 /**
- * Represents a message from the client that a message is being sent
+ * Represents a message to the client, notifying that a message was sent
  * <br>
  * Extends {@link ClientMessage} Interface
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+
  */
 public class MessageSentNetMessage implements ClientMessage {
 
@@ -55,7 +61,7 @@ public class MessageSentNetMessage implements ClientMessage {
     }
 
     /**
-     * It dispatches the message from the client
+     * It dispatches the message to the client
      * @param clientDispatcherInterface is the handler of the message.
      */
     @Override

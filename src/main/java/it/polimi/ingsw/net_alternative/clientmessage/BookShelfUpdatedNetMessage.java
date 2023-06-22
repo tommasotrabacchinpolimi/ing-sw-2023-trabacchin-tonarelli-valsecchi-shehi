@@ -5,9 +5,15 @@ import it.polimi.ingsw.net_alternative.ClientMessage;
 import it.polimi.ingsw.net_alternative.ClientDispatcherInterface;
 
 /**
- * Represents a client message indicating that the Bookshelf has changed.
+ * Represents message for the client indicating that the Bookshelf has changed.
  * <br>
  * Extends {@link ClientMessage} Interface.
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+
  */
 public class BookShelfUpdatedNetMessage implements ClientMessage {
 
@@ -42,7 +48,7 @@ public class BookShelfUpdatedNetMessage implements ClientMessage {
     }
 
     /**
-     * It dispatches the message from the client
+     * It dispatches the message to the client
      * @param clientDispatcherInterface is the handler of the message.
      */
     @Override

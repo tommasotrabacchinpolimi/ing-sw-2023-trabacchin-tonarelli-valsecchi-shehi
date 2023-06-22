@@ -9,6 +9,12 @@ import java.util.List;
 /**
  * Represents a client message indicating that the adjacent tiles have been updated.
  * It implements the {@link ClientMessage} interface.
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+
  */
 public class AdjacentTilesUpdatedNetMessage implements ClientMessage {
     private String nickname;
@@ -43,7 +49,7 @@ public class AdjacentTilesUpdatedNetMessage implements ClientMessage {
 
 
     /**
-     * Method that allows to dispatch the message from the client
+     * Method that allows to dispatch the message to the client
      * @param clientDispatcherInterface is {@link ClientDispatcherInterface} used to handle the message
      */
     @Override

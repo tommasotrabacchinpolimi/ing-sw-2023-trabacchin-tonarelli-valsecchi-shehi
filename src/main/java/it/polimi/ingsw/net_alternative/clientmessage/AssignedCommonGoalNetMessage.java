@@ -7,6 +7,12 @@ import it.polimi.ingsw.net_alternative.ClientDispatcherInterface;
  * Represents a client message indicating that a new CommonGoal has been Assigned.
  * <br>
  * Extends {@link ClientMessage} Interface.
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+
  */
 public class AssignedCommonGoalNetMessage implements ClientMessage {
 
@@ -41,7 +47,7 @@ public class AssignedCommonGoalNetMessage implements ClientMessage {
     }
 
     /**
-     * It dispatches the message from the Client.
+     * It dispatches the message to the Client.
      * @param clientDispatcherInterface is the Handler of the CommonGoal.
      */
     @Override

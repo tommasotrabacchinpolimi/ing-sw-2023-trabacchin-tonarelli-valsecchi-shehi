@@ -11,6 +11,11 @@ import java.util.List;
    * Represents a client message indicating that a personal goal has been achieved.
    * It implements the {@link ClientMessage} interface.
    *
+   * @author Tommaso Trabacchin
+   * @author Melanie Tonarelli
+   * @author Emanuele Valsecchi
+   * @author Adem Shehi
+
    */
 
 public class AchievedPersonalGoalNetMessage implements ClientMessage {
@@ -49,7 +54,7 @@ public class AchievedPersonalGoalNetMessage implements ClientMessage {
     }
 
       /**
-       * Method that allows to dispatch the message from the client
+       * Method that allows to dispatch the message to the client
        *
        * @param clientDispatcherInterface is the Handler of the message
        */
