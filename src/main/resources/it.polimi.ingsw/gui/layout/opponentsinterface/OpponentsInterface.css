@@ -6,3 +6,7 @@
     -fx-spacing: 5em;
     -fx-padding: 0.5em;
 }
+
+#opponentsChatInterfaceContainer {
+    -fx-padding: 1em;
+}

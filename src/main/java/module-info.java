@@ -8,14 +8,14 @@ module it.polimi.ingsw {
     requires json.simple;
     requires javafx.controls;
     requires javafx.fxml;
-        requires javafx.web;
+    requires javafx.web;
 
-        requires org.controlsfx.controls;
-            requires com.dlsc.formsfx;
-            requires net.synedra.validatorfx;
-            requires org.kordamp.ikonli.javafx;
-            requires org.kordamp.bootstrapfx.core;
-            requires com.almasb.fxgl.all;
+    requires org.controlsfx.controls;
+    requires com.dlsc.formsfx;
+    requires net.synedra.validatorfx;
+    requires org.kordamp.ikonli.javafx;
+    requires org.kordamp.bootstrapfx.core;
+    requires com.almasb.fxgl.all;
 
     requires java.desktop;
     requires java.compiler;
@@ -40,7 +40,6 @@ module it.polimi.ingsw {
 
     exports it.polimi.ingsw.view.tui;
     exports it.polimi.ingsw.view;
-    exports it.polimi.ingsw.view.gui.chatpage;
 
     exports it.polimi.ingsw.controller.listeners;
     opens it.polimi.ingsw.controller.listeners;
@@ -95,6 +94,13 @@ module it.polimi.ingsw {
 
     exports it.polimi.ingsw.view.gui.customcomponents.animations to javafx.fxml, javafx.graphics;
     opens it.polimi.ingsw.view.gui.customcomponents.animations to javafx.fxml, javafx.graphics;
+
+    exports it.polimi.ingsw.view.gui.customcomponents.messageView to javafx.fxml, javafx.graphics;
+    opens it.polimi.ingsw.view.gui.customcomponents.messageView to javafx.fxml, javafx.graphics;
+
+    exports it.polimi.ingsw.view.gui.layout.chatpage to javafx.fxml, javafx.graphics;
+    opens it.polimi.ingsw.view.gui.layout.chatpage to javafx.fxml, javafx.graphics;
+
     opens it.polimi.ingsw.net_alternative;
     exports it.polimi.ingsw.net_alternative;
     exports it.polimi.ingsw.net_alternative.servermessages;

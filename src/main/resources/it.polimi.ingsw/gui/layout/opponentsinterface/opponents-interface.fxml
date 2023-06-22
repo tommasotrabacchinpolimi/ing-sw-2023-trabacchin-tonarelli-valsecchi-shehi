@@ -29,4 +29,9 @@
           GridPane.fillHeight="false" alignment="CENTER">
 
     </HBox>
+
+    <StackPane fx:id="opponentsChatInterfaceContainer" GridPane.columnIndex="1" GridPane.rowIndex="0">
+        <fx:include fx:id="opponentsChatInterface" source="../chat/chat-page.fxml"/>
+    </StackPane>
+
 </GridPane>

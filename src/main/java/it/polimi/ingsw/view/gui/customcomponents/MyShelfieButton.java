@@ -186,7 +186,7 @@ public class MyShelfieButton extends Button implements MyShelfieComponent {
                 "-fx-text-fill: " + BONE.getRGBAStyleSheet(0.97) +";" +
                 "-fx-background-image: url('" + getMyShelfieResource(BACKGROUND_IMAGE) + "');" +
                 "-fx-background-size: contain;" +
-                "-fx-background-position: center center;" +
+                "-fx-background-position: center;" +
                 "-fx-alignment: center;" +
                 "-fx-font-size: 1em;" +
                 "-fx-border-color: transparent;" +
