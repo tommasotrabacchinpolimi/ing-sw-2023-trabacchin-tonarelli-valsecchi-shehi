@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.gui.layout.loginpage;
 import it.polimi.ingsw.view.gui.MyShelfieApplication;
 import it.polimi.ingsw.view.gui.customcomponents.MyShelfieButton;
 import it.polimi.ingsw.view.gui.MyShelfieController;
+import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieAlertCreator;
 import javafx.animation.FadeTransition;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
@@ -26,7 +27,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import static it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieAlertCreator.displayErrorAlert;
 import static it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieTransitionDurationType.DEF_DURATION;
 import static java.util.Map.entry;
 
@@ -102,7 +102,7 @@ public class LoginPageController extends MyShelfieController {
 
         if (keyEvent.getCode() == KeyCode.ENTER) {
             if (loginNicknameInput.isVisible() && !loginNicknameInput.isDisabled() && !verifyNickname()) {
-                displayErrorAlert("Please choose an option between \"Create game\" and \"Join game\"");
+                MyShelfieAlertCreator.displayInformationAlert("Please choose an option between \"Create game\" and \"Join game\"");
             }
 
             if (loginPlayerNumberInput.isVisible() && !loginPlayerNumberInput.isDisabled() && !verifyPlayerNumber()) {
@@ -116,7 +116,7 @@ public class LoginPageController extends MyShelfieController {
         if(isButtonActionCalled(inputEvent)){
             getNickNameFromField();
 
-            //getLogicController().joinGame(nickName);
+            getLogicController().joinGame(nickName);
         }
     }
 
@@ -139,7 +139,7 @@ public class LoginPageController extends MyShelfieController {
     private void executePlayerNumberSubmitted() {
         getPlayersNumberFromField();
 
-        //getLogicController().createGame(this.nickName, this.playersNumber);
+        getLogicController().createGame(nickName, playersNumber);
     }
 
     private boolean isButtonActionCalled(InputEvent inputEvent) {

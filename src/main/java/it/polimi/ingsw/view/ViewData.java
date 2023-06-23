@@ -183,4 +183,8 @@ public class ViewData {
         this.winnerPlayer = winnerPlayer;
         userInterface.showWinner();
     }
+
+    public Triple<String, List<String>, String> getLastMessage() {
+        return getMessages().get(getMessages().size() - 1);
+    }
 }

@@ -2,7 +2,6 @@ package it.polimi.ingsw.view.gui.layout.chatpage;
 
 
 import it.polimi.ingsw.view.gui.MyShelfieController;
-import it.polimi.ingsw.view.gui.customcomponents.MyShelfieAlertCreator;
 import it.polimi.ingsw.view.gui.customcomponents.messageView.ChatViewBox;
 import it.polimi.ingsw.view.gui.customcomponents.messageView.SingleMessageViewType;
 import javafx.fxml.FXML;
@@ -93,5 +92,9 @@ public class ChatPageController extends MyShelfieController {
     @Override
     public void onExceptionNotified() {
 
+    }
+
+    public void addReceivedMessage(String senderNickName, String messageContent) {
+        chatViewBox.addMessage(SingleMessageViewType.RECEIVED, senderNickName ,messageContent);
     }
 }

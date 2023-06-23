@@ -152,7 +152,7 @@
                             <addClasspath>true</addClasspath>
                             <!-- Specifies that all dependencies of our application are found -->
                             <!-- Configures the main class of the application -->
-                            <mainClass>it.polimi.ingsw.view.MainApp</mainClass>
+                            <mainClass>it.polimi.ingsw.view.AppClient</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -184,7 +184,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>it.polimi.ingsw.view.MainApp</mainClass>
+                            <mainClass>it.polimi.ingsw.view.AppClient</mainClass>
                             <launcher>MyShelfie</launcher>
                             <jlinkZipName>MyShelfie</jlinkZipName>
                             <jlinkImageName>MyShelfie</jlinkImageName>

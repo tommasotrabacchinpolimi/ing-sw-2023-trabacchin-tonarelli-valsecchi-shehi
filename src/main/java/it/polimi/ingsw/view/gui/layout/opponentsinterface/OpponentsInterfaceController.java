@@ -115,4 +115,8 @@ public class OpponentsInterfaceController extends MyShelfieController {
     public TileSubject[][] getBookshelfFromName(String name) {
         return getSingleOpponentBookshelfController(name).getOpponentBookshelf();
     }
+
+    public void receivedMessageHandler(String senderNickName, String messageContent) {
+        opponentsChatInterfaceController.addReceivedMessage(senderNickName, messageContent);
+    }
 }

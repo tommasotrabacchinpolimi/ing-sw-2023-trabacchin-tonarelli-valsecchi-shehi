@@ -1,8 +1,6 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.view.gui.GUI;
 import it.polimi.ingsw.view.gui.GUILauncher;
-import it.polimi.ingsw.view.tui.ConsoleAsynchReader;
 import it.polimi.ingsw.view.tui.TUIStateMachine;
 import javafx.application.Application;
 
@@ -11,7 +9,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.rmi.NotBoundException;
 
-public class MainApp {
+public class AppClient {
     private static final int DIM_BOARD = 9;
     private static final int DIMCOL_BOOKSHELF = 5;
     private static final int DIMROW_BOOKSHELF = 6;
@@ -39,10 +37,11 @@ public class MainApp {
         System.out.println("Now insert server port:");
         String serverPort = bufferedReader.readLine();
         int port = Integer.parseInt(serverPort);
-        if (bufferedReader.readLine().equals("2")) {
-            client.chosenRMI(port, serverAddress);
-        } else if (bufferedReader.readLine().equals("2")) {
+
+        if (protocolChoice.equals("1")) {
             client.chosenSocket(port, serverAddress);
+        } else {
+            client.chosenRMI(port, serverAddress);
         }
 
         tuiStateMachine.setLogicController(client);

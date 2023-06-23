@@ -1,6 +1,12 @@
 package it.polimi.ingsw.view.gui;
 
+import it.polimi.ingsw.utils.Triple;
+import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieAlertCreator;
+import it.polimi.ingsw.view.gui.layout.maininterface.MainInterfaceController;
 import javafx.stage.Stage;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 /**
  * <p>This class is used to launch and interact with the Graphical Interface of the Application</p>
@@ -11,6 +17,8 @@ public class GUILauncher extends MyShelfieApplication {
     private static final String LOGIN_PAGE_LAYOUT = "login/login-page.fxml";
 
     private static final String CONNECTION_PAGE_LAYOUT = "connection/connection-page.fxml";
+
+    private static final String MAIN_INTERFACE_LAYOUT = "maininterface/main-interface.fxml";
 
     private GUI gui;
 
@@ -37,9 +45,8 @@ public class GUILauncher extends MyShelfieApplication {
     public void init() throws Exception {
         super.init();
 
-        this.gui = new GUI();
+        this.gui = new GUI(this);
     }
-
 
     /**
      * The main entry point for all JavaFX applications.
@@ -69,11 +76,31 @@ public class GUILauncher extends MyShelfieApplication {
         changeScene(LOGIN_PAGE_LAYOUT);
     }
 
+    public void goToMainInterface() {
+        changeToFullScreenStage(MAIN_INTERFACE_LAYOUT);
+    }
+
     public void setGUI(GUI gui){
         this.gui = gui;
     }
 
     public GUI getGUI() {
         return gui;
+    }
+
+    public void handleRemoteException(String exception) {
+        MyShelfieAlertCreator.displayErrorAlert(exception);
+    }
+
+    public void manageMainInterface() {
+        goToMainInterface();
+    }
+
+    public void handleNewMessage(@NotNull Triple<String, List<String>, String> lastMessage) {
+        try{
+            ((MainInterfaceController) fxController).receivedMessageOperation(lastMessage.getFirst(), lastMessage.getThird());
+        }catch(ClassCastException e) {
+            errorInLoadingMyShelfieGame();
+        }
     }
 }

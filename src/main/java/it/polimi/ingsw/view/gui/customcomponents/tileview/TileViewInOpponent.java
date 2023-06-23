@@ -1,9 +1,9 @@
 package it.polimi.ingsw.view.gui.customcomponents.tileview;
 
-import it.polimi.ingsw.view.gui.customcomponents.MyShelfieAlertCreator;
 import it.polimi.ingsw.view.gui.customcomponents.animations.MyShelfieAnimation;
 import it.polimi.ingsw.view.gui.customcomponents.animations.MyShelfiePathTransition;
 import it.polimi.ingsw.view.gui.customcomponents.animations.MyShelfieScaleTransition;
+import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieAlertCreator;
 import javafx.scene.layout.Pane;
 
 import java.util.Arrays;

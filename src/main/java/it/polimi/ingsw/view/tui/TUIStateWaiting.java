@@ -52,7 +52,7 @@ public class TUIStateWaiting extends TUIState{
     @Override
     public void onGameStateChanged() throws IOException {
         if(!isTriggered()) {
-            if(getTuiStateMachine().getModel().getGameState().equals("INIT")) {
+            //if(getTuiStateMachine().getModel().getGameState().equals("INIT")) {
                 setTriggered(true);
                 getTuiStateMachine().setTuiState(new TUIStateGame(getTuiStateMachine()));
                 new Thread(() -> {
@@ -63,7 +63,7 @@ public class TUIStateWaiting extends TUIState{
                     }
                 }).start();
 
-            }
+            //}
         }
 
     }
@@ -71,7 +71,7 @@ public class TUIStateWaiting extends TUIState{
     @Override
     public void setup() throws IOException {
         System.out.println("Please wait until a game is available");
-        new Thread(new ConsoleAsynchReader(this.getTuiStateMachine())).start();
+        //new Thread(new ConsoleAsynchReader(this.getTuiStateMachine())).start();
 
     }
 }

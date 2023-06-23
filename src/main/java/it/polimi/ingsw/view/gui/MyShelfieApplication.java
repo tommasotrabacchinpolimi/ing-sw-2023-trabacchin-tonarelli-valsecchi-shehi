@@ -77,7 +77,7 @@ public abstract class MyShelfieApplication extends Application {
      *
      * @see MyShelfieController
      */
-    private MyShelfieController fxController;
+    protected MyShelfieController fxController;
 
     /**
      * Stage window of the whole application
@@ -309,6 +309,12 @@ public abstract class MyShelfieApplication extends Application {
         changeScene(setScene(FXMLFileName));
     }
 
+    public void changeToFullScreenStage(final String FXMLFileName) {
+        changeScene(setScene(FXMLFileName));
+
+        setupFullScreenStage(stage);
+    }
+
     /**
      * This method allows the user to resize the content in the page and font will change automatically according to it
      *
@@ -346,7 +352,7 @@ public abstract class MyShelfieApplication extends Application {
         rootPane.requestFocus();
     }
 
-    private void errorInLoadingMyShelfieGame() {
+    public void errorInLoadingMyShelfieGame() {
         MyShelfieAlertCreator.displayErrorAlert(
                 "The graphical interface can't be loaded correctly, the application will be terminated",
                 "Cannot load My Shelfie game"

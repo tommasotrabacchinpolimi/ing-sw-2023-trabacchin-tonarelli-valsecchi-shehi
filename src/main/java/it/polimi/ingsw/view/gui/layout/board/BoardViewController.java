@@ -288,16 +288,6 @@ public class BoardViewController extends MyShelfieController {
                 boardMatrix[coordinate.getX()][coordinate.getY()] = tile.getTileSubject();
         });
 
-        /*itemTileBoxes.forEach((coordinate, pane) -> {
-            if (pane.getChildren().size() > 0 && pane.getChildren().size() == 1) {
-                try {
-                    boardMatrix[coordinate.getX()][coordinate.getY()] = ((TileSubjectView) pane.getChildren().get(0)).getTileSubject();
-                } catch (ClassCastException e) {
-                    MyShelfieAlertCreator.displayErrorAlert(e);
-                }
-            }
-        });*/
-
         return boardMatrix;
     }
 

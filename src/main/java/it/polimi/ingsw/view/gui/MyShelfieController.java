@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view.gui;
 
+import it.polimi.ingsw.view.LogicInterface;
+import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieAlertCreator;
 import javafx.fxml.Initializable;
 import javafx.util.Duration;
 
@@ -27,6 +29,29 @@ public abstract class MyShelfieController implements Initializable {
 
     public void setMyShelfieApplicationLauncher(MyShelfieApplication myShelfieApplicationLauncher) {
         this.myShelfieApplicationLauncher = myShelfieApplicationLauncher;
+    }
+
+    protected GUILauncher getGUILauncher() {
+        try {
+            return (GUILauncher) getMyShelfieApplicationLauncher();
+        } catch (ClassCastException e) {
+            MyShelfieAlertCreator.displayErrorAlert(
+                    "The program that starts the application was not the correct one",
+                    "cannot run My Shelfie game"
+            );
+
+            myShelfieApplicationLauncher.errorInLoadingMyShelfieGame();
+        }
+
+        return null;
+    }
+
+    protected GUI getGUI() {
+        return getGUILauncher().getGUI();
+    }
+
+    protected LogicInterface getLogicController() {
+        return getGUI().getLogicController();
     }
 
     public abstract void onGameStateChangedNotified();

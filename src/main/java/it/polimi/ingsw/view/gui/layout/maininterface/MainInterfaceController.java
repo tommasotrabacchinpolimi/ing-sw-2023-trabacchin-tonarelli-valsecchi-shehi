@@ -3,7 +3,6 @@ package it.polimi.ingsw.view.gui.layout.maininterface;
 import it.polimi.ingsw.model.TileSubject;
 import it.polimi.ingsw.utils.Coordinate;
 import it.polimi.ingsw.view.gui.MyShelfieController;
-import it.polimi.ingsw.view.gui.customcomponents.MyShelfieAlertCreator;
 import it.polimi.ingsw.view.gui.customcomponents.MyShelfieButton;
 import it.polimi.ingsw.view.gui.customcomponents.tileview.TileSubjectView;
 import it.polimi.ingsw.view.gui.layout.gameinterface.GameInterfaceController;
@@ -199,5 +198,9 @@ public class MainInterfaceController extends MyShelfieController {
         updates.put("Melanie", opponentBookshelf);
 
         return updates;
+    }
+
+    public void receivedMessageOperation(String senderNickName, String messageContent) {
+        opponentsInterfaceController.receivedMessageHandler(senderNickName, messageContent);
     }
 }

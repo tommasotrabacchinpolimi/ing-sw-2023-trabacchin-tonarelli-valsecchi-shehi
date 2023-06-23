@@ -111,7 +111,9 @@ public class TUIStateGame extends TUIState{
             home();
             while(true) {
                 lock.unlock();
+
                 String input = bufferedReader.readLine();
+                System.out.println("input = " + input);
                 lock.lock();
                 switch (input) {
                     case "help":

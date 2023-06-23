@@ -107,22 +107,18 @@ public class ConnectionPageController extends MyShelfieController {
         }
 
         if(chosenConnection != null && !serverAddress.equals("") && !portNumber.equals("")) {
-            GUILauncher guiLauncher;
 
             try {
-                guiLauncher = (GUILauncher) getMyShelfieApplicationLauncher();
-                GUI gui = guiLauncher.getGUI();
+                GUILauncher guiLauncher = getGUILauncher();
 
                 if(chosenConnection.equals("Remote Methode Invocation"))
-                    gui.getLogicController().chosenRMI(Integer.parseInt(portNumber), serverAddress);
+                    guiLauncher.getGUI().getLogicController().chosenRMI(Integer.parseInt(portNumber), serverAddress);
                 else if(chosenConnection.equals("Socket"))
-                    gui.getLogicController().chosenSocket(Integer.parseInt(portNumber), serverAddress);
+                    guiLauncher.getGUI().getLogicController().chosenSocket(Integer.parseInt(portNumber), serverAddress);
 
                 guiLauncher.goToLoginPage();
 
-            }catch (ClassCastException e) {
-                displayErrorAlert(e);
-            } catch (NotBoundException | IOException | ClassNotFoundException e) {
+            }catch (NotBoundException | IOException | ClassNotFoundException e) {
                 displayErrorAlert("Can't establish connection with server", "Connection Error");
             }
         }

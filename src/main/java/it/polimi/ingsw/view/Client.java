@@ -29,8 +29,6 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
         viewData = model;
     }
 
-
-
     private ServerInterface getSocketConnection(String host, int port) throws IOException {
         return ConnectionBuilder.buildSocketConnection(port, host, new ClientDispatcher(this), this);
     }
