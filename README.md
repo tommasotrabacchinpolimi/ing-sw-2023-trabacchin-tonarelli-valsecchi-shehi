@@ -1,5 +1,5 @@
 
-<img src="src/main/resources/it.polimi.ingsw/graphical.resources/publisher.material/banner_1386x400px.png">
+<img src="src/main/resources/it.polimi.ingsw/graphical.resources/publisher.material/banner_README.png">
 
 My Shelfie Board Game is the final test of **"Software Engineering"**, course of **"Computer Science Engineering"** held at Politecnico di Milano (2022/2023).
 
