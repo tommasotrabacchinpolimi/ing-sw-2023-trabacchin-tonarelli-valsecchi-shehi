@@ -414,14 +414,4 @@ public class BoardViewController extends MyShelfieController {
     public List<TileSubjectView> getTilesOnBoard() {
         return tilesOnBoard;
     }
-
-    @Override
-    public void onGameStateChangedNotified() {
-
-    }
-
-    @Override
-    public void onExceptionNotified() {
-
-    }
 }

@@ -6,6 +6,7 @@ import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieAlertCreato
 import it.polimi.ingsw.view.gui.customcomponents.tileview.TileSubjectView;
 import it.polimi.ingsw.view.gui.layout.bookshelf.SingleOpponentBookShelfController;
 import it.polimi.ingsw.view.gui.layout.chatpage.ChatPageController;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.*;
@@ -34,25 +35,21 @@ public class OpponentsInterfaceController extends MyShelfieController {
     @FXML
     private AnchorPane opponentsChatInterface;
 
+    @FXML
     private ChatPageController opponentsChatInterfaceController;
 
     private final List<Pair<VBox, SingleOpponentBookShelfController>> opponentsBookshelfViewController = new ArrayList<>();
 
     @Override
-    public void onGameStateChangedNotified() {
-
-    }
-
-    @Override
-    public void onExceptionNotified() {
-
-    }
-
-    @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        addOpponentBookshelf("Adem");
-        addOpponentBookshelf("Melanie");
-        addOpponentBookshelf("Tommy");
+
+        Platform.runLater(() -> {
+            addOpponentBookshelf("Adem");
+            addOpponentBookshelf("Melanie");
+            addOpponentBookshelf("Tommy");
+
+            addReceiverInChat("Adem", "Melanie", "Tommy");
+        });
     }
 
     private void addOpponentBookshelf(String playerName) {
@@ -120,7 +117,7 @@ public class OpponentsInterfaceController extends MyShelfieController {
         opponentsChatInterfaceController.addReceivedMessage(senderNickName, messageContent);
     }
 
-    public void addReceiverHandler(String... receivers) {
-        opponentsChatInterfaceController.addReceivers(receivers);
+    public void addReceiverInChat(String... receivers) {
+        opponentsChatInterfaceController.addReceiveChoices(receivers);
     }
 }

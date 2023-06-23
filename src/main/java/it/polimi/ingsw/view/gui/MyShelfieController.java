@@ -53,8 +53,4 @@ public abstract class MyShelfieController implements Initializable {
     protected LogicInterface getLogicController() {
         return getGUI().getLogicController();
     }
-
-    public abstract void onGameStateChangedNotified();
-
-    public abstract void onExceptionNotified();
 }
