@@ -333,6 +333,7 @@ public abstract class MyShelfieApplication extends Application {
         }
 
         setFxController(fxController);
+        assert fxController != null;
         fxController.setMyShelfieApplicationLauncher(this);
     }
 

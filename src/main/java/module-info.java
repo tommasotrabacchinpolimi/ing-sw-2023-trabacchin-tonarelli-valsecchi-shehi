@@ -1,5 +1,4 @@
 module it.polimi.ingsw {
-    exports it.polimi.ingsw;
 
     requires java.rmi;
     requires com.google.gson;

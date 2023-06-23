@@ -107,7 +107,7 @@ public class GameInterfaceController extends MyShelfieController {
 
         scoringTokens.remove(3);
 
-        commonGoals.add(new CommonGoalView("error_common_goal", "My personal description"));
+        commonGoals.add(new CommonGoalView("error_common_goal", "My personal description", scoringTokens));
 
         TileType[][] configuration = new TileType[][]{
                 {null, null, null, null, TROPHY},
@@ -315,14 +315,14 @@ public class GameInterfaceController extends MyShelfieController {
             tile.resetClick();
 
             tile.parentProperty().addListener((observableValue, oldValue, newValue) -> {
-                if(newValue != oldValue) {
+                if (newValue != oldValue) {
                     gameBoardViewController.setActiveTilesOnBoardNoneSelected();
                 }
             });
         });
     }
 
-    public void  startEndGameTokenAnimation(MouseEvent mouseEvent) {
+    public void startEndGameTokenAnimation(MouseEvent mouseEvent) {
         transferEndGameToken(personalPointPane.getFreePointCell());
     }
 
