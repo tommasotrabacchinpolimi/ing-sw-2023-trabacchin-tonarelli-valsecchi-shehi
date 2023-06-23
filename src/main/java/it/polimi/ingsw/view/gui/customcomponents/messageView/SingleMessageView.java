@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,7 +22,7 @@ import java.util.List;
 import static it.polimi.ingsw.utils.color.MyShelfieColor.CHARLESTON;
 import static it.polimi.ingsw.utils.color.MyShelfieColor.DARK_LAVA;
 
-public class SingleMessageView extends VBox implements MyShelfieComponent {
+class SingleMessageView extends VBox implements MyShelfieComponent {
 
     private final static int MAX_MESSAGE_CHAR_ON_LINE = 40;
 
@@ -38,7 +39,7 @@ public class SingleMessageView extends VBox implements MyShelfieComponent {
 
     private TextFlow message;
 
-    public SingleMessageView(@NamedArg("senderName") String senderName, @NamedArg("message") String messageContent) {
+    public SingleMessageView(@NamedArg("senderName") String senderName, @NamedArg("messageContent") String messageContent) {
         super();
 
         addSender(senderName);
@@ -56,7 +57,6 @@ public class SingleMessageView extends VBox implements MyShelfieComponent {
         });
 
         setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
-        //setMaxHeight(Region.USE_PREF_SIZE);
     }
 
     private void setCSS() {
@@ -66,7 +66,7 @@ public class SingleMessageView extends VBox implements MyShelfieComponent {
                 "-fx-background-repeat: no-repeat;" +
                 "-fx-border-color:"+ DARK_LAVA.getDarkenRGBAStyleSheet(0.97) + " ;" +
                 "-fx-border-width: 0.2em;" +
-                "-fx-padding: 0.2em;");
+                "-fx-padding: 1em;");
     }
 
     private void addSender(String senderName) {
@@ -87,14 +87,18 @@ public class SingleMessageView extends VBox implements MyShelfieComponent {
         message.setStyle("-fx-padding: 0.3em;" +
                 "-fx-font-family: 'Special Elite Regular';");
 
+        message.setTextAlignment(TextAlignment.JUSTIFY);
+
     }
 
+    @NotNull
     private Text[] getMessageLines(String messageContent) {
         List<Text> messageTexts = new ArrayList<>();
 
         Arrays.stream(getSplitMessage(messageContent)).forEach(line ->{
             messageTexts.add(new Text(line));
         });
+
         return messageTexts.toArray(new Text[0]);
     }
 
@@ -129,29 +133,34 @@ public class SingleMessageView extends VBox implements MyShelfieComponent {
 
         int sum = 0;
 
-        for (String word : wordsInMessage) {
-            if (messageLine.isEmpty() && word.length() <= MAX_MESSAGE_CHAR_ON_LINE) { //quando inserisco la prima parola nella riga
-                if (word.length() == MAX_MESSAGE_CHAR_ON_LINE) {
-                    messageLines.add(messageLine.append(word).toString());
+        for (int i = 0; i < wordsInMessage.length; ++i) {
+            if (messageLine.isEmpty() && wordsInMessage[i].length() <= MAX_MESSAGE_CHAR_ON_LINE) { //quando inserisco la prima parola nella riga
+                if (wordsInMessage[i].length() == MAX_MESSAGE_CHAR_ON_LINE) {
+                    messageLines.add(messageLine.append(wordsInMessage[i]).toString());
                     messageLine = new StringBuilder();
                     sum = 0;
                 } else {
-                    messageLine.append(word);
-                    sum += word.length();
+                    messageLine.append(wordsInMessage[i]);
+                    sum += wordsInMessage[i].length();
                 }
             } else { // quando inserisco le parole successive nella riga
-                sum += word.length() + 1;
+                sum += wordsInMessage[i].length() + 1;
 
                 if (sum < MAX_MESSAGE_CHAR_ON_LINE) {
-                    messageLine.append(" ").append(word);
+                    messageLine.append(" ").append(wordsInMessage[i]);
                 } else if (sum == MAX_MESSAGE_CHAR_ON_LINE) {
-                    messageLines.add(messageLine.append(" ").append(word).toString());
+
+                    if(i == wordsInMessage.length - 1) {
+                        messageLines.add(messageLine.append(" ").append(wordsInMessage[i]).toString());
+                    } else {
+                        messageLines.add(messageLine.append(" ").append(wordsInMessage[i]).append("\n").toString());
+                    }
                     sum = 0;
                     messageLine = new StringBuilder();
                 } else {
-                    messageLines.add(messageLine.toString());
-                    sum = word.length();
-                    messageLine = new StringBuilder(word);
+                    messageLines.add(messageLine.append("\n").toString());
+                    sum = wordsInMessage[i].length();
+                    messageLine = new StringBuilder(wordsInMessage[i]);
                 }
             }
         }

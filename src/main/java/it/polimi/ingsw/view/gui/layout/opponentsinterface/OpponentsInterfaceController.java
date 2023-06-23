@@ -5,12 +5,10 @@ import it.polimi.ingsw.view.gui.MyShelfieController;
 import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieAlertCreator;
 import it.polimi.ingsw.view.gui.customcomponents.tileview.TileSubjectView;
 import it.polimi.ingsw.view.gui.layout.bookshelf.SingleOpponentBookShelfController;
+import it.polimi.ingsw.view.gui.layout.chatpage.ChatPageController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.util.Pair;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,10 +23,19 @@ public class OpponentsInterfaceController extends MyShelfieController {
     private static final String OPPONENT_BOOKSHELF_ROOT_PREFIX = "OpponentInfoBox";
 
     @FXML
+    private StackPane opponentsChatInterfaceContainer;
+
+    @FXML
     private GridPane opponentsRootPane;
 
     @FXML
     private HBox opponentsInfoDisplacer;
+
+    @FXML
+    private AnchorPane opponentsChatInterface;
+
+    private ChatPageController opponentsChatInterfaceController;
+
     private final List<Pair<VBox, SingleOpponentBookShelfController>> opponentsBookshelfViewController = new ArrayList<>();
 
     @Override
@@ -92,20 +99,12 @@ public class OpponentsInterfaceController extends MyShelfieController {
     public void updateOpponentBookshelf(@NotNull Map<String, TileSubject[][]> updatedPlayerBookshelves,
                                         @NotNull List<TileSubjectView> takenTiles) {
         updatedPlayerBookshelves.forEach((playerName, bookshelf) -> {
-            try{
+            try {
                 getSingleOpponentBookshelfController(playerName).insertTilesInOpponentBookshelf(bookshelf, takenTiles);
-            }catch(IllegalArgumentException e) {
+            } catch (IllegalArgumentException e) {
                 MyShelfieAlertCreator.displayErrorAlert(e);
             }
         });
-    }
-
-    public void startTokenAnimationToOpponent2() {
-
-    }
-
-    public void startTokenAnimationToOpponent1() {
-
     }
 
     public Pane getFreeOpponentPointCell(String opponentName) {

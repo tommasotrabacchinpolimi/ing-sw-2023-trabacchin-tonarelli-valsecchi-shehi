@@ -13,8 +13,10 @@ import it.polimi.ingsw.view.gui.layout.bookshelf.PersonalBookshelfController;
 import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieAlertCreator;
 import it.polimi.ingsw.view.gui.customcomponents.MyShelfieButton;
 import it.polimi.ingsw.view.gui.customcomponents.tileview.TileSubjectView;
+import javafx.beans.value.ChangeListener;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.util.Pair;
@@ -105,7 +107,7 @@ public class GameInterfaceController extends MyShelfieController {
 
         scoringTokens.remove(3);
 
-        commonGoals.add(new CommonGoalView("error_common_goal", "My personal description"));
+        commonGoals.add(new CommonGoalView("error_common_goal", "My personal description", scoringTokens));
 
         TileType[][] configuration = new TileType[][]{
                 {null, null, null, null, TROPHY},
@@ -311,10 +313,16 @@ public class GameInterfaceController extends MyShelfieController {
         tilesTakenByOpponent.forEach(tile -> {
             removeBoardHandlerTilePair(tile);
             tile.resetClick();
+
+            tile.parentProperty().addListener((observableValue, oldValue, newValue) -> {
+                if (newValue != oldValue) {
+                    gameBoardViewController.setActiveTilesOnBoardNoneSelected();
+                }
+            });
         });
     }
 
-    public void  startEndGameTokenAnimation(MouseEvent mouseEvent) {
+    public void startEndGameTokenAnimation(MouseEvent mouseEvent) {
         transferEndGameToken(personalPointPane.getFreePointCell());
     }
 

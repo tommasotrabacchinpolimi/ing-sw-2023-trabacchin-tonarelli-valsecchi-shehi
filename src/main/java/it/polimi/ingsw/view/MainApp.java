@@ -6,7 +6,9 @@ import it.polimi.ingsw.view.tui.ConsoleAsynchReader;
 import it.polimi.ingsw.view.tui.TUIStateMachine;
 import javafx.application.Application;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.rmi.NotBoundException;
 
 public class MainApp {
@@ -15,20 +17,32 @@ public class MainApp {
     private static final int DIMROW_BOOKSHELF = 6;
 
     public static void main(String[] args) throws NotBoundException, IOException, ClassNotFoundException {
-        //if(args[0].equals("tui"))
-            TUISetup("rmi", "localhost", 4321);
-        //else if(args[0].equals("gui"))
-            //GUISetup(args);
+        if(args[0].equals("tui"))
+            TUISetup();
+        else if(args[0].equals("gui"))
+            GUISetup(args);
     }
 
-    public static void TUISetup(String choice, String host, int port) throws IOException, NotBoundException, ClassNotFoundException {
+    public static void TUISetup() throws IOException, NotBoundException, ClassNotFoundException {
         TUIStateMachine tuiStateMachine = new TUIStateMachine();
         ViewData viewData = new ViewData(DIM_BOARD, DIMCOL_BOOKSHELF, DIMROW_BOOKSHELF);
         Client client = new Client(tuiStateMachine, viewData);
-        if (choice.equals("rmi")) {
-            client.chosenRMI(port, host);
-        } else if (choice.equals("socket")) {
-            client.chosenSocket(port, host);
+        System.out.println("Please, choose a connection method: 1) socket; 2) rmi.");
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        String protocolChoice = bufferedReader.readLine();
+        while(!protocolChoice.equals("1") && !protocolChoice.equals("2")){
+            System.out.println("You typed the wrong number. Please, choose again a connection method: 1) socket; 2) rmi.");
+            protocolChoice = bufferedReader.readLine();
+        }
+        System.out.println("Now insert server address:");
+        String serverAddress = bufferedReader.readLine();
+        System.out.println("Now insert server port:");
+        String serverPort = bufferedReader.readLine();
+        int port = Integer.parseInt(serverPort);
+        if (bufferedReader.readLine().equals("2")) {
+            client.chosenRMI(port, serverAddress);
+        } else if (bufferedReader.readLine().equals("2")) {
+            client.chosenSocket(port, serverAddress);
         }
 
         tuiStateMachine.setLogicController(client);

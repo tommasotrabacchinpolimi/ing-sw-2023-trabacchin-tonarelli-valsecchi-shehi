@@ -1,112 +1,32 @@
-/*
-#UpperContainer
-{
-    -fx-background-image: url("../../../graphical.resources/misc/parquet_background.jpg");
-}
-
-#PaneBar
-{
-    -fx-background-image: url("../../../graphical.resources/misc/page_base_darken.jpg");
-    -fx-background-size: cover;
-    -fx-text-alignment: center;
-    -fx-background-repeat: no-repeat;
-}
-#scrollAndTextContainer
-{
-    -fx-background-image: url("../../../graphical.resources/misc/page_base_lighten.png");
-    -fx-background-size: cover;
-    -fx-text-alignment: center;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-    -fx-padding: 5em 3em 5em 3em;
-}
-#MyScroll
-{
-    -fx-padding: 15em 7em 12em 10em;
-    -fx-background-color: rgb(101, 61, 30, 0.7);
-}
-#PlayersContainer
-{
-    -fx-padding: 0.5em 0.25em 0.5em 0.25em;
-    -fx-spacing: 1em;
-}
-#Name1
-{
-    -fx-background-color: rgb(237, 238, 241, 0.6);
-
-}
-
-#Name2
-{
-    -fx-background-color: rgb(238, 237, 241, 0.6);
-}
-#Name3
-{
-    -fx-background-color: rgb(238, 239, 242, 0.6);
-}
-#Name4
-{
-    -fx-background-color: rgb(238, 237, 242, 0.6);
-}
-#N1
-{
-    -fx-text-alignment: center;
-    -fx-wrap-text: true;
-    -fx-snap-to-pixel: true;
-    -fx-font-size: 1.5em;
-}
-#N2
-{
-    -fx-text-alignment: center;
-    -fx-wrap-text: true;
-    -fx-snap-to-pixel: true;
-    -fx-font-size: 1.5em;
-}
-#N3
-{
-    -fx-text-alignment: center;
-    -fx-wrap-text: true;
-    -fx-snap-to-pixel: true;
-    -fx-font-size: 1.5em;
-}
-#N4
-{
-    -fx-text-alignment: center;
-    -fx-wrap-text: true;
-    -fx-snap-to-pixel: true;
-    -fx-font-size: 1.5em;
-}
-#IconContainer
-{
-    -fx-spacing: 0.3em;
-}
-
-#Icon1
-{
-    -fx-background-image: url("../../../graphical.resources/icons/main-menu.png");
-    -fx-background-size: contain;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-    -fx-padding: 1.7em 1.7em 1.7em 1.7em;
-}
-#Icon2
-{
-    -fx-background-image: url("../../../graphical.resources/icons/game-statistic-icon.png");
-    -fx-background-size: contain;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-    -fx-padding: 1.7em 1.7em 1.7em 1.7em;
-}
-#Icon3
-{
-    -fx-background-image: url("../../../graphical.resources/icons/chat-icon.png");
-    -fx-background-size: contain;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-    -fx-padding: 1.7em 1.7em 1.7em 1.7em;
-}*/
-
 #chatPageRootPane {
     -fx-background-image: url('../../../graphical.resources/misc/page_base_darken.jpg');
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
     -fx-spacing: 2em;
+    -fx-padding: 1em;
+}
+
+#chatPageBoxDisplacer {
+    -fx-vgap: 0.5em;
+}
+
+#inputMessage {
+    -fx-border-color: transparent;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-background-color: rgb(230, 221, 199);
+    -fx-text-fill: rgb(16, 27, 31);
+    -fx-font-family: 'Special Elite Regular';
+    -fx-font-size: 1em;
+    -fx-wrap-text: true;
+}
+
+#scrollingChatPane {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+#scrollingChatPane .viewport {
+    -fx-background-color: rgba(53, 39, 28, 0.97);
 }

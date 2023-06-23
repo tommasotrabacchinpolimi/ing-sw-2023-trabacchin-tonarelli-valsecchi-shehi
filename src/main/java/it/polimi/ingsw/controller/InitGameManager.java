@@ -136,11 +136,13 @@ public class InitGameManager extends GameManager {
     }
 
     private void registerInternalListener(Player player) {
-        player.setOnUpdateNeededListener(getController().getState());
-        player.setOnUpdateNeededListener(getController().getState().getBoard());
+        getController().getState().getPlayers().forEach(player::setOnUpdateNeededListener);
         player.setOnUpdateNeededListener(player.getBookShelf());
         player.setOnUpdateNeededListener(player.getPointPlayer());
-        getController().getState().getPlayers().forEach(player::setOnUpdateNeededListener);
+        player.setOnUpdateNeededListener(getController().getState().getBoard());
+        player.setOnUpdateNeededListener(getController().getState());
+
+
         getController().getState().getPlayers().forEach(p -> p.setOnUpdateNeededListener(player));
         getController().getState().getPlayers().forEach(p -> player.setOnUpdateNeededListener(p.getBookShelf()));
         getController().getState().getPlayers().forEach(p -> p.setOnUpdateNeededListener(player.getBookShelf()));
