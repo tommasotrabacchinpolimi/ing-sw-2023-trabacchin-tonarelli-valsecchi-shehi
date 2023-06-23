@@ -23,6 +23,9 @@ public class ControllerDispatcher implements LobbyControllerInterface, Controlle
         viewToControllerMap.get(view).dragTilesToBookShelf(view, chosenTiles, chosenColumn);
     }
 
+    public Map<ClientInterface, Controller> getViewToControllerMap() {
+        return viewToControllerMap;
+    }
     @Override
     public void quitGame(ClientInterface view) {
         lobbyController.onQuitGame(view);

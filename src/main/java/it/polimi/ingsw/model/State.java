@@ -177,6 +177,7 @@ public class State implements Serializable, OnUpdateNeededListener {
         exceptionsListeners = new LinkedList<>();
         onWinnerChangedListeners = new LinkedList<>();
         onPlayersListChangedListeners = new LinkedList<>();
+        System.err.println("a state is being created");
     }
 
     public void setAchievedCommonGoalListener(OnAchievedCommonGoalListener listener) {
@@ -592,7 +593,11 @@ public class State implements Serializable, OnUpdateNeededListener {
             }
         }
         int oldScore = player.getPointPlayer().getScorePersonalGoal();
+        if(personalGoal.getScoreMap().get(personalGoalMatches)==null) {
+            throw new NullPointerException();
+        }
         int newScore = personalGoal.getScoreMap().get(personalGoalMatches);
+
         player.getPointPlayer().setScorePersonalGoal(personalGoal.getScoreMap().get(personalGoalMatches));
         if (newScore != oldScore) {
             notifyOnAchievedPersonalGoal(personalGoalTiles, player);

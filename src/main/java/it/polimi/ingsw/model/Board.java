@@ -4,6 +4,7 @@ import com.almasb.fxgl.entity.level.tiled.Tile;
 import it.polimi.ingsw.controller.listeners.OnBoardRefilledListener;
 import it.polimi.ingsw.controller.listeners.OnBoardUpdatedListener;
 import it.polimi.ingsw.controller.listeners.localListeners.OnUpdateNeededListener;
+import it.polimi.ingsw.model.exceptions.NoMoreTileSubjectsLeftInTheBag;
 import it.polimi.ingsw.utils.Coordinate;
 
 import java.io.Serial;
@@ -133,7 +134,12 @@ public class Board implements Serializable, OnUpdateNeededListener {
      */
     public TileSubject getRandomTileSubject() {
         Collections.shuffle(this.getBag());
-        return this.bag.remove(0);
+        try{
+            return this.bag.remove(0);
+        } catch(IndexOutOfBoundsException e) {
+            throw new NoMoreTileSubjectsLeftInTheBag();
+        }
+
     }
 
     public String bagToString() {

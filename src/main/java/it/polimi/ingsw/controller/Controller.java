@@ -39,13 +39,15 @@ public class Controller implements OnServerConnectionLostListener, ControllerInt
      * @param lobbyController the lobby controller for managing the players
      * @throws FileNotFoundException if a file is not found during initialization
      */
-    public Controller(State state, LobbyController lobbyController) throws FileNotFoundException {
+    public Controller(State state, LobbyController lobbyController, long delay, int numberOfPlayer) throws FileNotFoundException {
         this.state = state;
         this.lobbyController = lobbyController;
         this.gameManager = new InitGameManager(this);
         this.chatManager = new ChatManager(this);
-        this.timingStateMachine = new TimingStateMachine(this);
+        this.timingStateMachine = new TimingStateMachine(this, delay);
         state.setOnCurrentPlayerChangedListener(timingStateMachine);
+        this.setNumberPlayers(numberOfPlayer);
+        System.out.println("a controller is being created");
     }
 
     /**

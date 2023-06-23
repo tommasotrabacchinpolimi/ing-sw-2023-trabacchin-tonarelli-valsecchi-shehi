@@ -13,7 +13,7 @@ import java.rmi.server.UnicastRemoteObject;
 public class AppNew {
 
     public static void main(String[] args) throws RemoteException, AlreadyBoundException {
-        LobbyController lobbyController = new LobbyController();
+        LobbyController lobbyController = new LobbyController(1000);
         ControllerDispatcher controllerDispatcher = new ControllerDispatcher(lobbyController);
         ServerDispatcher serverDispatcher = new ServerDispatcher(controllerDispatcher);
         SocketAccepter socketAccepter = new SocketAccepter(serverDispatcher, 1234, lobbyController);

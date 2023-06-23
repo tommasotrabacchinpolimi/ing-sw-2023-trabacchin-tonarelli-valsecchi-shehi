@@ -130,6 +130,7 @@ public class PersonalGoal implements Serializable {
      * @see PersonalGoal
      */
     public PersonalGoal(String fileName) throws FileNotFoundException{
+
         this((PersonalGoal)  new GsonBuilder()
                 .setExclusionStrategies(new JSONExclusionStrategy())
                 .create()
@@ -137,6 +138,7 @@ public class PersonalGoal implements Serializable {
                         new JsonReader(
                                 new FileReader( PERSONAL_GOAL_CONFIG + fileName + ".json")),
                         PersonalGoal.class));
+
     }
 
     /**

@@ -40,9 +40,9 @@ public class TimingStateMachine implements OnPlayerStateChangedListener, OnCurre
      *
      * @param controller the Controller instance
      */
-    public TimingStateMachine(Controller controller) {
+    public TimingStateMachine(Controller controller, long delay) {
         timer = new Timer();
-        timingState = new InitTimingState(this, null);
+        timingState = new InitTimingState(this, null, delay);
         this.controller = controller;
     }
 

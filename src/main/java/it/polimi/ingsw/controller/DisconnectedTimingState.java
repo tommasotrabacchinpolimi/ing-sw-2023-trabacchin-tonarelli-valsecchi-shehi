@@ -27,16 +27,20 @@ public class DisconnectedTimingState extends TimingState{
      * @param timingStateMachine the TimingStateMachine managing the timing state machine.
      * @param previousPlayer the player who was disconnected.
      */
-    public DisconnectedTimingState(TimingStateMachine timingStateMachine, Player previousPlayer) {
 
-        super(timingStateMachine, previousPlayer);
+    private final long delay;
+
+    public DisconnectedTimingState(TimingStateMachine timingStateMachine, Player previousPlayer, long delay) {
+
+        super(timingStateMachine, previousPlayer, delay);
+        this.delay = delay;
         setTimerTask(new TimerTask() {
             @Override
             public void run() {
                 timerGoOff();
             }
         });
-        getTimingStateMachine().registerTimerTask(getTimerTask(), 10 * 1000);
+        getTimingStateMachine().registerTimerTask(getTimerTask(), delay);
     }
     @Override
     public synchronized void timerGoOff() {
@@ -44,7 +48,7 @@ public class DisconnectedTimingState extends TimingState{
             return;
         }
         setTriggered();
-        getTimingStateMachine().setTimingState(new InitTimingState(getTimingStateMachine(),getTimingStateMachine().getController().getState().getCurrentPlayer()));
+        getTimingStateMachine().setTimingState(new InitTimingState(getTimingStateMachine(),getTimingStateMachine().getController().getState().getCurrentPlayer(), delay));
         getTimingStateMachine().getController().getGameManager().setNextCurrentPlayer();
     }
 
@@ -55,7 +59,7 @@ public class DisconnectedTimingState extends TimingState{
         }
         if(playerState.equals(PlayerState.CONNECTED)) {
             getTimerTask().cancel();
-            getTimingStateMachine().setTimingState(new ConnectedTimingState(getTimingStateMachine(),getTimingStateMachine().getController().getState().getCurrentPlayer()));
+            getTimingStateMachine().setTimingState(new ConnectedTimingState(getTimingStateMachine(),getTimingStateMachine().getController().getState().getCurrentPlayer(), delay));
         }
     }
 

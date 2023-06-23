@@ -40,7 +40,6 @@ module it.polimi.ingsw {
 
     exports it.polimi.ingsw.view.tui;
     exports it.polimi.ingsw.view;
-    exports it.polimi.ingsw.view.gui.chatpage;
 
     exports it.polimi.ingsw.controller.listeners;
     opens it.polimi.ingsw.controller.listeners;

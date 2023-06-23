@@ -17,22 +17,26 @@ import java.util.TimerTask;
  */
 
 public class PendingSuspensionDisconnectedTimingState extends TimingState{
-    /**
-     * Constructs a new PendingSuspensionDisconnectedTimingState with the specified TimingStateMachine and previous player.
-     *
-     * @param timingStateMachine the TimingStateMachine to which this state belongs
-     * @param previousPlayer the player who was previously playing
-     */
-    public PendingSuspensionDisconnectedTimingState(TimingStateMachine timingStateMachine, Player previousPlayer) {
-        super(timingStateMachine, previousPlayer);
+
+    private final long delay;
+    public PendingSuspensionDisconnectedTimingState(long delay, TimingStateMachine timingStateMachine, Player previousPlayer) {
+        super(timingStateMachine, previousPlayer, delay);
+        /**
+         * Constructs a new PendingSuspensionDisconnectedTimingState with the specified TimingStateMachine and previous player.
+         *
+         * @param timingStateMachine the TimingStateMachine to which this state belongs
+         * @param previousPlayer the player who was previously playing
+         */
+        this.delay = delay;
         setTimerTask(new TimerTask() {
             @Override
             public void run() {
                 timerGoOff();
             }
         });
-        getTimingStateMachine().registerTimerTask(getTimerTask(), 10 * 1000);
+        getTimingStateMachine().registerTimerTask(getTimerTask(), delay);
     }
+
 
 
     /**
@@ -49,7 +53,7 @@ public class PendingSuspensionDisconnectedTimingState extends TimingState{
             return;
         }
         setTriggered();
-        getTimingStateMachine().setTimingState(new InitTimingState(getTimingStateMachine(), getTimingStateMachine().getController().getState().getCurrentPlayer()));
+        getTimingStateMachine().setTimingState(new InitTimingState(getTimingStateMachine(), getTimingStateMachine().getController().getState().getCurrentPlayer(), delay));
         GameState gameState = getTimingStateMachine().getController().getState().getGameState();
         getTimingStateMachine().getController().getState().setGameState(GameState.SUSPENDED);
         getTimingStateMachine().getController().setGameManager(new SuspendedGameManager(getTimingStateMachine().getController(), gameState));
@@ -74,7 +78,7 @@ public class PendingSuspensionDisconnectedTimingState extends TimingState{
         }
         if(playerState.equals(PlayerState.CONNECTED)) {
             getTimerTask().cancel();
-            getTimingStateMachine().setTimingState(new ConnectedTimingState(getTimingStateMachine(),getTimingStateMachine().getController().getState().getCurrentPlayer()));
+            getTimingStateMachine().setTimingState(new ConnectedTimingState(getTimingStateMachine(),getTimingStateMachine().getController().getState().getCurrentPlayer(), delay));
         }
     }
 

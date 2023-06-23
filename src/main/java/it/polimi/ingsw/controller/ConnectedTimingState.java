@@ -47,16 +47,20 @@ public class ConnectedTimingState extends TimingState{
      * @param timingStateMachine the timing state machine controlling the state transitions
      * @param previousPlayer the previous player in the game
      */
-    public ConnectedTimingState(TimingStateMachine timingStateMachine, Player previousPlayer) {
 
-        super(timingStateMachine, previousPlayer);
+    private final long delay;
+    public ConnectedTimingState(TimingStateMachine timingStateMachine, Player previousPlayer, long delay) {
+
+        super(timingStateMachine, previousPlayer, delay);
+        System.err.println("in connected timing state");
+        this.delay = delay;
         setTimerTask(new TimerTask() {
             @Override
             public void run() {
                 timerGoOff();
             }
         });
-        getTimingStateMachine().registerTimerTask(getTimerTask(), 60 * 1000);
+        getTimingStateMachine().registerTimerTask(getTimerTask(), delay);
     }
     @Override
     public synchronized void timerGoOff() {
@@ -64,7 +68,7 @@ public class ConnectedTimingState extends TimingState{
             return;
         }
         setTriggered();
-        getTimingStateMachine().setTimingState(new InitTimingState(getTimingStateMachine(), getTimingStateMachine().getController().getState().getCurrentPlayer()));
+        getTimingStateMachine().setTimingState(new InitTimingState(getTimingStateMachine(), getTimingStateMachine().getController().getState().getCurrentPlayer(), delay));
         getTimingStateMachine().getController().getGameManager().setNextCurrentPlayer();
     }
 
