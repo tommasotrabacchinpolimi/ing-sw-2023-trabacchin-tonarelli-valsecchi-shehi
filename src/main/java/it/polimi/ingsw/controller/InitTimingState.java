@@ -45,8 +45,9 @@ public class InitTimingState extends TimingState{
      @param timingStateMachine the timing state machine controlling the game flow
      @param previousPlayer the previous player in the game
      */
-    public InitTimingState(TimingStateMachine timingStateMachine, Player previousPlayer) {
-        super(timingStateMachine, previousPlayer);
+
+    public InitTimingState(TimingStateMachine timingStateMachine, Player previousPlayer, long delay) {
+        super(timingStateMachine, previousPlayer, delay);
     }
     @Override
     public synchronized void timerGoOff() {

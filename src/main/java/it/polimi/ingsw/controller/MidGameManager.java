@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.controller.exceptions.WrongChosenTilesFromBoardException;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.exceptions.NoMoreTileSubjectsLeftInTheBag;
 import it.polimi.ingsw.model.exceptions.NoTileTakenException;
 import it.polimi.ingsw.model.exceptions.NotEnoughSpaceInBookShelfException;
 import it.polimi.ingsw.utils.Coordinate;
@@ -90,6 +91,11 @@ public class MidGameManager extends GameManager {
         catch (NotEnoughSpaceInBookShelfException | NoTileTakenException | WrongChosenTilesFromBoardException e){
             System.err.println(e.getMessage());
             getController().getState().setLastException(e);
+        }
+        catch(NoMoreTileSubjectsLeftInTheBag e) {
+            System.err.println(e.getMessage());
+            getController().getState().setLastException(e);
+            getController().getState().setGameState(GameState.END);
         }
     }
 
@@ -221,9 +227,19 @@ public class MidGameManager extends GameManager {
             index = (getController().getState().getPlayers().indexOf(oldCurrentPlayer) + 1) % n;
 
             if (getController().getState().getPlayers().get(index).getPlayerState() == PlayerState.QUITTED) {
+                if(getController().getState().getGameState() == GameState.FINAL) {
+                    getController().getState().setGameState(GameState.END);
+                    Optional<Player> winner = getController().getState().getPlayers().stream().max(Comparator.comparing(p -> p.getPointPlayer().getTotalScore()));
+                    winner.ifPresent(player -> getController().getState().setWinner(player));
+                }
                 index = (index + 1) % n;
-                getController().getState().setCurrentPlayer(getController().getState().getPlayers().get(index));
-                setNextCurrentPlayer();
+                while(true) {
+                    if(getController().getState().getPlayers().get(index).getPlayerState() != PlayerState.QUITTED) {
+                        getController().getState().setCurrentPlayer(getController().getState().getPlayers().get(index));
+                        break;
+                    }
+                    index = (index + 1) % n;
+                }
             } else if (getController().getState().getPlayers().get(index).getPlayerState() == PlayerState.DISCONNECTED) {
                 getController().getState().setCurrentPlayer(getController().getState().getPlayers().get(index));
 

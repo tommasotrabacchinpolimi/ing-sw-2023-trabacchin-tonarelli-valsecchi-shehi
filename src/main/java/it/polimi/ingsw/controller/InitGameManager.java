@@ -48,7 +48,10 @@ public class InitGameManager extends GameManager {
         assert files != null;
 
         for(File file : files) {
-            personalGoalsDeck.add(new PersonalGoal(file.getName().split("\\.")[0]));
+            if(!file.getName().endsWith("map.json")) { //temporary fix
+                personalGoalsDeck.add(new PersonalGoal(file.getName().split("\\.")[0]));
+            }
+
         }
         Collections.shuffle(personalGoalsDeck);
     }

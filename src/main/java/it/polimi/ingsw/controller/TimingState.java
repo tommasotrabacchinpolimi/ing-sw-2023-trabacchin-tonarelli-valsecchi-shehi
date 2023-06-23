@@ -16,10 +16,13 @@ public abstract class TimingState {
 
     private final Player previousPlayer;
 
-    public TimingState(TimingStateMachine timingStateMachine, Player previousPlayer) {
+    private final long delay;
+
+    public TimingState(TimingStateMachine timingStateMachine, Player previousPlayer, long delay) {
         ALREADY_TRIGGERED = false;
         this.timingStateMachine = timingStateMachine;
         this.previousPlayer = previousPlayer;
+        this.delay = delay;
     }
     public TimingStateMachine getTimingStateMachine() {
         return timingStateMachine;
@@ -32,19 +35,20 @@ public abstract class TimingState {
     public abstract void timerGoOff() ;
 
     public void currentPlayerChanged(Player player) {
+        System.out.println("current player changed...");
         if(isTriggered() || getTimingStateMachine().getController().getState().getGameState() == GameState.END){
             return;
         }
         setTriggered();
         if(player.getPlayerState().equals(PlayerState.CONNECTED)) {
-            getTimingStateMachine().setTimingState(new ConnectedTimingState(getTimingStateMachine(), getTimingStateMachine().getController().getState().getCurrentPlayer()));
+            getTimingStateMachine().setTimingState(new ConnectedTimingState(getTimingStateMachine(), getTimingStateMachine().getController().getState().getCurrentPlayer(), delay));
         }
         else if(player.getPlayerState().equals(PlayerState.DISCONNECTED)) {
             if(!getTimingStateMachine().getController().getGameManager().verifyAllDisconnectedPlayer(getPreviousPlayer())) {
-                getTimingStateMachine().setTimingState(new DisconnectedTimingState(getTimingStateMachine(), getTimingStateMachine().getController().getState().getCurrentPlayer()));
+                getTimingStateMachine().setTimingState(new DisconnectedTimingState(getTimingStateMachine(), getTimingStateMachine().getController().getState().getCurrentPlayer(), delay));
             }
             else {
-                getTimingStateMachine().setTimingState(new PendingSuspensionDisconnectedTimingState(getTimingStateMachine(), getTimingStateMachine().getController().getState().getCurrentPlayer()));
+                getTimingStateMachine().setTimingState(new PendingSuspensionDisconnectedTimingState(delay, getTimingStateMachine(), getTimingStateMachine().getController().getState().getCurrentPlayer()));
             }
         }
     }

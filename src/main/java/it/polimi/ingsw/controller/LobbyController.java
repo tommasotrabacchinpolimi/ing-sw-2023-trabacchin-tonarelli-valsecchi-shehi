@@ -104,6 +104,12 @@ public class LobbyController
      */
     private ControllerDispatcher dispatcher;
 
+    private final long delay;
+
+    public LobbyController(long delay) {
+        this.delay = delay;
+    }
+
     /**
      * Binds a {@linkplain Dispatcher dispatcher} instance to the calling object
      *
@@ -312,12 +318,13 @@ public class LobbyController
         Controller c = viewControllerMap.get(user);
         if(c != null) {
             c.quitGame(user);
-            controllerViewMap.get(c).remove(user);
+            if(controllerViewMap.get(c)!=null) {
+                controllerViewMap.get(c).remove(user);
+            }
             dispatcher.removeController(user, c);
         }
         viewControllerMap.remove(user);
         viewToNicknameMap.remove(user);
-
     }
 
     /**
@@ -377,25 +384,18 @@ public class LobbyController
      */
     private void reconnectPlayer(ClientInterface user, String nickname) {
         Controller c = viewControllerMap.get(nicknameToViewMap.get(nickname));
-
         for (Player p : c.getState().getPlayers()) {
             if (p.getVirtualView() == nicknameToViewMap.get(nickname) && p.getPlayerState() == PlayerState.DISCONNECTED) {
                 viewControllerMap.remove(nicknameToViewMap.get(nickname)); //remove old ClientInterface associated to that nickname
                 viewControllerMap.put(user, c); //added new ClientInterface instance to the map
-
                 controllerViewMap.get(c).remove(nicknameToViewMap.get(nickname));
                 controllerViewMap.get(c).add(user);
-
                 viewToNicknameMap.remove(nicknameToViewMap.get(nickname));
                 viewToNicknameMap.put(user, nickname);
-
                 nicknameToViewMap.remove(nickname);
                 nicknameToViewMap.put(nickname, user);
-
                 disconnectedButInGame.remove(nickname);
-
                 dispatcher.setController(user, c);
-
                 c.registerPlayer(user, nickname);
             }
         }
@@ -425,7 +425,8 @@ public class LobbyController
      */
     private void createNewGame(ClientInterface user, String nickname, int numberOfPlayer) throws FileNotFoundException {
         State state = new State();
-        Controller controller = new Controller(state, this);
+        state.setPlayersNumber(numberOfPlayer);
+        Controller controller = new Controller(state, this, delay, numberOfPlayer);
         List<ClientInterface> list = new ArrayList<>();
 
         viewToNicknameMap.put(user, nickname);
@@ -433,7 +434,6 @@ public class LobbyController
         dispatcher.setController(user, controller);
 
         System.out.println(nickname + " joining " + controller);
-        controller.setNumberPlayers(numberOfPlayer);
         controller.registerPlayer(user, nickname);
 
         list.add(user);
@@ -444,8 +444,8 @@ public class LobbyController
                 if(waitingUsers.size() != 0){
                     ClientInterface u = waitingUsers.remove(0);
                     list.add(u);
-                    dispatcher.setController(user, controller);
-                    System.out.println(nickname + " joining " + controller);
+                    dispatcher.setController(u, controller);
+                    //System.out.println(nickname + " joining " + controller);
                     controller.registerPlayer(u, viewToNicknameMap.get(u));
                 }
             }

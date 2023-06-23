@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.exceptions;
 
 public class NoTileTakenException extends RuntimeException {
-    private static final String DEF_MESSAGE = "No Tile object is been taken from the Board";
+    private static final String DEF_MESSAGE = "No Tile object has been taken from the Board";
 
     public NoTileTakenException() {
         super(DEF_MESSAGE);
