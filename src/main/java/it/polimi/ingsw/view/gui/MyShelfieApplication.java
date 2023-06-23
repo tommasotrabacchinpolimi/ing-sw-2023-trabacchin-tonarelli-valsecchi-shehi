@@ -1,6 +1,6 @@
 package it.polimi.ingsw.view.gui;
 
-import it.polimi.ingsw.view.gui.layout.loginpage.LoginPage;
+import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieAlertCreator;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -12,6 +12,8 @@ import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -112,8 +114,37 @@ public abstract class MyShelfieApplication extends Application {
      * @param fileName the name of the layout
      * @return the complete file-path to a file containing a layout page structure
      */
+    @NotNull
+    @Contract(pure = true)
     public static String getFXMLFile(String fileName) {
         return getFXMLFilePath() + fileName;
+    }
+
+    /**
+     * <p>Set up a scene with no preferred width or height</p>
+     * <p>The automatic size of the scene will be set to fit up the content</p>
+     *
+     * @param FXMLFileName the layout file reference
+     * @return the scene personalized as described
+     */
+    public Scene setupScene(final String FXMLFileName) {
+        return setupScene(FXMLFileName, 0.0, 0.0);
+    }
+
+    /**
+     * <p>Construct a {@link Scene scene} from a specific file containing a static layout (.fxml)</p>
+     * <p>More precisely the scene retrieved by this method will have {@code height} and {@code width}
+     * based on screen size and a percent passed as parameter</p>
+     *
+     * @param FXMLFileName  the layout file reference
+     * @param percentWidth  the percent width of the scene based on screen size
+     * @param percentHeight the percent height of the scene based on screen size
+     * @return the scene personalized as described
+     * @apiNote if {@code percentWidth} and/or {@code percentHeight} are equals to {@code 0.0} (or negative),
+     * the scene will be set to fit its content.
+     */
+    public Scene setupScene(final String FXMLFileName, final double percentWidth, final double percentHeight) {
+        return setupScene(FXMLFileName, percentWidth, percentHeight, null);
     }
 
     /**
@@ -141,20 +172,20 @@ public abstract class MyShelfieApplication extends Application {
         return setScene(FXMLFileName, percentWidth, percentHeight, rootPaneContainer);
     }
 
-    /**
-     * <p>Construct a {@link Scene scene} from a specific file containing a static layout (.fxml)</p>
-     * <p>More precisely the scene retrieved by this method will have {@code height} and {@code width}
-     * based on screen size and a percent passed as parameter</p>
-     *
-     * @param FXMLFileName  the layout file reference
-     * @param percentWidth  the percent width of the scene based on screen size
-     * @param percentHeight the percent height of the scene based on screen size
-     * @return the scene personalized as described
-     * @apiNote if {@code percentWidth} and/or {@code percentHeight} are equals to {@code 0.0} (or negative),
-     * the scene will be set to fit its content.
-     */
-    public Scene setupScene(final String FXMLFileName, final double percentWidth, final double percentHeight) {
-        return setupScene(FXMLFileName, percentWidth, percentHeight, null);
+    public Scene setupSceneWithPane(final String FXMLFileName) {
+        return setupSceneWithPane(FXMLFileName, 0.0, 0.0);
+    }
+
+    public Scene setupSceneWithPane(final String FXMLFileName, final double percentWidth, final double percentHeight) {
+        Pane rootPane = new Pane();
+
+        rootPane.setId("rootPaneContainer");
+
+        return setupScene(FXMLFileName, percentWidth, percentHeight, rootPane);
+    }
+
+    public Scene setupMaximizedScene(final String FXMLFileName) {
+        return setupScene(FXMLFileName, 100.0, 100.0, null);
     }
 
     /**
@@ -164,27 +195,24 @@ public abstract class MyShelfieApplication extends Application {
      * @param FXMLFileName the layout file reference
      * @return the scene personalized as described
      */
-    public Scene setupScene(final String FXMLFileName) {
-        return setupScene(FXMLFileName, 0.0, 0.0);
+    private Scene setScene(final String FXMLFileName) {
+        return setScene(FXMLFileName, 0.0, 0.0);
     }
 
-    public Scene setupSceneWithPane(final String FXMLFileName, final double percentWidth, final double percentHeight) {
-        Pane rootPane = new Pane();
-        rootPane.setId("rootPaneContainer");
-
-        return setupScene(FXMLFileName, percentWidth, percentHeight, rootPane);
+    private Scene setScene(final String FXMLFileName, final double percentWidth, final double percentHeight) {
+        return setScene(FXMLFileName, percentWidth, percentHeight, null);
     }
 
-    public Scene setupSceneWithPane(final String FXMLFileName) {
-        return setupSceneWithPane(FXMLFileName, 0.0, 0.0);
-    }
-
-    public Scene setupMaximizedScene(final String FXMLFileName) {
-        return setupScene(FXMLFileName, 100.0, 100.0, null);
-    }
-
+    /**
+     *
+     * @param FXMLFileName
+     * @param percentWidth
+     * @param percentHeight
+     * @param rootPaneContainer
+     * @return
+     */
     private Scene setScene(final String FXMLFileName, double percentWidth, double percentHeight, Pane rootPaneContainer) {
-        FXMLLoader fxmlLoader = new FXMLLoader(MyShelfieApplication.class.getResource(MyShelfieApplication.getFXMLFile(FXMLFileName)));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(MyShelfieApplication.getFXMLFile(FXMLFileName)));
 
         try {
             if (rootPaneContainer == null) {
@@ -193,17 +221,15 @@ public abstract class MyShelfieApplication extends Application {
                 rootPaneContainer.getChildren().add(fxmlLoader.load());
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            errorInLoadingMyShelfieGame();
         }
 
-        setFxController(fxmlLoader.getController());
-
-        fxController.setMyShelfieApplicationLauncher(this);
+        setupFxController(fxmlLoader.getController());
 
         if (percentWidth > 0.0 && percentHeight > 0.0) {
-            percentHeight = Math.min(percentHeight, 100.0);
-            percentWidth = Math.min(percentWidth, 100.0);
-            scene = new Scene(rootPaneContainer, (SCREEN_WIDTH * percentWidth / 100.00), (SCREEN_HEIGHT * percentHeight / 100.00));
+            percentHeight = Math.min(percentHeight, 100.0) / 100.0;
+            percentWidth = Math.min(percentWidth, 100.0) / 100.0;
+            scene = new Scene(rootPaneContainer, (SCREEN_WIDTH * percentWidth), (SCREEN_HEIGHT * percentHeight));
         }else
             scene = new Scene(rootPaneContainer);
 
@@ -216,40 +242,25 @@ public abstract class MyShelfieApplication extends Application {
         return scene;
     }
 
-    public Scene setScene(final String FXMLFileName, final double percentWidth, final double percentHeight) {
-        return setScene(FXMLFileName, percentWidth, percentHeight, null);
-    }
-
-    /**
-     * <p>Set up a scene with no preferred width or height</p>
-     * <p>The automatic size of the scene will be set to fit up the content</p>
-     *
-     * @param FXMLFileName the layout file reference
-     * @return the scene personalized as described
-     */
-    public Scene setScene(final String FXMLFileName) {
-        return setScene(FXMLFileName, 0.0, 0.0);
-    }
-
     public void setupStage(final Stage stage) {
 
-        initStage(stage, false, false);
+        setStage(stage, false, false);
 
-        this.stage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::closeWindowEvent);
+        this.stage.addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::closeWindowEvent);
 
         //set icon in taskbar
         this.stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream(GAME_ICON_PATH))));
     }
 
     public void setupFullScreenStage(final Stage stage) {
-        initStage(stage, true, false);
+        setStage(stage, true, false);
     }
 
     public void setupMaximizedStage(final Stage stage) {
-        initStage(stage, false, true);
+        setStage(stage, false, true);
     }
 
-    private void initStage(final Stage stage, final boolean fullScreen, final boolean maximized) {
+    private void setStage(final Stage stage, final boolean fullScreen, final boolean maximized) {
         this.stage = stage;
 
         this.stage.setScene(scene);
@@ -257,6 +268,7 @@ public abstract class MyShelfieApplication extends Application {
         if(fullScreen){
             this.stage.setFullScreen(true);
             this.stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+            this.stage.setResizable(false);
         }else if(maximized) {
             this.stage.setMaximized(true);
             this.stage.setFullScreen(false);
@@ -302,7 +314,7 @@ public abstract class MyShelfieApplication extends Application {
      *
      * @param scene the scene on which set the font dynamically
      */
-    public void setDynamicFontSize(Scene scene) {
+    public void setDynamicFontSize(@NotNull Scene scene) {
         Pane rootPane = (Pane) scene.getRoot();
 
         TextSizeChangeListener textSizeChangeListener = new TextSizeChangeListener(rootPane, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -315,7 +327,16 @@ public abstract class MyShelfieApplication extends Application {
         this.rootPane = rootPane;
     }
 
-    public void setFxController(MyShelfieController fxController) {
+    private void setupFxController(MyShelfieController fxController) {
+        if(fxController == null) {
+            errorInLoadingMyShelfieGame();
+        }
+
+        setFxController(fxController);
+        fxController.setMyShelfieApplicationLauncher(this);
+    }
+
+    private void setFxController(MyShelfieController fxController) {
         this.fxController = fxController;
     }
 
@@ -324,9 +345,26 @@ public abstract class MyShelfieApplication extends Application {
         rootPane.requestFocus();
     }
 
+    private void errorInLoadingMyShelfieGame() {
+        MyShelfieAlertCreator.displayErrorAlert(
+                "The graphical interface can't be loaded correctly, the application will be terminated",
+                "Cannot load My Shelfie game"
+        );
+
+        closeWindowEvent(1);
+    }
+
+    private void closeWindowEvent(int exitCode) {
+        closeWindowEvent(null, exitCode);
+    }
+
     private void closeWindowEvent(WindowEvent event) {
+        closeWindowEvent(event, 0);
+    }
+
+    private void closeWindowEvent(WindowEvent event, int exitCode) {
         Platform.exit();
-        System.exit(0);
+        System.exit(exitCode);
     }
 
     private void setPreserveRatio() {

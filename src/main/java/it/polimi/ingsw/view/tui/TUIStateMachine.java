@@ -16,9 +16,11 @@ public class TUIStateMachine extends UI {
     public void newLine(String newLine) throws IOException {
         tuiState.newLine(newLine);
     }
+
     public void setup() throws IOException {
         tuiState.setup();
     }
+
     @Override
     public void launchUI() {
 
