@@ -1,21 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
-
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.control.ScrollBar?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.Double?>
+<?import it.polimi.ingsw.view.gui.customcomponents.MyShelfieChoiceBox?>
 <AnchorPane fx:id="chatPageRootPane" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
             fx:controller="it.polimi.ingsw.view.gui.layout.chatpage.ChatPageController" stylesheets="@ChatPage.css">
 
     <shape>
         <Rectangle width="${chatPageRootPane.width}" height="${chatPageRootPane.height}" arcHeight="10" arcWidth="10"/>
     </shape>
+
+    <fx:define>
+        <Double fx:id="shapeArc" fx:value="17.0"/>
+    </fx:define>
 
     <GridPane fx:id="chatPageBoxDisplacer" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
               AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -25,12 +30,17 @@
 
         <rowConstraints>
             <RowConstraints percentHeight="70"/>
-            <RowConstraints percentHeight="30"/>
+            <RowConstraints percentHeight="5"/>
+            <RowConstraints percentHeight="25"/>
         </rowConstraints>
 
         <ScrollPane fx:id="scrollingChatPane" GridPane.rowIndex="0" GridPane.columnIndex="0" GridPane.fillWidth="true"
                     GridPane.fillHeight="true" vbarPolicy="NEVER" hbarPolicy="NEVER"/>
 
-        <TextArea fx:id="inputMessage" GridPane.columnIndex="0" GridPane.rowIndex="1" onKeyPressed="#sendMessage"/>
+        <MyShelfieChoiceBox fx:id="receiverChoiceBox" initValue="All" GridPane.valignment="CENTER"
+                            GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.columnIndex="0"
+                            GridPane.fillWidth="true"/>
+
+        <TextArea fx:id="inputMessage" GridPane.rowIndex="2" GridPane.columnIndex="0" onKeyPressed="#sendMessage"/>
     </GridPane>
 </AnchorPane>

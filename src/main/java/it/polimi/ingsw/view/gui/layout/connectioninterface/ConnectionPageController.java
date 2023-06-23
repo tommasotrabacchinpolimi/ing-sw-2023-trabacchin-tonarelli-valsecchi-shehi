@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.gui.layout.connectioninterface;
 
 import it.polimi.ingsw.view.gui.*;
 import it.polimi.ingsw.view.gui.customcomponents.MyShelfieButton;
+import it.polimi.ingsw.view.gui.customcomponents.MyShelfieChoiceBox;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
@@ -14,6 +15,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.rmi.NotBoundException;
@@ -42,7 +44,7 @@ public class ConnectionPageController extends MyShelfieController {
     private Label connectionLabel;
 
     @FXML
-    private ChoiceBox<String> connectionProtocolBox;
+    private MyShelfieChoiceBox connectionProtocolBox;
 
     @FXML
     private String SocketChoice;
@@ -88,8 +90,7 @@ public class ConnectionPageController extends MyShelfieController {
     @FXML
     private void submitButtonClicked(MouseEvent mouseEvent) {
         if(chosenConnection == null) {
-            connectionProtocolBox.setValue("Missing connection protocol!");
-            connectionProtocolBox.pseudoClassStateChanged(errorClass, true);
+            connectionProtocolBox.setErrorStyle("Missing connection protocol!");
         }
 
         serverAddress = connectionServerAddressField.getText();
@@ -150,7 +151,7 @@ public class ConnectionPageController extends MyShelfieController {
         connectionProtocolBox.getSelectionModel().selectedItemProperty().addListener(
                 (selected, oldString, newString) -> {
                     chosenConnection = newString;
-                    connectionProtocolBox.pseudoClassStateChanged(errorClass, false);
+                    connectionProtocolBox.removeErrorStyle();
                 }
         );
     }

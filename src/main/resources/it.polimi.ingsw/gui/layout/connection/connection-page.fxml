@@ -9,6 +9,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.collections.FXCollections?>
 <?import it.polimi.ingsw.view.gui.customcomponents.MyShelfieButton?>
+<?import it.polimi.ingsw.view.gui.customcomponents.MyShelfieChoiceBox?>
 <StackPane fx:id="connectionRootPane" xmlns="http://javafx.com/javafx"
            xmlns:fx="http://javafx.com/fxml"
            fx:controller="it.polimi.ingsw.view.gui.layout.connectioninterface.ConnectionPageController"
@@ -52,12 +53,8 @@
                 <Label fx:id="connectionLabel" styleClass="info-text" text="Protocol:"
                        GridPane.halignment="RIGHT" GridPane.valignment="CENTER" wrapText="true"/>
 
-                <ChoiceBox fx:id="connectionProtocolBox" value="Choose a connection protocol" GridPane.valignment="CENTER"
-                           GridPane.halignment="LEFT" GridPane.rowIndex="0" GridPane.columnIndex="1">
-                    <shape>
-                        <Rectangle height="${connectionProtocolBox.height}" width="${connectionProtocolBox.width}" arcHeight="$shapeArc"
-                                   arcWidth="$shapeArc"/>
-                    </shape>
+                <MyShelfieChoiceBox fx:id="connectionProtocolBox" value="Choose a connection protocol" GridPane.valignment="CENTER"
+                           GridPane.halignment="LEFT" GridPane.rowIndex="0" GridPane.columnIndex="1" GridPane.fillWidth="true">
 
                     <items>
                         <FXCollections fx:factory="observableArrayList">
@@ -66,7 +63,7 @@
                         </FXCollections>
                     </items>
 
-                </ChoiceBox>
+                </MyShelfieChoiceBox>
 
                 <Label fx:id="connectionServerLabel" styleClass="info-text" text="Server address:" GridPane.halignment="RIGHT"
                        GridPane.valignment="CENTER" wrapText="true" GridPane.columnIndex="0" GridPane.rowIndex="1"/>

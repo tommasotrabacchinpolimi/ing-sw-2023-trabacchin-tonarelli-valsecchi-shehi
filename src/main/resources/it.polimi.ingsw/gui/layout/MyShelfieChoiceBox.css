@@ -1,0 +1,46 @@
+.my-shelfie-choice-box {
+    -fx-background-image: url('../../graphical.resources/misc/page_base_darken.jpg');
+    -fx-background-size: contain;
+    -fx-background-position: center;
+    -fx-alignment: center;
+    -fx-border-color: transparent;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-mark-color: rgba(230, 221, 199, 0.97);
+}
+
+.my-shelfie-choice-box .label {
+    -fx-font-family: 'Special Elite Regular';
+    -fx-text-fill: rgba(230, 221, 199, 0.97);
+    -fx-text-alignment: center;
+}
+
+.my-shelfie-choice-box .context-menu {
+    -fx-background-image: url('../../graphical.resources/misc/page_base_darken.jpg');
+    -fx-text-fill: rgba(230, 221, 199, 0.97);
+    -fx-text-alignment: center;
+}
+
+.my-shelfie-choice-box .menu-item:focused {
+    -fx-background-color: rgba(230, 221, 199, 0.13);
+}
+
+.my-shelfie-choice-box .menu-item > .label {
+    -fx-text-fill: rgba(230, 221, 199, 0.97);
+}
+
+.my-shelfie-choice-box .menu-item:focused .label{
+    -fx-effect: dropshadow(gaussian, rgba(245, 177, 61, 0.93), 10.0, 0.0, 0.0, 0.0);
+}
+
+.my-shelfie-choice-box:error {
+    -fx-background-image: url('../../graphical.resources/misc/page_base_lighten.png');
+    -fx-border-color: rgb(162, 15, 30, 0.93);
+    -fx-border-width: 0.1em;
+    -fx-effect: dropshadow(gaussian, rgba(198, 57, 10, 0.5), 10, 0, 0, 0);
+}
+
+.my-shelfie-choice-box:error .label {
+    -fx-text-fill: rgb(248, 231, 191, 0.97);
+    -fx-effect: dropshadow(gaussian, rgba(240, 85, 13, 0.9), 10, 0, 0, 0);
+}

@@ -2,9 +2,13 @@ package it.polimi.ingsw.view.gui.layout.chatpage;
 
 
 import it.polimi.ingsw.view.gui.MyShelfieController;
+import it.polimi.ingsw.view.gui.customcomponents.MyShelfieChoiceBox;
+import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieAlertCreator;
 import it.polimi.ingsw.view.gui.customcomponents.messageView.ChatViewBox;
 import it.polimi.ingsw.view.gui.customcomponents.messageView.SingleMessageViewType;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextFormatter;
@@ -14,7 +18,6 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
@@ -23,6 +26,9 @@ import java.util.ResourceBundle;
 public class ChatPageController extends MyShelfieController {
 
     private static final int MAX_CHARS_MESSAGE = 400;
+
+    @FXML
+    private MyShelfieChoiceBox receiverChoiceBox;
 
     @FXML
     private ScrollPane scrollingChatPane;
@@ -96,5 +102,19 @@ public class ChatPageController extends MyShelfieController {
 
     public void addReceivedMessage(String senderNickName, String messageContent) {
         chatViewBox.addMessage(SingleMessageViewType.RECEIVED, senderNickName ,messageContent);
+    }
+
+    public void addReceivers(String... receivers) {
+        if(receivers == null || receivers.length == 0) {
+            MyShelfieAlertCreator.displayErrorAlert(
+                    "No opponents where found, you can't send any message",
+            "No opponent available");
+
+            inputMessage.setPromptText("No OpponentsFound");
+            inputMessage.setMouseTransparent(true);
+        }else {
+            receiverChoiceBox.getItems().add("All");
+            receiverChoiceBox.getItems().addAll(receivers);
+        }
     }
 }

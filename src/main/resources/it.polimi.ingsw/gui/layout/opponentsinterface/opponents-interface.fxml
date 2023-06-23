@@ -26,9 +26,7 @@
     </rowConstraints>
 
     <HBox fx:id="opponentsInfoDisplacer" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.fillWidth="true"
-          GridPane.fillHeight="false" alignment="CENTER">
-
-    </HBox>
+          GridPane.fillHeight="false" alignment="CENTER"/>
 
     <StackPane fx:id="opponentsChatInterfaceContainer" GridPane.columnIndex="1" GridPane.rowIndex="0">
         <fx:include fx:id="opponentsChatInterface" source="../chat/chat-page.fxml"/>

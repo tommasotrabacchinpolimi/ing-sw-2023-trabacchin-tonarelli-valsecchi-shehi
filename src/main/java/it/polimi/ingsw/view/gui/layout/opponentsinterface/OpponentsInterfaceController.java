@@ -119,4 +119,8 @@ public class OpponentsInterfaceController extends MyShelfieController {
     public void receivedMessageHandler(String senderNickName, String messageContent) {
         opponentsChatInterfaceController.addReceivedMessage(senderNickName, messageContent);
     }
+
+    public void addReceiverHandler(String... receivers) {
+        opponentsChatInterfaceController.addReceivers(receivers);
+    }
 }
