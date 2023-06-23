@@ -1,6 +1,5 @@
-<img src="src/main/resources/it.polimi.ingsw/graphical.resources/publisher.material/banner_1386x400px.png">
 
-<img src="src/main/resources/it.polimi.ingsw/graphical.resources/publisher.material/title_2000x618px.png">
+<img src="src/main/resources/it.polimi.ingsw/graphical.resources/publisher.material/banner_1386x400px.png">
 
 My Shelfie Board Game is the final test of **"Software Engineering"**, course of **"Computer Science Engineering"** held at Politecnico di Milano (2022/2023).
 
@@ -23,7 +22,7 @@ The project consists of a Java version of the board game *My Shelfie*, made by C
 
 The program is realized following a Model-View-Controller design pattern: several UML diagrams are provided to clarify the structure and dynamics of the code.
 
-Project Requirements is available [here](src/main/resources/it.polimi.ingsw/rulebook/requirements.pdf).
+Project requirements are available [here](src/main/resources/it.polimi.ingsw/rulebook/requirements.pdf).
 
 ## Implemented features
 
@@ -41,18 +40,26 @@ Project Requirements is available [here](src/main/resources/it.polimi.ingsw/rule
 
 ## How to run the game
 
-## Testing
+## UML diagrams
+The structure of the whole system is displayed by different UMLs. In the `uml` directory, there are two subdirectories:
+1. `handcraftedUML` which contains the initial handcrafted diagrams, such as:
+    - [model class diagram](uml/handcraftedUML/handcrafted_model_class_diagram.png);
+    - [controller class diagram](uml/handcraftedUML/handcrafted_controller_class_diagram.png);
+    - network sequence diagrams.
+2. `finalUML` which contains the final diagram, generated from the code by automated tools.
 
+## Testing
 
 ## JavaDoc
 
 
 ## Libraries and Plugins
-| Librery/Plugin | Description                                                 |
-|----------------|-------------------------------------------------------------|
-| __Maven__      | A build automation tool used primarily for Java projects.   |
-| __JavaFx__     | A Java library that is used to develop Desktop applications |
-| __JUnit__      | A unit testing framework for Java programming language.     |
+| Librery/Plugin | Description                                                                   |
+|----------------|-------------------------------------------------------------------------------|
+| __Maven__      | A build automation tool used primarily for Java projects.                     |
+| __JavaFx__     | A Java library that is used to develop Desktop applications                   |
+| __JUnit__      | A unit testing framework for Java programming language.                       |
+| __Gson__       | A simple Java-based library to serialize Java objects to JSON and vice versa. |
 
 
 ## License
