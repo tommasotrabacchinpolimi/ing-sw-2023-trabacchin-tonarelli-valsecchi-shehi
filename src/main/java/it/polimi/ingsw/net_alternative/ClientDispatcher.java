@@ -6,7 +6,7 @@ import it.polimi.ingsw.view.Client;
 
 public class ClientDispatcher implements ClientDispatcherInterface{
 
-    private ClientInterface client;
+    private final ClientInterface client;
 
     public ClientDispatcher(Client client) {
         this.client = client;

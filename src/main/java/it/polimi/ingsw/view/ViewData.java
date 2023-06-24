@@ -24,6 +24,8 @@ public class ViewData {
     private UI userInterface;
     private String exception;
 
+    private boolean unreadMessages = false;
+
 
     public ViewData(int BOARD_DIM, int BOOKSHELF_COL, int BOOKSHELF_ROW) {
         playersState = new HashMap<>();
@@ -171,6 +173,7 @@ public class ViewData {
     }
 
     public void addMessage(Triple<String, List<String>, String> message){
+        unreadMessages = true;
         messages.add(message);
         userInterface.onNewMessage(message.getFirst());
     }
@@ -184,7 +187,16 @@ public class ViewData {
         userInterface.showWinner();
     }
 
+
     public Triple<String, List<String>, String> getLastMessage() {
         return getMessages().get(getMessages().size() - 1);
+    }
+
+    public void setUnreadMessages(boolean read) {
+        this.unreadMessages = read;
+    }
+
+    public boolean getUnreadMessages() {
+        return unreadMessages;
     }
 }
