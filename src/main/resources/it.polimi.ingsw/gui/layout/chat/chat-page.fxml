@@ -37,10 +37,6 @@
         <ScrollPane fx:id="scrollingChatPane" GridPane.rowIndex="0" GridPane.columnIndex="0" GridPane.fillWidth="true"
                     GridPane.fillHeight="true" vbarPolicy="NEVER" hbarPolicy="NEVER"/>
 
-        <MyShelfieChoiceBox fx:id="receiverChoiceBox" initValue="All" GridPane.valignment="CENTER"
-                            GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.columnIndex="0"
-                            GridPane.fillWidth="true"/>
-
         <TextArea fx:id="inputMessage" GridPane.rowIndex="2" GridPane.columnIndex="0" onKeyPressed="#sendMessage"/>
     </GridPane>
 </AnchorPane>

@@ -71,16 +71,6 @@ public class ConnectionPageController extends MyShelfieController {
     private final PseudoClass errorClass = PseudoClass.getPseudoClass("error");
 
     @Override
-    public void onGameStateChangedNotified() {
-
-    }
-
-    @Override
-    public void onExceptionNotified() {
-
-    }
-
-    @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setProtocolBoxPseudoClassState();
         setServerAddressPseudoClassState();

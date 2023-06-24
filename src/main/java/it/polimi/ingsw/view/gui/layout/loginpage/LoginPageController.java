@@ -291,16 +291,4 @@ public class LoginPageController extends MyShelfieController {
 
         primaryStage.show();
     }
-
-    @Override
-    public void onGameStateChangedNotified() {
-        /*if(MyShelfieApplication.getUi().getModel().getGameState().equals(GameState.INIT.toString())){
-            Platform.runLater(this::displayGameInterface);
-        }*/
-    }
-
-    @Override
-    public void onExceptionNotified() {
-        //alert display
-    }
 }

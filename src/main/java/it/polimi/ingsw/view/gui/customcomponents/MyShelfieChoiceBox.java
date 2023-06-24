@@ -30,23 +30,20 @@ public class MyShelfieChoiceBox extends ChoiceBox<String> implements MyShelfieCo
      */
     private final List<MyShelfieDecoration> baseDecorations = new ArrayList<>();
 
-    public MyShelfieChoiceBox(@NamedArg("initValue") String value) {
-        super();
-
-        setValue(value);
-
-        applyDecorationAsDefault(new MyShelfieRoundEdge(MyShelfieRoundEdgeType.SMALL), new MyShelfieDarkShadow());
-
-        getStylesheets().add(Objects.requireNonNull(getMyShelfieResource(CHOICE_BOX_CSS_FILE_PATH)).toExternalForm());
-
-        getStyleClass().add(MY_SHELFIE_CHOICE_BOX_STYLE_CLASS);
-    }
-
     /**
      * Create a new ChoiceBox which has an empty list of items.
      */
     public MyShelfieChoiceBox() {
+        this(null);
+    }
+
+    public MyShelfieChoiceBox(@NamedArg("initValue") String initValue) {
         super();
+
+        if(initValue != null) {
+            setValue(initValue);
+            getItems().add(initValue);
+        }
 
         applyDecorationAsDefault(new MyShelfieRoundEdge(MyShelfieRoundEdgeType.SMALL), new MyShelfieDarkShadow());
 

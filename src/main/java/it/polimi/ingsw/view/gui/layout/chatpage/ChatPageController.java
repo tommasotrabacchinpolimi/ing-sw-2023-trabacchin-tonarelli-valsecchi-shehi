@@ -8,6 +8,8 @@ import it.polimi.ingsw.view.gui.customcomponents.messageView.ChatViewBox;
 import it.polimi.ingsw.view.gui.customcomponents.messageView.SingleMessageViewType;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.geometry.HPos;
+import javafx.geometry.VPos;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
@@ -28,9 +30,6 @@ public class ChatPageController extends MyShelfieController {
     private static final int MAX_CHARS_MESSAGE = 400;
 
     @FXML
-    private MyShelfieChoiceBox receiverChoiceBox;
-
-    @FXML
     private ScrollPane scrollingChatPane;
 
     @FXML
@@ -41,6 +40,8 @@ public class ChatPageController extends MyShelfieController {
 
     @FXML
     private GridPane chatPageBoxDisplacer;
+
+    private MyShelfieChoiceBox receiverChoiceBox;
 
     private final KeyCodeCombination keyCombinationNewLineOnMessage = new KeyCodeCombination(KeyCode.ENTER, KeyCombination.SHIFT_DOWN);
 
@@ -90,22 +91,24 @@ public class ChatPageController extends MyShelfieController {
         });
     }
 
-    @Override
-    public void onGameStateChangedNotified() {
-
-    }
-
-    @Override
-    public void onExceptionNotified() {
-
-    }
-
     public void addReceivedMessage(String senderNickName, String messageContent) {
         chatViewBox.addMessage(SingleMessageViewType.RECEIVED, senderNickName ,messageContent);
     }
 
-    public void addReceivers(String... receivers) {
-        if(receivers == null || receivers.length == 0) {
+    public void addReceiveChoices(String... receivers) {
+        receiverChoiceBox = new MyShelfieChoiceBox("All");
+
+        addReceivers(receivers);
+
+        chatPageBoxDisplacer.add(receiverChoiceBox, 0, 1);
+
+        GridPane.setValignment(receiverChoiceBox, VPos.CENTER);
+
+        GridPane.setHalignment(receiverChoiceBox, HPos.LEFT);
+    }
+
+    private void addReceivers(String... receivers) {
+        if(receivers == null || receivers.length == 0 || receiverChoiceBox == null) {
             MyShelfieAlertCreator.displayErrorAlert(
                     "No opponents where found, you can't send any message",
             "No opponent available");
@@ -113,7 +116,6 @@ public class ChatPageController extends MyShelfieController {
             inputMessage.setPromptText("No OpponentsFound");
             inputMessage.setMouseTransparent(true);
         }else {
-            receiverChoiceBox.getItems().add("All");
             receiverChoiceBox.getItems().addAll(receivers);
         }
     }

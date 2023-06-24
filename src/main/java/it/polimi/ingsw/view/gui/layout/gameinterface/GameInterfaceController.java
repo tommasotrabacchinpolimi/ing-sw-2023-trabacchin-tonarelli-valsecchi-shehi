@@ -373,16 +373,6 @@ public class GameInterfaceController extends MyShelfieController {
         }
     }
 
-    @Override
-    public void onGameStateChangedNotified() {
-
-    }
-
-    @Override
-    public void onExceptionNotified() {
-
-    }
-
     //For testing purpose
 
     public void fillBoard(@NotNull MouseEvent mouseEvent) {

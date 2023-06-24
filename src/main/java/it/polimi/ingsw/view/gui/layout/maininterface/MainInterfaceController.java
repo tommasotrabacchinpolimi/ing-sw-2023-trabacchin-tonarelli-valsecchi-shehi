@@ -7,6 +7,7 @@ import it.polimi.ingsw.view.gui.customcomponents.MyShelfieButton;
 import it.polimi.ingsw.view.gui.customcomponents.tileview.TileSubjectView;
 import it.polimi.ingsw.view.gui.layout.gameinterface.GameInterfaceController;
 import it.polimi.ingsw.view.gui.layout.opponentsinterface.OpponentsInterfaceController;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.ScrollEvent;
@@ -40,16 +41,6 @@ public class MainInterfaceController extends MyShelfieController {
 
     @FXML
     private OpponentsInterfaceController opponentsInterfaceController;
-
-    @Override
-    public void onGameStateChangedNotified() {
-
-    }
-
-    @Override
-    public void onExceptionNotified() {
-
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -202,5 +193,9 @@ public class MainInterfaceController extends MyShelfieController {
 
     public void receivedMessageOperation(String senderNickName, String messageContent) {
         opponentsInterfaceController.receivedMessageHandler(senderNickName, messageContent);
+    }
+
+    public void addOpponentsToReceivers(String... receivers) {
+        opponentsInterfaceController.addReceiverInChat(receivers);
     }
 }

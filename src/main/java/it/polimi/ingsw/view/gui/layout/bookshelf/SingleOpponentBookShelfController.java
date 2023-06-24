@@ -186,16 +186,6 @@ public class SingleOpponentBookShelfController extends BookshelfController {
     }
 
     @Override
-    public void onGameStateChangedNotified() {
-
-    }
-
-    @Override
-    public void onExceptionNotified() {
-
-    }
-
-    @Override
     void insertTilesInBookshelf(@NotNull Map<Coordinate, TileSubjectView> coordinateTiles) {
         coordinateTiles.forEach((coordinate, tile) -> {
             tile.toOpponentBookShelf(getColumnPane(), getBookshelfCellAt(coordinate).orElseThrow());

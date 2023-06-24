@@ -183,16 +183,6 @@ public class PersonalBookshelfController extends BookshelfController{
     }
 
     @Override
-    public void onGameStateChangedNotified() {
-
-    }
-
-    @Override
-    public void onExceptionNotified() {
-
-    }
-
-    @Override
     public void insertTilesInBookshelf(@NotNull Map<Coordinate, TileSubjectView> coordinateTiles) {
         coordinateTiles.forEach((coordinate, tile) -> {
             tile.performAction(getTriangleButton(), getBookshelfCellAt(coordinate).orElseThrow());
