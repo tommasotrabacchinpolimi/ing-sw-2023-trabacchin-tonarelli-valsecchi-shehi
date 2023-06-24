@@ -98,7 +98,7 @@ public class GUILauncher extends MyShelfieApplication {
 
     public void handleNewMessage(@NotNull Triple<String, List<String>, String> lastMessage) {
         try{
-            ((MainInterfaceController) fxController).receivedMessageOperation(lastMessage.getFirst(), lastMessage.getThird());
+            ((MainInterfaceController) fxController).receivedMessageOperation(lastMessage);
         }catch(ClassCastException e) {
             errorInLoadingMyShelfieGame();
         }

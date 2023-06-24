@@ -1,8 +1,10 @@
 package it.polimi.ingsw.view.gui.layout.opponentsinterface;
 
 import it.polimi.ingsw.model.TileSubject;
+import it.polimi.ingsw.utils.Triple;
 import it.polimi.ingsw.view.gui.MyShelfieController;
 import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieAlertCreator;
+import it.polimi.ingsw.view.gui.customcomponents.messageview.SingleMessageViewPrivacyType;
 import it.polimi.ingsw.view.gui.customcomponents.tileview.TileSubjectView;
 import it.polimi.ingsw.view.gui.layout.bookshelf.SingleOpponentBookShelfController;
 import it.polimi.ingsw.view.gui.layout.chatpage.ChatPageController;
@@ -113,8 +115,16 @@ public class OpponentsInterfaceController extends MyShelfieController {
         return getSingleOpponentBookshelfController(name).getOpponentBookshelf();
     }
 
-    public void receivedMessageHandler(String senderNickName, String messageContent) {
-        opponentsChatInterfaceController.addReceivedMessage(senderNickName, messageContent);
+    public void manageReceivedMessage(@NotNull Triple<String, List<String>, String> lastMessage) {
+
+        if(lastMessage.getSecond().size() > 1)
+            opponentsChatInterfaceController
+                    .displayReceivedMessage(SingleMessageViewPrivacyType.PUBLIC, lastMessage.getFirst(),
+                            lastMessage.getThird());
+        else if(lastMessage.getSecond().size() == 1)
+            opponentsChatInterfaceController
+                    .displayReceivedMessage(SingleMessageViewPrivacyType.PRIVATE, lastMessage.getFirst(),
+                            lastMessage.getThird(), lastMessage.getSecond().get(0) );
     }
 
     public void addReceiverInChat(String... receivers) {

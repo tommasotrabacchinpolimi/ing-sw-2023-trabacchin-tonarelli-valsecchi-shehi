@@ -1,18 +1,12 @@
-package it.polimi.ingsw.view.gui.customcomponents.messageView;
+package it.polimi.ingsw.view.gui.customcomponents.messageview;
 
 import it.polimi.ingsw.view.gui.customcomponents.decorations.MyShelfieComponent;
-import it.polimi.ingsw.view.gui.customcomponents.decorations.MyShelfieDarkShadow;
 import it.polimi.ingsw.view.gui.customcomponents.decorations.MyShelfieDecoration;
-import it.polimi.ingsw.view.gui.customcomponents.decorations.MyShelfieRoundEdge;
-import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieRoundEdgeType;
 import javafx.scene.Node;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static it.polimi.ingsw.utils.color.MyShelfieColor.DARK_LAVA;
 
 public class ChatViewBox extends VBox implements MyShelfieComponent {
 
@@ -37,8 +31,25 @@ public class ChatViewBox extends VBox implements MyShelfieComponent {
         //applyDecorationAsDefault(new MyShelfieRoundEdge(MyShelfieRoundEdgeType.MINIMUM), new MyShelfieDarkShadow());
     }
 
-    public void addMessage(SingleMessageViewType messageViewType, String senderName, String messageContent){
-        getChildren().add(new SingleMessageViewContainer(messageViewType, senderName, messageContent));
+    public void addMessage(SingleMessageViewType messageViewType, String receiver, String messageContent){
+        addMessage(messageViewType, SingleMessageViewPrivacyType.PRIVATE, "You", messageContent, receiver);
+    }
+
+    public void addMessage(SingleMessageViewType messageViewType, SingleMessageViewPrivacyType messageViewPrivacyType,
+                           String messageContent){
+        addMessage(messageViewType, messageViewPrivacyType, "You", messageContent, "");
+    }
+
+    public void addMessage(SingleMessageViewType messageViewType, SingleMessageViewPrivacyType messageViewPrivacyType,
+                           String senderName, String messageContent){
+        addMessage(messageViewType, messageViewPrivacyType, senderName, messageContent, "");
+    }
+
+    public void addMessage(SingleMessageViewType messageViewType, SingleMessageViewPrivacyType messageViewPrivacyType,
+                           String senderName, String messageContent, String receiver){
+        getChildren().add(
+                new SingleMessageViewContainer(messageViewType, messageViewPrivacyType.getHeaderMessageViewText() + receiver,
+                        senderName, messageContent));
     }
 
     /**

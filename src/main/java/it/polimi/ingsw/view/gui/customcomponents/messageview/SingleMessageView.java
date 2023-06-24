@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.gui.customcomponents.messageView;
+package it.polimi.ingsw.view.gui.customcomponents.messageview;
 
 import it.polimi.ingsw.view.gui.customcomponents.decorations.MyShelfieComponent;
 import it.polimi.ingsw.view.gui.customcomponents.decorations.MyShelfieDarkShadow;
@@ -35,25 +35,36 @@ class SingleMessageView extends VBox implements MyShelfieComponent {
      * @see MyShelfieDecoration
      */
     private final List<MyShelfieDecoration> baseDecorations = new ArrayList<>();
-    private Label sender;
+    private final String sender;
+
+    private final String messageContent;
+
+    private Label headerLabel;
 
     private TextFlow message;
 
     public SingleMessageView(@NamedArg("senderName") String senderName, @NamedArg("messageContent") String messageContent) {
+        this(senderName, null, messageContent);
+    }
+
+    public SingleMessageView(String senderName, String headerText, String messageContent) {
         super();
 
-        addSender(senderName);
+        this.sender = senderName;
+        this.messageContent = messageContent;
 
-        addMessageContent(messageContent);
+        addHeaderText(headerText);
+
+        addMessageContentTextFlow();
 
         setCSS();
 
         applyDecorationAsDefault(new MyShelfieDarkShadow(), new MyShelfieRoundEdge(MyShelfieRoundEdgeType.SMALL));
 
-        getChildren().addAll(sender, message);
+        getChildren().addAll(headerLabel, message);
 
         layoutBoundsProperty().addListener((observableValue, oldValue, newValue) -> {
-            sender.setMaxWidth(newValue.getWidth());
+            headerLabel.setMaxWidth(newValue.getWidth());
         });
 
         setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
@@ -66,13 +77,18 @@ class SingleMessageView extends VBox implements MyShelfieComponent {
                 "-fx-background-repeat: no-repeat;" +
                 "-fx-border-color:"+ DARK_LAVA.getDarkenRGBAStyleSheet(0.97) + " ;" +
                 "-fx-border-width: 0.2em;" +
-                "-fx-padding: 1em;");
+                "-fx-padding: 1em;" +
+                "-fx-wrap-text: true;");
     }
 
-    private void addSender(String senderName) {
-        sender = new Label(senderName);
+    private void addHeaderText(String headerText) {
 
-        sender.setStyle("-fx-text-alignment: center;" +
+        if(headerText != null)
+            headerLabel = new Label(sender + headerText);
+        else
+            headerLabel = new Label(sender);
+
+        headerLabel.setStyle("-fx-text-alignment: center;" +
                 "-fx-text-fill: " + CHARLESTON.getDarkenRGBAStyleSheet(0.97) + ";" +
                 "-fx-wrap-text: true;" +
                 "-fx-font-family: 'Special Elite Regular';" +
@@ -81,11 +97,12 @@ class SingleMessageView extends VBox implements MyShelfieComponent {
                 "-fx-label-padding: 0.2em;");
     }
 
-    private void addMessageContent(String messageContent) {
+    private void addMessageContentTextFlow() {
         message = new TextFlow(getMessageLines(messageContent));
 
         message.setStyle("-fx-padding: 0.3em;" +
-                "-fx-font-family: 'Special Elite Regular';");
+                "-fx-font-family: 'Special Elite Regular';" +
+                "-fx-wrap-text: true;");
 
         message.setTextAlignment(TextAlignment.JUSTIFY);
 
