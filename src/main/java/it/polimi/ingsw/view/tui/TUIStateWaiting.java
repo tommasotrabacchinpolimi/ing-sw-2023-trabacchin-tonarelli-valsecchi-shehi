@@ -1,6 +1,8 @@
 package it.polimi.ingsw.view.tui;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class TUIStateWaiting extends TUIState{
 
@@ -70,7 +72,8 @@ public class TUIStateWaiting extends TUIState{
 
     @Override
     public void setup() throws IOException {
-        System.out.println("Please wait until a game is available");
+        System.out.println("Please wait until a game is available, enter 'quit' if you want to quit");
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         //new Thread(new ConsoleAsynchReader(this.getTuiStateMachine())).start();
 
     }

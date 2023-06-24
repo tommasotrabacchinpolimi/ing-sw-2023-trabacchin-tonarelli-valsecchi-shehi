@@ -78,7 +78,7 @@ public abstract class GameManager {
      */
     public synchronized void quitGame(ClientInterface view) {
         getController().getState().getPlayerFromView(view).setPlayerState(PlayerState.QUITTED);
-        getController().getLobbyController().onQuitGame(view);
+        //getController().getLobbyController().onQuitGame(view);
         setNextCurrentPlayer();
         if(getController().getState().getPlayers().stream().filter(p->p.getPlayerState()!=PlayerState.QUITTED).count() <= 1) {
             getController().getState().setGameState(GameState.END);
