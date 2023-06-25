@@ -65,15 +65,11 @@ public class DisconnectedTimingState extends TimingState{
 
     @Override
     public synchronized void currentPlayerChanged(Player player) {
-        if(isTriggered() || getTimingStateMachine().getController().getState().getGameState() == GameState.END){
+        if(isTriggered() || getTimingStateMachine().getController().getState().getGameState() == GameState.END ||player.equals(getPreviousPlayer())){
             return;
         }
         getTimerTask().cancel();
         super.currentPlayerChanged(player);
     }
 
-    @Override
-    public boolean isDisconnectedTiming() {
-        return true;
-    }
 }

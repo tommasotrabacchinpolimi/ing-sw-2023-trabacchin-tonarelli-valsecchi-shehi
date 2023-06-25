@@ -1,6 +1,5 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerState;
 
@@ -59,12 +58,4 @@ public class InitTimingState extends TimingState{
 
     }
 
-    /**
-     *{@inheritDoc}
-     *Returns {@code false} since the initialization timing state is not a disconnected timing state.
-     */
-    @Override
-    public boolean isDisconnectedTiming() {
-        return false;
-    }
 }

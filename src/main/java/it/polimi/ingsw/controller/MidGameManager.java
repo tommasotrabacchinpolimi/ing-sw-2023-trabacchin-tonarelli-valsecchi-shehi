@@ -216,22 +216,12 @@ public class MidGameManager extends GameManager {
         if (oldCurrentPlayer == null) {
             getController().getState().setCurrentPlayer(getController().getState().getPlayers().get(0));
         } else {
-            if (getController().getState().getGameState() == GameState.FINAL) { //se sono nella fase FINAL del gioco e il prossimo giocatore è il lastPlayer, allora rendo il gioco END
-                if (oldCurrentPlayer.equals(getController().getState().getLastPlayer())) {
-                    getController().getState().setGameState(GameState.END);
-                    Optional<Player> winner = getController().getState().getPlayers().stream().max(Comparator.comparing(p -> p.getPointPlayer().getTotalScore()));
-                    winner.ifPresent(player -> getController().getState().setWinner(player));
-                }
-            }
+            checkWinner(oldCurrentPlayer);
 
             index = (getController().getState().getPlayers().indexOf(oldCurrentPlayer) + 1) % n;
 
             if (getController().getState().getPlayers().get(index).getPlayerState() == PlayerState.QUITTED) {
-                if(getController().getState().getGameState() == GameState.FINAL) {
-                    getController().getState().setGameState(GameState.END);
-                    Optional<Player> winner = getController().getState().getPlayers().stream().max(Comparator.comparing(p -> p.getPointPlayer().getTotalScore()));
-                    winner.ifPresent(player -> getController().getState().setWinner(player));
-                }
+                checkWinner(oldCurrentPlayer);
                 index = (index + 1) % n;
                 while(true) {
                     if(getController().getState().getPlayers().get(index).getPlayerState() != PlayerState.QUITTED) {
@@ -245,6 +235,16 @@ public class MidGameManager extends GameManager {
 
             } else {
                 getController().getState().setCurrentPlayer(getController().getState().getPlayers().get(index));
+            }
+        }
+    }
+
+    private void checkWinner(Player oldCurrentPlayer) {
+        if (getController().getState().getGameState() == GameState.FINAL) { //se sono nella fase FINAL del gioco e il prossimo giocatore è il lastPlayer, allora rendo il gioco END
+            if (oldCurrentPlayer.equals(getController().getState().getLastPlayer())) {
+                getController().getState().setGameState(GameState.END);
+                Optional<Player> winner = getController().getState().getPlayers().stream().max(Comparator.comparing(p -> p.getPointPlayer().getTotalScore()));
+                winner.ifPresent(player -> getController().getState().setWinner(player));
             }
         }
     }

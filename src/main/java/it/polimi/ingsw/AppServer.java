@@ -1,5 +1,7 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw;
 
+import it.polimi.ingsw.controller.ControllerDispatcher;
+import it.polimi.ingsw.controller.LobbyController;
 import it.polimi.ingsw.net_alternative.RmiAccepter;
 import it.polimi.ingsw.net_alternative.ServerDispatcher;
 import it.polimi.ingsw.net_alternative.SocketAccepter;

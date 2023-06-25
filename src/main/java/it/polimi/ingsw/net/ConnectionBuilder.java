@@ -1,7 +1,6 @@
 package it.polimi.ingsw.net;
 
 import com.google.gson.reflect.TypeToken;
-import it.polimi.ingsw.controller.ClassRewriting;
 
 import java.io.IOException;
 import java.net.Socket;

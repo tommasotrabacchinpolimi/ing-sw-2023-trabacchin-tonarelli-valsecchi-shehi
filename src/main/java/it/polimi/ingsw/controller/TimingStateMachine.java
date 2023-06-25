@@ -30,6 +30,8 @@ import java.util.TimerTask;
  *
  */
 public class TimingStateMachine implements OnPlayerStateChangedListener, OnCurrentPlayerChangedListener {
+
+
     private TimingState timingState;
     private Controller controller;
 
@@ -95,13 +97,7 @@ public class TimingStateMachine implements OnPlayerStateChangedListener, OnCurre
         this.timingState = timingState;
     }
 
-    /**
-     * Invokes the timerGoOff method of the current timing state.
-     * This method is called when the timer goes off.
-     */
-    public void timerGoOff() {
-        timingState.timerGoOff();
-    }
+
 
     /**
      * Returns the Controller instance associated with the timing state machine.
@@ -112,24 +108,11 @@ public class TimingStateMachine implements OnPlayerStateChangedListener, OnCurre
         return controller;
     }
 
-    /**
-     * Sets the Controller instance for the timing state machine.
-     *
-     * @param controller the Controller instance to be set
-     */
-
-    public void setController(Controller controller) {
-        this.controller = controller;
+    public TimingState getTimingState() {
+        return timingState;
     }
 
-    /**
-     * method that checks if the timing state is disconnected
-     * @return {@code True} if the timing state is disconnected
-     * <br>
-     * otherwise it returns {@code False}
-     */
 
-    public boolean isDisconnectedTiming() {
-        return timingState.isDisconnectedTiming();
-    }
+
+
 }

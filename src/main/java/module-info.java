@@ -104,4 +104,6 @@ module it.polimi.ingsw {
     exports it.polimi.ingsw.net_alternative;
     exports it.polimi.ingsw.net_alternative.servermessages;
     exports it.polimi.ingsw.net_alternative.clientmessage;
+    exports it.polimi.ingsw to java.rmi;
+    opens it.polimi.ingsw;
 }

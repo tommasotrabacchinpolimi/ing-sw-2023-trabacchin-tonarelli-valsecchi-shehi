@@ -28,13 +28,12 @@ public abstract class TimingState {
         return timingStateMachine;
     }
 
-    public void setTimingStateMachine(TimingStateMachine timingStateMachine) {
-        this.timingStateMachine = timingStateMachine;
-    }
-
     public abstract void timerGoOff() ;
 
     public void currentPlayerChanged(Player player) {
+        if(player.equals(previousPlayer)){
+            return;
+        }
         System.out.println("current player changed...");
         if(isTriggered() || getTimingStateMachine().getController().getState().getGameState() == GameState.END){
             return;
@@ -71,8 +70,6 @@ public abstract class TimingState {
     protected boolean isTriggered() {
         return ALREADY_TRIGGERED;
     }
-
-    public abstract boolean isDisconnectedTiming();
 
     public Player getPreviousPlayer() {
         return previousPlayer;

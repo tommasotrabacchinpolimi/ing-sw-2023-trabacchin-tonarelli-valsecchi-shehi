@@ -1,4 +1,6 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw.net;
+import it.polimi.ingsw.controller.*;
+
 import java.beans.Statement;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

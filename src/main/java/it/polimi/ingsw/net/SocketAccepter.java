@@ -32,7 +32,7 @@ public class SocketAccepter<L extends RemoteInterface, R extends RemoteInterface
     /**
      * <p>This field is a local target object on which invoke actions</p>
      *
-     * @see it.polimi.ingsw.controller.Dispatcher
+     * @see Dispatcher
      */
     private final Object localTarget;
 

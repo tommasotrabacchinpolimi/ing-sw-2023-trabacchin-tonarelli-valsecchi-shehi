@@ -67,22 +67,6 @@ public class Controller implements OnServerConnectionLostListener, ControllerInt
     }
 
     /**
-     * Retrieves the active common goal 1
-     * @return the active common goal 1
-     */
-    public CommonGoal getActiveCommonGoal1(){
-        return state.getCommonGoal1();
-    }
-
-    /**
-     * Retrieves the active common goal 2
-     * @return the active common goal 2
-     */
-    public CommonGoal getActiveCommonGoal2(){
-        return state.getCommonGoal2();
-    }
-
-    /**
      * method to set number of players for a game
      * @param numberOfPlayer the number of players to set
      */
@@ -96,14 +80,6 @@ public class Controller implements OnServerConnectionLostListener, ControllerInt
      */
     public LobbyController getLobbyController() {
         return lobbyController;
-    }
-
-    /**
-     * method to set the lobby controller of the player
-     *
-     */
-    public void setLobbyController(LobbyController lobbyController) {
-        this.lobbyController = lobbyController;
     }
 
     /**

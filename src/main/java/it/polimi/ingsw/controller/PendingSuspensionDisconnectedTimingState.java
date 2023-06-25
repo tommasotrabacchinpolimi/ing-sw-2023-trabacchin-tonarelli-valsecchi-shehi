@@ -53,7 +53,7 @@ public class PendingSuspensionDisconnectedTimingState extends TimingState{
             return;
         }
         setTriggered();
-        getTimingStateMachine().setTimingState(new InitTimingState(getTimingStateMachine(), getTimingStateMachine().getController().getState().getCurrentPlayer(), delay));
+        getTimingStateMachine().setTimingState(new InitTimingState(getTimingStateMachine(), null, delay));
         GameState gameState = getTimingStateMachine().getController().getState().getGameState();
         getTimingStateMachine().getController().getState().setGameState(GameState.SUSPENDED);
         getTimingStateMachine().getController().setGameManager(new SuspendedGameManager(getTimingStateMachine().getController(), gameState));
@@ -82,12 +82,4 @@ public class PendingSuspensionDisconnectedTimingState extends TimingState{
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * This method indicates whether this timing state is for a disconnected player.
-     */
-    @Override
-    public boolean isDisconnectedTiming() {
-        return false;
-    }
 }

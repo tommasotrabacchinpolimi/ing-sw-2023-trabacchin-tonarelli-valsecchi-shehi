@@ -74,6 +74,9 @@ public class ConnectedTimingState extends TimingState{
 
     @Override
     public synchronized void currentPlayerChanged(Player player) {
+        if(player.equals(getPreviousPlayer())) {
+            return;
+        }
         getTimerTask().cancel();
         super.currentPlayerChanged(player);
     }
@@ -83,8 +86,4 @@ public class ConnectedTimingState extends TimingState{
 
     }
 
-    @Override
-    public boolean isDisconnectedTiming() {
-        return false;
-    }
 }

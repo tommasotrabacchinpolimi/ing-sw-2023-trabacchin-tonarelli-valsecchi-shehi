@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.lang.reflect.Proxy;
 
 import com.google.gson.reflect.TypeToken;
-import it.polimi.ingsw.controller.ClassRewriting;
 
 import java.rmi.server.UnicastRemoteObject;
 
