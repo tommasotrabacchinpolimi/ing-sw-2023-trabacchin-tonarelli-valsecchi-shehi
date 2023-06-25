@@ -9,6 +9,20 @@ import static org.junit.jupiter.api.Assertions.*;
 class LineCommonGoalTest {
 
     @Test
+
+    void illegalParameters() {
+        int incRow = 1, incCol = 0, numberLines = 20, numberTiles = 4;
+        int[] differentTiles = {6};
+
+        LineCommonGoal goal = new LineCommonGoal("", "", incRow, incCol, numberLines, numberTiles, differentTiles);
+        assertNull(goal.rule(createLineDesign(1)));
+        LineCommonGoal goal2 = new LineCommonGoal("", "", incRow, incCol, numberLines, 0, differentTiles);
+        assertNull(goal.rule(createLineDesign(1)));
+
+
+    }
+
+    @Test
     void getNumberOfTiles() {
         int incRow = 1, incCol = 0, numberLines = 2, numberTiles = 4;
         int[] differentTiles = {6};

@@ -172,6 +172,7 @@ public class ViewData {
 
     public void setMessages(List<Triple<String, List<String>, String>> messages) {
         this.messages = messages;
+        userInterface.onNewMessages();
     }
 
     public void addMessage(Triple<String, List<String>, String> message){

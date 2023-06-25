@@ -79,7 +79,7 @@ public class StairCommonGoal extends CommonGoal implements Serializable {
      * @see CommonGoal#CommonGoal(Stack scoringTokens, String description, String id)
      */
     public StairCommonGoal(Stack<Integer> scoringTokens, String description, String id, int numberOfColumns) {
-        super(scoringTokens, id, description);
+        super(scoringTokens, description, id);
         this.numberOfColumns = numberOfColumns;
     }
 

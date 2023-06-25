@@ -100,7 +100,6 @@ public class InitGameManager extends GameManager {
             registerListeners(view, nickname);
             registerInternalListener(newPlayer);
             listenersSetUp(newPlayer);
-            getController().getState().getPlayerFromView(view).setOnPlayerStateChangedListener(getController().getTimingStateMachine());
             newPlayer.getBookShelf().initTileSubjectTaken();
             newPlayer.setPlayerState(PlayerState.CONNECTED);
         }
@@ -126,7 +125,7 @@ public class InitGameManager extends GameManager {
     }
 
     @Override
-    protected void setNextCurrentPlayer() {
+    public void setNextCurrentPlayer() {
         return;
     }
 

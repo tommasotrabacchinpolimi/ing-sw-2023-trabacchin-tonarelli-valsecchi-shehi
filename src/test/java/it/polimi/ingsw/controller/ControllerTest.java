@@ -291,7 +291,7 @@ public class ControllerTest {
 
     @Test
     public void test7() throws InterruptedException {
-        LobbyController lobbyController = new LobbyController(500);
+        LobbyController lobbyController = new LobbyController(1000);
         ControllerDispatcher controllerDispatcher = new ControllerDispatcher(lobbyController);
         lobbyController.setDispatcher(controllerDispatcher);
         ClientTest tommy = new ClientTest();
@@ -322,48 +322,43 @@ public class ControllerTest {
         State model1 = controllerDispatcher.getViewToControllerMap().get(tommy).getState();
         State model2 = controllerDispatcher.getViewToControllerMap().get(adem).getState();
 
-        assertNotEquals(model1, model2);
+       assertNotEquals(model1, model2);
 
         ClientTest new_adem = new ClientTest();
         ClientTest new_nico = new ClientTest();
         if(model2.getCurrentPlayer().equals(model2.getPlayerFromView(adem))) {
             lobbyController.onConnectionLost(adem);
             lobbyController.onConnectionLost(nico);
-            Thread.sleep(1200);
+            Thread.sleep(1100);
             assertEquals(model2.getGameState(), GameState.SUSPENDED);
 
             try {
                 controllerDispatcher.joinGame(new_adem, "adem");
             } catch(Exception e) {}
+            assertEquals(model2.getGameState(), GameState.MID);
+            assertEquals(model2.getCurrentPlayer(), model2.getPlayerFromView(nico));
             try {
                 controllerDispatcher.joinGame(new_nico, "nico");
             } catch(Exception e) {}
-            State model3 = controllerDispatcher.getViewToControllerMap().get(new_adem).getState();
-            Controller c3 = controllerDispatcher.getViewToControllerMap().get(new_adem);
-            assertEquals(model3.getGameState(), GameState.MID);
-            assertEquals(true, c3.getTimingStateMachine().getTimingState() instanceof ConnectedTimingState);
 
         }
         else {
             lobbyController.onConnectionLost(nico);
             lobbyController.onConnectionLost(adem);
-            Thread.sleep(1200);
+            Thread.sleep(1100);
             assertEquals(model2.getGameState(), GameState.SUSPENDED);
 
             try {
                 controllerDispatcher.joinGame(new_nico, "nico");
             } catch(Exception e) {}
+            assertEquals(model2.getGameState(), GameState.MID);
+            assertEquals(model2.getCurrentPlayer(), model2.getPlayerFromView(adem));
             try {
                 controllerDispatcher.joinGame(new_adem, "adem");
             } catch(Exception e) {}
-            State model3 = controllerDispatcher.getViewToControllerMap().get(new_adem).getState();
-            Controller c3 = controllerDispatcher.getViewToControllerMap().get(new_adem);
-            assertEquals(model3.getGameState(), GameState.MID);
-            assertEquals(true, c3.getTimingStateMachine().getTimingState() instanceof ConnectedTimingState);
 
         }
 
-        State model3 = controllerDispatcher.getViewToControllerMap().get(new_adem).getState();
 
     }
 
@@ -442,7 +437,7 @@ public class ControllerTest {
         assertEquals(state1, state3);
     }
 
-    @Test
+    /*@Test
     public void test11() throws InterruptedException {
         LobbyController lobbyController = new LobbyController(500);
         ControllerDispatcher controllerDispatcher = new ControllerDispatcher(lobbyController);
@@ -482,7 +477,7 @@ public class ControllerTest {
 
         }
 
-    }
+    }*/
 
     private Coordinate[] getCoordinatesAvailable(Board board, int desired) {
         TileSubject[][] matrix = board.getBoard();

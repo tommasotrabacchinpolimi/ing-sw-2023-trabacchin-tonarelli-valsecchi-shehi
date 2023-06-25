@@ -7,15 +7,4 @@ public class NoMoreTileSubjectsLeftInTheBag extends RuntimeException {
         super(DEF_MESSAGE);
     }
 
-    public NoMoreTileSubjectsLeftInTheBag(String message) {
-        super(message);
-    }
-
-    public NoMoreTileSubjectsLeftInTheBag(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public NoMoreTileSubjectsLeftInTheBag(Throwable cause) {
-        super(DEF_MESSAGE, cause);
-    }
 }

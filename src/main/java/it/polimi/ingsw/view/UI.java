@@ -32,7 +32,9 @@ public abstract class UI{
 
     public abstract void showWinner();
 
-    public abstract void onException() throws IOException;
+    public abstract void onException();
 
-    public abstract void onGameStateChanged() throws IOException;
+    public abstract void onGameStateChanged();
+
+    public abstract void onNewMessages();
 }

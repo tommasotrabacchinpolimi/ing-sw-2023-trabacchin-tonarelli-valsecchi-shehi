@@ -1,13 +1,10 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.view.gui.GUILauncher;
-import it.polimi.ingsw.view.tui.TUIStateMachine;
-import it.polimi.ingsw.view.tui_alternative.TUI;
+import it.polimi.ingsw.view.tui.TUI;
 import javafx.application.Application;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.rmi.NotBoundException;
 
 public class AppClient {
