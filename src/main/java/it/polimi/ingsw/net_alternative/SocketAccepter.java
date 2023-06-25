@@ -22,10 +22,14 @@ public class SocketAccepter implements Runnable{
             System.out.println("receiver running...");
             ServerSocket serverSocket = new ServerSocket(port);
             while(true) {
-                Socket socket = serverSocket.accept();
-                System.out.println("client received...");
-                ClientSocketImpl clientSocket = new ClientSocketImpl(socket, serverDispatcher, onServerConnectionLostListener);
-                new Thread(clientSocket).start();
+                try{
+                    Socket socket = serverSocket.accept();
+                    System.out.println("client received...");
+                    ClientSocketImpl clientSocket = new ClientSocketImpl(socket, serverDispatcher, onServerConnectionLostListener);
+                    new Thread(clientSocket).start();
+                } catch(Exception e) {
+                    e.printStackTrace();
+                }
             }
         } catch(IOException e) {
             e.printStackTrace();
