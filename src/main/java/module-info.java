@@ -94,8 +94,8 @@ module it.polimi.ingsw {
     exports it.polimi.ingsw.view.gui.customcomponents.animations to javafx.fxml, javafx.graphics;
     opens it.polimi.ingsw.view.gui.customcomponents.animations to javafx.fxml, javafx.graphics;
 
-    exports it.polimi.ingsw.view.gui.customcomponents.messageView to javafx.fxml, javafx.graphics;
-    opens it.polimi.ingsw.view.gui.customcomponents.messageView to javafx.fxml, javafx.graphics;
+    exports it.polimi.ingsw.view.gui.customcomponents.messageview to javafx.fxml, javafx.graphics;
+    opens it.polimi.ingsw.view.gui.customcomponents.messageview to javafx.fxml, javafx.graphics;
 
     exports it.polimi.ingsw.view.gui.layout.chatpage to javafx.fxml, javafx.graphics;
     opens it.polimi.ingsw.view.gui.layout.chatpage to javafx.fxml, javafx.graphics;

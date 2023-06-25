@@ -1,10 +1,8 @@
-package it.polimi.ingsw.view.gui.customcomponents.messageView;
+package it.polimi.ingsw.view.gui.customcomponents.messageview;
 
 import it.polimi.ingsw.view.gui.customcomponents.decorations.MyShelfieComponent;
 import it.polimi.ingsw.view.gui.customcomponents.decorations.MyShelfieDecoration;
-import javafx.beans.NamedArg;
 import javafx.scene.Node;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,10 +18,11 @@ class SingleMessageViewContainer extends StackPane implements MyShelfieComponent
      */
     private final List<MyShelfieDecoration> baseDecorations = new ArrayList<>();
 
-    public SingleMessageViewContainer(@NotNull SingleMessageViewType messageViewType, String senderName, String messageContent) {
+    public SingleMessageViewContainer(@NotNull SingleMessageViewType messageViewType, String headerText,
+                                      String senderName, String messageContent) {
         super();
 
-        getChildren().add(new SingleMessageView(senderName, messageContent));
+        getChildren().add(new SingleMessageView(senderName, headerText, messageContent));
 
         setAlignment(messageViewType.getAlignment());
     }

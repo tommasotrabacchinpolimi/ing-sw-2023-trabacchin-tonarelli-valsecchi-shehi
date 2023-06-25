@@ -2,15 +2,14 @@ package it.polimi.ingsw.view.gui.layout.maininterface;
 
 import it.polimi.ingsw.model.TileSubject;
 import it.polimi.ingsw.utils.Coordinate;
+import it.polimi.ingsw.utils.Triple;
 import it.polimi.ingsw.view.gui.MyShelfieController;
 import it.polimi.ingsw.view.gui.customcomponents.MyShelfieButton;
 import it.polimi.ingsw.view.gui.customcomponents.tileview.TileSubjectView;
 import it.polimi.ingsw.view.gui.layout.gameinterface.GameInterfaceController;
 import it.polimi.ingsw.view.gui.layout.opponentsinterface.OpponentsInterfaceController;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -191,8 +190,8 @@ public class MainInterfaceController extends MyShelfieController {
         return updates;
     }
 
-    public void receivedMessageOperation(String senderNickName, String messageContent) {
-        opponentsInterfaceController.receivedMessageHandler(senderNickName, messageContent);
+    public void receivedMessageOperation(@NotNull Triple<String, List<String>, String> lastMessage) {
+        opponentsInterfaceController.manageReceivedMessage(lastMessage);
     }
 
     public void addOpponentsToReceivers(String... receivers) {

@@ -45,8 +45,9 @@ public class GUI extends UI {
     @Override
     public void onNewMessage(String sender) {
         Platform.runLater(() -> {
-            if(getModel().getLastMessage().getSecond().contains(getModel().getThisPlayer()))
-                guiLauncher.handleNewMessage(getModel().getLastMessage());
+            if(getModel().getLastMessage().getSecond().contains(getModel().getThisPlayer())) {
+                    guiLauncher.handleNewMessage(getModel().getLastMessage());
+            }
         });
     }
 

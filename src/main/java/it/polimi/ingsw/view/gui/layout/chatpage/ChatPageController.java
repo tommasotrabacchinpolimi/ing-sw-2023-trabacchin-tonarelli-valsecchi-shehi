@@ -4,13 +4,12 @@ package it.polimi.ingsw.view.gui.layout.chatpage;
 import it.polimi.ingsw.view.gui.MyShelfieController;
 import it.polimi.ingsw.view.gui.customcomponents.MyShelfieChoiceBox;
 import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieAlertCreator;
-import it.polimi.ingsw.view.gui.customcomponents.messageView.ChatViewBox;
-import it.polimi.ingsw.view.gui.customcomponents.messageView.SingleMessageViewType;
-import javafx.application.Platform;
+import it.polimi.ingsw.view.gui.customcomponents.messageview.ChatViewBox;
+import it.polimi.ingsw.view.gui.customcomponents.messageview.SingleMessageViewPrivacyType;
+import it.polimi.ingsw.view.gui.customcomponents.messageview.SingleMessageViewType;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextFormatter;
@@ -50,9 +49,11 @@ public class ChatPageController extends MyShelfieController {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        chatViewBox.addMessage(SingleMessageViewType.SENT, "Adem", "My Shelfie Ã¨ un gioco di merda e Melanie lo pensa pure");
+        chatViewBox.addMessage(SingleMessageViewType.RECEIVED, SingleMessageViewPrivacyType.PRIVATE,
+                "Ema", "Dai Adem non dire così è almeno un 30L assicurato", "You");
 
-        chatViewBox.addMessage(SingleMessageViewType.RECEIVED, "Ema", "Dai Adem non dire cosÃ¬ Ã¨ almeno un 30L assicurato");
+        chatViewBox.addMessage(SingleMessageViewType.RECEIVED, SingleMessageViewPrivacyType.PUBLIC,
+                "Ema", "Dai Adem non dire così è almeno un 30L assicurato");
 
         setupScrollingChatPane();
 
@@ -74,7 +75,10 @@ public class ChatPageController extends MyShelfieController {
                 inputMessage.getText() != null &&
                 !inputMessage.getText().equals("")) {
 
-            chatViewBox.addMessage(SingleMessageViewType.SENT, "Adem", inputMessage.getText());
+            if(receiverChoiceBox.getValue().equalsIgnoreCase("all"))
+                chatViewBox.addMessage(SingleMessageViewType.SENT, SingleMessageViewPrivacyType.PUBLIC, inputMessage.getText());
+            else
+                chatViewBox.addMessage(SingleMessageViewType.SENT, receiverChoiceBox.getValue(), inputMessage.getText());
 
             inputMessage.clear();
         }
@@ -91,8 +95,14 @@ public class ChatPageController extends MyShelfieController {
         });
     }
 
-    public void addReceivedMessage(String senderNickName, String messageContent) {
-        chatViewBox.addMessage(SingleMessageViewType.RECEIVED, senderNickName ,messageContent);
+    public void displayReceivedMessage(SingleMessageViewPrivacyType messageViewPrivacyType, String senderNickName,
+                                       String messageContent) {
+        chatViewBox.addMessage(SingleMessageViewType.RECEIVED, messageViewPrivacyType, senderNickName ,messageContent);
+    }
+
+    public void displayReceivedMessage(SingleMessageViewPrivacyType messageViewPrivacyType, String senderNickName,
+                                       String messageContent, String receiver) {
+        chatViewBox.addMessage(SingleMessageViewType.RECEIVED, messageViewPrivacyType, senderNickName ,messageContent, receiver);
     }
 
     public void addReceiveChoices(String... receivers) {
@@ -105,6 +115,8 @@ public class ChatPageController extends MyShelfieController {
         GridPane.setValignment(receiverChoiceBox, VPos.CENTER);
 
         GridPane.setHalignment(receiverChoiceBox, HPos.LEFT);
+
+        receiverChoiceBox.setMaxWidth(Double.POSITIVE_INFINITY);
     }
 
     private void addReceivers(String... receivers) {
