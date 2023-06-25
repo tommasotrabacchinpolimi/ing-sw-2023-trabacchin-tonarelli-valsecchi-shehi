@@ -54,9 +54,11 @@ public class ViewData {
     public void setPlayers(List<String> players) {
         this.players = players;
     }
+
     public List<String> getPlayers() {
         return this.players;
     }
+
     public UI getUserInterface() {
         return userInterface;
     }

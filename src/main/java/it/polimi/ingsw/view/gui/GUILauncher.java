@@ -78,6 +78,19 @@ public class GUILauncher extends MyShelfieApplication {
 
     public void goToMainInterface() {
         changeToFullScreenStage(MAIN_INTERFACE_LAYOUT);
+
+        initOpponentInterfaceInformation();
+    }
+
+    private void initOpponentInterfaceInformation(){
+        try{
+            ((MainInterfaceController) fxController).handleOpponentInterfaceInformation();
+        }catch( ClassCastException e ) {
+            MyShelfieAlertCreator.displayErrorAlert(
+                    "Opponents information can't be uploaded in the graphical user interface",
+                    "Can't load opponents information"
+            );
+        }
     }
 
     public void setGUI(GUI gui){

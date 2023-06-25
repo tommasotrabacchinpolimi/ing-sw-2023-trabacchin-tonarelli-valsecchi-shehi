@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.gui.layout.opponentsinterface;
 
 import it.polimi.ingsw.model.TileSubject;
 import it.polimi.ingsw.utils.Triple;
+import it.polimi.ingsw.view.gui.MyShelfieApplication;
 import it.polimi.ingsw.view.gui.MyShelfieController;
 import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieAlertCreator;
 import it.polimi.ingsw.view.gui.customcomponents.messageview.SingleMessageViewPrivacyType;
@@ -44,14 +45,14 @@ public class OpponentsInterfaceController extends MyShelfieController {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+    }
 
-        Platform.runLater(() -> {
-            addOpponentBookshelf("Adem");
-            addOpponentBookshelf("Melanie");
-            addOpponentBookshelf("Tommy");
+    public void setupBasicInformation(MyShelfieApplication myShelfieApplicationLauncher) {
+        setMyShelfieApplicationLauncher(myShelfieApplicationLauncher);
 
-            addReceiverInChat("Adem", "Melanie", "Tommy");
-        });
+        opponentsChatInterfaceController.setMyShelfieApplicationLauncher(getMyShelfieApplicationLauncher());
+
+        getOpponentPlayers().forEach(this::addOpponentBookshelf);
     }
 
     private void addOpponentBookshelf(String playerName) {
@@ -117,7 +118,7 @@ public class OpponentsInterfaceController extends MyShelfieController {
 
     public void manageReceivedMessage(@NotNull Triple<String, List<String>, String> lastMessage) {
 
-        if(lastMessage.getSecond().size() > 1)
+        if(lastMessage.getSecond().size() > 1 || getOpponentPlayers().size() == 1)
             opponentsChatInterfaceController
                     .displayReceivedMessage(SingleMessageViewPrivacyType.PUBLIC, lastMessage.getFirst(),
                             lastMessage.getThird());
@@ -129,5 +130,9 @@ public class OpponentsInterfaceController extends MyShelfieController {
 
     public void addReceiverInChat(String... receivers) {
         opponentsChatInterfaceController.addReceiveChoices(receivers);
+    }
+
+    public void manageSentMessage(List<String> receivers, String messageContent) {
+        opponentsChatInterfaceController.displaySentMessage(receivers, messageContent);
     }
 }

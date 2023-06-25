@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.exceptions.WrongChosenTilesFromBoardException;
 import it.polimi.ingsw.model.TileSubject;
 import it.polimi.ingsw.model.TileType;
 import it.polimi.ingsw.utils.Coordinate;
+import it.polimi.ingsw.view.gui.MyShelfieApplication;
 import it.polimi.ingsw.view.gui.MyShelfieController;
 import it.polimi.ingsw.view.gui.customcomponents.commongoal.CommonGoalView;
 import it.polimi.ingsw.view.gui.customcomponents.PersonalGoalView;
@@ -13,6 +14,7 @@ import it.polimi.ingsw.view.gui.layout.bookshelf.PersonalBookshelfController;
 import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieAlertCreator;
 import it.polimi.ingsw.view.gui.customcomponents.MyShelfieButton;
 import it.polimi.ingsw.view.gui.customcomponents.tileview.TileSubjectView;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -131,6 +133,14 @@ public class GameInterfaceController extends MyShelfieController {
         personalGoal.setOnMouseExited(value -> {
             gamePersonalBookshelfController.resetPersonalTargetCells(personalGoal.getPersonalConfiguration());
         });
+    }
+
+    public void setupBasicInformation(MyShelfieApplication myShelfieApplicationLauncher) {
+
+        setMyShelfieApplicationLauncher(myShelfieApplicationLauncher);
+
+        gameBoardViewController.setMyShelfieApplicationLauncher(getMyShelfieApplicationLauncher());
+        gamePersonalBookshelfController.setMyShelfieApplicationLauncher(getMyShelfieApplicationLauncher());
     }
 
     protected List<TileSubjectView> getClickedTilesFromBoard() {

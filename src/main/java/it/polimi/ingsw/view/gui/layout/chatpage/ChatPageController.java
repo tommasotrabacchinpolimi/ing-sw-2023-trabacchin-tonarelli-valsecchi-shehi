@@ -22,6 +22,7 @@ import javafx.scene.layout.GridPane;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class ChatPageController extends MyShelfieController {
@@ -49,12 +50,6 @@ public class ChatPageController extends MyShelfieController {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        chatViewBox.addMessage(SingleMessageViewType.RECEIVED, SingleMessageViewPrivacyType.PRIVATE,
-                "Ema", "Dai Adem non dire così è almeno un 30L assicurato", "You");
-
-        chatViewBox.addMessage(SingleMessageViewType.RECEIVED, SingleMessageViewPrivacyType.PUBLIC,
-                "Ema", "Dai Adem non dire così è almeno un 30L assicurato");
-
         setupScrollingChatPane();
 
         chatViewBox.heightProperty().addListener((observableValue, oldValue, newValue) -> {
@@ -75,10 +70,16 @@ public class ChatPageController extends MyShelfieController {
                 inputMessage.getText() != null &&
                 !inputMessage.getText().equals("")) {
 
-            if(receiverChoiceBox.getValue().equalsIgnoreCase("all"))
-                chatViewBox.addMessage(SingleMessageViewType.SENT, SingleMessageViewPrivacyType.PUBLIC, inputMessage.getText());
-            else
-                chatViewBox.addMessage(SingleMessageViewType.SENT, receiverChoiceBox.getValue(), inputMessage.getText());
+            if(receiverChoiceBox.getValue().equalsIgnoreCase("all") || getOpponentPlayers().size() == 1) {
+                //chatViewBox.addMessage(SingleMessageViewType.SENT, SingleMessageViewPrivacyType.PUBLIC, inputMessage.getText());
+
+                getLogicController().sentMessage(inputMessage.getText(), getOpponentPlayers().toArray(String[]::new));
+            } else {
+                //chatViewBox.addMessage(SingleMessageViewType.SENT, receiverChoiceBox.getValue(), inputMessage.getText());
+
+                getLogicController().sentMessage(inputMessage.getText(),
+                        receiverChoiceBox.getValue().lines().toArray(String[]::new));
+            }
 
             inputMessage.clear();
         }
@@ -105,10 +106,23 @@ public class ChatPageController extends MyShelfieController {
         chatViewBox.addMessage(SingleMessageViewType.RECEIVED, messageViewPrivacyType, senderNickName ,messageContent, receiver);
     }
 
-    public void addReceiveChoices(String... receivers) {
-        receiverChoiceBox = new MyShelfieChoiceBox("All");
+    public void displaySentMessage(List<String> receiver, String messageContent) {
 
-        addReceivers(receivers);
+        if(receiver.size() == getOpponentPlayers().size())
+            chatViewBox.addMessage(SingleMessageViewType.SENT, SingleMessageViewPrivacyType.PUBLIC, messageContent);
+        else if(receiver.size() == 1)
+            chatViewBox.addMessage(SingleMessageViewType.SENT, receiver.get(0), messageContent);
+    }
+
+    public void addReceiveChoices(String... receivers) {
+
+        if(receivers.length == 1) {
+            receiverChoiceBox = new MyShelfieChoiceBox(receivers[0]);
+            receiverChoiceBox.setMouseTransparent(true);
+        } else {
+            receiverChoiceBox = new MyShelfieChoiceBox("All");
+            addReceivers(receivers);
+        }
 
         chatPageBoxDisplacer.add(receiverChoiceBox, 0, 1);
 

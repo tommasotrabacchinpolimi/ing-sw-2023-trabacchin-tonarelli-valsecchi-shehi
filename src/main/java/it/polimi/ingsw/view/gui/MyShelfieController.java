@@ -5,6 +5,7 @@ import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieAlertCreato
 import javafx.fxml.Initializable;
 import javafx.util.Duration;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -52,5 +53,13 @@ public abstract class MyShelfieController implements Initializable {
 
     protected LogicInterface getLogicController() {
         return getGUI().getLogicController();
+    }
+
+    protected List<String> getOpponentPlayers() {
+        return getGUI().getModel()
+                .getPlayers()
+                .stream()
+                .filter(nickName -> !nickName.equals(getGUI().getModel().getThisPlayer()))
+                .toList();
     }
 }

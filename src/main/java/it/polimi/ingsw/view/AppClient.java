@@ -16,10 +16,10 @@ public class AppClient {
     private static final int DIMROW_BOOKSHELF = 6;
 
     public static void main(String[] args) throws NotBoundException, IOException, ClassNotFoundException {
-        //if(args[0].equals("tui"))
+        if(args[0].equals("tui"))
             TUISetup();
-        //else if(args[0].equals("gui"))
-            //GUISetup(args);
+        else if(args[0].equals("gui"))
+            GUISetup(args);
     }
 
     public static void TUISetup() throws IOException, NotBoundException, ClassNotFoundException {

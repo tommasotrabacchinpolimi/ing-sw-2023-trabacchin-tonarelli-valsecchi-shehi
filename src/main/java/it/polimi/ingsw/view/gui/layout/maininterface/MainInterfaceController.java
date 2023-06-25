@@ -8,6 +8,7 @@ import it.polimi.ingsw.view.gui.customcomponents.MyShelfieButton;
 import it.polimi.ingsw.view.gui.customcomponents.tileview.TileSubjectView;
 import it.polimi.ingsw.view.gui.layout.gameinterface.GameInterfaceController;
 import it.polimi.ingsw.view.gui.layout.opponentsinterface.OpponentsInterfaceController;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
@@ -44,6 +45,11 @@ public class MainInterfaceController extends MyShelfieController {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setupTestingButton();
+
+        Platform.runLater(() -> {
+            gameInterfaceController.setupBasicInformation(getMyShelfieApplicationLauncher());
+            opponentsInterfaceController.setupBasicInformation(getMyShelfieApplicationLauncher());
+        });
     }
 
     /**
@@ -191,10 +197,18 @@ public class MainInterfaceController extends MyShelfieController {
     }
 
     public void receivedMessageOperation(@NotNull Triple<String, List<String>, String> lastMessage) {
-        opponentsInterfaceController.manageReceivedMessage(lastMessage);
+
+        if(lastMessage.getFirst().equals(getGUI().getModel().getThisPlayer()))
+            opponentsInterfaceController.manageSentMessage(lastMessage.getSecond(), lastMessage.getThird());
+        else
+            opponentsInterfaceController.manageReceivedMessage(lastMessage);
     }
 
-    public void addOpponentsToReceivers(String... receivers) {
+    public void handleOpponentInterfaceInformation() {
+        addOpponentsToReceivers(getOpponentPlayers().toArray(String[]::new));
+    }
+
+    private void addOpponentsToReceivers(String... receivers) {
         opponentsInterfaceController.addReceiverInChat(receivers);
     }
 }
