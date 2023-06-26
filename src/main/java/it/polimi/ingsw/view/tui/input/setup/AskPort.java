@@ -39,7 +39,7 @@ public class AskPort extends Input {
         }
 
         if(portNumber<0 || portNumber>65536) {
-            getOut().println("Invalid port, lease try again...");
+            getOut().println("Invalid port, please try again...");
             getTUI().setCurrentInput(new AskPort(getTUI(), getOut(), protocolChoice, address));
         }
         else {

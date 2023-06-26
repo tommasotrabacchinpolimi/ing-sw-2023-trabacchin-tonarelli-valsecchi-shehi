@@ -18,7 +18,9 @@ public class AskWaitTillConnectionUp extends Input {
     @Override
     public void readLine(String line) {
         if(line.equals("yes")) {
+            System.out.println("Reconnecting...");
             getTUI().getLogicController().reConnect();
+            getTUI().setCurrentInput(new AskNickname(getTUI(), getOut()));
         }
         else if(line.equals("no")) {
             System.exit(0);
