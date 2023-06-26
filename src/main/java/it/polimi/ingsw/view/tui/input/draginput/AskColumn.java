@@ -26,11 +26,18 @@ public class AskColumn extends Input {
     public void readLine(String line) {
         if(!(line.equals("1") || line.equals("2") || line.equals("3") || line.equals("4") || line.equals("5")))  {
             getOut().println("The column number is invalid, please try again");
+            getTUI().setCurrentInput(new AskColumn(getTUI(), getOut(), coordinates));
+
         }
         else {
-            getTUI().setCurrentInput(new InputSelector(getTUI(), getOut()));
-            getTUI().getLogicController().dragTilesToBookShelf(coordinates, Integer.parseInt(line));
+            //getTUI().setCurrentInput(new InputSelector(getTUI(), getOut()));
+            getTUI().getLogicController().dragTilesToBookShelf(coordinates, Integer.parseInt(line) - 1);
             getTUI().refresh();
         }
+    }
+    @Override
+    public void onException() {
+        getOut().println(getTUI().getModel().getException());
+        getTUI().setCurrentInput(new InputSelector(getTUI(), getOut()));
     }
 }

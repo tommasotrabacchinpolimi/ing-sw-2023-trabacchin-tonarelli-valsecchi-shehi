@@ -49,6 +49,7 @@ public class TimingStateMachine implements OnCurrentPlayerChangedListener, OnSta
     @Override
     public void onCurrentPlayerChangedListener(String nickname) {
         timingState.onCurrentPlayerChanged();
+        System.err.println("finished timing listener");
     }
 
     @Override

@@ -29,20 +29,26 @@ public class AskCoordinates extends Input {
 
     @Override
     public void readLine(String line) {
-        Coordinate tile;
-        if(!line.equals("end")) {
-            tile = new Coordinate(line.charAt(0) - 'A', Integer.parseInt(String.valueOf(line.charAt(1)))-1 );
-            previousCoordinates.add(tile);
-            if(previousCoordinates.size() < 3) {
-                getTUI().setCurrentInput(new AskCoordinates(getTUI(), getOut(), false, previousCoordinates));
+        try{
+            Coordinate tile;
+            if(!line.equals("end")) {
+                tile = new Coordinate(line.charAt(0) - 'A', Integer.parseInt(String.valueOf(line.charAt(1)))-1 );
+                previousCoordinates.add(tile);
+                if(previousCoordinates.size() < 3) {
+                    getTUI().setCurrentInput(new AskCoordinates(getTUI(), getOut(), false, previousCoordinates));
+                }
+                else {
+                    getTUI().setCurrentInput(new AskColumn(getTUI(), getOut(), previousCoordinates));
+                }
             }
             else {
                 getTUI().setCurrentInput(new AskColumn(getTUI(), getOut(), previousCoordinates));
             }
+        } catch(Exception ex) {
+            getOut().println("Your last choice is invalid, please try again...");
+            getTUI().setCurrentInput(new AskCoordinates(getTUI(), getOut(), false, previousCoordinates));
         }
-        else {
-            getTUI().setCurrentInput(new AskColumn(getTUI(), getOut(), previousCoordinates));
-        }
+
 
 
     }

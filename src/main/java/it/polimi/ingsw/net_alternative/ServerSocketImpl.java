@@ -129,6 +129,7 @@ public class ServerSocketImpl implements ServerInterface, Runnable {
                 executorService.submit(() -> message.dispatch(clientDispatcher));
             } catch (Exception e) {
                 synchronized (this) {
+                    clientConnectionLostListener.onConnectionLost();
                     OPEN = false;
                     e.printStackTrace();
                     return;
