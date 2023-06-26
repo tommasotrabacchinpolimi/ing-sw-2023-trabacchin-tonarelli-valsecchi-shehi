@@ -17,9 +17,9 @@ import java.util.List;
  * @author Adem Shehi
  */
 public class AchievedCommonGoalNetMessage implements ClientMessage {
-    private String nicknamePlayer;
-    private List<Coordinate> tiles;
-    private int numberCommonGoal;
+    private final String nicknamePlayer;
+    private final List<Coordinate> tiles;
+    private final int numberCommonGoal;
 
     /**
      * Constructor of the class
