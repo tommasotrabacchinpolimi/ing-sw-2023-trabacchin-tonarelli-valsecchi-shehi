@@ -23,8 +23,8 @@ public class ServerSocketImpl implements ServerInterface, Runnable {
     private boolean OPEN = true;
 
     public ServerSocketImpl(Socket socket, ClientDispatcherInterface clientDispatcher, OnClientConnectionLostListener clientConnectionLostListener) throws IOException {
-        this.oos = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-        this.ois = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
+        this.oos = new ObjectOutputStream(socket.getOutputStream());
+        this.ois = new ObjectInputStream(socket.getInputStream());
         this.clientDispatcher = clientDispatcher;
         this.clientConnectionLostListener = clientConnectionLostListener;
     }
@@ -36,6 +36,7 @@ public class ServerSocketImpl implements ServerInterface, Runnable {
                 return;
             }
             oos.writeObject(dragTilesToBookShelfNetMessage);
+            oos.flush();
         } catch (IOException e) {
             OPEN = false;
             clientConnectionLostListener.onConnectionLost();
@@ -68,6 +69,7 @@ public class ServerSocketImpl implements ServerInterface, Runnable {
                 return;
             }
             oos.writeObject(createGameNetMessage);
+            oos.flush();
         } catch (IOException e) {
             OPEN = false;
             clientConnectionLostListener.onConnectionLost();
@@ -83,6 +85,7 @@ public class ServerSocketImpl implements ServerInterface, Runnable {
                 return;
             }
             oos.writeObject(quitGameNetMessage);
+            oos.flush();
         } catch (IOException e) {
             OPEN = false;
             clientConnectionLostListener.onConnectionLost();
@@ -98,6 +101,7 @@ public class ServerSocketImpl implements ServerInterface, Runnable {
                 return;
             }
             oos.writeObject(sentMessageNetMessage);
+            oos.flush();
         } catch (IOException e) {
             OPEN = false;
             clientConnectionLostListener.onConnectionLost();
@@ -113,6 +117,7 @@ public class ServerSocketImpl implements ServerInterface, Runnable {
                 return;
             }
             oos.writeObject(nopNetMessage);
+            oos.flush();
         } catch (IOException e) {
             OPEN = false;
             clientConnectionLostListener.onConnectionLost();
