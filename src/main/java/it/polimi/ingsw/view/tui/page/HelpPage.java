@@ -7,17 +7,43 @@ import java.io.PrintStream;
 
 import static it.polimi.ingsw.utils.color.MyShelfieAnsi.colorize;
 
+/**
+ * The HelpPage class represents a help page in the {@link TUI} user interface.
+ * It provides information and instructions on how to play the game. The class extend {@link Page}.
+ *
+ * @see it.polimi.ingsw.view.tui.page.Page
+ * @see TUI
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ */
 public class HelpPage extends Page{
+    /**
+     * Attribute that represents the {@link PrintStream output stream}.
+     */
     private PrintStream out;
+
+    /**
+     * Constructs a new HelpPage object.
+     * @param tui the {@link TUI} object associated with the page.
+     */
     public HelpPage(TUI tui) {
         super(tui);
         this.out = tui.getPrintStream();
     }
+
+    /**
+     * Displays the help page in the {@link TUI} user interface.
+     *
+     * @see TUI
+     * @see Page#show()
+     */
     @Override
     public void show() {
-        out.print(colorize("                                                                   ", MyShelfieAttribute.GREEN_BACK()));
-        out.print(colorize("MY SHELFIE: LEGEND", MyShelfieAttribute.GREEN_BACK()));
-        out.print(colorize("                                                                   ", MyShelfieAttribute.GREEN_BACK()));
+        out.print(colorize("                                                                   ", MyShelfieAttribute.DARKEN_GREEN_BACK()));
+        out.print(colorize("MY SHELFIE: LEGEND", MyShelfieAttribute.DARKEN_GREEN_BACK()));
+        out.println(colorize("                                                                   ", MyShelfieAttribute.DARKEN_GREEN_BACK()));
         out.println(colorize("Here are the actions you can make during the game:", MyShelfieAttribute.ITALIC()));
         out.println(colorize(" TYPE        DESCRIPTION", MyShelfieAttribute.ITALIC()));
         out.println(" play        use it during your turn in order to move tiles from the board to your bookshelf.");

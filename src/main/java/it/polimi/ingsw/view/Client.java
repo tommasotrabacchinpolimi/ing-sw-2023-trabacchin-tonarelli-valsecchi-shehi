@@ -85,7 +85,7 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
     }
 
     @Override
-    public void onBoardUpdated(TileSubject[][] tileSubjects) {
+    public synchronized void onBoardUpdated(TileSubject[][] tileSubjects) {
         for (int i = 0; i < tileSubjects.length; i++) {
             for (int j = 0; j < tileSubjects[0].length; j++) {
                 viewData.getBoard()[i][j] = tileSubjects[i][j];
@@ -94,7 +94,7 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
     }
 
     @Override
-    public void onBookShelfUpdated(String nickname, TileSubject[][] bookShelf) {
+    public synchronized void onBookShelfUpdated(String nickname, TileSubject[][] bookShelf) {
         viewData.getBookShelves().computeIfAbsent(nickname, k -> new TileSubject[6][5]);
         for (int i = 0; i < bookShelf.length; i++) {
             for (int j = 0; j < bookShelf[0].length; j++) {
@@ -104,17 +104,17 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
     }
 
     @Override
-    public void onChangedCommonGoalAvailableScore(int score, int numberOfCommonGoal) {
+    public synchronized void onChangedCommonGoalAvailableScore(int score, int numberOfCommonGoal) {
         viewData.getAvailableScores().put(numberOfCommonGoal - 1, score);
     }
 
     @Override
-    public void onCurrentPlayerChangedListener(String nickname) {
+    public synchronized void onCurrentPlayerChangedListener(String nickname) {
         viewData.setCurrentPlayer(nickname);
     }
 
     @Override
-    public void onException(Exception e) {
+    public synchronized void onException(Exception e) {
         try{
             viewData.setException(e.getMessage());
         }catch(IOException e1) {
@@ -124,18 +124,18 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
     }
 
     @Override
-    public void onLastPlayerUpdated(String nicknameLastPlayer) {
+    public synchronized void onLastPlayerUpdated(String nicknameLastPlayer) {
 
     }
 
     @Override
-    public void onMessageSent(String nicknameSender, List<String> nicknameReceivers, String text) {
+    public synchronized void onMessageSent(String nicknameSender, List<String> nicknameReceivers, String text) {
         Triple<String, List<String>, String> triple = new Triple<>(nicknameSender, nicknameReceivers, text);
         viewData.addMessage(triple);
     }
 
     @Override
-    public void onMessagesSentUpdate(List<String> senderNicknames, List<List<String>> receiverNicknames, List<String> texts) {
+    public synchronized void onMessagesSentUpdate(List<String> senderNicknames, List<List<String>> receiverNicknames, List<String> texts) {
         List<Triple<String, List<String>, String>> messages = new ArrayList<>();
         for (int i = 0; i < senderNicknames.size(); i++) {
             messages.add(new Triple<>(senderNicknames.get(i), receiverNicknames.get(i), texts.get(i)));
@@ -144,12 +144,12 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
     }
 
     @Override
-    public void onPlayerStateChanged(String nickname, PlayerState playerState) {
+    public synchronized void onPlayerStateChanged(String nickname, PlayerState playerState) {
         viewData.getPlayersState().put(nickname, playerState.toString());
     }
 
     @Override
-    public void onPointsUpdated(String nickName, int scoreAdjacentGoal, int scoreCommonGoal1, int scoreCommonGoal2, int scoreEndGame, int scorePersonalGoal) {
+    public synchronized void onPointsUpdated(String nickName, int scoreAdjacentGoal, int scoreCommonGoal1, int scoreCommonGoal2, int scoreEndGame, int scorePersonalGoal) {
         viewData.getPlayersPoints().computeIfAbsent(nickName, k -> Arrays.asList(0, 0, 0, 0, 0));
         viewData.getPlayersPointsByNickname(nickName).set(0, scoreAdjacentGoal);
         viewData.getPlayersPointsByNickname(nickName).set(1, scoreCommonGoal1);
@@ -159,7 +159,7 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
     }
 
     @Override
-    public void onStateChanged(GameState gameState) {
+    public synchronized void onStateChanged(GameState gameState) {
         try{
             viewData.setGameState(gameState.toString());
         } catch(IOException e) {
@@ -169,28 +169,29 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
     }
 
     @Override
-    public void nop() {
+    public synchronized void nop() {
 
     }
     @Override
-    public void onConnectionLost() {
+    public synchronized void onConnectionLost() {
+
         ui.onConnectionLost();
     }
 
     @Override
-    public void joinGame(String nickname) {
+    public synchronized void joinGame(String nickname) {
         viewData.setThisPlayer(nickname);
         server.joinGame(nickname);
     }
 
     @Override
-    public void createGame(String nickname, int numberOfPlayer) {
+    public synchronized void createGame(String nickname, int numberOfPlayer) {
         viewData.setThisPlayer(nickname);
         server.createGame(nickname, numberOfPlayer);
     }
 
     @Override
-    public void quitGame() {
+    public synchronized void quitGame() {
         viewData = new ViewData(9, 5, 6);
         viewData.setUserInterface(ui);
         ui.setModel(viewData);
@@ -198,7 +199,7 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
     }
 
     @Override
-    public void sentMessage(String text, String[] receiversNickname) {
+    public synchronized void sentMessage(String text, String[] receiversNickname) {
         List<String> receivers = new ArrayList<>();
         for (String nick : receiversNickname) {
             if (nick != null) {
@@ -216,18 +217,18 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
     }
 
     @Override
-    public void dragTilesToBookShelf(List<Coordinate> chosenTiles, int chosenColumn) {
+    public synchronized void dragTilesToBookShelf(List<Coordinate> chosenTiles, int chosenColumn) {
         // modificare la view?
         server.dragTilesToBookShelf(chosenTiles, chosenColumn);
     }
 
     @Override
-    public void onWinnerChanged(String nickname) {
+    public synchronized void onWinnerChanged(String nickname) {
         viewData.setWinnerPlayer(nickname);
     }
 
     @Override
-    public void chosenSocket(int port, String host) throws IOException {
+    public synchronized void chosenSocket(int port, String host) throws IOException {
         ServerInterface serverInterface = this.getSocketConnection(host, port);
         this.setServer(serverInterface);
         this.port = port;
@@ -236,7 +237,7 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
     }
 
     @Override
-    public void chosenRMI(int port, String host) throws NotBoundException, IOException {
+    public synchronized void chosenRMI(int port, String host) throws NotBoundException, IOException {
         ServerInterface serverInterface = this.getRmiConnection(host, port);
         this.setServer(serverInterface);
         this.port = port;
@@ -245,7 +246,7 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
     }
 
     @Override
-    public void reConnect() {
+    public synchronized void reConnect() {
         while(true) {
             try{
                 if(this.choice == SOCKET) {
@@ -264,7 +265,7 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
     }
 
     @Override
-    public void onPlayersListChanged(List<String> players) {
+    public synchronized void onPlayersListChanged(List<String> players) {
         viewData.setPlayers(players);
     }
 }

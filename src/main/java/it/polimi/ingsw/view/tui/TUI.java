@@ -4,6 +4,7 @@ import it.polimi.ingsw.view.ViewData;
 import it.polimi.ingsw.view.tui.input.Input;
 import it.polimi.ingsw.view.tui.input.InputSelector;
 import it.polimi.ingsw.view.tui.input.setup.AskProtocol;
+import it.polimi.ingsw.view.tui.input.setup.AskWaitTillConnectionUp;
 import it.polimi.ingsw.view.tui.page.HomePage;
 import it.polimi.ingsw.view.tui.page.Page;
 import it.polimi.ingsw.view.tui.page.WinnerPage;
@@ -88,7 +89,10 @@ public class TUI extends UI {
     @Override
     public synchronized void onCurrentPlayerChanged(String newCurrentPlayer) {
         try{
+            System.out.println("new current player");
             while(inputInProgress) {
+                System.out.println("waiting");
+
                 this.wait();
             }
         } catch(InterruptedException e) {
@@ -141,6 +145,8 @@ public class TUI extends UI {
         }catch(InterruptedException e){
             e.printStackTrace();
         }
+
+        this.setCurrentInput(new AskWaitTillConnectionUp(this, getPrintStream()));
 
 
     }

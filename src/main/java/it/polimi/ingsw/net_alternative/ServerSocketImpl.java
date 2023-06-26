@@ -1,6 +1,7 @@
 package it.polimi.ingsw.net_alternative;
 
 import it.polimi.ingsw.controller.ServerInterface;
+import it.polimi.ingsw.net_alternative.clientmessage.CurrentPlayerChangedListenerNetMessage;
 import it.polimi.ingsw.net_alternative.servermessages.*;
 import it.polimi.ingsw.utils.Coordinate;
 
@@ -35,8 +36,10 @@ public class ServerSocketImpl implements ServerInterface, Runnable {
             if(!OPEN) {
                 return;
             }
+            System.out.println("sending drag message");
             oos.writeObject(dragTilesToBookShelfNetMessage);
             oos.flush();
+            System.out.println("drag message sent");
         } catch (IOException e) {
             OPEN = false;
             clientConnectionLostListener.onConnectionLost();
@@ -131,12 +134,15 @@ public class ServerSocketImpl implements ServerInterface, Runnable {
         while (true) {
             try {
                 ClientMessage message = (ClientMessage) ois.readObject();
+                if(message instanceof CurrentPlayerChangedListenerNetMessage) {
+                    System.out.println("received current player changed net message");
+                }
                 executorService.submit(() -> message.dispatch(clientDispatcher));
             } catch (Exception e) {
                 synchronized (this) {
                     clientConnectionLostListener.onConnectionLost();
                     OPEN = false;
-                    e.printStackTrace();
+                    //e.printStackTrace();
                     return;
                 }
             }

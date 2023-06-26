@@ -372,7 +372,7 @@ public class ClientSocketImpl implements ClientInterface, Runnable {
                     OPEN = false;
                 }
                 onConnectionLostListener.onConnectionLost(this);
-                e.printStackTrace();
+                //e.printStackTrace();
                 return;
             }
         }
