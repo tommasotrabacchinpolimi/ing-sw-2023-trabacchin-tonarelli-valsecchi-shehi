@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.utils.Triple;
+import it.polimi.ingsw.view.ViewData;
 import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieAlertCreator;
 import it.polimi.ingsw.view.gui.layout.maininterface.MainInterfaceController;
 import javafx.stage.Stage;
@@ -72,7 +73,11 @@ public class GUILauncher extends MyShelfieApplication {
         stage.show();
     }
 
-    public void goToLoginPage(){
+    public void showWaitForPlayers() {
+        showWaitingView("Waiting for other players to join");
+    }
+
+    public void goToLoginPage() {
         changeScene(LOGIN_PAGE_LAYOUT);
     }
 
@@ -82,18 +87,20 @@ public class GUILauncher extends MyShelfieApplication {
         initOpponentInterfaceInformation();
     }
 
-    private void initOpponentInterfaceInformation(){
-        try{
-            ((MainInterfaceController) fxController).handleOpponentInterfaceInformation();
-        }catch( ClassCastException e ) {
-            MyShelfieAlertCreator.displayErrorAlert(
-                    "Opponents information can't be uploaded in the graphical user interface",
-                    "Can't load opponents information"
-            );
+    private MainInterfaceController getMainInterfaceController() throws ClassCastException {
+        try {
+            return ((MainInterfaceController) fxController);
+        } catch (ClassCastException e) {
+            errorInLoadingMyShelfieGame();
+            throw e;
         }
     }
 
-    public void setGUI(GUI gui){
+    private void initOpponentInterfaceInformation() {
+        getMainInterfaceController().handleOpponentInterfaceInformation();
+    }
+
+    public void setGUI(GUI gui) {
         this.gui = gui;
     }
 
@@ -101,8 +108,44 @@ public class GUILauncher extends MyShelfieApplication {
         return gui;
     }
 
+    private ViewData getGUIModel() {
+        return getGUI().getModel();
+    }
+
     public void handleRemoteException(String exception) {
         MyShelfieAlertCreator.displayErrorAlert(exception);
+    }
+
+    public void handleLivingRoomUpdate() {
+        if(getMainInterfaceController().isBoardEmpty()){
+            getMainInterfaceController().firstTimeFillBoard(getGUIModel().getBoard());
+        }else if (!isNextPlayerToThis() && !getMainInterfaceController().isThisPlayerPlaying()) {
+            getMainInterfaceController().updateBoardOperation(getGUIModel().getBoard());
+        } else {
+            //the player that is playing is the one that is executing the client app so
+            //every move should be reversed
+            getMainInterfaceController().undoClientPlayedOperation();
+        }
+    }
+
+    private boolean isNextPlayerToThis() {
+        for (int i = 0; i < getGUIModel().getPlayers().size(); ++i) {
+            if (getGUIModel().getPlayers().get(i).equals(getGUIModel().getThisPlayer())) {
+                if ((i + 1) == getGUIModel().getPlayers().size())
+                    return getGUIModel().getPlayers().get(0).equals(getGUIModel().getCurrentPlayer());
+                else
+                    return getGUIModel().getPlayers().get(i + 1).equals(getGUIModel().getCurrentPlayer());
+            }
+        }
+
+        return false;
+    }
+
+    public void handleBlockGameControls() {
+        if(!getGUIModel().getCurrentPlayer().equals(getGUIModel().getThisPlayer()))
+            getMainInterfaceController().blockGameControlsOperation();
+        else
+            getMainInterfaceController().enableGameControlsOperation();
     }
 
     public void manageMainInterface() {
@@ -110,10 +153,6 @@ public class GUILauncher extends MyShelfieApplication {
     }
 
     public void handleNewMessage(@NotNull Triple<String, List<String>, String> lastMessage) {
-        try{
-            ((MainInterfaceController) fxController).receivedMessageOperation(lastMessage);
-        }catch(ClassCastException e) {
-            errorInLoadingMyShelfieGame();
-        }
+        getMainInterfaceController().receivedMessageOperation(lastMessage);
     }
 }

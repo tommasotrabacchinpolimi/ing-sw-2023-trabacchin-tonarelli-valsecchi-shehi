@@ -222,10 +222,6 @@ class TileBoxChildManager implements ListChangeListener<Node> {
         orderedSelectedTiles.remove(getHandlerTilePair(tile));
     }
 
-    public List<Pair<EventHandler<MouseEvent>, TileSubjectView>> getOrderedSelectedTiles() {
-        return orderedSelectedTiles;
-    }
-
     protected List<TileSubjectView> getOrderedTilesFromBox() {
         return orderedSelectedTiles.stream()
                 .map(Pair::getValue)

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.gui;
 
+import it.polimi.ingsw.view.gui.customcomponents.waitingpage.WaitingPage;
 import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieAlertCreator;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -9,9 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
+import javafx.stage.*;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -90,6 +89,8 @@ public abstract class MyShelfieApplication extends Application {
      * @see WindowSizeChangeListener
      */
     private WindowSizeChangeListener windowSizeChangeListener;
+
+    private WaitingPage waitingPage;
 
     /**
      * This method loads the font in the graphical user interface
@@ -353,10 +354,15 @@ public abstract class MyShelfieApplication extends Application {
     }
 
     public void errorInLoadingMyShelfieGame() {
-        MyShelfieAlertCreator.displayErrorAlert(
+
+        errorInLoadingMyShelfieGame(
                 "The graphical interface can't be loaded correctly, the application will be terminated",
                 "Cannot load My Shelfie game"
         );
+    }
+
+    public void errorInLoadingMyShelfieGame(String contentText, String headerText) {
+        MyShelfieAlertCreator.displayErrorAlert(contentText, headerText);
 
         closeWindowEvent(1);
     }
@@ -381,5 +387,13 @@ public abstract class MyShelfieApplication extends Application {
 
         stage.widthProperty().addListener(windowSizeChangeListener);
         stage.heightProperty().addListener(windowSizeChangeListener);
+    }
+
+    protected void showWaitingView(String waitingText) {
+        waitingPage = new WaitingPage(scene, waitingText);
+    }
+
+    protected void hideWaitingView() {
+        waitingPage.hideWaiting();
     }
 }

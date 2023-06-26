@@ -104,4 +104,6 @@ module it.polimi.ingsw {
     exports it.polimi.ingsw.net_alternative.clientmessage;
     exports it.polimi.ingsw to java.rmi;
     opens it.polimi.ingsw;
+    exports it.polimi.ingsw.view.gui.customcomponents.waitingpage to javafx.fxml, javafx.graphics;
+    opens it.polimi.ingsw.view.gui.customcomponents.waitingpage to javafx.fxml, javafx.graphics;
 }

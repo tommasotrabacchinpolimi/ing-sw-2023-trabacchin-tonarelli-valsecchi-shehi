@@ -14,6 +14,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
@@ -56,12 +57,12 @@ public class MainInterfaceController extends MyShelfieController {
      * Handles all the operations necessary to updates the board and
      * the bookshelf of the opponents
      *
-     * @param board             the updated board
+     * @param updatedBoard      the updated board
      * @param playerBookshelves the updated opponent player bookshelf
      */
-    private void transferTilesToOpponent(TileSubject[][] board, Map<String, TileSubject[][]> playerBookshelves) {
+    private void transferTilesToOpponent(TileSubject[][] updatedBoard, Map<String, TileSubject[][]> playerBookshelves) {
 
-        List<TileSubjectView> takenTiles = getTakenTilesFromBoard(board);
+        List<TileSubjectView> takenTiles = getDifferentTileFromBoard(updatedBoard);
 
         gameInterfaceController.removeOpponentTakenTiles(takenTiles);
 
@@ -70,28 +71,58 @@ public class MainInterfaceController extends MyShelfieController {
 
     /**
      * Retrieves all the {@linkplain TileSubjectView graphical tile subjects}
-     * and their {@linkplain Coordinate position} from the {@code matrix board}
+     * and their {@linkplain Coordinate position} from the {@code board matrix}
      * passed as parameter that are different from the actual board displayed
      *
-     * @param board the updated board that is potentially different from the
-     *              one displayed
+     * @param updatedBoard the updated board that is potentially different
+     *                     from the one displayed
      * @return every graphical tile displayed with its coordinate that is
-     * different from the content of {@code board} (parameter)
+     * different from the content of {@code updated board} (parameter)
      */
-    @NotNull
-    private List<TileSubjectView> getTakenTilesFromBoard(TileSubject[][] board) {
-        return gameInterfaceController.retrieveBoardState()
+    private Map<Coordinate, TileSubjectView> getDifferentTileMapFromBoard(TileSubject[][] updatedBoard) {
+        return gameInterfaceController.getBoardContent()
                 .entrySet()
                 .stream()
-                .filter(entry -> boardHasDifferentContent(entry, board))
-                .map(Map.Entry::getValue)
-                .collect(Collectors.toCollection(ArrayList::new));
+                .filter(entry -> boardHasDifferentContent(entry, updatedBoard))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
     /**
-     * Verify if a {@code boardEntry} (composed by a couple formed of
+     * Retrieves all the {@linkplain TileSubjectView graphical tile subjects}
+     * from the {@code matrix board} passed as parameter that are different
+     * from the actual board displayed
+     *
+     * @param updatedBoard the updated board that is potentially different
+     *                     from the one displayed
+     * @return every graphical tile displayed with its coordinate that is
+     * different from the content of {@code updated board} (parameter)
+     */
+    @NotNull
+    @Contract("_ -> new")
+    private List<TileSubjectView> getDifferentTileFromBoard(TileSubject[][] updatedBoard) {
+        return new ArrayList<>(getDifferentTileMapFromBoard(updatedBoard).values());
+    }
+
+    /**
+     * Retrieves all the coordinate {@linkplain Coordinate position} from the
+     * {@code matrix board} passed as parameter that are different from the
+     * actual board displayed
+     *
+     * @param updatedBoard the updated board that is potentially different
+     *                     from the one displayed
+     * @return every graphical tile displayed with its coordinate that is
+     * different from the content of {@code updated board} (parameter)
+     */
+    @NotNull
+    @Contract("_ -> new")
+    private List<Coordinate> getDifferentTileCoordinateFromBoard(TileSubject[][] updatedBoard) {
+        return new ArrayList<>(getDifferentTileMapFromBoard(updatedBoard).keySet());
+    }
+
+    /**
+     * Verify if a {@code board entry} (composed by a couple formed of
      * {@linkplain Coordinate coordinate} and {@linkplain TileSubjectView
-     * tile} have a different content (tile subject) than the
+     * tile} has a different content (tile subject) than the
      * {@code board} in same row and column coordinate
      *
      * @param boardEntry the board entry to be checked
@@ -100,6 +131,12 @@ public class MainInterfaceController extends MyShelfieController {
      * than the content of {@code board} in the same position
      */
     private boolean boardHasDifferentContent(@NotNull Map.Entry<Coordinate, TileSubjectView> boardEntry, @NotNull TileSubject[][] board) {
+
+        if (boardEntry.getValue() == null && board[boardEntry.getKey().getX()][boardEntry.getKey().getY()] == null)
+            return false;
+        else if (boardEntry.getValue() == null && board[boardEntry.getKey().getX()][boardEntry.getKey().getY()] != null)
+            return true;
+
         return boardEntry.getValue().getTileSubject() != board[boardEntry.getKey().getX()][boardEntry.getKey().getY()];
     }
 
@@ -115,12 +152,67 @@ public class MainInterfaceController extends MyShelfieController {
         gameInterfaceController.assignToken2ToOpponent(opponentsInterfaceController.getFreeOpponentPointCell(opponentName));
     }
 
-    //For testing purpose
+    public void receivedMessageOperation(@NotNull Triple<String, List<String>, String> lastMessage) {
 
+        if (lastMessage.getFirst().equals(getGUI().getModel().getThisPlayer()))
+            opponentsInterfaceController.manageSentMessage(lastMessage.getSecond(), lastMessage.getThird());
+        else
+            opponentsInterfaceController.manageReceivedMessage(lastMessage);
+    }
+
+    public void handleOpponentInterfaceInformation() {
+        opponentsInterfaceController.addReceiverInChat(getOpponentPlayers().toArray(String[]::new));
+    }
+
+    public boolean isThisPlayerPlaying() {
+        return gameInterfaceController.boxHasTiles();
+    }
+
+    public void updateBoardOperation(TileSubject[][] updatedBoard) {
+        getDifferentTileCoordinateFromBoard(updatedBoard)
+                .forEach(updatedBoxCoordinate ->
+                        gameInterfaceController.updatedBoardBoxContentAt(updatedBoxCoordinate,
+                                updatedBoard[updatedBoxCoordinate.getX()][updatedBoxCoordinate.getY()]));
+    }
+
+    public void undoClientPlayedOperation() {
+        gameInterfaceController.reverseClientPlayed();
+    }
+
+    public boolean isBoardEmpty() {
+        final boolean[] isEmpty = {true};
+        gameInterfaceController.getBoardContent()
+                .forEach((key, value) -> {
+                    if (value != null)
+                        isEmpty[0] = false;
+                });
+
+        return isEmpty[0];
+    }
+
+    public void firstTimeFillBoard(TileSubject[][] newBoard) {
+        gameInterfaceController.fillBoard(newBoard);
+    }
+
+    public void blockGameControlsOperation() {
+
+        gameInterfaceController.disableGameButton();
+
+        mainRootPane.requestFocus();
+    }
+
+    public void enableGameControlsOperation() {
+
+        gameInterfaceController.enableGameButton();
+
+        mainRootPane.requestFocus();
+    }
+
+    //For testing purpose
     private void setupTestingButton() {
-        MyShelfieButton fillBoardButton = new MyShelfieButton("Fill board");
+        /*MyShelfieButton fillBoardButton = new MyShelfieButton("Fill board");
         fillBoardButton.setId("fillBoardButton");
-        fillBoardButton.setOnMouseClicked(value -> gameInterfaceController.fillBoard(value));
+        fillBoardButton.setOnMouseClicked(value -> gameInterfaceController.fillBoard());*/
 
         MyShelfieButton testTokenAnimation1 = new MyShelfieButton("Get Token1");
         testTokenAnimation1.setId("testTokenAnimation1");
@@ -149,11 +241,11 @@ public class MainInterfaceController extends MyShelfieController {
         MyShelfieButton tilesToOpponent = new MyShelfieButton("Opponent Tiles");
         tilesToOpponent.setId("tilesToOpponent");
         tilesToOpponent.setOnMouseClicked(value -> {
-            TileSubject[][] differentBoard = getDifferentBoard();
-            transferTilesToOpponent(differentBoard, getDifferentBookshelvesMap(differentBoard));
+            TileSubject[][] updatedBoard = getDifferentBoard();
+            transferTilesToOpponent(updatedBoard, getDifferentBookshelvesMap(updatedBoard));
         });
 
-        gameInterfaceController.testingBox.getChildren().addAll(fillBoardButton,
+        gameInterfaceController.testingBox.getChildren().addAll(
                 testTokenAnimation1, testTokenAnimation2, getEndGame, assignEndGame, assignTokenOpponent1,
                 assignTokenOpponent2, tilesToOpponent);
     }
@@ -165,12 +257,12 @@ public class MainInterfaceController extends MyShelfieController {
 
         for (int i = 0; i < modifiedBoard.length; ++i) {
             for (int j = 0; j < modifiedBoard[i].length; ++j) {
-                if(modifiedBoard[i][j] != null) {
+                if (modifiedBoard[i][j] != null) {
                     modifiedBoard[i][j] = null;
                     ++get;
                 }
 
-                if(get == 3)
+                if (get == 3)
                     return modifiedBoard;
             }
         }
@@ -180,7 +272,7 @@ public class MainInterfaceController extends MyShelfieController {
 
     @NotNull
     private Map<String, TileSubject[][]> getDifferentBookshelvesMap(TileSubject[][] modifiedBoard) {
-        List<TileSubjectView> taken = getTakenTilesFromBoard(modifiedBoard);
+        List<TileSubjectView> taken = getDifferentTileFromBoard(modifiedBoard);
 
         Map<String, TileSubject[][]> updates = new HashMap<>();
 
@@ -194,21 +286,5 @@ public class MainInterfaceController extends MyShelfieController {
         updates.put("Melanie", opponentBookshelf);
 
         return updates;
-    }
-
-    public void receivedMessageOperation(@NotNull Triple<String, List<String>, String> lastMessage) {
-
-        if(lastMessage.getFirst().equals(getGUI().getModel().getThisPlayer()))
-            opponentsInterfaceController.manageSentMessage(lastMessage.getSecond(), lastMessage.getThird());
-        else
-            opponentsInterfaceController.manageReceivedMessage(lastMessage);
-    }
-
-    public void handleOpponentInterfaceInformation() {
-        addOpponentsToReceivers(getOpponentPlayers().toArray(String[]::new));
-    }
-
-    private void addOpponentsToReceivers(String... receivers) {
-        opponentsInterfaceController.addReceiverInChat(receivers);
     }
 }

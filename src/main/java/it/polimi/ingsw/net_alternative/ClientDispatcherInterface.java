@@ -2,6 +2,9 @@ package it.polimi.ingsw.net_alternative;
 
 import it.polimi.ingsw.net_alternative.clientmessage.*;
 
+/**
+ *
+ */
 public interface ClientDispatcherInterface {
 
     void dispatch(AchievedCommonGoalNetMessage achievedCommonGoalNetMessage);
