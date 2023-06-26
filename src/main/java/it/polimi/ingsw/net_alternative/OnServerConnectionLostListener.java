@@ -3,7 +3,7 @@ package it.polimi.ingsw.net_alternative;
 import it.polimi.ingsw.controller.ClientInterface;
 
 /**
- *
+ * Interface needed to menage in case the connection is lost
  *
  * @author Tommaso Trabacchin
  * @author Melanie Tonarelli
