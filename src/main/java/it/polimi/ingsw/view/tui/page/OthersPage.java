@@ -10,17 +10,27 @@ import static it.polimi.ingsw.utils.color.MyShelfieAnsi.colorize;
 
 /**
  * The Others Page class represents a page that displays information about other players' bookshelves and points.
- * It extends the Page class and overrides the show() method to customize the display of the page.
+ * It extends the {@link Page} class and overrides the {@link Page#show()} method to customize the display of the page.
+ *
+ * @see it.polimi.ingsw.view.tui.page.Page
+ * @see TUI
+ * @see it.polimi.ingsw.view.ViewData
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
  */
 public class OthersPage extends Page{
     /**
-     * Attribute that represents the output stream.
+     * Attribute that represents the {@link PrintStream output stream}.
      */
     private final PrintStream out;
 
     /**
-     * Constructs a new OthersPage object with the specified TUI (Text-based User Interface) instance.
-     * @param tui The TUI instance associated with this page.
+     * Constructs a new OthersPage object with the specified {@link TUI} (Text-based User Interface) instance.
+     * @param tui The {@link TUI} instance associated with this page.
+     *
+     * @see TUI
      */
     public OthersPage(TUI tui) {
         super(tui);
@@ -29,7 +39,8 @@ public class OthersPage extends Page{
 
     /**
      * Displays the content of the OthersPage.
-     * Overrides the show() method from the superclass.
+     * Overrides the {@link Page#show()} method from the superclass.
+     * @see Page#show()
      */
     @Override
     public void show() {

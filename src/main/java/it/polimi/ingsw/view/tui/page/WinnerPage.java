@@ -9,18 +9,25 @@ import java.util.List;
 import static it.polimi.ingsw.utils.color.MyShelfieAnsi.colorize;
 
 /**
- * The WinnerPage class represents a page that displays the winner of the game, along with bookshelves and points of all players.
- * It extends the Page class and provides a method to show the contents of the page.
+ * The WinnerPage class represents a {@link Page} that displays the winner of the game, along with bookshelves and points of all players.
+ * It extends the {@link Page} class and provides a method to show the contents of the page.
+ * @see Page
+ * @see it.polimi.ingsw.view.ViewData
+ * @see TUI
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
  */
 public class WinnerPage extends Page{
     /**
-     * Attribute that represents the output stream.
+     * Attribute that represents the {@link PrintStream output stream}.
      */
     private final PrintStream out;
 
     /**
-     * Constructs a new `WinnerPage` object with the given TUI (Text User Interface).
-     * @param tui The TUI instance associated with the page.
+     * Constructs a new WinnerPage object with the given {@link TUI} (Text User Interface).
+     * @param tui The {@link TUI} instance associated with the page.
      */
     public WinnerPage(TUI tui) {
         super(tui);
@@ -29,7 +36,8 @@ public class WinnerPage extends Page{
 
     /**
      * Displays the contents of the winner page.
-     * Overrides the show method of the Page class.
+     * Overrides the {@link Page#show()} method of the {@link Page} class.
+     * @see Page#show()
      */
     @Override
     public void show() {

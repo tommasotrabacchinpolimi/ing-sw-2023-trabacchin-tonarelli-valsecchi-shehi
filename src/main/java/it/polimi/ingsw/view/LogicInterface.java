@@ -43,8 +43,10 @@ public interface LogicInterface {
     /**
      * Drags the specified tiles from the board to the chosen bookshelf column.
      *
-     * @param chosenTiles   The list of coordinates of the chosen tiles.
+     * @param chosenTiles   The list of {@link Coordinate coordinates} of the chosen tiles.
      * @param chosenColumn  The chosen bookshelf column.
+     *
+     * @see Coordinate
      */
     void dragTilesToBookShelf(List<Coordinate> chosenTiles, int chosenColumn);
 

@@ -10,10 +10,14 @@ import java.util.*;
 /**
  * The ViewData class represents the model, which contains all the datas needed for the view of the game.
  * It contains information about players, game state, board, bookshelves, points, messages, and more.
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
  */
 public class ViewData {
     /**
-     * Nickname of the player whose view his associated with the given UI.
+     * Nickname of the player whose view his associated with the given {@link UI}.
      */
     private String thisPlayer;
     /**

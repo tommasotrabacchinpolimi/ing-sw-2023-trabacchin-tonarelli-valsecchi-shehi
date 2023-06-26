@@ -16,16 +16,23 @@ import static it.polimi.ingsw.model.BoardSquareType.THREE_DOTS;
 import static it.polimi.ingsw.utils.color.MyShelfieAnsi.colorize;
 
 /**
- * The Page class represents an abstract base class for different pages in the application.
+ * The Page class represents an abstract base class for different pages in the {@link TUI}.
  * It provides common functionality and defines abstract methods that need to be implemented by subclasses.
+ *
+ * @see TUI
+ * @see ViewData
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
  */
 public abstract class Page {
     /**
-     * Attribute that represents the output stream.
+     * Attribute that represents the {@link PrintStream output stream}.
      */
     private PrintStream out;
     /**
-     * Attribute that represents TUI instance associated with this page
+     * Attribute that represents {@link TUI} instance associated with this page.
      */
     private TUI tui;
     /**
@@ -41,7 +48,7 @@ public abstract class Page {
      */
     protected static final int DIMROW_BOOKSHELF = 6;
     /**
-     * Constant that represents an empty cell
+     * Constant that represents an empty cell in the board.
      */
     protected static final char EMPTY = '-';
     /**
@@ -60,8 +67,9 @@ public abstract class Page {
     };
 
     /**
-     * Constructs a new Page object with the specified TUI (Text-based User Interface) instance.
-     * @param tui The TUI instance associated with this page.
+     * Constructs a new Page object with the specified {@link TUI} (Text-based User Interface) instance.
+     * @param tui The {@link TUI} instance associated with this page.
+     * @see TUI
      */
     protected Page(TUI tui) {
         this.tui = tui;
@@ -75,8 +83,9 @@ public abstract class Page {
     public abstract void show();
 
     /**
-     * Retrieves the model associated with the page.
-     * @return The ViewData object representing the model.
+     * Retrieves the {@link ViewData model} associated with the page.
+     * @return The {@link ViewData} object representing the model.
+     * @see ViewData
      */
     public ViewData getModel() {
         return tui.getModel();
@@ -114,7 +123,7 @@ public abstract class Page {
     }
 
     /**
-     * Prints the word "point" or "points" based on the given point
+     * Prints the word {@code point} or {@code points} based on the given point.
      * @param point The number of points.
      * @return The string representation of the points.
      */
@@ -193,10 +202,11 @@ public abstract class Page {
     }
 
     /**
-     * Converts a matrix of TileSubject objects to a matrix of characters.
-     * @param matrix The matrix of TileSubject objects to convert.
+     * Converts a matrix of {@link TileSubject} objects to a matrix of characters.
+     * @param matrix The matrix of {@link TileSubject} objects to convert.
      * @param board  A boolean value indicating if the conversion is for the game board.
      * @return The converted matrix of characters.
+     * @see TileSubject
      */
     protected char[][] fromTileSubjectToChar(TileSubject[][] matrix, boolean board){
         if(matrix == null) return null;
@@ -218,10 +228,11 @@ public abstract class Page {
     }
 
     /**
-     * Converts a matrix of TileType objects to a matrix of characters.
+     * Converts a matrix of {@link TileType} objects to a matrix of characters.
      *
-     * @param matrix The matrix of TileType objects to convert.
+     * @param matrix The matrix of {@link TileType} objects to convert.
      * @return The converted matrix of characters.
+     * @see TileType
      */
     protected char[][] fromTileTypeToChar(TileType[][] matrix){
         if(matrix == null) return null;
@@ -239,9 +250,10 @@ public abstract class Page {
     }
 
     /**
-     * Converts a TileType object to its corresponding character representation.
-     * @param tileType The TileType to convert.
-     * @return The character representation of the TileType.
+     * Converts a {@link TileType} object to its corresponding character representation.
+     * @param tileType The {@link TileType} to convert.
+     * @return The character representation of the {@link TileType}.
+     * @see TileType
      */
     protected char getCharFromTileType(TileType tileType){
         switch (tileType){
@@ -259,6 +271,8 @@ public abstract class Page {
      * Prints the specified point value from a list of points at the given index.
      * @param point The list of points.
      * @param index The index of the point to print.
+     *
+     * @see it.polimi.ingsw.model.PointPlayer
      */
     protected void printPoint(List<Integer> point, int index){
         if(point != null)
@@ -268,6 +282,8 @@ public abstract class Page {
     /**
      * Prints the game state message.
      * @param gameState The current game state.
+     *
+     * @see it.polimi.ingsw.model.GameState
      */
     protected void printGameState(String gameState){
         switch(gameState){
@@ -307,6 +323,7 @@ public abstract class Page {
     /**
      * Retrieves the points of the other players in the game.
      * @return The list of lists containing the points for each player.
+     *
      */
     protected List<List<Integer>> getOtherPoints(){
         List<String> nicknames = getOtherPlayer();

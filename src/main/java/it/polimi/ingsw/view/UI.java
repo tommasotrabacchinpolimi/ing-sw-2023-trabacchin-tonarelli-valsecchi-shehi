@@ -2,53 +2,70 @@ package it.polimi.ingsw.view;
 
 /**
  * The UI abstract class represents the user interface for the game.
+ *
+ * @see LogicInterface
+ * @see UI
+ * @see ViewData
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
  */
 public abstract class UI{
     /**
-     * Attribute of the controller of the View MVC pattern.
+     * Attribute of the {@link LogicInterface controller} of the View MVC pattern.
+     * @see LogicInterface
      */
     private LogicInterface logicController;
     /**
-     * Attribute of the model of the View MVC pattern.
+     * Attribute of the {@link ViewData model} of the View MVC pattern.
+     * @see ViewData
      */
     private ViewData model;
 
     /**
-     * Sets the logic controller for the UI.
+     * Sets the {@link LogicInterface logic controller} for the {@link UI}.
      *
      * @param logicController The logic controller to set.
+     * @see UI
+     * @see LogicInterface
      */
     public void setLogicController(LogicInterface logicController) {
         this.logicController = logicController;
     }
 
     /**
-     * Returns the logic controller associated with the UI.
+     * Returns the {@link LogicInterface logic controller} associated with the {@link UI}.
      *
      * @return The logic controller.
+     * @see LogicInterface
+     * @see UI
      */
     public LogicInterface getLogicController() {
         return logicController;
     }
 
     /**
-     * Launches the UI.
+     * Launches the {@link UI}.
+     * @see UI
      */
     public abstract void launchUI();
 
     /**
-     * Returns the model associated with the UI.
+     * Returns the {@link ViewData model} associated with the {@link UI}.
      *
      * @return The model.
+     * @see ViewData
      */
     public ViewData getModel() {
         return model;
     }
 
     /**
-     * Sets the model for the UI.
+     * Sets the {@link ViewData model} for the {@link UI}.
      *
      * @param model The model to set.
+     * @see ViewData
      */
     public void setModel(ViewData model) {
         this.model = model;

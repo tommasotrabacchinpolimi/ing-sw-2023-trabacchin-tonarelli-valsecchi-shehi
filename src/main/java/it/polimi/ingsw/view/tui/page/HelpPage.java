@@ -8,18 +8,25 @@ import java.io.PrintStream;
 import static it.polimi.ingsw.utils.color.MyShelfieAnsi.colorize;
 
 /**
- * The HelpPage class represents a help page in the user interface.
- * It provides information and instructions on how to play the game.
+ * The HelpPage class represents a help page in the {@link TUI} user interface.
+ * It provides information and instructions on how to play the game. The class extend {@link Page}.
+ *
+ * @see it.polimi.ingsw.view.tui.page.Page
+ * @see TUI
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
  */
 public class HelpPage extends Page{
     /**
-     * Attribute that represents the output stream.
+     * Attribute that represents the {@link PrintStream output stream}.
      */
     private PrintStream out;
 
     /**
      * Constructs a new HelpPage object.
-     * @param tui the TUI object associated with the page
+     * @param tui the {@link TUI} object associated with the page.
      */
     public HelpPage(TUI tui) {
         super(tui);
@@ -27,7 +34,10 @@ public class HelpPage extends Page{
     }
 
     /**
-     * Displays the help page in the user interface.
+     * Displays the help page in the {@link TUI} user interface.
+     *
+     * @see TUI
+     * @see Page#show()
      */
     @Override
     public void show() {

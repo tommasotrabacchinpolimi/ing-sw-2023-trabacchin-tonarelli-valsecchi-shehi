@@ -11,19 +11,26 @@ import java.util.Objects;
 import static it.polimi.ingsw.utils.color.MyShelfieAnsi.colorize;
 
 /**
- * The HomePage class represents the home page of the application.
- * It extends the Page class and provides methods to display the home page.
+ * The HomePage class represents the home page of the {@link TUI}.
+ * It extends the {@link Page} class and provides methods to display the home page.
+ *
+ * @see it.polimi.ingsw.view.tui.page.Page
+ * @see TUI
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
  */
 public class HomePage extends Page{
     /**
-     * Attribute that represents the output stream.
+     * Attribute that represents the {@link PrintStream output stream}.
      */
     private PrintStream out;
 
     /**
-     * Constructs a new HomePage object with the given TUI (Text User Interface).
-     * Initializes the output stream by obtaining it from the TUI.
-     * @param tui the TUI object
+     * Constructs a new HomePage object with the given {@link TUI} (Text User Interface).
+     * Initializes the output stream by obtaining it from the {@link TUI}.
+     * @param tui the {@link TUI} object
      */
     public HomePage(TUI tui) {
         super(tui);
@@ -31,8 +38,10 @@ public class HomePage extends Page{
     }
 
     /**
-     * Displays the home page.
+     * Displays the home page in the {@link TUI}.
      * Shows the game state, players' information, points, common goals, board, bookshelf, personal goal, current player and unread messages.
+     * @see it.polimi.ingsw.view.ViewData
+     * @see Page#show()
      */
     @Override
     public void show() {
@@ -95,9 +104,10 @@ public class HomePage extends Page{
     }
 
     /**
-     * Overrides the onCurrentPlayerChanged method from the parent class.
+     * Overrides the {@link Page#onCurrentPlayerChanged} method from the parent class.
      * This method is called when the current player changes.
-     * It calls the show method to display the updated home page.
+     * It calls the {@link #show()} method to display the updated home page.
+     * @see Page#onCurrentPlayerChanged()
      */
     @Override
     public void onCurrentPlayerChanged() {
@@ -109,7 +119,7 @@ public class HomePage extends Page{
      * @param board the matrix representing the board
      * @param bookshelf the matrix representing the player's bookshelf
      * @param personalGoal the matrix representing the player's personal goal
-     *
+     * @see it.polimi.ingsw.view.ViewData
      */
     private void printBoardBookShelfPersonalGoal(char[][] board, char[][] bookshelf, char[][] personalGoal){
         out.println("             Living Room Board:                           Your BookShelf:                   Your Personal Goal:");

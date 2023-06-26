@@ -10,19 +10,27 @@ import java.util.List;
 import static it.polimi.ingsw.utils.color.MyShelfieAnsi.colorize;
 
 /**
- * Class that represents a chat page in the text-based user interface (TUI).
- * It displays the player's chat messages in the TUI.
+ * Class that represents a chat page in the text-based user interface ({@link TUI}).
+ * It displays the player's chat messages in the TUI. The class extends {@link Page}.
+ *
+ * @see it.polimi.ingsw.view.tui.page.Page
+ * @see TUI
+ * @see it.polimi.ingsw.view.ViewData
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
  */
 public class ChatPage extends Page{
     /**
-     * Attribute that represents the output stream.
+     * Attribute that represents the {@link PrintStream output stream}.
      */
     private PrintStream out;
 
     /**
      * Constructs a new ChatPage object.
      *
-     * @param tui the TUI object associated with the page
+     * @param tui the {@link TUI} object associated with the page
      */
     public ChatPage(TUI tui) {
         super(tui);
@@ -30,7 +38,8 @@ public class ChatPage extends Page{
     }
 
     /**
-     * Displays the chat page in the TUI.
+     * Displays the chat page in the {@link TUI}.
+     * @see Page#show()
      */
     @Override
     public void show() {
@@ -75,7 +84,8 @@ public class ChatPage extends Page{
 
     /**
      * Callback method called when a new message is received.
-     * This method displays the updated chat page in the TUI.
+     * This method displays the updated chat page in the {@link TUI}.
+     * @see Page#onNewMessage()
      */
     @Override
     public void onNewMessage() {
