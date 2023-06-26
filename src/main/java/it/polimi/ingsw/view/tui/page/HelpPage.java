@@ -7,17 +7,33 @@ import java.io.PrintStream;
 
 import static it.polimi.ingsw.utils.color.MyShelfieAnsi.colorize;
 
+/**
+ * The HelpPage class represents a help page in the user interface.
+ * It provides information and instructions on how to play the game.
+ */
 public class HelpPage extends Page{
+    /**
+     * Attribute that represents the output stream.
+     */
     private PrintStream out;
+
+    /**
+     * Constructs a new HelpPage object.
+     * @param tui the TUI object associated with the page
+     */
     public HelpPage(TUI tui) {
         super(tui);
         this.out = tui.getPrintStream();
     }
+
+    /**
+     * Displays the help page in the user interface.
+     */
     @Override
     public void show() {
-        out.print(colorize("                                                                   ", MyShelfieAttribute.GREEN_BACK()));
-        out.print(colorize("MY SHELFIE: LEGEND", MyShelfieAttribute.GREEN_BACK()));
-        out.print(colorize("                                                                   ", MyShelfieAttribute.GREEN_BACK()));
+        out.print(colorize("                                                                   ", MyShelfieAttribute.DARKEN_GREEN_BACK()));
+        out.print(colorize("MY SHELFIE: LEGEND", MyShelfieAttribute.DARKEN_GREEN_BACK()));
+        out.println(colorize("                                                                   ", MyShelfieAttribute.DARKEN_GREEN_BACK()));
         out.println(colorize("Here are the actions you can make during the game:", MyShelfieAttribute.ITALIC()));
         out.println(colorize(" TYPE        DESCRIPTION", MyShelfieAttribute.ITALIC()));
         out.println(" play        use it during your turn in order to move tiles from the board to your bookshelf.");
