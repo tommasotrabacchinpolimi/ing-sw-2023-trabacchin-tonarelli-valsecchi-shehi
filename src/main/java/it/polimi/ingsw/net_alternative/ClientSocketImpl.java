@@ -8,9 +8,7 @@ import it.polimi.ingsw.model.TileSubject;
 import it.polimi.ingsw.net_alternative.clientmessage.*;
 import it.polimi.ingsw.utils.Coordinate;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
 import java.util.List;
 import java.util.Map;
@@ -30,8 +28,8 @@ public class ClientSocketImpl implements ClientInterface, Runnable {
     private final ServerDispatcherInterface serverDispatcher;
 
     public ClientSocketImpl(Socket socket, ServerDispatcherInterface serverDispatcher, OnServerConnectionLostListener onConnectionLostListener) throws IOException {
-        this.oos = new ObjectOutputStream(socket.getOutputStream());
-        this.ois = new ObjectInputStream(socket.getInputStream());
+        this.oos = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+        this.ois = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
         this.serverDispatcher = serverDispatcher;
         this.onConnectionLostListener = onConnectionLostListener;
         OPEN = true;
@@ -44,6 +42,8 @@ public class ClientSocketImpl implements ClientInterface, Runnable {
                 return;
             }
             oos.writeObject(achievedCommonGoalNetMessage);
+            oos.flush();
+            oos.flush();
         }catch(IOException e) {
             OPEN = false;
             onConnectionLostListener.onConnectionLost(this);

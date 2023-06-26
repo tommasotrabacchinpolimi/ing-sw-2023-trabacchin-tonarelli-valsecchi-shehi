@@ -4,9 +4,7 @@ import it.polimi.ingsw.controller.ServerInterface;
 import it.polimi.ingsw.net_alternative.servermessages.*;
 import it.polimi.ingsw.utils.Coordinate;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.List;
@@ -25,8 +23,8 @@ public class ServerSocketImpl implements ServerInterface, Runnable {
     private boolean OPEN = true;
 
     public ServerSocketImpl(Socket socket, ClientDispatcherInterface clientDispatcher, OnClientConnectionLostListener clientConnectionLostListener) throws IOException {
-        this.oos = new ObjectOutputStream(socket.getOutputStream());
-        this.ois = new ObjectInputStream(socket.getInputStream());
+        this.oos = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+        this.ois = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
         this.clientDispatcher = clientDispatcher;
         this.clientConnectionLostListener = clientConnectionLostListener;
     }
@@ -53,6 +51,8 @@ public class ServerSocketImpl implements ServerInterface, Runnable {
                 return;
             }
             oos.writeObject(joinGameNetMessage);
+            oos.flush();
+            oos.reset();
         } catch (IOException e) {
             OPEN = false;
             clientConnectionLostListener.onConnectionLost();
