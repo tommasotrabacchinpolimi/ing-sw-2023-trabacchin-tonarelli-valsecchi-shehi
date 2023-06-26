@@ -15,15 +15,13 @@ import java.io.IOException;
  *     <li>server</li>
  * </ul>
  *
- * @apiNote Please note that the real application launching the java-fx program is {@link GUILauncher}
- *
- * @see UI
- *
  * @author Tommaso Trabacchin
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
  * @author Adem Shehi
  * @version 2.0
+ * @apiNote Please note that the real application launching the java-fx program is {@link GUILauncher}
+ * @see UI
  * @since 30/05/2023
  */
 public class GUI extends UI {
@@ -51,7 +49,10 @@ public class GUI extends UI {
 
     @Override
     public void onCurrentPlayerChanged(String newCurrentPlayer) {
-
+        Platform.runLater(() -> {
+            guiLauncher.handleLivingRoomUpdate();
+            guiLauncher.handleBlockGameControls();
+        });
     }
 
     @Override

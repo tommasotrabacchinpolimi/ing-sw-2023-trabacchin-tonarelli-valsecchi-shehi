@@ -117,6 +117,8 @@ public class LoginPageController extends MyShelfieController {
             getNickNameFromField();
 
             getLogicController().joinGame(nickName);
+
+            getGUILauncher().showWaitForPlayers();
         }
     }
 
@@ -140,6 +142,8 @@ public class LoginPageController extends MyShelfieController {
         getPlayersNumberFromField();
 
         getLogicController().createGame(nickName, playersNumber);
+
+        getGUILauncher().showWaitForPlayers();
     }
 
     private boolean isButtonActionCalled(InputEvent inputEvent) {
@@ -272,23 +276,5 @@ public class LoginPageController extends MyShelfieController {
         } else {
             node.setOpacity(1.0);
         }
-    }
-
-    private void displayGameInterface() {
-        Stage primaryStage = ((Stage) loginRootPane.getScene().getWindow());
-
-        primaryStage.close();
-
-        MyShelfieApplication myShelfieApplication = getMyShelfieApplicationLauncher();
-
-        Scene newScene = myShelfieApplication.setupSceneWithPane("board/board-view.fxml");
-
-        primaryStage.setScene(newScene);
-
-        primaryStage.sizeToScene();
-
-        primaryStage.centerOnScreen();
-
-        primaryStage.show();
     }
 }

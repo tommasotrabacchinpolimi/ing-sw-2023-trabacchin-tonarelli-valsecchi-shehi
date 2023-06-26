@@ -19,6 +19,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
 import java.util.*;
@@ -218,12 +220,14 @@ public class BoardViewController extends MyShelfieController {
         });
     }
 
-    private void setUpBoxesMap(StackPane... itemTileBoxes) {
+    private void setUpBoxesMap(@NotNull StackPane... itemTileBoxes) {
         for (StackPane itemTileBox : itemTileBoxes) {
             insertInItemTileBoxesMap(itemTileBox);
         }
     }
 
+    @NotNull
+    @Contract("_ -> new")
     private Coordinate getItemTileBoxCoordinate(StackPane itemTileBox) {
         return new Coordinate(GridPane.getRowIndex(itemTileBox), GridPane.getColumnIndex(itemTileBox));
     }
@@ -232,13 +236,17 @@ public class BoardViewController extends MyShelfieController {
         itemTileBoxes.put(getItemTileBoxCoordinate(itemTileBox), itemTileBox);
     }
 
-    public void fillUpBoard(TileSubject[][] boardMatrix) {
+    public void addTilesOnBoard(@NotNull TileSubject[][] boardMatrix) {
         for (int i = 0; i < boardMatrix.length; ++i) {
             for (int j = 0; j < boardMatrix[i].length; ++j) {
                 if (boardMatrix[i][j] != null)
-                    tilesOnBoard.add(new TileSubjectView(getItemTileBox(i, j), boardMatrix[i][j]));
+                    addTileAt(boardMatrix[i][j], new Coordinate(i, j));
             }
         }
+    }
+
+    public void addTileAt(@NotNull TileSubject updatedSubject, @NotNull Coordinate updatedBoxCoordinate) {
+        tilesOnBoard.add(new TileSubjectView(getItemTileBox(updatedBoxCoordinate.getX(), updatedBoxCoordinate.getY()), updatedSubject));
     }
 
     public TileSubjectView getTileSubjectView(Coordinate coordinate) {
@@ -396,6 +404,17 @@ public class BoardViewController extends MyShelfieController {
                 });
     }
 
+    /**
+     * Retrieves a map that contains the binding between each
+     * coordinate on the board and the tile that is displayed
+     * inside it.
+     *
+     * @apiNote If no tile is at the coordinate specified,
+     * a {@code null} value is used to represent the 'empty box'
+     *
+     * @return a map that holds the tiles shown on board and
+     * their position
+     */
     public Map<Coordinate, TileSubjectView> getBoardState() {
         Map<Coordinate, TileSubjectView> boardState = new HashMap<>();
 
@@ -404,6 +423,7 @@ public class BoardViewController extends MyShelfieController {
                 TileSubjectView tileInBox = (TileSubjectView) box.getChildren().stream().findFirst().orElse(null);
                 boardState.put(coordinate, tileInBox);
             } catch (ClassCastException e) {
+                //The box on the board does not contain a Tile
                 MyShelfieAlertCreator.displayErrorAlert(e);
             }
         });

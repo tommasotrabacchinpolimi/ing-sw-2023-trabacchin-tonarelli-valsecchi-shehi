@@ -14,11 +14,8 @@ import it.polimi.ingsw.view.gui.layout.bookshelf.PersonalBookshelfController;
 import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieAlertCreator;
 import it.polimi.ingsw.view.gui.customcomponents.MyShelfieButton;
 import it.polimi.ingsw.view.gui.customcomponents.tileview.TileSubjectView;
-import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.util.Pair;
@@ -27,12 +24,12 @@ import org.jetbrains.annotations.NotNull;
 import java.net.URL;
 import java.util.*;
 
-import static it.polimi.ingsw.model.TileSubject.*;
 import static it.polimi.ingsw.model.TileType.*;
 import static it.polimi.ingsw.model.TileType.TROPHY;
 
 public class GameInterfaceController extends MyShelfieController {
 
+    @FXML
     public HBox testingBox;
 
     @FXML
@@ -149,7 +146,7 @@ public class GameInterfaceController extends MyShelfieController {
                 .toList();
     }
 
-    private List<TileSubjectView> getTilesFromBox() {
+    private List<TileSubjectView> getSelectedTilesFromBox() {
         return tileBoxChildManager.getSelectedTilesFromContainer();
     }
 
@@ -217,7 +214,18 @@ public class GameInterfaceController extends MyShelfieController {
         tileBoardHandler.remove(getHandlerTilePair(tile));
     }
 
-    public Map<Coordinate, TileSubjectView> retrieveBoardState() {
+    /**
+     * Retrieves a map that contains the binding between each
+     * coordinate on the board and the tile that is displayed
+     * inside it.
+     *
+     * @apiNote If no tile is at the coordinate specified,
+     * a {@code null} value is used to represent the 'empty box'
+     *
+     * @return a map that holds the tiles shown on board and
+     * their position
+     */
+    public Map<Coordinate, TileSubjectView> getBoardContent() {
         return gameBoardViewController.getBoardState();
     }
 
@@ -231,7 +239,7 @@ public class GameInterfaceController extends MyShelfieController {
     @FXML
     private void handleSubmitAction(MouseEvent mouseEvent) throws InterruptedException {
         List<TileSubjectView> boardSelected = getClickedTilesFromBoard();
-        List<TileSubjectView> boxSelected = getTilesFromBox();
+        List<TileSubjectView> boxSelected = getSelectedTilesFromBox();
 
         if (boardSelected.size() != 0 && boxSelected.size() != 0) {
             //Can never be true but is insert for strong software resistance
@@ -285,7 +293,7 @@ public class GameInterfaceController extends MyShelfieController {
     @FXML
     private void handleReverseAction(MouseEvent mouseEvent) {
         List<TileSubjectView> boardSelected = getClickedTilesFromBoard();
-        List<TileSubjectView> boxSelected = getTilesFromBox();
+        List<TileSubjectView> boxSelected = getSelectedTilesFromBox();
 
         if (boardSelected.size() != 0 && boxSelected.size() != 0) {
             MyShelfieAlertCreator.displayWarningAlert("Can't select at the same time from board and box",
@@ -383,33 +391,44 @@ public class GameInterfaceController extends MyShelfieController {
         }
     }
 
-    //For testing purpose
+    public void fillBoard(TileSubject[][] tilesOnBoard) {
 
-    public void fillBoard(@NotNull MouseEvent mouseEvent) {
-
-        TileSubject[][] tilesOnBoard = new TileSubject[][]{
-                {null, null, null, BOOK_COMIC, BOOK_DICTIONARY, null, null, null, null},
-                {null, null, null, BOOK_NOTE, CAT_BLACK, CAT_GRAY, null, null, null},
-                {null, null, CAT_ORANGE, FRAME_DEGREE, FRAME_LOVE, FRAME_MEMORIES, GAME_CHESS, null, null},
-                {null, GAME_MONOPOLY, GAME_RISIKO, PLANT_BASIL, PLANT_GREEN, PLANT_MONSTERA, TROPHY_CHAMPION, TROPHY_GYM, TROPHY_MUSIC},
-                {BOOK_COMIC, BOOK_DICTIONARY, BOOK_NOTE, CAT_BLACK, CAT_GRAY, CAT_ORANGE, FRAME_DEGREE, FRAME_LOVE, FRAME_MEMORIES},
-                {GAME_CHESS, GAME_MONOPOLY, GAME_RISIKO, PLANT_BASIL, PLANT_GREEN, PLANT_MONSTERA, TROPHY_CHAMPION, TROPHY_GYM, null},
-                {null, null, TROPHY_GYM, TROPHY_MUSIC, BOOK_COMIC, BOOK_DICTIONARY, BOOK_NOTE, null, null},
-                {null, null, null, CAT_BLACK, CAT_GRAY, CAT_ORANGE, null, null, null},
-                {null, null, null, null, FRAME_DEGREE, FRAME_LOVE, null, null, null}
-        };
-
-        gameBoardViewController.fillUpBoard(tilesOnBoard);
+        gameBoardViewController.addTilesOnBoard(tilesOnBoard);
 
         this.tilesOnBoard.forEach(this::addTilesOnBoardListener);
-
-        ((MyShelfieButton) mouseEvent.getSource()).setDisable(true);
-        ((MyShelfieButton) mouseEvent.getSource()).setVisible(false);
-
-        ((HBox) ((MyShelfieButton) mouseEvent.getSource()).getParent()).getChildren().remove(((MyShelfieButton) mouseEvent.getSource()));
     }
 
     public TileSubject[][] getTilesOnBoardMatrix() {
         return gameBoardViewController.toTileSubjectMatrix();
+    }
+
+    public boolean boxHasTiles() {
+        return tileBoxChildManager.getAllTilesFromBox().size() > 0;
+    }
+
+    public void updatedBoardBoxContentAt(Coordinate updatedBoxCoordinate, TileSubject updatedSubject) {
+        gameBoardViewController.addTileAt(updatedSubject, updatedBoxCoordinate);
+    }
+
+    public void reverseClientPlayed() {
+        List<TileSubjectView> tilesInBox = tileBoxChildManager.getAllTilesFromBox();
+
+        tilesInBox.forEach(this::reinsertTilesOnBoard);
+    }
+
+    public void disableGameButton() {
+        setGameButtonAction(false);
+    }
+
+    public void enableGameButton() {
+        setGameButtonAction(true);
+    }
+
+    private void setGameButtonAction(boolean enableState) {
+        confirmButton.setFocusTraversable(enableState);
+        reverseButton.setFocusTraversable(enableState);
+
+        confirmButton.setMouseTransparent(!enableState);
+        reverseButton.setMouseTransparent(!enableState);
     }
 }
