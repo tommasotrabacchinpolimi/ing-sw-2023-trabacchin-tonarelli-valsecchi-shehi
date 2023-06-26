@@ -16,6 +16,7 @@ public class AskPort extends Input {
         super(tui, out);
         this.protocolChoice = protocolChoice;
         this.address = address;
+        setLocked(false);
     }
 
     @Override
@@ -25,6 +26,9 @@ public class AskPort extends Input {
 
     @Override
     public void readLine(String line) {
+        if(isLocked()) {
+            return;
+        }
         int portNumber;
         try {
             portNumber = Integer.parseInt(line);
@@ -40,6 +44,7 @@ public class AskPort extends Input {
         }
         else {
             getTUI().setInputInProgress(false);
+            setLocked(true);
             if(protocolChoice.equals("1")) {
                 try{
                     Client client = new Client(getTUI(), getTUI().getModel());

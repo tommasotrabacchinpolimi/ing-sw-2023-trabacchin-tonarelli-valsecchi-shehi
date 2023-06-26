@@ -34,9 +34,10 @@ public class AskColumn extends Input {
         }
         else {
             setLocked(true);
+            getTUI().setInputInProgress(false);
             //getTUI().setCurrentInput(new InputSelector(getTUI(), getOut()));
             getTUI().getLogicController().dragTilesToBookShelf(coordinates, Integer.parseInt(line) - 1);
-            getTUI().setInputInProgress(false);
+
             //getTUI().refresh();
         }
     }
