@@ -16,25 +16,32 @@ package it.polimi.ingsw.model;
  * @since 08/03/2023
  */
 public enum TileType {
-    CAT("C"),
-    BOOK("B"),
-    GAME("G"),
-    FRAME("F"),
-    TROPHY("T"),
-    PLANT("P");
+    CAT("C",0),
+    BOOK("B",1),
+    GAME("G",2),
+    FRAME("F",3),
+    TROPHY("T",4),
+    PLANT("P",5);
 
     /**
      * This String represents the TileType with only one letter, that correspond to the first letter of each Tile type name
      */
+
     private final String abbreviation;
+    /**
+     * An arbitrary int value representing the TileType
+     */
+    private final int value;
 
     /**
      * Constructor that sets the enum to the correct value
      *
      * @param abbreviation string that represents the single letter for each Tile type
+     * @param value int that represents the TileType
      */
-    TileType(String abbreviation) {
+    TileType(String abbreviation, int value) {
         this.abbreviation = abbreviation;
+        this.value = value;
     }
 
     /**
@@ -46,6 +53,14 @@ public enum TileType {
      */
     public String toAbbreviationString(){
         return this.abbreviation;
+    }
+
+    /**
+     *
+     * @return the int representing the Tile Type
+     */
+    public int getValue() {
+        return value;
     }
 
     /**

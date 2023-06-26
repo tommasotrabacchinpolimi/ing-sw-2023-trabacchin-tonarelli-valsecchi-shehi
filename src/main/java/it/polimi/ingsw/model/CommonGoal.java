@@ -123,14 +123,7 @@ public abstract class CommonGoal implements Serializable {
         return description;
     }
 
-    /**
-     * Retrieve the unique ID associated to each common goal.
-     *
-     * @return an ID representing the common goal
-     */
-    public String getId() {
-        return id;
-    }
+
 
     /**
      * <p>The method returns {@code null} if the {@link CommonGoal} is not satisfied for the {@code bookShelf} argument.</p>

@@ -108,11 +108,4 @@ public class ChatManager {
         }
     }
 
-    /**
-     * Flush and close {@link PrintWriter}
-     */
-    public void closePrintWriter(){
-        printWriter.flush();
-        printWriter.close();
-    }
 }

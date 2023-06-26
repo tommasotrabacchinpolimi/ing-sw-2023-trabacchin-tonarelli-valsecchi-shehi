@@ -1,15 +1,12 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.controller.timing.TimingStateMachine;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.net.OnConnectionLostListener;
-import it.polimi.ingsw.net_alternative.OnClientConnectionLostListener;
 import it.polimi.ingsw.net_alternative.OnServerConnectionLostListener;
 import it.polimi.ingsw.utils.Coordinate;
 
 import java.io.FileNotFoundException;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  *The Controller class manages the game logic and interactions between the model and the view.
@@ -28,7 +25,7 @@ public class Controller implements OnServerConnectionLostListener, ControllerInt
     private State state;
     private GameManager gameManager;
     private final ChatManager chatManager;
-    private LobbyController lobbyController;
+    private final LobbyController lobbyController;
     private final TimingStateMachine timingStateMachine;
 
     /**
@@ -46,8 +43,8 @@ public class Controller implements OnServerConnectionLostListener, ControllerInt
         this.chatManager = new ChatManager(this);
         this.timingStateMachine = new TimingStateMachine(this, delay);
         state.setOnCurrentPlayerChangedListener(timingStateMachine);
+        state.setStateChangedListener(timingStateMachine);
         this.setNumberPlayers(numberOfPlayer);
-        System.out.println("a controller is being created");
     }
 
     /**
@@ -58,13 +55,7 @@ public class Controller implements OnServerConnectionLostListener, ControllerInt
         return state;
     }
 
-    /**
-     * Sets the current game state.
-     * @param state the game state to set
-     */
-    public void setState(State state) {
-        this.state = state;
-    }
+
 
     /**
      * method to set number of players for a game
@@ -135,8 +126,5 @@ public class Controller implements OnServerConnectionLostListener, ControllerInt
         }
     }
 
-    public TimingStateMachine getTimingStateMachine() {
-        return timingStateMachine;
-    }
 
 }

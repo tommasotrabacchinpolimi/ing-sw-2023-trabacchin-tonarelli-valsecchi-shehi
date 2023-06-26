@@ -3,7 +3,6 @@ package it.polimi.ingsw.model;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 
@@ -18,7 +17,7 @@ class TupleCommonGoalTest {
         boolean square = false;
         boolean separated = false;
         boolean sameTypeOnly = true;
-        TupleCommonGoal goal = new TupleCommonGoal("Description", "", groupsNumber, adjacentTilesPo2, square, separated, sameTypeOnly);
+        TupleCommonGoal_altt goal = new TupleCommonGoal_altt("Description", "", groupsNumber, adjacentTilesPo2, square, separated, sameTypeOnly);
         assertEquals(groupsNumber, goal.getGroupsNumber());
     }
 
@@ -29,7 +28,7 @@ class TupleCommonGoalTest {
         boolean square = false;
         boolean separated = false;
         boolean sameTypeOnly = true;
-        TupleCommonGoal goal = new TupleCommonGoal("Description", "", 3, adjacentTilesPo2, square, separated, sameTypeOnly);
+        TupleCommonGoal_altt goal = new TupleCommonGoal_altt("Description", "", 3, adjacentTilesPo2, square, separated, sameTypeOnly);
         goal.setGroupsNumber(groupsNumber);
         assertEquals(groupsNumber, goal.getGroupsNumber());
     }
@@ -41,7 +40,7 @@ class TupleCommonGoalTest {
         boolean square = false;
         boolean separated = false;
         boolean sameTypeOnly = true;
-        TupleCommonGoal goal = new TupleCommonGoal("Description", "", groupsNumber, adjacentTilesPo2, square, separated, sameTypeOnly);
+        TupleCommonGoal_altt goal = new TupleCommonGoal_altt("Description", "", groupsNumber, adjacentTilesPo2, square, separated, sameTypeOnly);
         assertEquals(adjacentTilesPo2, goal.getAdjacentTilesPo2());
     }
 
@@ -52,7 +51,7 @@ class TupleCommonGoalTest {
         boolean square = false;
         boolean separated = false;
         boolean sameTypeOnly = true;
-        TupleCommonGoal goal = new TupleCommonGoal("Description", "", groupsNumber, 3, square, separated, sameTypeOnly);
+        TupleCommonGoal_altt goal = new TupleCommonGoal_altt("Description", "", groupsNumber, 3, square, separated, sameTypeOnly);
         goal.setAdjacentTilesPo2(adjacentTilesPo2);
         assertEquals(adjacentTilesPo2, goal.getAdjacentTilesPo2());
     }
@@ -64,7 +63,7 @@ class TupleCommonGoalTest {
         boolean square = false;
         boolean separated = false;
         boolean sameTypeOnly = true;
-        TupleCommonGoal goal = new TupleCommonGoal("Description", "", groupsNumber, adjacentTilesPo2, square, separated, sameTypeOnly);
+        TupleCommonGoal_altt goal = new TupleCommonGoal_altt("Description", "", groupsNumber, adjacentTilesPo2, square, separated, sameTypeOnly);
         assertEquals(square, goal.isSquare());
     }
 
@@ -76,7 +75,7 @@ class TupleCommonGoalTest {
         boolean separated = false;
         boolean sameTypeOnly = true;
         Stack<Integer> stack = new Stack<>();
-        TupleCommonGoal goal = new TupleCommonGoal(stack, "", "", groupsNumber, adjacentTilesPo2, true, separated, sameTypeOnly);
+        TupleCommonGoal_altt goal = new TupleCommonGoal_altt(stack, "", "", groupsNumber, adjacentTilesPo2, true, separated, sameTypeOnly);
         goal.setSquare(square);
         assertEquals(square, goal.isSquare());
     }
@@ -89,7 +88,7 @@ class TupleCommonGoalTest {
         boolean separated = false;
         boolean sameTypeOnly = true;
         Stack<Integer> stack = new Stack<>();
-        TupleCommonGoal goal = new TupleCommonGoal(stack, "Description", "", groupsNumber, adjacentTilesPo2, square, separated, sameTypeOnly);
+        TupleCommonGoal_altt goal = new TupleCommonGoal_altt(stack, "Description", "", groupsNumber, adjacentTilesPo2, square, separated, sameTypeOnly);
         assertEquals(separated, goal.isSeparated());
     }
 
@@ -100,7 +99,7 @@ class TupleCommonGoalTest {
         boolean square = false;
         boolean separated = false;
         boolean sameTypeOnly = true;
-        TupleCommonGoal goal = new TupleCommonGoal(groupsNumber, adjacentTilesPo2, square, true, sameTypeOnly);
+        TupleCommonGoal_altt goal = new TupleCommonGoal_altt(groupsNumber, adjacentTilesPo2, square, true, sameTypeOnly);
         goal.setSeparated(separated);
         assertEquals(separated, goal.isSeparated());
     }
@@ -112,7 +111,7 @@ class TupleCommonGoalTest {
         boolean square = false;
         boolean separated = false;
         boolean sameTypeOnly = true;
-        TupleCommonGoal goal = new TupleCommonGoal(groupsNumber, adjacentTilesPo2, square, separated, sameTypeOnly);
+        TupleCommonGoal_altt goal = new TupleCommonGoal_altt(groupsNumber, adjacentTilesPo2, square, separated, sameTypeOnly);
         assertEquals(sameTypeOnly, goal.isSameTypeOnly());
     }
 
@@ -123,14 +122,14 @@ class TupleCommonGoalTest {
         boolean square = false;
         boolean separated = false;
         boolean sameTypeOnly = true;
-        TupleCommonGoal goal = new TupleCommonGoal(groupsNumber, adjacentTilesPo2, square, separated, false);
+        TupleCommonGoal_altt goal = new TupleCommonGoal_altt(groupsNumber, adjacentTilesPo2, square, separated, false);
         goal.setSameTypeOnly(sameTypeOnly);
         assertEquals(sameTypeOnly, goal.isSameTypeOnly());
     }
 
     @Test
     void rule() {
-        CommonGoal cg = new TupleCommonGoal();
+        CommonGoal cg = new TupleCommonGoal_altt();
         List<Integer> list = new ArrayList<>();
         list.add(3);
         list.add(8);
@@ -156,16 +155,16 @@ class TupleCommonGoalTest {
     private CommonGoal getCommonGoal(int index) {
         switch (index) {
             case 1, 2, 3, 4 -> {
-                return new TupleCommonGoal(8, 0, true, false, false);
+                return new TupleCommonGoal_altt(8, 0, true, false, false);
             }
             case 5, 6, 7, 8 -> {
-                return new TupleCommonGoal(6, 1, false, true, false);
+                return new TupleCommonGoal_altt(6, 1, false, true, false);
             }
             case 9, 10, 11, 12 -> {
-                return new TupleCommonGoal(4, 2, false, true, false);
+                return new TupleCommonGoal_altt(4, 2, false, true, false);
             }
             case 13, 14, 15, 16 -> {
-                return new TupleCommonGoal(2, 2, true, true, true);
+                return new TupleCommonGoal_altt(2, 2, true, true, true);
             }
             default -> {
                 return null;

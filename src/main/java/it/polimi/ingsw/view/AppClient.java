@@ -1,13 +1,10 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.view.gui.GUILauncher;
-import it.polimi.ingsw.view.tui.TUIStateMachine;
-import it.polimi.ingsw.view.tui_alternative.TUI;
+import it.polimi.ingsw.view.tui.TUI;
 import javafx.application.Application;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.rmi.NotBoundException;
 
 public class AppClient {
@@ -16,10 +13,10 @@ public class AppClient {
     private static final int DIMROW_BOOKSHELF = 6;
 
     public static void main(String[] args) throws NotBoundException, IOException, ClassNotFoundException {
-        if(args[0].equals("tui"))
+        //if(args[0].equals("tui"))
             TUISetup();
-        else if(args[0].equals("gui"))
-            GUISetup(args);
+        //else if(args[0].equals("gui"))
+            //GUISetup(args);
     }
 
     public static void TUISetup() throws IOException, NotBoundException, ClassNotFoundException {

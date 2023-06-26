@@ -14,7 +14,7 @@ import java.rmi.registry.Registry;
 public class AppServer {
 
     public static void main(String[] args) throws RemoteException, AlreadyBoundException {
-        LobbyController lobbyController = new LobbyController(1000*30);
+        LobbyController lobbyController = new LobbyController(1000*60);
         ControllerDispatcher controllerDispatcher = new ControllerDispatcher(lobbyController);
         ServerDispatcher serverDispatcher = new ServerDispatcher(controllerDispatcher);
         SocketAccepter socketAccepter = new SocketAccepter(serverDispatcher, 1234, lobbyController);

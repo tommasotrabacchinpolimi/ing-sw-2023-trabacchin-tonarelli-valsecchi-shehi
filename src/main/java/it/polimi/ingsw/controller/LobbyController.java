@@ -322,7 +322,7 @@ public class LobbyController
             dispatcher.removeController(user, c);
         }
         viewControllerMap.remove(user);
-        viewToNicknameMap.remove(user);
+        //viewToNicknameMap.remove(user);
     }
 
     /**

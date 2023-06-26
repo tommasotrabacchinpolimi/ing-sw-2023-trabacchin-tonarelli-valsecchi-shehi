@@ -26,7 +26,9 @@ public class SocketAccepter implements Runnable{
                     Socket socket = serverSocket.accept();
                     System.out.println("client received...");
                     ClientSocketImpl clientSocket = new ClientSocketImpl(socket, serverDispatcher, onServerConnectionLostListener);
+                    ServerHeartBeater serverHeartBeater = new ServerHeartBeater(clientSocket, 5000, onServerConnectionLostListener);
                     new Thread(clientSocket).start();
+                    new Thread(serverHeartBeater).start();
                 } catch(Exception e) {
                     e.printStackTrace();
                 }

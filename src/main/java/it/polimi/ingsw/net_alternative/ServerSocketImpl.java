@@ -4,9 +4,7 @@ import it.polimi.ingsw.controller.ServerInterface;
 import it.polimi.ingsw.net_alternative.servermessages.*;
 import it.polimi.ingsw.utils.Coordinate;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.List;
@@ -38,6 +36,7 @@ public class ServerSocketImpl implements ServerInterface, Runnable {
                 return;
             }
             oos.writeObject(dragTilesToBookShelfNetMessage);
+            oos.flush();
         } catch (IOException e) {
             OPEN = false;
             clientConnectionLostListener.onConnectionLost();
@@ -53,6 +52,8 @@ public class ServerSocketImpl implements ServerInterface, Runnable {
                 return;
             }
             oos.writeObject(joinGameNetMessage);
+            oos.flush();
+            oos.reset();
         } catch (IOException e) {
             OPEN = false;
             clientConnectionLostListener.onConnectionLost();
@@ -68,6 +69,7 @@ public class ServerSocketImpl implements ServerInterface, Runnable {
                 return;
             }
             oos.writeObject(createGameNetMessage);
+            oos.flush();
         } catch (IOException e) {
             OPEN = false;
             clientConnectionLostListener.onConnectionLost();
@@ -83,6 +85,7 @@ public class ServerSocketImpl implements ServerInterface, Runnable {
                 return;
             }
             oos.writeObject(quitGameNetMessage);
+            oos.flush();
         } catch (IOException e) {
             OPEN = false;
             clientConnectionLostListener.onConnectionLost();
@@ -98,6 +101,7 @@ public class ServerSocketImpl implements ServerInterface, Runnable {
                 return;
             }
             oos.writeObject(sentMessageNetMessage);
+            oos.flush();
         } catch (IOException e) {
             OPEN = false;
             clientConnectionLostListener.onConnectionLost();
@@ -113,6 +117,7 @@ public class ServerSocketImpl implements ServerInterface, Runnable {
                 return;
             }
             oos.writeObject(nopNetMessage);
+            oos.flush();
         } catch (IOException e) {
             OPEN = false;
             clientConnectionLostListener.onConnectionLost();
@@ -129,6 +134,7 @@ public class ServerSocketImpl implements ServerInterface, Runnable {
                 executorService.submit(() -> message.dispatch(clientDispatcher));
             } catch (Exception e) {
                 synchronized (this) {
+                    clientConnectionLostListener.onConnectionLost();
                     OPEN = false;
                     e.printStackTrace();
                     return;

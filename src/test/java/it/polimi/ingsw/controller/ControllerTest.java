@@ -1,8 +1,10 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.controller.exceptions.AlreadyInGameException;
 import it.polimi.ingsw.controller.exceptions.AlreadyTakenNicknameException;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.utils.Coordinate;
+import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -11,13 +13,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.*;
 
 public class ControllerTest {
 
     @Test
-    public void test1() {
+    public void test1() throws Exception {
         LobbyController lobbyController = new LobbyController(10000);
         ControllerDispatcher controllerDispatcher = new ControllerDispatcher(lobbyController);
         lobbyController.setDispatcher(controllerDispatcher);
@@ -25,39 +26,16 @@ public class ControllerTest {
         ClientTest melanie = new ClientTest();
         ClientTest ema = new ClientTest();
         ClientTest adem = new ClientTest();
-        try{
-            controllerDispatcher.createGame(tommy, "tommy", 4);
-        } catch(Exception e) {
+        controllerDispatcher.createGame(tommy, "tommy", 4);
 
-        }
 
         State model = controllerDispatcher.getViewToControllerMap().get(tommy).getState();
-        try{
-            controllerDispatcher.joinGame(melanie, "melanie");
-        } catch(Exception e) {
+        controllerDispatcher.joinGame(melanie, "melanie");
 
-        }
-
-        try{
-            controllerDispatcher.joinGame(ema, "ema");
-
-        }catch(Exception e) {
-
-        }
-
-        try{
-            controllerDispatcher.joinGame(adem, "ema");
-        }catch(Exception e) {
-
-        }
+        controllerDispatcher.joinGame(ema, "ema");
+        Assert.assertThrows(AlreadyTakenNicknameException.class,()->controllerDispatcher.joinGame(adem, "ema"));
         Assertions.assertEquals(model.getPlayers().size(), 3);
-        try{
-            controllerDispatcher.joinGame(adem, "adem");
-        }catch(Exception e) {
-
-        }
-
-
+        controllerDispatcher.joinGame(adem, "adem");
         List<ClientInterface> clients = new ArrayList<>();
         clients.add(tommy);
         clients.add(melanie);
@@ -102,27 +80,15 @@ public class ControllerTest {
 
 
     @Test
-    public void test2() {
+    public void test2() throws Exception {
         LobbyController lobbyController = new LobbyController(10000);
         ControllerDispatcher controllerDispatcher = new ControllerDispatcher(lobbyController);
         lobbyController.setDispatcher(controllerDispatcher);
         ClientTest tommy = new ClientTest();
         ClientTest melanie = new ClientTest();
-        try{
-            controllerDispatcher.createGame(tommy, "tommy", 2);
-        } catch(Exception e) {
-
-        }
-
+        controllerDispatcher.createGame(tommy, "tommy", 2);
         State model = controllerDispatcher.getViewToControllerMap().get(tommy).getState();
-        try{
-            controllerDispatcher.joinGame(melanie, "melanie");
-        } catch(Exception e) {
-
-        }
-
-
-
+        controllerDispatcher.joinGame(melanie, "melanie");
 
         List<ClientInterface> clients = new ArrayList<>();
         clients.add(tommy);
@@ -133,7 +99,6 @@ public class ControllerTest {
         Collections.rotate(clients, -firstPlayerIndex);
 
         int currentPlayerIndex = 0;
-        int lastPlayerIndex = -1;
         while (true) {
             Player player = model.getCurrentPlayer();
             assertEquals(player, model.getPlayerFromView(clients.get(currentPlayerIndex)));
@@ -151,7 +116,6 @@ public class ControllerTest {
                 }
             }
             if(model.getGameState()==GameState.END) {
-                System.out.println("ending");
                 break;
             }
             currentPlayerIndex = (currentPlayerIndex + 1) % 2;
@@ -160,68 +124,45 @@ public class ControllerTest {
 
 
     @Test
-    public void test3() {
+    public void test3() throws Exception {
         LobbyController lobbyController = new LobbyController(10000);
         ControllerDispatcher controllerDispatcher = new ControllerDispatcher(lobbyController);
         lobbyController.setDispatcher(controllerDispatcher);
         ClientTest tommy = new ClientTest();
         ClientTest melanie = new ClientTest();
-        try{
-            controllerDispatcher.createGame(tommy, "tommy", 2);
-        } catch(Exception e) {
+        controllerDispatcher.createGame(tommy, "tommy", 2);
 
-        }
 
         State model = controllerDispatcher.getViewToControllerMap().get(tommy).getState();
-        try{
-            controllerDispatcher.joinGame(melanie, "melanie");
-        } catch(Exception e) {
+        controllerDispatcher.joinGame(melanie, "melanie");
 
-        }
 
         lobbyController.onConnectionLost(tommy);
 
         assertEquals(model.getPlayerFromView(tommy).getPlayerState(), PlayerState.DISCONNECTED);
 
         ClientTest new_tommy = new ClientTest();
-        try {
-            controllerDispatcher.joinGame(new_tommy, "tommy");
-        } catch(Exception e) {
-
-        }
-
+        controllerDispatcher.joinGame(new_tommy, "tommy");
         assertEquals(model.getPlayerFromView(new_tommy).getPlayerState(), PlayerState.CONNECTED);
 
     }
 
 
     @Test
-    public void test4() {
+    public void test4() throws Exception {
         LobbyController lobbyController = new LobbyController(10000);
         ControllerDispatcher controllerDispatcher = new ControllerDispatcher(lobbyController);
         lobbyController.setDispatcher(controllerDispatcher);
         ClientTest tommy = new ClientTest();
         ClientTest melanie = new ClientTest();
-        try{
-            controllerDispatcher.createGame(tommy, "tommy", 2);
-        } catch(Exception e) {
-
-        }
+        controllerDispatcher.createGame(tommy, "tommy", 2);
         State model = controllerDispatcher.getViewToControllerMap().get(tommy).getState();
         lobbyController.onConnectionLost(tommy);
         assertEquals(model.getPlayerFromView(tommy).getPlayerState(), PlayerState.DISCONNECTED);
         ClientTest new_tommy = new ClientTest();
-        try{
-            controllerDispatcher.joinGame(new_tommy, "tommy");
-        } catch(Exception e) {
-
-        }
+        controllerDispatcher.joinGame(new_tommy, "tommy");
         assertEquals(model.getPlayerFromView(new_tommy).getPlayerState(), PlayerState.CONNECTED);
-        try{
-            controllerDispatcher.joinGame(melanie, "melanie");
-        } catch(Exception e) {
-
-        }
+        controllerDispatcher.joinGame(melanie, "melanie");
 
 
 
@@ -230,20 +171,14 @@ public class ControllerTest {
 
 
     @Test
-    public void test5() {
+    public void test5() throws Exception {
         LobbyController lobbyController = new LobbyController(10000);
         ControllerDispatcher controllerDispatcher = new ControllerDispatcher(lobbyController);
         lobbyController.setDispatcher(controllerDispatcher);
         ClientTest tommy = new ClientTest();
         ClientTest melanie = new ClientTest();
-        try{
-            controllerDispatcher.joinGame(tommy, "tommy");
-        } catch(Exception e) {
-
-        }
-        try{
-            controllerDispatcher.createGame(melanie, "melanie", 2);
-        } catch(Exception e) {}
+        controllerDispatcher.joinGame(tommy, "tommy");
+        controllerDispatcher.createGame(melanie, "melanie", 2);
         State model = controllerDispatcher.getViewToControllerMap().get(tommy).getState();
         assertEquals(model.getGameState(), GameState.MID);
         controllerDispatcher.quitGame(melanie);
@@ -251,7 +186,7 @@ public class ControllerTest {
     }
 
     @Test
-    public void test6() {
+    public void test6() throws Exception {
         LobbyController lobbyController = new LobbyController(10000);
         ControllerDispatcher controllerDispatcher = new ControllerDispatcher(lobbyController);
         lobbyController.setDispatcher(controllerDispatcher);
@@ -260,25 +195,15 @@ public class ControllerTest {
         ClientTest ema = new ClientTest();
         ClientTest adem = new ClientTest();
         ClientTest nico = new ClientTest();
-        try {
-            controllerDispatcher.createGame(tommy, "tommy", 3);
-        } catch(Exception e) {}
+        controllerDispatcher.createGame(tommy, "tommy", 3);
 
-        try {
-            controllerDispatcher.joinGame(melanie, "melanie");
-        } catch(Exception e) {}
+        controllerDispatcher.joinGame(melanie, "melanie");
 
-        try {
-            controllerDispatcher.joinGame(ema, "ema");
-        } catch(Exception e) {}
+        controllerDispatcher.joinGame(ema, "ema");
 
-        try {
-            controllerDispatcher.createGame(adem, "adem", 2);
-        } catch(Exception e) {}
+        controllerDispatcher.createGame(adem, "adem", 2);
 
-        try {
-            controllerDispatcher.joinGame(nico, "nico");
-        } catch(Exception e) {}
+        controllerDispatcher.joinGame(nico, "nico");
 
         State model1 = controllerDispatcher.getViewToControllerMap().get(tommy).getState();
         State model2 = controllerDispatcher.getViewToControllerMap().get(adem).getState();
@@ -290,8 +215,8 @@ public class ControllerTest {
     }
 
     @Test
-    public void test7() throws InterruptedException {
-        LobbyController lobbyController = new LobbyController(500);
+    public void test7() throws Exception {
+        LobbyController lobbyController = new LobbyController(1000);
         ControllerDispatcher controllerDispatcher = new ControllerDispatcher(lobbyController);
         lobbyController.setDispatcher(controllerDispatcher);
         ClientTest tommy = new ClientTest();
@@ -299,190 +224,131 @@ public class ControllerTest {
         ClientTest ema = new ClientTest();
         ClientTest adem = new ClientTest();
         ClientTest nico = new ClientTest();
-        try {
-            controllerDispatcher.createGame(tommy, "tommy", 3);
-        } catch(Exception e) {}
+        controllerDispatcher.createGame(tommy, "tommy", 3);
 
-        try {
-            controllerDispatcher.joinGame(melanie, "melanie");
-        } catch(Exception e) {}
+        controllerDispatcher.joinGame(melanie, "melanie");
 
-        try {
-            controllerDispatcher.joinGame(ema, "ema");
-        } catch(Exception e) {}
+        controllerDispatcher.joinGame(ema, "ema");
 
-        try {
-            controllerDispatcher.createGame(adem, "adem", 2);
-        } catch(Exception e) {}
+        controllerDispatcher.createGame(adem, "adem", 2);
 
-        try {
-            controllerDispatcher.joinGame(nico, "nico");
-        } catch(Exception e) {}
+        controllerDispatcher.joinGame(nico, "nico");
 
         State model1 = controllerDispatcher.getViewToControllerMap().get(tommy).getState();
         State model2 = controllerDispatcher.getViewToControllerMap().get(adem).getState();
 
-        assertNotEquals(model1, model2);
+       assertNotEquals(model1, model2);
 
         ClientTest new_adem = new ClientTest();
         ClientTest new_nico = new ClientTest();
         if(model2.getCurrentPlayer().equals(model2.getPlayerFromView(adem))) {
             lobbyController.onConnectionLost(adem);
             lobbyController.onConnectionLost(nico);
-            Thread.sleep(1200);
+            Thread.sleep(1100);
             assertEquals(model2.getGameState(), GameState.SUSPENDED);
 
-            try {
-                controllerDispatcher.joinGame(new_adem, "adem");
-            } catch(Exception e) {}
-            try {
-                controllerDispatcher.joinGame(new_nico, "nico");
-            } catch(Exception e) {}
-            State model3 = controllerDispatcher.getViewToControllerMap().get(new_adem).getState();
-            Controller c3 = controllerDispatcher.getViewToControllerMap().get(new_adem);
-            assertEquals(model3.getGameState(), GameState.MID);
-            assertEquals(true, c3.getTimingStateMachine().getTimingState() instanceof ConnectedTimingState);
+            controllerDispatcher.joinGame(new_adem, "adem");
+            assertEquals(model2.getGameState(), GameState.MID);
+            assertEquals(model2.getCurrentPlayer(), model2.getPlayerFromView(nico));
+            controllerDispatcher.joinGame(new_nico, "nico");
 
         }
         else {
             lobbyController.onConnectionLost(nico);
             lobbyController.onConnectionLost(adem);
-            Thread.sleep(1200);
+            Thread.sleep(1100);
             assertEquals(model2.getGameState(), GameState.SUSPENDED);
 
-            try {
-                controllerDispatcher.joinGame(new_nico, "nico");
-            } catch(Exception e) {}
-            try {
-                controllerDispatcher.joinGame(new_adem, "adem");
-            } catch(Exception e) {}
-            State model3 = controllerDispatcher.getViewToControllerMap().get(new_adem).getState();
-            Controller c3 = controllerDispatcher.getViewToControllerMap().get(new_adem);
-            assertEquals(model3.getGameState(), GameState.MID);
-            assertEquals(true, c3.getTimingStateMachine().getTimingState() instanceof ConnectedTimingState);
+            controllerDispatcher.joinGame(new_nico, "nico");
+            assertEquals(model2.getGameState(), GameState.MID);
+            assertEquals(model2.getCurrentPlayer(), model2.getPlayerFromView(adem));
+            controllerDispatcher.joinGame(new_adem, "adem");
 
         }
 
-        State model3 = controllerDispatcher.getViewToControllerMap().get(new_adem).getState();
 
     }
 
 
     @Test
-    public void test8() {
+    public void test8() throws Exception {
         LobbyController lobbyController = new LobbyController(500);
         ControllerDispatcher controllerDispatcher = new ControllerDispatcher(lobbyController);
         lobbyController.setDispatcher(controllerDispatcher);
         ClientTest tommy = new ClientTest();
         ClientTest melanie = new ClientTest();
         ClientTest new_tommy = new ClientTest();
-        try {
-            controllerDispatcher.createGame(tommy, "tommy", 3);
-        } catch(Exception e) {}
-        try {
-            controllerDispatcher.joinGame(melanie, "melanie");
-        } catch(Exception e) {}
+        controllerDispatcher.createGame(tommy, "tommy", 3);
+        controllerDispatcher.joinGame(melanie, "melanie");
 
-        try {
-            controllerDispatcher.createGame(new_tommy, "tommy", 3);
-        } catch(Exception e) {}
+        Assert.assertThrows(AlreadyTakenNicknameException.class,()->controllerDispatcher.createGame(new_tommy, "tommy", 3));
 
         assertEquals(controllerDispatcher.getViewToControllerMap().get(new_tommy), null);
 
     }
 
     @Test
-    public void test9() {
+    public void test9() throws Exception {
         LobbyController lobbyController = new LobbyController(500);
         ControllerDispatcher controllerDispatcher = new ControllerDispatcher(lobbyController);
         lobbyController.setDispatcher(controllerDispatcher);
         ClientTest tommy = new ClientTest();
         ClientTest melanie = new ClientTest();
         ClientTest new_tommy = new ClientTest();
-        try {
-            controllerDispatcher.createGame(tommy, "tommy", 3);
-        } catch(Exception e) {}
-        try {
-            controllerDispatcher.joinGame(melanie, "melanie");
-        } catch(Exception e) {}
+        controllerDispatcher.createGame(tommy, "tommy", 3);
+        controllerDispatcher.joinGame(melanie, "melanie");
 
         lobbyController.onConnectionLost(tommy);
-        try {
-            controllerDispatcher.createGame(new_tommy, "tommy", 3);
-        } catch(Exception e) {}
 
+        Assert.assertThrows(AlreadyInGameException.class, ()->controllerDispatcher.createGame(new_tommy, "tommy", 3));
         assertEquals(controllerDispatcher.getViewToControllerMap().get(new_tommy), null);
 
     }
 
     @Test
-    public void test10() {
+    public void test10() throws Exception {
         LobbyController lobbyController = new LobbyController(500);
         ControllerDispatcher controllerDispatcher = new ControllerDispatcher(lobbyController);
         lobbyController.setDispatcher(controllerDispatcher);
         ClientTest tommy = new ClientTest();
         ClientTest melanie = new ClientTest();
-        try {
-            controllerDispatcher.createGame(tommy, "tommy", 3);
-        } catch(Exception e) {}
-        try {
-            controllerDispatcher.joinGame(melanie, "melanie");
-        } catch(Exception e) {}
+        controllerDispatcher.createGame(tommy, "tommy", 3);
+        controllerDispatcher.joinGame(melanie, "melanie");
         State state1 = controllerDispatcher.getViewToControllerMap().get(tommy).getState();
         lobbyController.onConnectionLost(tommy);
-        try {
-            controllerDispatcher.createGame(tommy, "tommy", 3);
-        } catch(Exception e) {}
+        assertThrows(AlreadyInGameException.class, ()->controllerDispatcher.createGame(tommy, "tommy", 3));
         State state2 = controllerDispatcher.getViewToControllerMap().get(tommy).getState();
         assertEquals(state1, state2);
-        try {
-            controllerDispatcher.joinGame(tommy, "tommy");
-        } catch(Exception e) {}
+        Assert.assertThrows(AlreadyInGameException.class,()->controllerDispatcher.joinGame(tommy, "tommy"));
         State state3 = controllerDispatcher.getViewToControllerMap().get(tommy).getState();
         assertEquals(state1, state3);
     }
-
     @Test
-    public void test11() throws InterruptedException {
+    public void test11() throws Exception {
         LobbyController lobbyController = new LobbyController(500);
         ControllerDispatcher controllerDispatcher = new ControllerDispatcher(lobbyController);
         lobbyController.setDispatcher(controllerDispatcher);
         ClientTest tommy = new ClientTest();
         ClientTest melanie = new ClientTest();
-        try {
-            controllerDispatcher.createGame(tommy, "tommy", 2);
-        } catch(Exception e) {}
-        try {
-            controllerDispatcher.joinGame(melanie, "melanie");
-        } catch(Exception e) {}
-        State state = controllerDispatcher.getViewToControllerMap().get(tommy).getState();
-        if(state.getCurrentPlayer().getNickName().equals("tommy")) {
-            lobbyController.onConnectionLost(melanie);
-            Thread.sleep(700);
-            assertEquals(state.getGameState(), GameState.MID);
-            assertEquals(state.getCurrentPlayer(),state.getPlayerFromView(melanie));
-            ClientTest new_melanie = new ClientTest();
-            try{
-                controllerDispatcher.joinGame(new_melanie, "melanie");
-                assertEquals(state.getGameState(), GameState.MID);
-                assertEquals(state.getCurrentPlayer(),state.getPlayerFromView(new_melanie));
-            } catch(Exception e) {}
-        }
-        else {
-            lobbyController.onConnectionLost(tommy);
-            Thread.sleep(700);
-            assertEquals(state.getGameState(), GameState.MID);
-            assertEquals(state.getCurrentPlayer(),state.getPlayerFromView(tommy));
-            ClientTest new_tommy = new ClientTest();
-            try{
-                controllerDispatcher.joinGame(new_tommy, "tommy");
-                assertEquals(state.getGameState(), GameState.MID);
-                assertEquals(state.getCurrentPlayer(),state.getPlayerFromView(new_tommy));
-            } catch(Exception e) {}
+        ClientTest ema = new ClientTest();
+        controllerDispatcher.createGame(tommy, "tommy", 2);
+        controllerDispatcher.joinGame(melanie, "melanie");
 
-        }
+        controllerDispatcher.quitGame(tommy);
+        controllerDispatcher.quitGame(melanie);
 
+        controllerDispatcher.createGame(tommy, "tommy", 3);
+        controllerDispatcher.joinGame(melanie, "melanie");
+        State state_melanie = controllerDispatcher.getViewToControllerMap().get(melanie).getState();
+        State state_tommy = controllerDispatcher.getViewToControllerMap().get(tommy).getState();
+        assertEquals(state_tommy, state_melanie);
+        controllerDispatcher.joinGame(ema, "ema");
+        controllerDispatcher.quitGame(ema);
+        State state_ema = controllerDispatcher.getViewToControllerMap().get(tommy).getState();
+        assertEquals(state_ema, state_tommy);
+        assertEquals(PlayerState.QUITTED,state_ema.getPlayerFromView(ema).getPlayerState());
     }
+
 
     private Coordinate[] getCoordinatesAvailable(Board board, int desired) {
         TileSubject[][] matrix = board.getBoard();

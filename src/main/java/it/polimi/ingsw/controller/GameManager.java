@@ -69,7 +69,7 @@ public abstract class GameManager {
      * Protected abstract method to be implemented by subclasses.
      * Sets the next current player in the game.
      */
-    protected abstract void setNextCurrentPlayer();
+    public abstract void setNextCurrentPlayer();
 
     /**
      * Method that handles to process to quit the game
@@ -156,7 +156,7 @@ public abstract class GameManager {
      * <br>
      * are disconnected and false viceversa
      */
-    protected boolean verifyAllDisconnectedPlayer(Player player){
+    public boolean verifyAllDisconnectedPlayer(Player player){
 
         //Player player = getController().getState().getCurrentPlayer();
         for(Player p: getController().getState().getPlayers()){

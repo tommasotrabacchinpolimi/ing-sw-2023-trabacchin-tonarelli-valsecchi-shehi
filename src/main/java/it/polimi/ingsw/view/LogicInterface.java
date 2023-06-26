@@ -17,4 +17,5 @@ public interface LogicInterface {
     void dragTilesToBookShelf(List<Coordinate> chosenTiles, int chosenColumn);
     void chosenSocket(int port, String host) throws IOException;
     void chosenRMI(int port, String host) throws NotBoundException, IOException, ClassNotFoundException;
+    void reConnect();
 }

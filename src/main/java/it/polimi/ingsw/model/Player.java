@@ -282,10 +282,6 @@ public class Player implements Serializable, OnUpdateNeededListener {
         onUpdateNeededListeners.add(onUpdateNeededListener);
     }
 
-    public void removeOnUpdateNeededListener(OnUpdateNeededListener onUpdateNeededListener) {
-        onUpdateNeededListeners.remove(onUpdateNeededListener);
-    }
-
     /**
      * Overriding equals() default method.
      * @param o the reference object with which to compare

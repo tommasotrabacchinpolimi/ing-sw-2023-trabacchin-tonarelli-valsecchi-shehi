@@ -205,7 +205,7 @@ public class MidGameManager extends GameManager {
      * @see Player
      */
     @Override
-    protected synchronized void setNextCurrentPlayer() {
+    public synchronized void setNextCurrentPlayer() {
 
         if(getController().getState().getGameState() == GameState.END) return;
 

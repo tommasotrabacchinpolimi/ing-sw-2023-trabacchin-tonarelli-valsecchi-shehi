@@ -480,6 +480,7 @@ public class State implements Serializable, OnUpdateNeededListener {
      */
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
+        System.out.println("notifying player changed");
         notifyCurrentPlayerChanged();
     }
 
@@ -776,7 +777,7 @@ public class State implements Serializable, OnUpdateNeededListener {
                 .forEach(v -> v.onMessagesSentUpdate(senderNicknames, receiverNicknames, texts));
     }
 
-    private Set<Set<EntryPatternGoal>> findGroups(TileType[][] bookShelf){
+    public static Set<Set<EntryPatternGoal>> findGroups(TileType[][] bookShelf){
         boolean[][] alreadyTaken = new boolean[bookShelf.length][bookShelf[0].length];//initialized to false
         Set<Set<EntryPatternGoal>> result = new HashSet<Set<EntryPatternGoal>>();
         for(int i = 0; i < bookShelf.length; i++){
@@ -787,7 +788,7 @@ public class State implements Serializable, OnUpdateNeededListener {
         return result;
     }
 
-    private Optional<Set<EntryPatternGoal>> findSingleGroup(int i, int j, TileType[][] bookShelf, boolean[][] alreadyTaken, TileType tileType){
+    private static Optional<Set<EntryPatternGoal>> findSingleGroup(int i, int j, TileType[][] bookShelf, boolean[][] alreadyTaken, TileType tileType){
         if(tileType == null){
             return Optional.empty();
         }

@@ -47,7 +47,7 @@ public final class CommonGoalDeserializer {
      * @see LineCommonGoal
      * @see ShapeCommonGoal
      * @see StairCommonGoal
-     * @see TupleCommonGoal
+     * @see TupleCommonGoal_altt
      */
     public static Set<CommonGoal> getCommonGoalsDeck(){
         return getCommonGoalClasses().stream()
@@ -66,7 +66,7 @@ public final class CommonGoalDeserializer {
      * @see LineCommonGoal
      * @see ShapeCommonGoal
      * @see StairCommonGoal
-     * @see TupleCommonGoal
+     * @see TupleCommonGoal_altt
      */
     @NotNull
     private static Set<Class<? extends CommonGoal>> getCommonGoalClasses(){
@@ -117,7 +117,7 @@ public final class CommonGoalDeserializer {
      *     <li>{@linkplain LineCommonGoal Line common goal}</li>
      *     <li>{@linkplain ShapeCommonGoal Shape common goal}</li>
      *     <li>{@linkplain StairCommonGoal Stair common goal}</li>
-     *     <li>{@linkplain TupleCommonGoal Tuple common goal}</li>
+     *     <li>{@linkplain TupleCommonGoal_altt Tuple common goal}</li>
      * </ul>
      * </p>
      *
@@ -128,7 +128,7 @@ public final class CommonGoalDeserializer {
      * @see LineCommonGoal
      * @see ShapeCommonGoal
      * @see StairCommonGoal
-     * @see TupleCommonGoal
+     * @see TupleCommonGoal_altt
      */
     @NotNull
     private static Set<CommonGoal> getCommonGoalConfig(Class<? extends CommonGoal> c) {

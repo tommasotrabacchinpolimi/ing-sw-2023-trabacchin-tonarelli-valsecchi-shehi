@@ -46,6 +46,17 @@ public class GUI extends UI {
             guiLauncher.handleNewMessage(getModel().getLastMessage());
         });
     }
+    @Override
+    public void onNewMessages() {
+        Platform.runLater(() -> {
+            getModel().getMessages().forEach((message)-> guiLauncher.handleNewMessage(message));
+        });
+    }
+
+    @Override
+    public void onConnectionLost() {
+
+    }
 
     @Override
     public void onCurrentPlayerChanged(String newCurrentPlayer) {
@@ -61,14 +72,14 @@ public class GUI extends UI {
     }
 
     @Override
-    public void onException() throws IOException {
+    public void onException() {
         Platform.runLater(() -> {
             guiLauncher.handleRemoteException(getModel().getException());
         });
     }
 
     @Override
-    public void onGameStateChanged() throws IOException {
+    public void onGameStateChanged() {
         Platform.runLater(() -> {
             if (getModel().getGameState().equals("INIT")) {
                 //If the player has to wait others

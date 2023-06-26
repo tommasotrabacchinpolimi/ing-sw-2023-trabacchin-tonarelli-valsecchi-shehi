@@ -62,11 +62,11 @@ public class SuspendedGameManager extends GameManager {
             registerListeners(view, nickname);
             player.setVirtualView(view);
             player.setPlayerState(PlayerState.CONNECTED);
-            if(checkIfNotSuspended()){
+            //if(checkIfNotSuspended()){
                 getController().getState().setGameState(previousGameState);
                 getController().setGameManager(new MidGameManager(getController()));
-                getController().getState().setCurrentPlayer(player);
-            }
+                //getController().getState().setCurrentPlayer(player);
+            //}
         }
     }
 
@@ -76,21 +76,8 @@ public class SuspendedGameManager extends GameManager {
      */
 
     @Override
-    protected void setNextCurrentPlayer() {
+    public void setNextCurrentPlayer() {
         return;
-    }
-
-    /**
-     * Checks if there are enough connected players to resume the game.
-     * It counts the number of players in the connected state and returns true if there are more than one.
-     *
-     * @return true if there are more than one connected player, false otherwise
-     */
-
-
-    private boolean checkIfNotSuspended(){
-        int numberPlayerConnected = (int) getController().getState().getPlayers().stream().filter(player -> player.getPlayerState()==PlayerState.CONNECTED).count();
-        return numberPlayerConnected > 1;
     }
 
 }
