@@ -174,7 +174,7 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
     }
     @Override
     public void onConnectionLost() {
-
+        ui.onConnectionLost();
     }
 
     @Override
