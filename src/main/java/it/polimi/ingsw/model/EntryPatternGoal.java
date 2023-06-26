@@ -13,7 +13,7 @@ import java.util.Objects;
  * @see PersonalGoal
  * @see TileType
  * @see CommonGoal
- * @see TupleCommonGoal
+ * @see TupleCommonGoal_altt
  * @see ShapeCommonGoal
  * @see StairCommonGoal
  * @see LineCommonGoal

@@ -37,4 +37,7 @@ public abstract class UI{
     public abstract void onGameStateChanged();
 
     public abstract void onNewMessages();
+
+    public abstract void onConnectionLost();
+
 }

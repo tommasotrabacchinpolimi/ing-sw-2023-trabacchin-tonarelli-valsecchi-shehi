@@ -56,6 +56,11 @@ public class GUI extends UI {
     }
 
     @Override
+    public void onConnectionLost() {
+
+    }
+
+    @Override
     public void onCurrentPlayerChanged(String newCurrentPlayer) {
 
     }

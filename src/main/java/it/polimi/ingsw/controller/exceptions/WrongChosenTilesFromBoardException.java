@@ -11,11 +11,4 @@ public class WrongChosenTilesFromBoardException extends Exception{
         super(message);
     }
 
-    public WrongChosenTilesFromBoardException(String message, Throwable cause){
-        super(message, cause);
-    }
-
-    public WrongChosenTilesFromBoardException(Throwable cause){
-        super(DEF_MESSAGE, cause);
-    }
 }

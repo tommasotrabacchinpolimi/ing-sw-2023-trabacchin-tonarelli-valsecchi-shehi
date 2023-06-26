@@ -132,6 +132,19 @@ public class TUI extends UI {
 
     }
 
+    @Override
+    public synchronized void onConnectionLost() {
+        try{
+            while(inputInProgress) {
+                this.wait();
+            }
+        }catch(InterruptedException e){
+            e.printStackTrace();
+        }
+
+
+    }
+
     public synchronized void readLine(String line) {
         getCurrentInput().readLine(line);
     }

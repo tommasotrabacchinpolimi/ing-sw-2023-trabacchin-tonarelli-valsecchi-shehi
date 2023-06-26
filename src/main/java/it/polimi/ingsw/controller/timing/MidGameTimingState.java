@@ -36,7 +36,6 @@ public class MidGameTimingState extends TimingState{
     @Override
     public synchronized void timerGoOff() {
         if(!isAlreadyTriggered() || getTimingStateMachine().getController().getState().getGameState().equals(GameState.END)) {
-            System.out.println("old current player is "  + getTimingStateMachine().getController().getState().getCurrentPlayer().getNickName());
 
             getTimingStateMachine().getController().getGameManager().setNextCurrentPlayer();
         }
@@ -44,7 +43,6 @@ public class MidGameTimingState extends TimingState{
 
     private void handleCurrentPlayerChange() {
         setAlreadyTriggered(true);
-        System.out.println("current player in handle is "  + getTimingStateMachine().getController().getState().getCurrentPlayer().getNickName());
 
         if(getTimingStateMachine().getController().getGameManager().verifyAllDisconnectedPlayer(getTimingStateMachine().getPreviousPlayer())) {
             getTimingStateMachine().setPreviousPlayer(getTimingStateMachine().getController().getState().getCurrentPlayer());

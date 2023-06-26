@@ -112,15 +112,15 @@ public class InitGameManager extends GameManager {
                 rPlayer.setPersonalGoal(personalGoalsDeck.remove(0));
             }
             Collections.rotate(getController().getState().getPlayers(), new Random().nextInt(6));
-            if(checkIfNotSuspended()){
+            //if(checkIfNotSuspended()){
                 //System.out.println("state updated");
                 getController().getState().setGameState(GameState.MID);
                 getController().setGameManager(new MidGameManager(getController()));
                 getController().getGameManager().setNextCurrentPlayer();
-            } else {
-                getController().getState().setGameState(GameState.SUSPENDED);
-                getController().setGameManager(new SuspendedGameManager(getController(), GameState.MID));
-            }
+            //} else {
+                //getController().getState().setGameState(GameState.SUSPENDED);
+                //getController().setGameManager(new SuspendedGameManager(getController(), GameState.MID));
+            //}
         }
     }
 
@@ -129,10 +129,10 @@ public class InitGameManager extends GameManager {
         return;
     }
 
-    private boolean checkIfNotSuspended(){
+    /*private boolean checkIfNotSuspended(){
         int numberPlayerConnected = (int)getController().getState().getPlayers().stream().filter(player -> player.getPlayerState()==PlayerState.CONNECTED).count();
         return numberPlayerConnected > 1;
-    }
+    }*/
 
     private void registerInternalListener(Player player) {
         getController().getState().getPlayers().forEach(player::setOnUpdateNeededListener);

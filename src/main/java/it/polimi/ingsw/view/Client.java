@@ -18,11 +18,24 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.*;
 
+import static it.polimi.ingsw.view.Client.Choice.RMI;
+import static it.polimi.ingsw.view.Client.Choice.SOCKET;
+
 public class Client implements ClientInterface, LogicInterface, OnClientConnectionLostListener {
     private final UI ui;
     private ServerInterface server;
 
     private ViewData viewData;
+
+    private String host;
+
+    private int port;
+
+    enum Choice {
+        SOCKET,
+        RMI
+    }
+    private Choice choice;
 
     public Client(UI ui, ViewData model) {
         this.ui = ui;
@@ -33,7 +46,7 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
         return ConnectionBuilder.buildSocketConnection(port, host, new ClientDispatcher(this), this);
     }
 
-    private ServerInterface getRmiConnection(String host, int port) throws NotBoundException, IOException, ClassNotFoundException {
+    private ServerInterface getRmiConnection(String host, int port) throws NotBoundException, IOException {
         return ConnectionBuilder.buildRmiConnection(port, host, new ClientDispatcher(this), this);
     }
 
@@ -217,12 +230,37 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
     public void chosenSocket(int port, String host) throws IOException {
         ServerInterface serverInterface = this.getSocketConnection(host, port);
         this.setServer(serverInterface);
+        this.port = port;
+        this.host = host;
+        this.choice = SOCKET;
     }
 
     @Override
-    public void chosenRMI(int port, String host) throws NotBoundException, IOException, ClassNotFoundException {
+    public void chosenRMI(int port, String host) throws NotBoundException, IOException {
         ServerInterface serverInterface = this.getRmiConnection(host, port);
         this.setServer(serverInterface);
+        this.port = port;
+        this.host = host;
+        this.choice = RMI;
+    }
+
+    @Override
+    public void reConnect() {
+        while(true) {
+            try{
+                if(this.choice == SOCKET) {
+                    chosenSocket(this.port, this.host);
+                }
+                else {
+                    chosenRMI(this.port, this.host);
+                }
+                break;
+            } catch(IOException | NotBoundException e) {
+                continue;
+            }
+
+        }
+
     }
 
     @Override
