@@ -24,15 +24,20 @@ public class AskColumn extends Input {
 
     @Override
     public void readLine(String line) {
+        if(isLocked()) {
+            return;
+        }
         if(!(line.equals("1") || line.equals("2") || line.equals("3") || line.equals("4") || line.equals("5")))  {
             getOut().println("The column number is invalid, please try again");
             getTUI().setCurrentInput(new AskColumn(getTUI(), getOut(), coordinates));
 
         }
         else {
+            setLocked(true);
             //getTUI().setCurrentInput(new InputSelector(getTUI(), getOut()));
             getTUI().getLogicController().dragTilesToBookShelf(coordinates, Integer.parseInt(line) - 1);
-            getTUI().refresh();
+            getTUI().setInputInProgress(false);
+            //getTUI().refresh();
         }
     }
     @Override
