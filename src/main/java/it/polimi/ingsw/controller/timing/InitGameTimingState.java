@@ -8,7 +8,7 @@ public class InitGameTimingState extends TimingState{
     }
 
     @Override
-    public void onCurrentPlayerChanged() {
+    public synchronized void onCurrentPlayerChanged() {
         if(getTimingStateMachine().getController().getState().getGameState().equals(GameState.MID)) {
             getTimingStateMachine().setTimingState(new MidGameTimingState(getTimingStateMachine()));
         } else if(getTimingStateMachine().getController().getState().getGameState().equals(GameState.SUSPENDED)) {

@@ -556,8 +556,9 @@ public class State implements Serializable, OnUpdateNeededListener {
     public void checkCommonGoal(Player player){
        List<EntryPatternGoal> result = new ArrayList<>();
         int newScore;
-
+        System.out.println("checking common goal 1"+commonGoal1);
        result = commonGoal1.rule(player.getBookShelf().toTileTypeMatrix());
+       System.out.println("finished checking commong goal 1");
        if(result != null && player.getPointPlayer().getScoreCommonGoal1() == 0){
            newScore = commonGoal1.removeAvailableScore();
            if(newScore != 0) {
@@ -566,8 +567,9 @@ public class State implements Serializable, OnUpdateNeededListener {
                notifyChangedCommonGoalAvailableScore(commonGoal1.getScoringTokens().peek(), 1);
            }
        }
-
+        System.out.println("finished common goal 2"+commonGoal2);
        result = commonGoal2.rule(player.getBookShelf().toTileTypeMatrix());
+       System.out.println("finished common goal 2");
        if(result != null && player.getPointPlayer().getScoreCommonGoal2() == 0){
            newScore = commonGoal2.removeAvailableScore();
            if(newScore != 0) {
@@ -803,7 +805,7 @@ public class State implements Serializable, OnUpdateNeededListener {
             return Optional.empty();
         }
         else{
-            result.add(new EntryPatternGoal(j, i, tileType));//if the type is correct then the (i,j)-entry can be added to the group
+            result.add(new EntryPatternGoal(i, j, tileType));//if the type is correct then the (i,j)-entry can be added to the group
             alreadyTaken[i][j] = true;
         }
 

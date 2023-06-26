@@ -105,6 +105,8 @@ public class InitGameManager extends GameManager {
         }
 
         if(getController().getState().getPlayers().size() == getController().getState().getPlayersNumber()) {
+            //getController().getState().setCommonGoal1(commonGoalsDeck.remove(0));
+            //getController().getState().setCommonGoal2(commonGoalsDeck.remove(0));
             getController().getState().setCommonGoal1(commonGoalsDeck.remove(0));
             getController().getState().setCommonGoal2(commonGoalsDeck.remove(0));
             getController().getState().getBoard().refillBoard(getController().getState().getPlayersNumber());

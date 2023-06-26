@@ -26,7 +26,7 @@ public class Controller implements OnServerConnectionLostListener, ControllerInt
     private GameManager gameManager;
     private final ChatManager chatManager;
     private final LobbyController lobbyController;
-    private final TimingStateMachine timingStateMachine;
+    private TimingStateMachine timingStateMachine;
 
     /**
      * Constructs a Controller object with the given initial state and lobby controller.
@@ -41,9 +41,9 @@ public class Controller implements OnServerConnectionLostListener, ControllerInt
         this.lobbyController = lobbyController;
         this.gameManager = new InitGameManager(this);
         this.chatManager = new ChatManager(this);
-        this.timingStateMachine = new TimingStateMachine(this, delay);
-        state.setOnCurrentPlayerChangedListener(timingStateMachine);
-        state.setStateChangedListener(timingStateMachine);
+        //this.timingStateMachine = new TimingStateMachine(this, delay);
+        //state.setOnCurrentPlayerChangedListener(timingStateMachine);
+        //state.setStateChangedListener(timingStateMachine);
         this.setNumberPlayers(numberOfPlayer);
     }
 

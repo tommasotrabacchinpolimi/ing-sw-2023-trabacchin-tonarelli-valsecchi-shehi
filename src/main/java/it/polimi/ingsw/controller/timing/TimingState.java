@@ -28,19 +28,19 @@ public abstract class TimingState {
 
     public abstract void timerGoOff();
 
-    public TimerTask getTimerTask() {
+    public synchronized TimerTask getTimerTask() {
         return timerTask;
     }
 
-    public void setTimerTask(TimerTask timerTask) {
+    public synchronized void setTimerTask(TimerTask timerTask) {
         this.timerTask = timerTask;
     }
 
-    public boolean isAlreadyTriggered() {
+    public synchronized boolean isAlreadyTriggered() {
         return alreadyTriggered;
     }
 
-    public void setAlreadyTriggered(boolean alreadyTriggered) {
+    public synchronized void setAlreadyTriggered(boolean alreadyTriggered) {
         this.alreadyTriggered = alreadyTriggered;
     }
 }

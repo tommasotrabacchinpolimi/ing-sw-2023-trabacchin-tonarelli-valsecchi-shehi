@@ -44,7 +44,9 @@ public class ServerDispatcher implements ServerDispatcherInterface{
 
     @Override
     public void dispatch(DragTilesToBookShelfNetMessage dragTilesToBookShelfNetMessage, ClientInterface view) {
+        System.out.println("received drag message");
         controllerDispatcher.dragTilesToBookShelf(view, dragTilesToBookShelfNetMessage.getChosenTiles(), dragTilesToBookShelfNetMessage.getChosenColumn());
+        System.out.println("executed drag message");
     }
 
     @Override

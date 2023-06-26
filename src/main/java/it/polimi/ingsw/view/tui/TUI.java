@@ -132,7 +132,7 @@ public class TUI extends UI {
     }
 
     @Override
-    public void onNewMessages() {
+    public synchronized void onNewMessages() {
 
     }
 
@@ -155,7 +155,7 @@ public class TUI extends UI {
         getCurrentInput().readLine(line);
     }
 
-    public void refresh() {
+    public synchronized void refresh() {
         if(page != null) {
             page.show();
         }
@@ -163,7 +163,8 @@ public class TUI extends UI {
 
     public synchronized void setInputInProgress(boolean progress) {
         this.inputInProgress = progress;
-        this.notifyAll();
-
+        if(!progress) {
+            this.notifyAll();
+        }
     }
 }

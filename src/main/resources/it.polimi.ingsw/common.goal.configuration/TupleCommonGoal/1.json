@@ -3,8 +3,7 @@
   "scoringTokens": [2, 4, 6, 8],
   "id": "tuple_common_goal_1",
   "groupsNumber": 6,
-  "adjacentTilesPo2": 1,
+  "adjacentTiles": 2,
   "square": false,
-  "separated": true,
-  "sameTypeOnly": false
+  "separated": false
 }

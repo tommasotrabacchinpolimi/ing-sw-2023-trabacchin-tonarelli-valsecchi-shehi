@@ -6,9 +6,11 @@ import it.polimi.ingsw.controller.listeners.localListeners.OnUpdateNeededListene
 import it.polimi.ingsw.model.exceptions.NoTileTakenException;
 import it.polimi.ingsw.model.exceptions.NotEnoughSpaceInBookShelfException;
 
+import java.awt.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
+import java.util.List;
 
 /**
  * <p>Class used to represent bookshelf for each player.</p>
@@ -291,8 +293,9 @@ public class BookShelf implements Serializable, OnUpdateNeededListener {
             tileSubjectTaken[row][column] = t;
             --row;
         }
-
+        System.out.println("starting notifying bookshelves update");
         notifyOnBookShelfUpdated();
+        System.out.println("finished notifying bookshelf update");
     }
 
     /**
