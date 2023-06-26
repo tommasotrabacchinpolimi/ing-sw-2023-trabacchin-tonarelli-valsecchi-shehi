@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.JSONExclusionStrategy.ExcludedFromJSON;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -59,13 +58,6 @@ public class TupleCommonGoal extends CommonGoal implements Serializable {
      * @apiNote true value checks for separated. On the other hand false does not
      */
     private boolean separated;
-
-    /**
-     * Flag used to check for tile of the same {@link TileType type}
-     *
-     * @apiNote true value checks for same type only. On the other hand a false value means {@link TileType type} can be different
-     */
-    private boolean sameTypeOnly;
 
     /**
      * Constructor that class the constructor of superclass {@link CommonGoal}.
@@ -143,7 +135,6 @@ public class TupleCommonGoal extends CommonGoal implements Serializable {
         this.adjacentTiles = adjacentTilesPo2;
         this.square = square;
         this.separated = separated;
-        this.sameTypeOnly = sameTypeOnly;
     }
 
     /**
@@ -183,21 +174,21 @@ public class TupleCommonGoal extends CommonGoal implements Serializable {
     }
 
     /**
-     * Method that returns {@link #square}
-     *
-     * @return the value of {@link #square}
-     */
-    public boolean isGroupSquare() {
-        return square;
-    }
-
-    /**
      * Method that sets {@link #square}
      *
      * @param square the value that need to be set as {@link #square}
      */
     public void setSquare(boolean square) {
         this.square = square;
+    }
+
+    /**
+     * Method that returns {@link #square}
+     *
+     * @return the value of {@link #square}
+     */
+    public boolean isSquare() {
+        return square;
     }
 
     /**
@@ -218,24 +209,6 @@ public class TupleCommonGoal extends CommonGoal implements Serializable {
         this.separated = separated;
     }
 
-    /**
-     * Method that returns {@link #sameTypeOnly}
-     *
-     * @return the value of {@link #separated}
-     */
-    public boolean isSameTypeOnly() {
-        return sameTypeOnly;
-    }
-
-    /**
-     * Method that sets {@link #sameTypeOnly}
-     *
-     * @param sameTypeOnly the value that need to be set as {@link #sameTypeOnly}
-     */
-    public void setSameTypeOnly(boolean sameTypeOnly) {
-        this.sameTypeOnly = sameTypeOnly;
-    }
-
 
     @Override
     public List<EntryPatternGoal> rule(TileType[][] bookShelf) {
@@ -244,7 +217,10 @@ public class TupleCommonGoal extends CommonGoal implements Serializable {
             Set<EntryPatternGoal> group = new HashSet<>();
             for(int i = 0; i < bookShelf.length; i++) {
                 for(int j = 0; j < bookShelf[0].length; j++) {
-                    group.add(new EntryPatternGoal(i, j, bookShelf[i][j]));
+                    if(bookShelf[i][j] != null) {
+                        group.add(new EntryPatternGoal(i, j, bookShelf[i][j]));
+                    }
+
                 }
             }
             groups = new HashSet<>();
@@ -268,7 +244,7 @@ public class TupleCommonGoal extends CommonGoal implements Serializable {
         }
         else {
             for(Set<EntryPatternGoal> g : groups) {
-                Set<EntryPatternGoal> subG = verifyMinimumNumberOfDifferentTileType(g, getAdjacentTiles());
+                Set<EntryPatternGoal> subG = verifyMinimumNumberOfDifferentTileType(g, getGroupsNumber());
                 if(subG != null) {
                     return new ArrayList<>(subG);
                 }
@@ -280,6 +256,7 @@ public class TupleCommonGoal extends CommonGoal implements Serializable {
         return null;
     }
 
+
     private Set<EntryPatternGoal> verifyMinimumNumberOfDifferentTileType(Set<EntryPatternGoal> group, int min) {
         for(TileType tileType : TileType.values()) {
             Set<EntryPatternGoal> subGroup = new HashSet<>();
@@ -287,10 +264,11 @@ public class TupleCommonGoal extends CommonGoal implements Serializable {
                 if(e.getTileType().equals(tileType)) {
                     subGroup.add(e);
                 }
+                if(subGroup.size() == min) {
+                    return subGroup;
+                }
             }
-            if(subGroup.size() >= min) {
-                return subGroup;
-            }
+
         }
         return null;
     }

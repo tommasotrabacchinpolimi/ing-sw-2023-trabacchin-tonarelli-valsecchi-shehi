@@ -48,7 +48,10 @@ public class ViewData {
 
     public void setException(String exception) throws IOException {
         this.exception = exception;
-        userInterface.onException();
+        if(this.currentPlayer.equals(this.thisPlayer)) {
+            userInterface.onException();
+        }
+
     }
 
     public void setPlayers(List<String> players) {
