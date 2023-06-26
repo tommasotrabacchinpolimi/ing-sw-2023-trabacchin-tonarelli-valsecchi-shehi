@@ -20,7 +20,6 @@ public class MyShelfieCommand {
      * @return Clears the terminal's text, e.g. just like the command-line `clear`.
      */
     public static MyShelfieCommand CLEAR_SCREEN() {
-        // Covers https://github.com/dialex/JColor/issues/68
         return new MyShelfieCommand("H\\033[2J\"");
     }
 

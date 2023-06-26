@@ -5,8 +5,15 @@ import it.polimi.ingsw.net_alternative.clientmessage.*;
 import it.polimi.ingsw.view.Client;
 
 /**
- * The `ClientDispatcher` class implements the `ClientDispatcherInterface` interface and is responsible for dispatching messages received from the server to the corresponding client.
- * Each `dispatch` method receives a specific type of message and forwards it to the client by calling the corresponding methods in the `ClientInterface`.
+ * The `ClientDispatcher` class implements the `ClientDispatcherInterface` interface and is responsible for dispatching
+ * messages received from the server to the corresponding client.
+ * Each `dispatch` method receives a specific type of message and forwards it to the client by calling the corresponding
+ * methods in the `ClientInterface`.
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
  */
 public class ClientDispatcher implements ClientDispatcherInterface {
 

@@ -10,23 +10,45 @@ import java.util.Objects;
 
 import static it.polimi.ingsw.utils.color.MyShelfieAnsi.colorize;
 
+/**
+ * The HomePage class represents the home page of the {@link TUI}.
+ * It extends the {@link Page} class and provides methods to display the home page.
+ *
+ * @see it.polimi.ingsw.view.tui.page.Page
+ * @see TUI
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ */
 public class HomePage extends Page{
-
+    /**
+     * Attribute that represents the {@link PrintStream output stream}.
+     */
     private PrintStream out;
+
+    /**
+     * Constructs a new HomePage object with the given {@link TUI} (Text User Interface).
+     * Initializes the output stream by obtaining it from the {@link TUI}.
+     * @param tui the {@link TUI} object
+     */
     public HomePage(TUI tui) {
         super(tui);
         this.out = tui.getPrintStream();
     }
 
     /**
-     * @author Melanie Tonarelli
+     * Displays the home page in the {@link TUI}.
+     * Shows the game state, players' information, points, common goals, board, bookshelf, personal goal, current player and unread messages.
+     * @see it.polimi.ingsw.view.ViewData
+     * @see Page#show()
      */
     @Override
     public void show() {
         reset();
-        out.print(colorize("                                                           ", MyShelfieAttribute.GREEN_BACK()));
-        out.print(colorize("MY SHELFIE: HOME OF " + getModel().getThisPlayer(), MyShelfieAttribute.GREEN_BACK()));
-        out.println(colorize("                                                           ", MyShelfieAttribute.GREEN_BACK()));
+        out.print(colorize("                                                           ", MyShelfieAttribute.DARKEN_GREEN_BACK()));
+        out.print(colorize("MY SHELFIE: HOME OF " + getModel().getThisPlayer(), MyShelfieAttribute.DARKEN_GREEN_BACK()));
+        out.println(colorize("                                                           ", MyShelfieAttribute.DARKEN_GREEN_BACK()));
 
         printGameState(getModel().getGameState());
 
@@ -80,15 +102,25 @@ public class HomePage extends Page{
         }
         out.println(colorize("<--To learn how to play, please type 'help'.-->", MyShelfieAttribute.BOLD()));
     }
+
+    /**
+     * Overrides the {@link Page#onCurrentPlayerChanged} method from the parent class.
+     * This method is called when the current player changes.
+     * It calls the {@link #show()} method to display the updated home page.
+     * @see Page#onCurrentPlayerChanged()
+     */
     @Override
     public void onCurrentPlayerChanged() {
         this.show();
     }
 
-
-
-
-
+    /**
+     * Prints the board, bookshelf and personal goal of the player.
+     * @param board the matrix representing the board
+     * @param bookshelf the matrix representing the player's bookshelf
+     * @param personalGoal the matrix representing the player's personal goal
+     * @see it.polimi.ingsw.view.ViewData
+     */
     private void printBoardBookShelfPersonalGoal(char[][] board, char[][] bookshelf, char[][] personalGoal){
         out.println("             Living Room Board:                           Your BookShelf:                   Your Personal Goal:");
         out.println("     1   2   3   4   5   6   7   8   9                   1   2   3   4   5                  " );
@@ -126,6 +158,11 @@ public class HomePage extends Page{
         out.println(getDividerBoard(DIM_BOARD));
     }
 
+    /**
+     * Returns the divider line for the board based on the specified row number.
+     * @param row the row number
+     * @return the divider line for the board
+     */
     private String getDividerBoard(int row) {
         switch (row) {
             case 0 -> {
@@ -164,82 +201,93 @@ public class HomePage extends Page{
         }
     }
 
-        private String getDividerPersonalGoal(int row){
-            switch (row){
-                case 0 -> { return colorize("┌───┬───┬───┬───┬───┐", MyShelfieAttribute.TEXT_COLOR(245,245,246)); }
-                case 1, 2, 3, 4, 5 -> { return colorize("├───┼───┼───┼───┼───┤", MyShelfieAttribute.TEXT_COLOR(245,245,246)); }
-                case 6 -> { return colorize("└───┴───┴───┴───┴───┘", MyShelfieAttribute.TEXT_COLOR(245,245,246)); }
-                default -> { return ""; }
+    /**
+     * Returns a divider line for the personal goal based on the specified row.
+     * @param row The row number for which the divider line is generated.
+     * @return The divider line as a formatted string.
+     */
+    private String getDividerPersonalGoal(int row){
+        switch (row){
+            case 0 -> { return colorize("┌───┬───┬───┬───┬───┐", MyShelfieAttribute.TEXT_COLOR(245,245,246)); }
+            case 1, 2, 3, 4, 5 -> { return colorize("├───┼───┼───┼───┼───┤", MyShelfieAttribute.TEXT_COLOR(245,245,246)); }
+            case 6 -> { return colorize("└───┴───┴───┴───┴───┘", MyShelfieAttribute.TEXT_COLOR(245,245,246)); }
+            default -> { return ""; }
+        }
+    }
+
+    /**
+     * Prints a single line of the board based on the specified row and the board matrix.
+     * @param r     The row number to be printed.
+     * @param board The char matrix representing the board.
+     */
+    private void printLineBoard(int r, char[][] board){
+        int n; //number of print
+        int c; //starting column
+        int i;
+        StringBuilder result = new StringBuilder("");
+
+        result.append((char) (r + 'A')).append("  ");
+
+        switch (r) {
+            case 0, 1, 7 -> {
+                result.append(colorize("│   │   │   ", MyShelfieAttribute.TEXT_COLOR(245, 245, 246)));
+                c = 3;
+            }
+            case 2, 6 -> {
+                result.append(colorize("│   │   ", MyShelfieAttribute.TEXT_COLOR(245, 245, 246)));
+                c = 2;
+            }
+            case 3 -> {
+                result.append(colorize("│   ", MyShelfieAttribute.TEXT_COLOR(245, 245, 246)));
+                c = 1;
+            }
+            case 8 -> {
+                result.append(colorize("│   │   │   │   ", MyShelfieAttribute.TEXT_COLOR(245, 245, 246)));
+                c = 4;
+            }
+            default -> {
+                result.append("");
+                c = 0;
             }
         }
-
-        private void printLineBoard(int r, char[][] board){
-            int n; //number of print
-            int c; //starting column
-            int i;
-            StringBuilder result = new StringBuilder("");
-
-            result.append((char) (r + 'A')).append("  ");
-
-            switch (r) {
-                case 0, 1, 7 -> {
-                    result.append(colorize("│   │   │   ", MyShelfieAttribute.TEXT_COLOR(245,245,246)));
-                    c = 3;
-                }
-                case 2, 6 -> {
-                    result.append(colorize("│   │   ", MyShelfieAttribute.TEXT_COLOR(245,245,246)));
-                    c = 2;
-                }
-                case 3 -> {
-                    result.append(colorize("│   ", MyShelfieAttribute.TEXT_COLOR(245,245,246)));
-                    c = 1;
-                }
-                case 8 -> {
-                    result.append(colorize("│   │   │   │   ", MyShelfieAttribute.TEXT_COLOR(245,245,246)));
-                    c = 4;
-                }
-                default -> {
-                    result.append("");
-                    c = 0;
-                }
-            }
-
-            switch (r) {
-                case 0, 8 -> n = 2;
-                case 1, 7 -> n = 3;
-                case 2, 6 -> n = 5;
-                case 3, 5 -> n = 8;
-                default -> n = 9;
-            }
-
-            result.append( colorize("║", MyShelfieAttribute.TEXT_COLOR(245,245,246)) );
-
-            for( i = 0; i < n; ++i ){
-                result.append( toPrintChar(board[r][c + i]) );
-
-                if( i < n - 1 )
-                    result.append(colorize("║", MyShelfieAttribute.TEXT_COLOR(245,245,246)));
-            }
-
-            result.append( colorize("║", MyShelfieAttribute.TEXT_COLOR(245,245,246)) );
-
-            for( i += c ; i < DIM_BOARD; ++i ){
-                result.append( colorize("   │", MyShelfieAttribute.TEXT_COLOR(245,245,246)) );
-            }
-
-            out.print(result.toString());
+        switch (r) {
+            case 0, 8 -> n = 2;
+            case 1, 7 -> n = 3;
+            case 2, 6 -> n = 5;
+            case 3, 5 -> n = 8;
+            default -> n = 9;
+        }
+        result.append( colorize("║", MyShelfieAttribute.TEXT_COLOR(245,245,246)) );
+        for( i = 0; i < n; ++i ){
+            result.append( toPrintChar(board[r][c + i]) );
+            if( i < n - 1 )
+                result.append(colorize("║", MyShelfieAttribute.TEXT_COLOR(245,245,246)));
         }
 
-        private void printLinePersonalGoal(int row, char[][] matrix){
-            if(matrix!=null) {
-                for (int j = 0; j < DIMCOL_BOOKSHELF; j++) {
-                    if (j == 0)
-                        out.print(colorize("│", MyShelfieAttribute.TEXT_COLOR(245, 245, 246)) + toPrintChar(matrix[row][j]) + colorize("│", MyShelfieAttribute.TEXT_COLOR(245, 245, 246)));
-                    else if (j < DIMCOL_BOOKSHELF - 1)
-                        out.print(toPrintChar(matrix[row][j]) + colorize("│", MyShelfieAttribute.TEXT_COLOR(245, 245, 246)));
-                    else
-                        out.print(toPrintChar(matrix[row][j]) + colorize("│", MyShelfieAttribute.TEXT_COLOR(245, 245, 246)));
-                }
+        result.append( colorize("║", MyShelfieAttribute.TEXT_COLOR(245,245,246)) );
+
+        for( i += c ; i < DIM_BOARD; ++i ){
+            result.append( colorize("   │", MyShelfieAttribute.TEXT_COLOR(245,245,246)) );
+        }
+
+        out.print(result.toString());
+    }
+
+    /**
+     * Prints a single line of the personal goal based on the specified row and the matrix representing the personal goal.
+     * @param row    The row number to be printed.
+     * @param matrix The char matrix representing the personal goal matrix.
+     */
+    private void printLinePersonalGoal(int row, char[][] matrix){
+        if(matrix!=null) {
+            for (int j = 0; j < DIMCOL_BOOKSHELF; j++) {
+                if (j == 0)
+                    out.print(colorize("│", MyShelfieAttribute.TEXT_COLOR(245, 245, 246)) + toPrintChar(matrix[row][j]) + colorize("│", MyShelfieAttribute.TEXT_COLOR(245, 245, 246)));
+                else if (j < DIMCOL_BOOKSHELF - 1)
+                    out.print(toPrintChar(matrix[row][j]) + colorize("│", MyShelfieAttribute.TEXT_COLOR(245, 245, 246)));
+                else
+                    out.print(toPrintChar(matrix[row][j]) + colorize("│", MyShelfieAttribute.TEXT_COLOR(245, 245, 246)));
             }
         }
+    }
 }
