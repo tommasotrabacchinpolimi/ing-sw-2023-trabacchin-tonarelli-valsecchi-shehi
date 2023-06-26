@@ -12,10 +12,12 @@ import java.io.*;
 import java.net.Socket;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class ClientSocketImpl implements ClientInterface, Runnable {
+public class ClientSocketImpl implements ClientInterface, Runnable, Closeable {
 
     private final ObjectOutputStream oos;
     private final ObjectInputStream ois;
@@ -24,7 +26,9 @@ public class ClientSocketImpl implements ClientInterface, Runnable {
 
     private final OnServerConnectionLostListener onConnectionLostListener;
 
+    private final Timer timer;
 
+    private TimerTask timerTask;
     private final ServerDispatcherInterface serverDispatcher;
 
     public ClientSocketImpl(Socket socket, ServerDispatcherInterface serverDispatcher, OnServerConnectionLostListener onConnectionLostListener) throws IOException {
@@ -33,6 +37,7 @@ public class ClientSocketImpl implements ClientInterface, Runnable {
         this.serverDispatcher = serverDispatcher;
         this.onConnectionLostListener = onConnectionLostListener;
         OPEN = true;
+        this.timer = new Timer();
     }
     @Override
     public synchronized void onAchievedCommonGoal(String nicknamePlayer, List<Coordinate> tiles, int numberCommonGoal) {
@@ -362,16 +367,41 @@ public class ClientSocketImpl implements ClientInterface, Runnable {
     @Override
     public void run() {
         ExecutorService executorService = Executors.newSingleThreadExecutor();
+        this.timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                close();
+            }
+        };
+        this.timer.schedule(timerTask, 5000);
         while (true) {
+            synchronized(this) {
+                if(!OPEN) {
+                    break;
+                }
+            }
             try {
                 ServerMessage message = (ServerMessage) ois.readObject();
-                System.out.println("messaged received");
+                if(message instanceof NopNetMessage) {
+                    this.timerTask.cancel();
+                    this.timerTask = new TimerTask() {
+                        @Override
+                        public void run() {
+                            close();
+                        }
+                    };
+                    timer.schedule(timerTask, 5000);
+                }
                 executorService.submit(()->message.dispatch(serverDispatcher, this));
             } catch (Exception e) {
                 synchronized (this) {
+                    if(OPEN) {
+                        onConnectionLostListener.onConnectionLost(this);
+                    }
+
                     OPEN = false;
                 }
-                onConnectionLostListener.onConnectionLost(this);
+
                 //e.printStackTrace();
                 return;
             }
@@ -379,4 +409,11 @@ public class ClientSocketImpl implements ClientInterface, Runnable {
     }
 
 
+    @Override
+    public synchronized void close()  {
+        if(OPEN) {
+            OPEN = false;
+            this.onConnectionLostListener.onConnectionLost(this);
+        }
+    }
 }

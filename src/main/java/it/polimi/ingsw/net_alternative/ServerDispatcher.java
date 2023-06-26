@@ -3,12 +3,10 @@ package it.polimi.ingsw.net_alternative;
 import it.polimi.ingsw.controller.*;
 import it.polimi.ingsw.net_alternative.servermessages.*;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class ServerDispatcher implements ServerDispatcherInterface{
 
     private final ControllerDispatcher controllerDispatcher;
+
     public ServerDispatcher(ControllerDispatcher controllerDispatcher) {
         this.controllerDispatcher = controllerDispatcher;
     }

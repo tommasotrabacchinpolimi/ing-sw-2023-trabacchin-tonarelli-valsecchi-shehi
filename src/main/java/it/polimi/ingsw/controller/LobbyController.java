@@ -294,9 +294,10 @@ public class LobbyController
 
         if(viewControllerMap.get(user) != null) {
             viewControllerMap.get(user).onConnectionLost(user);
-            disconnectedButInGame.add(viewToNicknameMap.get(user));
+            if(!disconnectedButInGame.contains(viewToNicknameMap.get(user))) {
+                disconnectedButInGame.add(viewToNicknameMap.get(user));
+            }
         }
-
         waitingUsers.removeIf(u -> u.equals(user));
     }
 
