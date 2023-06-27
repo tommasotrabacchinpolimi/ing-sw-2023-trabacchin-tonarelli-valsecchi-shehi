@@ -6,6 +6,17 @@ import javafx.scene.layout.Region;
 
 import java.net.URL;
 
+/**
+ * The `ScoringTokenView` class represents a graphical view component for a scoring token.
+ * It extends the `MyShelfieGraphicIcon` class and displays an image representing the scoring token.
+ * The scoring value of the token determines the image displayed.
+ * This class provides a convenient way to create and customize scoring token views in the graphical user interface.
+ * <br>
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ */
 public class ScoringTokenView extends MyShelfieGraphicIcon {
 
     private static final String SCORING_TOKENS_PATH = "/it.polimi.ingsw/graphical.resources/scoring.tokens/";
@@ -17,6 +28,7 @@ public class ScoringTokenView extends MyShelfieGraphicIcon {
     private static final double DEF_PADDING = 2.7;
 
     private final String tokenIcon;
+
 
     public ScoringTokenView(Integer scoringValue) {
         this(TOKEN_ICON_PREFIX + scoringValue + ".jpg");
