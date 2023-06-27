@@ -12,6 +12,18 @@ import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The `ServerRmiAdapter` class is an implementation of the `ClientInterface` and `Closeable` interfaces.
+ * It acts as an adapter between the RMI-based client and the server, allowing communication between them.
+ * This class handles RMI-specific operations and delegates the actual handling of messages to the `RmiClientInterface`.
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ */
+
+
 public class ServerRmiAdapter implements ClientInterface, Closeable {
 
     private final RmiClientInterface rmiClient;
