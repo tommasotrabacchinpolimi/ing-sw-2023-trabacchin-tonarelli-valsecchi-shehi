@@ -19,6 +19,8 @@ public class RmiAccepter extends UnicastRemoteObject implements RmiAccepterInter
     public RmiServerInterface registerClient(RmiClientInterface clientSocket) throws RemoteException{
         ServerRmiAdapter serverRmiAdapter = new ServerRmiAdapter(clientSocket, onServerConnectionLostListener);
         RmiServerImpl rmiServer = new RmiServerImpl(serverDispatcher, serverRmiAdapter);
+        ServerHeartBeater serverHeartBeater = new ServerHeartBeater(serverRmiAdapter, 1000, onServerConnectionLostListener);
+        new Thread(serverHeartBeater).start();
         return rmiServer;
     }
 }

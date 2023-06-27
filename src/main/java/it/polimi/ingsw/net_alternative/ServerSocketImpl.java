@@ -54,9 +54,7 @@ public class ServerSocketImpl implements ServerInterface, Runnable, Closeable {
             oos.flush();
             System.out.println("drag message sent");
         } catch (IOException e) {
-            OPEN = false;
-            clientConnectionLostListener.onConnectionLost();
-            e.printStackTrace();
+            close();
         }
     }
 
@@ -71,9 +69,7 @@ public class ServerSocketImpl implements ServerInterface, Runnable, Closeable {
             oos.flush();
             oos.reset();
         } catch (IOException e) {
-            OPEN = false;
-            clientConnectionLostListener.onConnectionLost();
-            e.printStackTrace();
+            close();
         }
     }
 
@@ -87,9 +83,7 @@ public class ServerSocketImpl implements ServerInterface, Runnable, Closeable {
             oos.writeObject(createGameNetMessage);
             oos.flush();
         } catch (IOException e) {
-            OPEN = false;
-            clientConnectionLostListener.onConnectionLost();
-            e.printStackTrace();
+            close();
         }
     }
 
@@ -103,9 +97,7 @@ public class ServerSocketImpl implements ServerInterface, Runnable, Closeable {
             oos.writeObject(quitGameNetMessage);
             oos.flush();
         } catch (IOException e) {
-            OPEN = false;
-            clientConnectionLostListener.onConnectionLost();
-            e.printStackTrace();
+            close();
         }
     }
 
@@ -119,9 +111,7 @@ public class ServerSocketImpl implements ServerInterface, Runnable, Closeable {
             oos.writeObject(sentMessageNetMessage);
             oos.flush();
         } catch (IOException e) {
-            OPEN = false;
-            clientConnectionLostListener.onConnectionLost();
-            e.printStackTrace();
+            close();
         }
     }
 
@@ -135,9 +125,7 @@ public class ServerSocketImpl implements ServerInterface, Runnable, Closeable {
             oos.writeObject(nopNetMessage);
             oos.flush();
         } catch (IOException e) {
-            OPEN = false;
-            clientConnectionLostListener.onConnectionLost();
-            e.printStackTrace();
+            close();
         }
     }
 
@@ -153,35 +141,33 @@ public class ServerSocketImpl implements ServerInterface, Runnable, Closeable {
             }
             try {
                 ClientMessage message = (ClientMessage) ois.readObject();
-                if(message instanceof NopNetMessage) {
-                    timerTask.cancel();
-                    timerTask = new TimerTask() {
+                timerTask.cancel();
+                timerTask = new TimerTask() {
                         @Override
                         public void run() {
                             close();
                         }
                     };
-                    timer.schedule(timerTask, 5000);
-                }
+                timer.schedule(timerTask, 5000);
                 executorService.submit(() -> message.dispatch(clientDispatcher));
             } catch (Exception e) {
-                synchronized (this) {
-                    if(OPEN) {
-                        clientConnectionLostListener.onConnectionLost();
-                    }
-                    OPEN = false;
-                    //e.printStackTrace();
+                close();
 
                 }
                 return;
             }
         }
-    }
 
 
     @Override
     public synchronized void close() {
         if(OPEN) {
+            System.out.println("socket timer gone off");
+            try {
+                oos.close();
+                ois.close();
+            } catch (IOException ignored) {
+            }
             OPEN = false;
             clientConnectionLostListener.onConnectionLost();
         }

@@ -36,8 +36,7 @@ public class ServerHeartBeater implements Runnable{
             client.nop();
             try {
                 Thread.sleep(delay);
-            } catch (InterruptedException e) {
-                serverConnectionLostListener.onConnectionLost(client);
+            } catch (InterruptedException ignored) {
             }
         }
     }
