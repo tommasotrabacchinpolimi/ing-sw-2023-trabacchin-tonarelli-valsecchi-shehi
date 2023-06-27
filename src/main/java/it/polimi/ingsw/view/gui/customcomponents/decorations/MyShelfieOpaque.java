@@ -10,6 +10,11 @@ import javafx.scene.Node;
  * <p>This effect modifies the opacity of the element</p>
  *
  * @see Node#setOpacity(double)
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emamuele Valsecchi
+ * @author Adem Shehi
  */
 public class MyShelfieOpaque implements MyShelfieDecoration {
 

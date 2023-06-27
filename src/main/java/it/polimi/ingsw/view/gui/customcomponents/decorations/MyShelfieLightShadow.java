@@ -12,6 +12,11 @@ import static it.polimi.ingsw.utils.color.MyShelfieColor.GAMBOGE;
  * @apiNote Refer to {@link MyShelfieShadow} for more information
  *
  * @see MyShelfieShadow
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emamuele Valsecchi
+ * @author Adem Shehi
  */
 public class MyShelfieLightShadow extends MyShelfieShadow {
 

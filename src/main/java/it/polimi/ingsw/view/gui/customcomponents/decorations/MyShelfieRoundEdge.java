@@ -20,6 +20,11 @@ import javafx.scene.shape.Rectangle;
  *
  * @see javafx.scene.shape.Shape
  * @see MyShelfieRoundEdgeType
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emamuele Valsecchi
+ * @author Adem Shehi
  */
 public class MyShelfieRoundEdge implements MyShelfieDecoration {
 

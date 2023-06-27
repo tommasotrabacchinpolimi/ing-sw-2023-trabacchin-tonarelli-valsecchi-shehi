@@ -22,6 +22,11 @@ import javafx.scene.paint.Color;
  * @see MyShelfieDarkShadow
  * @see MyShelfieLightShadow
  * @see DropShadow
+ * <br>
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emamuele Valsecchi
+ * @author Adem Shehi
  */
 public abstract class MyShelfieShadow implements MyShelfieDecoration {
 

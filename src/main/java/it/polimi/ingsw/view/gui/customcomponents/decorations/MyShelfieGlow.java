@@ -18,6 +18,11 @@ import javafx.scene.effect.Glow;
  * </p>
  *
  * @see Glow
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emamuele Valsecchi
+ * @author Adem Shehi
  */
 public class MyShelfieGlow implements MyShelfieDecoration{
 
