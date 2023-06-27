@@ -20,7 +20,7 @@ module it.polimi.ingsw {
     requires java.compiler;
     requires annotations;
 
-    exports it.polimi.ingsw.net to java.rmi;
+
     opens it.polimi.ingsw.net;
 
 
