@@ -15,8 +15,9 @@ import java.util.List;
  * registering listeners for various game events and verifying if all players except
  * a specified player are disconnected.
  *
- * The GameManager requires a Controller instance to manage the game.
+ * The GameManager requires a {@linkplain Controller} instance to manage the game.
  *
+ * @see Controller
  * @author Tommaso Trabacchin
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
@@ -25,12 +26,16 @@ import java.util.List;
  * @since 03/05/2023
  */
 public abstract class GameManager {
+    /**
+     * Controller of the game
+     */
     private final Controller controller;
 
     /**
      * Constructs a new GameManager with the specified controller.
      *
      * @param controller the Controller instance managing the game.
+     * @see Controller
      */
     public GameManager(Controller controller){
         this.controller = controller;
@@ -40,6 +45,7 @@ public abstract class GameManager {
      * Returns the Controller instance associated with this GameManager.
      * <br>
      * @return the controller associated to this GameManager.
+     * @see Controller
      */
     public Controller getController() {
         return controller;
@@ -50,18 +56,22 @@ public abstract class GameManager {
      * <br>
      * Allows dragging tiles to the bookshelf.
      *
-     * @param view the ClientInterface view of the player.
-     * @param chosenTiles the list of chosen tile coordinates.
+     * @param view the {@linkplain ClientInterface} view of the player.
+     * @param chosenTiles the list of chosen tile {@linkplain Coordinate coordinates}.
      * @param chosenColumn the chosen column index.
+     *
+     * @see ClientInterface
+     * @see Coordinate
      */
     public abstract void dragTilesToBookShelf(ClientInterface view, List<Coordinate> chosenTiles, int chosenColumn);
 
     /**
      * Abstract method to be implemented by subclasses.
-     * Registers a player with the specified nickname and view.
+     * Registers a player with the specified nickname and {@linkplain ClientInterface view}.
      *
-     * @param view the ClientInterface view of the player.
+     * @param view the {@linkplain ClientInterface view} of the player.
      * @param nickname the nickname of the player.
+     * @see ClientInterface
      */
     public abstract void registerPlayer(ClientInterface view, String nickname);
 
@@ -74,7 +84,8 @@ public abstract class GameManager {
     /**
      * Method that handles to process to quit the game
      * Updates the player's state, triggers necessary events, and <br>most important, checks if the game should end.
-     * @param view the ClientInterface view of the player.
+     * @param view the {@linkplain ClientInterface view} of the player.
+     * @see ClientInterface
      */
     public synchronized void quitGame(ClientInterface view) {
         getController().getState().getPlayerFromView(view).setPlayerState(PlayerState.QUITTED);
@@ -87,13 +98,14 @@ public abstract class GameManager {
     }
 
     /**
-     * Registers listeners for the specified player with the given nickname and view.
+     * Registers listeners for the specified player with the given nickname and {@linkplain ClientInterface view}.
      * <br>
      * Replaces old listeners with the new ones.
-     * @param view the ClientInterface view of the player.
+     * @param view the {@linkplain ClientInterface view} of the player.
      * @param nickname of the player.
+     *
+     * @see ClientInterface
      */
-
     public void registerListeners(ClientInterface view, String nickname){
         ClientInterface oldView = getController().getState().getPlayerFromNick(nickname).getVirtualView();
         getController().getState().removeAchievedCommonGoalListener(oldView);
@@ -147,14 +159,15 @@ public abstract class GameManager {
     }
 
     /**
-     * Boolean Method used to verify if all players except
+     * Boolean method used to verify if all players except
      * <br>
      *  the player passed as parameter are disconnected.
      * <br>
      * @param player to be excepted from the check of disconnection
-     * @return True if all players except the one passed as parameter
+     * @return {@code true} if all players except the one passed as parameter
      * <br>
-     * are disconnected and false viceversa
+     * are disconnected and {@code false} viceversa
+     * @see Player
      */
     public boolean verifyAllDisconnectedPlayer(Player player){
 

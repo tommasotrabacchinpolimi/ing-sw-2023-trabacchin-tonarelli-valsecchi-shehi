@@ -60,15 +60,28 @@ public class Player implements Serializable, OnUpdateNeededListener {
     @ExcludedFromJSON
     private PlayerState playerState;
 
+    /**
+     * Client Inteface associated with the Player
+     * @see ClientInterface
+     */
     @ExcludedFromJSON
     private ClientInterface virtualView;
 
+    /**
+     * List of {@linkplain OnPlayerStateChangedListener}
+     */
     @ExcludedFromJSON
     private final List<OnPlayerStateChangedListener> onPlayerStateChangedListeners;
 
+    /**
+     * List of {@linkplain OnAssignedPersonalGoalListener}
+     */
     @ExcludedFromJSON
     private final List<OnAssignedPersonalGoalListener> onAssignedPersonalGoalListeners;
 
+    /**
+     * List of {@linkplain OnUpdateNeededListener}
+     */
     @ExcludedFromJSON
     private final List<OnUpdateNeededListener> onUpdateNeededListeners;
 
@@ -145,10 +158,20 @@ public class Player implements Serializable, OnUpdateNeededListener {
         }
     }
 
+    /**
+     * Returns the virtual view associated with the player.
+     * @return the virtual view
+     * @see ClientInterface
+     */
     public ClientInterface getVirtualView() {
         return virtualView;
     }
 
+    /**
+     * Sets the virtual view for the player.
+     * @param virtualView the virtual view to set
+     * @see ClientInterface
+     */
     public void setVirtualView(ClientInterface virtualView) {
         this.virtualView = virtualView;
     }
@@ -236,40 +259,73 @@ public class Player implements Serializable, OnUpdateNeededListener {
                 '}';
     }
 
+    /**
+     * Sets the listener for player state changes.
+     * @param onPlayerStateChangedListener the listener to set
+     * @see OnPlayerStateChangedListener
+     */
     public void setOnPlayerStateChangedListener(OnPlayerStateChangedListener onPlayerStateChangedListener) {
         onPlayerStateChangedListeners.add(onPlayerStateChangedListener);
     }
 
+    /**
+     * Removes the listener for player state changes.
+     * @param onPlayerStateChangedListener the listener to remove
+     * @see OnPlayerStateChangedListener
+     */
     public void removeOnPlayerStateChangedListener(OnPlayerStateChangedListener onPlayerStateChangedListener) {
         onPlayerStateChangedListeners.remove(onPlayerStateChangedListener);
     }
 
+    /**
+     * Sets the listener for assigned personal goal events.
+     * @param onAssignedPersonalGoalListener  the listener to set
+     * @see OnAssignedPersonalGoalListener
+     */
     public void setOnAssignedPersonalGoalListener(OnAssignedPersonalGoalListener onAssignedPersonalGoalListener) {
         onAssignedPersonalGoalListeners.add(onAssignedPersonalGoalListener);
     }
 
+    /**
+     * Removes the listener for assigned personal goal events.
+     * @param onAssignedPersonalGoalListener  the listener to remove
+     * @see OnAssignedPersonalGoalListener
+     */
     public void removeOnAssignedPersonalGoalListener(OnAssignedPersonalGoalListener onAssignedPersonalGoalListener) {
         onAssignedPersonalGoalListeners.remove(onAssignedPersonalGoalListener);
     }
 
+    /**
+     * Notifies all registered listeners about the assigned personal goal.
+     */
     public void notifyOnAssignedPersonalGoal() {
         for(OnAssignedPersonalGoalListener onAssignedPersonalGoalListener : onAssignedPersonalGoalListeners) {
             onAssignedPersonalGoalListener.onAssignedPersonalGoal(this.nickName, this.personalGoal.getGoalPattern(), this.personalGoal.getScoreMap());
         }
     }
 
+    /**
+     * Notifies all registered listeners about the player state change.
+     */
     public void notifyOnPlayerStateChanged() {
         for(OnPlayerStateChangedListener onPlayerStateChangedListener : onPlayerStateChangedListeners) {
             onPlayerStateChangedListener.onPlayerStateChanged(this.nickName, this.playerState);
         }
     }
 
+    /**
+     * Notifies all registered listeners that an update is needed.
+     */
     public void notifyOnUpdateNeeded() {
         for(OnUpdateNeededListener onUpdateNeededListener : onUpdateNeededListeners) {
             onUpdateNeededListener.onUpdateNeededListener(this);
         }
     }
 
+    /**
+     * Listener method called when an update is needed.
+     * @param player the player triggering the update
+     */
     @Override
     public void onUpdateNeededListener(Player player) {
         onPlayerStateChangedListeners.stream().forEach(v->v.onPlayerStateChanged(this.nickName,this.playerState));
@@ -278,6 +334,10 @@ public class Player implements Serializable, OnUpdateNeededListener {
         }
     }
 
+    /**
+     * Sets the listener for update needed events.
+     * @param onUpdateNeededListener the listener to set
+     */
     public void setOnUpdateNeededListener(OnUpdateNeededListener onUpdateNeededListener) {
         onUpdateNeededListeners.add(onUpdateNeededListener);
     }

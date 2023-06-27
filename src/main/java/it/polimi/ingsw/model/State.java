@@ -113,39 +113,75 @@ public class State implements Serializable, OnUpdateNeededListener {
      */
     private Exception lastException;
 
+    /**
+     * List of {@linkplain OnAchievedCommonGoalListener}
+     */
     @ExcludedFromJSON
     private final List<OnAchievedCommonGoalListener> achievedCommonGoalListeners;
 
+    /**
+     * List of {@linkplain OnStateChangedListener}
+     */
     @ExcludedFromJSON
     private final List<OnStateChangedListener> stateChangedListeners;
 
+    /**
+     * List of {@linkplain OnLastPlayerUpdatedListener}
+     */
     @ExcludedFromJSON
     private final List<OnLastPlayerUpdatedListener> lastPlayerUpdatedListeners;
 
+    /**
+     * List of {@linkplain OnMessageSentListener}
+     */
     @ExcludedFromJSON
     private final List<OnMessageSentListener> messageSentListeners;
 
+    /**
+     * List of {@linkplain OnCurrentPlayerChangedListener}
+     */
     @ExcludedFromJSON
     private final List<OnCurrentPlayerChangedListener> onCurrentPlayerChangedListeners;
 
+    /**
+     * List of {@linkplain OnAssignedCommonGoalListener}
+     */
     @ExcludedFromJSON
     private final List<OnAssignedCommonGoalListener> onAssignedCommonGoalListeners;
 
+    /**
+     * List of {@linkplain OnAchievedPersonalGoalListener}
+     */
     @ExcludedFromJSON
     private final List<OnAchievedPersonalGoalListener> onAchievedPersonalGoalListeners;
 
+    /**
+     * List of {@linkplain OnAdjacentTilesUpdatedListener}
+     */
     @ExcludedFromJSON
     private final List<OnAdjacentTilesUpdatedListener> onAdjacentTilesUpdatedListeners;
 
+    /**
+     * List of {@linkplain OnChangedCommonGoalAvailableScoreListener}
+     */
     @ExcludedFromJSON
     private final List<OnChangedCommonGoalAvailableScoreListener> onChangedCommonGoalAvailableScoreListenerListeners;
 
+    /**
+     * List of {@linkplain OnExceptionsListener}
+     */
     @ExcludedFromJSON
     private final List<OnExceptionsListener> exceptionsListeners;
 
+    /**
+     * List of {@linkplain OnWinnerChangedListener}
+     */
     @ExcludedFromJSON
     private final List<OnWinnerChangedListener> onWinnerChangedListeners;
 
+    /**
+     * List of {@linkplain OnPlayersListChangedListener}
+     */
     @ExcludedFromJSON
     private final List<OnPlayersListChangedListener> onPlayersListChangedListeners;
 
@@ -180,98 +216,218 @@ public class State implements Serializable, OnUpdateNeededListener {
         System.err.println("a state is being created");
     }
 
+    /**
+     * Sets the listener for when a common goal is achieved by the player.
+     * @param listener The listener to be added.
+     * @see OnAchievedCommonGoalListener
+     */
     public void setAchievedCommonGoalListener(OnAchievedCommonGoalListener listener) {
         achievedCommonGoalListeners.add(listener);
     }
 
+    /**
+     * Removes the listener for when a common goal is achieved by the player.
+     * @param listener The listener to be removed.
+     * @see OnAchievedCommonGoalListener
+     */
     public void removeAchievedCommonGoalListener(OnAchievedCommonGoalListener listener) {
          achievedCommonGoalListeners.remove(listener);
     }
 
+    /**
+     * Sets the listener for when the state of the player changes.
+     * @param stateChangedListener The listener to be added.
+     * @see OnStateChangedListener
+     */
     public void setStateChangedListener(OnStateChangedListener stateChangedListener){
         this.stateChangedListeners.add(stateChangedListener);
     }
 
+    /**
+     * Removes the listener for when the state of the player changes.
+     * @param stateChangedListener The listener to be removed.
+     * @see OnStateChangedListener
+     */
     public void removeStateChangedListener(OnStateChangedListener stateChangedListener){
         this.stateChangedListeners.remove(stateChangedListener);
     }
 
+    /**
+     * Sets the listener for when the last player is updated.
+     * @param lastPlayerUpdatedListener The listener to be added.
+     * @see OnLastPlayerUpdatedListener
+     */
     public void setLastPlayerUpdatedListener(OnLastPlayerUpdatedListener lastPlayerUpdatedListener){
         this.lastPlayerUpdatedListeners.add(lastPlayerUpdatedListener);
     }
 
+    /**
+     * Removes the listener for when the last player is updated.
+     * @param lastPlayerUpdatedListener The listener to be removed.
+     * @see OnLastPlayerUpdatedListener
+     */
     public void removeLastPlayerUpdatedListeners(OnLastPlayerUpdatedListener lastPlayerUpdatedListener){
         this.lastPlayerUpdatedListeners.remove(lastPlayerUpdatedListener);
     }
 
+    /**
+     * Sets the listener for when the adjacent tiles are updated.
+     * @param onAdjacentTilesUpdatedListener The listener to be added.
+     * @see OnAdjacentTilesUpdatedListener
+     */
     public void setOnAdjacentTilesUpdatedListener(OnAdjacentTilesUpdatedListener onAdjacentTilesUpdatedListener) {
         onAdjacentTilesUpdatedListeners.add(onAdjacentTilesUpdatedListener);
     }
 
+    /**
+     * Removes the listener for when the adjacent tiles are updated.
+     * @param onAdjacentTilesUpdatedListener The listener to remove.
+     * @see OnAdjacentTilesUpdatedListener
+     */
     public void removeOnAdjacentTilesUpdatedListener(OnAdjacentTilesUpdatedListener onAdjacentTilesUpdatedListener) {
         onAdjacentTilesUpdatedListeners.remove(onAdjacentTilesUpdatedListener);
     }
 
+    /**
+     * Sets the listener for when a message is sent.
+     * @param listener The listener to be added.
+     * @see OnMessageSentListener
+     */
     public void setMessageSentListener(OnMessageSentListener listener){
         messageSentListeners.add(listener);
     }
 
+    /**
+     * Removes the listener for when a message is sent.
+     * @param listener The listener to remove.
+     * @see OnMessageSentListener
+     */
     public void removeMessageSentListener(OnMessageSentListener listener){
         messageSentListeners.remove(listener);
     }
 
+    /**
+     * Sets the listener for when the current player is changed.
+     * @param onCurrentPlayerChangedListener The listener to be added.
+     * @see OnCurrentPlayerChangedListener
+     */
     public void setOnCurrentPlayerChangedListener(OnCurrentPlayerChangedListener onCurrentPlayerChangedListener) {
         this.onCurrentPlayerChangedListeners.add(onCurrentPlayerChangedListener);
     }
 
+    /**
+     * Removes the listener for when the current player is changed.
+     * @param onCurrentPlayerChangedListener The listener to remove.
+     * @see OnCurrentPlayerChangedListener
+     */
     public void removeOnCurrentPlayerChangedListener(OnCurrentPlayerChangedListener onCurrentPlayerChangedListener) {
         this.onCurrentPlayerChangedListeners.remove(onCurrentPlayerChangedListener);
     }
 
+    /**
+     * Sets the listener for when a common goal is assigned.
+     * @param onAssignedCommonGoalListener The listener to be added.
+     * @see OnAssignedCommonGoalListener
+     */
     public void setOnAssignedCommonGoalListener(OnAssignedCommonGoalListener onAssignedCommonGoalListener) {
         this.onAssignedCommonGoalListeners.add(onAssignedCommonGoalListener);
     }
 
+    /**
+     * Removes the listener for when a common goal is assigned.
+     * @param onAssignedCommonGoalListener The listener to remove.
+     * @see OnAssignedCommonGoalListener
+     */
     public void removeOnAssignedCommonGoalListener(OnAssignedCommonGoalListener onAssignedCommonGoalListener) {
         this.onAssignedCommonGoalListeners.remove(onAssignedCommonGoalListener);
     }
 
+    /**
+     * Sets the listener for when a personal goal is achieved.
+     * @param onAchievedPersonalGoalListener The listener to be added.
+     * @see OnAchievedPersonalGoalListener
+     */
     public void setOnAchievedPersonalGoalListener(OnAchievedPersonalGoalListener onAchievedPersonalGoalListener) {
         onAchievedPersonalGoalListeners.add(onAchievedPersonalGoalListener);
     }
 
+    /**
+     * Removes the listener for when a personal goal is achieved.
+     * @param onAchievedPersonalGoalListener The listener to be removed.
+     * @see OnAchievedPersonalGoalListener
+     */
     public void removeOnAchievedPersonalGoalListener(OnAchievedPersonalGoalListener onAchievedPersonalGoalListener) {
         onAchievedPersonalGoalListeners.remove(onAchievedPersonalGoalListener);
     }
 
+    /**
+     * Sets the listener for when the available score for a common goal is changed.
+     * @param listener The listener to be added.
+     * @see OnChangedCommonGoalAvailableScoreListener
+     */
     public void setOnChangedCommonGoalAvailableScoreListener(OnChangedCommonGoalAvailableScoreListener listener) {
         this.onChangedCommonGoalAvailableScoreListenerListeners.add(listener);
     }
 
+    /**
+     * Removes the listener for when the available score for a common goal is changed.
+     * @param listener The listener to be removed.
+     * @see OnChangedCommonGoalAvailableScoreListener
+     */
     public void removeOnChangedCommonGoalAvailableScoreListener(OnChangedCommonGoalAvailableScoreListener listener) {
         this.onChangedCommonGoalAvailableScoreListenerListeners.remove(listener);
     }
 
+    /**
+     * Sets the listener for exceptions that occur during the game.
+     * @param listener The listener to be added.
+     * @see OnExceptionsListener
+     */
     public void setOnExceptionsListener(OnExceptionsListener listener){
         exceptionsListeners.add(listener);
     }
 
+    /**
+     * Removes the listener for exceptions that occur during the game.
+     * @param listener The listener to be removed.
+     * @see OnExceptionsListener
+     */
     public void removeOnExceptionsListener(OnExceptionsListener listener){
         exceptionsListeners.remove(listener);
     }
 
+    /**
+     * Sets the listener for when the players list changes.
+     * @param onPlayersListChangedListener The listener to be added.
+     * @see OnPlayersListChangedListener
+     */
     public void setOnPlayersListChangedListener(OnPlayersListChangedListener onPlayersListChangedListener) {
         this.onPlayersListChangedListeners.add(onPlayersListChangedListener);
     }
 
+    /**
+     * Removes the listener for when the players list changes.
+     * @param onPlayersListChangedListener The listener to be removed.
+     * @see OnPlayersListChangedListener
+     */
     public void removeOnPlayersListChangedListener(OnPlayersListChangedListener onPlayersListChangedListener) {
         this.onPlayersListChangedListeners.remove(onPlayersListChangedListener);
     }
 
+    /**
+     * Sets the listener for when the winner changes.
+     * @param onWinnerChangedListener The listener to be added.
+     * @see OnWinnerChangedListener
+     */
     public void setOnWinnerChangedListener(OnWinnerChangedListener onWinnerChangedListener) {
         this.onWinnerChangedListeners.add(onWinnerChangedListener);
     }
 
+    /**
+     * Removes the listener for when the winner changes.
+     * @param onWinnerChangedListener The listener to be remove.
+     * @see OnWinnerChangedListener
+     */
     public void removeOnWinnerChangedListener(OnWinnerChangedListener onWinnerChangedListener) {
         this.onWinnerChangedListeners.remove(onWinnerChangedListener);
     }
@@ -545,6 +701,13 @@ public class State implements Serializable, OnUpdateNeededListener {
                 .findAny().orElse(null);
     }
 
+    /**
+     * Retrieve the Player that has the given {@linkplain ClientInterface}.
+     * @param user the {@linkplain ClientInterface} to serach for
+     * @return the {@linkplain Player} associated with the given client interface
+     * @see ClientInterface
+     * @see Player
+     */
     public Player getPlayerFromView(ClientInterface user){
         return players.stream().filter(player -> user == player.getVirtualView()).toList().get(0);
     }
@@ -624,6 +787,14 @@ public class State implements Serializable, OnUpdateNeededListener {
         }
     }
 
+    /**
+     * Notifies the listeners that the adjacent tiles have been updated for a player.
+     * @param tiles The list of {@linkplain EntryPatternGoal} respresenting the updated tiles in the player bookshelf.
+     * @param player The {@linkplain Player} for whom the tiles have been updated.
+     * @see #onAdjacentTilesUpdatedListeners
+     * @see EntryPatternGoal
+     * @see Player
+     */
     private void notifyAdjacentTilesUpdated(List<EntryPatternGoal> tiles, Player player) {
         for(OnAdjacentTilesUpdatedListener onAdjacentTilesUpdatedListener : onAdjacentTilesUpdatedListeners) {
             List<Coordinate> list = new ArrayList<>();
@@ -657,6 +828,14 @@ public class State implements Serializable, OnUpdateNeededListener {
         }
     }
 
+    /**
+     * Notifies the listeners that a personal goal has been achieved by a player.
+     * @param tiles The list of tiles that contributed to the achievement of the personal goal.
+     * @param player The player who achieved the personal goal.
+     * @see #onAchievedPersonalGoalListeners
+     * @see PersonalGoal
+     * @see EntryPatternGoal
+     */
     private void notifyOnAchievedPersonalGoal(List<EntryPatternGoal> tiles, Player player) {
         for(OnAchievedPersonalGoalListener onAchievedPersonalGoalListener : onAchievedPersonalGoalListeners) {
             List<Coordinate> list = new ArrayList<>();
@@ -667,6 +846,15 @@ public class State implements Serializable, OnUpdateNeededListener {
         }
     }
 
+    /**
+     * Notifies the listeners that a common goal has been achieved by a player.
+     * @param tiles The list of tiles that contributed to the achievement of the common goal.
+     * @param player The player who achieved the common goal.
+     * @param numberCommonGoal The number of the common goal achieved.
+     * @see EntryPatternGoal
+     * @see Player
+     * @see OnAchievedCommonGoalListener
+     */
     private void notifyOnAchievedCommonGoal(List<EntryPatternGoal> tiles, Player player, int numberCommonGoal){
         List<EntryPatternGoal> copy_result = new ArrayList<>();
         for (EntryPatternGoal entry : tiles) {
@@ -677,6 +865,10 @@ public class State implements Serializable, OnUpdateNeededListener {
         }
     }
 
+    /**
+     * Notifies the listeners that the game state has changed.
+     * @see OnStateChangedListener
+     */
     private void notifyStateChanged(){
         for(OnStateChangedListener stateChangedListener : stateChangedListeners){
             System.out.println("game state changed notified");
@@ -684,6 +876,10 @@ public class State implements Serializable, OnUpdateNeededListener {
         }
     }
 
+    /**
+     * Notifies the listeners that the last player has been updated.
+     * @see OnLastPlayerUpdatedListener
+     */
     private void notifyLastPlayerUpdated(){
         if(lastPlayer != null) {
             for (OnLastPlayerUpdatedListener lastPlayerUpdatedListener : lastPlayerUpdatedListeners) {
@@ -692,6 +888,10 @@ public class State implements Serializable, OnUpdateNeededListener {
         }
     }
 
+    /**
+     * Notifies the listeners that a message has been sent.
+     * @see OnMessageSentListener
+     */
     private void notifyMessageSent() {
         System.out.println("try messages sent");
         ChatMessage message = messages.get(messages.size()-1);
@@ -702,6 +902,10 @@ public class State implements Serializable, OnUpdateNeededListener {
         System.out.println("messages sent");
     }
 
+    /**
+     * Notifies the listeners about the assigned common goals.
+     * @see OnAssignedCommonGoalListener
+     */
     private void notifyAssignedCommonGoal() {
         for(OnAssignedCommonGoalListener onAssignedCommonGoalListener : onAssignedCommonGoalListeners) {
             if(this.getCommonGoal1() != null) {
@@ -714,30 +918,53 @@ public class State implements Serializable, OnUpdateNeededListener {
         }
     }
 
+    /**
+     * Notifies the listeners about the current player change.
+     * @see OnCurrentPlayerChangedListener
+     */
     private void notifyCurrentPlayerChanged() {
         for(OnCurrentPlayerChangedListener onCurrentPlayerChangedListener :onCurrentPlayerChangedListeners) {
             onCurrentPlayerChangedListener.onCurrentPlayerChangedListener(currentPlayer.getNickName());
         }
     }
 
+    /**
+     * Notifies the listeners about the change in the available score for a common goal.
+     * @param newScore The new available score for the common goal.
+     * @param numberOfCommonGoal The number of the common goal.
+     * @see OnChangedCommonGoalAvailableScoreListener
+     */
     private void notifyChangedCommonGoalAvailableScore(int newScore, int numberOfCommonGoal){
         for(OnChangedCommonGoalAvailableScoreListener listener: onChangedCommonGoalAvailableScoreListenerListeners){
             listener.onChangedCommonGoalAvailableScore(newScore, numberOfCommonGoal);
         }
     }
 
+    /**
+     * Notifies the listeners about an exception that occurred.
+     * @param e The exception that occurred.
+     * @see OnExceptionsListener
+     */
     private void notifyOnExceptionsListener(Exception e){
         for(OnExceptionsListener listener: exceptionsListeners){
             listener.onException(e);
         }
     }
 
+    /**
+     * Notifies the listeners about a change in the winner of the game.
+     * @see OnWinnerChangedListener
+     */
     private void notifyOnWinnerChanged() {
         for(OnWinnerChangedListener onWinnerChangedListener : onWinnerChangedListeners) {
             onWinnerChangedListener.onWinnerChanged(getWinner().getNickName());
         }
     }
 
+    /**
+     * Notifies the listeners about a change in the players list.
+     * @see OnPlayersListChangedListener
+     */
     private void notifyOnPlayersListChanged() {
         for(OnPlayersListChangedListener onPlayersListChangedListener : onPlayersListChangedListeners) {
             onPlayersListChangedListener.onPlayersListChanged(players.stream().map(Player::getNickName).toList());
@@ -745,6 +972,19 @@ public class State implements Serializable, OnUpdateNeededListener {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * This method is invoked when an update is needed for a specific player. It notifies the registered listeners about various updates, including:
+     * <ul> <li>Players list change</li>
+     * <li>Game state change</li>
+     * <li>Current player change</li>
+     * <li>Last player update</li>
+     * <li>Assigned common goals</li>
+     * <li>Changed common goal available score</li>
+     * <li>Message sent </li></ul>
+     * @param player The player for whom the update is needed
+     * @see Player
+     */
     @Override
     public void onUpdateNeededListener(Player player) {
         notifyOnPlayersListChanged();
@@ -779,6 +1019,13 @@ public class State implements Serializable, OnUpdateNeededListener {
                 .forEach(v -> v.onMessagesSentUpdate(senderNicknames, receiverNicknames, texts));
     }
 
+    /**
+     * Finds groups of adjacent tiles with the same TileType in a given bookshelf.
+     * @param bookShelf The bookshelf represented as a matrix of {@linkplain TileType} values
+     * @return A set of sets, where each inner set represents a group of adjacent tiles with the same {@linkplain TileType}
+     * @see EntryPatternGoal
+     * @see TileType
+     */
     public static Set<Set<EntryPatternGoal>> findGroups(TileType[][] bookShelf){
         boolean[][] alreadyTaken = new boolean[bookShelf.length][bookShelf[0].length];//initialized to false
         Set<Set<EntryPatternGoal>> result = new HashSet<Set<EntryPatternGoal>>();
@@ -790,30 +1037,39 @@ public class State implements Serializable, OnUpdateNeededListener {
         return result;
     }
 
+    /**
+     * Finds a single group of adjacent tiles with the same {@linkplain TileType} starting from a given position in the bookshelf.
+     * @param i The row index of the starting position
+     * @param j The column index of the starting position
+     * @param bookShelf The bookshelf represented as a matrix of {@linkplain TileType} values
+     * @param alreadyTaken A boolean matrix indicating whether each tile has already been included in a group
+     * @param tileType The TileType to search for in the group
+     * @see TileType
+     * @see EntryPatternGoal
+    */
     private static Optional<Set<EntryPatternGoal>> findSingleGroup(int i, int j, TileType[][] bookShelf, boolean[][] alreadyTaken, TileType tileType){
-        if(tileType == null){
-            return Optional.empty();
-        }
-        if (i < 0 || i >= bookShelf.length || j < 0 || j >= bookShelf[0].length){// nothing is to be returned if arguments are illegal
-            return Optional.empty();
-        }
-        if (alreadyTaken[i][j]){ //if this bookShelf is already part of another group then it should not be considered for another group
-            return Optional.empty();
-        }
-        Set<EntryPatternGoal> result = new HashSet<>();// Java documentation recommends using HashSet, unless otherwise required
-        if (bookShelf[i][j] != tileType){//we want only entries whose type is tileType
-            return Optional.empty();
-        }
-        else{
-            result.add(new EntryPatternGoal(i, j, tileType));//if the type is correct then the (i,j)-entry can be added to the group
-            alreadyTaken[i][j] = true;
-        }
+            if(tileType == null){
+                return Optional.empty();
+            }
+            if (i < 0 || i >= bookShelf.length || j < 0 || j >= bookShelf[0].length){// nothing is to be returned if arguments are illegal
+                return Optional.empty();
+            }
+            if (alreadyTaken[i][j]){ //if this bookShelf is already part of another group then it should not be considered for another group
+                return Optional.empty();
+            }
+            Set<EntryPatternGoal> result = new HashSet<>();// Java documentation recommends using HashSet, unless otherwise required
+            if (bookShelf[i][j] != tileType){//we want only entries whose type is tileType
+                return Optional.empty();
+            }
+            else{
+                result.add(new EntryPatternGoal(i, j, tileType));//if the type is correct then the (i,j)-entry can be added to the group
+                alreadyTaken[i][j] = true;
+            }
 
-        findSingleGroup(i-1, j, bookShelf, alreadyTaken, tileType).ifPresent(result::addAll);
-        findSingleGroup(i+1, j, bookShelf, alreadyTaken, tileType).ifPresent(result::addAll);
-        findSingleGroup(i, j-1, bookShelf, alreadyTaken, tileType).ifPresent(result::addAll);
-        findSingleGroup(i, j+1, bookShelf, alreadyTaken, tileType).ifPresent(result::addAll);
-        return Optional.of(result);
-    }
-
+            findSingleGroup(i-1, j, bookShelf, alreadyTaken, tileType).ifPresent(result::addAll);
+            findSingleGroup(i+1, j, bookShelf, alreadyTaken, tileType).ifPresent(result::addAll);
+            findSingleGroup(i, j-1, bookShelf, alreadyTaken, tileType).ifPresent(result::addAll);
+            findSingleGroup(i, j+1, bookShelf, alreadyTaken, tileType).ifPresent(result::addAll);
+            return Optional.of(result);
+        }
 }
