@@ -18,6 +18,11 @@ import org.jetbrains.annotations.NotNull;
  * @see MyShelfieOpaque
  * @see MyShelfieRoundEdge
  * @see MyShelfieComponent
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emamuele Valsecchi
+ * @author Adem Shehi
  */
 public interface MyShelfieDecoration {
 

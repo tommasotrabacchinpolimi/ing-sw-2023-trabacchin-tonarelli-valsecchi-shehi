@@ -18,10 +18,63 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 /**
- * <p>The graphical component representing the bookshelf</p>
+ * The `BookshelfView` class represents a graphical component that displays a bookshelf in a board game.
+ * It provides a visual representation of the bookshelf and allows customization of its appearance.
+ * The bookshelf is composed of multiple cells that can hold tiles.
+ * <p>
+ * Version: 2.0
+ * Since: 15/06/2023
+ * </p>
+ *
+ * <p>
+ * The bookshelf view is an abstract class and should be extended to create specific bookshelf types.
+ * </p>
+ *
+ * <p>
+ * The bookshelf view supports the following features:
+ * <ul>
+ *   <li>Customizable bookshelf appearance using CSS</li>
+ *   <li>Automatic binding of coordinates to bookshelf cells</li>
+ *   <li>Dynamic updating of cell style based on tile presence</li>
+ *   <li>Conversion to a matrix representation for data storage</li>
+ *   <li>Customizable decorations for the bookshelf component</li>
+ * </ul>
+ * </p>
+ *
+ * <p>
+ * Example usage:
+ * <pre>{@code
+ * BookshelfView bookshelf = new ConcreteBookshelfView();
+ * // Customize the appearance of the bookshelf using CSS
+ * bookshelf.getStylesheets().add("path/to/custom.css");
+ * // Add the bookshelf component to a parent container
+ * parentContainer.getChildren().add(bookshelf);
+ * }</pre>
+ * </p>
+ *
+ * <p>
+ * The bookshelf view requires a CSS file for customization, which can be set using the `CSS_FILE_PATH` constant.
+ * </p>
+ *
+ * <p>
+ * The bookshelf view provides methods for accessing and manipulating the bookshelf cells and converting the bookshelf into a matrix representation.
+ * </p>
  *
  * @version 2.0
  * @since 15/06/2023
+ * @see BookshelfViewType
+ * @see MyShelfieDecoration
+ * @see TileSubjectView
+ * @see BookShelf
+ * @see Coordinate
+ * @see MyShelfieComponent
+ * @see MyShelfieAlertCreator
+ * @see MyShelfieDecoration
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
  */
 abstract class BookshelfView extends StackPane implements MyShelfieComponent {
 

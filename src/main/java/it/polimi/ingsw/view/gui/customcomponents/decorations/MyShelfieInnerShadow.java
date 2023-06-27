@@ -17,6 +17,11 @@ import static it.polimi.ingsw.utils.color.MyShelfieColor.GAMBOGE;
  * edges of the given content with a standard color and radius</p>
  *
  * @see InnerShadow
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emamuele Valsecchi
+ * @author Adem Shehi
  */
 public class MyShelfieInnerShadow implements MyShelfieDecoration{
 

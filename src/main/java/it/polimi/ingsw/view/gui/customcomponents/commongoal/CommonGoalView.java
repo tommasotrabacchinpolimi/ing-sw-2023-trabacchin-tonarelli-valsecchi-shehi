@@ -31,8 +31,16 @@ import java.util.Stack;
 import static it.polimi.ingsw.utils.color.MyShelfieColor.CHARLESTON;
 
 /**
+ * Represents a view for a common goal in the graphical user interface.
+ * This class extends `StackPane` and implements the `MyShelfieComponent` interface.
+ *
  * @version 2
  * @since 17/04/2023
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
  */
 public class CommonGoalView extends StackPane implements MyShelfieComponent {
 
@@ -64,6 +72,13 @@ public class CommonGoalView extends StackPane implements MyShelfieComponent {
      */
     private final List<MyShelfieDecoration> baseDecorations = new ArrayList<>();
 
+    /**
+     * Constructs a `CommonGoalView` object with the specified parameters.
+     *
+     * @param commonGoalName The name of the common goal.
+     * @param description    The description of the common goal.
+     * @param scoringTokens  The scoring tokens associated with the common goal.
+     */
     public CommonGoalView(String commonGoalName, String description, Stack<Integer> scoringTokens) {
         super();
 
@@ -106,6 +121,12 @@ public class CommonGoalView extends StackPane implements MyShelfieComponent {
         this.scoringTokenBox.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
     }
 
+    /**
+     * Constructs a `CommonGoalView` object with the specified parameters.
+     *
+     * @param commonGoalName The name of the common goal.
+     * @param description    The description of the common goal.
+     */
     public CommonGoalView(String commonGoalName, String description) {
         this(commonGoalName, description, null);
     }
@@ -160,6 +181,12 @@ public class CommonGoalView extends StackPane implements MyShelfieComponent {
         return topToken;
     }
 
+    /**
+     * Moves the top scoring token to the specified destination pane.
+     *
+     * @param destinationPane The destination pane.
+     * @throws EmptyStackException if there are no scoring tokens available.
+     */
     public void moveScoringTokenView(Pane destinationPane) throws EmptyStackException{
         ScoringTokenView movingToken = getTopToken();
 
@@ -180,6 +207,7 @@ public class CommonGoalView extends StackPane implements MyShelfieComponent {
                     movingToken.setTranslateY(0.0);
                 });
     }
+
 
     private void displayCommonGoalDescription(MouseEvent mouseEvent) {
         if (!isShowingDescription) {

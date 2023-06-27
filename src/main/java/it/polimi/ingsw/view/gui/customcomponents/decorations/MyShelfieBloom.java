@@ -18,6 +18,12 @@ import org.jetbrains.annotations.NotNull;
  * </ul></p>
  *
  * @see Bloom
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emamuele Valsecchi
+ * @author Adem Shehi
+
  */
 public class MyShelfieBloom implements MyShelfieDecoration {
     /**

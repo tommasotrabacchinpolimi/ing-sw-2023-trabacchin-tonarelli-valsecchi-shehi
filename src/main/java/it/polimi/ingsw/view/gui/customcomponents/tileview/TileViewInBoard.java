@@ -10,6 +10,11 @@ import java.util.Arrays;
 /**
  * The `TileViewInBoard` class represents the state of a tile subject view when it is placed on the board in a graphical user interface.
  * It implements the `TileSubjectViewState` interface and defines the actions to be performed on the tile subject view when it is in this state.
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
  */
 public class TileViewInBoard implements TileSubjectViewState {
 

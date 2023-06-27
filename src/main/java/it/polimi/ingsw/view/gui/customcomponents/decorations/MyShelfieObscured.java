@@ -13,6 +13,11 @@ import javafx.scene.effect.ColorAdjust;
  * darken</p>
  *
  * @see ColorAdjust
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emamuele Valsecchi
+ * @author Adem Shehi
  */
 public class MyShelfieObscured implements MyShelfieDecoration {
 

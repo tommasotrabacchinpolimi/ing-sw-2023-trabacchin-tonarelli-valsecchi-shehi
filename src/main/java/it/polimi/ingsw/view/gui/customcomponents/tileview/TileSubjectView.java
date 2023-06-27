@@ -20,9 +20,20 @@ import java.util.List;
 
 
 /**
+ /**
+ * Represents a graphical view of a tile subject in the game.
+ * This class extends the JavaFX `Pane` class and implements the `MyShelfieComponent` interface.
+ * It provides methods to handle the visualization and interaction with a tile subject.
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ *
  * @version 3.0
  * @since 08/06/2023
  */
+
 public class TileSubjectView extends Pane implements MyShelfieComponent {
 
     private static final String ITEM_TILE_PATH_FOLDER = "/it.polimi.ingsw/graphical.resources/item.tiles/";
@@ -60,6 +71,11 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
      */
     private final List<MyShelfieDecoration> baseDecorations = new ArrayList<>();
 
+    /**
+     * Constructs a new `TileSubjectView` instance with the specified `TileSubject`.
+     *
+     * @param tileSubject The tile subject associated with this view.
+     */
     public TileSubjectView(TileSubject tileSubject) {
         this.currentState = new TileViewInBoard();
 
@@ -78,6 +94,13 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
         setOnMouseExited(this::onMouseExitedHandler);
         setOnMousePressed(this::onMousePressedHandler);
     }
+
+    /**
+     * Constructs a new `TileSubjectView` instance with the specified `TileSubject` and parent `Pane`.
+     *
+     * @param parent      The parent `Pane` to attach this view to.
+     * @param tileSubject The tile subject associated with this view.
+     */
 
     public TileSubjectView(Pane parent, TileSubject tileSubject) {
         this(tileSubject);

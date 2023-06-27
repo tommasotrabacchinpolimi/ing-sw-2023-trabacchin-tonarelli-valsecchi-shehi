@@ -8,6 +8,17 @@ import javafx.scene.paint.Color;
 
 import static it.polimi.ingsw.utils.color.MyShelfieColor.*;
 
+
+/**
+ * Represents a rust border decoration for a component in the graphical user interface.
+ * This class implements the `MyShelfieDecoration` interface.
+ * <br>
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emamuele Valsecchi
+ * @author Adem Shehi
+ */
+
 public class MyShelfieRustBorder implements MyShelfieDecoration{
 
     private static final BlurType BLUR_TYPE = BlurType.ONE_PASS_BOX;

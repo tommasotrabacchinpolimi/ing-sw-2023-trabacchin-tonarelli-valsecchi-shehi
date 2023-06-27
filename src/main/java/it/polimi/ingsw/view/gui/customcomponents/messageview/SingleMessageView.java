@@ -22,6 +22,17 @@ import java.util.List;
 import static it.polimi.ingsw.utils.color.MyShelfieColor.CHARLESTON;
 import static it.polimi.ingsw.utils.color.MyShelfieColor.DARK_LAVA;
 
+/**
+ * Represents a custom component for displaying a single message in the graphical user interface.
+ * This class extends the JavaFX `VBox` layout and implements the `MyShelfieComponent` interface.
+ * It provides methods for adding a header label and message content to the message view.
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ *
+ */
 class SingleMessageView extends VBox implements MyShelfieComponent {
 
     private final static int MAX_MESSAGE_CHAR_ON_LINE = 40;
@@ -47,6 +58,13 @@ class SingleMessageView extends VBox implements MyShelfieComponent {
         this(senderName, null, messageContent);
     }
 
+    /**
+     * Constructs a new `SingleMessageView` with the given sender name, header text, and message content.
+     *
+     * @param senderName    The name of the message sender.
+     * @param headerText    The text to display in the header label.
+     * @param messageContent The content of the message.
+     */
     public SingleMessageView(String senderName, String headerText, String messageContent) {
         super();
 

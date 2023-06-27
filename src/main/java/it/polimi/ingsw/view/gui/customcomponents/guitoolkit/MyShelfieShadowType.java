@@ -8,6 +8,13 @@ import it.polimi.ingsw.view.gui.customcomponents.decorations.MyShelfieShadow;
  *
  * @see MyShelfieShadow
  * @see MyShelfieInnerShadow
+ *
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ *
  */
 public enum MyShelfieShadowType {
     /**

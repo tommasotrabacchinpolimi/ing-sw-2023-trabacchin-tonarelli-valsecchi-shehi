@@ -7,6 +7,15 @@ import org.jetbrains.annotations.NotNull;
 
 import static it.polimi.ingsw.utils.color.MyShelfieColor.BONE;
 
+/**
+ * Represents an inner lighting decoration for a component in the graphical user interface.
+ * This class implements the `MyShelfieDecoration` interface.
+ *<br>
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emamuele Valsecchi
+ * @author Adem Shehi
+ */
 public class MyShelfieInnerLighting implements MyShelfieDecoration{
 
     private final static double AZIMUTH = -45.0;
@@ -17,6 +26,10 @@ public class MyShelfieInnerLighting implements MyShelfieDecoration{
 
     private final Lighting lighting;
 
+    /**
+     * Constructs a new `MyShelfieInnerLighting` decoration.
+     * It creates a lighting effect with a distant light source.
+     */
     public MyShelfieInnerLighting() {
         lighting = new Lighting(new Light.Distant(AZIMUTH, ELEVATION, LIGHT_COLOR_SOURCE));
     }
