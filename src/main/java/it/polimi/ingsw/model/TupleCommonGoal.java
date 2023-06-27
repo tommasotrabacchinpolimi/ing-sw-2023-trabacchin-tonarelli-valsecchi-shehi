@@ -18,10 +18,10 @@ import java.util.stream.Collectors;
  * @version 3.0
  * @apiNote Valid combination of the parameters values, according to the rules of the game, are the following :
  * <ul>
- *     <li>groupsNumber = 6, adjacentTilesPo2 = 1, square = false, separate = true, sameTypeOnly = false</li>
- *     <li>groupsNumber = 4, adjacentTilesPo2 = 2, square = false, separate = true, sameTypeOnly = false</li>
- *     <li>groupsNumber = 2, adjacentTilesPo2 = 2, square = true, separate = true, sameTypeOnly = true</li>
- *     <li>groupsNumber = 8, adjacentTilesPo2 = 0, square = true, separate = false, sameTypeOnly = true</li>
+ *     <li>groupsNumber = 6, adjacentTiles = 2, square = false, separate = false, </li>
+ *     <li>groupsNumber = 4, adjacentTiles = 4, square = false, separate = false</li>
+ *     <li>groupsNumber = 2, adjacentTiles = 4, square = true, separate = false</li>
+ *     <li>groupsNumber = 8, adjacentTiles = 1, square = false, separate = true</li>
  * </ul>
  * @since 21/04/2023
  */
@@ -39,9 +39,9 @@ public class TupleCommonGoal extends CommonGoal implements Serializable {
     private int groupsNumber;
 
     /**
-     * Cardinality of a single group as power of 2
+     * Minimum number of tileSubjects of the same type in each group
      *
-     * @apiNote Its values can be 1, 2 and 4
+     * @apiNote Its values can be 1, 2 and 4, and is not relevant in case {@link #separated} is set to true
      */
     private int adjacentTiles;
 
@@ -77,12 +77,11 @@ public class TupleCommonGoal extends CommonGoal implements Serializable {
      * @param adjacentTiles Cardinality of a single group as power of 2
      * @param square           Flag to identify a square-shape of a group
      * @param separated        Flag used to check for separated groups or not
-     * @param sameTypeOnly     Flag used to check for tile of the same {@link TileType type}
      * @see CommonGoal#CommonGoal()
      */
-    public TupleCommonGoal(int groupsNumber, int adjacentTiles, boolean square, boolean separated, boolean sameTypeOnly) {
+    public TupleCommonGoal(int groupsNumber, int adjacentTiles, boolean square, boolean separated) {
         super();
-        initTupleGoalProperties(groupsNumber, adjacentTiles, square, separated, sameTypeOnly);
+        initTupleGoalProperties(groupsNumber, adjacentTiles, square, separated);
     }
 
     /**
@@ -92,13 +91,12 @@ public class TupleCommonGoal extends CommonGoal implements Serializable {
      * @param adjacentTiles Cardinality of a single group as power of 2
      * @param square           Flag to identify a square-shape of a group
      * @param separated        Flag used to check for separated groups or not
-     * @param sameTypeOnly     Flag used to check for tile of the same {@link TileType type}
      * @param description      explanation of common goal card
      * @see CommonGoal#CommonGoal(String description, String id)
      */
-    public TupleCommonGoal(String description, String id, int groupsNumber, int adjacentTiles, boolean square, boolean separated, boolean sameTypeOnly) {
+    public TupleCommonGoal(String description, String id, int groupsNumber, int adjacentTiles, boolean square, boolean separated) {
         super(description, id);
-        initTupleGoalProperties(groupsNumber, adjacentTiles, square, separated, sameTypeOnly);
+        initTupleGoalProperties(groupsNumber, adjacentTiles, square, separated);
     }
 
     /**
@@ -108,13 +106,12 @@ public class TupleCommonGoal extends CommonGoal implements Serializable {
      * @param adjacentTiles Cardinality of a single group as power of 2
      * @param square           Flag to identify a square-shape of a group
      * @param separated        Flag used to check for separated groups or not
-     * @param sameTypeOnly     Flag used to check for tile of the same {@link TileType type}
      * @param scoringTokens    scoring tokens stack
      * @see CommonGoal#CommonGoal(Stack scoringTokens, String description, String id)
      */
-    public TupleCommonGoal(Stack<Integer> scoringTokens, String description, String id, int groupsNumber, int adjacentTiles, boolean square, boolean separated, boolean sameTypeOnly) {
+    public TupleCommonGoal(Stack<Integer> scoringTokens, String description, String id, int groupsNumber, int adjacentTiles, boolean square, boolean separated) {
         super(scoringTokens, description, id);
-        initTupleGoalProperties(groupsNumber, adjacentTiles, square, separated, sameTypeOnly);
+        initTupleGoalProperties(groupsNumber, adjacentTiles, square, separated);
     }
 
     /**
@@ -127,10 +124,8 @@ public class TupleCommonGoal extends CommonGoal implements Serializable {
      * @param square           Flag to identify a square-shape of a group that
      * @param separated        Flag used to check for separated groups or
      *                         not
-     * @param sameTypeOnly     Flag used to check for tile of the same
-     *                         {@link TileType type}
      */
-    private void initTupleGoalProperties(int groupsNumber, int adjacentTilesPo2, boolean square, boolean separated, boolean sameTypeOnly) {
+    private void initTupleGoalProperties(int groupsNumber, int adjacentTilesPo2, boolean square, boolean separated) {
         this.groupsNumber = groupsNumber;
         this.adjacentTiles = adjacentTilesPo2;
         this.square = square;
@@ -209,6 +204,11 @@ public class TupleCommonGoal extends CommonGoal implements Serializable {
         this.separated = separated;
     }
 
+    /**
+     *
+     * @param bookShelf the {@link BookShelf bookshelf} to be checked
+     * @return the list of EntryPatternGoal that allow a match with the CommonGoal
+     */
 
     @Override
     public List<EntryPatternGoal> rule(TileType[][] bookShelf) {

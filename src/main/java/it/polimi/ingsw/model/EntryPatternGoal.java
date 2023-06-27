@@ -13,7 +13,7 @@ import java.util.Objects;
  * @see PersonalGoal
  * @see TileType
  * @see CommonGoal
- * @see TupleCommonGoal_altt
+ * @see TupleCommonGoal
  * @see ShapeCommonGoal
  * @see StairCommonGoal
  * @see LineCommonGoal
@@ -28,11 +28,13 @@ import java.util.Objects;
 public class EntryPatternGoal implements Serializable {
     @Serial
     private static final long serialVersionUID = 73856129837219L;
-
-    private final Coordinate coordinate;
-
     /**
-     * The TileType contained in position specified by the value pair: []
+     * Coordinate of the cell
+     * @see Coordinate
+     */
+    private final Coordinate coordinate;
+    /**
+     * The TileType contained in position specified by the {@linkplain #coordinate}
      *
      * @apiNote Default value {@code null}. Once set can't be overwritten
      * @see #getTileType()

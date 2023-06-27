@@ -117,11 +117,6 @@ public class LobbyController
         this.dispatcher = dispatcher;
     }
 
-
-
-
-
-
     /**
      * {@inheritDoc}
      * <p>More precisely, it uses a "{@linkplain ClientInterface user interface}" and a {@linkplain Player nickname}

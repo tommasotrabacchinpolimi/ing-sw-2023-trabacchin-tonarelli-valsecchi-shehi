@@ -25,8 +25,9 @@ public interface ServerInterface {
     /**
      * Defines the action of dragging the tiles from the board to the bookshelf
      *
-     * @param chosenTiles the tiles drawn by the livingroom board
+     * @param chosenTiles the tiles drawn by the living-room board
      * @param chosenColumn the column in which the tiles will be putted
+     * @see Coordinate
      */
     void dragTilesToBookShelf(List<Coordinate> chosenTiles, int chosenColumn);
 
@@ -63,8 +64,8 @@ public interface ServerInterface {
      * Defines the action to do when a {@linkplain it.polimi.ingsw.model.Player player} (identified by his nickname)
      * wants to send a {@linkplain it.polimi.ingsw.model.ChatMessage message} to the other players (one or more).
      *
-     * @param text
-     * @param receiversNickname
+     * @param text the text of the message
+     * @param receiversNickname aa array of receivers' nickname
      *
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.model.ChatMessage
@@ -72,6 +73,8 @@ public interface ServerInterface {
      */
     void sentMessage(String text, String[] receiversNickname);
 
-
+    /**
+     * Heartbeat message to keep alive the connection.
+     */
     void nop();
 }

@@ -12,9 +12,10 @@ import java.util.*;
  *
  * The game manager class responsible for initializing the game state and managing the initial game flow.
  * <br>
- * It extends the abstract class GameManager and implements specific game-related methods.
+ * It extends the abstract class {@linkplain  GameManager} and implements specific game-related methods.
  * <br>
- * This class initializes the personal goals and common goals decks, registers players, and sets up the game state.
+ * This class initializes the {@linkplain PersonalGoal personal goals} and {@linkplain CommonGoal common goals decks}, registers players,
+ * and sets up the {@linkplain GameState game state}.
  *
  * @author Tommaso Trabacchin
  * @author Melanie Tonarelli
@@ -24,15 +25,26 @@ import java.util.*;
  * @since 28/04/2023
  */
 public class InitGameManager extends GameManager {
-
+    /**
+     * Full path to personal goal resources
+     */
     private static final String PERSONAL_GOAL_CONFIGURATION = "./src/main/resources/it.polimi.ingsw/personal.goal.configuration/";
+    /**
+     * List of all personal goals available in the game.
+     * @see PersonalGoal
+     */
     private List<PersonalGoal> personalGoalsDeck;
+    /**
+     * List of all common goals available in the game.
+     * @see CommonGoal
+     */
     private List<CommonGoal> commonGoalsDeck;
 
     /**
      * Constructs a new InitGameManager with the specified controller.
-     * @param controller the Controller instance managing the game.
+     * @param controller the {@linkplain Controller} instance managing the game.
      * @throws FileNotFoundException if the personal goals configuration files are not found.
+     * @see Controller
      */
     public InitGameManager(Controller controller) throws FileNotFoundException {
         super(controller);
@@ -40,6 +52,14 @@ public class InitGameManager extends GameManager {
         initCommonGoals();
     }
 
+    /**
+     * Initializes the {@linkplain #personalGoalsDeck personal goals deck} by reading {@linkplain #PERSONAL_GOAL_CONFIGURATION personal goal configuration}
+     * files from a specified folder.Each file represents a {@linkplain PersonalGoal personal goal},
+     * and its name (without the extension) is used as the goal's identifier.
+     * Files ending with "map.json" are excluded from the deck.
+     * @throws FileNotFoundException if the personal goal configuration folder cannot be found
+     * @see PersonalGoal
+     */
     private void initPersonalGoals() throws FileNotFoundException {
         File rootFolder = new File(PERSONAL_GOAL_CONFIGURATION);
         File[] files = rootFolder.listFiles(File::isFile);
@@ -56,6 +76,13 @@ public class InitGameManager extends GameManager {
         Collections.shuffle(personalGoalsDeck);
     }
 
+    /**
+     * Initializes the {@linkplain #commonGoalsDeck common goals deck} by retrieving the {@linkplain CommonGoal common goals}
+     * from a {@linkplain CommonGoalDeserializer deserializer class}.
+     * The scoring tokens for each common goal are added based on the number of players in the game.
+     * @see CommonGoalDeserializer
+     * @see CommonGoal
+     */
     private void initCommonGoals() {
         commonGoalsDeck = new LinkedList<>(CommonGoalDeserializer.getCommonGoalsDeck());
         for(CommonGoal commonGoal : commonGoalsDeck) {
@@ -80,11 +107,37 @@ public class InitGameManager extends GameManager {
         Collections.shuffle(commonGoalsDeck);
     }
 
+    /**
+     * This method is not applicable in the INIT state.
+     * Prints an error message indicating that the dragTilesToBookShelf method was called in the wrong state.
+     * @param view the {@linkplain ClientInterface} view of the player.
+     * @param chosenTiles the list of chosen tile {@linkplain Coordinate coordinates}.
+     * @param chosenColumn the chosen column index.
+     * @see GameManager#dragTilesToBookShelf(ClientInterface, List, int) 
+     */
     @Override
     public synchronized void dragTilesToBookShelf(ClientInterface view, List<Coordinate> chosenTiles, int chosenColumn) {
         System.err.println("dragTilesToBookShelf called in INIT state");
     }
 
+    /**
+     * Registers a player in the game.<ul> <li>If the player is already registered but disconnected,
+     * their state is updated to connected.</li> <li>If the player is new, they are added to the player list
+     * and their state is set to connected.</li></ul>
+     * {@link PersonalGoal Personal goals} are assigned to {@link Player players},
+     * and if the number of registered players matches the expected number of players,
+     * the game state transitions to {@linkplain GameState#MID MID} and initializes the {@linkplain Board game board}
+     * and the {@linkplain CommonGoal common goals}.
+     * @param view the {@linkplain ClientInterface view} of the player.
+     * @param nickname the nickname of the player.
+     * @see GameManager#registerPlayer(ClientInterface, String)
+     *
+     * @see CommonGoal
+     * @see PersonalGoal
+     * @see State
+     * @see GameState
+     * @see Player
+     */
     @Override
     public synchronized void registerPlayer(ClientInterface view, String nickname) {
         Player player = getController().getState().getPlayerFromNick(nickname);
@@ -126,6 +179,9 @@ public class InitGameManager extends GameManager {
         }
     }
 
+    /**
+     * This method does not perform any action and simply returns.
+     */
     @Override
     public void setNextCurrentPlayer() {
         return;
@@ -136,6 +192,13 @@ public class InitGameManager extends GameManager {
         return numberPlayerConnected > 1;
     }*/
 
+    /**
+     * Registers the internal listeners for the specified player.
+     * Internal listeners are set on various game components to listen for updates and notify the player.
+     * @param player The player for which to register the internal listeners.
+     *
+     * @see Player
+     */
     private void registerInternalListener(Player player) {
         getController().getState().getPlayers().forEach(player::setOnUpdateNeededListener);
         player.setOnUpdateNeededListener(player.getBookShelf());
@@ -151,6 +214,10 @@ public class InitGameManager extends GameManager {
         getController().getState().getPlayers().forEach((p -> p.setOnUpdateNeededListener(player.getPointPlayer())));
     }
 
+    /**
+     * Sets up listeners for the specified player.Listeners are registered on other players' virtual views, bookshelves, and point players to listen for relevant updates.
+     * @param player The player for which to set up listeners.
+     */
     private void listenersSetUp(Player player) {
         List<ClientInterface> views = getController().getState().getPlayers().stream().filter(p->!player.getNickName().equals(p.getNickName())).map(Player::getVirtualView).toList();
         views.forEach(player::setOnPlayerStateChangedListener);

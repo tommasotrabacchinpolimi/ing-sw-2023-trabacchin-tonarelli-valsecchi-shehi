@@ -9,7 +9,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- *
+ * A custom exclusion strategy for Gson serialization and deserialization.
+ * This strategy is used to exclude fields marked with the {@link ExcludedFromJSON} annotation from JSON processing.
  * @author Tommaso Trabacchin
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
@@ -18,11 +19,23 @@ import java.lang.annotation.Target;
  * @since 03/04/2023
  */
 public class JSONExclusionStrategy implements ExclusionStrategy {
+    /**
+     * Determines whether the specified field should be skipped during JSON processing based on the presence of the
+     * {@link ExcludedFromJSON} annotation.
+     * @param f The field being evaluated.
+     * @return {@code true} if the field should be skipped, {@code false} otherwise.
+     */
     @Override
     public boolean shouldSkipField(FieldAttributes f) {
         return f.getAnnotation(ExcludedFromJSON.class) != null;
     }
 
+    /**
+     * Determines whether the specified class should be skipped during JSON processing.
+     * This implementation always returns {@code false}, indicating that no classes should be skipped.
+     * @param clazz The class being evaluated.
+     * @return {@code false}.
+     */
     @Override
     public boolean shouldSkipClass(Class<?> clazz) {
         return false;

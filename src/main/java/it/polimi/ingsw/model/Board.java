@@ -51,11 +51,27 @@ public class Board implements Serializable, OnUpdateNeededListener {
     private static final int NUMBER_OF_BOARDSQUARE = 45;
     private static final int NUMBER_OF_TILE = 7; //the default number of tile
     private static final int RESERVE_TILE = 8; //the tile that has one object more than others
+    /**
+     * Matrix of {@linkplain TileSubject} representing the actual game board.
+     */
     private final TileSubject[][] board;
+    /**
+     * List of {@linkplain TileSubject tiles} not yet inserted in the {@linkplain #board}.
+     * @see TileSubject
+     */
     final private List<TileSubject> bag;
+    /**
+     * List of {@linkplain OnBoardRefilledListener}
+     */
     private final List<OnBoardRefilledListener> onBoardRefilledListeners;
+    /**
+     * List of {@linkplain OnBoardUpdatedListener}
+     */
     private final List<OnBoardUpdatedListener> onBoardUpdatedListeners;
-
+    /**
+     * Default version of the board
+     * @see BoardSquareType
+     */
     public static final BoardSquareType[][] INIT_MATRIX = {
             {null, null, null, THREE_DOTS, FOUR_DOTS, null, null, null, null},
             {null, null, null, NO_DOTS, NO_DOTS, FOUR_DOTS, null, null, null},
@@ -142,6 +158,10 @@ public class Board implements Serializable, OnUpdateNeededListener {
 
     }
 
+    /**
+     * String formatting the {@linkplain #bag}
+     * @returnString formatting the {@linkplain #bag}
+     */
     public String bagToString() {
         StringBuilder result = new StringBuilder("BAG: \n");
         for (TileSubject el : bag) {
@@ -232,6 +252,9 @@ public class Board implements Serializable, OnUpdateNeededListener {
         notifyOnBoardRefilled();
     }
 
+    /**
+     * Notified all the {@linkplain OnBoardUpdatedListener}
+     */
     private void notifyOnBoardUpdated() {
         TileSubject[][] boardCopy = Arrays.stream(board).map(TileSubject[]::clone).toArray(TileSubject[][]::new);
         for(OnBoardUpdatedListener onBoardUpdatedListener : onBoardUpdatedListeners) {
@@ -239,6 +262,9 @@ public class Board implements Serializable, OnUpdateNeededListener {
         }
     }
 
+    /**
+     * Notified all the {@linkplain OnBoardRefilledListener}
+     */
     private void notifyOnBoardRefilled() {
         for(OnBoardRefilledListener onBoardRefilledListener : onBoardRefilledListeners) {
             if(onBoardRefilledListener != null) {
@@ -247,22 +273,44 @@ public class Board implements Serializable, OnUpdateNeededListener {
         }
     }
 
+    /**
+     * Adds a new {@linkplain OnBoardRefilledListener}
+     * @param onBoardRefilledListener the listener to add
+     */
     public void setOnBoardRefilledListener(OnBoardRefilledListener onBoardRefilledListener) {
         this.onBoardRefilledListeners.add(onBoardRefilledListener);
     }
 
+    /**
+     * Adds a new {@linkplain OnBoardUpdatedListener}
+     * @param onBoardUpdatedListener the listener to add
+     */
     public void setOnBoardUpdatedListener(OnBoardUpdatedListener onBoardUpdatedListener) {
         this.onBoardUpdatedListeners.add(onBoardUpdatedListener);
     }
 
+    /**
+     * Removes a given {@linkplain OnBoardRefilledListener}
+     * @param onBoardRefilledListener the listener to remove
+     */
     public void removeOnBoardRefilledListener(OnBoardRefilledListener onBoardRefilledListener) {
         this.onBoardRefilledListeners.remove(onBoardRefilledListener);
     }
 
+    /**
+     * Removes a given {@linkplain OnBoardRefilledListener}
+     * @param onBoardUpdatedListener the listener to remove
+     */
     public void removeOnBoardUpdatedListener(OnBoardUpdatedListener onBoardUpdatedListener) {
         this.onBoardUpdatedListeners.remove(onBoardUpdatedListener);
     }
 
+
+    /**
+     * Notifies the listener that an update is needed for the specified player.
+     * @param player the player for which an update is needed
+     * @see Player
+     */
     @Override
     public void onUpdateNeededListener(Player player) {
         onBoardUpdatedListeners.stream().forEach(v->v.onBoardUpdated(Arrays.stream(board).map(TileSubject[]::clone).toArray(TileSubject[][]::new)));

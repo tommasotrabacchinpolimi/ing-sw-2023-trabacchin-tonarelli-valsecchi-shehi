@@ -13,13 +13,13 @@ import java.util.concurrent.*;
 
 /**
  *
- * The {@code MidGameManager} class is responsible for managing the game flow during the mid phase of the game.
+ * The {@code MidGameManager} class is responsible for managing the game flow during the {@link GameState#MID mid-phase} of the game.
  * <br>
  *
- * It extends the {@code GameManager} class and provides specific behavior for the mid game phase.
+ * It extends the {@code GameManager} class and provides specific behavior for the {@link GameState#MID mid-phase}.
  *
  * <p>
- * This class overrides methods from the {@code GameManager} class to provide custom behavior for the mid game phase.
+ * This class overrides methods from the {@code GameManager} class to provide custom behavior for the {@link GameState#MID mid-phase}.
  * <br>
  *
  * It includes methods for dragging tiles to the bookshelf, registering players during reconnection, verifying game conditions,
@@ -113,12 +113,13 @@ public class MidGameManager extends GameManager {
     // nel caso ri-setto la view del player corrispondente
 
     /**
-
-     {@inheritDoc}
-     This method is called when a player tries to register during reconnection.
-     If the player is successfully reconnected, their virtual view is updated and their state is changed to connected.
-     @param user the client interface of the user
-     @param nickname the nickname of the player
+     * {@inheritDoc}
+     * This method is called when a player tries to register during reconnection.
+     * If the player is successfully reconnected, their virtual view is updated and their state is changed to connected.
+     * @param user the client interface of the user
+     * @param nickname the nickname of the player
+     *
+     * @see ClientInterface
      */
     @Override
     public synchronized void registerPlayer(ClientInterface user, String nickname) {
@@ -148,19 +149,46 @@ public class MidGameManager extends GameManager {
         return true;
     }*/
 
+    /**
+     * Verifies the common goal for a player.
+     * This method checks if the player has achieved the conditions specified by the common goal.
+     * @param user The user for whom to verify the common goal.
+     * @see State#getCommonGoal1
+     * @see State#getCommonGoal2
+     * @see CommonGoal
+     */
     private void verifyCommonGoal(ClientInterface user){
         Player player = getController().getState().getPlayerFromView(user);
         getController().getState().checkCommonGoal(player);
     }
 
+    /**
+     * Verifies the personal goal for a player.
+     * This method checks if the player has achieved the conditions specified by their personal goal.
+     * @param player The player for whom to verify the personal goal.
+     * @see Player
+     * @see PersonalGoal
+     */
     private void verifyPersonalGoal(Player player) {
         getController().getState().checkPersonalGoal(player);
     }
 
+    /**
+     * Verifies if there are groups of adjacent tiles of the same type in the player's bookshelf.
+     *
+     * @param player The player for whom to verify the adjacent tiles.
+     * @see Player
+     */
     private void verifyAdjacentTiles(Player player) {
         getController().getState().checkAdjacentTiles(player);
     }
 
+    /**
+     * Verifies the final game conditions for a player.
+     * This method checks if the player's bookshelf is full, indicating the end of the game.
+     * If the bookshelf is full, the player's score is updated, and the game state is set to {@linkplain GameState#FINAL}.
+     * @param user The user for whom to verify the final game conditions.
+     */
     private void verifyFinalGame(ClientInterface user){
         Player player = getController().getState().getPlayerFromView(user);
 
@@ -172,8 +200,9 @@ public class MidGameManager extends GameManager {
     }
 
     /**
-     * Method that returns true if and only if the Board needs to be refilled with tiles.
-     * @return true if and only if the Board needs to be refilled with tiles.
+     * Method that returns {@code true} if and only if the {@linkplain Board} needs to be refilled with tiles.
+     * @return {@code true} if and only if the {@linkplain Board} needs to be refilled with tiles.
+     * @see Board
      */
     private boolean verifyRefillBoard(){
         for(int i = 0; i< Board.DIM; i++) {
@@ -249,6 +278,10 @@ public class MidGameManager extends GameManager {
         System.out.println("finished next method");
     }
 
+
+    /**
+     * Checks if there is a winner in the game.
+    */
     private void checkWinner(Player oldCurrentPlayer) {
         if (getController().getState().getGameState() == GameState.FINAL) { //se sono nella fase FINAL del gioco e il prossimo giocatore è il lastPlayer, allora rendo il gioco END
             if (oldCurrentPlayer.equals(getController().getState().getLastPlayer())) {

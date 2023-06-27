@@ -10,7 +10,9 @@ import java.util.List;
 /**
  * The SuspendedGameManager class is responsible for managing the game when it is suspended.
  * <br>
- * It extends the GameManager class.
+ * It extends the {@linkplain GameManager } class.
+ *
+ * @see GameManager
  * @author Tommaso Trabacchin
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
@@ -19,6 +21,10 @@ import java.util.List;
  * @since 28/04/2023
  */
 public class SuspendedGameManager extends GameManager {
+    /**
+     * Previous game state
+     * @see GameState
+     */
     GameState previousGameState;
 
     /**
@@ -26,6 +32,8 @@ public class SuspendedGameManager extends GameManager {
      * <br>
      * @param controller the Controller instance
      * @param gameState the previous GameState before the game was suspended
+     * @see Controller
+     * @see GameState
      */
     public SuspendedGameManager(Controller controller, GameState gameState) {
         super(controller);
@@ -37,6 +45,8 @@ public class SuspendedGameManager extends GameManager {
      * This method is called when dragging tiles to the bookshelf in the suspended state.
      * <br>
      * It prints an error message to indicate that the method was called in the suspended state.
+     * @see ClientInterface
+     * @see Coordinate
      */
     @Override
     public synchronized void dragTilesToBookShelf(ClientInterface view, List<Coordinate> chosenTiles, int chosenColumn) {
@@ -51,6 +61,7 @@ public class SuspendedGameManager extends GameManager {
      *
      * @param view the ClientInterface of the player
      * @param nickname the nickname of the player
+     * @see ClientInterface
      */
     @Override
     public synchronized void registerPlayer(ClientInterface view, String nickname) {
@@ -74,7 +85,6 @@ public class SuspendedGameManager extends GameManager {
      * {@inheritDoc}
      * This method is overridden and does nothing in the suspended state.
      */
-
     @Override
     public void setNextCurrentPlayer() {
         return;
