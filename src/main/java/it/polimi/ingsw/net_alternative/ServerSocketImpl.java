@@ -136,8 +136,13 @@ public class ServerSocketImpl implements ServerInterface, Runnable {
                 executorService.submit(() -> message.dispatch(clientDispatcher));
             } catch (Exception e) {
                 //e.printStackTrace();
-                OPEN = false;
-                clientConnectionLostListener.onConnectionLost();
+                synchronized (this) {
+                    if(OPEN) {
+                        OPEN = false;
+                        clientConnectionLostListener.onConnectionLost();
+                    }
+                }
+
             }
 
             }
