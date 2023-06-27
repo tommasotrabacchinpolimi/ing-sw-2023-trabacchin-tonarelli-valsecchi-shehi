@@ -8,6 +8,17 @@ import javafx.scene.layout.VBox;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a custom component for displaying a chat box in the graphical user interface.
+ * This class extends the JavaFX `VBox` layout and implements the `MyShelfieComponent` interface.
+ * It provides methods for adding messages to the chat box.
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ *
+ */
+
 public class ChatViewBox extends VBox implements MyShelfieComponent {
 
     /**
@@ -31,20 +42,54 @@ public class ChatViewBox extends VBox implements MyShelfieComponent {
         //applyDecorationAsDefault(new MyShelfieRoundEdge(MyShelfieRoundEdgeType.MINIMUM), new MyShelfieDarkShadow());
     }
 
+    /**
+     * Adds a message to the chat box with the specified parameters.
+     *
+     * @param messageViewType       The type of the message view.
+     * @param messageContent        The content of the message.
+     * @param receiver              The name of the message receiver.
+     */
     public void addMessage(SingleMessageViewType messageViewType, String receiver, String messageContent){
         addMessage(messageViewType, SingleMessageViewPrivacyType.PRIVATE, "You", messageContent, receiver);
     }
 
+    /**
+     * Adds a message to the chat box with the specified parameters.
+     * The privacy type of the message is specified.
+     *
+     * @param messageViewType       The type of the message view.
+     * @param messageViewPrivacyType The privacy type of the message view.
+     * @param messageContent        The content of the message.
+     */
     public void addMessage(SingleMessageViewType messageViewType, SingleMessageViewPrivacyType messageViewPrivacyType,
                            String messageContent){
         addMessage(messageViewType, messageViewPrivacyType, "You", messageContent, "");
     }
 
+    /**
+     * Adds a message to the chat box with the specified parameters.
+     * The sender name and content of the message are specified.
+     *
+     * @param messageViewType       The type of the message view.
+     * @param messageViewPrivacyType The privacy type of the message view.
+     * @param senderName            The name of the message sender.
+     * @param messageContent        The content of the message.
+     */
     public void addMessage(SingleMessageViewType messageViewType, SingleMessageViewPrivacyType messageViewPrivacyType,
                            String senderName, String messageContent){
         addMessage(messageViewType, messageViewPrivacyType, senderName, messageContent, "");
     }
 
+    /**
+     * Adds a message to the chat box with the specified parameters.
+     * The sender name, content of the message, and receiver name are specified.
+     *
+     * @param messageViewType       The type of the message view.
+     * @param messageViewPrivacyType The privacy type of the message view.
+     * @param senderName            The name of the message sender.
+     * @param messageContent        The content of the message.
+     * @param receiver              The name of the message receiver.
+     */
     public void addMessage(SingleMessageViewType messageViewType, SingleMessageViewPrivacyType messageViewPrivacyType,
                            String senderName, String messageContent, String receiver){
         getChildren().add(
