@@ -94,8 +94,8 @@ public class RmiClientImpl extends UnicastRemoteObject implements RmiClientInter
      * @param n           the number of the common goal assigned
      * @throws RemoteException if a remote error occurs
      */
-    public void onAssignedCommonGoal(String description, int n) throws RemoteException{
-        AssignedCommonGoalNetMessage assignedCommonGoalNetMessage = new AssignedCommonGoalNetMessage(description, n);
+    public void onAssignedCommonGoal(String description, int n, String id) throws RemoteException{
+        AssignedCommonGoalNetMessage assignedCommonGoalNetMessage = new AssignedCommonGoalNetMessage(description, n, id);
         executorService.submit(()->assignedCommonGoalNetMessage.dispatch(clientDispatcherInterface));
     }
 

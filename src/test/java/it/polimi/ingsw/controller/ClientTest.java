@@ -31,7 +31,7 @@ public class ClientTest implements ClientInterface{
     }
 
     @Override
-    public void onAssignedCommonGoal(String description, int n) {
+    public void onAssignedCommonGoal(String description, int n, String id) {
 
     }
 

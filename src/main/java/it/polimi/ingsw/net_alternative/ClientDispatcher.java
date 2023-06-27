@@ -65,7 +65,7 @@ public class ClientDispatcher implements ClientDispatcherInterface {
      */
     @Override
     public void dispatch(AssignedCommonGoalNetMessage assignedCommonGoalNetMessage) {
-        client.onAssignedCommonGoal(assignedCommonGoalNetMessage.getDescription(), assignedCommonGoalNetMessage.getN());
+        client.onAssignedCommonGoal(assignedCommonGoalNetMessage.getDescription(), assignedCommonGoalNetMessage.getN(), assignedCommonGoalNetMessage.getId());
     }
 
     /**

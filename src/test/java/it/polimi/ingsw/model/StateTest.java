@@ -390,7 +390,7 @@ class StateTest {
         };
         OnAssignedCommonGoalListener listener2 = new OnAssignedCommonGoalListener() {
             @Override
-            public void onAssignedCommonGoal(String description, int n) {
+            public void onAssignedCommonGoal(String description, int n, String id) {
                 if(n == 1) {
                     assertEquals("Common Goal 1", description);
                     assertEquals(1, n);

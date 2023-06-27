@@ -153,7 +153,7 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
      * @param n           The number of the assigned common goal.
      */
     @Override
-    public void onAssignedCommonGoal(String description, int n) {
+    public void onAssignedCommonGoal(String description, int n, String id) {
         viewData.getCommonGoals()[n - 1] = description;
     }
 

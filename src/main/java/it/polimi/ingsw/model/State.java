@@ -911,10 +911,10 @@ public class State implements Serializable, OnUpdateNeededListener {
     private void notifyAssignedCommonGoal() {
         for(OnAssignedCommonGoalListener onAssignedCommonGoalListener : onAssignedCommonGoalListeners) {
             if(this.getCommonGoal1() != null) {
-                onAssignedCommonGoalListener.onAssignedCommonGoal(this.getCommonGoal1().getDescription(), 1);
+                onAssignedCommonGoalListener.onAssignedCommonGoal(this.getCommonGoal1().getDescription(), 1, this.getCommonGoal1().getId());
             }
             if(this.getCommonGoal2() != null) {
-                onAssignedCommonGoalListener.onAssignedCommonGoal(this.getCommonGoal2().getDescription(), 2);
+                onAssignedCommonGoalListener.onAssignedCommonGoal(this.getCommonGoal2().getDescription(), 2, this.getCommonGoal2().getId());
             }
 
         }
@@ -1009,7 +1009,7 @@ public class State implements Serializable, OnUpdateNeededListener {
 
         if(this.getCommonGoal2() != null && this.getCommonGoal1() != null) {
             onAssignedCommonGoalListeners
-                    .forEach(v -> {v.onAssignedCommonGoal(this.getCommonGoal1().getDescription(),1); v.onAssignedCommonGoal(this.getCommonGoal2().getDescription(), 2);});
+                    .forEach(v -> {v.onAssignedCommonGoal(this.getCommonGoal1().getDescription(),1, this.getCommonGoal1().getId()); v.onAssignedCommonGoal(this.getCommonGoal2().getDescription(), 2, this.getCommonGoal2().getId());});
             onChangedCommonGoalAvailableScoreListenerListeners.forEach(v -> {v.onChangedCommonGoalAvailableScore(this.getCommonGoal1().getAvailableScore(),1); v.onChangedCommonGoalAvailableScore(this.getCommonGoal2().getAvailableScore(), 2);});
         }
 

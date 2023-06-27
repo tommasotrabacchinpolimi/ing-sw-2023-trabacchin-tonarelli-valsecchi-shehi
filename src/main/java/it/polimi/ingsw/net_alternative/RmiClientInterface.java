@@ -62,9 +62,10 @@ public interface RmiClientInterface extends Remote {
      *
      * @param description the description of the assigned common goal.
      * @param n           the number of the assigned common goal.
+     * @param id the common goal id.
      * @throws RemoteException if a remote connection error occurs.
      */
-    public void onAssignedCommonGoal(String description, int n) throws RemoteException;
+    public void onAssignedCommonGoal(String description, int n, String id) throws RemoteException;
 
     /**
      * Method called when a personal goal is assigned.

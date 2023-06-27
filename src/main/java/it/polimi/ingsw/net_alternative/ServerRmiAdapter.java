@@ -137,12 +137,12 @@ public class ServerRmiAdapter implements ClientInterface {
      * @param n the number of the common goal.
      */
     @Override
-    public synchronized void onAssignedCommonGoal(String description, int n) {
+    public synchronized void onAssignedCommonGoal(String description, int n, String id) {
         try {
             if(!OPEN) {
                 return;
             }
-            rmiClient.onAssignedCommonGoal(description, n);
+            rmiClient.onAssignedCommonGoal(description, n, id);
         }catch(RemoteException e) {
             if(OPEN) {
                 OPEN = false;

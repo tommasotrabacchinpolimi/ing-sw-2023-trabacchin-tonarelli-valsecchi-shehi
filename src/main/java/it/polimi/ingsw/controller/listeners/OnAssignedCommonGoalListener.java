@@ -12,6 +12,7 @@ public interface OnAssignedCommonGoalListener {
      * Called when a common goal is assigned.
      * @param description the description of the assigned common goal.
      * @param n the number associated with the assigned common goal.
+     * @param id A unique id representing the common goal
      */
-    void onAssignedCommonGoal(String description, int n);
+    void onAssignedCommonGoal(String description, int n, String id);
 }

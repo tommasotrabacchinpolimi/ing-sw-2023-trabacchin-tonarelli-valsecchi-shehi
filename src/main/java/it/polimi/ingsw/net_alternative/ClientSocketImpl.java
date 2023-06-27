@@ -134,8 +134,8 @@ public class ClientSocketImpl implements ClientInterface, Runnable {
      * @param n The number of the CommonGoal (every commonGoal has his number)
      */
     @Override
-    public synchronized void onAssignedCommonGoal(String description, int n) {
-        AssignedCommonGoalNetMessage assignedCommonGoalNetMessage = new AssignedCommonGoalNetMessage(description, n);
+    public synchronized void onAssignedCommonGoal(String description, int n, String id) {
+        AssignedCommonGoalNetMessage assignedCommonGoalNetMessage = new AssignedCommonGoalNetMessage(description, n, id);
         try {
             if(!OPEN) {
                 return;

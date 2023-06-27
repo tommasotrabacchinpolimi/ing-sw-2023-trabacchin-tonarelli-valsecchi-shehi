@@ -20,14 +20,17 @@ public class AssignedCommonGoalNetMessage implements ClientMessage {
 
     private final int n;
 
+    private final String id;
+
     /**
      * Constructor of the class
      * @param description Is the Description of the CommonGoal
      * @param n Is the number of the CommonGoal
      */
-    public AssignedCommonGoalNetMessage(String description, int n) {
+    public AssignedCommonGoalNetMessage(String description, int n, String id) {
         this.description = description;
         this.n = n;
+        this.id = id;
     }
 
     /**
@@ -44,6 +47,14 @@ public class AssignedCommonGoalNetMessage implements ClientMessage {
      */
     public int getN() {
         return n;
+    }
+
+    /**
+     * Getter method for the common goal id
+     * @return the common goal id
+     */
+    public String getId() {
+        return id;
     }
 
     /**

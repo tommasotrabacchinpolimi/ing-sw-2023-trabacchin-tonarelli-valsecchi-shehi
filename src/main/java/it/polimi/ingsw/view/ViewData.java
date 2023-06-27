@@ -57,6 +57,10 @@ public class ViewData {
      */
     private String[] commonGoals;
     /**
+     * Array of ids of the common goals in the game
+     */
+    private String[] idCommonGoals;
+    /**
      * Map that associates each player with his points.
      */
     private Map<String, List<Integer>> playersPoints;
@@ -192,6 +196,22 @@ public class ViewData {
     public void setGameState(String gameState) throws IOException {
         this.gameState = gameState;
         userInterface.onGameStateChanged();
+    }
+
+    /**
+     * Gets the common goal ids.
+     * @return an array of common goals ids.
+     */
+    public String[] getIdCommonGoals() {
+        return idCommonGoals;
+    }
+
+    /**
+     * Sets the common goal ids.
+     * @param idCommonGoals the array of common goal ids.
+     */
+    public void setIdCommonGoals(String[] idCommonGoals) {
+        this.idCommonGoals = idCommonGoals;
     }
 
     /**

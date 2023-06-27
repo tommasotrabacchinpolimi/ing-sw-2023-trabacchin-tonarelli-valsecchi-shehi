@@ -117,6 +117,10 @@ public abstract class CommonGoal implements Serializable {
         }
     }
 
+    public String getId() {
+        return id;
+    }
+
     /**
      * Get textual description of the Common Goal
      * @return textual description of the Common Goal
