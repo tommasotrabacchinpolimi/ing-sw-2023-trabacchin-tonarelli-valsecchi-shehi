@@ -23,11 +23,21 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
 
 
 
+    /**
+     * Constructor for ServerRmiAdapter.
+     * @param rmiClient the RMI client interface.
+     * @param serverConnectionLostListener the listener for server connection loss.
+     */
     public ServerRmiAdapter(RmiClientInterface rmiClient, OnServerConnectionLostListener serverConnectionLostListener) {
         this.rmiClient = rmiClient;
         this.serverConnectionLostListener = serverConnectionLostListener;
         this.OPEN = true;
     }
+
+    /**
+     * Sends a "no-operation" signal to the server.
+     */
+
     @Override
     public synchronized void nop() {
         try{
@@ -42,6 +52,13 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
 
     }
 
+    /**
+     * Notifies the server that a player has achieved a common goal.
+     * @param nicknamePlayer the player's nickname.
+     * @param tiles the tiles involved.
+     * @param numberCommonGoal the number of the common goal.
+     */
+
     @Override
     public synchronized void onAchievedCommonGoal(String nicknamePlayer, List<Coordinate> tiles, int numberCommonGoal) {
         try{
@@ -55,6 +72,11 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
         }
     }
 
+    /**
+     * Notifies the server that a player has achieved a personal goal.
+     * @param nickname the player's nickname.
+     * @param tiles the tiles involved.
+     */
     @Override
     public synchronized void onAchievedPersonalGoal(String nickname, List<Coordinate> tiles) {
         try{
@@ -67,6 +89,12 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
             serverConnectionLostListener.onConnectionLost(this);
         }
     }
+
+    /**
+     * Notifies the server that the adjacent tiles of a player have been updated.
+     * @param nickname the player's nickname.
+     * @param tiles the list of updated tiles.
+     */
 
     @Override
     public synchronized void onAdjacentTilesUpdated(String nickname, List<Coordinate> tiles) {
@@ -82,6 +110,11 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
 
     }
 
+    /**
+     * Notifies the server that a common goal has been assigned.
+     * @param description the description of the common goal.
+     * @param n the number of the common goal.
+     */
     @Override
     public synchronized void onAssignedCommonGoal(String description, int n) {
         try {
@@ -96,6 +129,12 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
 
     }
 
+    /**
+     * Notifies the server that a personal goal has been assigned to a player.
+     * @param nickname the player's nickname.
+     * @param goalPattern the entry pattern goal.
+     * @param scoreMap the score map.
+     */
     @Override
     public synchronized void onAssignedPersonalGoal(String nickname, List<EntryPatternGoal> goalPattern, Map<Integer, Integer> scoreMap) {
         try{
@@ -108,6 +147,9 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
             serverConnectionLostListener.onConnectionLost(this);
         }
     }
+    /**
+     * Notifies the server that the board has been refilled.
+     */
 
     @Override
     public synchronized void onBoardRefilled() {
@@ -122,6 +164,10 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
         }
     }
 
+    /**
+     * Notifies the server that the board has been updated.
+     * @param tileSubjects the updated tile subjects.
+     */
     @Override
     public synchronized void onBoardUpdated(TileSubject[][] tileSubjects) {
         try {
@@ -135,6 +181,11 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
         }
     }
 
+    /**
+     * Notifies the server that a player's bookshelf has been updated.
+     * @param nickname the player's nickname.
+     * @param bookShelf the updated bookshelf.
+     */
     @Override
     public synchronized void onBookShelfUpdated(String nickname, TileSubject[][] bookShelf) {
         try{
@@ -148,6 +199,11 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
         }
     }
 
+    /**
+     * Notifies the server that the available score for a common goal has changed.
+     * @param score the new score.
+     * @param numberOfCommonGoal the number of the common goal.
+     */
     @Override
     public synchronized void onChangedCommonGoalAvailableScore(int score, int numberOfCommonGoal) {
         try {
@@ -161,6 +217,10 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
         }
     }
 
+    /**
+     * Notifies the server that the current player has changed.
+     * @param nickname the nickname of the new current player.
+     */
     @Override
     public synchronized void onCurrentPlayerChangedListener(String nickname) {
         try{
@@ -173,6 +233,12 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
             serverConnectionLostListener.onConnectionLost(this);
         }
     }
+
+    /**
+     *  Notifies the server of an exception that occurred on the client side
+     *  providing the exception object.
+     * @param e Exception occurred
+     */
 
     @Override
     public synchronized void onException(Exception e) {
@@ -187,6 +253,11 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
         }
     }
 
+
+    /**
+     * Notifies the server that the last player has been updated.
+     * @param nicknameLastPlayer the nickname of the last player.
+     */
     @Override
     public synchronized void onLastPlayerUpdated(String nicknameLastPlayer) {
         try {
@@ -200,6 +271,12 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
         }
     }
 
+    /**
+     * Notifies the server that a message has been sent.
+     * @param nicknameSender the nickname of the message sender.
+     * @param nicknameReceivers the nicknames of the message receivers.
+     * @param text the content of the message.
+     */
     @Override
     public synchronized void onMessageSent(String nicknameSender, List<String> nicknameReceivers, String text) {
         try {
@@ -207,12 +284,18 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
                 return;
             }
             rmiClient.onMessageSent(nicknameSender, nicknameReceivers, text);
-        }catch(RemoteException e) {
+        } catch(RemoteException e) {
             OPEN = false;
             serverConnectionLostListener.onConnectionLost(this);
         }
     }
 
+    /**
+     * Notifies the server that multiple messages have been sent.
+     * @param senderNicknames the nicknames of the message senders.
+     * @param receiverNicknames the nicknames of the message receivers.
+     * @param texts the contents of the messages.
+     */
     @Override
     public synchronized void onMessagesSentUpdate(List<String> senderNicknames, List<List<String>> receiverNicknames, List<String> texts) {
         try {
@@ -226,6 +309,12 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
         }
     }
 
+
+    /**
+     * Notifies the server that a player's state has changed.
+     * @param nickname the player's nickname.
+     * @param playerState the new player state.
+     */
     @Override
     public synchronized void onPlayerStateChanged(String nickname, PlayerState playerState) {
         try{
@@ -238,7 +327,10 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
             serverConnectionLostListener.onConnectionLost(this);
         }
     }
-
+    /**
+     * Notifies the server that the list of players has changed.
+     * @param players the updated list of players.
+     */
     @Override
     public synchronized void onPlayersListChanged(List<String> players) {
         try {
@@ -252,6 +344,15 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
         }
     }
 
+    /**
+     * Notifies the server that the points have been updated for a player.
+     * @param nickName the nickname of the player.
+     * @param scoreAdjacentGoal the score for the adjacent goal.
+     * @param scoreCommonGoal1 the score for the first common goal.
+     * @param scoreCommonGoal2 the score for the second common goal.
+     * @param scoreEndGame the score for the end game.
+     * @param scorePersonalGoal the score for the personal goal.
+     */
     @Override
     public synchronized void onPointsUpdated(String nickName, int scoreAdjacentGoal, int scoreCommonGoal1, int scoreCommonGoal2, int scoreEndGame, int scorePersonalGoal) {
         try {
@@ -264,6 +365,12 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
             serverConnectionLostListener.onConnectionLost(this);
         }
     }
+
+
+    /**
+     * Notifies the server that the game state has changed.
+     * @param gameState the new game state.
+     */
 
     @Override
     public synchronized void onStateChanged(GameState gameState) {
@@ -278,6 +385,11 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
         }
     }
 
+    /**
+     * notifies the server that the winner changed
+     *
+     * @param nickname Nickname of the winner
+     */
     @Override
     public synchronized void onWinnerChanged(String nickname) {
         try {
@@ -291,6 +403,9 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
         }
     }
 
+    /**
+     * Closes the server RMI adapter and releases any system resources associated with it.
+     */
     @Override
     public synchronized void close() {
         if(OPEN) {
