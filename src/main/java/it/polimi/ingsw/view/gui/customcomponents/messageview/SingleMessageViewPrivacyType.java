@@ -3,6 +3,11 @@ package it.polimi.ingsw.view.gui.customcomponents.messageview;
 /**
  * The `SingleMessageViewPrivacyType` enum represents the privacy types of a single message view in a messaging component.
  * It defines whether a message is public or private.
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
  */
 public enum SingleMessageViewPrivacyType {
 
