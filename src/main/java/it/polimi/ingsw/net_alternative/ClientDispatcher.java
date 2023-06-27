@@ -2,7 +2,6 @@ package it.polimi.ingsw.net_alternative;
 
 import it.polimi.ingsw.controller.ClientInterface;
 import it.polimi.ingsw.net_alternative.clientmessage.*;
-import it.polimi.ingsw.view.Client;
 
 /**
  * The `ClientDispatcher` class implements the `ClientDispatcherInterface` interface and is responsible for dispatching
@@ -19,10 +18,11 @@ public class ClientDispatcher implements ClientDispatcherInterface {
 
     private final ClientInterface client;
 
+
     /**
      * Constructs a `ClientDispatcher` object with the specified client.
      *
-     * @param client the client interface
+     * @param client            the client interface
      */
     public ClientDispatcher(ClientInterface client) {
         this.client = client;

@@ -33,7 +33,7 @@ public class ConnectionBuilder {
     static public ServerInterface buildSocketConnection(int port, String host,  ClientDispatcher clientDispatcher,OnClientConnectionLostListener onClientConnectionLostListener) throws IOException {
         Socket socket = new Socket(host, port);
         ServerSocketImpl serverSocket = new ServerSocketImpl(socket, clientDispatcher, onClientConnectionLostListener);
-        ClientHeartBeater clientHeartBeater = new ClientHeartBeater(onClientConnectionLostListener, serverSocket, 5000);
+        ClientHeartBeater clientHeartBeater = new ClientHeartBeater(onClientConnectionLostListener, serverSocket, 1000);
         new Thread(serverSocket).start();
         new Thread(clientHeartBeater).start();
         return serverSocket;
@@ -56,7 +56,7 @@ public class ConnectionBuilder {
         RmiAccepterInterface rmiAccepter = (RmiAccepterInterface) registry.lookup("default");
         RmiClientInterface rmiClient = new RmiClientImpl(clientDispatcher);
         ServerInterface serverInterface = new ClientRmiAdapter(rmiAccepter.registerClient(rmiClient), onClientConnectionLostListener);
-        ClientHeartBeater clientHeartBeater = new ClientHeartBeater(onClientConnectionLostListener, serverInterface, 5000);
+        ClientHeartBeater clientHeartBeater = new ClientHeartBeater(onClientConnectionLostListener, serverInterface, 1000);
         new Thread(clientHeartBeater).start();
         return serverInterface;
     }

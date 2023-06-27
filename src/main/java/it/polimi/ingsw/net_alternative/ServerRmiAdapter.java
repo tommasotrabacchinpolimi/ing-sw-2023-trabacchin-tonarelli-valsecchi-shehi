@@ -7,15 +7,18 @@ import it.polimi.ingsw.model.PlayerState;
 import it.polimi.ingsw.model.TileSubject;
 import it.polimi.ingsw.utils.Coordinate;
 
+import java.io.Closeable;
 import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Map;
 
-public class ServerRmiAdapter implements ClientInterface {
+public class ServerRmiAdapter implements ClientInterface, Closeable {
 
     private final RmiClientInterface rmiClient;
 
     private final OnServerConnectionLostListener serverConnectionLostListener;
+
+    private boolean OPEN;
 
 
 
@@ -23,187 +26,276 @@ public class ServerRmiAdapter implements ClientInterface {
     public ServerRmiAdapter(RmiClientInterface rmiClient, OnServerConnectionLostListener serverConnectionLostListener) {
         this.rmiClient = rmiClient;
         this.serverConnectionLostListener = serverConnectionLostListener;
+        this.OPEN = true;
     }
     @Override
-    public void nop() {
+    public synchronized void nop() {
         try{
+            if(!OPEN) {
+                return;
+            }
             rmiClient.nop();
         } catch(RemoteException e) {
+            OPEN = false;
             serverConnectionLostListener.onConnectionLost(this);
         }
 
     }
 
     @Override
-    public void onAchievedCommonGoal(String nicknamePlayer, List<Coordinate> tiles, int numberCommonGoal) {
+    public synchronized void onAchievedCommonGoal(String nicknamePlayer, List<Coordinate> tiles, int numberCommonGoal) {
         try{
+            if(!OPEN) {
+                return;
+            }
             rmiClient.onAchievedCommonGoal(nicknamePlayer, tiles, numberCommonGoal);
         } catch(RemoteException e) {
+            OPEN = false;
             serverConnectionLostListener.onConnectionLost(this);
         }
     }
 
     @Override
-    public void onAchievedPersonalGoal(String nickname, List<Coordinate> tiles) {
+    public synchronized void onAchievedPersonalGoal(String nickname, List<Coordinate> tiles) {
         try{
+            if(!OPEN) {
+                return;
+            }
             rmiClient.onAchievedPersonalGoal(nickname, tiles);
         } catch(RemoteException e) {
+            OPEN = false;
             serverConnectionLostListener.onConnectionLost(this);
         }
     }
 
     @Override
-    public void onAdjacentTilesUpdated(String nickname, List<Coordinate> tiles) {
+    public synchronized void onAdjacentTilesUpdated(String nickname, List<Coordinate> tiles) {
         try {
+            if(!OPEN) {
+                return;
+            }
             rmiClient.onAdjacentTilesUpdated(nickname, tiles);
         } catch(RemoteException e) {
+            OPEN = false;
             serverConnectionLostListener.onConnectionLost(this);
         }
 
     }
 
     @Override
-    public void onAssignedCommonGoal(String description, int n) {
+    public synchronized void onAssignedCommonGoal(String description, int n) {
         try {
+            if(!OPEN) {
+                return;
+            }
             rmiClient.onAssignedCommonGoal(description, n);
         }catch(RemoteException e) {
+            OPEN = false;
             serverConnectionLostListener.onConnectionLost(this);
         }
 
     }
 
     @Override
-    public void onAssignedPersonalGoal(String nickname, List<EntryPatternGoal> goalPattern, Map<Integer, Integer> scoreMap) {
+    public synchronized void onAssignedPersonalGoal(String nickname, List<EntryPatternGoal> goalPattern, Map<Integer, Integer> scoreMap) {
         try{
+            if(!OPEN) {
+                return;
+            }
             rmiClient.onAssignedPersonalGoal(nickname, goalPattern, scoreMap);
         }catch(RemoteException e) {
+            OPEN = false;
             serverConnectionLostListener.onConnectionLost(this);
         }
     }
 
     @Override
-    public void onBoardRefilled() {
+    public synchronized void onBoardRefilled() {
         try{
+            if(!OPEN) {
+                return;
+            }
             rmiClient.onBoardRefilled();
         } catch(RemoteException e) {
+            OPEN = false;
             serverConnectionLostListener.onConnectionLost(this);
         }
     }
 
     @Override
-    public void onBoardUpdated(TileSubject[][] tileSubjects) {
+    public synchronized void onBoardUpdated(TileSubject[][] tileSubjects) {
         try {
+            if(!OPEN) {
+                return;
+            }
             rmiClient.onBoardUpdated(tileSubjects);
         } catch(RemoteException e) {
+            OPEN = false;
             serverConnectionLostListener.onConnectionLost(this);
         }
     }
 
     @Override
-    public void onBookShelfUpdated(String nickname, TileSubject[][] bookShelf) {
+    public synchronized void onBookShelfUpdated(String nickname, TileSubject[][] bookShelf) {
         try{
+            if(!OPEN) {
+                return;
+            }
             rmiClient.onBookShelfUpdated(nickname, bookShelf);
         } catch(RemoteException e) {
+            OPEN = false;
             serverConnectionLostListener.onConnectionLost(this);
         }
     }
 
     @Override
-    public void onChangedCommonGoalAvailableScore(int score, int numberOfCommonGoal) {
+    public synchronized void onChangedCommonGoalAvailableScore(int score, int numberOfCommonGoal) {
         try {
+            if(!OPEN) {
+                return;
+            }
             rmiClient.onChangedCommonGoalAvailableScore(score, numberOfCommonGoal);
         } catch(RemoteException e) {
+            OPEN = false;
             serverConnectionLostListener.onConnectionLost(this);
         }
     }
 
     @Override
-    public void onCurrentPlayerChangedListener(String nickname) {
+    public synchronized void onCurrentPlayerChangedListener(String nickname) {
         try{
+            if(!OPEN) {
+                return;
+            }
             rmiClient.onCurrentPlayerChangedListener(nickname);
         } catch(RemoteException e) {
+            OPEN = false;
             serverConnectionLostListener.onConnectionLost(this);
         }
     }
 
     @Override
-    public void onException(Exception e) {
+    public synchronized void onException(Exception e) {
         try {
+            if(!OPEN) {
+                return;
+            }
             rmiClient.onException(e);
         } catch(RemoteException e1) {
+            OPEN = false;
             serverConnectionLostListener.onConnectionLost(this);
         }
     }
 
     @Override
-    public void onLastPlayerUpdated(String nicknameLastPlayer) {
+    public synchronized void onLastPlayerUpdated(String nicknameLastPlayer) {
         try {
+            if(!OPEN) {
+                return;
+            }
             rmiClient.onLastPlayerUpdated(nicknameLastPlayer);
         } catch(RemoteException e) {
+            OPEN = false;
             serverConnectionLostListener.onConnectionLost(this);
         }
     }
 
     @Override
-    public void onMessageSent(String nicknameSender, List<String> nicknameReceivers, String text) {
+    public synchronized void onMessageSent(String nicknameSender, List<String> nicknameReceivers, String text) {
         try {
+            if(!OPEN) {
+                return;
+            }
             rmiClient.onMessageSent(nicknameSender, nicknameReceivers, text);
         }catch(RemoteException e) {
+            OPEN = false;
             serverConnectionLostListener.onConnectionLost(this);
         }
     }
 
     @Override
-    public void onMessagesSentUpdate(List<String> senderNicknames, List<List<String>> receiverNicknames, List<String> texts) {
+    public synchronized void onMessagesSentUpdate(List<String> senderNicknames, List<List<String>> receiverNicknames, List<String> texts) {
         try {
+            if(!OPEN) {
+                return;
+            }
             rmiClient.onMessagesSentUpdate(senderNicknames, receiverNicknames, texts);
         } catch(RemoteException e) {
+            OPEN = false;
             serverConnectionLostListener.onConnectionLost(this);
         }
     }
 
     @Override
-    public void onPlayerStateChanged(String nickname, PlayerState playerState) {
+    public synchronized void onPlayerStateChanged(String nickname, PlayerState playerState) {
         try{
+            if(!OPEN) {
+                return;
+            }
             rmiClient.onPlayerStateChanged(nickname, playerState);
         } catch(RemoteException e) {
+            OPEN = false;
             serverConnectionLostListener.onConnectionLost(this);
         }
     }
 
     @Override
-    public void onPlayersListChanged(List<String> players) {
+    public synchronized void onPlayersListChanged(List<String> players) {
         try {
+            if(!OPEN) {
+                return;
+            }
             rmiClient.onPlayersListChanged(players);
         } catch(RemoteException e) {
+            OPEN = false;
             serverConnectionLostListener.onConnectionLost(this);
         }
     }
 
     @Override
-    public void onPointsUpdated(String nickName, int scoreAdjacentGoal, int scoreCommonGoal1, int scoreCommonGoal2, int scoreEndGame, int scorePersonalGoal) {
+    public synchronized void onPointsUpdated(String nickName, int scoreAdjacentGoal, int scoreCommonGoal1, int scoreCommonGoal2, int scoreEndGame, int scorePersonalGoal) {
         try {
+            if(!OPEN) {
+                return;
+            }
             rmiClient.onPointsUpdated(nickName, scoreAdjacentGoal, scoreCommonGoal1, scoreCommonGoal2, scoreEndGame, scorePersonalGoal);
         } catch(RemoteException e) {
+            OPEN = false;
             serverConnectionLostListener.onConnectionLost(this);
         }
     }
 
     @Override
-    public void onStateChanged(GameState gameState) {
+    public synchronized void onStateChanged(GameState gameState) {
         try {
+            if(!OPEN) {
+                return;
+            }
             rmiClient.onStateChanged(gameState);
         } catch(RemoteException e) {
+            OPEN = false;
             serverConnectionLostListener.onConnectionLost(this);
         }
     }
 
     @Override
-    public void onWinnerChanged(String nickname) {
+    public synchronized void onWinnerChanged(String nickname) {
         try {
+            if(!OPEN) {
+                return;
+            }
             rmiClient.onWinnerChanged(nickname);
         } catch(RemoteException e) {
+            OPEN = false;
             serverConnectionLostListener.onConnectionLost(this);
+        }
+    }
+
+    @Override
+    public synchronized void close() {
+        if(OPEN) {
+            OPEN = false;
+            this.serverConnectionLostListener.onConnectionLost(this);
         }
     }
 }

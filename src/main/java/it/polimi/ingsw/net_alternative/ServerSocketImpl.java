@@ -9,10 +9,12 @@ import java.io.*;
 import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class ServerSocketImpl implements ServerInterface, Runnable {
+public class ServerSocketImpl implements ServerInterface, Runnable, Closeable {
 
 
     private final ObjectOutputStream oos;
@@ -21,6 +23,10 @@ public class ServerSocketImpl implements ServerInterface, Runnable {
 
     private final OnClientConnectionLostListener clientConnectionLostListener;
 
+    private final Timer timer;
+
+    private TimerTask timerTask;
+
     private boolean OPEN = true;
 
     public ServerSocketImpl(Socket socket, ClientDispatcherInterface clientDispatcher, OnClientConnectionLostListener clientConnectionLostListener) throws IOException {
@@ -28,6 +34,13 @@ public class ServerSocketImpl implements ServerInterface, Runnable {
         this.ois = new ObjectInputStream(socket.getInputStream());
         this.clientDispatcher = clientDispatcher;
         this.clientConnectionLostListener = clientConnectionLostListener;
+        this.timer = new Timer();
+        this.timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                close();
+            }
+        };
     }
     @Override
     public synchronized void dragTilesToBookShelf(List<Coordinate> chosenTiles, int chosenColumn) {
@@ -41,9 +54,7 @@ public class ServerSocketImpl implements ServerInterface, Runnable {
             oos.flush();
             System.out.println("drag message sent");
         } catch (IOException e) {
-            OPEN = false;
-            clientConnectionLostListener.onConnectionLost();
-            e.printStackTrace();
+            close();
         }
     }
 
@@ -58,9 +69,7 @@ public class ServerSocketImpl implements ServerInterface, Runnable {
             oos.flush();
             oos.reset();
         } catch (IOException e) {
-            OPEN = false;
-            clientConnectionLostListener.onConnectionLost();
-            e.printStackTrace();
+            close();
         }
     }
 
@@ -74,9 +83,7 @@ public class ServerSocketImpl implements ServerInterface, Runnable {
             oos.writeObject(createGameNetMessage);
             oos.flush();
         } catch (IOException e) {
-            OPEN = false;
-            clientConnectionLostListener.onConnectionLost();
-            e.printStackTrace();
+            close();
         }
     }
 
@@ -90,9 +97,7 @@ public class ServerSocketImpl implements ServerInterface, Runnable {
             oos.writeObject(quitGameNetMessage);
             oos.flush();
         } catch (IOException e) {
-            OPEN = false;
-            clientConnectionLostListener.onConnectionLost();
-            e.printStackTrace();
+            close();
         }
     }
 
@@ -106,9 +111,7 @@ public class ServerSocketImpl implements ServerInterface, Runnable {
             oos.writeObject(sentMessageNetMessage);
             oos.flush();
         } catch (IOException e) {
-            OPEN = false;
-            clientConnectionLostListener.onConnectionLost();
-            e.printStackTrace();
+            close();
         }
     }
 
@@ -122,30 +125,51 @@ public class ServerSocketImpl implements ServerInterface, Runnable {
             oos.writeObject(nopNetMessage);
             oos.flush();
         } catch (IOException e) {
-            OPEN = false;
-            clientConnectionLostListener.onConnectionLost();
-            e.printStackTrace();
+            close();
         }
     }
 
     @Override
     public void run() {
+        timer.schedule(timerTask, 5000);
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         while (true) {
-            try {
-                ClientMessage message = (ClientMessage) ois.readObject();
-                if(message instanceof CurrentPlayerChangedListenerNetMessage) {
-                    System.out.println("received current player changed net message");
-                }
-                executorService.submit(() -> message.dispatch(clientDispatcher));
-            } catch (Exception e) {
-                synchronized (this) {
-                    clientConnectionLostListener.onConnectionLost();
-                    OPEN = false;
-                    //e.printStackTrace();
-                    return;
+            synchronized (this) {
+                if(!OPEN) {
+                    break;
                 }
             }
+            try {
+                ClientMessage message = (ClientMessage) ois.readObject();
+                timerTask.cancel();
+                timerTask = new TimerTask() {
+                        @Override
+                        public void run() {
+                            close();
+                        }
+                    };
+                timer.schedule(timerTask, 5000);
+                executorService.submit(() -> message.dispatch(clientDispatcher));
+            } catch (Exception e) {
+                close();
+
+                }
+                return;
+            }
+        }
+
+
+    @Override
+    public synchronized void close() {
+        if(OPEN) {
+            System.out.println("socket timer gone off");
+            try {
+                oos.close();
+                ois.close();
+            } catch (IOException ignored) {
+            }
+            OPEN = false;
+            clientConnectionLostListener.onConnectionLost();
         }
     }
 }

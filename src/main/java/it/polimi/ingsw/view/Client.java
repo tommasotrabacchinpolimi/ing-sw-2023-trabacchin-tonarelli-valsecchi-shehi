@@ -1,12 +1,8 @@
 package it.polimi.ingsw.view;
 
-import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.controller.ClientInterface;
 import it.polimi.ingsw.controller.ServerInterface;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.net.ConnectionManager;
-import it.polimi.ingsw.net.RmiConnectionManager;
-import it.polimi.ingsw.net.SocketConnectionManager;
 import it.polimi.ingsw.net_alternative.ClientDispatcher;
 import it.polimi.ingsw.net_alternative.ConnectionBuilder;
 import it.polimi.ingsw.net_alternative.OnClientConnectionLostListener;
@@ -15,7 +11,6 @@ import it.polimi.ingsw.utils.Triple;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 import java.util.*;
 
 import static it.polimi.ingsw.view.Client.Choice.RMI;
