@@ -76,7 +76,6 @@ public class InputSelector extends Input{
                 else {
                     getOut().println("This is not your turn! You cannot play");
                 }
-
                 break;
             default :
                 getTUI().getPage().show();

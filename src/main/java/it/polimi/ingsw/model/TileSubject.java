@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.Serializable;
 
 /**
+ * This enum represents each subject that a tile can have depicted on itself
  * @author Tommaso Trabacchin
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
@@ -15,6 +16,8 @@ import java.io.Serializable;
  */
 
 public enum TileSubject implements Serializable {
+
+
     CAT_GRAY( TileType.CAT ),
     CAT_ORANGE( TileType.CAT),
     CAT_BLACK( TileType.CAT ),
@@ -34,23 +37,46 @@ public enum TileSubject implements Serializable {
     BOOK_COMIC( TileType.BOOK ),
     BOOK_NOTE(TileType.BOOK);
 
+    /**
+     * The serialVersionUID to allow serialization of this enum
+     */
     private static final long serialVersionUID = 5341537492L;
+    /**
+     * The tileType associated with the tileSubject
+     * @see TileType
+     */
     final private TileType tileType;
 
+    /**
+     * Constructor that initialize the TileSubject with a specific TileType
+     * @param tileType the TileType of the TileSubject
+     */
     TileSubject( TileType tileType ) {
         this.tileType = tileType;
     }
 
+    /**
+     * Returns the TileType of the TileSubject
+     * @return the TileType of the TileSubject
+     */
     public TileType getTileType() {
         return this.tileType;
     }
 
+    /**
+     * Returns the string representation of the TileType of the TileSubject
+     * @return the string representation of the TileType of the TileSubject
+     */
     @NotNull
     @Contract(pure = true)
     public String getTileTypeName(){
         return this.tileType.toString();
     }
 
+    /**
+     * Return the string representation of the TileSubject
+     * @return the string representation of the TileSubject
+     */
     @Override
     public String toString() {
         return this.name();
