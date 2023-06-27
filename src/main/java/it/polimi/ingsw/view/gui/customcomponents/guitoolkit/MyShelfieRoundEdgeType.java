@@ -4,6 +4,11 @@ package it.polimi.ingsw.view.gui.customcomponents.guitoolkit;
  * This class represent the default edge radius value that
  * can be applied on different components to make their
  * corner smooth
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
  */
 public enum MyShelfieRoundEdgeType {
 
