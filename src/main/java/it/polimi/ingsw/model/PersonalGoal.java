@@ -22,8 +22,7 @@ import org.json.simple.parser.*;
  *     RuleBook
  *     </a>.
  * </p>
- * <p>The default number of Tile inside a personal goal pattern is {@value DEF_NUM_TILE_PATTERN}. To set a personal goal
- * with a number of tiles above this limit use  {@link #PersonalGoal(int numberOfTileInPattern)} constructor.</p>
+ * <p>The default number of Tile inside a personal goal pattern is {@value DEF_NUM_TILE_PATTERN}.</p>
  * <p>The score map referred to each card have a standard configuration:
  * <ul>
  *     <li>1 Tile match = 1 Point</li>
@@ -82,19 +81,6 @@ public class PersonalGoal implements Serializable {
         goalPattern = new ArrayList<>(DEF_NUM_TILE_PATTERN);
         scoreMap = new Hashtable<>(DEF_NUM_TILE_PATTERN);
         createRandomGoalPattern();
-        setDefaultScoreMap();
-    }
-
-    /**
-     * Constructor set the goalPattern and scoreMap capacity to numTilePattern value
-     * Pattern created is random and the score map is set to default configuration value.
-     *
-     * @param numTilePattern the initial capacity for goalPattern and scoreMap
-     * @see PersonalGoal
-     */
-    public PersonalGoal(int numTilePattern){
-        goalPattern = new ArrayList<>(numTilePattern);
-        scoreMap = new Hashtable<>(numTilePattern);
         setDefaultScoreMap();
     }
 
@@ -267,38 +253,6 @@ public class PersonalGoal implements Serializable {
         }
 
         return false;
-    }
-
-    /**
-     * This method checks if the max {@link #scoreMap score map} value correspond to the number of tiles insert in the
-     * {@link #goalPattern pattern}
-     *
-     * @return {@code true} if the format of the entire personal goal card is set up correctly, {@code false} otherwise
-     * @see PersonalGoal
-     */
-    private boolean verifyInput(){
-        if( getMaxScoreMapValue() != goalPattern.size() ) {
-            //should throw an exception
-            System.out.println("The goal pattern insert does not respect rules");
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Retrieve the max value inside {@link #scoreMap score map} associated with the personal goal card
-     *
-     * @return max {@link #scoreMap score map} value
-     * @see PersonalGoal
-     */
-    private int getMaxScoreMapValue(){
-        Integer max = (Integer) scoreMap.keySet().toArray()[0];
-
-        for(Integer i : scoreMap.keySet()){
-                max = ( i > max) ? i : max;
-        }
-
-        return max;
     }
 
     @Override
