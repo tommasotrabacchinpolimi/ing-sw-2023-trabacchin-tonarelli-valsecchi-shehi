@@ -49,6 +49,11 @@ The structure of the whole system is displayed by different UMLs. In the `uml` d
 2. `finalUML` which contains the final diagram, generated from the code by automated tools.
 
 ## Testing
+The tests achieved the following coverage:
+1. Model 
+<img src="test-coverage/model-test.png">
+2. Controller
+   <img src="test-coverage/controller-test.png">
 
 ## JavaDoc
 
