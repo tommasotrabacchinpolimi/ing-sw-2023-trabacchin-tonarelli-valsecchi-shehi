@@ -53,7 +53,6 @@ public interface ClientInterface extends OnBoardRefilledListener,
         OnChangedCommonGoalAvailableScoreListener,
         OnWinnerChangedListener,
         OnPlayersListChangedListener
-        //OnClientConnectionLostListener
                                     {
                                         void nop();
                                     }
