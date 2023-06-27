@@ -11,7 +11,13 @@ import java.util.List;
 
 /**
  * <p>This class is used to launch and interact with the Graphical Interface of the Application</p>
- * <p></p>
+ * <br>
+ * <p>
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ * </p>
  */
 public class GUILauncher extends MyShelfieApplication {
 
@@ -24,19 +30,18 @@ public class GUILauncher extends MyShelfieApplication {
     private GUI gui;
 
     /**
-     * The application initialization method. This method is called immediately
-     * after the Application class is loaded and constructed. An application may
-     * override this method to perform initialization prior to the actual starting
-     * of the application.
+     * The application initialization method, this method is called immediately
+     * after the Application class is loaded and constructed. <br>
+     * An application may override this method to perform initialization prior to
+     * the actual starting of the application.
      *
      * <p>
      * The implementation of this method provided by the Application class does nothing.
      * </p>
      *
      * <p>
-     * NOTE: This method is not called on the JavaFX Application Thread. An
-     * application must not construct a Scene or a Stage in this
-     * method.
+     * NOTE: This method is not called on the JavaFX Application Thread.
+     * An application must not construct a Scene or a Stage in this method.
      * An application may construct other JavaFX objects in this method.
      * </p>
      *
@@ -73,19 +78,30 @@ public class GUILauncher extends MyShelfieApplication {
         stage.show();
     }
 
+    /**
+     * Shows the "Waiting for other players to join" message.
+     */
     public void showWaitForPlayers() {
         showWaitingView("Waiting for other players to join");
     }
 
+    /**
+     * Navigates to the login page.
+     */
     public void goToLoginPage() {
         changeScene(LOGIN_PAGE_LAYOUT);
     }
 
+
+    /**
+     * Navigates to the main interface.
+     */
     public void goToMainInterface() {
         changeToFullScreenStage(MAIN_INTERFACE_LAYOUT);
 
         initOpponentInterfaceInformation();
     }
+
 
     private MainInterfaceController getMainInterfaceController() throws ClassCastException {
         try {
@@ -100,10 +116,20 @@ public class GUILauncher extends MyShelfieApplication {
         getMainInterfaceController().handleOpponentInterfaceInformation();
     }
 
+    /**
+     * Sets the GUI instance.
+     *
+     * @param gui The GUI instance.
+     */
     public void setGUI(GUI gui) {
         this.gui = gui;
     }
 
+    /**
+     * Retrieves the GUI instance.
+     *
+     * @return The GUI instance.
+     */
     public GUI getGUI() {
         return gui;
     }
@@ -112,10 +138,19 @@ public class GUILauncher extends MyShelfieApplication {
         return getGUI().getModel();
     }
 
+    /**
+     * Handles a remote exception by displaying an error alert.
+     *
+     * @param exception The remote exception message.
+     */
     public void handleRemoteException(String exception) {
         MyShelfieAlertCreator.displayErrorAlert(exception);
     }
 
+
+    /**
+     * Handles the living room update by updating the board state in the main interface.
+     */
     public void handleLivingRoomUpdate() {
         if(getMainInterfaceController().isBoardEmpty()){
             getMainInterfaceController().firstTimeFillBoard(getGUIModel().getBoard());
@@ -127,6 +162,7 @@ public class GUILauncher extends MyShelfieApplication {
             getMainInterfaceController().undoClientPlayedOperation();
         }
     }
+
 
     private boolean isNextPlayerToThis() {
         for (int i = 0; i < getGUIModel().getPlayers().size(); ++i) {
@@ -141,6 +177,9 @@ public class GUILauncher extends MyShelfieApplication {
         return false;
     }
 
+    /**
+     * Handles blocking or enabling game controls in the main interface based on the current player.
+     */
     public void handleBlockGameControls() {
         if(!getGUIModel().getCurrentPlayer().equals(getGUIModel().getThisPlayer()))
             getMainInterfaceController().blockGameControlsOperation();
@@ -148,10 +187,19 @@ public class GUILauncher extends MyShelfieApplication {
             getMainInterfaceController().enableGameControlsOperation();
     }
 
+
+    /**
+     * Manages the main interface by navigating to it.
+     */
     public void manageMainInterface() {
         goToMainInterface();
     }
 
+    /**
+     * Handles a new message by passing it to the main interface controller.
+     *
+     * @param lastMessage The last received message.
+     */
     public void handleNewMessage(@NotNull Triple<String, List<String>, String> lastMessage) {
         getMainInterfaceController().receivedMessageOperation(lastMessage);
     }
