@@ -32,6 +32,7 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
     }
     private Choice choice;
 
+
     public Client(UI ui, ViewData model) {
         this.ui = ui;
         viewData = model;
