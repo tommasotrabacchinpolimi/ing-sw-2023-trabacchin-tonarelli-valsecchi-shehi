@@ -6,6 +6,11 @@ import it.polimi.ingsw.net_alternative.servermessages.*;
 
 /**
  * The ServerDispatcherInterface defines the remote methods that can be invoked by the ServerDipatcher
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
  */
 public interface ServerDispatcherInterface {
     /**
