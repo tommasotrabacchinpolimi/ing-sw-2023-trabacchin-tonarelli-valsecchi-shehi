@@ -11,8 +11,18 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
+/**
+ * The main class for the server application.
+ */
 public class AppServer {
 
+    /**
+     * The entry point of the server application.
+     *
+     * @param args The command-line arguments.
+     * @throws RemoteException        if a remote error occurs.
+     * @throws AlreadyBoundException  if the RMI object is already bound.
+     */
     public static void main(String[] args) throws RemoteException, AlreadyBoundException {
         System.setProperty("java.rmi.server.hostname", "192.168.142.15");
         System.setProperty("sun.rmi.transport.connectionTimeout", "10000");
