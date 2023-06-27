@@ -28,6 +28,8 @@ public class ClientRmiAdapter implements ServerInterface {
     private final RmiServerInterface rmiServer;
     private final OnClientConnectionLostListener onClientConnectionLostListener;
 
+    private boolean OPEN;
+
     /**
      * Constructs a new instance of the `ClientRmiAdapter` class with the specified RMI server interface and
      * connection lost listener.
@@ -38,6 +40,7 @@ public class ClientRmiAdapter implements ServerInterface {
     public ClientRmiAdapter(RmiServerInterface rmiServer, OnClientConnectionLostListener onClientConnectionLostListener) {
         this.rmiServer = rmiServer;
         this.onClientConnectionLostListener = onClientConnectionLostListener;
+        this.OPEN = true;
     }
 
     /**
@@ -47,11 +50,18 @@ public class ClientRmiAdapter implements ServerInterface {
      * @param chosenColumn  The chosen column index.
      */
     @Override
-    public void dragTilesToBookShelf(List<Coordinate> chosenTiles, int chosenColumn) {
+    public synchronized void dragTilesToBookShelf(List<Coordinate> chosenTiles, int chosenColumn) {
         try {
+            if(!OPEN) {
+                return;
+            }
             rmiServer.dragTilesToBookShelf(chosenTiles, chosenColumn);
         } catch (RemoteException e) {
-            onClientConnectionLostListener.onConnectionLost();
+            if(OPEN) {
+                OPEN = false;
+                onClientConnectionLostListener.onConnectionLost();
+            }
+
         }
     }
 
@@ -61,11 +71,14 @@ public class ClientRmiAdapter implements ServerInterface {
      * @param nickname The nickname of the player.
      */
     @Override
-    public void joinGame(String nickname) {
+    public synchronized void joinGame(String nickname) {
         try {
             rmiServer.joinGame(nickname);
         } catch (RemoteException e) {
-            onClientConnectionLostListener.onConnectionLost();
+            if(OPEN) {
+                OPEN = false;
+                onClientConnectionLostListener.onConnectionLost();
+            }
         }
     }
 
@@ -76,11 +89,14 @@ public class ClientRmiAdapter implements ServerInterface {
      * @param numberOfPlayer The number of players in the game.
      */
     @Override
-    public void createGame(String nickname, int numberOfPlayer) {
+    public synchronized void createGame(String nickname, int numberOfPlayer) {
         try {
             rmiServer.createGame(nickname, numberOfPlayer);
         } catch (RemoteException e) {
-            onClientConnectionLostListener.onConnectionLost();
+            if(OPEN) {
+                OPEN = false;
+                onClientConnectionLostListener.onConnectionLost();
+            }
         }
     }
 
@@ -88,11 +104,14 @@ public class ClientRmiAdapter implements ServerInterface {
      * Sends a message to the server to quit the game.
      */
     @Override
-    public void quitGame() {
+    public synchronized void quitGame() {
         try {
             rmiServer.quitGame();
         } catch (RemoteException e) {
-            onClientConnectionLostListener.onConnectionLost();
+            if(OPEN) {
+                OPEN = false;
+                onClientConnectionLostListener.onConnectionLost();
+            }
         }
     }
 
@@ -103,11 +122,14 @@ public class ClientRmiAdapter implements ServerInterface {
      * @param receiversNickname The nicknames of the message receivers.
      */
     @Override
-    public void sentMessage(String text, String[] receiversNickname) {
+    public synchronized void sentMessage(String text, String[] receiversNickname) {
         try {
             rmiServer.sentMessage(text, receiversNickname);
         } catch (RemoteException e) {
-            onClientConnectionLostListener.onConnectionLost();
+            if(OPEN) {
+                OPEN = false;
+                onClientConnectionLostListener.onConnectionLost();
+            }
         }
     }
 
@@ -115,11 +137,14 @@ public class ClientRmiAdapter implements ServerInterface {
      * Sends a "nop" (no operation) message to the server.
      */
     @Override
-    public void nop() {
+    public synchronized void nop() {
         try {
             rmiServer.nop();
         } catch (RemoteException e) {
-            onClientConnectionLostListener.onConnectionLost();
+            if(OPEN) {
+                OPEN = false;
+                onClientConnectionLostListener.onConnectionLost();
+            }
         }
     }
 }

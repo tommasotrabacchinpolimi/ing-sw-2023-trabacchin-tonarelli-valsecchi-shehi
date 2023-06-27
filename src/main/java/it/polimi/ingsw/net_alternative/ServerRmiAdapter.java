@@ -24,7 +24,7 @@ import java.util.Map;
  */
 
 
-public class ServerRmiAdapter implements ClientInterface, Closeable {
+public class ServerRmiAdapter implements ClientInterface {
 
     private final RmiClientInterface rmiClient;
 
@@ -58,8 +58,11 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
             }
             rmiClient.nop();
         } catch(RemoteException e) {
-            OPEN = false;
-            serverConnectionLostListener.onConnectionLost(this);
+            if(OPEN) {
+                OPEN = false;
+                serverConnectionLostListener.onConnectionLost(this);
+            }
+
         }
 
     }
@@ -79,8 +82,10 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
             }
             rmiClient.onAchievedCommonGoal(nicknamePlayer, tiles, numberCommonGoal);
         } catch(RemoteException e) {
-            OPEN = false;
-            serverConnectionLostListener.onConnectionLost(this);
+            if(OPEN) {
+                OPEN = false;
+                serverConnectionLostListener.onConnectionLost(this);
+            }
         }
     }
 
@@ -97,8 +102,10 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
             }
             rmiClient.onAchievedPersonalGoal(nickname, tiles);
         } catch(RemoteException e) {
-            OPEN = false;
-            serverConnectionLostListener.onConnectionLost(this);
+            if(OPEN) {
+                OPEN = false;
+                serverConnectionLostListener.onConnectionLost(this);
+            }
         }
     }
 
@@ -116,8 +123,10 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
             }
             rmiClient.onAdjacentTilesUpdated(nickname, tiles);
         } catch(RemoteException e) {
-            OPEN = false;
-            serverConnectionLostListener.onConnectionLost(this);
+            if(OPEN) {
+                OPEN = false;
+                serverConnectionLostListener.onConnectionLost(this);
+            }
         }
 
     }
@@ -135,8 +144,10 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
             }
             rmiClient.onAssignedCommonGoal(description, n);
         }catch(RemoteException e) {
-            OPEN = false;
-            serverConnectionLostListener.onConnectionLost(this);
+            if(OPEN) {
+                OPEN = false;
+                serverConnectionLostListener.onConnectionLost(this);
+            }
         }
 
     }
@@ -155,8 +166,10 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
             }
             rmiClient.onAssignedPersonalGoal(nickname, goalPattern, scoreMap);
         }catch(RemoteException e) {
-            OPEN = false;
-            serverConnectionLostListener.onConnectionLost(this);
+            if(OPEN) {
+                OPEN = false;
+                serverConnectionLostListener.onConnectionLost(this);
+            }
         }
     }
     /**
@@ -171,8 +184,10 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
             }
             rmiClient.onBoardRefilled();
         } catch(RemoteException e) {
-            OPEN = false;
-            serverConnectionLostListener.onConnectionLost(this);
+            if(OPEN) {
+                OPEN = false;
+                serverConnectionLostListener.onConnectionLost(this);
+            }
         }
     }
 
@@ -188,8 +203,10 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
             }
             rmiClient.onBoardUpdated(tileSubjects);
         } catch(RemoteException e) {
-            OPEN = false;
-            serverConnectionLostListener.onConnectionLost(this);
+            if(OPEN) {
+                OPEN = false;
+                serverConnectionLostListener.onConnectionLost(this);
+            }
         }
     }
 
@@ -206,8 +223,10 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
             }
             rmiClient.onBookShelfUpdated(nickname, bookShelf);
         } catch(RemoteException e) {
-            OPEN = false;
-            serverConnectionLostListener.onConnectionLost(this);
+            if(OPEN) {
+                OPEN = false;
+                serverConnectionLostListener.onConnectionLost(this);
+            }
         }
     }
 
@@ -224,8 +243,10 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
             }
             rmiClient.onChangedCommonGoalAvailableScore(score, numberOfCommonGoal);
         } catch(RemoteException e) {
-            OPEN = false;
-            serverConnectionLostListener.onConnectionLost(this);
+            if(OPEN) {
+                OPEN = false;
+                serverConnectionLostListener.onConnectionLost(this);
+            }
         }
     }
 
@@ -241,8 +262,10 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
             }
             rmiClient.onCurrentPlayerChangedListener(nickname);
         } catch(RemoteException e) {
-            OPEN = false;
-            serverConnectionLostListener.onConnectionLost(this);
+            if(OPEN) {
+                OPEN = false;
+                serverConnectionLostListener.onConnectionLost(this);
+            }
         }
     }
 
@@ -260,8 +283,10 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
             }
             rmiClient.onException(e);
         } catch(RemoteException e1) {
-            OPEN = false;
-            serverConnectionLostListener.onConnectionLost(this);
+            if(OPEN) {
+                OPEN = false;
+                serverConnectionLostListener.onConnectionLost(this);
+            }
         }
     }
 
@@ -278,8 +303,10 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
             }
             rmiClient.onLastPlayerUpdated(nicknameLastPlayer);
         } catch(RemoteException e) {
-            OPEN = false;
-            serverConnectionLostListener.onConnectionLost(this);
+            if(OPEN) {
+                OPEN = false;
+                serverConnectionLostListener.onConnectionLost(this);
+            }
         }
     }
 
@@ -297,8 +324,10 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
             }
             rmiClient.onMessageSent(nicknameSender, nicknameReceivers, text);
         } catch(RemoteException e) {
-            OPEN = false;
-            serverConnectionLostListener.onConnectionLost(this);
+            if(OPEN) {
+                OPEN = false;
+                serverConnectionLostListener.onConnectionLost(this);
+            }
         }
     }
 
@@ -316,8 +345,10 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
             }
             rmiClient.onMessagesSentUpdate(senderNicknames, receiverNicknames, texts);
         } catch(RemoteException e) {
-            OPEN = false;
-            serverConnectionLostListener.onConnectionLost(this);
+            if(OPEN) {
+                OPEN = false;
+                serverConnectionLostListener.onConnectionLost(this);
+            }
         }
     }
 
@@ -335,8 +366,10 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
             }
             rmiClient.onPlayerStateChanged(nickname, playerState);
         } catch(RemoteException e) {
-            OPEN = false;
-            serverConnectionLostListener.onConnectionLost(this);
+            if(OPEN) {
+                OPEN = false;
+                serverConnectionLostListener.onConnectionLost(this);
+            }
         }
     }
     /**
@@ -351,8 +384,10 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
             }
             rmiClient.onPlayersListChanged(players);
         } catch(RemoteException e) {
-            OPEN = false;
-            serverConnectionLostListener.onConnectionLost(this);
+            if(OPEN) {
+                OPEN = false;
+                serverConnectionLostListener.onConnectionLost(this);
+            }
         }
     }
 
@@ -373,8 +408,10 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
             }
             rmiClient.onPointsUpdated(nickName, scoreAdjacentGoal, scoreCommonGoal1, scoreCommonGoal2, scoreEndGame, scorePersonalGoal);
         } catch(RemoteException e) {
-            OPEN = false;
-            serverConnectionLostListener.onConnectionLost(this);
+            if(OPEN) {
+                OPEN = false;
+                serverConnectionLostListener.onConnectionLost(this);
+            }
         }
     }
 
@@ -392,8 +429,10 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
             }
             rmiClient.onStateChanged(gameState);
         } catch(RemoteException e) {
-            OPEN = false;
-            serverConnectionLostListener.onConnectionLost(this);
+            if(OPEN) {
+                OPEN = false;
+                serverConnectionLostListener.onConnectionLost(this);
+            }
         }
     }
 
@@ -410,19 +449,11 @@ public class ServerRmiAdapter implements ClientInterface, Closeable {
             }
             rmiClient.onWinnerChanged(nickname);
         } catch(RemoteException e) {
-            OPEN = false;
-            serverConnectionLostListener.onConnectionLost(this);
+            if(OPEN) {
+                OPEN = false;
+                serverConnectionLostListener.onConnectionLost(this);
+            }
         }
     }
 
-    /**
-     * Closes the server RMI adapter and releases any system resources associated with it.
-     */
-    @Override
-    public synchronized void close() {
-        if(OPEN) {
-            OPEN = false;
-            this.serverConnectionLostListener.onConnectionLost(this);
-        }
-    }
 }
