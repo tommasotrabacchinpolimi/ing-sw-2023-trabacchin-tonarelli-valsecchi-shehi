@@ -513,8 +513,12 @@ public class ClientSocketImpl implements ClientInterface, Runnable {
                 ServerMessage message = (ServerMessage) ois.readObject();
                 executorService.submit(()->message.dispatch(serverDispatcher, this));
             } catch (Exception e) {
-                OPEN = false;
-                onConnectionLostListener.onConnectionLost(this);
+                synchronized (this) {
+                    if(OPEN) {
+                        OPEN = false;
+                        onConnectionLostListener.onConnectionLost(this);
+                    }
+                }
             }
         }
     }
