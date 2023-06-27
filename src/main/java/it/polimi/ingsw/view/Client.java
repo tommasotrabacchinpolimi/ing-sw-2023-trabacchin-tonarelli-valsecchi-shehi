@@ -20,6 +20,12 @@ import static it.polimi.ingsw.view.Client.Choice.SOCKET;
  * The Client class represents a client in the game.
  * It implements the ClientInterface and LogicInterface interfaces,
  * which define the methods for interacting with the server and handling game logic.
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ *
  */
 public class Client implements ClientInterface, LogicInterface, OnClientConnectionLostListener {
 

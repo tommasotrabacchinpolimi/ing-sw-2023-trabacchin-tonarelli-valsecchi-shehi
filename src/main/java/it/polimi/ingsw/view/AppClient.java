@@ -7,11 +7,26 @@ import javafx.application.Application;
 import java.io.IOException;
 import java.rmi.NotBoundException;
 
+/**
+ * The main class for the client application.
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ */
 public class AppClient {
     private static final int DIM_BOARD = 9;
     private static final int DIMCOL_BOOKSHELF = 5;
     private static final int DIMROW_BOOKSHELF = 6;
 
+    /**
+     * The entry point of the client application.
+     *
+     * @param args The command-line arguments.
+     * @throws NotBoundException      if the remote object is not bound.
+     * @throws IOException           if an I/O error occurs.
+     * @throws ClassNotFoundException if a class cannot be found.
+     */
     public static void main(String[] args) throws NotBoundException, IOException, ClassNotFoundException {
         System.setProperty("sun.rmi.transport.tcp.responseTimeout", "10000");
         if(args.length == 2) {
@@ -23,11 +38,23 @@ public class AppClient {
             GUISetup(args);
     }
 
+    /**
+     * Sets up the Text User Interface (TUI).
+     *
+     * @throws IOException           if an I/O error occurs.
+     * @throws NotBoundException      if the remote object is not bound.
+     * @throws ClassNotFoundException if a class cannot be found.
+     */
     public static void TUISetup() throws IOException, NotBoundException, ClassNotFoundException {
         TUI tui = new TUI();
         tui.launchUI();
     }
 
+    /**
+     * Sets up the Graphical User Interface (GUI).
+     *
+     * @param args The command-line arguments.
+     */
     public static void GUISetup(String[] args) {
         Application.launch(GUILauncher.class, args);
     }
