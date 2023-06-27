@@ -44,7 +44,14 @@ public class AskWaitTillConnectionUp extends Input {
         if(line.equals("yes")) {
             System.out.println("Reconnecting...");
             getTUI().getLogicController().reConnect();
-            getTUI().setCurrentInput(new AskNickname(getTUI(), getOut()));
+            if(getTUI().getModel().getThisPlayer() != null) {
+                getTUI().setCurrentInput(new AskWait(getTUI(), getOut()));
+                getTUI().getLogicController().joinGame(getTUI().getModel().getThisPlayer());
+            }
+            else {
+                getTUI().setCurrentInput(new AskNickname(getTUI(), getOut()));
+            }
+
         }
         else if(line.equals("no")) {
             System.exit(0);
