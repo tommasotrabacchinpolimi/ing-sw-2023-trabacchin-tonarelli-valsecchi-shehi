@@ -18,10 +18,12 @@ import java.util.Objects;
  * @see StairCommonGoal
  * @see LineCommonGoal
  *
+ * <p>
  * @author Tommaso Trabacchin
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
  * @author Adem Shehi
+ * </p>
  * @version 2.0
  * @since 02/05/2023
  */

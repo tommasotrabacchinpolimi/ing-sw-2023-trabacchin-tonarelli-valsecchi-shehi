@@ -18,12 +18,14 @@ import java.util.*;
  *  @see BookShelf
  *  @see EntryPatternGoal
  *
+ * <p>
  * @author Tommaso Trabacchin
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
  * @author Adem Shehi
  * @version 2.0
  * @since 03/04/2023
+ * </p>
  */
 public class StairCommonGoal extends CommonGoal implements Serializable {
     @Serial

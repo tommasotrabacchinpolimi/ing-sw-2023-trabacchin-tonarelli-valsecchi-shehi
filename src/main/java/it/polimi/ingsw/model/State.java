@@ -23,12 +23,14 @@ import java.util.*;
  * @see Player
  * @see ChatMessage
  *
+ * <p>
  * @author Tommaso Trabacchin
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
  * @author Adem Shehi
  * @version 3.0
  * @since 22/04/2023
+ * </p>
  */
 public class State implements Serializable, OnUpdateNeededListener {
     @Serial

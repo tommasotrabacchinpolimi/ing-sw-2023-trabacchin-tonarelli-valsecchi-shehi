@@ -17,6 +17,7 @@ import java.util.Stack;
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
  * @author Adem Shehi
+ *
  * @version 2.0
  * @apiNote Valid combination of the parameters values are the following :
  * (incRow = 1, incCol = 0, linesNumber = 4, numberOfTiles = 5, differentTiles = {1,2,3}),

@@ -2,6 +2,11 @@ package it.polimi.ingsw.model.exceptions;
 
 /**
  * Exception thrown when no Tile object has been taken from the Board.
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
  */
 public class NoTileTakenException extends RuntimeException {
     /**

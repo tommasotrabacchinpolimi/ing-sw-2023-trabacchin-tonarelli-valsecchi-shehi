@@ -13,10 +13,12 @@ import java.util.Objects;
  * Class that represents the points achieved by a player.
  * @see Player
  * @see OnPointsUpdatedListener
+ * <p>
  * @author Tommaso Trabacchin
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
  * @author Adem Shehi
+ * </p>
  * @version 2.0
  * @since 10/04/2023
  */

@@ -35,10 +35,12 @@ import org.json.simple.parser.*;
  * To create a new type of score map associated with a personal goal
  * see {@link #PersonalGoal(String fileName) PersonalGoal(fileName)} constructor</p>
  *
+ * <p>
  * @author Tommaso Trabacchin
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
  * @author Adem Shehi
+ * </p>
  * @version 1.0
  * @since 28/03/2023
  */

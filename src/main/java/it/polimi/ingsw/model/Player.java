@@ -19,11 +19,13 @@ import java.util.Objects;
  *
  * @see PersonalGoal
  *
+ * <p>
  * @author Tommaso Trabacchin
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
  * @author Adem Shehi
  * @version 3.0
+ * </p>
  * @since 10/04/2023
  */
 public class Player implements Serializable, OnUpdateNeededListener {

@@ -18,10 +18,12 @@ import java.util.Stack;
  * </ul>
  * </p>
  *
+ * <p>
  * @author Tommaso Trabacchin
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
  * @author Adem Shehi
+ * </p>
  * @version 3.0
  * @since 11/04/2023
  *

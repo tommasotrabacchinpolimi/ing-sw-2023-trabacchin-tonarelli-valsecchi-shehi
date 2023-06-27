@@ -8,12 +8,15 @@ package it.polimi.ingsw.model;
  * </a> to understand which type of Tile there are in the game.
  *
  * @see TileSubject
+ *
+ * <p></p>
  * @author Tommaso Trabacchin
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
  * @author Adem Shehi
  * @version 1.0
  * @since 08/03/2023
+ * </p>
  */
 public enum TileType {
     CAT("C",0),

@@ -31,10 +31,12 @@ import java.util.List;
  * @see TileSubject
  * @see CommonGoal
  *
+ * <p>
  * @author Tommaso Trabacchin
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
  * @author Adem Shehi
+ * </p>
  * @version 5.0
  * @since 26/04/2023
  */

@@ -29,10 +29,12 @@ import static it.polimi.ingsw.model.BoardSquareType.THREE_DOTS;
  * @see TileSubject
  * @see BoardSquareType
  *
+ * <p>
  * @author Tommaso Trabacchin
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
  * @author Adem Shehi
+ * </p>
  * @version 5.0
  * @since 14/04/2023
  */

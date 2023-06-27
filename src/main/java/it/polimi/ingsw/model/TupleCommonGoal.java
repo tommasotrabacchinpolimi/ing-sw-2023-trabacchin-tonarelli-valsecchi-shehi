@@ -11,10 +11,7 @@ import java.util.stream.Collectors;
  * TupleCommonGoal is a class that represents a generic {@link CommonGoal CommonGoal} which is satisfied if the
  * {@link BookShelf BookShelf} contains a given number of groups of adjacent tiles of the same type on a {@link BookShelf bookshelf}.
  *
- * @author Tommaso Trabacchin
- * @author Melanie Tonarelli
- * @author Emanuele Valsecchi
- * @author Adem Shehi
+
  * @version 3.0
  * @apiNote Valid combination of the parameters values, according to the rules of the game, are the following :
  * <ul>
@@ -23,6 +20,13 @@ import java.util.stream.Collectors;
  *     <li>groupsNumber = 2, adjacentTiles = 4, square = true, separate = false</li>
  *     <li>groupsNumber = 8, adjacentTiles = 1, square = false, separate = true</li>
  * </ul>
+ *
+ * <p>
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ * </p>
  * @since 21/04/2023
  */
 public class TupleCommonGoal extends CommonGoal implements Serializable {

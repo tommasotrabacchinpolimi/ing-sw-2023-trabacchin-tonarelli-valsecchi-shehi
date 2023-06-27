@@ -13,10 +13,13 @@ import java.util.List;
  *
  * @see Player
  *
+ *
+ * <p>
  * @author Tommaso Trabacchin
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
  * @author Adem Shehi
+ * </p>
  * @version 3.0
  * @since 08/04/2023
  */

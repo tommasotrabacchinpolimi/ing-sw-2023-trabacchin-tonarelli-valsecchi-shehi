@@ -5,10 +5,12 @@ import java.io.Serializable;
 /**
  * Defines the game phase
  *
+ * <p>
  * @author Tommaso Trabacchin
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
  * @author Adem Shehi
+ * </p>
  * @version 1.0
  * @since 04/04/2023
  */

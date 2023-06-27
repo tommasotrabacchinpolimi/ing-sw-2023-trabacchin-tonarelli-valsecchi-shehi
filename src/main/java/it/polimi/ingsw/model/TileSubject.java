@@ -7,12 +7,16 @@ import java.io.Serializable;
 
 /**
  * This enum represents each subject that a tile can have depicted on itself
+ * <br>
+ *
+ * <p></p>
  * @author Tommaso Trabacchin
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
  * @author Adem Shehi
  * @version 1.0
  * @since 08/03/2023
+ * </p>
  */
 
 public enum TileSubject implements Serializable {

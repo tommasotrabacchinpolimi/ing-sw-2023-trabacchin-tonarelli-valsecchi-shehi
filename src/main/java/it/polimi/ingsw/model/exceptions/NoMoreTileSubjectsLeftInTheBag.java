@@ -4,6 +4,12 @@ import it.polimi.ingsw.model.Board;
 
 /**
  * Exception thrown when there are no more tile subjects left in the {@linkplain Board#getBag() bag}.
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ *
  * @see Board
  */
 public class NoMoreTileSubjectsLeftInTheBag extends RuntimeException {
