@@ -14,6 +14,11 @@ import java.util.Map;
 
 /**
  * This interface defines the methods that can be invoked by clients through RMI.
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
  */
 public interface RmiClientInterface extends Remote {
 
