@@ -6,8 +6,13 @@ package it.polimi.ingsw.utils.color;
  * by specifying {@link MyShelfieAttribute}s of your format.
  */
 public class MyShelfieAnsi {
-
-    private static final char ESC = 27; // Escape character used to start an ANSI code
+    /**
+     * Escape character used to start an ANSI code
+     */
+    private static final char ESC = 27;
+    /**
+     * System property for line separator.
+     */
     private static final String NEWLINE = System.getProperty("line.separator");
 
     /**
@@ -76,18 +81,14 @@ public class MyShelfieAnsi {
      * @param text     String to format.
      * @param ansiCode Ansi code to format each message's lines.
      * @return The formatted string, ready to be printed.
+     * @apiNote Every formatted line should: <ul>
+     *          <li>1) start with a code that sets the format</li>
+     *          <li>2) end with a code that resets the format</li></ul>
+     *          This prevents "spilling" the format to other independent prints, which
+     *          is noticeable when the background is colored.
      */
     public static String colorize(String text, String ansiCode) {
         StringBuilder output = new StringBuilder();
-
-        /*
-         * Every formatted line should:
-         * 1) start with a code that sets the format
-         * 2) end with a code that resets the format
-         * This prevents "spilling" the format to other independent prints, which
-         * is noticeable when the background is colored.
-         */
-
         output.append(ansiCode);
         // Each line needs to end the current format (RESET) and start it on the next line.
         // This avoids spilling, ie. a long line without text but formatted background
@@ -114,17 +115,6 @@ public class MyShelfieAnsi {
      */
     public static String colorize(String text, MyShelfieAnsiFormat attributes) {
         return colorize(text, attributes.toArray());
-    }
-
-    /**
-     * Easter egg. Just an alias of method "colorize".
-     *
-     * @param text       String to format.
-     * @param myShelfieAttributes ANSI attributes to format a text.
-     * @return The formatted string, ready to be printed.
-     */
-    public static String makeItFabulous(String text, MyShelfieAttribute... myShelfieAttributes) {
-        return colorize(text, myShelfieAttributes);
     }
 
 }
