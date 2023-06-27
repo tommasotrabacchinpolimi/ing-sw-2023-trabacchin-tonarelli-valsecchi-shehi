@@ -37,6 +37,7 @@ public class ServerHeartBeater implements Runnable{
             try {
                 Thread.sleep(delay);
             } catch (InterruptedException ignored) {
+                ignored.printStackTrace();
             }
         }
     }

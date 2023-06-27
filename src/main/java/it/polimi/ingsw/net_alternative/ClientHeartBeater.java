@@ -42,7 +42,8 @@ public class ClientHeartBeater implements Runnable{
             try {
                 Thread.sleep(delay);
             } catch (InterruptedException e) {
-                clientConnectionLostListener.onConnectionLost();
+                e.printStackTrace();
+                //clientConnectionLostListener.onConnectionLost();
             }
         }
     }

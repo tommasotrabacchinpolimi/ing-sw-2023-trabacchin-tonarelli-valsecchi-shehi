@@ -13,6 +13,7 @@ public class AppClient {
     private static final int DIMROW_BOOKSHELF = 6;
 
     public static void main(String[] args) throws NotBoundException, IOException, ClassNotFoundException {
+        System.setProperty("sun.rmi.transport.tcp.responseTimeout", "10000");
         if(args.length == 2) {
             System.setProperty("java.rmi.server.hostname", args[1]);
         }

@@ -24,6 +24,7 @@ public class SocketAccepter implements Runnable{
             while(true) {
                 try{
                     Socket socket = serverSocket.accept();
+                    socket.setSoTimeout(10000);
                     System.out.println("client received...");
 
                     ClientSocketImpl clientSocket = new ClientSocketImpl(socket, serverDispatcher, onServerConnectionLostListener);

@@ -70,7 +70,13 @@ public class InputSelector extends Input{
                 getTUI().setPage(new HomePage(getTUI()));
                 break;
             case "play":
-                getTUI().setCurrentInput(new AskCoordinates(getTUI(), getOut(),true, new ArrayList<>()));
+                if(getTUI().getModel().getCurrentPlayer().equals(getTUI().getModel().getThisPlayer())) {
+                    getTUI().setCurrentInput(new AskCoordinates(getTUI(), getOut(),true, new ArrayList<>()));
+                }
+                else {
+                    getOut().println("This is not your turn! You cannot play");
+                }
+
                 break;
             default :
                 getTUI().getPage().show();
