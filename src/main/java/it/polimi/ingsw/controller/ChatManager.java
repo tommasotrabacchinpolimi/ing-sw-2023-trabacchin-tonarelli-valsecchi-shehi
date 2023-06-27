@@ -12,7 +12,11 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * The ChatManager class handles the chat functionality in the game.
+ *  It allows sending and storing {@linkplain ChatMessage chat messages} in JSON format.
  *
+ * @see Controller
+ * @see ChatMessage
  * @author Tommaso Trabacchin
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
@@ -21,9 +25,19 @@ import java.util.List;
  * @since 19/04/2023
  */
 public class ChatManager {
+    /**
+     * Controller of the game
+     * @see Controller
+     */
     private Controller controller;
+    /**
+     * File path to JSON format.
+     */
     private static final String MESSAGES_FILE = "./src/main/resources/it.polimi.ingsw/Messages.json";
-
+    /**
+     * Output stream printer
+     */
+    private PrintWriter printWriter;
     /**
      * Creating Gson object parser that exclude fields with {@link JSONExclusionStrategy @ExcludeFromJSON} annotations
      *
@@ -31,15 +45,20 @@ public class ChatManager {
      */
     private static final Gson chatManagerGson = new GsonBuilder().setExclusionStrategies(new JSONExclusionStrategy()).create();
 
-    private PrintWriter printWriter;
-
+    /**
+     * Constructs a ChatManager object.
+     */
     public  ChatManager(){
         initWriter();
     }
 
+    /**
+     * Constructs a ChatManager object with the specified controller.
+     * @param controller The controller of the game.
+     * @see Controller
+     */
     public ChatManager(Controller controller) {
         this.controller = controller;
-        //initWriter();
     }
 
     /**
@@ -80,8 +99,6 @@ public class ChatManager {
         );
 
         controller.getState().addMessage(chatMessage);
-
-        //storeMessagesAsListObject(controller.getState().getMessages());
     }
 
     /**
