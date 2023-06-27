@@ -20,6 +20,12 @@ import java.util.Optional;
  * {@link MyShelfieDecoration decoration}'s collection that contains
  * the default decoration for a graphical component
  * @see MyShelfieDecoration
+ *
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emamuele Valsecchi
+ * @author Adem Shehi
  */
 public interface MyShelfieComponent {
 

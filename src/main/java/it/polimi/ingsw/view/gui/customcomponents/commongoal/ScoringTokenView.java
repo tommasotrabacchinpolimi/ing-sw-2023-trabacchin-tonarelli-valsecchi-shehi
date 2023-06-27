@@ -30,6 +30,10 @@ public class ScoringTokenView extends MyShelfieGraphicIcon {
     private final String tokenIcon;
 
 
+    /**
+     * Constructor of the class
+     * @param scoringValue Value of the scoring Token
+     */
     public ScoringTokenView(Integer scoringValue) {
         this(TOKEN_ICON_PREFIX + scoringValue + ".jpg");
     }
