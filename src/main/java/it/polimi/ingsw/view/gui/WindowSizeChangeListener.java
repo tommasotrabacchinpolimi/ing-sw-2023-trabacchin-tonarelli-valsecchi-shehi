@@ -7,6 +7,13 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 /**
+ * This class implements a ChangeListener that maintains the aspect ratio and minimum size of a Stage window.
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ *
  * @version 3.0
  * @since 01/06/2023
  */
@@ -26,6 +33,12 @@ public class WindowSizeChangeListener implements ChangeListener<Number> {
 
     private final double aspectRatio;
 
+    /**
+     * Constructs a WindowSizeChangeListener object with the specified Stage and minimum size proportion.
+     *
+     * @param stage             The Stage window to listen for size changes.
+     * @param minSizeProportion The minimum size proportion of the screen.
+     */
     public WindowSizeChangeListener(Stage stage, double minSizeProportion) {
         this.stage = stage;
         this.minSizeProportion = minSizeProportion;
@@ -44,10 +57,24 @@ public class WindowSizeChangeListener implements ChangeListener<Number> {
     }
 
 
+
+    /**
+     * Constructs a WindowSizeChangeListener object with the specified Stage and the default minimum size proportion.
+     * The default minimum size proportion is set to 0.35.
+     *
+     * @param stage The Stage window to listen for size changes.
+     */
     public WindowSizeChangeListener(Stage stage) {
         this(stage, PROPORTION_TO_SCREEN);
     }
 
+    /**
+     * Called when the observed value changes. Maintains the aspect ratio and minimum size of the Stage window.
+     *
+     * @param observable The observable value.
+     * @param oldValue   The old value.
+     * @param newValue   The new value.
+     */
     @Override
     public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
         if (!stage.isMaximized() && !stage.isIconified() && !stage.isFullScreen() && !isActive) {
