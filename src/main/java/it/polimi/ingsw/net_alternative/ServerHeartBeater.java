@@ -5,6 +5,11 @@ import it.polimi.ingsw.controller.ClientInterface;
 /**
  * The `ServerHeartBeater` class implements the `Runnable` interface and represents a thread
  * that periodically sends a "nop" message to the client to maintain the connection with the server.
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
  */
 public class ServerHeartBeater implements Runnable{
 
@@ -37,6 +42,7 @@ public class ServerHeartBeater implements Runnable{
             try {
                 Thread.sleep(delay);
             } catch (InterruptedException ignored) {
+                ignored.printStackTrace();
             }
         }
     }

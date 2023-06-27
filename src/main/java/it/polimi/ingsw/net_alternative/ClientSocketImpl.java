@@ -28,7 +28,7 @@ import java.util.concurrent.Executors;
  * @author Emanuele Valsecchi
  * @author Adem Shehi
  */
-public class ClientSocketImpl implements ClientInterface, Runnable, Closeable {
+public class ClientSocketImpl implements ClientInterface, Runnable {
 
     private final ObjectOutputStream oos;
     private final ObjectInputStream ois;
@@ -40,9 +40,7 @@ public class ClientSocketImpl implements ClientInterface, Runnable, Closeable {
 
     private final ServerDispatcherInterface serverDispatcher;
 
-    private final Timer timer;
 
-    private TimerTask timerTask;
 
 
     /**
@@ -59,7 +57,6 @@ public class ClientSocketImpl implements ClientInterface, Runnable, Closeable {
         this.serverDispatcher = serverDispatcher;
         this.onConnectionLostListener = onConnectionLostListener;
         OPEN = true;
-        this.timer = new Timer();
     }
 
     /**
@@ -80,7 +77,8 @@ public class ClientSocketImpl implements ClientInterface, Runnable, Closeable {
             oos.flush();
             oos.flush();
         }catch(IOException e) {
-            close();
+            OPEN = false;
+            onConnectionLostListener.onConnectionLost(this);
         }
 
     }
@@ -101,7 +99,8 @@ public class ClientSocketImpl implements ClientInterface, Runnable, Closeable {
             oos.writeObject(achievedPersonalGoalNetMessage);
             oos.flush();
         } catch (IOException e) {
-            close();
+            OPEN = false;
+            onConnectionLostListener.onConnectionLost(this);
         }
     }
 
@@ -123,7 +122,8 @@ public class ClientSocketImpl implements ClientInterface, Runnable, Closeable {
             oos.writeObject(adjacentTilesUpdatedNetMessage);
             oos.flush();
         } catch (IOException e) {
-            close();
+            OPEN = false;
+            onConnectionLostListener.onConnectionLost(this);
         }
     }
 
@@ -143,7 +143,8 @@ public class ClientSocketImpl implements ClientInterface, Runnable, Closeable {
             oos.writeObject(assignedCommonGoalNetMessage);
             oos.flush();
         } catch (IOException e) {
-            close();
+            OPEN = false;
+            onConnectionLostListener.onConnectionLost(this);
         }
     }
 
@@ -164,7 +165,8 @@ public class ClientSocketImpl implements ClientInterface, Runnable, Closeable {
             oos.writeObject(assignedPersonalGoalNetMessage);
             oos.flush();
         } catch (IOException e) {
-            close();
+            OPEN = false;
+            onConnectionLostListener.onConnectionLost(this);
         }
     }
 
@@ -182,7 +184,8 @@ public class ClientSocketImpl implements ClientInterface, Runnable, Closeable {
             oos.writeObject(boardRefilledNetMessage);
             oos.flush();
         } catch (IOException e) {
-            close();
+            OPEN = false;
+            onConnectionLostListener.onConnectionLost(this);
         }
     }
 
@@ -201,7 +204,8 @@ public class ClientSocketImpl implements ClientInterface, Runnable, Closeable {
             oos.writeObject(boardUpdatedNetMessage);
             oos.flush();
         } catch (IOException e) {
-            close();
+            OPEN = false;
+            onConnectionLostListener.onConnectionLost(this);
         }
     }
 
@@ -221,7 +225,8 @@ public class ClientSocketImpl implements ClientInterface, Runnable, Closeable {
             oos.writeObject(bookShelfUpdatedNetMessage);
             oos.flush();
         } catch (IOException e) {
-            close();
+            OPEN = false;
+            onConnectionLostListener.onConnectionLost(this);
         }
     }
 
@@ -241,7 +246,8 @@ public class ClientSocketImpl implements ClientInterface, Runnable, Closeable {
             oos.writeObject(changedCommonGoalAvailableScoreNetMessage);
             oos.flush();
         }catch(IOException e) {
-            close();
+            OPEN = false;
+            onConnectionLostListener.onConnectionLost(this);
         }
     }
 
@@ -260,7 +266,8 @@ public class ClientSocketImpl implements ClientInterface, Runnable, Closeable {
             oos.writeObject(currentPlayerChangedListenerNetMessage);
             oos.flush();
         } catch (IOException e) {
-            close();
+            OPEN = false;
+            onConnectionLostListener.onConnectionLost(this);
         }
     }
 
@@ -281,7 +288,8 @@ public class ClientSocketImpl implements ClientInterface, Runnable, Closeable {
             oos.writeObject(exceptionNetMessage);
             oos.flush();
         } catch (IOException ex) {
-            close();
+            OPEN = false;
+            onConnectionLostListener.onConnectionLost(this);
         }
     }
 
@@ -301,7 +309,8 @@ public class ClientSocketImpl implements ClientInterface, Runnable, Closeable {
             oos.writeObject(lastPlayerUpdatedNetMessage);
             oos.flush();
         } catch (IOException e) {
-            close();
+            OPEN = false;
+            onConnectionLostListener.onConnectionLost(this);
         }
     }
 
@@ -322,7 +331,8 @@ public class ClientSocketImpl implements ClientInterface, Runnable, Closeable {
             oos.writeObject(messageSentNetMessage);
             oos.flush();
         } catch (IOException e) {
-            close();
+            OPEN = false;
+            onConnectionLostListener.onConnectionLost(this);
         }
     }
 
@@ -343,7 +353,8 @@ public class ClientSocketImpl implements ClientInterface, Runnable, Closeable {
             oos.writeObject(messagesSentNetMessage);
             oos.flush();
         } catch (IOException e) {
-            close();
+            OPEN = false;
+            onConnectionLostListener.onConnectionLost(this);
         }
     }
 
@@ -363,7 +374,8 @@ public class ClientSocketImpl implements ClientInterface, Runnable, Closeable {
             oos.writeObject(playerStateChangedNetMessage);
             oos.flush();
         } catch (IOException e) {
-            close();
+            OPEN = false;
+            onConnectionLostListener.onConnectionLost(this);
         }
     }
 
@@ -383,7 +395,8 @@ public class ClientSocketImpl implements ClientInterface, Runnable, Closeable {
             oos.writeObject(playersListChangedNetMessage);
             oos.flush();
         } catch (IOException e) {
-            close();
+            OPEN = false;
+            onConnectionLostListener.onConnectionLost(this);
         }
     }
     /**
@@ -407,7 +420,8 @@ public class ClientSocketImpl implements ClientInterface, Runnable, Closeable {
             oos.writeObject(pointsUpdatedNetMessage);
             oos.flush();
         } catch (IOException e) {
-            close();
+            OPEN = false;
+            onConnectionLostListener.onConnectionLost(this);
         }
     }
 
@@ -427,7 +441,8 @@ public class ClientSocketImpl implements ClientInterface, Runnable, Closeable {
             oos.writeObject(stateChangedNetMessage);
             oos.flush();
         } catch (IOException e) {
-            close();
+            OPEN = false;
+            onConnectionLostListener.onConnectionLost(this);
         }
     }
 
@@ -446,7 +461,8 @@ public class ClientSocketImpl implements ClientInterface, Runnable, Closeable {
             oos.writeObject(winnerChangedNetMessage);
             oos.flush();
         } catch (IOException e) {
-           close();
+            OPEN = false;
+            onConnectionLostListener.onConnectionLost(this);
         }
     }
 
@@ -472,7 +488,8 @@ public class ClientSocketImpl implements ClientInterface, Runnable, Closeable {
             oos.writeObject(nopNetMessage);
             oos.flush();
         } catch (IOException e) {
-            close();
+            OPEN = false;
+            onConnectionLostListener.onConnectionLost(this);
         }
 
     }
@@ -484,44 +501,25 @@ public class ClientSocketImpl implements ClientInterface, Runnable, Closeable {
      */
     @Override
     public void run() {
-        timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                close();
-            }
-        };
-        timer.schedule(timerTask, 5000);
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
+
+        ExecutorService executorService = Executors.newCachedThreadPool();
         while (true) {
             try {
-                ServerMessage message = (ServerMessage) ois.readObject();
-                timerTask.cancel();
-                timer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        close();
+                synchronized (this) {
+                    if(!OPEN){
+                        break;
                     }
-                }, 5000);
+                }
+                ServerMessage message = (ServerMessage) ois.readObject();
                 executorService.submit(()->message.dispatch(serverDispatcher, this));
             } catch (Exception e) {
-                close();
+                OPEN = false;
+                onConnectionLostListener.onConnectionLost(this);
             }
         }
     }
 
-    @Override
-    public synchronized void close() {
-        if(OPEN) {
-            System.out.println("socket timer gone off");
-            try {
-                oos.close();
-                ois.close();
-            } catch (IOException ignored) {
-            }
-            OPEN = false;
-            onConnectionLostListener.onConnectionLost(this);
-        }
-    }
+
 
 
 }

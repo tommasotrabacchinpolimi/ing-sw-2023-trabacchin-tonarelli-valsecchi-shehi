@@ -121,7 +121,7 @@ public class ViewData {
      */
     public void setException(String exception) throws IOException {
         this.exception = exception;
-        if(this.currentPlayer.equals(this.thisPlayer)) {
+        if(this.currentPlayer==null || this.thisPlayer==null || this.currentPlayer.equals(this.thisPlayer)) {
             userInterface.onException();
         }
 
@@ -344,7 +344,9 @@ public class ViewData {
      */
     public void setCurrentPlayer(String currentPlayer) {
         this.currentPlayer = currentPlayer;
+        System.out.println("I want to notify current player");
         userInterface.onCurrentPlayerChanged(currentPlayer);
+        System.out.println("I have notified current player");
     }
 
     /**

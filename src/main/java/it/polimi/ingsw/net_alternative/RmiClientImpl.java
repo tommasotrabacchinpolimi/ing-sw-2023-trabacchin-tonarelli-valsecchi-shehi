@@ -18,6 +18,11 @@ import java.util.concurrent.Executors;
 /**
  * The RmiClientImpl class is the implementation of the RmiClientInterface interface.
  * It handles remote calls from the server to the client.
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
  */
 public class RmiClientImpl extends UnicastRemoteObject implements RmiClientInterface{
 

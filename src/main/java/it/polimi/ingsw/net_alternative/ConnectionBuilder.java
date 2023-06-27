@@ -32,6 +32,7 @@ public class ConnectionBuilder {
      */
     static public ServerInterface buildSocketConnection(int port, String host,  ClientDispatcher clientDispatcher,OnClientConnectionLostListener onClientConnectionLostListener) throws IOException {
         Socket socket = new Socket(host, port);
+        socket.setSoTimeout(10000);
         ServerSocketImpl serverSocket = new ServerSocketImpl(socket, clientDispatcher, onClientConnectionLostListener);
         ClientHeartBeater clientHeartBeater = new ClientHeartBeater(onClientConnectionLostListener, serverSocket, 1000);
         new Thread(serverSocket).start();

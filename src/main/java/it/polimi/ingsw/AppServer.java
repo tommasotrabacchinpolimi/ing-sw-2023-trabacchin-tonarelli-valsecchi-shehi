@@ -15,6 +15,7 @@ public class AppServer {
 
     public static void main(String[] args) throws RemoteException, AlreadyBoundException {
         System.setProperty("java.rmi.server.hostname", "192.168.1.106");
+        System.setProperty("sun.rmi.transport.connectionTimeout", "10000");
         LobbyController lobbyController = new LobbyController(1000*60);
         ControllerDispatcher controllerDispatcher = new ControllerDispatcher(lobbyController);
         ServerDispatcher serverDispatcher = new ServerDispatcher(controllerDispatcher);
