@@ -29,7 +29,9 @@ import java.util.stream.Stream;
  * @since 10/04/2023
  */
 public final class CommonGoalDeserializer {
-
+    /**
+     * Constant representing the common goal file path
+     */
     private static final String COMMON_GOAL_CONFIGURATION = "./src/main/resources/it.polimi.ingsw/common.goal.configuration/";
 
     /**
@@ -47,7 +49,7 @@ public final class CommonGoalDeserializer {
      * @see LineCommonGoal
      * @see ShapeCommonGoal
      * @see StairCommonGoal
-     * @see TupleCommonGoal_altt
+     * @see TupleCommonGoal
      */
     public static Set<CommonGoal> getCommonGoalsDeck(){
         return getCommonGoalClasses().stream()
@@ -66,7 +68,7 @@ public final class CommonGoalDeserializer {
      * @see LineCommonGoal
      * @see ShapeCommonGoal
      * @see StairCommonGoal
-     * @see TupleCommonGoal_altt
+     * @see TupleCommonGoal
      */
     @NotNull
     private static Set<Class<? extends CommonGoal>> getCommonGoalClasses(){
@@ -117,7 +119,7 @@ public final class CommonGoalDeserializer {
      *     <li>{@linkplain LineCommonGoal Line common goal}</li>
      *     <li>{@linkplain ShapeCommonGoal Shape common goal}</li>
      *     <li>{@linkplain StairCommonGoal Stair common goal}</li>
-     *     <li>{@linkplain TupleCommonGoal_altt Tuple common goal}</li>
+     *     <li>{@linkplain TupleCommonGoal Tuple common goal}</li>
      * </ul>
      * </p>
      *
@@ -128,7 +130,7 @@ public final class CommonGoalDeserializer {
      * @see LineCommonGoal
      * @see ShapeCommonGoal
      * @see StairCommonGoal
-     * @see TupleCommonGoal_altt
+     * @see TupleCommonGoal
      */
     @NotNull
     private static Set<CommonGoal> getCommonGoalConfig(Class<? extends CommonGoal> c) {

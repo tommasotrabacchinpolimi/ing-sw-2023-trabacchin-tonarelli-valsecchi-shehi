@@ -7,8 +7,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ *
+ */
 public class InputCheck {
-    
+    /**
+     * Checks the validity of the chosen tiles from the board in the game.
+     * @param chosenTiles list of {@linkplain Coordinate coordinates} of the chosen tiles.
+     * @param bookShelf matrix of {@linkplain TileSubject tile subjects} representing the player's bookshelf.
+     * @param board matrix of {@linkplain  TileSubject tile subjects} representing the game board.
+     * @throws WrongChosenTilesFromBoardException exception thrown when the chosen tiles aren't valid.
+     *
+     * @see Coordinate
+     * @see TileSubject
+     * @see WrongChosenTilesFromBoardException
+     */
     public static void checkActiveTilesInBoard(List<Coordinate> chosenTiles, TileSubject[][] bookShelf, TileSubject[][] board) throws WrongChosenTilesFromBoardException {
         if(chosenTiles.size() == 0){
             throw new WrongChosenTilesFromBoardException("You haven't chosen any tiles from the board!");
@@ -31,12 +44,15 @@ public class InputCheck {
     }
 
     /**
-     * Retrieves a list of coordinates that correspond
-     * to the TileSubject selectable in the board
+     * Retrieves a list of {@linkplain Coordinate coordinates} that correspond
+     * to the {@linkplain TileSubject tile subjects} selectable in the board
      *
      * @param board the board matrix
      *
-     * @return coordinates of clickable tiles on board
+     * @return {@linkplain Coordinate coordinates} of clickable tiles on board
+     *
+     * @see Coordinate
+     * @see TileSubject
      */
     public static List<Coordinate> findIndexAllActiveTilesInBoard(TileSubject[][] board) {
         List<Coordinate> result = new ArrayList<>();
@@ -58,15 +74,16 @@ public class InputCheck {
     }
 
     /**
-     * Retrieves a list of coordinates that correspond
-     * to the TileSubject selectable in the board given
+     * Retrieves a list of {@linkplain Coordinate coordinates} that correspond
+     * to the {@linkplain TileSubject tile subjects} selectable in the board given
      * a selected tile
      *
      * @param board the board matrix
-     * @param c1 the coordinate of the selected tiles
+     * @param c1 the {@linkplain Coordinate coordinates} of the selected tiles
      * @param bookShelf the player's bookshelf
-     * @return coordinates of clickable tiles on board
-     * given a selected tile
+     * @return list of {@linkplain Coordinate coordinates} of clickable tiles on board given a selected tile
+     * @see Coordinate
+     * @see TileSubject
      */
     public static List<Coordinate> findIndexActiveAfterOneChosenTile(TileSubject[][] board, Coordinate c1, TileSubject[][] bookShelf) throws WrongChosenTilesFromBoardException {
         List<Coordinate> coordinates = new ArrayList<>();
@@ -81,6 +98,15 @@ public class InputCheck {
         return coordinates;
     }
 
+
+    /**
+     * Adds the {@linkplain Coordinate coordinate} to the list of selectable tiles if it is present in the list of active {@linkplain Coordinate coordinates} .
+     * @param coordinates the list of selectable {@linkplain Coordinate coordinates}.
+     * @param active the list of active {@linkplain Coordinate coordinates}.
+     * @param c the {@linkplain Coordinate coordinate}  to be added
+     *
+     * @see Coordinate
+     */
     private static void addSelectableTiles(List<Coordinate> coordinates, List<Coordinate> active, Coordinate c) {
         if(active.contains(c)){
             coordinates.add(c);
@@ -88,19 +114,18 @@ public class InputCheck {
     }
 
     /**
-     * Retrieves a list of coordinates that correspond
+     * Retrieves a list of {@linkplain Coordinate coordinates}  that correspond
      * to the TileSubject selectable in the board given
      * two selected tiles
      *
      * @param board the board matrix
-     * @param c1 the coordinate of the first selected tile
-     * @param c2 the coordinate of the second selected tile
+     * @param c1 the {@linkplain Coordinate coordinate}  of the first selected tile
+     * @param c2 the {@linkplain Coordinate coordinate}  of the second selected tile
      * @param bookShelf the player's bookshelf
-     * @return coordinates of clickable tiles on board
-     * given a selected tile
+     * @return {@linkplain Coordinate coordinates}  of clickable tiles on board given a selected tile
      *
-     * @apiNote The order in which the tiles are selected
-     * is irrelevant
+     * @apiNote The order in which the tiles are selected is irrelevant
+     * @see Coordinate
      */
     public static List<Coordinate> findIndexActiveAfterTwoChosenTiles(TileSubject[][] board, Coordinate c1, Coordinate c2, TileSubject[][] bookShelf) throws WrongChosenTilesFromBoardException {
         List<Coordinate> active = findIndexAllActiveTilesInBoard(board);
@@ -128,10 +153,22 @@ public class InputCheck {
         return result;
     }
 
+    /**
+     * Checks if the list of {@linkplain Coordinate coordinates} follows the right pattern for selection.
+     * @param list the list of {@linkplain Coordinate coordinates} to check
+     * @return {@code true} if the {@linkplain Coordinate coordinates} follow the right pattern, {@code false} otherwise.
+     * @see Coordinate
+     */
     private static boolean checkRightPattern(List<Coordinate> list){
         return (checkIfSameY(list) && checkIfAdjacent(orderedXCoordinate(list))) ||(checkIfSameX(list) && checkIfAdjacent(orderedYCoordinate(list)));
     }
 
+    /**
+     * Returns a list of the {@linkplain Coordinate#getX() x-coordinates} from the given list of coordinates in ascending order.
+     * @param coordinates the list of {@linkplain Coordinate coordinates}
+     * @return the list {@linkplain Coordinate#getX() x-coordinates} in ascending order
+     * @see Coordinate
+     */
     private static List<Integer> orderedXCoordinate(List<Coordinate> coordinates){
         List<Integer> result = new ArrayList<>();
         if(coordinates==null) return null;
@@ -141,6 +178,12 @@ public class InputCheck {
         return result;
     }
 
+    /**
+     * Returns a list of the {@linkplain Coordinate#getY() y-coordinates} from the given list of coordinates in ascending order.
+     * @param coordinates the list of {@linkplain Coordinate coordinates}
+     * @return the list {@linkplain Coordinate#getY() y-coordinates} in ascending order
+     * @see Coordinate
+     */
     private static List<Integer> orderedYCoordinate(List<Coordinate> coordinates){
         List<Integer> result = new ArrayList<>();
         if(coordinates==null) return null;
@@ -150,6 +193,11 @@ public class InputCheck {
         return result;
     }
 
+    /**
+     * Checks if all {@linkplain Coordinate coordinates} in the list have the same {@linkplain Coordinate#getX() x-coordinate}.
+     * @param coordinates the list of {@linkplain Coordinate coordinates}
+     * @return {@code true} if all coordinates have the same {@linkplain Coordinate#getX() x-coordinate}, {@code false} otherwise
+     */
     private static boolean checkIfSameX(List<Coordinate> coordinates){
         if(coordinates==null) return false;
         int x = coordinates.get(0).getX();
@@ -160,6 +208,11 @@ public class InputCheck {
         return true;
     }
 
+    /**
+     * Checks if all {@linkplain Coordinate coordinates} in the list have the same {@linkplain Coordinate#getY() y-coordinate}.
+     * @param coordinates the list of {@linkplain Coordinate coordinates}
+     * @return {@code true} if all coordinates have the same {@linkplain Coordinate#getY() y-coordinate}, {@code false} otherwise
+     */
     private static boolean checkIfSameY(List<Coordinate> coordinates){
         if(coordinates==null) return false;
         int y = coordinates.get(0).getY();
@@ -170,6 +223,12 @@ public class InputCheck {
         return true;
     }
 
+    /**
+     * Checks if the list of indices is adjacent, i.e., each element is one greater than the previous element.
+     * @param index the list of indices.
+     * @return {@code true} if the indices are adjacent, {@code false} otherwise.
+     * @apiNote the list of indices needs to be sorted beforehand.
+     */
     private static boolean checkIfAdjacent(List<Integer> index){
         for(int i = 1; i < index.size(); i++){
             if(index.get(i)!=index.get(i-1)+1){
@@ -179,6 +238,11 @@ public class InputCheck {
         return true;
     }
 
+    /**
+     * Returns the maximum dimension that the chosen tiles can have in order to fit into the player's bookshelf.
+     * @param bookShelf the matrix of {@linkplain TileSubject tile subjects} representing the player's bookshelf
+     * @return the maximum dimension of chosen tiles in the bookshelf
+     */
     private static int getMaxDimensionChosenTiles(TileSubject[][] bookShelf){
         if(bookShelf == null) return -1;
 
