@@ -132,6 +132,7 @@ public class ClientSocketImpl implements ClientInterface, Runnable {
      *
      * @param description The description of the CommonGoal being assigned
      * @param n The number of the CommonGoal (every commonGoal has his number)
+     * @param id the common goal id
      */
     @Override
     public synchronized void onAssignedCommonGoal(String description, int n, String id) {

@@ -92,6 +92,7 @@ public class RmiClientImpl extends UnicastRemoteObject implements RmiClientInter
      *
      * @param description the description of the assigned common goal
      * @param n           the number of the common goal assigned
+     * @param id the common goal id
      * @throws RemoteException if a remote error occurs
      */
     public void onAssignedCommonGoal(String description, int n, String id) throws RemoteException{
