@@ -121,10 +121,11 @@ public interface RmiClientInterface extends Remote {
     /**
      * Method called when an exception occurs.
      *
+     * @param playerCause the player that caused the exception
      * @param e the exception that occurred.
      * @throws RemoteException if a remote connection error occurs.
      */
-    public void onException(Exception e) throws RemoteException;
+    public void onException(String playerCause, Exception e) throws RemoteException;
 
     /**
      * Method called when the last player is updated.

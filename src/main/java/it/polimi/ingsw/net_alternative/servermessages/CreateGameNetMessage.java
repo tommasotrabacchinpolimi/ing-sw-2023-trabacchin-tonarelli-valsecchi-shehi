@@ -32,29 +32,32 @@ public class CreateGameNetMessage implements ServerMessage, Serializable {
     }
 
     /**
-     * Returns the nickname of the player creating the game.
+     * Dispatches the message to the server dispatcher for handling.
      *
-     * @return the nickname of the player
+     * @param serverDispatcher the server dispatcher interface
+     * @param view             the client interface
      */
+
     @Override
     public void dispatch(ServerDispatcherInterface serverDispatcher, ClientInterface view) {
         serverDispatcher.dispatch(this, view);
     }
 
+
     /**
-     * Returns the number of players for the game.
+     * Returns the nickname of the player creating the game.
      *
-     * @return the number of players
+     * @return the nickname of the player
      */
     public String getNickname() {
         return nickname;
     }
 
+
     /**
-     * Dispatches the message to the server dispatcher for handling.
+     * Returns the number of players for the game.
      *
-     * @param serverDispatcher the server dispatcher interface
-     * @param view             the client interface
+     * @return the number of players
      */
     public int getNumberOfPlayer() {
         return numberOfPlayer;

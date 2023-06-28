@@ -99,11 +99,11 @@ public class MidGameManager extends GameManager {
         }
         catch (NotEnoughSpaceInBookShelfException | NoTileTakenException | WrongChosenTilesFromBoardException e){
             System.err.println(e.getMessage());
-            getController().getState().setLastException(e);
+            getController().getState().setLastException(getController().getState().getCurrentPlayer().getNickName(),e);
         }
         catch(NoMoreTileSubjectsLeftInTheBag e) {
             System.err.println(e.getMessage());
-            getController().getState().setLastException(e);
+            getController().getState().setLastException(getController().getState().getCurrentPlayer().getNickName(),e);
             getController().getState().setGameState(GameState.END);
         }
     }

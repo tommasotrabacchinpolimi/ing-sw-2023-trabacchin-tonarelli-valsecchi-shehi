@@ -280,8 +280,8 @@ public class ClientSocketImpl implements ClientInterface, Runnable {
      */
 
     @Override
-    public synchronized void onException(Exception e) {
-        ExceptionNetMessage exceptionNetMessage = new ExceptionNetMessage(e);
+    public synchronized void onException(String playerCause, Exception e) {
+        ExceptionNetMessage exceptionNetMessage = new ExceptionNetMessage(playerCause, e);
         try {
             if(!OPEN) {
                 return;

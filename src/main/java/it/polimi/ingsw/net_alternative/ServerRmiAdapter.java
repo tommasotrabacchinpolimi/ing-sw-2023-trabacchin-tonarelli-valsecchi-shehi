@@ -276,12 +276,12 @@ public class ServerRmiAdapter implements ClientInterface {
      */
 
     @Override
-    public synchronized void onException(Exception e) {
+    public synchronized void onException(String playerCause, Exception e) {
         try {
             if(!OPEN) {
                 return;
             }
-            rmiClient.onException(e);
+            rmiClient.onException(playerCause, e);
         } catch(RemoteException e1) {
             if(OPEN) {
                 OPEN = false;

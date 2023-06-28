@@ -23,12 +23,18 @@ public class ExceptionNetMessage implements ClientMessage {
     private final Exception exception;
 
     /**
+     * The player that caused the exception
+     */
+    private final String playerCause;
+
+    /**
      * Constructs a new {@code ExceptionNetMessage} with the specified exception.
      *
      * @param exception the exception object representing the occurred exception
      */
-    public ExceptionNetMessage(Exception exception) {
+    public ExceptionNetMessage(String causePlayer, Exception exception) {
         this.exception = exception;
+        this.playerCause = causePlayer;
     }
 
     /**
@@ -37,6 +43,14 @@ public class ExceptionNetMessage implements ClientMessage {
      */
     public Exception getException() {
         return exception;
+    }
+
+    /**
+     * Returns the player that caused the exception
+     * @return the exception object sent by the client
+     */
+    public String getPlayerCause() {
+        return playerCause;
     }
 
     /**

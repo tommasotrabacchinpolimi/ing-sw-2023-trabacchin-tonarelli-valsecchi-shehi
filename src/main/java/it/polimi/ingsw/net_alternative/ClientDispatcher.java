@@ -135,7 +135,7 @@ public class ClientDispatcher implements ClientDispatcherInterface {
      */
     @Override
     public void dispatch(ExceptionNetMessage exceptionNetMessage) {
-        client.onException(exceptionNetMessage.getException());
+        client.onException(exceptionNetMessage.getPlayerCause(), exceptionNetMessage.getException());
     }
 
     /**
