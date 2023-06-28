@@ -17,6 +17,9 @@ import it.polimi.ingsw.net_alternative.ClientDispatcherInterface;
 
  */
 public class ExceptionNetMessage implements ClientMessage {
+    /**
+     * Variable used to represent the exception
+     */
     private final Exception exception;
 
     /**
