@@ -84,20 +84,27 @@ public class MidGameManager extends GameManager {
             verifyAdjacentTiles(player);
             verifyPersonalGoal(player);
 
-            verifyCommonGoal(user);
+            //verifyCommonGoal(user);
             //for test only
             int score1 = getController().getState().getCommonGoal1().removeAvailableScore();
+            System.out.println("score1 = " + score1);
             int score2 = getController().getState().getCommonGoal2().removeAvailableScore();
+            System.out.println("score2 = " + score2);
+
             if(score1 != 0) {
                 player.getPointPlayer().setScoreCommonGoal1(score1);
-                getController().getState().notifyChangedCommonGoalAvailableScore(getController().getState().getCommonGoal1().getScoringTokens().peek(), 1);
+                System.out.println("setted1");
+                getController().getState().notifyChangedCommonGoalAvailableScore(getController().getState().getCommonGoal1().getAvailableScore(), 1);
             }
+            System.out.println("notified1");
             if(score2 != 0) {
                 player.getPointPlayer().setScoreCommonGoal2(score2);
-                getController().getState().notifyChangedCommonGoalAvailableScore(getController().getState().getCommonGoal2().getScoringTokens().peek(), 2);
+                getController().getState().notifyChangedCommonGoalAvailableScore(getController().getState().getCommonGoal2().getAvailableScore(), 2);
             }
+            System.out.println("notified2");
             /////////////////////////////////////
 
+            player.getPointPlayer().setScoreEndGame(1);
 
             setNextCurrentPlayer();
         }

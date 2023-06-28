@@ -1,6 +1,6 @@
 {
   "description": "Four lines each formed by 5 tiles of maximum three different types. One line can show the same or a different combination of another line.",
-  "scoringTokens": [2, 4, 6, 8],
+  "scoringTokens": [],
   "id": "line_common_goal_1",
   "incRow": 1,
   "incCol": 0,

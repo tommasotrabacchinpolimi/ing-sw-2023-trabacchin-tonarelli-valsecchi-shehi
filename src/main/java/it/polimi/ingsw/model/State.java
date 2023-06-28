@@ -731,7 +731,7 @@ public class State implements Serializable, OnUpdateNeededListener {
            if(newScore != 0) {
                player.getPointPlayer().setScoreCommonGoal1(newScore);
                notifyOnAchievedCommonGoal(result, player, 1);
-               notifyChangedCommonGoalAvailableScore(commonGoal1.getScoringTokens().peek(), 1);
+               notifyChangedCommonGoalAvailableScore(commonGoal1.getAvailableScore(), 1);
            }
        }
         System.out.println("finished common goal 2"+commonGoal2);
@@ -742,7 +742,7 @@ public class State implements Serializable, OnUpdateNeededListener {
            if(newScore != 0) {
                player.getPointPlayer().setScoreCommonGoal2(newScore);
                notifyOnAchievedCommonGoal(result, player, 2);
-               notifyChangedCommonGoalAvailableScore(commonGoal2.getScoringTokens().peek(), 2);
+               notifyChangedCommonGoalAvailableScore(commonGoal2.getAvailableScore(), 2);
            }
        }
     }
