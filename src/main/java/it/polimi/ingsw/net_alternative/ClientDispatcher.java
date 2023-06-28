@@ -16,6 +16,7 @@ import it.polimi.ingsw.net_alternative.clientmessage.*;
  */
 public class ClientDispatcher implements ClientDispatcherInterface {
 
+
     private final ClientInterface client;
 
 

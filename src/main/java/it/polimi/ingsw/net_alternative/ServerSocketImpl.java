@@ -25,13 +25,27 @@ import java.util.concurrent.Executors;
  */
 public class ServerSocketImpl implements ServerInterface, Runnable {
 
-
+    /**
+     * Stream of output objects used to send serialized object to the server.
+     */
     private final ObjectOutputStream oos;
+    /**
+     * Stream of input objects used to receive serialized object to the server.
+     */
     private final ObjectInputStream ois;
+
+    /**
+     * To properly notify clients about changes
+     */
     private final ClientDispatcherInterface clientDispatcher;
 
+    /**
+     * To properly handle the scenario of loss of the connection
+     */
     private final OnClientConnectionLostListener clientConnectionLostListener;
-
+    /**
+     * It indicates if the connection is open {@code True} or not {@code false}
+     */
     private boolean OPEN = true;
 
 

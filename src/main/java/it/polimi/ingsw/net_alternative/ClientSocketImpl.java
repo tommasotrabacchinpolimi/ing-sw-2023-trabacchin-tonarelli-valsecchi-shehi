@@ -30,14 +30,31 @@ import java.util.concurrent.Executors;
  */
 public class ClientSocketImpl implements ClientInterface, Runnable {
 
+    /**
+     * Stream of output objects used to send serialized object to the server.
+     */
     private final ObjectOutputStream oos;
+    /**
+     * Stream of input objects used to receive serialized object to the server.
+     */
     private final ObjectInputStream ois;
 
+    /**
+     * Indicates whether the connection is open or not.
+     * <p>
+     * When set to true, it means the connection is open and messages can be sent to the server.
+     * When set to false, it means the connection is closed and messages should not be sent to the server.
+     */
     private boolean OPEN;
 
+    /**
+     * Listener to manage an eventual loss connection scenario
+     */
     private final OnServerConnectionLostListener onConnectionLostListener;
 
-
+    /**
+     * Used to manage correctly eventual client requests for the server
+     */
     private final ServerDispatcherInterface serverDispatcher;
 
 
@@ -468,7 +485,7 @@ public class ClientSocketImpl implements ClientInterface, Runnable {
     }
 
     /**
-
+     *
      * Sends a "nop" message to the server.
      * This method creates a new instance of the "NopNetMessage" class, representing a no-operation message.
      * If the client's connection is open, the message is written to the output stream using the object output stream.
@@ -496,9 +513,9 @@ public class ClientSocketImpl implements ClientInterface, Runnable {
     }
 
     /**
-
+     *
      * Runs the client socket implementation in a separate thread.
-
+     *
      */
     @Override
     public void run() {

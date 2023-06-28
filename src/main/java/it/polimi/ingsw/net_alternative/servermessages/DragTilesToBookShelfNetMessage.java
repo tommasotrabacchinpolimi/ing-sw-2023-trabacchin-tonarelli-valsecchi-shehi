@@ -20,7 +20,13 @@ import java.util.List;
  */
 public class DragTilesToBookShelfNetMessage implements ServerMessage {
 
+    /**
+     * Represents the choosen tiles
+     */
     private final List<Coordinate> chosenTiles;
+    /**
+     * Used to represent the chosen column
+     */
     private final int chosenColumn;
 
     /**

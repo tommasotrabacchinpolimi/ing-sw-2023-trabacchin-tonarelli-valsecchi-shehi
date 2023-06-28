@@ -26,10 +26,19 @@ import java.util.Map;
 
 public class ServerRmiAdapter implements ClientInterface {
 
+    /**
+     * Rmi Client to be adapted
+     */
     private final RmiClientInterface rmiClient;
 
+    /**
+     * Listener to properly manage the scenario of a loss of connection
+     */
     private final OnServerConnectionLostListener serverConnectionLostListener;
 
+    /**
+     * It indicates if the connection is open {@code True} or not {@code false}
+     */
     private boolean OPEN;
 
 

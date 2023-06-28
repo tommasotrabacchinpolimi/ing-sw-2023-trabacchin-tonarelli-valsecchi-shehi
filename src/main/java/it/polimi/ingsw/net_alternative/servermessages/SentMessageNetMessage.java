@@ -18,7 +18,14 @@ import it.polimi.ingsw.net_alternative.ServerDispatcherInterface;
  */
 public class SentMessageNetMessage implements ServerMessage {
 
+    /**
+     * Represents the text of the message
+     */
     private final String text;
+
+    /**
+     * Represents the receivers of the message
+     */
     private final String[] receiversNickname;
 
     /**
