@@ -637,9 +637,11 @@ public class State implements Serializable, OnUpdateNeededListener {
      * @see Player
      */
     public void setCurrentPlayer(Player currentPlayer) {
-        this.currentPlayer = currentPlayer;
-        System.out.println("notifying player changed");
-        notifyCurrentPlayerChanged();
+        if(currentPlayer != this.currentPlayer) {
+            this.currentPlayer = currentPlayer;
+            notifyCurrentPlayerChanged();
+        }
+
     }
 
     /**

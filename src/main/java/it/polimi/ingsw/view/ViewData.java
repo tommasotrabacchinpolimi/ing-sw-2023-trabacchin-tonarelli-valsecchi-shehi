@@ -60,6 +60,7 @@ public class ViewData {
      * Array of ids of the common goals in the game
      */
     private String[] idCommonGoals;
+
     /**
      * Map that associates each player with his points.
      */
@@ -365,9 +366,7 @@ public class ViewData {
      */
     public void setCurrentPlayer(String currentPlayer) {
         this.currentPlayer = currentPlayer;
-        System.out.println("I want to notify current player");
         userInterface.onCurrentPlayerChanged(currentPlayer);
-        System.out.println("I have notified current player");
     }
 
     /**
@@ -414,10 +413,10 @@ public class ViewData {
     public void addMessage(Triple<String, List<String>, String> message){
         if(message.getSecond().contains(this.thisPlayer)) {
             unreadMessages = true;
-            messages.add(message);
-            userInterface.onNewMessage(message.getFirst());
         }
 
+        messages.add(message);
+        userInterface.onNewMessage(message.getFirst());
     }
 
     /**

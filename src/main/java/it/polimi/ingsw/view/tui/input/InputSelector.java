@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.tui.input;
 
 import it.polimi.ingsw.view.tui.TUI;
 import it.polimi.ingsw.view.tui.input.chatinput.AskReceiver;
+import it.polimi.ingsw.view.tui.input.chatinput.AskText;
 import it.polimi.ingsw.view.tui.input.draginput.AskCoordinates;
 import it.polimi.ingsw.view.tui.page.*;
 
@@ -58,7 +59,12 @@ public class InputSelector extends Input{
                 getTUI().launchUI();
                 return;
             case "message":
-                getTUI().setCurrentInput(new AskReceiver(getTUI(), getOut()));
+                if(getTUI().getModel().getPlayers().size() == 2) {
+                    getTUI().setCurrentInput(new AskText(getTUI(), getOut(), getTUI().getModel().getPlayers().stream().filter(p -> !p.equals(getTUI().getModel().getThisPlayer())).findFirst().get()));
+                }
+                else {
+                    getTUI().setCurrentInput(new AskReceiver(getTUI(), getOut()));
+                }
                 break;
             case "chat":
                 getTUI().setPage(new ChatPage(getTUI()));
