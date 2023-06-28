@@ -104,7 +104,10 @@ public abstract class Page {
      * This method is called when there is a new message from another player.
      */
     public void onNewMessage() {
-        out.println("There is a new message from " + getModel().getLastMessage().getFirst());
+        if(!getModel().getLastMessage().getFirst().equals(getModel().getThisPlayer())) {
+            out.println("There is a new message from " + getModel().getLastMessage().getFirst());
+        }
+
     }
 
     /**

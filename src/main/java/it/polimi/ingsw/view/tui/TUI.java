@@ -155,13 +155,13 @@ public class TUI extends UI {
         }
 
         this.currentInput = new InputSelector(this, printStream);
-        if (!sender.equals(getModel().getThisPlayer())) {
+        //if (!sender.equals(getModel().getThisPlayer())) {
             if (page != null) {
                 page.onNewMessage();
             } else {
                 getPrintStream().println("There is a new message from " + sender);
             }
-        }
+        //}
 
 
     }
