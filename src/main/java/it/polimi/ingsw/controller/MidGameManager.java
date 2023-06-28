@@ -93,7 +93,7 @@ public class MidGameManager extends GameManager {
                 getController().getState().notifyChangedCommonGoalAvailableScore(getController().getState().getCommonGoal1().getScoringTokens().peek(), 1);
             }
             if(score2 != 0) {
-                player.getPointPlayer().setScoreCommonGoal1(score2);
+                player.getPointPlayer().setScoreCommonGoal2(score2);
                 getController().getState().notifyChangedCommonGoalAvailableScore(getController().getState().getCommonGoal2().getScoringTokens().peek(), 2);
             }
             /////////////////////////////////////
