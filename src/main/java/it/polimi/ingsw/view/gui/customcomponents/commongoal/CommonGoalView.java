@@ -44,24 +44,57 @@ import static it.polimi.ingsw.utils.color.MyShelfieColor.CHARLESTON;
  */
 public class CommonGoalView extends StackPane implements MyShelfieComponent {
 
+    /**
+     * The path to the directory containing common goal images.
+     */
     private static final String COMMON_GOAL_IMAGE_PATH = "/it.polimi.ingsw/graphical.resources/common.goal.cards/";
 
+    /**
+     * The name of the default image to be used if a common goal image is not found.
+     */
     private static final String ERROR_COMMON_GOAL_IMAGE = "error_common_goal.jpg";
 
+    /**
+     * The path to the background image for the common goal description.
+     */
     private static final String DESCRIPTION_BACKGROUND_IMAGE = "/it.polimi.ingsw/graphical.resources/misc/white_paper_texture.png";
 
+
+    /**
+     * The default description to be displayed if no description is available.
+     */
     private static final String EMPTY_DESCRIPTION = "No description available";
+
 
     private static final double SCORING_TOKEN_ROTATION = -8.0;
 
+
+    /**
+     * The ID of the common goal.
+     */
     private final String commonGoalID;
 
+    /**
+     * A flag indicating whether the common goal description is currently being shown.
+     */
     private boolean isShowingDescription;
 
+
+    /**
+     * The description of the common goal.
+     */
     private final String description;
 
+
+    /**
+     * The stack of scoring token views associated with the common goal.
+     */
     private final Stack<ScoringTokenView> scoringTokenViews = new Stack<>();
 
+
+    /**
+     * The pane that holds the scoring token views.
+     */
     private final Pane scoringTokenBox;
 
     /**
@@ -103,6 +136,9 @@ public class CommonGoalView extends StackPane implements MyShelfieComponent {
         setOnMouseClicked(this::displayCommonGoalDescription);
     }
 
+    /**
+     * Sets up the scoring tokens box with the necessary styles and listeners.
+     */
     private void setupScoringTokensBox() {
         this.scoringTokenBox.setStyle("-fx-padding: 2.7em;");
 
@@ -147,6 +183,11 @@ public class CommonGoalView extends StackPane implements MyShelfieComponent {
         );
     }
 
+    /**
+     * Adds the scoring tokens to the `CommonGoalView`.
+     *
+     * @param scoringTokens The scoring tokens to be added.
+     */
     private void addScoringTokens(final Stack<Integer> scoringTokens) {
 
         if (scoringTokens != null && scoringTokens.size() > 0) {
@@ -164,6 +205,10 @@ public class CommonGoalView extends StackPane implements MyShelfieComponent {
         }
     }
 
+
+    /**
+     * Displays the top scoring token on the `CommonGoalView`.
+     */
     private void showTopToken() {
         ScoringTokenView topToken = scoringTokenViews.peek();
 
@@ -172,6 +217,12 @@ public class CommonGoalView extends StackPane implements MyShelfieComponent {
         topToken.setRotate(SCORING_TOKEN_ROTATION);
     }
 
+    /**
+     * Retrieves the top scoring token from the `CommonGoalView`.
+     *
+     * @return The top scoring token.
+     * @throws EmptyStackException If there are no scoring tokens available.
+     */
     private ScoringTokenView getTopToken() throws EmptyStackException {
         ScoringTokenView topToken =  scoringTokenViews.pop();
 
@@ -208,7 +259,11 @@ public class CommonGoalView extends StackPane implements MyShelfieComponent {
                 });
     }
 
-
+    /**
+     * Displays the description of the common goal when clicked.
+     *
+     * @param mouseEvent The mouse event triggering the action.
+     */
     private void displayCommonGoalDescription(MouseEvent mouseEvent) {
         if (!isShowingDescription) {
             Label descriptionLabel = new Label(description);

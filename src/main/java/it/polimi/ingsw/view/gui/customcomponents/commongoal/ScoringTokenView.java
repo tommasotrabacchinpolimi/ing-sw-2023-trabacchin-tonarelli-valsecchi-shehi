@@ -19,25 +19,48 @@ import java.net.URL;
  */
 public class ScoringTokenView extends MyShelfieGraphicIcon {
 
+    /**
+     * The path to the directory containing the scoring token images.
+     */
     private static final String SCORING_TOKENS_PATH = "/it.polimi.ingsw/graphical.resources/scoring.tokens/";
 
+    /**
+     * The prefix for the token icon filenames.
+     */
     private static final String TOKEN_ICON_PREFIX = "scoring_";
 
+    /**
+     * The filename for the empty token icon image.
+     */
     private static final String TOKEN_ICON_EMPTY = TOKEN_ICON_PREFIX + "empty.jpg";
 
+    /**
+     * The default padding for the scoring token view.
+     */
     private static final double DEF_PADDING = 2.7;
 
+    /**
+     * The filename of the token icon image.
+     */
     private final String tokenIcon;
 
 
+
     /**
-     * Constructor of the class
-     * @param scoringValue Value of the scoring Token
+     * Constructs a `ScoringTokenView` object with the specified scoring value.
+     * The appropriate token icon image is displayed based on the scoring value.
+     *
+     * @param scoringValue The value of the scoring token.
      */
     public ScoringTokenView(Integer scoringValue) {
         this(TOKEN_ICON_PREFIX + scoringValue + ".jpg");
     }
 
+    /**
+     * Constructs a `ScoringTokenView` object with the specified token icon.
+     *
+     * @param tokenIcon The filename of the token icon image.
+     */
     private ScoringTokenView(String tokenIcon) {
         super(SCORING_TOKENS_PATH + tokenIcon, SCORING_TOKENS_PATH +TOKEN_ICON_EMPTY, DEF_PADDING);
 
