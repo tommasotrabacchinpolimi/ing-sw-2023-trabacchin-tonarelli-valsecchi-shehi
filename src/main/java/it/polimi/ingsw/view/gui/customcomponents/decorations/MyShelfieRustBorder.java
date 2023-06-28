@@ -21,18 +21,41 @@ import static it.polimi.ingsw.utils.color.MyShelfieColor.*;
 
 public class MyShelfieRustBorder implements MyShelfieDecoration{
 
+    /**
+     * The blur type used for the border effect.
+     */
     private static final BlurType BLUR_TYPE = BlurType.ONE_PASS_BOX;
 
+    /**
+     * The choke of the border effect.
+     */
     private static final double CHOKE = 1.0;
 
+    /**
+     * The color of the border.
+     */
     private static final Color BORDER_COLOR = RUST.getColor();
 
+    /**
+     * The offset of the border effect in the x and y direction.
+     */
     private static final double OFFSET = 0.0;
 
+    /**
+     * The radius of the border effect.
+     */
     private static final double RADIUS = 10.0;
 
+    /**
+     * The inner shadow border effect applied to the decorated component.
+     */
     private final InnerShadow border;
 
+
+    /**
+     * Constructs a new `MyShelfieRustBorder` decoration.
+     * It creates an inner shadow effect for the border.
+     */
     public MyShelfieRustBorder() {
         border = new InnerShadow();
         border.setBlurType(BLUR_TYPE);
@@ -57,6 +80,13 @@ public class MyShelfieRustBorder implements MyShelfieDecoration{
         decoratedComponent.getCustomizedNode().setEffect(border);
     }
 
+    /**
+     * Returns the radius for the border effect based on the size of the decorated component.
+     * If the component's width or height is zero, the default radius is used.
+     *
+     * @param decoratedComponent the component for which to calculate the radius
+     * @return the radius for the border effect
+     */
     private double getRadius(Node decoratedComponent) {
         Bounds componentBounds = decoratedComponent.getBoundsInLocal();
 

@@ -18,12 +18,24 @@ import static it.polimi.ingsw.utils.color.MyShelfieColor.BONE;
  */
 public class MyShelfieInnerLighting implements MyShelfieDecoration{
 
+    /**
+     * The azimuth angle of the light source.
+     */
     private final static double AZIMUTH = -45.0;
 
+    /**
+     * The elevation angle of the light source.
+     */
     private final static double ELEVATION = 30.0;
 
+    /**
+     * The color of the light source.
+     */
     private final static Color LIGHT_COLOR_SOURCE = BONE.getLightenColor();
 
+    /**
+     * The lighting effect applied to the decorated component.
+     */
     private final Lighting lighting;
 
     /**
