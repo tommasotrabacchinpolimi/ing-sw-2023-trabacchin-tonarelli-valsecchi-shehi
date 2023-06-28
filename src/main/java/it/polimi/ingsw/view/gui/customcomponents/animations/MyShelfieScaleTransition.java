@@ -12,6 +12,11 @@ import static it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieTran
  *
  * @see ScaleTransition
  * @see MyShelfieTransition
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
  */
 public class MyShelfieScaleTransition implements MyShelfieTransition{
 

@@ -23,6 +23,11 @@ import static it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieTran
  *
  * @see PathTransition
  * @see MyShelfieTransition
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
  */
 public class MyShelfiePathTransition implements MyShelfieTransition {
 

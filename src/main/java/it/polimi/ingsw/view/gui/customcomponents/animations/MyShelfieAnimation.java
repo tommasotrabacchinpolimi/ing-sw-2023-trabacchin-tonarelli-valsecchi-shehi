@@ -16,6 +16,10 @@ import static it.polimi.ingsw.view.gui.customcomponents.animations.MyShelfieAnim
 
 /**
  * Use to build an animation with "My Shelfie" style
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
  */
 public class MyShelfieAnimation {
 

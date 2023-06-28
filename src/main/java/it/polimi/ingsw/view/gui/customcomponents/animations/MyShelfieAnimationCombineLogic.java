@@ -10,6 +10,11 @@ import javafx.scene.Node;
  * Defines all the possible combine logic for a chain of
  * animation built with the {@link MyShelfieAnimation}
  * class
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
  */
 public enum MyShelfieAnimationCombineLogic {
     /**
