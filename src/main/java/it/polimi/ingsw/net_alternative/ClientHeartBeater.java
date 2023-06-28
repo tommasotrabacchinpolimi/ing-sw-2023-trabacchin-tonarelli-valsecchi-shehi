@@ -14,8 +14,17 @@ import it.polimi.ingsw.controller.ServerInterface;
  */
 public class ClientHeartBeater implements Runnable{
 
+    /**
+     * Represents the server
+     */
     private final ServerInterface server;
+    /**
+     * it represents the maximum delay given to the player to make his choices inside the turn
+     */
     private final long delay;
+    /**
+     * Listener needed here in case of loss connection
+     */
     private final OnClientConnectionLostListener clientConnectionLostListener;
 
     /**

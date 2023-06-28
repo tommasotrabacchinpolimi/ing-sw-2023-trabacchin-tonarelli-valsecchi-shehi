@@ -18,6 +18,9 @@ import java.util.Map;
  */
 public class ServerDispatcher implements ServerDispatcherInterface {
 
+    /**
+     * Controller Dispatcher used to correctly match clientInterface and Controllers
+     */
     private final ControllerDispatcher controllerDispatcher;
 
     /**

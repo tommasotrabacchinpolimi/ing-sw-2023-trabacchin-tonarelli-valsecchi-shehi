@@ -15,9 +15,17 @@ import java.net.Socket;
  * @author Adem Shehi
  */
 public class SocketAccepter implements Runnable {
-
+    /**
+     * Used to properly manage requests from client to server
+     */
     private final ServerDispatcher serverDispatcher;
+    /**
+     * Port used for connection
+     */
     private final int port;
+    /**
+     * To properly manage the loss of connection of the Server
+     */
     private final OnServerConnectionLostListener onServerConnectionLostListener;
 
     /**

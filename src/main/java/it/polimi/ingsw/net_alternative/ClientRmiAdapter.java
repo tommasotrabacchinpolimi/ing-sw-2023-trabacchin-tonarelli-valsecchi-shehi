@@ -25,9 +25,22 @@ import java.util.List;
  * @author Adem Shehi
  */
 public class ClientRmiAdapter implements ServerInterface {
+    /**
+     * Used to represent an Rmi Server
+     */
     private final RmiServerInterface rmiServer;
+
+    /**
+     * Listener needed here in case of loss connection
+     */
     private final OnClientConnectionLostListener onClientConnectionLostListener;
 
+    /**
+     * Indicates whether the connection is open or not.
+     * <p>
+     * When set to true, it means the connection is open and messages can be sent to the server.
+     * When set to false, it means the connection is closed and messages should not be sent to the server.
+     */
     private boolean OPEN;
 
     /**

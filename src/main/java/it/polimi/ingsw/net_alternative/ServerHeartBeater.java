@@ -13,8 +13,17 @@ import it.polimi.ingsw.controller.ClientInterface;
  */
 public class ServerHeartBeater implements Runnable{
 
+    /**
+     * ClientInterface of the client to be checked if is "Alive" or not.
+     */
     private final ClientInterface client;
+    /**
+     * Maximum delay under witch a Server is considered "Alive"
+     */
     private final long delay;
+    /**
+     * Listener to properly manage a loss connection scenario
+     */
     private final OnServerConnectionLostListener serverConnectionLostListener;
 
     /**

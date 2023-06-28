@@ -23,9 +23,18 @@ import java.util.concurrent.Executors;
  */
 public class RmiServerImpl extends UnicastRemoteObject implements RmiServerInterface{
 
+    /**
+     * Used to manage correctly Server requests
+     */
     private final ServerDispatcherInterface serverDispatcherInterface;
+    /**
+     * The client Interface
+     */
     private final ClientInterface clientInterface;
 
+    /**
+     * Use to manage correctly threads
+     */
     ExecutorService executorService;
 
     /**

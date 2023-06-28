@@ -16,7 +16,14 @@ import java.rmi.server.UnicastRemoteObject;
  */
 public class RmiAccepter extends UnicastRemoteObject implements RmiAccepterInterface {
 
+    /**
+     * Listener to manage an eventual loss connection scenario
+     */
     private final OnServerConnectionLostListener onServerConnectionLostListener;
+
+    /**
+     * Used to manage correctly eventual client requests for the server
+     */
     private final ServerDispatcher serverDispatcher;
 
     /**
