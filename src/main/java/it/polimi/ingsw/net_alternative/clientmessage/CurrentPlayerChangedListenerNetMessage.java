@@ -18,6 +18,9 @@ import it.polimi.ingsw.net_alternative.ClientDispatcherInterface;
  */
 public class CurrentPlayerChangedListenerNetMessage implements ClientMessage {
 
+    /**
+     * Nickname of the player
+     */
     private final String nickname;
 
     /**

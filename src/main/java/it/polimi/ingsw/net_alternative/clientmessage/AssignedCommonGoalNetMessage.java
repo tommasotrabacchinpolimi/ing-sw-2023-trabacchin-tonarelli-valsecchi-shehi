@@ -16,10 +16,18 @@ import it.polimi.ingsw.net_alternative.ClientDispatcherInterface;
  */
 public class AssignedCommonGoalNetMessage implements ClientMessage {
 
+    /**
+     * Description of the CommonGoal
+     */
     private final String description;
-
+    /**
+     * number of the CommonGoal
+     */
     private final int n;
 
+    /**
+     * Id of the commonGoal
+     */
     private final String id;
 
     /**

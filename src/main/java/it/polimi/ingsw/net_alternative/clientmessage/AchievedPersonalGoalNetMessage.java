@@ -19,9 +19,15 @@ import java.util.List;
    */
 
 public class AchievedPersonalGoalNetMessage implements ClientMessage {
-    private String nickname;
+      /**
+       * Nickname of the player
+       */
+    private final String nickname;
 
-    private List<Coordinate> tiles;
+      /**
+       * List of Tiles
+       */
+    private final List<Coordinate> tiles;
 
       /**
        * Constructs an AchievedPersonalGoalNetMessage object with the specified nickname and list of achieved tiles.

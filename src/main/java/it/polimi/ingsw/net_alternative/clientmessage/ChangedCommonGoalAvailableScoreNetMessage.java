@@ -15,8 +15,14 @@ import it.polimi.ingsw.net_alternative.ClientDispatcherInterface;
  */
 public class ChangedCommonGoalAvailableScoreNetMessage implements ClientMessage {
 
+    /**
+     * The score in terms of point in the game
+     */
     private final int score;
 
+    /**
+     * The number that identifies the CommonGoal
+     */
     private final int numberOfCommonGoal;
 
     /**

@@ -18,7 +18,9 @@ import it.polimi.ingsw.net_alternative.ClientDispatcherInterface;
 public class BoardUpdatedNetMessage implements ClientMessage {
 
 
-
+    /**
+     * Matrix of tileSubjects that represents the board
+     */
     private final TileSubject[][] tileSubjects;
 
     /**

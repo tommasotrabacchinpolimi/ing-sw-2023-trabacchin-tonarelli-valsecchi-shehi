@@ -17,8 +17,16 @@ import it.polimi.ingsw.net_alternative.ClientDispatcherInterface;
  */
 public class PlayerStateChangedNetMessage implements ClientMessage {
 
+    /**
+     * Nickname of the player
+     */
     private final String nickname;
 
+
+    /**
+     *
+     * Represent the state of a player
+     */
     private final PlayerState playerState;
 
     /**
