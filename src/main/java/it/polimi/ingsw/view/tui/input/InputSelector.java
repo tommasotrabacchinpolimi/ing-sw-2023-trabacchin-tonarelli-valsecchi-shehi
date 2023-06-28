@@ -65,7 +65,6 @@ public class InputSelector extends Input{
                 else {
                     getTUI().setCurrentInput(new AskReceiver(getTUI(), getOut()));
                 }
-                getTUI().setCurrentInput(new AskReceiver(getTUI(), getOut()));
                 break;
             case "chat":
                 getTUI().setPage(new ChatPage(getTUI()));
