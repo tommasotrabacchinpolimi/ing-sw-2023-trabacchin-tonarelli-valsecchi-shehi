@@ -35,6 +35,11 @@ public enum SingleMessageViewType {
         }
     };
 
+    /**
+     * The privacy type of the message view.
+     *
+     * @see SingleMessageViewPrivacyType
+     */
     private SingleMessageViewPrivacyType messageViewPrivacyType;
 
     /**

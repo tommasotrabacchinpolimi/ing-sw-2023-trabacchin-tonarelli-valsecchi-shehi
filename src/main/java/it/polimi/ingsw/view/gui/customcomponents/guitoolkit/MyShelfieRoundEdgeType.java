@@ -34,12 +34,25 @@ public enum MyShelfieRoundEdgeType {
      */
     FULL(1.0);
 
+    /**
+     * Represents the smoothness
+     */
     private final double edgeRadius;
 
+    /**
+     * Constructs a round edge type with the specified edge radius.
+     *
+     * @param edgeRadius the edge radius value associated with the round edge type
+     */
     MyShelfieRoundEdgeType(double edgeRadius) {
         this.edgeRadius = edgeRadius;
     }
 
+    /**
+     * Returns the edge radius value associated with the round edge type.
+     *
+     * @return the edge radius value
+     */
     public double getEdgeRadius(){
         return edgeRadius;
     }

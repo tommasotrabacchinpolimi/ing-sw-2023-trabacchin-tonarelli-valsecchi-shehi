@@ -35,7 +35,15 @@ import static it.polimi.ingsw.utils.color.MyShelfieColor.DARK_LAVA;
  */
 class SingleMessageView extends VBox implements MyShelfieComponent {
 
+    /**
+     * Represents the maximum number of characters allowed on a single line in the message content.
+     */
     private final static int MAX_MESSAGE_CHAR_ON_LINE = 40;
+
+
+    /**
+     * Represents the background image path for the message view.
+     */
 
     private final static String MESSAGE_BACKGROUND = "/it.polimi.ingsw/graphical.resources/misc/white_paper_texture.png";
 
@@ -46,14 +54,34 @@ class SingleMessageView extends VBox implements MyShelfieComponent {
      * @see MyShelfieDecoration
      */
     private final List<MyShelfieDecoration> baseDecorations = new ArrayList<>();
+
+    /**
+     * The sender of the message.
+     */
     private final String sender;
 
+    /**
+     * The content of the message
+     */
     private final String messageContent;
 
+    /**
+     * The header label
+     */
     private Label headerLabel;
 
+    /**
+     * The content of the message
+     */
     private TextFlow message;
 
+    /**
+     * Constructs a new instance of the {@code SingleMessageView} class with the given sender name and message content.
+     * This constructor sets the header text to {@code null}.
+     *
+     * @param senderName The name or identifier of the message sender.
+     * @param messageContent The content of the message.
+     */
     public SingleMessageView(@NamedArg("senderName") String senderName, @NamedArg("messageContent") String messageContent) {
         this(senderName, null, messageContent);
     }
@@ -88,6 +116,10 @@ class SingleMessageView extends VBox implements MyShelfieComponent {
         setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
     }
 
+    /**
+     * Sets the CSS styles for the `SingleMessageView` component.
+     * This method applies background image, border color, border width, padding, and text wrapping styles.
+     */
     private void setCSS() {
         setStyle("-fx-background-image: url('" + getMyShelfieResource(MESSAGE_BACKGROUND) + "');" +
                 "-fx-background-position: center;" +
@@ -99,6 +131,13 @@ class SingleMessageView extends VBox implements MyShelfieComponent {
                 "-fx-wrap-text: true;");
     }
 
+    /**
+     * Adds the header text to the `SingleMessageView` component.
+     * If the `headerText` parameter is not null, the header label is created with the sender name concatenated with the header text.
+     * Otherwise, the header label is created with only the sender name.
+     *
+     * @param headerText The text to display in the header label.
+     */
     private void addHeaderText(String headerText) {
 
         if(headerText != null)
@@ -115,6 +154,13 @@ class SingleMessageView extends VBox implements MyShelfieComponent {
                 "-fx-label-padding: 0.2em;");
     }
 
+    /**
+     * Adds the message content as a `TextFlow` to the `SingleMessageView` component.
+     * The message content is split into lines using the `getMessageLines` method,
+     * and the resulting lines are passed as arguments to create a new `TextFlow`.
+     * The method sets various CSS styles for the message content, including padding,
+     * font family, and text wrapping. It also sets the text alignment to justify.
+     */
     private void addMessageContentTextFlow() {
         message = new TextFlow(getMessageLines(messageContent));
 
@@ -126,6 +172,15 @@ class SingleMessageView extends VBox implements MyShelfieComponent {
 
     }
 
+    /**
+     * Retrieves the message lines from the given message content and returns an array of `Text` objects.
+     * The method splits the message content into lines using the `getSplitMessage` method.
+     * It then creates a `Text` object for each line and adds it to a list.
+     * Finally, it converts the list of `Text` objects to an array and returns it.
+     *
+     * @param messageContent The content of the message.
+     * @return An array of `Text` objects representing the message lines.
+     */
     @NotNull
     private Text[] getMessageLines(String messageContent) {
         List<Text> messageTexts = new ArrayList<>();
@@ -138,6 +193,15 @@ class SingleMessageView extends VBox implements MyShelfieComponent {
     }
 
 
+    /**
+     * Splits the given text into individual words and returns an array of strings.
+     * The method scans the text character by character and identifies word boundaries based on spaces.
+     * It adds each word to a list and finally converts the list of words to an array and returns it.
+     *
+     * @param text The text to split into words.
+     * @return An array of strings representing the individual words.
+     * @throws IllegalArgumentException if the input text is null.
+     */
     @NotNull
     private static String[] getSplitWordInMessage(String text) throws IllegalArgumentException {
         if (text == null)
@@ -158,6 +222,16 @@ class SingleMessageView extends VBox implements MyShelfieComponent {
         return words.toArray(new String[0]);
     }
 
+    /**
+     * Splits the given text into multiple lines based on the maximum character limit per line.
+     * The method first splits the text into individual words using the {@link #getSplitWordInMessage(String)} method.
+     * It then processes the words and constructs lines by adding words until the maximum character limit is reached.
+     * If a word exceeds the limit, it is placed on a new line.
+     * The resulting lines are stored in a list and converted to an array, which is returned.
+     *
+     * @param text The text to split into lines.
+     * @return An array of strings representing the lines of text.
+     */
     @NotNull
     private static String[] getSplitMessage(String text) {
         String[] wordsInMessage = getSplitWordInMessage(text);
@@ -205,11 +279,22 @@ class SingleMessageView extends VBox implements MyShelfieComponent {
         return messageLines.toArray(new String[0]);
     }
 
+    /**
+     * Returns the customized Node.
+     *
+     * @return The customized Node.
+     */
     @Override
     public Node getCustomizedNode() {
         return this;
     }
 
+
+    /**
+     * Returns the list of base decorations applied to the component.
+     *
+     * @return The list of base decorations.
+     */
     @Override
     public List<MyShelfieDecoration> getBaseDecorations() {
         return baseDecorations;
