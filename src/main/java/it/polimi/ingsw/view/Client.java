@@ -73,6 +73,9 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
      * @param ui    The UI object associated with the client.
      * @param model The view data containing the game state and information for the client's UI.
      */
+
+    private final Object receiverLock = new Object();
+    private final Object senderLock = new Object();
     public Client(UI ui, ViewData model) {
         this.ui = ui;
         viewData = model;
@@ -177,12 +180,15 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
 
 
     @Override
-    public synchronized void onBoardUpdated(TileSubject[][] tileSubjects) {
-        for (int i = 0; i < tileSubjects.length; i++) {
-            for (int j = 0; j < tileSubjects[0].length; j++) {
-                viewData.getBoard()[i][j] = tileSubjects[i][j];
+    public void onBoardUpdated(TileSubject[][] tileSubjects) {
+        synchronized (receiverLock) {
+            for (int i = 0; i < tileSubjects.length; i++) {
+                for (int j = 0; j < tileSubjects[0].length; j++) {
+                    viewData.getBoard()[i][j] = tileSubjects[i][j];
+                }
             }
         }
+
     }
 
     /**
@@ -192,13 +198,16 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
      * @param bookShelf   The updated tile subjects representing the player's bookshelf.
      */
     @Override
-    public synchronized void onBookShelfUpdated(String nickname, TileSubject[][] bookShelf) {
-        viewData.getBookShelves().computeIfAbsent(nickname, k -> new TileSubject[6][5]);
-        for (int i = 0; i < bookShelf.length; i++) {
-            for (int j = 0; j < bookShelf[0].length; j++) {
-                viewData.getBookShelves().get(nickname)[i][j] = bookShelf[i][j];
+    public void onBookShelfUpdated(String nickname, TileSubject[][] bookShelf) {
+        synchronized (receiverLock) {
+            viewData.getBookShelves().computeIfAbsent(nickname, k -> new TileSubject[6][5]);
+            for (int i = 0; i < bookShelf.length; i++) {
+                for (int j = 0; j < bookShelf[0].length; j++) {
+                    viewData.getBookShelves().get(nickname)[i][j] = bookShelf[i][j];
+                }
             }
         }
+
     }
 
     /**
@@ -208,8 +217,11 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
      * @param numberOfCommonGoal The number of the common goal.
      */
     @Override
-    public synchronized void onChangedCommonGoalAvailableScore(int score, int numberOfCommonGoal) {
-        viewData.getAvailableScores().put(numberOfCommonGoal - 1, score);
+    public void onChangedCommonGoalAvailableScore(int score, int numberOfCommonGoal) {
+        synchronized (receiverLock) {
+            viewData.getAvailableScores().put(numberOfCommonGoal - 1, score);
+        }
+
     }
 
     /**
@@ -218,8 +230,11 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
      * @param nickname The nickname of the new current player.
      */
     @Override
-    public synchronized void onCurrentPlayerChangedListener(String nickname) {
-        viewData.setCurrentPlayer(nickname);
+    public void onCurrentPlayerChangedListener(String nickname) {
+        synchronized (receiverLock) {
+            viewData.setCurrentPlayer(nickname);
+        }
+
     }
 
     /**
@@ -228,14 +243,17 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
      * @param e The exception that occurred.
      */
     @Override
-    public synchronized void onException(String cause, Exception e) {
-        try{
-            if(cause.equals(viewData.getThisPlayer())) {
-                viewData.setException(e.getMessage());
+    public void onException(String cause, Exception e) {
+        synchronized (receiverLock) {
+            try{
+                if(cause.equals(viewData.getThisPlayer())) {
+                    viewData.setException(e.getMessage());
+                }
+            }catch(IOException e1) {
+                e1.printStackTrace();
             }
-        }catch(IOException e1) {
-            e1.printStackTrace();
         }
+
 
     }
 
@@ -245,7 +263,7 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
      * @param nicknameLastPlayer The nickname of the last player.
      */
     @Override
-    public synchronized void onLastPlayerUpdated(String nicknameLastPlayer) {
+    public void onLastPlayerUpdated(String nicknameLastPlayer) {
 
     }
 
@@ -258,9 +276,12 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
      * @param text               The content of the message.
      */
     @Override
-    public synchronized void onMessageSent(String nicknameSender, List<String> nicknameReceivers, String text) {
-        Triple<String, List<String>, String> triple = new Triple<>(nicknameSender, nicknameReceivers, text);
-        viewData.addMessage(triple);
+    public void onMessageSent(String nicknameSender, List<String> nicknameReceivers, String text) {
+        synchronized (receiverLock) {
+            Triple<String, List<String>, String> triple = new Triple<>(nicknameSender, nicknameReceivers, text);
+            viewData.addMessage(triple);
+        }
+
     }
 
     /**
@@ -271,12 +292,14 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
      * @param texts              The contents of the messages.
      */
     @Override
-    public synchronized void onMessagesSentUpdate(List<String> senderNicknames, List<List<String>> receiverNicknames, List<String> texts) {
-        List<Triple<String, List<String>, String>> messages = new ArrayList<>();
-        for (int i = 0; i < senderNicknames.size(); i++) {
-            messages.add(new Triple<>(senderNicknames.get(i), receiverNicknames.get(i), texts.get(i)));
+    public void onMessagesSentUpdate(List<String> senderNicknames, List<List<String>> receiverNicknames, List<String> texts) {
+        synchronized (receiverLock) {
+            List<Triple<String, List<String>, String>> messages = new ArrayList<>();
+            for (int i = 0; i < senderNicknames.size(); i++) {
+                messages.add(new Triple<>(senderNicknames.get(i), receiverNicknames.get(i), texts.get(i)));
+            }
+            viewData.setMessages(messages);
         }
-        viewData.setMessages(messages);
     }
 
     /**
@@ -286,8 +309,10 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
      * @param playerState  The new state of the player.
      */
     @Override
-    public synchronized void onPlayerStateChanged(String nickname, PlayerState playerState) {
-        viewData.getPlayersState().put(nickname, playerState.toString());
+    public void onPlayerStateChanged(String nickname, PlayerState playerState) {
+        synchronized (receiverLock) {
+            viewData.getPlayersState().put(nickname, playerState.toString());
+        }
     }
 
 
@@ -302,13 +327,16 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
      * @param scorePersonalGoal    The score for the personal goal.
      */
     @Override
-    public synchronized void onPointsUpdated(String nickName, int scoreAdjacentGoal, int scoreCommonGoal1, int scoreCommonGoal2, int scoreEndGame, int scorePersonalGoal) {
-        viewData.getPlayersPoints().computeIfAbsent(nickName, k -> Arrays.asList(0, 0, 0, 0, 0));
-        viewData.getPlayersPointsByNickname(nickName).set(0, scoreAdjacentGoal);
-        viewData.getPlayersPointsByNickname(nickName).set(1, scoreCommonGoal1);
-        viewData.getPlayersPointsByNickname(nickName).set(2, scoreCommonGoal2);
-        viewData.getPlayersPointsByNickname(nickName).set(3, scoreEndGame);
-        viewData.getPlayersPointsByNickname(nickName).set(4, scorePersonalGoal);
+    public void onPointsUpdated(String nickName, int scoreAdjacentGoal, int scoreCommonGoal1, int scoreCommonGoal2, int scoreEndGame, int scorePersonalGoal) {
+        synchronized (receiverLock) {
+            viewData.getPlayersPoints().computeIfAbsent(nickName, k -> Arrays.asList(0, 0, 0, 0, 0));
+            viewData.getPlayersPointsByNickname(nickName).set(0, scoreAdjacentGoal);
+            viewData.getPlayersPointsByNickname(nickName).set(1, scoreCommonGoal1);
+            viewData.getPlayersPointsByNickname(nickName).set(2, scoreCommonGoal2);
+            viewData.getPlayersPointsByNickname(nickName).set(3, scoreEndGame);
+            viewData.getPlayersPointsByNickname(nickName).set(4, scorePersonalGoal);
+        }
+
     }
 
     /**
@@ -317,19 +345,22 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
      * @param gameState The new game state.
      */
     @Override
-    public synchronized void onStateChanged(GameState gameState) {
-        try {
-            viewData.setGameState(gameState.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
+    public void onStateChanged(GameState gameState) {
+        synchronized (receiverLock) {
+            try {
+                viewData.setGameState(gameState.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+
     }
 
     /**
      * No operation. Does nothing.
      */
     @Override
-    public synchronized void nop() {
+    public void nop() {
         // No operation
     }
 
@@ -337,8 +368,10 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
      * Called when the connection to the server is lost. Notifies the UI about the connection loss.
      */
     @Override
-    public synchronized void onConnectionLost() {
-        ui.onConnectionLost();
+    public void onConnectionLost() {
+        synchronized (receiverLock) {
+            ui.onConnectionLost();
+        }
     }
 
     /**
@@ -347,9 +380,11 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
      * @param nickname The nickname of the player.
      */
     @Override
-    public synchronized void joinGame(String nickname) {
-        viewData.setThisPlayer(nickname);
-        server.joinGame(nickname);
+    public void joinGame(String nickname) {
+        synchronized (senderLock) {
+            viewData.setThisPlayer(nickname);
+            server.joinGame(nickname);
+        }
     }
 
     /**
@@ -359,20 +394,26 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
      * @param numberOfPlayer The number of players in the game.
      */
     @Override
-    public synchronized void createGame(String nickname, int numberOfPlayer) {
-        viewData.setThisPlayer(nickname);
-        server.createGame(nickname, numberOfPlayer);
+    public void createGame(String nickname, int numberOfPlayer) {
+        synchronized (senderLock) {
+            viewData.setThisPlayer(nickname);
+            server.createGame(nickname, numberOfPlayer);
+        }
+
     }
 
     /**
      * Quits the current game. Resets the view data, updates the UI model, and informs the server to quit the game.
      */
     @Override
-    public synchronized void quitGame() {
-        viewData = new ViewData(9, 5, 6);
-        viewData.setUserInterface(ui);
-        ui.setModel(viewData);
-        server.quitGame();
+    public void quitGame() {
+        synchronized (senderLock) {
+            viewData = new ViewData(9, 5, 6);
+            viewData.setUserInterface(ui);
+            ui.setModel(viewData);
+            server.quitGame();
+        }
+
     }
 
     /**
@@ -382,21 +423,22 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
      * @param receiversNickname The nicknames of the message receivers.
      */
     @Override
-    public synchronized void sentMessage(String text, String[] receiversNickname) {
-        List<String> receivers = new ArrayList<>();
-        for (String nick : receiversNickname) {
-            if (nick != null) {
-                receivers.add(nick);
+    public void sentMessage(String text, String[] receiversNickname) {
+        synchronized (senderLock) {
+            List<String> receivers = new ArrayList<>();
+            for (String nick : receiversNickname) {
+                if (nick != null) {
+                    receivers.add(nick);
+                }
             }
+            String[] r = new String[receivers.size()];
+            int i = 0;
+            for (String nick : receivers) {
+                r[i] = nick;
+                i++;
+            }
+            server.sentMessage(text, r);
         }
-        String[] r = new String[receivers.size()];
-        int i = 0;
-        for (String nick : receivers) {
-            r[i] = nick;
-            i++;
-        }
-
-        server.sentMessage(text, r);
     }
 
     /**
@@ -406,8 +448,10 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
      * @param chosenColumn  The target column in the bookshelf.
      */
     @Override
-    public synchronized void dragTilesToBookShelf(List<Coordinate> chosenTiles, int chosenColumn) {
-        server.dragTilesToBookShelf(chosenTiles, chosenColumn);
+    public void dragTilesToBookShelf(List<Coordinate> chosenTiles, int chosenColumn) {
+        synchronized (senderLock) {
+            server.dragTilesToBookShelf(chosenTiles, chosenColumn);
+        }
     }
 
     /**
@@ -416,8 +460,11 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
      * @param nickname The nickname of the winner player.
      */
     @Override
-    public synchronized void onWinnerChanged(String nickname) {
-        viewData.setWinnerPlayer(nickname);
+    public void onWinnerChanged(String nickname) {
+        synchronized (receiverLock) {
+            viewData.setWinnerPlayer(nickname);
+        }
+
     }
 
     /**
@@ -428,7 +475,7 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
      * @throws IOException If an I/O error occurs while creating the socket connection.
      */
     @Override
-    public synchronized void chosenSocket(int port, String host) throws IOException {
+    public void chosenSocket(int port, String host) throws IOException {
         ServerInterface serverInterface = this.getSocketConnection(host, port);
         this.setServer(serverInterface);
         this.port = port;
@@ -445,7 +492,7 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
      * @throws IOException       If an I/O error occurs while creating the RMI connection.
      */
     @Override
-    public synchronized void chosenRMI(int port, String host) throws NotBoundException, IOException {
+    public void chosenRMI(int port, String host) throws NotBoundException, IOException {
         ServerInterface serverInterface = this.getRmiConnection(host, port);
         this.setServer(serverInterface);
         this.port = port;
@@ -457,7 +504,7 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
      * Reconnects to the server using the previously chosen connection type, port, and host.
      */
     @Override
-    public synchronized void reConnect() {
+    public void reConnect() {
         while (true) {
             try {
                 if (this.choice == SOCKET) {
@@ -478,7 +525,9 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
      * @param players The updated list of players.
      */
     @Override
-    public synchronized void onPlayersListChanged(List<String> players) {
-        viewData.setPlayers(players);
+    public void onPlayersListChanged(List<String> players) {
+        synchronized (receiverLock) {
+            viewData.setPlayers(players);
+        }
     }
 }

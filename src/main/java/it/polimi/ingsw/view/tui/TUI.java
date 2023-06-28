@@ -175,10 +175,7 @@ public class TUI extends UI {
     @Override
     public synchronized void onCurrentPlayerChanged(String newCurrentPlayer) {
         try {
-            System.out.println("new current player");
             while (inputInProgress) {
-                System.out.println("waiting");
-
                 this.wait();
             }
         } catch (InterruptedException e) {

@@ -365,9 +365,7 @@ public class ViewData {
      */
     public void setCurrentPlayer(String currentPlayer) {
         this.currentPlayer = currentPlayer;
-        System.out.println("I want to notify current player");
         userInterface.onCurrentPlayerChanged(currentPlayer);
-        System.out.println("I have notified current player");
     }
 
     /**
