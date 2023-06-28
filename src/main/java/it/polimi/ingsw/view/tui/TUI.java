@@ -224,6 +224,9 @@ public class TUI extends UI {
         if (getModel().getGameState().equals("END")) {
             this.page = new WinnerPage(this);
         }
+        else {
+            this.page.show();
+        }
     }
 
     /**

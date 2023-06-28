@@ -155,6 +155,7 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
     @Override
     public void onAssignedCommonGoal(String description, int n, String id) {
         viewData.getCommonGoals()[n - 1] = description;
+        viewData.getIdCommonGoals()[n - 1] = id;
     }
 
     /**
