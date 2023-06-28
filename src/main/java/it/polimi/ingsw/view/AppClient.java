@@ -15,8 +15,17 @@ import java.rmi.NotBoundException;
  * @author Adem Shehi
  */
 public class AppClient {
+    /**
+     * Size of the Board
+     */
     private static final int DIM_BOARD = 9;
+    /**
+     * Dimension of the Column of bookshelf
+     */
     private static final int DIMCOL_BOOKSHELF = 5;
+    /**
+     * Dimension of the Column of bookshelf
+     */
     private static final int DIMROW_BOOKSHELF = 6;
 
     /**
