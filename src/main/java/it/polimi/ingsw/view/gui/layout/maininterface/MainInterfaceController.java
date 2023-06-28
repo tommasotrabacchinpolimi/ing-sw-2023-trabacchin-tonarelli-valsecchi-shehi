@@ -378,6 +378,13 @@ public class MainInterfaceController extends MyShelfieController {
             transferToken2ToOpponent(nickName);
     }
 
+    public void assignEndGameToken(String nickName) {
+        if (getGUILauncher().getGUIModel().getPlayers().get(0).equals(getGUILauncher().getGUIModel().getThisPlayer()))
+            gameInterfaceController.startEndGameTokenAnimation();
+        else
+            transferEndTokenToOpponent(nickName);
+    }
+
     //For testing purpose
     private void setupTestingButton() {
         /*MyShelfieButton fillBoardButton = new MyShelfieButton("Fill board");

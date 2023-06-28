@@ -131,6 +131,7 @@ public class GUI extends UI {
             guiLauncher.handleBlockGameControls();
             guiLauncher.handleFirstPlayerSeatAssignment();
             guiLauncher.handleAssignedCommonGoals();
+            guiLauncher.handleAssignedEndToken();
         });
     }
 

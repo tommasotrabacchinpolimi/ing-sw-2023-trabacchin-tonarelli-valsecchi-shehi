@@ -353,7 +353,7 @@ public class GameInterfaceController extends MyShelfieController {
         });
     }
 
-    public void startEndGameTokenAnimation(MouseEvent mouseEvent) {
+    public void startEndGameTokenAnimation() {
         transferEndGameToken(personalPointPane.getEndTokenCell());
     }
 

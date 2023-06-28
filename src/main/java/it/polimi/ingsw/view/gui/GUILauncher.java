@@ -35,6 +35,8 @@ public class GUILauncher extends MyShelfieApplication {
 
     private boolean isFirstPlayerSeatAssigned;
 
+    private boolean isEndGameTokenAssigned;
+
     private GUI gui;
 
     /**
@@ -61,6 +63,7 @@ public class GUILauncher extends MyShelfieApplication {
 
         this.gui = new GUI(this);
         this.isFirstPlayerSeatAssigned = false;
+        this.isEndGameTokenAssigned = false;
     }
 
     /**
@@ -269,6 +272,24 @@ public class GUILauncher extends MyShelfieApplication {
                 .entrySet()
                 .stream()
                 .filter(entry -> entry.getValue().get(commonGoalNumber).equals(getMainInterfaceController().requestDisplayedCommonGoalScore((commonGoalNumber - 1))))
+                .map(Map.Entry::getKey)
+                .findFirst();
+    }
+
+    public void handleAssignedEndToken() {
+        if(!isEndGameTokenAssigned) {
+            getPlayerAchievedEndGame().ifPresent(nickName -> {
+                getMainInterfaceController().assignEndGameToken(nickName);
+            });
+        }
+    }
+
+    private Optional<String> getPlayerAchievedEndGame() {
+
+        return getGUIModel().getPlayersPoints()
+                .entrySet()
+                .stream()
+                .filter(entry -> entry.getValue().get(3).equals(1))
                 .map(Map.Entry::getKey)
                 .findFirst();
     }
