@@ -21,6 +21,9 @@ public class TileViewInBox implements TileSubjectViewState {
 
     public static final double PADDING = 2.0;
 
+    /**
+     * Old Parent
+     */
     private final Pane oldParent;
 
     /**
@@ -41,7 +44,7 @@ public class TileViewInBox implements TileSubjectViewState {
     @Override
     public void tileStateAction(@NotNull TileSubjectView tileSubjectView, Pane... panes) {
 
-        if(panes == null) {
+        if (panes == null) {
             MyShelfieAlertCreator.displayErrorAlert("New Parent is null", "Tile moving failed");
             return;
         }

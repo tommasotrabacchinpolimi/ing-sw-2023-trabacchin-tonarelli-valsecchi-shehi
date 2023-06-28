@@ -13,8 +13,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ *
+ * The MyShelfieGraphicIcon class represents a graphical icon with "My Shelfie" style.
+ * It extends the JavaFX Pane class and implements the MyShelfieComponent interface.
+ * <br>
  * @version 1.0
  * @since 08/06/2023
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
  */
 public class MyShelfieGraphicIcon extends Pane implements MyShelfieComponent {
 
@@ -47,19 +56,50 @@ public class MyShelfieGraphicIcon extends Pane implements MyShelfieComponent {
      */
     private final List<MyShelfieDecoration> baseDecorations = new ArrayList<>();
 
+    /**
+     * Creates a MyShelfieGraphicIcon with the specified icon file path and padding.
+     *
+     * @param iconFilePath the file path of the icon image
+     * @param padding      the padding to be applied to the icon
+     */
     public MyShelfieGraphicIcon(String iconFilePath, double padding) {
         this(iconFilePath, padding, DEF_ROUND_EDGE, DEF_GRAPHIC_SIZE);
     }
 
+
+    /**
+     * Creates a MyShelfieGraphicIcon with the specified icon file path, padding, round edge type, and graphic size.
+     *
+     * @param iconFilePath   the file path of the icon image
+     * @param padding        the padding to be applied to the icon
+     * @param roundEdgeType  the round edge type to be applied to the icon
+     * @param graphicSize    the graphic size to be applied to the icon
+     */
     public MyShelfieGraphicIcon(String iconFilePath, double padding, MyShelfieRoundEdgeType roundEdgeType, String graphicSize) {
 
         this(iconFilePath, null, roundEdgeType, graphicSize, padding);
     }
 
+    /**
+     * Creates a MyShelfieGraphicIcon with the specified icon file path, support file path, and padding.
+     *
+     * @param iconFilePath       the file path of the icon image
+     * @param supportFilePath    the file path of the support image
+     * @param padding            the padding to be applied to the icon
+     */
     public MyShelfieGraphicIcon(String iconFilePath, String supportFilePath, double padding) {
         this(iconFilePath, supportFilePath, DEF_ROUND_EDGE, DEF_GRAPHIC_SIZE, padding);
     }
 
+    /**
+     * Creates a MyShelfieGraphicIcon with the specified parameters.
+     *
+     * @param iconFilePath       the file path of the icon image
+     * @param supportFilePath    the file path of the support image
+     * @param roundEdgeType      the round edge type to be applied to the icon
+     * @param graphicSize        the graphic size to be applied to the icon
+     * @param padding            the padding to be applied to the icon
+     */
     protected MyShelfieGraphicIcon(String iconFilePath,
                                  String supportFilePath,
                                  MyShelfieRoundEdgeType roundEdgeType,
@@ -68,6 +108,17 @@ public class MyShelfieGraphicIcon extends Pane implements MyShelfieComponent {
         this(iconFilePath, supportFilePath, roundEdgeType, graphicSize, padding, padding, padding, padding);
     }
 
+    /**
+     * Creates a MyShelfieGraphicIcon with the specified parameters.
+     *
+     * @param iconFilePath       the file path of the icon image
+     * @param supportFilePath    the file path of the support image
+     * @param roundEdgeType      the round edge type to be applied to the icon
+     * @param paddingTop         the top padding to be applied to the icon
+     * @param paddingRight       the right padding to be applied to the icon
+     * @param paddingBottom      the bottom padding to be applied to the icon
+     * @param paddingLeft        the left padding to be applied to the icon
+     */
     public MyShelfieGraphicIcon(String iconFilePath,
                                    String supportFilePath,
                                    MyShelfieRoundEdgeType roundEdgeType,
@@ -78,6 +129,18 @@ public class MyShelfieGraphicIcon extends Pane implements MyShelfieComponent {
         this(iconFilePath, supportFilePath, roundEdgeType, DEF_GRAPHIC_SIZE, paddingTop, paddingRight, paddingBottom, paddingLeft);
     }
 
+    /**
+     * Creates a MyShelfieGraphicIcon with the specified parameters.
+     *
+     * @param iconFilePath       the file path of the icon image
+     * @param supportFilePath    the file path of the support image
+     * @param roundEdgeType      the round edge type to be applied to the icon
+     * @param graphicSize        the graphic size to be applied to the icon
+     * @param paddingTop         the top padding to be applied to the icon
+     * @param paddingRight       the right padding to be applied to the icon
+     * @param paddingBottom      the bottom padding to be applied to the icon
+     * @param paddingLeft        the left padding to be applied to the icon
+     */
     protected MyShelfieGraphicIcon(String iconFilePath,
                                 String supportFilePath,
                                 MyShelfieRoundEdgeType roundEdgeType,
@@ -98,6 +161,16 @@ public class MyShelfieGraphicIcon extends Pane implements MyShelfieComponent {
         applyDecorationAsDefault(new MyShelfieDarkShadow());
     }
 
+    /**
+     * Sets the CSS properties for the MyShelfieGraphicIcon.
+     *
+     * @param iconFileURL    the URL of the icon image
+     * @param graphicSize    the graphic size to be applied to the icon
+     * @param paddingTop     the top padding to be applied to the icon
+     * @param paddingRight   the right padding to be applied to the icon
+     * @param paddingBottom  the bottom padding to be applied to the icon
+     * @param paddingLeft    the left padding to be applied to the icon
+     */
     private void setCSS(URL iconFileURL, String graphicSize, double paddingTop, double paddingRight, double paddingBottom, double paddingLeft) {
 
         if(!allowedGraphicSize(graphicSize))

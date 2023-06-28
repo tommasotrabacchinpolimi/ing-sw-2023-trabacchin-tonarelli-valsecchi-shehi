@@ -14,12 +14,33 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+
+/**
+ * Customized ChoiceBox component with MyShelfie styling and decorations.
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ */
+
 public class MyShelfieChoiceBox extends ChoiceBox<String> implements MyShelfieComponent {
 
+    /**
+     * Path for the choice box CSS file.
+     */
     private static final String CHOICE_BOX_CSS_FILE_PATH = "/it.polimi.ingsw/gui/layout/MyShelfieChoiceBox.css";
 
+    /**
+     * Path for MyShelfie choice box CSS file.
+     */
     private static final String MY_SHELFIE_CHOICE_BOX_STYLE_CLASS = "my-shelfie-choice-box";
 
+
+    /**
+     * Pseudo-class representing the "error" state of the MyShelfieChoiceBox.
+     * This pseudo-class is used to indicate an erroneous value in the ChoiceBox.
+     */
     private final PseudoClass errorClass = PseudoClass.getPseudoClass("error");
 
     /**
@@ -37,6 +58,11 @@ public class MyShelfieChoiceBox extends ChoiceBox<String> implements MyShelfieCo
         this(null);
     }
 
+    /**
+     * Creates a new ChoiceBox with the specified initial value.
+     *
+     * @param initValue The initial value for the ChoiceBox.
+     */
     public MyShelfieChoiceBox(@NamedArg("initValue") String initValue) {
         super();
 
@@ -52,11 +78,21 @@ public class MyShelfieChoiceBox extends ChoiceBox<String> implements MyShelfieCo
         getStyleClass().add(MY_SHELFIE_CHOICE_BOX_STYLE_CLASS);
     }
 
+    /**
+     * Sets the error style for the ChoiceBox, indicating an erroneous value.
+     * The specified value will be set as the current value, and the error pseudo-class will be activated.
+     *
+     * @param valueText The erroneous value to be set.
+     */
     public void setErrorStyle(String valueText) {
         setValue(valueText);
         pseudoClassStateChanged(errorClass, true);
     }
 
+    /**
+     * Removes the error style from the ChoiceBox, resetting it to the default style.
+     * The error pseudo-class will be deactivated.
+     */
     public void removeErrorStyle() {
         pseudoClassStateChanged(errorClass, false);
     }
