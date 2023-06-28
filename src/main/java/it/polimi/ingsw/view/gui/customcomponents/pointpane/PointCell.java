@@ -17,6 +17,9 @@ import static it.polimi.ingsw.utils.color.MyShelfieColor.DARK_LAVA;
 
 class PointCell extends StackPane implements MyShelfieComponent {
 
+    /**
+     * It is a default padding
+     */
     private static final double DEFAULT_PADDING = 2.7;
 
     /**
@@ -56,6 +59,11 @@ class PointCell extends StackPane implements MyShelfieComponent {
         });
     }
 
+    /**
+     * Sets the CSS style of the point cell with the specified padding value.
+     *
+     * @param padding The padding value for the point cell.
+     */
     private void setCSS(double padding) {
         setStyle("-fx-background-color: " + DARK_LAVA.getDarkenRGBAStyleSheet(0.76) + " ;" +
                 "-fx-padding: " + padding + "em;");
