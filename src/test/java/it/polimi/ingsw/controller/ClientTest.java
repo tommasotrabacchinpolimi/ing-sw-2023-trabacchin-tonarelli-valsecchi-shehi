@@ -66,7 +66,7 @@ public class ClientTest implements ClientInterface{
     }
 
     @Override
-    public void onException(Exception e) {
+    public void onException(String playerCause, Exception e) {
 
     }
 

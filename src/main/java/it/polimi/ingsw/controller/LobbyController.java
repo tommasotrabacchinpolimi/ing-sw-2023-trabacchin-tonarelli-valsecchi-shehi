@@ -152,13 +152,13 @@ public class LobbyController
             } else {
                 //notify view
                 AlreadyTakenNicknameException e = new AlreadyTakenNicknameException();
-                user.onException(e);
+                user.onException(nickname,e);
                 throw e;
             }
         } else {
             if(viewControllerMap.containsKey(user)){
                 AlreadyInGameException e = new AlreadyInGameException();
-                user.onException(e);
+                user.onException(nickname, e);
                 throw e;
             } else{
                 addPlayerToGame(user, nickname);
@@ -196,19 +196,19 @@ public class LobbyController
         } else if (user != nicknameToViewMap.get(nickname)) {
             if(disconnectedButInGame.contains(nickname)){
                 AlreadyInGameException e = new AlreadyInGameException();
-                user.onException(e);
+                user.onException(nickname,e);
                 throw e;
             } else {
                 //metodo nella textclient interface che dice al client che il nome è gia stato preso
                 //notify to view
                 AlreadyTakenNicknameException e = new AlreadyTakenNicknameException();
-                user.onException(e);
+                user.onException(nickname,e);
                 throw e;
             }
         } else {
             if(viewControllerMap.containsKey(user)){
                 AlreadyInGameException e = new AlreadyInGameException();
-                user.onException(e);
+                user.onException(nickname,e);
                 throw e;
             } else{
                 createNewGame(user, nickname, numberOfPlayer);

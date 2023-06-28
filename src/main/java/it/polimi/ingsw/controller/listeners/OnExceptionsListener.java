@@ -14,5 +14,5 @@ public interface OnExceptionsListener {
      * Called when an exception occurs.
      * @param e The exception that occurred.
      */
-    public void onException(Exception e);
+    public void onException(String player, Exception e);
 }

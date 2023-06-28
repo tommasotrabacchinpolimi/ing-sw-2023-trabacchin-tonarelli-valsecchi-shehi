@@ -412,9 +412,12 @@ public class ViewData {
      * @param message The message to add.
      */
     public void addMessage(Triple<String, List<String>, String> message){
-        unreadMessages = true;
-        messages.add(message);
-        userInterface.onNewMessage(message.getFirst());
+        if(message.getSecond().contains(this.thisPlayer)) {
+            unreadMessages = true;
+            messages.add(message);
+            userInterface.onNewMessage(message.getFirst());
+        }
+
     }
 
     /**

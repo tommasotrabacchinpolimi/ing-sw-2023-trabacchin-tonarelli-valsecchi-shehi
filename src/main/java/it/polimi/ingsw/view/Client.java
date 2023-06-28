@@ -228,9 +228,11 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
      * @param e The exception that occurred.
      */
     @Override
-    public synchronized void onException(Exception e) {
+    public synchronized void onException(String cause, Exception e) {
         try{
-            viewData.setException(e.getMessage());
+            if(cause.equals(viewData.getThisPlayer())) {
+                viewData.setException(e.getMessage());
+            }
         }catch(IOException e1) {
             e1.printStackTrace();
         }

@@ -685,9 +685,9 @@ public class State implements Serializable, OnUpdateNeededListener {
      * Method that sets {@link #lastException}
      * @param lastException  the {@link #lastException} thrown in the game.
      */
-    public void setLastException(Exception lastException) {
+    public void setLastException(String playerCause, Exception lastException) {
         this.lastException = lastException;
-        notifyOnExceptionsListener(lastException);
+        notifyOnExceptionsListener(playerCause, lastException);
     }
 
     /**
@@ -947,9 +947,9 @@ public class State implements Serializable, OnUpdateNeededListener {
      * @param e The exception that occurred.
      * @see OnExceptionsListener
      */
-    private void notifyOnExceptionsListener(Exception e){
+    private void notifyOnExceptionsListener(String playerCause, Exception e){
         for(OnExceptionsListener listener: exceptionsListeners){
-            listener.onException(e);
+            listener.onException(playerCause, e);
         }
     }
 

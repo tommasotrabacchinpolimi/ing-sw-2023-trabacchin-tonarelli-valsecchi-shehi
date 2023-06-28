@@ -175,8 +175,8 @@ public class RmiClientImpl extends UnicastRemoteObject implements RmiClientInter
      * @param e the exception that occurred
      * @throws RemoteException if a remote error occurs
      */
-    public void onException(Exception e) throws RemoteException{
-        ExceptionNetMessage exceptionNetMessage = new ExceptionNetMessage(e);
+    public void onException(String playerCause, Exception e) throws RemoteException{
+        ExceptionNetMessage exceptionNetMessage = new ExceptionNetMessage(playerCause,e);
         executorService.submit(()->exceptionNetMessage.dispatch(clientDispatcherInterface));
     }
 

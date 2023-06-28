@@ -318,12 +318,12 @@ class StateTest {
         State state = createStateWithPlayers();
         OnExceptionsListener listener = new OnExceptionsListener() {
             @Override
-            public void onException(Exception e) {
+            public void onException(String cause, Exception e) {
                 assertEquals(e1.getMessage(), e.getMessage());
             }
         };
         state.setOnExceptionsListener(listener);
-        state.setLastException(e1);
+        state.setLastException("player",e1);
         assertEquals(e1, state.getLastException());
         state.removeOnExceptionsListener(listener);
     }
