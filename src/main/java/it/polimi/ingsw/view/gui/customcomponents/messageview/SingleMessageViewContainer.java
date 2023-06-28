@@ -48,11 +48,24 @@ class SingleMessageViewContainer extends StackPane implements MyShelfieComponent
         setAlignment(messageViewType.getAlignment());
     }
 
+    /**
+     * Returns the customized JavaFX Node representation of this component.
+     * This method is overridden from the MyShelfieComponent interface.
+     *
+     * @return The Node representing this component.
+     */
     @Override
     public Node getCustomizedNode() {
         return this;
     }
 
+
+    /**
+     * Returns the list of base decorations applied to the component.
+     * This method is overridden from the MyShelfieComponent interface.
+     *
+     * @return The list of base decorations.
+     */
     @Override
     public List<MyShelfieDecoration> getBaseDecorations() {
         return baseDecorations;

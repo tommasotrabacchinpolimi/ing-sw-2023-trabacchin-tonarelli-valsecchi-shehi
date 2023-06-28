@@ -29,8 +29,18 @@ abstract class PointPane extends GridPane implements MyShelfieComponent {
      */
     private final List<MyShelfieDecoration> baseDecorations = new ArrayList<>();
 
+    /**
+     * The list of point cells in the point pane.
+     */
+
     private final List<PointCell> pointCells = new ArrayList<>();
 
+    /**
+     * Constructs a `PointPane` with the specified number of rows and columns.
+     *
+     * @param row    The number of rows in the point pane.
+     * @param column The number of columns in the point pane.
+     */
     PointPane(int row, int column) {
         super();
 
@@ -53,10 +63,22 @@ abstract class PointPane extends GridPane implements MyShelfieComponent {
         applyDecorationAsDefault(new MyShelfieDarkShadow(), new MyShelfieRoundEdge(MyShelfieRoundEdgeType.MINIMUM));
     }
 
+
+    /**
+     * Returns the last `PointCell` in the `pointCells` list.
+     *
+     * @return The last `PointCell` in the `pointCells` list.
+     */
     private PointCell getLastPointCell() {
         return pointCells.get((pointCells.size() - 1));
     }
 
+
+    /**
+     * Adds column constraints to the grid pane.
+     *
+     * @param column The number of columns for which constraints are added.
+     */
     private void addColumnConstraints(int column) {
         for (int i = 0; i < column; ++i) {
             ColumnConstraints columnConstraints = new ColumnConstraints();
@@ -68,6 +90,12 @@ abstract class PointPane extends GridPane implements MyShelfieComponent {
         }
     }
 
+
+    /**
+     * Adds row constraints to the grid pane.
+     *
+     * @param row The number of rows for which constraints are added.
+     */
     private void addRowConstraints(int row) {
         for (int j = 0; j < row; ++j) {
             RowConstraints rowConstraints = new RowConstraints();
@@ -79,6 +107,9 @@ abstract class PointPane extends GridPane implements MyShelfieComponent {
         }
     }
 
+    /**
+     * Method to set the CSS style
+     */
     private void setCSS() {
         setStyle("-fx-background-image: url('" + getMyShelfieResource(BACKGROUND_IMAGE) + "');" +
                 "-fx-background-repeat: no-repeat;" +
@@ -89,6 +120,12 @@ abstract class PointPane extends GridPane implements MyShelfieComponent {
                 "-fx-padding: 1em;");
     }
 
+    /**
+     * Retrieves a free PointCell from the list of PointCells.
+     *
+     * @return A free PointCell.
+     * @throws NullPointerException If there are no free PointCells available.
+     */
     public PointCell getFreePointCell() throws NullPointerException {
         for (PointCell cell : pointCells) {
             if (cell.getChildren().size() == 0) {

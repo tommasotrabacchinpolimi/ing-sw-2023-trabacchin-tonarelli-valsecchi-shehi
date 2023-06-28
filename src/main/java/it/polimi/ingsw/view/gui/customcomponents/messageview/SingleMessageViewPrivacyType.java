@@ -32,6 +32,9 @@ public enum SingleMessageViewPrivacyType {
         }
     };
 
+    /**
+     * Special character used in implementation
+     */
     private static final String SPECIAL_CHARACTER = " • ";
 
     /**
