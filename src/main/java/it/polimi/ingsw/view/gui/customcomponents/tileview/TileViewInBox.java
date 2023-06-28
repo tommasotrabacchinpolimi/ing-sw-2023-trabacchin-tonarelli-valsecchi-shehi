@@ -19,6 +19,9 @@ import java.util.Arrays;
  */
 public class TileViewInBox implements TileSubjectViewState {
 
+    /**
+     * Old Parent
+     */
     private final Pane oldParent;
 
     /**

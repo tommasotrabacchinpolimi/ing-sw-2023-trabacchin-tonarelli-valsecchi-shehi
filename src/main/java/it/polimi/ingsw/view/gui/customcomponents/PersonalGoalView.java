@@ -21,16 +21,38 @@ import java.io.FileReader;
 import java.net.URISyntaxException;
 import java.util.*;
 
+/**
+ * Represents a graphical component for displaying a personal goal.
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ */
 public class PersonalGoalView extends Pane implements MyShelfieComponent {
-
+    /**
+     * The path to the directory containing the personal goal card images.
+     */
     private static final String PERSONAL_GOAL_IMAGE_PATH = "/it.polimi.ingsw/graphical.resources/personal.goal.cards/";
 
+    /**
+     * The path to the personal goal map configuration file.
+     */
     private static final String PERSONAL_GOAL_MAP = "/it.polimi.ingsw/personal.goal.configuration/personal_goal_map.json";
 
+    /**
+     * The filename for the error personal goal image.
+     */
     private static final String ERROR_PERSONAL_GOAL_IMAGE = "error_personal_goal.png";
 
+    /**
+     * The filename of the current personal goal image.
+     */
     private String fileImage;
 
+    /**
+     * The configuration of the personal goal represented as a 2D array of TileType.
+     */
     private TileType[][] personalConfiguration;
 
     /**
@@ -54,6 +76,10 @@ public class PersonalGoalView extends Pane implements MyShelfieComponent {
         applyDecorationAsDefault(new MyShelfieDarkShadow(), new MyShelfieRoundEdge(MyShelfieRoundEdgeType.MINIMUM));
     }
 
+
+    /**
+     * Sets the CSS styles for the personal goal view.
+     */
     private void setCSS() {
         setStyle("-fx-background-image: url('" + getMyShelfieResource(PERSONAL_GOAL_IMAGE_PATH + fileImage,
                 "Can't load personal goal card") + "');" +
@@ -63,6 +89,11 @@ public class PersonalGoalView extends Pane implements MyShelfieComponent {
                 "-fx-background-size: cover;");
     }
 
+    /**
+     * Sets the personal goal image based on the chosen personal goal configuration.
+     *
+     * @param personalGoalChosen The chosen personal goal configuration.
+     */
     private void setPersonalGoalImage(TileType[][] personalGoalChosen) {
         Gson gson = new Gson();
 
@@ -93,6 +124,12 @@ public class PersonalGoalView extends Pane implements MyShelfieComponent {
         }
     }
 
+    /**
+     * Converts the scratch map to a map with tile type configurations.
+     *
+     * @param scratchMap The scratch map to convert.
+     * @return A map with tile type configurations.
+     */
     @NotNull
     private Map<String, TileType[][]> fromScratchMapToTileType(@NotNull Map<String, List<List<String>>> scratchMap) {
         Map<String, TileType[][]> personalGoalMap = new HashMap<>();
@@ -104,6 +141,13 @@ public class PersonalGoalView extends Pane implements MyShelfieComponent {
         return personalGoalMap;
     }
 
+
+    /**
+     * Converts a scratch list to a personal goal matrix.
+     *
+     * @param scratchList The scratch list to convert.
+     * @return A personal goal matrix.
+     */
     @NotNull
     private TileType[][] toPersonalGoalMatrix(@NotNull List<List<String>> scratchList) {
         TileType[][] personalGoalMatrix = new TileType[scratchList.size()][scratchList.get(0).size()];
@@ -117,11 +161,25 @@ public class PersonalGoalView extends Pane implements MyShelfieComponent {
         return personalGoalMatrix;
     }
 
+    /**
+     * Converts a string representation to a TileType.
+     *
+     * @param tileTypeName The string representation of the TileType.
+     * @return The corresponding TileType object, or null if the string is null.
+     */
     @Nullable
     private TileType fromStringToTileType(String tileTypeName) {
         return (tileTypeName == null) ? null : TileType.valueOf(tileTypeName);
     }
 
+
+    /**
+     * Verifies if the chosen personal goal matches the provided personal goal configuration.
+     *
+     * @param personalGoalChosen The chosen personal goal configuration.
+     * @param personalGoalJSON   The personal goal configuration to match.
+     * @return True if the chosen personal goal matches the provided personal goal configuration, false otherwise.
+     */
     private boolean verifyPersonalGoalChosen(@NotNull TileType[][] personalGoalChosen, @NotNull TileType[][] personalGoalJSON) {
         if (personalGoalChosen.length != personalGoalJSON.length)
             return false;
@@ -136,6 +194,11 @@ public class PersonalGoalView extends Pane implements MyShelfieComponent {
         return true;
     }
 
+    /**
+     * Retrieves the personal configuration map.
+     *
+     * @return The map representing the personal goal configuration.
+     */
     public Map<Coordinate, TileType> getPersonalConfiguration() {
         Map<Coordinate, TileType> personalGoalMapConfiguration = new HashMap<>();
 

@@ -19,6 +19,11 @@ import static it.polimi.ingsw.utils.color.MyShelfieColor.BONE;
 /**
  * @version 2.0
  * @since 08/06/2023
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
  */
 public class MyShelfieButton extends Button implements MyShelfieComponent {
 
@@ -264,6 +269,10 @@ public class MyShelfieButton extends Button implements MyShelfieComponent {
         }
     }
 
+    /**
+     * Boolean method to know if the button was pressed
+     * @return {@code True} if is there was a press and {@code False} otherwise
+     */
     public boolean hasBeenPressed() {
         return pressedOccurred;
     }
