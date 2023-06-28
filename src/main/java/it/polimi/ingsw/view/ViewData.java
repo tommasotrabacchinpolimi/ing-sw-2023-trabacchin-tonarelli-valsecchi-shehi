@@ -107,6 +107,7 @@ public class ViewData {
         this.userInterface = null;
         exception = "";
         players = new ArrayList<>();
+        idCommonGoals = new String[2];
     }
 
     /**
