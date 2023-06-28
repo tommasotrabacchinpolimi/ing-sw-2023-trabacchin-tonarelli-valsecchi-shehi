@@ -65,7 +65,6 @@ public class AskText extends Input {
         getTUI().setInputInProgress(false);
         getTUI().setCurrentInput(new InputSelector(getTUI(), getOut()));
         getTUI().getLogicController().sentMessage(line, rec);
-
         getTUI().refresh();
     }
 }
