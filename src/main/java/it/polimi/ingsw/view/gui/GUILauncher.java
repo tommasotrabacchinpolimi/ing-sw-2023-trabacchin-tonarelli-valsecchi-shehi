@@ -26,15 +26,26 @@ import java.util.Optional;
  *
  */
 public class GUILauncher extends MyShelfieApplication {
-
+    /**
+     * The layout file path for the login page.
+     */
     private static final String LOGIN_PAGE_LAYOUT = "login/login-page.fxml";
 
+    /**
+     * The layout file path for the connection page.
+     */
     private static final String CONNECTION_PAGE_LAYOUT = "connection/connection-page.fxml";
 
+    /**
+     * The layout file path for the main interface.
+     */
     private static final String MAIN_INTERFACE_LAYOUT = "maininterface/main-interface.fxml";
 
     private boolean isFirstPlayerSeatAssigned;
 
+    /**
+     * The GUI instance.
+     */
     private GUI gui;
 
     /**
@@ -117,7 +128,12 @@ public class GUILauncher extends MyShelfieApplication {
         initOpponentInterfaceInformation();
     }
 
-
+    /**
+     * Retrieves the MainInterfaceController from the GUI controller.
+     *
+     * @return the MainInterfaceController instance.
+     * @throws ClassCastException if the controller cannot be cast to MainInterfaceController.
+     */
     private MainInterfaceController getMainInterfaceController() throws ClassCastException {
         try {
             return ((MainInterfaceController) fxController);
@@ -127,6 +143,9 @@ public class GUILauncher extends MyShelfieApplication {
         }
     }
 
+    /**
+     * Initializes the opponent interface information in the MainInterfaceController.
+     */
     private void initOpponentInterfaceInformation() {
         getMainInterfaceController().handleOpponentInterfaceInformation();
     }
@@ -149,6 +168,11 @@ public class GUILauncher extends MyShelfieApplication {
         return gui;
     }
 
+    /**
+     * Retrieves the ViewData instance from the GUI model.
+     *
+     * @return The ViewData instance.
+     */
     public ViewData getGUIModel() {
         return getGUI().getModel();
     }
@@ -182,6 +206,25 @@ public class GUILauncher extends MyShelfieApplication {
         }
     }
 
+
+    /**
+     * Checks if the current player is the next player to play.
+     *
+     * @return true if the current player is the next player to play, false otherwise.
+     */
+    private boolean isNextPlayerToThis() {
+        for (int i = 0; i < getGUIModel().getPlayers().size(); ++i) {
+            if (getGUIModel().getPlayers().get(i).equals(getGUIModel().getThisPlayer())) {
+                if ((i + 1) == getGUIModel().getPlayers().size())
+                    return getGUIModel().getPlayers().get(0).equals(getGUIModel().getCurrentPlayer());
+                else
+                    return getGUIModel().getPlayers().get(i + 1).equals(getGUIModel().getCurrentPlayer());
+            }
+        }
+
+        return false;
+    }
+
     private Map<String, TileSubject[][]> getOpponentUpdates() {
         return getGUIModel().getBookShelves()
                 .entrySet()
@@ -189,6 +232,7 @@ public class GUILauncher extends MyShelfieApplication {
                 .filter(entry -> !entry.getKey().equals(getGUIModel().getThisPlayer()))
                 .collect(HashMap::new, (map, entry) -> map.put(entry.getKey(), entry.getValue()), HashMap::putAll);
     }
+
     /**
      * @return {@code null} if the bookshelf of the player using the
      * app is not retrieved from the server

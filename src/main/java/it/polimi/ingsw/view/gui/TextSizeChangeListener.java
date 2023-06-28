@@ -17,15 +17,32 @@ import javafx.scene.text.Font;
  * @since 27/05/2023
  */
 public class TextSizeChangeListener implements ChangeListener<Number> {
+    /**
+     * This class represents a TextSizeChangeListener that adjusts the font size of text based on the size of a root pane.
+     * The font size is scaled proportionally to the size of the root pane.
+     */
     private final double fontSize = Font.getDefault().getSize();
 
+    /**
+     * The root pane containing the text.
+     */
     private final Pane rootPane;
 
+    /**
+     * The initial height of the root pane.
+     */
     private final double initialHeight;
 
+    /**
+     * The initial width of the root pane.
+     */
     private final double initialWidth;
 
+    /**
+     * The initial scale of the root pane.
+     */
     private final double initialScale;
+
 
     /**
      * Constructs a TextSizeChangeListener object with the specified parameters.
