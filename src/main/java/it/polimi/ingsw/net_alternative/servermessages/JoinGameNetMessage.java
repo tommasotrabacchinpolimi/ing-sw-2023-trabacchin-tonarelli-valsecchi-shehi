@@ -17,6 +17,9 @@ import it.polimi.ingsw.net_alternative.ServerDispatcherInterface;
 
  */
 public class JoinGameNetMessage implements ServerMessage {
+    /**
+     * Nickname of the player
+     */
     private final String nickname;
 
     /**
