@@ -4,6 +4,7 @@ import it.polimi.ingsw.utils.Coordinate;
 import javafx.scene.layout.StackPane;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -71,7 +72,7 @@ public class OpponentBookshelfView extends BookshelfView {
         return bookshelfCells.entrySet()
                 .stream()
                 .filter(entry -> isContainedInDifferencesBookshelf(differencesInBookshelf, entry))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                .collect(HashMap::new, (map, entry)->map.put(entry.getKey(), entry.getValue()), HashMap::putAll);
     }
 
     /**

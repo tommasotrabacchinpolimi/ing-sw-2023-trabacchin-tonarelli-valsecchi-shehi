@@ -21,6 +21,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -65,7 +66,6 @@ public class CommonGoalView extends StackPane implements MyShelfieComponent {
      */
     private static final String EMPTY_DESCRIPTION = "No description available";
 
-
     private static final double SCORING_TOKEN_ROTATION = -8.0;
 
 
@@ -108,14 +108,14 @@ public class CommonGoalView extends StackPane implements MyShelfieComponent {
     /**
      * Constructs a `CommonGoalView` object with the specified parameters.
      *
-     * @param commonGoalName The name of the common goal.
+     * @param commonGoalID The name of the common goal.
      * @param description    The description of the common goal.
-     * @param scoringTokens  The scoring tokens associated with the common goal.
+     * @param topTokenValue  The token max value shown.
      */
-    public CommonGoalView(String commonGoalName, String description, Stack<Integer> scoringTokens) {
+    public CommonGoalView(String commonGoalID, String description, int topTokenValue) {
         super();
 
-        this.commonGoalID = commonGoalName;
+        this.commonGoalID = (commonGoalID == null || commonGoalID.length() == 0) ? ERROR_COMMON_GOAL_IMAGE : commonGoalID;
 
         this.description = (description == null || description.length() == 0) ? EMPTY_DESCRIPTION : description;
 
@@ -127,7 +127,7 @@ public class CommonGoalView extends StackPane implements MyShelfieComponent {
 
         setCSS();
 
-        addScoringTokens(scoringTokens);
+        addTopScoringToken(topTokenValue);
 
         applyDecorationAsDefault(new MyShelfieRoundEdge(MyShelfieRoundEdgeType.SMALL), new MyShelfieDarkShadow());
 
@@ -157,16 +157,6 @@ public class CommonGoalView extends StackPane implements MyShelfieComponent {
         this.scoringTokenBox.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
     }
 
-    /**
-     * Constructs a `CommonGoalView` object with the specified parameters.
-     *
-     * @param commonGoalName The name of the common goal.
-     * @param description    The description of the common goal.
-     */
-    public CommonGoalView(String commonGoalName, String description) {
-        this(commonGoalName, description, null);
-    }
-
     private void setCSS() {
         setStyle("-fx-background-image: url('" + getCommonGoalBackground() + "');" +
                 "-fx-background-repeat: no-repeat;" +
@@ -183,20 +173,31 @@ public class CommonGoalView extends StackPane implements MyShelfieComponent {
         );
     }
 
+    public void addTopScoringToken(int topTokenValue) {
+
+        ScoringTokenView oldScoringTokenView;
+
+        try{
+            oldScoringTokenView = scoringTokenViews.peek();
+        }catch(EmptyStackException e) {
+            oldScoringTokenView = null;
+        }
+
+        scoringTokenViews.push(new ScoringTokenView(topTokenValue));
+
+        showTopToken(oldScoringTokenView);
+    }
+
     /**
      * Adds the scoring tokens to the `CommonGoalView`.
      *
      * @param scoringTokens The scoring tokens to be added.
      */
+    @Deprecated
     private void addScoringTokens(final Stack<Integer> scoringTokens) {
 
         if (scoringTokens != null && scoringTokens.size() > 0) {
-            scoringTokens.forEach(token -> {
-                scoringTokenViews.push(new ScoringTokenView(token));
-            });
-
-            showTopToken();
-
+            scoringTokens.forEach(this::addTopScoringToken);
         } else {
             MyShelfieAlertCreator.displayWarningAlert(
                     "No scoring tokens can be assigned to the common goal",
@@ -209,10 +210,14 @@ public class CommonGoalView extends StackPane implements MyShelfieComponent {
     /**
      * Displays the top scoring token on the `CommonGoalView`.
      */
-    private void showTopToken() {
+    private void showTopToken(ScoringTokenView scoringTokenView) {
+
         ScoringTokenView topToken = scoringTokenViews.peek();
 
         scoringTokenBox.getChildren().add(topToken);
+
+        if(scoringTokenView != null)
+            scoringTokenView.toFront();
 
         topToken.setRotate(SCORING_TOKEN_ROTATION);
     }
@@ -227,7 +232,7 @@ public class CommonGoalView extends StackPane implements MyShelfieComponent {
         ScoringTokenView topToken =  scoringTokenViews.pop();
 
         if(scoringTokenViews.size() > 0)
-            showTopToken();
+            showTopToken(null);
 
         return topToken;
     }
@@ -312,6 +317,10 @@ public class CommonGoalView extends StackPane implements MyShelfieComponent {
 
             descriptionStage.setOnCloseRequest(value -> isShowingDescription = false);
         }
+    }
+
+    public int getTopTokenPoint() {
+        return scoringTokenViews.peek().getTokenPoint();
     }
 
     /**

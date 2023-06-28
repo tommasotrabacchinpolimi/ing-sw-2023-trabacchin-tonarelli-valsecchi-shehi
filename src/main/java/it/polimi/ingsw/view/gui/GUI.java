@@ -5,7 +5,8 @@ import it.polimi.ingsw.view.UI;
 import it.polimi.ingsw.view.ViewData;
 import javafx.application.Platform;
 
-import java.io.IOException;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * The `GUI` class is responsible for managing the interaction between the client, user interface
@@ -13,7 +14,7 @@ import java.io.IOException;
  * It extends the `UI` class and overrides its methods to provide GUI-specific functionality.
  *
  * <p>
- *     The class utilizes the JavaFX framework for GUI rendering and event handling.
+ * The class utilizes the JavaFX framework for GUI rendering and event handling.
  * </p>
  *
  * <p>
@@ -44,6 +45,11 @@ public class GUI extends UI {
     GUILauncher guiLauncher;
 
     /**
+     * If it is {@code false} is not executed {@code true} otherwise
+     */
+    private boolean isGUILauncherSet;
+
+    /**
      * Constructs a new `GUI` instance with the specified `GUILauncher` object.
      * The `GUILauncher` is responsible for launching the GUI application.
      *
@@ -51,6 +57,7 @@ public class GUI extends UI {
      */
     public GUI(GUILauncher guiLauncher) {
         this.guiLauncher = guiLauncher;
+        this.isGUILauncherSet = false;
         launchUI();
     }
 
@@ -85,7 +92,9 @@ public class GUI extends UI {
     @Override
     public void onNewMessages() {
         Platform.runLater(() -> {
-            getModel().getMessages().forEach((message) -> guiLauncher.handleNewMessage(message));
+            System.out.println("Sono stato richiamato");
+            getModel().getMessages()
+                    .forEach((message) -> guiLauncher.handleNewMessage(message));
         });
     }
 
@@ -107,10 +116,21 @@ public class GUI extends UI {
      * @param newCurrentPlayer The new current player.
      */
     @Override
-    public void onCurrentPlayerChanged(String newCurrentPlayer) {
+    public synchronized void onCurrentPlayerChanged(String newCurrentPlayer) {
+        while (!isGUILauncherSet()) {
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
         Platform.runLater(() -> {
+            guiLauncher.handleInfoTextDisplay();
             guiLauncher.handleLivingRoomUpdate();
             guiLauncher.handleBlockGameControls();
+            guiLauncher.handleFirstPlayerSeatAssignment();
+            guiLauncher.handleAssignedCommonGoals();
         });
     }
 
@@ -143,28 +163,40 @@ public class GUI extends UI {
     @Override
     public void onGameStateChanged() {
         Platform.runLater(() -> {
-            if (getModel().getGameState().equals("INIT")) {
-                // If the player has to wait for others
-                // TODO: Handle game state INIT in GUI
+            synchronized (this) {
+                if (getModel().getGameState().equals("INIT")) {
+                    // If the player has to wait for others
+                    // TODO: Handle game state INIT in GUI
 
-            } else if (getModel().getGameState().equals("MID")) {
-                // The game has started and the main interface needs to be displayed
-                // Also called when the game evolves from SUSPENDED to MID
-                guiLauncher.manageMainInterface();
+                } else if (getModel().getGameState().equals("MID")) {
+                    // The game has started and the main interface needs to be displayed
+                    // Also called when the game evolves from SUSPENDED to MID
+                    guiLauncher.manageMainInterface();
+                    setGUILauncherSet(true);
+                    this.notifyAll();
 
-            } else if (getModel().getGameState().equals("SUSPENDED")) {
-                // The game is blocked and needs to wait for other players
-                // Check that the game was previously in MID and not INIT
-                // TODO: Handle game state SUSPENDED in GUI
+                } else if (getModel().getGameState().equals("SUSPENDED")) {
+                    // The game is blocked and needs to wait for other players
+                    // Check that the game was previously in MID and not INIT
+                    // TODO: Handle game state SUSPENDED in GUI
 
-            } else if (getModel().getGameState().equals("FINAL")) {
-                // The last turn needs to be performed
-                // TODO: Handle game state FINAL in GUI
+                } else if (getModel().getGameState().equals("FINAL")) {
+                    // The last turn needs to be performed
+                    // TODO: Handle game state FINAL in GUI
 
-            } else if (getModel().getGameState().equals("END")) {
-                // Display the winner, if present
-                // TODO: Handle game state END in GUI
+                } else if (getModel().getGameState().equals("END")) {
+                    // Display the winner, if present
+                    // TODO: Handle game state END in GUI
+                }
             }
         });
+    }
+
+    public synchronized boolean isGUILauncherSet() {
+        return isGUILauncherSet;
+    }
+
+    public synchronized void setGUILauncherSet(boolean GUILauncherSet) {
+        isGUILauncherSet = GUILauncherSet;
     }
 }

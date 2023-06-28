@@ -26,4 +26,6 @@ public interface TileSubjectViewState {
      * @param tileSubjectView The tile subject view to reverse the action on.
      */
     void reverseStateAction(TileSubjectView tileSubjectView);
+
+    double getPadding();
 }

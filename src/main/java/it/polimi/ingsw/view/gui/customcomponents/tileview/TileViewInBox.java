@@ -19,6 +19,11 @@ import java.util.Arrays;
  */
 public class TileViewInBox implements TileSubjectViewState {
 
+    public static final double PADDING = 2.0;
+
+    /**
+     * Old Parent
+     */
     private final Pane oldParent;
 
     /**
@@ -26,7 +31,7 @@ public class TileViewInBox implements TileSubjectViewState {
      *
      * @param oldParent The old parent pane of the tile subject view.
      */
-    public TileViewInBox(@NotNull Pane oldParent) {
+    public TileViewInBox(Pane oldParent) {
         this.oldParent = oldParent;
     }
 
@@ -48,8 +53,9 @@ public class TileViewInBox implements TileSubjectViewState {
 
         toNewParent.playFromStart();
 
-        toNewParent.setOnFinished(value ->
-                tileSubjectView.changeParent(Arrays.asList(panes).get((Arrays.asList(panes).size() - 1)), 0.0, 0.0));
+        toNewParent.setOnFinished(value -> {
+            tileSubjectView.changeParent(Arrays.asList(panes).get((Arrays.asList(panes).size() - 1)), 0.0, 0.0);
+        });
     }
 
     /**
@@ -59,15 +65,21 @@ public class TileViewInBox implements TileSubjectViewState {
      */
     @Override
     public void reverseStateAction(TileSubjectView tileSubjectView) {
+        if(oldParent != null) {
+            Transition toOldParent = tileSubjectView.createToBiggerPathTransition(oldParent);
 
-        Transition toOldParent = tileSubjectView.createToBiggerPathTransition(oldParent);
+            toOldParent.playFromStart();
 
-        toOldParent.playFromStart();
+            toOldParent.setOnFinished(value -> {
+                tileSubjectView.changeParent(oldParent, 0.0, 0.0);
+                tileSubjectView.setCurrentState(new TileViewInBoard());
+                tileSubjectView.resetCSS();
+            });
+        }
+    }
 
-        toOldParent.setOnFinished(value -> {
-            tileSubjectView.changeParent(oldParent, 0.0, 0.0);
-            tileSubjectView.setCurrentState(new TileViewInBoard());
-            tileSubjectView.resetCSS();
-        });
+    @Override
+    public double getPadding() {
+        return PADDING;
     }
 }

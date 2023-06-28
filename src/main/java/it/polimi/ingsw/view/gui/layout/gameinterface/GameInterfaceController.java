@@ -2,10 +2,10 @@ package it.polimi.ingsw.view.gui.layout.gameinterface;
 
 import it.polimi.ingsw.controller.exceptions.WrongChosenTilesFromBoardException;
 import it.polimi.ingsw.model.TileSubject;
-import it.polimi.ingsw.model.TileType;
 import it.polimi.ingsw.utils.Coordinate;
 import it.polimi.ingsw.view.gui.MyShelfieApplication;
 import it.polimi.ingsw.view.gui.MyShelfieController;
+import it.polimi.ingsw.view.gui.customcomponents.FirstPlayerSeatView;
 import it.polimi.ingsw.view.gui.customcomponents.commongoal.CommonGoalView;
 import it.polimi.ingsw.view.gui.customcomponents.PersonalGoalView;
 import it.polimi.ingsw.view.gui.customcomponents.pointpane.HPointPane;
@@ -16,21 +16,23 @@ import it.polimi.ingsw.view.gui.customcomponents.MyShelfieButton;
 import it.polimi.ingsw.view.gui.customcomponents.tileview.TileSubjectView;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.util.Pair;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.net.URL;
 import java.util.*;
 
-import static it.polimi.ingsw.model.TileType.*;
-import static it.polimi.ingsw.model.TileType.TROPHY;
-
 public class GameInterfaceController extends MyShelfieController {
 
     @FXML
-    public HBox testingBox;
+    private StackPane infoDisplayContainer;
+
+    @FXML
+    private Label infoContent;
 
     @FXML
     private HPointPane personalPointPane;
@@ -79,6 +81,8 @@ public class GameInterfaceController extends MyShelfieController {
 
     private List<TileSubjectView> tilesOnBoard;
 
+    private final Map<TileSubjectView, Coordinate> tileBoardBoxOldParentCoordinate = new HashMap<>();
+
     private final List<Pair<EventHandler<MouseEvent>, TileSubjectView>> tileBoardHandler = new ArrayList<>();
 
     @Override
@@ -90,34 +94,29 @@ public class GameInterfaceController extends MyShelfieController {
         selectedTilesBox.getChildren().addListener(tileBoxChildManager);
 
         tilesOnBoard = gameBoardViewController.getTilesOnBoard();
+    }
 
-        Stack<Integer> scoringTokens = new Stack<>();
+    public void setupBasicInformation(MyShelfieApplication myShelfieApplicationLauncher) {
 
-        scoringTokens.push(2);
-        scoringTokens.push(4);
-        scoringTokens.push(6);
-        scoringTokens.push(8);
+        setMyShelfieApplicationLauncher(myShelfieApplicationLauncher);
 
-        commonGoals.add(new CommonGoalView(
-                "line_common_goal_1",
-                "Four lines each formed by 5 tiles of maximum three different types. " +
-                        "One line can show the same or a different combination of another line.",
-                scoringTokens));
+        gameBoardViewController.setMyShelfieApplicationLauncher(getMyShelfieApplicationLauncher());
+        gamePersonalBookshelfController.setMyShelfieApplicationLauncher(getMyShelfieApplicationLauncher());
+    }
 
-        scoringTokens.remove(3);
+    public void addGoalsToGameInterface(Integer[] point) {
 
-        commonGoals.add(new CommonGoalView("error_common_goal", "My personal description", scoringTokens));
+        if(getGUILauncher().getGUIModel().getIdCommonGoals() != null) {
+            commonGoals.add(new CommonGoalView(getGUILauncher().getGUIModel().getIdCommonGoals()[0], getGUILauncher().getGUIModel().getCommonGoals()[0], point[0]));
 
-        TileType[][] configuration = new TileType[][]{
-                {null, null, null, null, TROPHY},
-                {null, GAME, null, null, null},
-                {BOOK, null, null, null, null},
-                {null, null, null, CAT, null},
-                {null, FRAME, null, null, null},
-                {null, null, null, PLANT, null}
-        };
+            commonGoals.add(new CommonGoalView(getGUILauncher().getGUIModel().getIdCommonGoals()[1], getGUILauncher().getGUIModel().getCommonGoals()[1], point[1]));
+        } else {
+            commonGoals.add(new CommonGoalView(null, getGUILauncher().getGUIModel().getCommonGoals()[0], 0));
 
-        personalGoal = new PersonalGoalView(configuration);
+            commonGoals.add(new CommonGoalView(null, getGUILauncher().getGUIModel().getCommonGoals()[1], 0));
+        }
+
+        personalGoal = new PersonalGoalView(getGUILauncher().getGUIModel().getPersonalGoal());
 
         gameGridGoalContainer.add(commonGoals.get(0), 0, 0);
         gameGridGoalContainer.add(commonGoals.get(1), 0, 1);
@@ -130,14 +129,6 @@ public class GameInterfaceController extends MyShelfieController {
         personalGoal.setOnMouseExited(value -> {
             gamePersonalBookshelfController.resetPersonalTargetCells(personalGoal.getPersonalConfiguration());
         });
-    }
-
-    public void setupBasicInformation(MyShelfieApplication myShelfieApplicationLauncher) {
-
-        setMyShelfieApplicationLauncher(myShelfieApplicationLauncher);
-
-        gameBoardViewController.setMyShelfieApplicationLauncher(getMyShelfieApplicationLauncher());
-        gamePersonalBookshelfController.setMyShelfieApplicationLauncher(getMyShelfieApplicationLauncher());
     }
 
     protected List<TileSubjectView> getClickedTilesFromBoard() {
@@ -205,13 +196,22 @@ public class GameInterfaceController extends MyShelfieController {
         tile.addEventHandler(MouseEvent.MOUSE_CLICKED, pressHandler);
     }
 
+    /**
+     * If the {@code tile} has a mouse handler associated it is
+     * removed
+     *
+     * @param tile the tile on which the mouse handler has to be
+     *             removed
+     */
     private void removeBoardHandlerTilePair(TileSubjectView tile) {
 
         Pair<EventHandler<MouseEvent>, TileSubjectView> removed = getHandlerTilePair(tile);
 
-        removed.getValue().removeEventHandler(MouseEvent.MOUSE_CLICKED, removed.getKey());
+        if (removed != null) {
+            removed.getValue().removeEventHandler(MouseEvent.MOUSE_CLICKED, removed.getKey());
 
-        tileBoardHandler.remove(getHandlerTilePair(tile));
+            tileBoardHandler.remove(removed);
+        }
     }
 
     /**
@@ -219,21 +219,30 @@ public class GameInterfaceController extends MyShelfieController {
      * coordinate on the board and the tile that is displayed
      * inside it.
      *
-     * @apiNote If no tile is at the coordinate specified,
-     * a {@code null} value is used to represent the 'empty box'
-     *
      * @return a map that holds the tiles shown on board and
      * their position
+     * @apiNote If no tile is at the coordinate specified,
+     * a {@code null} value is used to represent the 'empty box'
      */
     public Map<Coordinate, TileSubjectView> getBoardContent() {
         return gameBoardViewController.getBoardState();
     }
 
+    public Map<Coordinate, TileSubjectView> getThisPlayerBookshelfContent() {
+        return gamePersonalBookshelfController.getBookshelfState();
+    }
+
+    /**
+     * @param tile
+     * @return {@code null} if the tile has no mouse handler associated
+     */
+    @Nullable
     private Pair<EventHandler<MouseEvent>, TileSubjectView> getHandlerTilePair(TileSubjectView tile) {
+
         return tileBoardHandler.stream()
                 .filter(pair -> pair.getValue().equals(tile))
-                .toList()
-                .get(0);
+                .findFirst()
+                .orElse(null);
     }
 
     @FXML
@@ -271,6 +280,9 @@ public class GameInterfaceController extends MyShelfieController {
                     gamePersonalBookshelfController.insertTilesInBookshelf(tileBoxChildManager.getOrderedTilesFromBox(),
                             gamePersonalBookshelfController.getSelectedColumn());
 
+                    getLogicController().dragTilesToBookShelf( getOrderedCoordinateTiles(tileBoxChildManager.getOrderedTilesFromBox()),
+                            gamePersonalBookshelfController.getSelectedColumn());
+
                     gamePersonalBookshelfController.deselectAnyColumn();
                 } else {
                     MyShelfieAlertCreator.displayInformationAlert(
@@ -286,6 +298,7 @@ public class GameInterfaceController extends MyShelfieController {
 
     private void fromBoardToBoxOperations(TileSubjectView tile) {
         removeBoardHandlerTilePair(tile);
+        tileBoardBoxOldParentCoordinate.put(tile, gameBoardViewController.getCoordinateFromTile(tile).orElse(null));
         tile.performAction(selectedTilesBox);
         tile.resetClick();
     }
@@ -319,8 +332,12 @@ public class GameInterfaceController extends MyShelfieController {
         }
     }
 
-    private void reinsertTilesOnBoard(@NotNull TileSubjectView tile) {
+    private void reinsertTilesOnBoard(TileSubjectView tile) {
+        if(tile == null)
+            return;
+
         tile.reverseAction();
+        tileBoardBoxOldParentCoordinate.clear();
         gameBoardViewController.getTilesOnBoard().add(tile);
         addTilesOnBoardListener(tile);
     }
@@ -329,19 +346,15 @@ public class GameInterfaceController extends MyShelfieController {
         tilesOnBoard.removeAll(tilesTakenByOpponent);
 
         tilesTakenByOpponent.forEach(tile -> {
-            removeBoardHandlerTilePair(tile);
-            tile.resetClick();
-
-            tile.parentProperty().addListener((observableValue, oldValue, newValue) -> {
-                if (newValue != oldValue) {
-                    gameBoardViewController.setActiveTilesOnBoardNoneSelected();
-                }
-            });
+            if(tile != null){
+                removeBoardHandlerTilePair(tile);
+                tile.resetClick();
+            }
         });
     }
 
     public void startEndGameTokenAnimation(MouseEvent mouseEvent) {
-        transferEndGameToken(personalPointPane.getFreePointCell());
+        transferEndGameToken(personalPointPane.getEndTokenCell());
     }
 
     public void assignEndGameTokenToOpponent(Pane destinationPane) {
@@ -359,25 +372,26 @@ public class GameInterfaceController extends MyShelfieController {
         }
     }
 
-    public void startTokenAnimation1(MouseEvent mouseEvent) {
-        transferToken(commonGoals.get(0), personalPointPane.getFreePointCell());
+    public void startTokenAnimation1() {
+        transferToken(0, personalPointPane.getFirstScoringTokenCell());
     }
 
     public void assignToken1ToOpponent(Pane destinationPane) {
-        transferToken(commonGoals.get(0), destinationPane);
+        transferToken(0, destinationPane);
     }
 
-    public void startTokenAnimation2(MouseEvent mouseEvent) {
-        transferToken(commonGoals.get(1), personalPointPane.getFreePointCell());
+    public void startTokenAnimation2() {
+        transferToken(1, personalPointPane.getSecondScoringTokenCell());
     }
 
     public void assignToken2ToOpponent(Pane destinationPane) {
-        transferToken(commonGoals.get(1), destinationPane);
+        transferToken(1, destinationPane);
     }
 
-    public void transferToken(CommonGoalView commonGoalView, Pane destinationPane) {
+    public void transferToken(Integer commonGoalNumber, Pane destinationPane) {
         try {
-            commonGoalView.moveScoringTokenView(destinationPane);
+            commonGoals.get(commonGoalNumber).moveScoringTokenView(destinationPane);
+            commonGoals.get(commonGoalNumber).addTopScoringToken(getGUILauncher().getGUIModel().getAvailableScores().get(commonGoalNumber));
         } catch (NullPointerException e) {
             MyShelfieAlertCreator.displayErrorAlert(
                     "The player has obtained all possible point, so he can't obtain another point token",
@@ -398,6 +412,16 @@ public class GameInterfaceController extends MyShelfieController {
         this.tilesOnBoard.forEach(this::addTilesOnBoardListener);
     }
 
+    public void fillBookshelf(TileSubject[][] newBookshelf) {
+
+        for(int i = 0; i < newBookshelf.length; ++i) {
+            for(int j = 0; j < newBookshelf[i].length; ++j) {
+                if(newBookshelf[i][j] != null)
+                    gamePersonalBookshelfController.forcedInsertionInBookshelf(newBookshelf[i][j], i, j);
+            }
+        }
+    }
+
     public TileSubject[][] getTilesOnBoardMatrix() {
         return gameBoardViewController.toTileSubjectMatrix();
     }
@@ -406,14 +430,26 @@ public class GameInterfaceController extends MyShelfieController {
         return tileBoxChildManager.getAllTilesFromBox().size() > 0;
     }
 
+    public boolean boxHasChild() {
+        return selectedTilesBox.getChildren().size() > 0;
+    }
+
     public void updatedBoardBoxContentAt(Coordinate updatedBoxCoordinate, TileSubject updatedSubject) {
         gameBoardViewController.addTileAt(updatedSubject, updatedBoxCoordinate);
     }
 
     public void reverseClientPlayed() {
-        List<TileSubjectView> tilesInBox = tileBoxChildManager.getAllTilesFromBox();
+        restoreClientPlayed(tileBoxChildManager.getAllTilesFromBox());
+    }
 
-        tilesInBox.forEach(this::reinsertTilesOnBoard);
+    public void restoreClientPlayed(List<TileSubjectView> tilesToRestore) {
+        if(tilesToRestore == null)
+            return;
+
+        tilesToRestore.forEach(this::reinsertTilesOnBoard);
+
+        if(gamePersonalBookshelfController.getSelectedColumn() != -1)
+            gamePersonalBookshelfController.deselectAnyColumn();
     }
 
     public void disableGameButton() {
@@ -430,5 +466,45 @@ public class GameInterfaceController extends MyShelfieController {
 
         confirmButton.setMouseTransparent(!enableState);
         reverseButton.setMouseTransparent(!enableState);
+    }
+
+    public void confirmInput() {
+        tileBoardBoxOldParentCoordinate.clear();
+    }
+
+    public void externalSetActiveTilesOnBoardNoneSelected() {
+        gameBoardViewController.setActiveTilesOnBoardNoneSelected();
+    }
+
+    public void updateTextInDisplayContent(String text) {
+        infoContent.setText(text);
+    }
+
+    @NotNull
+    private List<Coordinate> getOrderedCoordinateTiles(@NotNull List<TileSubjectView> orderedSelectedTiles) {
+        List<Coordinate> orderedCoordinateTiles = new ArrayList<>();
+
+        orderedSelectedTiles.forEach(tile -> {
+            orderedCoordinateTiles.add(tileBoardBoxOldParentCoordinate.get(tile));
+        });
+
+        return orderedCoordinateTiles;
+    }
+
+    public void addFirstPlayerSeat() {
+        personalPointPane.addFirstPlayerSeat(new FirstPlayerSeatView());
+    }
+
+    /**
+     *
+     * @param commonGoalNumber
+     * @return
+     * @throws NullPointerException in case that the common goal has not been initialized
+     */
+    public int getDisplayedCommonGoalScore(int commonGoalNumber) throws NullPointerException{
+        if(commonGoals.size() == 0 || commonGoals.get(commonGoalNumber) == null)
+            throw new NullPointerException();
+
+        return commonGoals.get(commonGoalNumber).getTopTokenPoint();
     }
 }

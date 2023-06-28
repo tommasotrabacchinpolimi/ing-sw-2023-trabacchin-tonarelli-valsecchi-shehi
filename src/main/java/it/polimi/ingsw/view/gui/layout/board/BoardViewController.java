@@ -11,6 +11,7 @@ import it.polimi.ingsw.view.gui.customcomponents.animations.MyShelfiePathTransit
 import it.polimi.ingsw.view.gui.customcomponents.animations.MyShelfieRotateTransition;
 import it.polimi.ingsw.view.gui.customcomponents.animations.MyShelfieScaleTransition;
 import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieAlertCreator;
+import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieMatrixComponent;
 import it.polimi.ingsw.view.gui.customcomponents.tileview.TileSubjectView;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
@@ -289,41 +290,10 @@ public class BoardViewController extends MyShelfieController {
     }
 
     public TileSubject[][] toTileSubjectMatrix() {
-        TileSubject[][] boardMatrix = new TileSubject[getMaxBoardRow()][getMaxBoardColumn()];
-
-        getBoardState().forEach((coordinate, tile) -> {
-            if(tile != null)
-                boardMatrix[coordinate.getX()][coordinate.getY()] = tile.getTileSubject();
-        });
-
-        return boardMatrix;
+        return MyShelfieMatrixComponent.toTileSubjectMatrix(itemTileBoxes);
     }
 
-    private int getMaxBoardRow() {
-        int maxRow = 0;
-
-        for (Coordinate coordinate : itemTileBoxes.keySet()) {
-            if (coordinate.hasGraterRow(maxRow)) {
-                maxRow = coordinate.getX();
-            }
-        }
-
-        return (maxRow + 1);
-    }
-
-    private int getMaxBoardColumn() {
-        int maxColumn = 0;
-
-        for (Coordinate coordinate : itemTileBoxes.keySet()) {
-            if (coordinate.hasGraterColumn(maxColumn)) {
-                maxColumn = coordinate.getY();
-            }
-        }
-
-        return (maxColumn + 1);
-    }
-
-    private Optional<Coordinate> getCoordinateFromTile(TileSubjectView tile) {
+    public Optional<Coordinate> getCoordinateFromTile(TileSubjectView tile) {
 
         for (StackPane box : itemTileBoxes.values()) {
             if (box.getChildren().size() == 1 && box.getChildren().get(0) == tile) {
@@ -416,19 +386,7 @@ public class BoardViewController extends MyShelfieController {
      * their position
      */
     public Map<Coordinate, TileSubjectView> getBoardState() {
-        Map<Coordinate, TileSubjectView> boardState = new HashMap<>();
-
-        itemTileBoxes.forEach((coordinate, box) -> {
-            try {
-                TileSubjectView tileInBox = (TileSubjectView) box.getChildren().stream().findFirst().orElse(null);
-                boardState.put(coordinate, tileInBox);
-            } catch (ClassCastException e) {
-                //The box on the board does not contain a Tile
-                MyShelfieAlertCreator.displayErrorAlert(e);
-            }
-        });
-
-        return boardState;
+        return MyShelfieMatrixComponent.getMatrixState(itemTileBoxes);
     }
 
     public List<TileSubjectView> getTilesOnBoard() {

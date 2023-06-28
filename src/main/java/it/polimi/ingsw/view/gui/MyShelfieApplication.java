@@ -6,9 +6,11 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.stage.*;
 import org.jetbrains.annotations.Contract;
@@ -16,6 +18,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.Objects;
+
+import static it.polimi.ingsw.utils.color.MyShelfieColor.BONE;
+import static it.polimi.ingsw.utils.color.MyShelfieColor.RED_RUBY;
 
 /**
  * <p>This class is used to define some default path and commands allowed
@@ -90,7 +95,7 @@ public abstract class MyShelfieApplication extends Application {
      */
     private WindowSizeChangeListener windowSizeChangeListener;
 
-    private WaitingPage waitingPage;
+    private WaitingPage waitingPage = null;
 
     /**
      * This method loads the font in the graphical user interface
@@ -222,7 +227,7 @@ public abstract class MyShelfieApplication extends Application {
                 rootPaneContainer.getChildren().add(fxmlLoader.load());
             }
         } catch (IOException e) {
-            errorInLoadingMyShelfieGame();
+            errorInLoadingMyShelfieGame("A foundamental graphical resource was not found in the project");
         }
 
         setupFxController(fxmlLoader.getController());
@@ -311,9 +316,13 @@ public abstract class MyShelfieApplication extends Application {
     }
 
     public void changeToFullScreenStage(final String FXMLFileName) {
-        changeScene(setScene(FXMLFileName));
 
-        setupFullScreenStage(stage);
+        changeScene(FXMLFileName);
+
+        //center stage in screen
+        setupMaximizedStage(stage);
+
+        stage.show();
     }
 
     /**
@@ -336,10 +345,11 @@ public abstract class MyShelfieApplication extends Application {
 
     private void setupFxController(MyShelfieController fxController) {
         if(fxController == null) {
-            errorInLoadingMyShelfieGame();
+            errorInLoadingMyShelfieGame("The application cannot be controlled properly");
         }
 
         setFxController(fxController);
+
         assert fxController != null;
         fxController.setMyShelfieApplicationLauncher(this);
     }
@@ -353,10 +363,10 @@ public abstract class MyShelfieApplication extends Application {
         rootPane.requestFocus();
     }
 
-    public void errorInLoadingMyShelfieGame() {
+    public void errorInLoadingMyShelfieGame(String text) {
 
         errorInLoadingMyShelfieGame(
-                "The graphical interface can't be loaded correctly, the application will be terminated",
+                text + ".\nThe application will be terminated",
                 "Cannot load My Shelfie game"
         );
     }
@@ -381,8 +391,6 @@ public abstract class MyShelfieApplication extends Application {
     }
 
     private void setPreserveRatio() {
-        stage.sizeToScene();
-
         windowSizeChangeListener = new WindowSizeChangeListener(stage);
 
         stage.widthProperty().addListener(windowSizeChangeListener);
@@ -395,5 +403,10 @@ public abstract class MyShelfieApplication extends Application {
 
     protected void hideWaitingView() {
         waitingPage.hideWaiting();
+        waitingPage = null;
+    }
+
+    public boolean isInWaiting() {
+        return waitingPage != null;
     }
 }

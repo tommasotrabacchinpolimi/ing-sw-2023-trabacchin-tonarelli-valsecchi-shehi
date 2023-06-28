@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.gui.customcomponents.pointpane;
 
+import it.polimi.ingsw.view.gui.customcomponents.FirstPlayerSeatView;
 import it.polimi.ingsw.view.gui.customcomponents.decorations.MyShelfieComponent;
 import it.polimi.ingsw.view.gui.customcomponents.decorations.MyShelfieDarkShadow;
 import it.polimi.ingsw.view.gui.customcomponents.decorations.MyShelfieDecoration;
@@ -31,8 +32,15 @@ abstract class PointPane extends GridPane implements MyShelfieComponent {
 
     /**
      * The list of point cells in the point pane.
+     *
+     * @apiNote <ul>
+     *     <li>pointCells[0] -> first seat player</li>
+     *     <li>pointCells[1] -> end game token</li>
+     *     <li>pointCells[2] -> scoring token 1</li>
+     *     <li>pointCells[3] -> scoring token 2</li>
+     * </ul>
+     *
      */
-
     private final List<PointCell> pointCells = new ArrayList<>();
 
     /**
@@ -126,7 +134,8 @@ abstract class PointPane extends GridPane implements MyShelfieComponent {
      * @return A free PointCell.
      * @throws NullPointerException If there are no free PointCells available.
      */
-    public PointCell getFreePointCell() throws NullPointerException {
+    @Deprecated
+    private PointCell getFreePointCell() throws NullPointerException {
         for (PointCell cell : pointCells) {
             if (cell.getChildren().size() == 0) {
                 return cell;
@@ -134,6 +143,26 @@ abstract class PointPane extends GridPane implements MyShelfieComponent {
         }
 
         throw new NullPointerException();
+    }
+
+    public PointCell getFirstPlayerSeatCell() {
+        return pointCells.get(0);
+    }
+
+    public PointCell getEndTokenCell() {
+        return pointCells.get(1);
+    }
+
+    public PointCell getFirstScoringTokenCell() {
+        return pointCells.get(2);
+    }
+
+    public PointCell getSecondScoringTokenCell() {
+        return pointCells.get(3);
+    }
+
+    public void addFirstPlayerSeat(FirstPlayerSeatView firstPlayerSeat) {
+        getFirstPlayerSeatCell().getChildren().add(firstPlayerSeat);
     }
 
     /**

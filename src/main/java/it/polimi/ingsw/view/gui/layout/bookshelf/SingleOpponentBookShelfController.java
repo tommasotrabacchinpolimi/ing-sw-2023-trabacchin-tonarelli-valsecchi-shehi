@@ -5,6 +5,7 @@ import it.polimi.ingsw.utils.Coordinate;
 import it.polimi.ingsw.view.gui.customcomponents.bookshelf.OpponentBookshelfView;
 import it.polimi.ingsw.view.gui.customcomponents.pointpane.SquarePointPane;
 import it.polimi.ingsw.view.gui.customcomponents.tileview.TileSubjectView;
+import it.polimi.ingsw.view.gui.customcomponents.tileview.TileViewInOpponent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
@@ -83,9 +84,15 @@ public class SingleOpponentBookShelfController extends BookshelfController {
         if (!verifyDifferencesInBookshelfSameColumn(differentBookshelfCells.keySet().stream().toList()))
             throw new IllegalArgumentException();
 
-        selectedColumn = differentBookshelfCells.keySet().stream().toList().get(0).getY();
+        if(differentBookshelfCells.size() > 0) {
+            selectedColumn = differentBookshelfCells.keySet()
+                    .stream()
+                    .toList()
+                    .get(0)
+                    .getY();
 
-        insertTilesInBookshelf(mapToTilesDifferences(differentBookshelfCells, updatedBookshelf, takenTiles));
+            insertTilesInBookshelf(mapToTilesDifferences(differentBookshelfCells, updatedBookshelf, takenTiles));
+        }
     }
 
     /**
@@ -128,6 +135,7 @@ public class SingleOpponentBookShelfController extends BookshelfController {
     private Map<Coordinate, StackPane> getDifferencesInBookshelf(@NotNull TileSubject[][] updatedBookshelf,
                                                                  @NotNull TileSubject[][] opponentBookshelf)
             throws IllegalArgumentException {
+
         List<Coordinate> differencesInBookshelf = new ArrayList<>();
 
         for (int i = 0; i < opponentBookshelf.length; ++i) {
@@ -185,15 +193,23 @@ public class SingleOpponentBookShelfController extends BookshelfController {
         return takenTile;
     }
 
+    /**
+     * @param tile
+     * @param row
+     * @param column
+     * @throws NoSuchElementException if the bookshelf has not a cell at the specified position
+     */
+    @Override
+    public void forcedInsertionInBookshelf(TileSubject tile, int row, int column) throws NoSuchElementException {
+        TileSubjectView newTile = new TileSubjectView(tile, new TileViewInOpponent());
+        getBookshelfCellAt(row, column).orElseThrow().getChildren().add(newTile);
+    }
+
     @Override
     void insertTilesInBookshelf(@NotNull Map<Coordinate, TileSubjectView> coordinateTiles) {
         coordinateTiles.forEach((coordinate, tile) -> {
             tile.toOpponentBookShelf(getColumnPane(), getBookshelfCellAt(coordinate).orElseThrow());
         });
-    }
-
-    public Pane getEndGameTokenPointCell() {
-        return singleOpponentPointPane.getFreePointCell();
     }
 
     @Nullable
@@ -220,6 +236,22 @@ public class SingleOpponentBookShelfController extends BookshelfController {
                 return null;
             }
         }
+    }
+
+    public Pane getSingleOpponentFirstPlayerSeatCell() {
+        return singleOpponentPointPane.getFirstPlayerSeatCell();
+    }
+
+    public Pane getSingleOpponentEndTokenCell() {
+        return singleOpponentPointPane.getEndTokenCell();
+    }
+
+    public Pane getSingleOpponentFirstScoringTokenCell() {
+        return singleOpponentPointPane.getFirstScoringTokenCell();
+    }
+
+    public Pane getSingleOpponentSecondScoringTokenCell() {
+        return singleOpponentPointPane.getSecondScoringTokenCell();
     }
 
     //For testing

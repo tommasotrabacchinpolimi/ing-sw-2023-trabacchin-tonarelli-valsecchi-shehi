@@ -1,8 +1,10 @@
 package it.polimi.ingsw.view.gui.layout.bookshelf;
 
+import it.polimi.ingsw.model.TileSubject;
 import it.polimi.ingsw.utils.Coordinate;
 import it.polimi.ingsw.view.gui.MyShelfieController;
 import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieAlertCreator;
+import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieMatrixComponent;
 import it.polimi.ingsw.view.gui.customcomponents.tileview.TileSubjectView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -14,7 +16,7 @@ import java.util.*;
  * @version 2.0
  * @since 10/06/2023
  */
-abstract class BookshelfController extends MyShelfieController{
+abstract class BookshelfController extends MyShelfieController {
 
     /**
      * An object that maps the coordinates of the bookshelf
@@ -121,6 +123,7 @@ abstract class BookshelfController extends MyShelfieController{
     }
 
     public void insertTilesInBookshelf(List<TileSubjectView> tiles, int column) {
+
         getFreeBookshelfCellsInColumn(column).ifPresentOrElse( map -> {
             if(map.size() < tiles.size()) {
                 MyShelfieAlertCreator.displayErrorAlert(
@@ -169,6 +172,23 @@ abstract class BookshelfController extends MyShelfieController{
 
         return i + 1;
     }
+
+    public TileSubject[][] getBookshelfMatrix() {
+        return MyShelfieMatrixComponent.toTileSubjectMatrix(bookshelfCells);
+    }
+
+    public Map<Coordinate, TileSubjectView> getBookshelfState() {
+        return MyShelfieMatrixComponent.getMatrixState(bookshelfCells);
+    }
+
+    /**
+     *
+     * @param tile
+     * @param row
+     * @param column
+     * @throws NoSuchElementException if the bookshelf has not a cell at the specified position
+     */
+    public abstract void forcedInsertionInBookshelf(TileSubject tile, int row, int column) throws NoSuchElementException;
 
     abstract void insertTilesInBookshelf(@NotNull Map<Coordinate, TileSubjectView> coordinateTiles);
 }

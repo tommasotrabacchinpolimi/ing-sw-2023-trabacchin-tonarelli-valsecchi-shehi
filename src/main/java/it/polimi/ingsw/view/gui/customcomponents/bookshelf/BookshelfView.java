@@ -6,6 +6,7 @@ import it.polimi.ingsw.utils.Coordinate;
 import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieAlertCreator;
 import it.polimi.ingsw.view.gui.customcomponents.decorations.MyShelfieComponent;
 import it.polimi.ingsw.view.gui.customcomponents.decorations.MyShelfieDecoration;
+import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieMatrixComponent;
 import it.polimi.ingsw.view.gui.customcomponents.tileview.TileSubjectView;
 import javafx.collections.ListChangeListener;
 import javafx.geometry.HPos;
@@ -222,7 +223,7 @@ abstract class BookshelfView extends StackPane implements MyShelfieComponent {
                     node.getList()
                             .stream()
                             .map(element -> (TileSubjectView) element)
-                            .forEach(TileSubjectView::disable);
+                            .forEach(TileSubjectView::disableClick);
                 }
             }
         });
@@ -297,53 +298,7 @@ abstract class BookshelfView extends StackPane implements MyShelfieComponent {
      * @return a matrix representing the graphical bookshelf
      */
     public TileSubject[][] toTileSubjectMatrix() {
-        TileSubject[][] bookshelfMatrix = new TileSubject[getMaxBookshelfRow()][getMaxBookshelfColumn()];
-
-        bookshelfCells.forEach((coordinate, cell) -> {
-            if (cell.getChildren().size() > 0 && cell.getChildren().size() == 1) {
-                try {
-                    bookshelfMatrix[coordinate.getX()][coordinate.getY()] = ((TileSubjectView) cell.getChildren().get(0)).getTileSubject();
-                } catch (ClassCastException e) {
-                    MyShelfieAlertCreator.displayErrorAlert(e);
-                }
-            }
-        });
-
-        return bookshelfMatrix;
-    }
-
-    /**
-     * Retrieves the maximum row coordinate inside the bookshelf
-     *
-     * @return max row coordinate
-     */
-    private int getMaxBookshelfRow() {
-        int maxRow = 0;
-
-        for (Coordinate coordinate : bookshelfCells.keySet()) {
-            if (coordinate.hasGraterRow(maxRow)) {
-                maxRow = coordinate.getX();
-            }
-        }
-
-        return (maxRow + 1);
-    }
-
-    /**
-     * Retrieves the maximum column coordinate inside the bookshelf
-     *
-     * @return max column coordinate
-     */
-    private int getMaxBookshelfColumn() {
-        int maxColumn = 0;
-
-        for (Coordinate coordinate : bookshelfCells.keySet()) {
-            if (coordinate.hasGraterColumn(maxColumn)) {
-                maxColumn = coordinate.getY();
-            }
-        }
-
-        return (maxColumn + 1);
+        return MyShelfieMatrixComponent.toTileSubjectMatrix(bookshelfCells);
     }
 
     /**

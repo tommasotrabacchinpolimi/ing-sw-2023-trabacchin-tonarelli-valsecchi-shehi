@@ -9,6 +9,7 @@
 <?import it.polimi.ingsw.view.gui.customcomponents.MyShelfieButton?>
 <?import it.polimi.ingsw.view.gui.customcomponents.pointpane.HPointPane?>
 
+<?import javafx.scene.shape.Rectangle?>
 <GridPane fx:id="gameRootPane" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
           fx:controller="it.polimi.ingsw.view.gui.layout.gameinterface.GameInterfaceController"
           stylesheets="@GameInterface.css">
@@ -41,9 +42,15 @@
             <RowConstraints percentHeight="93" valignment="CENTER"/>
         </rowConstraints>
 
-        <HBox fx:id="testingBox" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-spacing: 0.7em;"
-              fillHeight="false" GridPane.fillWidth="true" alignment="CENTER" GridPane.columnSpan="2">
-        </HBox>
+        <StackPane fx:id="infoDisplayContainer" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2"
+                   GridPane.fillHeight="false" GridPane.fillWidth="true">
+            <shape>
+                <Rectangle width="${infoDisplayContainer.width}" height="${infoDisplayContainer.height}"
+                           arcWidth="10.0" arcHeight="10.0"/>
+            </shape>
+
+            <Label fx:id="infoContent" />
+        </StackPane>
 
         <GridPane fx:id="gameGridActionContainer" GridPane.rowIndex="1" GridPane.columnIndex="0"
                   GridPane.fillWidth="false" GridPane.fillHeight="false">

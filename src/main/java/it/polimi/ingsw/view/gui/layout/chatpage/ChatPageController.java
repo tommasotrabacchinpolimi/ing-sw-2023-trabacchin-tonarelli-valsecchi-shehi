@@ -71,13 +71,10 @@ public class ChatPageController extends MyShelfieController {
                 !inputMessage.getText().equals("")) {
 
             if(receiverChoiceBox.getValue().equalsIgnoreCase("all") || getOpponentPlayers().size() == 1) {
-                //chatViewBox.addMessage(SingleMessageViewType.SENT, SingleMessageViewPrivacyType.PUBLIC, inputMessage.getText());
-
-                getLogicController().sentMessage(inputMessage.getText(), getOpponentPlayers().toArray(String[]::new));
+                getLogicController().sentMessage(inputMessage.getText().substring(0, inputMessage.getText().length() - 1),
+                        getOpponentPlayers().toArray(String[]::new));
             } else {
-                //chatViewBox.addMessage(SingleMessageViewType.SENT, receiverChoiceBox.getValue(), inputMessage.getText());
-
-                getLogicController().sentMessage(inputMessage.getText(),
+                getLogicController().sentMessage(inputMessage.getText().substring(0, inputMessage.getText().length() - 1),
                         receiverChoiceBox.getValue().lines().toArray(String[]::new));
             }
 
