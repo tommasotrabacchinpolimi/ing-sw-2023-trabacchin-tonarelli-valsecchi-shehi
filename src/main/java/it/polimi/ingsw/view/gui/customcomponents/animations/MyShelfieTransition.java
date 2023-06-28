@@ -5,6 +5,11 @@ import javafx.animation.Transition;
 /**
  * Common interface for all "My Shelfie" style
  * transition that defines basic common operation
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
  */
 public interface MyShelfieTransition {
 
