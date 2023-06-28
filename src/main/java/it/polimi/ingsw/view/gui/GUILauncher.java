@@ -306,6 +306,7 @@ public class GUILauncher extends MyShelfieApplication {
             getPlayerAchievedEndGame().ifPresent(nickName -> {
                 getMainInterfaceController().assignEndGameToken(nickName);
             });
+            isEndGameTokenAssigned = true;
         }
     }
 
