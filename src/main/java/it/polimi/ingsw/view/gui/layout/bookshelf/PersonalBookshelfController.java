@@ -6,6 +6,7 @@ import it.polimi.ingsw.utils.Coordinate;
 import it.polimi.ingsw.view.gui.customcomponents.MyShelfieTriangleButton;
 import it.polimi.ingsw.view.gui.customcomponents.bookshelf.PersonalBookshelfView;
 import it.polimi.ingsw.view.gui.customcomponents.tileview.TileSubjectView;
+import it.polimi.ingsw.view.gui.customcomponents.tileview.TileViewInBox;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -180,6 +181,18 @@ public class PersonalBookshelfController extends BookshelfController{
     public void resetPersonalTargetCells(Map<Coordinate, TileType> personalGoalConfiguration) {
         if(personalGoalConfiguration != null)
             personalBookshelfView.hideTileTypeHint(personalGoalConfiguration);
+    }
+
+    /**
+     * @param tile
+     * @param row
+     * @param column
+     * @throws NoSuchElementException if the bookshelf has not a cell at the specified position
+     */
+    @Override
+    public void forcedInsertionInBookshelf(TileSubject tile, int row, int column) throws NoSuchElementException {
+        TileSubjectView newTile = new TileSubjectView(tile, new TileViewInBox(null));
+        getBookshelfCellAt(row, column).orElseThrow().getChildren().add(newTile);
     }
 
     @Override

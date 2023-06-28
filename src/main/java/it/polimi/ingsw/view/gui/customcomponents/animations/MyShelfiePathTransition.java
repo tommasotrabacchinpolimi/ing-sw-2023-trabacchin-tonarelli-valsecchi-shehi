@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.gui.customcomponents.animations;
 
+import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieTransitionDurationType;
 import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
 import javafx.geometry.Bounds;
@@ -44,6 +45,23 @@ public class MyShelfiePathTransition implements MyShelfieTransition {
      */
     private final Pane[] destinationPanes;
 
+    private final MyShelfieTransitionDurationType duration;
+
+    /**
+     * Construct a smooth path transition with specified parameters
+     *
+     * @param animatedPane     the pane that will be considered
+     *                         as the starting point for
+     *                         defining the path to be taken
+     * @param destinationPanes the panes that {@code animatedPane}
+     *                         has to reach
+     */
+    public MyShelfiePathTransition(MyShelfieTransitionDurationType duration, Pane animatedPane, Pane... destinationPanes) {
+        this.animatedPane = animatedPane;
+        this.destinationPanes = destinationPanes;
+        this.duration = duration;
+    }
+
     /**
      * Construct a smooth path transition with specified parameters
      *
@@ -54,8 +72,7 @@ public class MyShelfiePathTransition implements MyShelfieTransition {
      *                         has to reach
      */
     public MyShelfiePathTransition(Pane animatedPane, Pane... destinationPanes) {
-        this.animatedPane = animatedPane;
-        this.destinationPanes = destinationPanes;
+        this(DEF_DURATION, animatedPane, destinationPanes);
     }
 
     /**
@@ -88,7 +105,7 @@ public class MyShelfiePathTransition implements MyShelfieTransition {
 
         PathTransition pathTransition = new PathTransition();
 
-        pathTransition.setDuration(DEF_DURATION.getDuration());
+        pathTransition.setDuration(duration.getDuration());
         pathTransition.setInterpolator(Interpolator.LINEAR);
         pathTransition.setCycleCount(1);
         pathTransition.setAutoReverse(false);

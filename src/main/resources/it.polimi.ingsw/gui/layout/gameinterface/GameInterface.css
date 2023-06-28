@@ -1,3 +1,10 @@
+@font-face {
+    font-family: 'Special Elite Regular';
+    font-weight: normal;
+    font-style: normal;
+    src: local('Special Elite') url('../../../graphical.resources/font/SpecialElite-Regular.ttf');
+}
+
 #selectedTilesBox {
     -fx-background-color: rgba(248, 231, 191, 0.37);
     -fx-background-radius: 0.3em;
@@ -10,4 +17,19 @@
 
 #gameGridGoalContainer {
     -fx-vgap: 2em;
+}
+
+#infoDisplayContainer {
+    -fx-background-image: url('../../../graphical.resources/misc/page_base_darken.jpg');
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: cover;
+}
+
+#infoContent {
+    -fx-wrap-text: true;
+    -fx-font-family: 'Special Elite Regular';
+    -fx-font-size: 1em;
+    -fx-text-fill: rgba(230, 221, 199, 0.97);
+    -fx-label-padding: 0.2em;
 }

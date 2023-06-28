@@ -44,7 +44,7 @@ public class ScoringTokenView extends MyShelfieGraphicIcon {
      */
     private final String tokenIcon;
 
-
+    private Integer scoringValue;
 
     /**
      * Constructs a `ScoringTokenView` object with the specified scoring value.
@@ -54,6 +54,8 @@ public class ScoringTokenView extends MyShelfieGraphicIcon {
      */
     public ScoringTokenView(Integer scoringValue) {
         this(TOKEN_ICON_PREFIX + scoringValue + ".jpg");
+
+        this.scoringValue = scoringValue;
     }
 
     /**
@@ -62,10 +64,14 @@ public class ScoringTokenView extends MyShelfieGraphicIcon {
      * @param tokenIcon The filename of the token icon image.
      */
     private ScoringTokenView(String tokenIcon) {
-        super(SCORING_TOKENS_PATH + tokenIcon, SCORING_TOKENS_PATH +TOKEN_ICON_EMPTY, DEF_PADDING);
+        super(SCORING_TOKENS_PATH + tokenIcon, SCORING_TOKENS_PATH + TOKEN_ICON_EMPTY, DEF_PADDING);
 
         this.tokenIcon = tokenIcon;
 
         this.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+    }
+
+    public int getTokenPoint() {
+        return scoringValue;
     }
 }

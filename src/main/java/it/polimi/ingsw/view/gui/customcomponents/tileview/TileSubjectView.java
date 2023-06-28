@@ -33,14 +33,11 @@ import java.util.List;
  * @version 3.0
  * @since 08/06/2023
  */
-
 public class TileSubjectView extends Pane implements MyShelfieComponent {
 
     private static final String ITEM_TILE_PATH_FOLDER = "/it.polimi.ingsw/graphical.resources/item.tiles/";
 
     private static final String ERROR_ITEM_TILE_PATH = "/it.polimi.ingsw/graphical.resources/tile.type/error_tile.png";
-
-    private static final double INITIAL_PADDING = 2.8;
 
     private Pane parent;
 
@@ -77,14 +74,18 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
      * @param tileSubject The tile subject associated with this view.
      */
     public TileSubjectView(TileSubject tileSubject) {
-        this.currentState = new TileViewInBoard();
+        this(tileSubject, new TileViewInBoard());
+    }
+
+    public TileSubjectView(TileSubject tileSubject, TileSubjectViewState tileSubjectViewState) {
+        this.currentState = tileSubjectViewState;
 
         this.tileSubject = tileSubject;
 
         this.clicked = false;
         this.disabled = false;
 
-        setCSS(INITIAL_PADDING);
+        setCSS(currentState.getPadding());
 
         applyDecorationAsDefault(new MyShelfieDarkShadow(MyShelfieShadowType.SHORT), new MyShelfieRoundEdge(MyShelfieRoundEdgeType.SMALL));
 
@@ -101,7 +102,6 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
      * @param parent      The parent `Pane` to attach this view to.
      * @param tileSubject The tile subject associated with this view.
      */
-
     public TileSubjectView(Pane parent, TileSubject tileSubject) {
         this(tileSubject);
 
@@ -122,13 +122,13 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
                 "-fx-background-size: cover;");
     }
 
-    protected void updatedCSS(double padding) {
-        setCSS(padding);
+    protected void updatedCSS() {
+        setCSS(currentState.getPadding());
         resetScaleProperties();
     }
 
     protected void resetCSS() {
-        setCSS(INITIAL_PADDING);
+        setCSS(currentState.getPadding());
         resetScaleProperties();
     }
 
@@ -249,7 +249,7 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
     }
 
     public void toOpponentBookShelf(Pane... panes){
-        disabled = true;
+        disableClick();
         clicked = false;
 
         currentState = new TileViewInOpponent();
@@ -261,10 +261,14 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
 
     public void disable() {
         if(!disabled){
-            disabled = true;
+            disableClick();
 
             applyDecoration(new MyShelfieObscured());
         }
+    }
+
+    public void disableClick() {
+        disabled = true;
     }
 
     public void setClickable() {

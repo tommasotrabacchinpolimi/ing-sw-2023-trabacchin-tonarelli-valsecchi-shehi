@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.gui.layout.loginpage;
 
-import it.polimi.ingsw.view.gui.MyShelfieApplication;
 import it.polimi.ingsw.view.gui.customcomponents.MyShelfieButton;
 import it.polimi.ingsw.view.gui.MyShelfieController;
 import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieAlertCreator;
@@ -8,7 +7,6 @@ import javafx.animation.FadeTransition;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.InputEvent;
@@ -19,7 +17,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;

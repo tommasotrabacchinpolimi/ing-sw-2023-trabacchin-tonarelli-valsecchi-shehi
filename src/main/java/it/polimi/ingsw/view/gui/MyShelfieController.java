@@ -2,11 +2,11 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.view.LogicInterface;
 import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieAlertCreator;
+import javafx.application.Platform;
 import javafx.fxml.Initializable;
-import javafx.util.Duration;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * <p>Represent each controller inside the My Shelfie application.</p>
@@ -41,13 +41,13 @@ public abstract class MyShelfieController implements Initializable {
                     "cannot run My Shelfie game"
             );
 
-            myShelfieApplicationLauncher.errorInLoadingMyShelfieGame();
+            myShelfieApplicationLauncher.errorInLoadingMyShelfieGame("The application request a critical information");
         }
 
         return null;
     }
 
-    protected GUI getGUI() {
+    private GUI getGUI() {
         return getGUILauncher().getGUI();
     }
 
