@@ -859,7 +859,7 @@ public class State implements Serializable, OnUpdateNeededListener {
      * @see Player
      * @see OnAchievedCommonGoalListener
      */
-    private void notifyOnAchievedCommonGoal(List<EntryPatternGoal> tiles, Player player, int numberCommonGoal){
+    public void notifyOnAchievedCommonGoal(List<EntryPatternGoal> tiles, Player player, int numberCommonGoal){
         List<EntryPatternGoal> copy_result = new ArrayList<>();
         for (EntryPatternGoal entry : tiles) {
             copy_result.add(new EntryPatternGoal(entry.getRow(), entry.getColumn(), entry.getTileType()));
@@ -938,7 +938,7 @@ public class State implements Serializable, OnUpdateNeededListener {
      * @param numberOfCommonGoal The number of the common goal.
      * @see OnChangedCommonGoalAvailableScoreListener
      */
-    private void notifyChangedCommonGoalAvailableScore(int newScore, int numberOfCommonGoal){
+    public void notifyChangedCommonGoalAvailableScore(int newScore, int numberOfCommonGoal){
         for(OnChangedCommonGoalAvailableScoreListener listener: onChangedCommonGoalAvailableScoreListenerListeners){
             listener.onChangedCommonGoalAvailableScore(newScore, numberOfCommonGoal);
         }

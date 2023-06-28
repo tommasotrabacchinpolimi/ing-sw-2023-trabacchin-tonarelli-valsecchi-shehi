@@ -63,7 +63,6 @@ public class MidGameManager extends GameManager {
     @Override
     public synchronized void dragTilesToBookShelf(ClientInterface user, List<Coordinate> chosenTiles, int chosenColumn){
         try {
-            System.out.println("started drag method");
             Player player = getController().getState().getPlayerFromView(user);
             if (!player.equals(getController().getPlayerPlaying())) {
                 return;
@@ -76,26 +75,31 @@ public class MidGameManager extends GameManager {
             BookShelf bookShelf = player.getBookShelf();
             InputCheck.checkActiveTilesInBoard(chosenTiles, bookShelf.getTileSubjectTaken(),board.getBoard());
             bookShelf.addTileSubjectTaken(tiles, chosenColumn);
-            System.out.println("started notifying board updated");
             board.removeSelectedTileSubject(chosenTiles);
            // bookShelf.addTileSubjectTaken(tiles, chosenColumn);
-            System.out.println("checkpoint 1");
             verifyFinalGame(user);
             if (verifyRefillBoard() && getController().getState().getGameState()!=GameState.END) {
                 getController().getState().getBoard().refillBoard(getController().getState().getPlayersNumber());
             }
-            System.out.println("checkpoint 2");
             verifyAdjacentTiles(player);
-            System.out.println("checkpoint 3");
             verifyPersonalGoal(player);
-            System.out.println("checkpoint 4");
 
             verifyCommonGoal(user);
-            System.out.println("checkpoint 5");
+            //for test only
+            int score1 = getController().getState().getCommonGoal1().removeAvailableScore();
+            int score2 = getController().getState().getCommonGoal2().removeAvailableScore();
+            if(score1 != 0) {
+                player.getPointPlayer().setScoreCommonGoal1(score1);
+                getController().getState().notifyChangedCommonGoalAvailableScore(getController().getState().getCommonGoal1().getScoringTokens().peek(), 1);
+            }
+            if(score2 != 0) {
+                player.getPointPlayer().setScoreCommonGoal1(score2);
+                getController().getState().notifyChangedCommonGoalAvailableScore(getController().getState().getCommonGoal2().getScoringTokens().peek(), 2);
+            }
+            /////////////////////////////////////
 
-            //verifyAllDisconnectedPlayer();
+
             setNextCurrentPlayer();
-            System.out.println("finished drag method");
         }
         catch (NotEnoughSpaceInBookShelfException | NoTileTakenException | WrongChosenTilesFromBoardException e){
             System.err.println(e.getMessage());
@@ -244,7 +248,6 @@ public class MidGameManager extends GameManager {
      */
     @Override
     public synchronized void setNextCurrentPlayer() {
-        System.out.println("started next method");
         if(getController().getState().getGameState() == GameState.END) return;
 
         int n = getController().getState().getPlayersNumber();
@@ -275,7 +278,6 @@ public class MidGameManager extends GameManager {
                 getController().getState().setCurrentPlayer(getController().getState().getPlayers().get(index));
             }
         }
-        System.out.println("finished next method");
     }
 
 
