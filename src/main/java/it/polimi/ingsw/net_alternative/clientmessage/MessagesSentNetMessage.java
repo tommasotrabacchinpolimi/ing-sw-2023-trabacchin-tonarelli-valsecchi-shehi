@@ -18,10 +18,19 @@ import java.util.List;
  */
 public class MessagesSentNetMessage implements ClientMessage {
 
+    /**
+     * Used to represent all senders nicknames
+     */
     private final List<String> senderNicknames;
 
+    /**
+     * Used to represent all senders nicknames
+     */
     private final List<List<String>> receiverNicknames;
 
+    /**
+     * Used to represent all messages
+     */
     private final List<String> texts;
 
     /**
