@@ -92,16 +92,35 @@ public class WindowSizeChangeListener implements ChangeListener<Number> {
         }
     }
 
+    /**
+     * Checks if the current stage has the correct aspect ratio.
+     *
+     * @return true if the stage has the correct aspect ratio, false otherwise.
+     */
     private boolean hasRightProportion(){
         return Math.abs(stage.getWidth() / stage.getHeight() - aspectRatio) < 0.001;
     }
 
+    /**
+     * Checks if the height of the stage should be adjusted while maintaining the aspect ratio.
+     *
+     * @param oldValue The old value of the height.
+     * @param newValue The new value of the height.
+     * @return true if the height should be adjusted, false otherwise.
+     */
     private boolean keepHeightAspectRatio(Number oldValue, Number newValue){
         return stage.getHeight() != oldValue.doubleValue() &&
                 oldValue.doubleValue() != newValue.doubleValue() &&
                 !hasRightProportion() && stage.getHeight() != ratioHeight;
     }
 
+    /**
+     * Checks if the width of the stage should be adjusted while maintaining the aspect ratio.
+     *
+     * @param oldValue The old value of the width.
+     * @param newValue The new value of the width.
+     * @return true if the width should be adjusted, false otherwise.
+     */
     private boolean keepWidthAspectRatio(Number oldValue, Number newValue){
         return stage.getWidth() != oldValue.doubleValue() &&
                 oldValue.doubleValue() != newValue.doubleValue() &&
