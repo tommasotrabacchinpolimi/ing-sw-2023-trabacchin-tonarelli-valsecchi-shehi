@@ -19,11 +19,20 @@ import java.util.Map;
  */
 public class AssignedPersonalGoalNetMessage implements ClientMessage {
 
+    /**
+     * Nickname of the player
+     */
     private final String nickname;
 
+    /**
+     * Used for goal pattern
+     */
     private final List<EntryPatternGoal> goalPattern;
 
 
+    /**
+     *
+     */
     private final Map<Integer, Integer> scoreMap;
 
     /**

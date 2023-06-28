@@ -17,9 +17,15 @@ import java.util.List;
 
  */
 public class AdjacentTilesUpdatedNetMessage implements ClientMessage {
-    private String nickname;
+    /**
+     * Nickname of the player
+     */
+    private final String nickname;
 
-    private List<Coordinate> tiles;
+    /**
+     * List of Tiles
+     */
+    private final List<Coordinate> tiles;
 
     /**
      * Constructor of the class

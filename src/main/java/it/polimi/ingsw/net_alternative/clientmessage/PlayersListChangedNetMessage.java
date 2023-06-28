@@ -17,6 +17,9 @@ import java.util.List;
 
  */
 public class PlayersListChangedNetMessage implements ClientMessage {
+    /**
+     * Used to represent players after modification
+     */
     private final List<String> players;
 
     /**

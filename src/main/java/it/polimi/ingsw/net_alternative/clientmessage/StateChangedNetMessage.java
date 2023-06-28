@@ -19,6 +19,10 @@ import it.polimi.ingsw.net_alternative.ClientDispatcherInterface;
 
 public class StateChangedNetMessage implements ClientMessage {
 
+    /**
+     * Represents the state of the game
+     * @see GameState
+     */
     private final GameState gameState;
 
     /**

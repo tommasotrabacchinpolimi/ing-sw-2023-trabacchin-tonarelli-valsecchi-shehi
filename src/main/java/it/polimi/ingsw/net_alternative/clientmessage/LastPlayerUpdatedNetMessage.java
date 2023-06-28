@@ -18,6 +18,9 @@ import it.polimi.ingsw.net_alternative.ClientDispatcherInterface;
  */
 public class LastPlayerUpdatedNetMessage implements ClientMessage {
 
+    /**
+     * The nickname of the last player
+     */
     private final String nicknameLastPlayer;
 
     /**

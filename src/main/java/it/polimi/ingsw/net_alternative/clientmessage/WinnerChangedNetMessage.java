@@ -18,6 +18,9 @@ import it.polimi.ingsw.net_alternative.ClientDispatcherInterface;
  */
 public class WinnerChangedNetMessage implements ClientMessage {
 
+    /**
+     * Nickname of the player
+     */
     String nickname;
 
     /**

@@ -16,16 +16,36 @@ import it.polimi.ingsw.net_alternative.ClientDispatcherInterface;
  */
 public class PointsUpdatedNetMessage implements ClientMessage {
 
+
+
+    /**
+     * The nickname associated with the player.
+     */
     private final String nickname;
 
+    /**
+     * The updated score for the adjacent goal.
+     */
     private final int scoreAdjacentGoal;
 
+    /**
+     * The updated score for the first common goal.
+     */
     private final int scoreCommonGoal1;
 
+    /**
+     * The updated score for the second common goal.
+     */
     private final int scoreCommonGoal2;
 
+    /**
+     * The updated score for the end game.
+     */
     private final int scoreEndGame;
 
+    /**
+     * The updated score for the personal goal.
+     */
     private final int scorePersonalGoal;
 
 
