@@ -107,6 +107,9 @@ public class GameInterfaceController extends MyShelfieController {
 
     public void addGoalsToGameInterface(Integer[] point) {
 
+        if(areGoalsDisplayed())
+            return;
+
         if(getGUILauncher().getGUIModel().getIdCommonGoals() != null && getGUILauncher().getGUIModel().getCommonGoals() != null && point != null) {
             commonGoals.add(new CommonGoalView(getGUILauncher().getGUIModel().getIdCommonGoals()[0], getGUILauncher().getGUIModel().getCommonGoals()[0], point[0]));
 
@@ -130,6 +133,10 @@ public class GameInterfaceController extends MyShelfieController {
         personalGoal.setOnMouseExited(value -> {
             gamePersonalBookshelfController.resetPersonalTargetCells(personalGoal.getPersonalConfiguration());
         });
+    }
+
+    private boolean areGoalsDisplayed() {
+        return gameGridGoalContainer.getChildren().size() == 3;
     }
 
     protected List<TileSubjectView> getClickedTilesFromBoard() {

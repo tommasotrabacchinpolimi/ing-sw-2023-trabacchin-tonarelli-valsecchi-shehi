@@ -216,7 +216,7 @@ public class MainInterfaceController extends MyShelfieController {
 
         List<TileSubjectView> differentTilesInBookshelf = getDifferentTileFromBookshelf(thisPlayerUpdatedBookshelf.getValue());
 
-        if (tilesTakenFromBoard.size() > 0 && isThisPlayerPlaying()) {
+        if (tilesTakenFromBoard.size() > 0 && !isThisPlayerPlaying()) {
             MyShelfieAlertCreator.displayErrorAlert(
                     "There was a problem with the communication with the server, the operation done will be rejected",
                     "Cannot perform the played"
@@ -268,7 +268,7 @@ public class MainInterfaceController extends MyShelfieController {
 
     public boolean isThisPlayerPlaying() {
         return getGUILauncher().isThisPlayer(getGUILauncher().getGUIModel().getCurrentPlayer()) &&
-                gameInterfaceController.boxHasTiles() && gameInterfaceController.boxHasChild();
+                gameInterfaceController.boxHasTiles();
     }
 
     public boolean isBoardEmpty() {
