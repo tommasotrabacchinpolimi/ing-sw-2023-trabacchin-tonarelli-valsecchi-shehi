@@ -9,10 +9,7 @@ import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieRoundEdgeTy
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.*;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -145,19 +142,19 @@ abstract class PointPane extends GridPane implements MyShelfieComponent {
         throw new NullPointerException();
     }
 
-    public PointCell getFirstPlayerSeatCell() {
+    public Pane getFirstPlayerSeatCell() {
         return pointCells.get(0);
     }
 
-    public PointCell getEndTokenCell() {
+    public Pane getEndTokenCell() {
         return pointCells.get(1);
     }
 
-    public PointCell getFirstScoringTokenCell() {
+    public Pane getFirstScoringTokenCell() {
         return pointCells.get(2);
     }
 
-    public PointCell getSecondScoringTokenCell() {
+    public Pane getSecondScoringTokenCell() {
         return pointCells.get(3);
     }
 

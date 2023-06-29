@@ -183,7 +183,8 @@ public class CommonGoalView extends StackPane implements MyShelfieComponent {
             oldScoringTokenView = null;
         }
 
-        scoringTokenViews.push(new ScoringTokenView(topTokenValue));
+        if(topTokenValue != 0)
+            scoringTokenViews.push(new ScoringTokenView(topTokenValue));
 
         showTopToken(oldScoringTokenView);
     }
@@ -212,14 +213,21 @@ public class CommonGoalView extends StackPane implements MyShelfieComponent {
      */
     private void showTopToken(ScoringTokenView scoringTokenView) {
 
-        ScoringTokenView topToken = scoringTokenViews.peek();
+        try{
+            ScoringTokenView topToken = scoringTokenViews.peek();
 
-        scoringTokenBox.getChildren().add(topToken);
+            scoringTokenBox.getChildren().add(topToken);
 
-        if(scoringTokenView != null)
-            scoringTokenView.toFront();
+            if (scoringTokenView != null)
+                scoringTokenView.toFront();
 
-        topToken.setRotate(SCORING_TOKEN_ROTATION);
+            topToken.setRotate(SCORING_TOKEN_ROTATION);
+        }catch(EmptyStackException ignored) {
+            MyShelfieAlertCreator.displayInformationAlert(
+                    "No common goal point can be obtained",
+                    "All common goal point are peeked up"
+            );
+        }
     }
 
     /**

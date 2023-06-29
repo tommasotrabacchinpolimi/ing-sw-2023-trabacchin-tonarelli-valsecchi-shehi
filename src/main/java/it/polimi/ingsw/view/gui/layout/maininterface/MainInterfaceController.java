@@ -359,7 +359,7 @@ public class MainInterfaceController extends MyShelfieController {
     public Integer requestDisplayedCommonGoalScore(int commonGoalNumber) {
         try {
             return gameInterfaceController.getDisplayedCommonGoalScore(commonGoalNumber);
-        } catch (NullPointerException e) {
+        } catch (NullPointerException | EmptyStackException e) {
             return getGUILauncher().getGUIModel().getAvailableScores().get(commonGoalNumber);
         }
     }
@@ -385,83 +385,16 @@ public class MainInterfaceController extends MyShelfieController {
             transferEndTokenToOpponent(nickName);
     }
 
-    //For testing purpose
-    private void setupTestingButton() {
-        /*MyShelfieButton fillBoardButton = new MyShelfieButton("Fill board");
-        fillBoardButton.setId("fillBoardButton");
-        fillBoardButton.setOnMouseClicked(value -> gameInterfaceController.fillBoard());
-
-        MyShelfieButton testTokenAnimation1 = new MyShelfieButton("Get Token1");
-        testTokenAnimation1.setId("testTokenAnimation1");
-        testTokenAnimation1.setOnMouseClicked(value -> gameInterfaceController.startTokenAnimation1(value));
-
-        MyShelfieButton testTokenAnimation2 = new MyShelfieButton("Get Token2");
-        testTokenAnimation2.setId("testTokenAnimation2");
-        testTokenAnimation2.setOnMouseClicked(value -> gameInterfaceController.startTokenAnimation2(value));
-
-        MyShelfieButton getEndGame = new MyShelfieButton("Get EndToken");
-        getEndGame.setId("getEndGame");
-        getEndGame.setOnMouseClicked(value -> gameInterfaceController.startEndGameTokenAnimation(value));
-
-        MyShelfieButton assignEndGame = new MyShelfieButton("EndToken Opponent");
-        assignEndGame.setId("assignEndGame");
-        assignEndGame.setOnMouseClicked(value -> transferEndTokenToOpponent("Adem"));
-
-        MyShelfieButton assignTokenOpponent1 = new MyShelfieButton("Opponent Token1");
-        assignTokenOpponent1.setId("assignTokenOpponent1");
-        assignTokenOpponent1.setOnMouseClicked(value -> transferToken1ToOpponent("Tommy"));
-
-        MyShelfieButton assignTokenOpponent2 = new MyShelfieButton("Opponent Token2");
-        assignTokenOpponent2.setId("assignTokenOpponent2");
-        assignTokenOpponent2.setOnMouseClicked(value -> transferToken2ToOpponent("Tommy"));
-
-        MyShelfieButton tilesToOpponent = new MyShelfieButton("Opponent Tiles");
-        tilesToOpponent.setId("tilesToOpponent");
-        tilesToOpponent.setOnMouseClicked(value -> {
-            TileSubject[][] updatedBoard = getDifferentBoard();
-            transferTilesToOpponent(updatedBoard, getDifferentBookshelvesMap(updatedBoard));
-        });
-
-        gameInterfaceController.testingBox.getChildren().addAll(
-                testTokenAnimation1, testTokenAnimation2, getEndGame, assignEndGame, assignTokenOpponent1,
-                assignTokenOpponent2, tilesToOpponent);*/
+    public void playersPointGained() {
+        getGUILauncher().getGUIModel()
+                .getPlayers()
+                .forEach(this::commonGoalScoringTokenGained);
     }
 
-    private TileSubject[][] getDifferentBoard() {
-        TileSubject[][] modifiedBoard = gameInterfaceController.getTilesOnBoardMatrix();
-
-        int get = 0;
-
-        for (int i = 0; i < modifiedBoard.length; ++i) {
-            for (int j = 0; j < modifiedBoard[i].length; ++j) {
-                if (modifiedBoard[i][j] != null) {
-                    modifiedBoard[i][j] = null;
-                    ++get;
-                }
-
-                if (get == 3)
-                    return modifiedBoard;
-            }
-        }
-
-        return modifiedBoard;
-    }
-
-    @NotNull
-    private Map<String, TileSubject[][]> getDifferentBookshelvesMap(TileSubject[][] modifiedBoard) {
-        List<TileSubjectView> taken = getDifferentTileFromBoard(modifiedBoard);
-
-        Map<String, TileSubject[][]> updates = new HashMap<>();
-
-        TileSubject[][] opponentBookshelf = opponentsInterfaceController.getBookshelfFromName("Melanie");
-
-        for (int i = 5; i > 2; --i) {
-            opponentBookshelf[i][0] = taken.get(0).getTileSubject();
-            taken.remove(0);
-        }
-
-        updates.put("Melanie", opponentBookshelf);
-
-        return updates;
+    private void commonGoalScoringTokenGained(String nickName) {
+        if(nickName.equals(getGUILauncher().getGUIModel().getThisPlayer()))
+            gameInterfaceController.forceCommonGoalScoreAssigment(getGUILauncher().getGUIModel().getPlayersPointsByNickname(nickName));
+        else
+            opponentsInterfaceController.forceCommonGoalScoreAssignment(nickName);
     }
 }

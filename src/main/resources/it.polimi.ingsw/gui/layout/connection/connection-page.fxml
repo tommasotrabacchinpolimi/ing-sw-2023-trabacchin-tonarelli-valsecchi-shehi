@@ -53,7 +53,7 @@
                 <Label fx:id="connectionLabel" styleClass="info-text" text="Protocol:"
                        GridPane.halignment="RIGHT" GridPane.valignment="CENTER" wrapText="true"/>
 
-                <MyShelfieChoiceBox fx:id="connectionProtocolBox" value="Choose a connection protocol" GridPane.valignment="CENTER"
+                <MyShelfieChoiceBox fx:id="connectionProtocolBox" GridPane.valignment="CENTER"
                            GridPane.halignment="LEFT" GridPane.rowIndex="0" GridPane.columnIndex="1" GridPane.fillWidth="true">
 
                     <items>

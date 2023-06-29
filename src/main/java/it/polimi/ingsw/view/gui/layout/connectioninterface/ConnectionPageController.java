@@ -23,6 +23,10 @@ import static it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieAler
 
 public class ConnectionPageController extends MyShelfieController {
 
+    private static final String ERROR_CONTENT_CHOICE_BOX = "Missing connection protocol!";
+
+    private static final String INITIAL_CONTENT_CHOICE_BOX = "Choose a connection protocol";
+
     @FXML
     private StackPane connectionRootPane;
 
@@ -70,6 +74,7 @@ public class ConnectionPageController extends MyShelfieController {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        connectionProtocolBox.setValue(INITIAL_CONTENT_CHOICE_BOX);
         setProtocolBoxPseudoClassState();
         setServerAddressPseudoClassState();
         setPortNumberPseudoClassState();
@@ -78,7 +83,7 @@ public class ConnectionPageController extends MyShelfieController {
     @FXML
     private void submitButtonClicked(MouseEvent mouseEvent) {
         if(chosenConnection == null) {
-            connectionProtocolBox.setErrorStyle("Missing connection protocol!");
+            connectionProtocolBox.setErrorStyle(ERROR_CONTENT_CHOICE_BOX);
         }
 
         serverAddress = connectionServerAddressField.getText();
@@ -138,8 +143,10 @@ public class ConnectionPageController extends MyShelfieController {
     private void setProtocolBoxPseudoClassState() {
         connectionProtocolBox.getSelectionModel().selectedItemProperty().addListener(
                 (selected, oldString, newString) -> {
-                    chosenConnection = newString;
-                    connectionProtocolBox.removeErrorStyle();
+                    if(!newString.equals(ERROR_CONTENT_CHOICE_BOX) && !newString.equals(INITIAL_CONTENT_CHOICE_BOX)) {
+                        chosenConnection = newString;
+                        connectionProtocolBox.removeErrorStyle();
+                    }
                 }
         );
     }

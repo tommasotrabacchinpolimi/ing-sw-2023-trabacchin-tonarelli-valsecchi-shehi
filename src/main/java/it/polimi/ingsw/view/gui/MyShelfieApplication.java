@@ -388,7 +388,7 @@ public abstract class MyShelfieApplication extends Application {
         //center stage in screen
         setupMaximizedStage(stage);
 
-        stage.show();
+        //stage.show();
     }
 
     /**

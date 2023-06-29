@@ -80,6 +80,13 @@ public class GUI extends UI {
      */
     @Override
     public void onNewMessage(String sender) {
+        while (!isGUILauncherSet()) {
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
         Platform.runLater(() -> {
             guiLauncher.handleNewMessage(getModel().getLastMessage());
         });
@@ -91,8 +98,14 @@ public class GUI extends UI {
      */
     @Override
     public void onNewMessages() {
+        while (!isGUILauncherSet()) {
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
         Platform.runLater(() -> {
-            System.out.println("Sono stato richiamato");
             getModel().getMessages()
                     .forEach((message) -> guiLauncher.handleNewMessage(message));
         });
@@ -105,6 +118,13 @@ public class GUI extends UI {
      */
     @Override
     public void onConnectionLost() {
+        while (!isGUILauncherSet()) {
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
         // TODO: Implement connection lost handling in GUI
     }
 
@@ -124,8 +144,10 @@ public class GUI extends UI {
                 throw new RuntimeException(e);
             }
         }
+        System.err.println("Sto eseguendo il onCurrentPlayerChanged");
 
         Platform.runLater(() -> {
+            System.err.println("Sto eseguendo la runLater del onCurrentPlayerChanged");
             guiLauncher.handleInfoTextDisplay();
             guiLauncher.handleLivingRoomUpdate();
             guiLauncher.handleBlockGameControls();
@@ -141,6 +163,13 @@ public class GUI extends UI {
      */
     @Override
     public void showWinner() {
+        while (!isGUILauncherSet()) {
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
         // TODO: Implement displaying the winner in GUI
     }
 
@@ -151,6 +180,13 @@ public class GUI extends UI {
      */
     @Override
     public void onException() {
+        while (!isGUILauncherSet()) {
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
         Platform.runLater(() -> {
             guiLauncher.handleRemoteException(getModel().getException());
         });
@@ -172,9 +208,12 @@ public class GUI extends UI {
                 } else if (getModel().getGameState().equals("MID")) {
                     // The game has started and the main interface needs to be displayed
                     // Also called when the game evolves from SUSPENDED to MID
-                    guiLauncher.manageMainInterface();
-                    setGUILauncherSet(true);
-                    this.notifyAll();
+
+                    if(!isGUILauncherSet()) {
+                        guiLauncher.manageMainInterface();
+                        setGUILauncherSet(true);
+                        this.notifyAll();
+                    }
 
                 } else if (getModel().getGameState().equals("SUSPENDED")) {
                     // The game is blocked and needs to wait for other players
