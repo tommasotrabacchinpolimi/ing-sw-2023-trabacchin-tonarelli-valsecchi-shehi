@@ -9,20 +9,43 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * <p>
+ * The `MyShelfieMatrixComponent` class provides utility methods for working with tile subjects and their views in a graphical user interface (GUI).
+ * It offers functionality to convert a map of tile subject views with their coordinates to a matrix of tile subjects,
+ * retrieve the maximum row and column coordinates from a tile subject map, and retrieve the state of the matrix by mapping
+ * coordinates to corresponding tile subject views.
+ * This class cannot be instantiated as it only contains static methods and a private constructor.
+ * </p>
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ */
 public class MyShelfieMatrixComponent {
 
+    /**
+     * Constructor of the class
+     */
     private MyShelfieMatrixComponent() {
     }
 
+    /**
+     * Converts a map of tile subject views with their coordinates to a matrix of tile subjects.
+     *
+     * @param tileSubjectViewMatrix the map of tile subject views with their coordinates
+     * @return the matrix of tile subjects
+     */
     public static TileSubject[][] toTileSubjectMatrix(Map<Coordinate, StackPane> tileSubjectViewMatrix) {
 
-        if(tileSubjectViewMatrix == null)
+        if (tileSubjectViewMatrix == null)
             return null;
 
         TileSubject[][] tileMatrix = new TileSubject[getMaxBoardRow(tileSubjectViewMatrix)][getMaxBoardColumn(tileSubjectViewMatrix)];
 
         getMatrixState(tileSubjectViewMatrix).forEach((coordinate, tile) -> {
-            if(tile != null)
+            if (tile != null)
                 tileMatrix[coordinate.getX()][coordinate.getY()] = tile.getTileSubject();
         });
 
@@ -63,6 +86,12 @@ public class MyShelfieMatrixComponent {
         return (maxColumn + 1);
     }
 
+    /**
+     * Converts a map of tile subject views with their coordinates to a matrix of tile subjects.
+     *
+     * @param tileSubjectViewMatrix the map of tile subject views with their coordinates
+     * @return the matrix of tile subjects
+     */
     @NotNull
     public static Map<Coordinate, TileSubjectView> getMatrixState(@NotNull Map<Coordinate, StackPane> tileSubjectViewMatrix) {
         Map<Coordinate, TileSubjectView> boardState = new HashMap<>();
