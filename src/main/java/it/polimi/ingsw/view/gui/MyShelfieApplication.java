@@ -5,8 +5,13 @@ import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieAlertCreato
 import it.polimi.ingsw.view.gui.customcomponents.waitingpage.WinningPage;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.Pane;
@@ -18,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * <p>This class is used to define some default path and commands allowed
@@ -287,7 +293,7 @@ public abstract class MyShelfieApplication extends Application {
     public void setupStage(final Stage stage) {
         setStage(stage, false, false);
 
-        this.stage.addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::closeWindowEvent);
+        this.stage.setOnCloseRequest(this::closeWindowEvent);
 
         // Set icon in taskbar
         this.stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream(GAME_ICON_PATH))));
@@ -469,17 +475,7 @@ public abstract class MyShelfieApplication extends Application {
     public void errorInLoadingMyShelfieGame(String contentText, String headerText) {
         MyShelfieAlertCreator.displayErrorAlert(contentText, headerText);
 
-        closeWindowEvent(1);
-    }
-
-    /**
-     * Handles the close window event of the application.
-     * Exits the application by calling Platform.exit() and System.exit().
-     *
-     * @param exitCode the exit code to be passed to System.exit()
-     */
-    private void closeWindowEvent(int exitCode) {
-        closeWindowEvent(null, exitCode);
+        closeWindowEvent(new WindowEvent(stage, WindowEvent.WINDOW_CLOSE_REQUEST), 1);
     }
 
     /**
@@ -501,8 +497,11 @@ public abstract class MyShelfieApplication extends Application {
      * @param exitCode the exit code to be passed to System.exit()
      */
     private void closeWindowEvent(WindowEvent event, int exitCode) {
-        Platform.exit();
-        System.exit(exitCode);
+        if(!event.isConsumed()) {
+            Platform.exit();
+            System.exit(exitCode);
+            event.consume();
+        }
     }
 
     /**
@@ -548,6 +547,10 @@ public abstract class MyShelfieApplication extends Application {
             winningPage = new WinningPage(scene, "You are the winner", pointPlayerDisplay);
         else
             winningPage = new WinningPage(scene, winner + "is the winner", pointPlayerDisplay);
+    }
+
+    protected void onCloseWindowEventAction(EventHandler<WindowEvent> newOnCloseEventHandler){
+        this.stage.setOnCloseRequest(newOnCloseEventHandler);
     }
 
     protected void hideWinningView() {
