@@ -7,7 +7,6 @@ import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerState;
 import it.polimi.ingsw.model.State;
-import it.polimi.ingsw.netttt.*;
 import it.polimi.ingsw.net.OnServerConnectionLostListener;
 
 import java.io.FileNotFoundException;
@@ -31,11 +30,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * </p>
  *
  * @see ClientInterface
- * @see UserAccepter
- * @see OnConnectionLostListener
  * @see LobbyController
  * @see Controller
- * @see Dispatcher
  *
  * @author Tommaso Trabacchin
  * @author Melanie Tonarelli
@@ -95,11 +91,8 @@ public class LobbyController
     private final List<String> disconnectedButInGame = new ArrayList<>();
 
     /**
-     * Reference to the {@linkplain Dispatcher dispatcher} that manage the requests coming from the network and
-     * {@linkplain Dispatcher#invoke(Object, Method, Object[]) calls} the appropriate method
+     * Reference to the {@linkplain ControllerDispatcher dispatcher} that manage the requests coming from the network and
      *
-     * @see Dispatcher
-     * @see Dispatcher#invoke(Object proxy, Method method, Object[] args)
      */
     private ControllerDispatcher dispatcher;
 
@@ -110,7 +103,7 @@ public class LobbyController
     }
 
     /**
-     * Binds a {@linkplain Dispatcher dispatcher} instance to the calling object
+     * Binds a {@linkplain ControllerDispatcher dispatcher} instance to the calling object
      *
      * @param dispatcher the dispatcher to be bound
      */
@@ -286,7 +279,7 @@ public class LobbyController
      * @see Controller#onConnectionLost(ClientInterface client)
      * @see PlayerState
      * @see Player#setPlayerState(PlayerState playerState)
-     * @see OnConnectionLostListener#onConnectionLost(RemoteInterface)
+     *
      */
     @Override
     public synchronized void onConnectionLost(ClientInterface user) {

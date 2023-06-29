@@ -262,11 +262,11 @@ public class SingleOpponentBookShelfController extends BookshelfController {
 
     public void forceDisplayCommonGoalScore(List<Integer> playerPoints) {
         if(playerPoints.get(1) != 0) {
-            singleOpponentPointPane.getFirstScoringTokenCell().getChildren().add(new ScoringTokenView(playerPoints.get(1)));
+            getSingleOpponentFirstScoringTokenCell().getChildren().add(new ScoringTokenView(playerPoints.get(1)));
         }
 
         if(playerPoints.get(2) != 0) {
-            singleOpponentPointPane.getFirstScoringTokenCell().getChildren().add(new ScoringTokenView(playerPoints.get(1)));
+            getSingleOpponentSecondScoringTokenCell().getChildren().add(new ScoringTokenView(playerPoints.get(1)));
         }
     }
 }

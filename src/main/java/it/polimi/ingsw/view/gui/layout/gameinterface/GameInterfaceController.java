@@ -516,7 +516,7 @@ public class GameInterfaceController extends MyShelfieController {
         }
 
         if(playerPoints.get(2) != 0) {
-            personalPointPane.getFirstScoringTokenCell().getChildren().add(new ScoringTokenView(playerPoints.get(1)));
+            personalPointPane.getSecondScoringTokenCell().getChildren().add(new ScoringTokenView(playerPoints.get(1)));
         }
     }
 }

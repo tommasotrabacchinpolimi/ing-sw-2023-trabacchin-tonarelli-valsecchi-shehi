@@ -350,7 +350,7 @@ public class MainInterfaceController extends MyShelfieController {
     }
 
     public void addFirstPlayerSeatOperation(String playerNick) {
-        if (getGUILauncher().getGUIModel().getPlayers().get(0).equals(getGUILauncher().getGUIModel().getThisPlayer()))
+        if (playerNick.equals(getGUILauncher().getGUIModel().getThisPlayer()))
             gameInterfaceController.addFirstPlayerSeat();
         else
             opponentsInterfaceController.addFirstPlayerSeatToOpponent(playerNick);
@@ -379,7 +379,7 @@ public class MainInterfaceController extends MyShelfieController {
     }
 
     public void assignEndGameToken(String nickName) {
-        if (getGUILauncher().getGUIModel().getPlayers().get(0).equals(getGUILauncher().getGUIModel().getThisPlayer()))
+        if (nickName.equals(getGUILauncher().getGUIModel().getThisPlayer()))
             gameInterfaceController.startEndGameTokenAnimation();
         else
             transferEndTokenToOpponent(nickName);

@@ -306,20 +306,13 @@ public class GUILauncher extends MyShelfieApplication {
         if(!isEndGameTokenAssigned) {
             getPlayerAchievedEndGame().ifPresent(nickName -> {
                 getMainInterfaceController().assignEndGameToken(nickName);
+                isEndGameTokenAssigned = true;
             });
-
-            isEndGameTokenAssigned = true;
         }
     }
 
     @NotNull
     private Optional<String> getPlayerAchievedEndGame() {
-
-        getGUIModel().getPlayersPoints()
-                .entrySet()
-                .stream()
-                .filter(entry -> entry.getValue().get(3).equals(1))
-                .forEach(System.out::print);
 
         return getGUIModel().getPlayersPoints()
                 .entrySet()
