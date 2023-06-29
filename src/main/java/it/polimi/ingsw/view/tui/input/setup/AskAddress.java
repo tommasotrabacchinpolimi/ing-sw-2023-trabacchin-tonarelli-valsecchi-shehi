@@ -41,7 +41,7 @@ public class AskAddress extends Input {
      */
     @Override
     public void printPrompt() {
-        getOut().println("Now insert an address number");
+        getOut().println("Now insert the server address");
     }
 
     /**
