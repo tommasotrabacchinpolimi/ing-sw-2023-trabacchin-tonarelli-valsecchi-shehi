@@ -54,14 +54,6 @@ public class MyShelfieAnsi {
     }
 
     /**
-     * @param attributes Object containing format attributes.
-     * @return The ANSI code that describes all those attributes together.
-     */
-    public static String generateCode(MyShelfieAnsiFormat attributes) {
-        return generateCode(attributes.toArray());
-    }
-
-    /**
      * @param myShelfieCommand ANSI command to apply to terminal.
      * @return The ANSI code that describes that command.
      */

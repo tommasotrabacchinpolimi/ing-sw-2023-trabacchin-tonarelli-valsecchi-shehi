@@ -11,18 +11,6 @@ abstract class ColorMyShelfieAttribute extends MyShelfieAttribute {
     protected final String[] _color;
 
     /**
-     * Constructor (8-bit color).
-     * @param colorNumber A number (0-255) that represents an 8-bit color.
-     * @throws IllegalArgumentException if the colorNumber is not within the range [0-255].
-     */
-    ColorMyShelfieAttribute(int colorNumber) {
-        if (0 <= colorNumber && colorNumber <= 255) {
-            _color = new String[]{valueOf(colorNumber)};
-        } else
-            throw new IllegalArgumentException("Color must be a number inside range [0-255]. Received: " + colorNumber);
-    }
-
-    /**
      * Constructor (true-color).
      *
      * @param r A number (0-255) that represents the red component.

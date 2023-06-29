@@ -5,13 +5,6 @@ class TextColorMyShelfieAttribute extends ColorMyShelfieAttribute {
     /**
      * {@inheritDoc}
      */
-    TextColorMyShelfieAttribute(int colorNumber) {
-        super(colorNumber);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     TextColorMyShelfieAttribute(int r, int g, int b) {
         super(r, g, b);
     }
