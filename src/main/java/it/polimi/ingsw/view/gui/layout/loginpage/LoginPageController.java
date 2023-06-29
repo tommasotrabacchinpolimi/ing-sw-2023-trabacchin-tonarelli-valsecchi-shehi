@@ -138,8 +138,6 @@ public class LoginPageController extends MyShelfieController {
         getPlayersNumberFromField();
 
         getLogicController().createGame(nickName, playersNumber);
-
-        getGUILauncher().showWaitForPlayers();
     }
 
     private boolean isButtonActionCalled(InputEvent inputEvent) {

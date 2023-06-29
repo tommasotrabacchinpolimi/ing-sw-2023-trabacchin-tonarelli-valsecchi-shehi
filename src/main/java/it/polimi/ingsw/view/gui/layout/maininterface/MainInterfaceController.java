@@ -62,7 +62,7 @@ public class MainInterfaceController extends MyShelfieController {
 
         List<TileSubjectView> takenTiles = getDifferentTileFromBoard(updatedBoard);
 
-        if (takenTiles.size() > 0 && areUpdatedOpponentBookshelves(updatedOpponentBookshelves.values())) {
+        if (takenTiles.size() > 0 && areUpdatedOpponentBookshelves(updatedOpponentBookshelves)) {
             gameInterfaceController.removeOpponentTakenTiles(takenTiles);
 
             opponentsInterfaceController.updateOpponentBookshelf(updatedOpponentBookshelves, takenTiles);
@@ -71,8 +71,17 @@ public class MainInterfaceController extends MyShelfieController {
         }
     }
 
-    private boolean areUpdatedOpponentBookshelves(Collection<TileSubject[][]> updatedOpponentBookshelves) {
-        return updatedOpponentBookshelves.stream().anyMatch(this::areUpdatedOpponentBookshelf);
+    /**
+     * @param updatedOpponentBookshelves
+     * @return {@code true} if there is a different between graphical and updated
+     * {@code false} otherwise
+     */
+    private boolean areUpdatedOpponentBookshelves(Map<String, TileSubject[][]> updatedOpponentBookshelves) {
+        return updatedOpponentBookshelves
+                .entrySet()
+                .stream()
+                .anyMatch(entry -> areUpdatedOpponentBookshelf(opponentsInterfaceController.getOpponentBookshelfFromName(entry.getKey()),
+                        entry.getValue()));
     }
 
     /**
@@ -80,14 +89,14 @@ public class MainInterfaceController extends MyShelfieController {
      * @return {@code true} if the {@code updated opponent bookshelf} has an entry that is
      * different from {@code null}, {@code false} otherwise
      */
-    private boolean areUpdatedOpponentBookshelf(TileSubject[][] updatedOpponentBookshelf) {
+    private boolean areUpdatedOpponentBookshelf(TileSubject[][] shownOpponentBookshelf, TileSubject[][] updatedOpponentBookshelf) {
 
-        if (updatedOpponentBookshelf == null)
+        if (shownOpponentBookshelf == null || updatedOpponentBookshelf == null)
             return false;
 
         for (int i = 0; i < updatedOpponentBookshelf.length; ++i) {
             for (int j = 0; j < updatedOpponentBookshelf[i].length; ++j) {
-                if (updatedOpponentBookshelf[i][j] != null)
+                if (updatedOpponentBookshelf[i][j] != shownOpponentBookshelf[i][j])
                     return true;
             }
         }
@@ -207,19 +216,34 @@ public class MainInterfaceController extends MyShelfieController {
 
         List<TileSubjectView> differentTilesInBookshelf = getDifferentTileFromBookshelf(thisPlayerUpdatedBookshelf.getValue());
 
-        if (tilesTakenFromBoard.size() > 0 && differentTilesInBookshelf.size() > 0) {
+        if (tilesTakenFromBoard.size() > 0 || isThisPlayerPlaying()) {
             MyShelfieAlertCreator.displayErrorAlert(
                     "There was a problem with the communication with the server, the operation done will be rejected",
                     "Cannot perform the played"
             );
 
-            gameInterfaceController.restoreClientPlayed(tilesTakenFromBoard);
+            if (tilesTakenFromBoard.size() > 0) {
+                gameInterfaceController.restoreClientPlayed(tilesTakenFromBoard);
 
-        } else if (tilesTakenFromBoard.size() > 0 && isThisPlayerPlaying()) {
-            undoClientPlayedOperation();
-            gameInterfaceController.confirmInput();
+            }else if(isThisPlayerPlaying()){
+                gameInterfaceController.reverseClientPlayedFromBox();
+            }
+
+            gameInterfaceController.clearTilesOldParent();
+
+        } else if (differentTilesInBookshelf.size() > 0) {
+            MyShelfieAlertCreator.displayErrorAlert(
+                    "There was a problem with the communication with the server, the operation done will be rejected",
+                    "Cannot perform the played"
+            );
+
+            if (differentTilesInBookshelf.size() > 0) {
+                gameInterfaceController.restoreClientPlayed(differentTilesInBookshelf);
+                gameInterfaceController.clearTilesOldParent();
+            }
+
         } else {
-            gameInterfaceController.confirmInput();
+            gameInterfaceController.clearTilesOldParent();
         }
     }
 
@@ -237,7 +261,7 @@ public class MainInterfaceController extends MyShelfieController {
 
     public void receivedMessageOperation(@NotNull Triple<String, List<String>, String> lastMessage) {
 
-        if (lastMessage.getFirst().equals(getGUILauncher().getGUIModel().getThisPlayer()))
+        if (getGUILauncher().isThisPlayer(lastMessage.getFirst()))
             opponentsInterfaceController.manageSentMessage(lastMessage.getSecond(), lastMessage.getThird());
         else
             opponentsInterfaceController.manageReceivedMessage(lastMessage);
@@ -248,12 +272,8 @@ public class MainInterfaceController extends MyShelfieController {
     }
 
     public boolean isThisPlayerPlaying() {
-        return getGUILauncher().getGUIModel().getCurrentPlayer().equals(getGUILauncher().getGUIModel().getCurrentPlayer()) &&
+        return getGUILauncher().isThisPlayer(getGUILauncher().getGUIModel().getCurrentPlayer()) &&
                 gameInterfaceController.boxHasTiles() && gameInterfaceController.boxHasChild();
-    }
-
-    public void undoClientPlayedOperation() {
-        gameInterfaceController.reverseClientPlayed();
     }
 
     public boolean isBoardEmpty() {
@@ -301,7 +321,7 @@ public class MainInterfaceController extends MyShelfieController {
 
     public void firstTimeFillBookshelves(@NotNull Map<String, TileSubject[][]> bookShelves) {
         bookShelves.forEach((nickName, newBookshelf) -> {
-            if (nickName.equals(getGUILauncher().getGUIModel().getThisPlayer()))
+            if (getGUILauncher().isThisPlayer(nickName))
                 gameInterfaceController.fillBookshelf(newBookshelf);
             else
                 opponentsInterfaceController.fillBookshelf(nickName, newBookshelf);
@@ -341,7 +361,7 @@ public class MainInterfaceController extends MyShelfieController {
     }
 
     public void showUpdatesInDisplayContentOperation(String text) {
-        if (getGUILauncher().getGUIModel().getThisPlayer().equals(text))
+        if (getGUILauncher().isThisPlayer(text))
             text = "your";
         else
             text += "'s";
@@ -350,7 +370,7 @@ public class MainInterfaceController extends MyShelfieController {
     }
 
     public void addFirstPlayerSeatOperation(String playerNick) {
-        if (playerNick.equals(getGUILauncher().getGUIModel().getThisPlayer()))
+        if (getGUILauncher().isThisPlayer(playerNick))
             gameInterfaceController.addFirstPlayerSeat();
         else
             opponentsInterfaceController.addFirstPlayerSeatToOpponent(playerNick);
@@ -365,21 +385,21 @@ public class MainInterfaceController extends MyShelfieController {
     }
 
     public void assignScoringToken1(String nickName) {
-        if (getGUILauncher().getGUIModel().getThisPlayer().equals(nickName))
+        if (getGUILauncher().isThisPlayer(nickName))
             gameInterfaceController.startTokenAnimation1();
         else
             transferToken1ToOpponent(nickName);
     }
 
     public void assignScoringToken2(String nickName) {
-        if (getGUILauncher().getGUIModel().getThisPlayer().equals(nickName))
+        if (getGUILauncher().isThisPlayer(nickName))
             gameInterfaceController.startTokenAnimation2();
         else
             transferToken2ToOpponent(nickName);
     }
 
     public void assignEndGameToken(String nickName) {
-        if (nickName.equals(getGUILauncher().getGUIModel().getThisPlayer()))
+        if (getGUILauncher().isThisPlayer(nickName))
             gameInterfaceController.startEndGameTokenAnimation();
         else
             transferEndTokenToOpponent(nickName);
@@ -392,7 +412,7 @@ public class MainInterfaceController extends MyShelfieController {
     }
 
     private void commonGoalScoringTokenGained(String nickName) {
-        if(nickName.equals(getGUILauncher().getGUIModel().getThisPlayer()))
+        if (getGUILauncher().isThisPlayer(nickName))
             gameInterfaceController.forceCommonGoalScoreAssigment(getGUILauncher().getGUIModel().getPlayersPointsByNickname(nickName));
         else
             opponentsInterfaceController.forceCommonGoalScoreAssignment(nickName);

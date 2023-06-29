@@ -439,7 +439,7 @@ public class GameInterfaceController extends MyShelfieController {
         gameBoardViewController.addTileAt(updatedSubject, updatedBoxCoordinate);
     }
 
-    public void reverseClientPlayed() {
+    public void reverseClientPlayedFromBox() {
         restoreClientPlayed(tileBoxChildManager.getAllTilesFromBox());
     }
 
@@ -469,7 +469,7 @@ public class GameInterfaceController extends MyShelfieController {
         reverseButton.setMouseTransparent(!enableState);
     }
 
-    public void confirmInput() {
+    public void clearTilesOldParent() {
         tileBoardBoxOldParentCoordinate.clear();
     }
 

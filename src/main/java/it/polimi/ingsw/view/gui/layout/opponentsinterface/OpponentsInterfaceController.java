@@ -151,7 +151,7 @@ public class OpponentsInterfaceController extends MyShelfieController {
 
         getGUILauncher().getGUIModel().getPlayers()
                 .stream()
-                .filter(nickName -> !nickName.equals(getGUILauncher().getGUIModel().getThisPlayer()))
+                .filter(nickName -> !getGUILauncher().isThisPlayer(nickName))
                 .forEach(nickName -> {
                     allOpponentBookshelf.add(getSingleOpponentBookshelfController(nickName).orElseThrow().getBookshelfState());
                 });
@@ -160,7 +160,7 @@ public class OpponentsInterfaceController extends MyShelfieController {
     }
 
     //For testing
-    public TileSubject[][] getBookshelfFromName(String name) {
+    public TileSubject[][] getOpponentBookshelfFromName(String name) {
         return getSingleOpponentBookshelfController(name).orElseThrow().getOpponentBookshelf();
     }
 
@@ -170,7 +170,7 @@ public class OpponentsInterfaceController extends MyShelfieController {
             opponentsChatInterfaceController
                     .displayReceivedMessage(SingleMessageViewPrivacyType.PUBLIC, lastMessage.getFirst(),
                             lastMessage.getThird());
-        else if (lastMessage.getSecond().size() == 1)
+        else if (lastMessage.getSecond().size() == 1 && getGUILauncher().isThisPlayer(lastMessage.getSecond().get(0)))
             opponentsChatInterfaceController
                     .displayReceivedMessage(SingleMessageViewPrivacyType.PRIVATE, lastMessage.getFirst(),
                             lastMessage.getThird(), lastMessage.getSecond().get(0));

@@ -1,0 +1,39 @@
+#winningPageGraphicalElementsContainer {
+    -fx-background-color: transparent;
+    -fx-spacing: -1em;
+    -fx-alignment: center;
+}
+
+#winningPagePlayerPointContainer {
+    -fx-spacing: 0.7em;
+    -fx-alignment: center;
+}
+
+#winningPagePlayerName {
+    -fx-font-family: 'Special Elite Regular';
+    -fx-alignment: center;
+    -fx-wrap-text: true;
+    -fx-text-fill: rgba(230, 221, 199, 0.97);
+    -fx-font-size: 1.7em;
+}
+
+#winningPagePointProgressBar {
+
+}
+
+#winningPagePointProgressBar > .bar {
+    -fx-background-color: rgba(245, 177, 61, 0.97);
+}
+
+#winningPagePointProgressBar > .track {
+    -fx-text-box-border: rgba(101, 61, 30, 0.93);
+    -fx-control-inner-background: rgba(53, 39, 2, 0.89);
+}
+
+#winningPagePlayerPointValue{
+    -fx-font-family: 'Special Elite Regular';
+    -fx-alignment: center;
+    -fx-wrap-text: true;
+    -fx-text-fill: rgba(230, 221, 199, 0.97);
+    -fx-font-size: 1.4em;
+}

@@ -104,8 +104,12 @@ public class GUI extends UI {
      */
     @Override
     public synchronized void onConnectionLost() {
-
         // TODO: Implement connection lost handling in GUI
+        Platform.runLater(() -> {
+            guiLauncher.showWaitingToReconnect();
+        });
+        getLogicController().reConnect();
+        getLogicController().joinGame(getModel().getThisPlayer());
     }
 
     /**
@@ -133,7 +137,6 @@ public class GUI extends UI {
             guiLauncher.handleAssignedCommonGoals();
             guiLauncher.handleAssignedEndToken();
         });
-
     }
 
     /**
@@ -142,6 +145,8 @@ public class GUI extends UI {
      */
     @Override
     public synchronized void showWinner() {
+        if(getModel().getGameState().equals("END"))
+            guiLauncher.showWinningPageOperation();
         // TODO: Implement displaying the winner in GUI
     }
 
@@ -152,7 +157,6 @@ public class GUI extends UI {
      */
     @Override
     public synchronized void onException() {
-
         Platform.runLater(() -> {
             guiLauncher.handleRemoteException(getModel().getException());
         });
@@ -172,11 +176,14 @@ public class GUI extends UI {
                 if (getModel().getGameState().equals("INIT")) {
                     // If the player has to wait for others
                     // TODO: Handle game state INIT in GUI
+                    guiLauncher.showWaitForPlayers();
 
                 } else if (getModel().getGameState().equals("MID")) {
                     System.out.println("in MID branch");
                     // The game has started and the main interface needs to be displayed
                     // Also called when the game evolves from SUSPENDED to MID
+
+                    guiLauncher.hideWaitingView();
 
                     if(!isGUILauncherSet()) {
                         System.out.println("in if");
@@ -192,10 +199,12 @@ public class GUI extends UI {
                     // The game is blocked and needs to wait for other players
                     // Check that the game was previously in MID and not INIT
                     // TODO: Handle game state SUSPENDED in GUI
+                    guiLauncher.showWaitingToReconnect();
 
                 } else if (getModel().getGameState().equals("FINAL")) {
                     // The last turn needs to be performed
                     // TODO: Handle game state FINAL in GUI
+                    guiLauncher.showWinningPageOperation();
 
                 } else if (getModel().getGameState().equals("END")) {
                     // Display the winner, if present

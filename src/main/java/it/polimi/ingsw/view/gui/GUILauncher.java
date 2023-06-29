@@ -7,6 +7,7 @@ import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieAlertCreato
 import it.polimi.ingsw.view.gui.layout.maininterface.MainInterfaceController;
 import javafx.application.Platform;
 import javafx.stage.Stage;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -108,13 +109,16 @@ public class GUILauncher extends MyShelfieApplication {
         showWaitingView("Waiting for other players to join");
     }
 
+    public void showWaitingToReconnect() {
+        showWaitingView("Connection lost: trying to reconnect");
+    }
+
     /**
      * Navigates to the login page.
      */
     public void goToLoginPage() {
         changeScene(LOGIN_PAGE_LAYOUT);
     }
-
 
     /**
      * Navigates to the main interface.
@@ -215,7 +219,7 @@ public class GUILauncher extends MyShelfieApplication {
         return getGUIModel().getBookShelves()
                 .entrySet()
                 .stream()
-                .filter(entry -> !entry.getKey().equals(getGUIModel().getThisPlayer()))
+                .filter(entry -> !isThisPlayer(entry.getKey()))
                 .collect(HashMap::new, (map, entry) -> map.put(entry.getKey(), entry.getValue()), HashMap::putAll);
     }
 
@@ -228,7 +232,7 @@ public class GUILauncher extends MyShelfieApplication {
         return getGUIModel().getBookShelves()
                 .entrySet()
                 .stream()
-                .filter(entry -> entry.getKey().equals(getGUIModel().getThisPlayer()))
+                .filter(entry -> isThisPlayer(entry.getKey()))
                 .findFirst()
                 .orElse(null);
     }
@@ -244,7 +248,7 @@ public class GUILauncher extends MyShelfieApplication {
     }
 
     private boolean isThisPlayerTurn() {
-        return getGUIModel().getCurrentPlayer().equals(getGUIModel().getThisPlayer());
+        return isThisPlayer(getGUIModel().getCurrentPlayer());
     }
 
     /**
@@ -321,5 +325,29 @@ public class GUILauncher extends MyShelfieApplication {
                 .filter(entry -> entry.getValue().get(3).equals(1))
                 .map(Map.Entry::getKey)
                 .findFirst();
+    }
+
+    public void showWinningPageOperation() {
+        showWinningPage(getGUIModel().getWinnerPlayer(), getPlayersPointMap(), isThisPlayerWinning());
+    }
+
+    public boolean isThisPlayerWinning() {
+        return isThisPlayer(getGUIModel().getThisPlayer());
+    }
+
+    public boolean isThisPlayer(String playerNick) {
+        return getGUIModel().getThisPlayer().equals(playerNick);
+    }
+
+    @NotNull
+    @Contract(pure = true)
+    private Map<String, Integer> getPlayersPointMap() {
+        Map<String, Integer> playerPointMap = new HashMap<>();
+
+        getGUIModel().getPlayers().forEach(nickName -> {
+            playerPointMap.put(nickName, getGUIModel().getTotalPointByNickname(nickName));
+        });
+
+        return playerPointMap;
     }
 }

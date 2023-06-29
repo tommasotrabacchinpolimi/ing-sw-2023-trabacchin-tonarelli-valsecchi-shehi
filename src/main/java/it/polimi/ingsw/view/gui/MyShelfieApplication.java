@@ -2,25 +2,22 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.view.gui.customcomponents.waitingpage.WaitingPage;
 import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieAlertCreator;
+import it.polimi.ingsw.view.gui.customcomponents.waitingpage.WinningPage;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.stage.*;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.Objects;
-
-import static it.polimi.ingsw.utils.color.MyShelfieColor.BONE;
-import static it.polimi.ingsw.utils.color.MyShelfieColor.RED_RUBY;
 
 /**
  * <p>This class is used to define some default path and commands allowed
@@ -96,6 +93,8 @@ public abstract class MyShelfieApplication extends Application {
     private WindowSizeChangeListener windowSizeChangeListener;
 
     private WaitingPage waitingPage = null;
+
+    private WinningPage winningPage = null;
 
     /**
      * This method loads the font in the graphical user interface
@@ -523,18 +522,36 @@ public abstract class MyShelfieApplication extends Application {
      * @param waitingText the text to be displayed in the waiting view
      */
     protected void showWaitingView(String waitingText) {
-        waitingPage = new WaitingPage(scene, waitingText);
+        if(waitingPage == null)
+            waitingPage = new WaitingPage(scene, waitingText);
     }
 
     /**
      * Hides the waiting view.
      */
     protected void hideWaitingView() {
-        waitingPage.hideWaiting();
+        if(waitingPage == null)
+            return;
+
+        waitingPage.hidePage();
         waitingPage = null;
     }
 
     public boolean isInWaiting() {
         return waitingPage != null;
+    }
+
+    public void showWinningPage(String winner, Map<String, Integer> pointPlayerDisplay, boolean isThisPlayer) {
+        if (winner == null)
+            winningPage = new WinningPage(scene, "The game is over", pointPlayerDisplay);
+        else if (isThisPlayer)
+            winningPage = new WinningPage(scene, "You are the winner", pointPlayerDisplay);
+        else
+            winningPage = new WinningPage(scene, winner + "is the winner", pointPlayerDisplay);
+    }
+
+    protected void hideWinningView() {
+        winningPage.hidePage();
+        winningPage = null;
     }
 }
