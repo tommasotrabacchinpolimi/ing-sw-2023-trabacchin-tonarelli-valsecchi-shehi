@@ -30,11 +30,11 @@ public abstract class Page {
     /**
      * Attribute that represents the {@link PrintStream output stream}.
      */
-    private PrintStream out;
+    private final PrintStream out;
     /**
      * Attribute that represents {@link TUI} instance associated with this page.
      */
-    private TUI tui;
+    private final TUI tui;
     /**
      * Constant that represents the number of rows and columns of the square board.
      */

@@ -25,7 +25,7 @@ public class HomePage extends Page{
     /**
      * Attribute that represents the {@link PrintStream output stream}.
      */
-    private PrintStream out;
+    private final PrintStream out;
 
     /**
      * Constructs a new HomePage object with the given {@link TUI} (Text User Interface).
@@ -224,7 +224,7 @@ public class HomePage extends Page{
         int n; //number of print
         int c; //starting column
         int i;
-        StringBuilder result = new StringBuilder("");
+        StringBuilder result = new StringBuilder();
 
         result.append((char) (r + 'A')).append("  ");
 
@@ -246,7 +246,6 @@ public class HomePage extends Page{
                 c = 4;
             }
             default -> {
-                result.append("");
                 c = 0;
             }
         }
@@ -270,7 +269,7 @@ public class HomePage extends Page{
             result.append( colorize("   │", MyShelfieAttribute.TEXT_COLOR(245,245,246)) );
         }
 
-        out.print(result.toString());
+        out.print(result);
     }
 
     /**
