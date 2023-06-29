@@ -144,10 +144,8 @@ public class GUI extends UI {
                 throw new RuntimeException(e);
             }
         }
-        System.err.println("Sto eseguendo il onCurrentPlayerChanged");
 
         Platform.runLater(() -> {
-            System.err.println("Sto eseguendo la runLater del onCurrentPlayerChanged");
             guiLauncher.handleInfoTextDisplay();
             guiLauncher.handleLivingRoomUpdate();
             guiLauncher.handleBlockGameControls();
