@@ -85,7 +85,7 @@ public class AskPort extends Input {
                     getTUI().setLogicController(client);
                     getTUI().setCurrentInput(new AskNickname(getTUI(), getOut()));
                 } catch(Exception ex) {
-                    getOut().println("Network error");
+                    getOut().println("Unable to connect. The application will be closed.");
                     System.exit(0);
                 }
             }
@@ -96,7 +96,7 @@ public class AskPort extends Input {
                     getTUI().setLogicController(client);
                     getTUI().setCurrentInput(new AskNickname(getTUI(), getOut()));
                 } catch(Exception ex) {
-                    getOut().println("Network error");
+                    getOut().println("Unable to connect. The application will be closed.");
                     System.exit(0);
                 }
             }
