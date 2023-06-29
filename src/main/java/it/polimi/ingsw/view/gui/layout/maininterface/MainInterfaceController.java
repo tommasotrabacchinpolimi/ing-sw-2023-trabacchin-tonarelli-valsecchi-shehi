@@ -223,21 +223,11 @@ public class MainInterfaceController extends MyShelfieController {
             );*/
 
             gameInterfaceController.reverseClientPlayedFromBox();
-
             gameInterfaceController.clearTilesOldParent();
 
-        } else if (differentTilesInBookshelf.size() > 0) {
-            MyShelfieAlertCreator.displayErrorAlert(
-                    "There was a problem with the communication with the server, the operation done will be rejected",
-                    "Cannot perform the played"
-            );
+        } else if (differentTilesInBookshelf.size() > 0 && tilesTakenFromBoard.size() == 0) {
+            gameInterfaceController.transferTilesToBookshelf();
 
-            if (differentTilesInBookshelf.size() > 0) {
-                gameInterfaceController.restoreClientPlayed(differentTilesInBookshelf);
-                gameInterfaceController.clearTilesOldParent();
-            }
-
-        } else {
             gameInterfaceController.clearTilesOldParent();
         }
     }

@@ -285,13 +285,9 @@ public class GameInterfaceController extends MyShelfieController {
             } else {
                 if (gamePersonalBookshelfController.getSelectedColumn() != -1) {
 
-                    gamePersonalBookshelfController.insertTilesInBookshelf(tileBoxChildManager.getOrderedTilesFromBox(),
-                            gamePersonalBookshelfController.getSelectedColumn());
-
                     getLogicController().dragTilesToBookShelf( getOrderedCoordinateTiles(tileBoxChildManager.getOrderedTilesFromBox()),
                             gamePersonalBookshelfController.getSelectedColumn());
 
-                    gamePersonalBookshelfController.deselectAnyColumn();
                 } else {
                     MyShelfieAlertCreator.displayInformationAlert(
                             "Before putting the tiles in your bookshelf, choose a column",
@@ -302,6 +298,13 @@ public class GameInterfaceController extends MyShelfieController {
                 }
             }
         }
+    }
+
+    public void transferTilesToBookshelf() {
+        gamePersonalBookshelfController.insertTilesInBookshelf(tileBoxChildManager.getOrderedTilesFromBox(),
+                gamePersonalBookshelfController.getSelectedColumn());
+
+        gamePersonalBookshelfController.deselectAnyColumn();
     }
 
     private void fromBoardToBoxOperations(TileSubjectView tile) {
