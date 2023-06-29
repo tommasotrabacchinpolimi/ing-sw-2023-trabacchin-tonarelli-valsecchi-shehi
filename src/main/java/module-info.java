@@ -21,7 +21,7 @@ module it.polimi.ingsw {
     requires annotations;
 
 
-    opens it.polimi.ingsw.net;
+    opens it.polimi.ingsw.netttt;
 
 
     exports it.polimi.ingsw.controller to java.rmi;
@@ -98,10 +98,10 @@ module it.polimi.ingsw {
     exports it.polimi.ingsw.view.gui.layout.chatpage to javafx.fxml, javafx.graphics;
     opens it.polimi.ingsw.view.gui.layout.chatpage to javafx.fxml, javafx.graphics;
 
-    opens it.polimi.ingsw.net_alternative;
-    exports it.polimi.ingsw.net_alternative;
-    exports it.polimi.ingsw.net_alternative.servermessages;
-    exports it.polimi.ingsw.net_alternative.clientmessage;
+    opens it.polimi.ingsw.net;
+    exports it.polimi.ingsw.net;
+    exports it.polimi.ingsw.net.servermessages;
+    exports it.polimi.ingsw.net.clientmessage;
     exports it.polimi.ingsw to java.rmi;
     opens it.polimi.ingsw;
     exports it.polimi.ingsw.view.gui.customcomponents.waitingpage to javafx.fxml, javafx.graphics;

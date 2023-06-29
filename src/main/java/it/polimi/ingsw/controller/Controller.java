@@ -2,7 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.controller.timing.TimingStateMachine;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.net_alternative.OnServerConnectionLostListener;
+import it.polimi.ingsw.net.OnServerConnectionLostListener;
 import it.polimi.ingsw.utils.Coordinate;
 
 import java.io.FileNotFoundException;

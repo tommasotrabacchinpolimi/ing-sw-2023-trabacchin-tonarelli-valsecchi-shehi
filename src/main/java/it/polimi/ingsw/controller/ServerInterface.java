@@ -1,6 +1,5 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.net.RemoteInterface;
 import it.polimi.ingsw.utils.Coordinate;
 
 import java.util.List;

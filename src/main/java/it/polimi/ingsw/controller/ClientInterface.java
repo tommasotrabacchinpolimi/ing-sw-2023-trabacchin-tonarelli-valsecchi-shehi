@@ -3,8 +3,6 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.controller.listeners.*;
 import it.polimi.ingsw.controller.listeners.OnWinnerChangedListener;
 
-import it.polimi.ingsw.net_alternative.OnClientConnectionLostListener;
-
 /**
  * <p>Represents a "physical" user that wants to play the game.</p>
  * <p>This class is used as a sort of model for remote calls</p>
