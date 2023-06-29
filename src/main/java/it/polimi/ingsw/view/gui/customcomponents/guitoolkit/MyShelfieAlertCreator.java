@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.gui.customcomponents.guitoolkit;
 import it.polimi.ingsw.view.gui.customcomponents.MyShelfieGraphicIcon;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.Region;
 import org.jetbrains.annotations.NotNull;
 
@@ -48,11 +49,45 @@ public final class MyShelfieAlertCreator {
      */
     private final static String INFORMATION_ICON = "/it.polimi.ingsw/graphical.resources/icons/info_book_icon.png";
 
+    private final static String CONFIRMATION_ICON = "/it.polimi.ingsw/graphical.resources/item.tiles/plant_basil.png";
+
+    private final static double DEFAULT_GRAPHIC_SIZE = 2.5;
+
     /**
      * Default constructor made private, so no one
      * can create an instance of this class
      */
     private MyShelfieAlertCreator(){
+    }
+
+    private static Alert displayAlert(Alert.AlertType alertType, String contentText, String headerText, Node graphic, boolean display) {
+        Alert alert = new Alert(alertType);
+
+        alert.setContentText(contentText);
+        alert.setHeaderText(headerText);
+
+        if(graphic == null){
+            switch (alertType){
+                case ERROR -> graphic = new MyShelfieGraphicIcon(ERROR_ICON, DEFAULT_GRAPHIC_SIZE);
+                case WARNING -> graphic = new MyShelfieGraphicIcon(WARNING_ICON, DEFAULT_GRAPHIC_SIZE);
+                case INFORMATION -> graphic = new MyShelfieGraphicIcon(INFORMATION_ICON, DEFAULT_GRAPHIC_SIZE);
+                case CONFIRMATION -> graphic = new MyShelfieGraphicIcon(CONFIRMATION_ICON, DEFAULT_GRAPHIC_SIZE);
+            }
+        }
+
+        alert.setGraphic(graphic);
+
+        alert.getDialogPane().getStylesheets().add(
+                Objects.requireNonNull(
+                        MyShelfieAlertCreator.class.getResource(ALERT_STYLE_SHEET)
+                ).toExternalForm());
+        alert.getDialogPane().setMinWidth(Region.USE_PREF_SIZE);
+        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+
+        if(display)
+            alert.showAndWait();
+
+        return alert;
     }
 
     /**
@@ -77,31 +112,7 @@ public final class MyShelfieAlertCreator {
      */
     @NotNull
     private static Alert displayAlert(Alert.AlertType alertType, String contentText, String headerText, Node graphic) {
-        Alert alert = new Alert(alertType);
-
-        alert.setContentText(contentText);
-        alert.setHeaderText(headerText);
-
-        if(graphic == null){
-            switch (alertType){
-                case ERROR -> graphic = new MyShelfieGraphicIcon(ERROR_ICON, 2.5);
-                case WARNING -> graphic = new MyShelfieGraphicIcon(WARNING_ICON, 2.5);
-                case INFORMATION -> graphic = new MyShelfieGraphicIcon(INFORMATION_ICON, 2.5);
-            }
-        }
-
-        alert.setGraphic(graphic);
-
-        alert.getDialogPane().getStylesheets().add(
-                Objects.requireNonNull(
-                        MyShelfieAlertCreator.class.getResource(ALERT_STYLE_SHEET)
-                ).toExternalForm());
-        alert.getDialogPane().setMinWidth(Region.USE_PREF_SIZE);
-        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-
-        alert.showAndWait();
-
-        return alert;
+        return displayAlert(alertType, contentText, headerText, graphic, true);
     }
 
     /**
@@ -292,5 +303,12 @@ public final class MyShelfieAlertCreator {
     @NotNull
     public static Alert displayInformationAlert(@NotNull Exception e) {
         return displayInformationAlert(e.getMessage(), e.getCause().toString());
+    }
+
+    public static Optional<ButtonType> displayConfirmationAlert() {
+        return displayAlert(Alert.AlertType.CONFIRMATION,
+                "If you quit the application you are going to leave the game",
+                "Are you sure to quit?",
+                null, false).showAndWait();
     }
 }

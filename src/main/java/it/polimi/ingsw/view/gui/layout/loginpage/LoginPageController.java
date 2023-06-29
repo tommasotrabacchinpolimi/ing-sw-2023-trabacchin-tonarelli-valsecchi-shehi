@@ -239,6 +239,8 @@ public class LoginPageController extends MyShelfieController {
 
     private void disappearingElements(List<Node> nodes) {
         nodes.forEach(node -> {
+            node.setFocusTraversable(false);
+            node.setDisable(true);
             fadeElement(node, 1.0, 0.0);
         });
     }
