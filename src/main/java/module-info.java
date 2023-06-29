@@ -21,9 +21,6 @@ module it.polimi.ingsw {
     requires annotations;
 
 
-    opens it.polimi.ingsw.netttt;
-
-
     exports it.polimi.ingsw.controller to java.rmi;
     opens it.polimi.ingsw.controller;
 
