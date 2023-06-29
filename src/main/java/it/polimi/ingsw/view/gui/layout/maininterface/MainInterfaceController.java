@@ -216,13 +216,13 @@ public class MainInterfaceController extends MyShelfieController {
 
         List<TileSubjectView> differentTilesInBookshelf = getDifferentTileFromBookshelf(thisPlayerUpdatedBookshelf.getValue());
 
-        if (tilesTakenFromBoard.size() > 0 && !isThisPlayerPlaying()) {
-            MyShelfieAlertCreator.displayErrorAlert(
+        if (tilesTakenFromBoard.size() > 0 && differentTilesInBookshelf.size() == 0) {
+            /*MyShelfieAlertCreator.displayErrorAlert(
                     "There was a problem with the communication with the server, the operation done will be rejected",
                     "Cannot perform the played"
-            );
+            );*/
 
-            gameInterfaceController.restoreClientPlayed(tilesTakenFromBoard);
+            gameInterfaceController.reverseClientPlayedFromBox();
 
             gameInterfaceController.clearTilesOldParent();
 
