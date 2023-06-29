@@ -198,6 +198,7 @@ public class GUILauncher extends MyShelfieApplication {
     public void handleLivingRoomUpdate() {
         if (getMainInterfaceController().isBoardEmpty() && getMainInterfaceController().areAllBookshelfEmpty()) {
             Platform.runLater(() -> {
+                getGUIModel().getMessages().forEach(this::handleNewMessage);
                 getMainInterfaceController().firstTimeFillBoard(getGUIModel().getBoard());
                 getMainInterfaceController().firstTimeFillBookshelves(getGUIModel().getBookShelves());
                 getMainInterfaceController().showGoalsOperation();

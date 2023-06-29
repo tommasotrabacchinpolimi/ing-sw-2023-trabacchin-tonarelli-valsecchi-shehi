@@ -114,7 +114,6 @@ public class LoginPageController extends MyShelfieController {
             getNickNameFromField();
 
             getLogicController().joinGame(nickName);
-
             getGUILauncher().showWaitForPlayers();
         }
     }

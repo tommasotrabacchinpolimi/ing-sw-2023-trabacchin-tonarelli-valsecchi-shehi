@@ -6,6 +6,7 @@ import it.polimi.ingsw.net.OnServerConnectionLostListener;
 import it.polimi.ingsw.utils.Coordinate;
 
 import java.io.FileNotFoundException;
+import java.net.URISyntaxException;
 import java.util.List;
 
 /**
@@ -71,7 +72,7 @@ public class Controller implements OnServerConnectionLostListener, ControllerInt
      * @see ChatManager
      * @see TimingStateMachine
      */
-    public Controller(State state, LobbyController lobbyController, long delay, int numberOfPlayer) throws FileNotFoundException {
+    public Controller(State state, LobbyController lobbyController, long delay, int numberOfPlayer) throws FileNotFoundException, URISyntaxException {
         this.state = state;
         this.lobbyController = lobbyController;
         this.gameManager = new InitGameManager(this);

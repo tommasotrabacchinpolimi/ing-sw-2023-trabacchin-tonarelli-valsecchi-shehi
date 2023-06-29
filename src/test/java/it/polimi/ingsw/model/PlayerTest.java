@@ -9,7 +9,8 @@ import java.io.FileNotFoundException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PlayerTest<R extends ClientInterface> {
+class PlayerTest {
+    private final String prefix = "/it.polimi.ingsw/personal.goal.configuration/";
     TileSubject[][] matrix = new TileSubject[][]{
             {TileSubject.BOOK_NOTE, TileSubject.GAME_RISIKO, TileSubject.TROPHY_MUSIC, TileSubject.BOOK_DICTIONARY, TileSubject.PLANT_BASIL},
             {TileSubject.BOOK_COMIC, TileSubject.PLANT_BASIL, TileSubject.BOOK_DICTIONARY, TileSubject.GAME_CHESS, TileSubject.GAME_MONOPOLY},
@@ -98,7 +99,7 @@ class PlayerTest<R extends ClientInterface> {
         OnAssignedPersonalGoalListener listener = (nickname, goalPattern, scoreMap) -> assertEquals("P", nickname);
         Player p = new Player("P");
         p.setOnAssignedPersonalGoalListener(listener);
-        p.setPersonalGoal(new PersonalGoal("pattern_1"));
+        p.setPersonalGoal(new PersonalGoal(prefix + "pattern_1.json"));
         p.removeOnAssignedPersonalGoalListener(listener);
     }
 

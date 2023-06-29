@@ -19,7 +19,8 @@ class PersonalGoalTest {
 
     private final static int PATTERN_NUMBER = 10; //number of total patterns
     private final static Random RANDOM = new Random();
-    private final String inputFileName = "pattern_" + RANDOM.nextInt(1,13);
+    private final String prefix = "/it.polimi.ingsw/personal.goal.configuration/";
+    private final String inputFileName = prefix + "pattern_" + RANDOM.nextInt(1,13);
 
     @Test
     void getGoalPattern(){
@@ -27,8 +28,8 @@ class PersonalGoalTest {
         PersonalGoal personalGoal1;
 
         try {
-            personalGoal = new PersonalGoal("pattern_1");
-            personalGoal1 = new PersonalGoal("pattern_2");
+            personalGoal = new PersonalGoal(prefix +"pattern_1.json");
+            personalGoal1 = new PersonalGoal(prefix + "pattern_2.json");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             personalGoal = new PersonalGoal();
@@ -48,11 +49,8 @@ class PersonalGoalTest {
         PersonalGoal personalGoal1;
 
         try {
-            personalGoal = new PersonalGoal("pattern_1");
-            personalGoal1 = new PersonalGoal("pattern_" +
-                    "" +
-                    "" +
-                    "2");
+            personalGoal = new PersonalGoal(prefix + "pattern_1.json");
+            personalGoal1 = new PersonalGoal(prefix + "pattern_2.json");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             personalGoal = new PersonalGoal();
@@ -71,7 +69,7 @@ class PersonalGoalTest {
         PersonalGoal personalGoal;
 
         try {
-            personalGoal = new PersonalGoal("pattern_1");
+            personalGoal = new PersonalGoal(prefix + "pattern_1.json");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             personalGoal = new PersonalGoal();
@@ -97,8 +95,8 @@ class PersonalGoalTest {
         PersonalGoal personalGoal1;
         PersonalGoal personalGoal2;
         try {
-            personalGoal1 = new PersonalGoal("pattern_1");
-            personalGoal2 = new PersonalGoal("pattern_2");
+            personalGoal1 = new PersonalGoal(prefix + "pattern_1.json");
+            personalGoal2 = new PersonalGoal(prefix + "pattern_2.json");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             personalGoal1 = new PersonalGoal();

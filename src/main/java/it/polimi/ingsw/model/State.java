@@ -580,6 +580,11 @@ public class State implements Serializable, OnUpdateNeededListener {
         return players;
     }
 
+    public void shufflePlayers() {
+        Collections.rotate(getPlayers(), new Random().nextInt(6));
+        notifyOnPlayersListChanged();
+    }
+
     /**
      * Method that gets the list of players of the game.
      * @param players The list of {@link Player players} that will be set to {@link State#players}.
@@ -593,6 +598,8 @@ public class State implements Serializable, OnUpdateNeededListener {
         }
         this.players = players;
     }
+
+
 
     /**
      * Method that adds a {@link Player player} to the list {@link State#players}.
@@ -970,9 +977,15 @@ public class State implements Serializable, OnUpdateNeededListener {
      * @see OnPlayersListChangedListener
      */
     private void notifyOnPlayersListChanged() {
+        ArrayList<String> list = new ArrayList<>();
+        for(Player player : players) {
+            list.add(player.getNickName());
+        }
+        System.out.println("players list notified " + list);
         for(OnPlayersListChangedListener onPlayersListChangedListener : onPlayersListChangedListeners) {
-            onPlayersListChangedListener.onPlayersListChanged(players.stream().map(Player::getNickName).toList());
-            System.out.println("players list notified");
+
+            onPlayersListChangedListener.onPlayersListChanged(list);
+
         }
     }
 

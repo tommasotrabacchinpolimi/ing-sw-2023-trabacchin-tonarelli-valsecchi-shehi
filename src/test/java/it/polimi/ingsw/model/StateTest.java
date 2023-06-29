@@ -10,6 +10,8 @@ import java.util.*;
 
 class StateTest {
 
+    private final String prefix = "/it.polimi.ingsw/personal.goal.configuration/";
+
     public State createStateWithPlayers(){
         State state = new State();
         Player p1, p2, p3, p4;
@@ -207,7 +209,7 @@ class StateTest {
             }
         }
         p.setPointPlayer(new PointPlayer());
-        PersonalGoal goal = new PersonalGoal("pattern_1");
+        PersonalGoal goal = new PersonalGoal(prefix + "pattern_1.json");
         p.setPersonalGoal(goal);
         OnAchievedPersonalGoalListener listener = (nickname, tiles) -> assertEquals(p.getNickName(), nickname);
         state.setOnAchievedPersonalGoalListener(listener);

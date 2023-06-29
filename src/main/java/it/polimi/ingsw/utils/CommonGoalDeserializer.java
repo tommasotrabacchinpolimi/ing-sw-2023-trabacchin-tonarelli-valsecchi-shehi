@@ -9,9 +9,7 @@ import it.polimi.ingsw.model.*;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -32,7 +30,7 @@ public final class CommonGoalDeserializer {
     /**
      * Constant representing the common goal file path
      */
-    private static final String COMMON_GOAL_CONFIGURATION = "./src/main/resources/it.polimi.ingsw/common.goal.configuration/";
+    private static final String COMMON_GOAL_CONFIGURATION = "/it.polimi.ingsw/common.goal.configuration/";
 
     /**
      * Added a private constructor to prevent the instance
@@ -51,12 +49,54 @@ public final class CommonGoalDeserializer {
      * @see StairCommonGoal
      * @see TupleCommonGoal
      */
-    public static Set<CommonGoal> getCommonGoalsDeck(){
+
+    public static Set<CommonGoal> getCommonGoalsDeck() {
+        Set<CommonGoal> commonGoalDeck = new HashSet<>();
+
+        for(int i = 1; i <= 4; i++) {
+            commonGoalDeck.add(new GsonBuilder()
+                    .setExclusionStrategies(new JSONExclusionStrategy())
+                    .create()
+                    .fromJson(
+                            new BufferedReader(new InputStreamReader(Objects.requireNonNull(CommonGoalDeserializer.class.getResourceAsStream(COMMON_GOAL_CONFIGURATION + "LineCommonGoal/"+i+".json")))),
+                            LineCommonGoal.class));
+        }
+
+        for(int i = 1; i <= 3; i++) {
+            commonGoalDeck.add(new GsonBuilder()
+                    .setExclusionStrategies(new JSONExclusionStrategy())
+                    .create()
+                    .fromJson(
+                            new BufferedReader(new InputStreamReader(Objects.requireNonNull(CommonGoalDeserializer.class.getResourceAsStream(COMMON_GOAL_CONFIGURATION + "ShapeCommonGoal/"+i+".json")))),
+                            ShapeCommonGoal.class));
+        }
+
+        for(int i = 1; i <= 1; i++) {
+            commonGoalDeck.add(new GsonBuilder()
+                    .setExclusionStrategies(new JSONExclusionStrategy())
+                    .create()
+                    .fromJson(
+                            new BufferedReader(new InputStreamReader(Objects.requireNonNull(CommonGoalDeserializer.class.getResourceAsStream(COMMON_GOAL_CONFIGURATION + "StairCommonGoal/"+i+".json")))),
+                            StairCommonGoal.class));
+        }
+
+        for(int i = 1; i <= 4; i++) {
+            commonGoalDeck.add(new GsonBuilder()
+                    .setExclusionStrategies(new JSONExclusionStrategy())
+                    .create()
+                    .fromJson(
+                            new BufferedReader(new InputStreamReader(Objects.requireNonNull(CommonGoalDeserializer.class.getResourceAsStream(COMMON_GOAL_CONFIGURATION + "TupleCommonGoal/"+i+".json")))),
+                            TupleCommonGoal.class));
+        }
+        return commonGoalDeck;
+
+    }
+   /* public static Set<CommonGoal> getCommonGoalsDeck(){
         return getCommonGoalClasses().stream()
                 .map(CommonGoalDeserializer::getCommonGoalConfig)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toSet());
-    }
+    }*/
 
     /**
      * Retrieves all the classes that represent a
@@ -108,6 +148,8 @@ public final class CommonGoalDeserializer {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+
 
         return commonGoalClassesName;
     }

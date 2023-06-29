@@ -117,7 +117,7 @@ public class PersonalGoal implements Serializable {
      *          and the maximum number of tiles that needs to be checked the card
      * @see PersonalGoal
      */
-    public PersonalGoal(String fileName) throws FileNotFoundException{
+    /*public PersonalGoal(String fileName) throws FileNotFoundException{
 
         this((PersonalGoal)  new GsonBuilder()
                 .setExclusionStrategies(new JSONExclusionStrategy())
@@ -127,7 +127,19 @@ public class PersonalGoal implements Serializable {
                                 new FileReader( PERSONAL_GOAL_CONFIG + fileName + ".json")),
                         PersonalGoal.class));
 
+    }*/
+
+    public PersonalGoal(String fileName) throws FileNotFoundException{
+
+        this((PersonalGoal)  new GsonBuilder()
+                .setExclusionStrategies(new JSONExclusionStrategy())
+                .create()
+                .fromJson(
+                       new BufferedReader(new InputStreamReader(Objects.requireNonNull(PersonalGoal.class.getResourceAsStream(fileName)))),
+                        PersonalGoal.class));
+
     }
+
 
     /**
      * @return goal pattern configuration represented in the personal goal card

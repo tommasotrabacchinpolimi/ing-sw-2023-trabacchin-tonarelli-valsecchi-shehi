@@ -11,6 +11,7 @@ import it.polimi.ingsw.net.OnServerConnectionLostListener;
 
 import java.io.FileNotFoundException;
 import java.lang.reflect.Method;
+import java.net.URISyntaxException;
 import java.rmi.RemoteException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -183,7 +184,7 @@ public class LobbyController
      */
     @Override
     public synchronized void createGame(ClientInterface user, String nickname, int numberOfPlayer)
-            throws AlreadyTakenNicknameException, AlreadyInGameException, FileNotFoundException, WrongNumberOfPlayersException {
+            throws AlreadyTakenNicknameException, AlreadyInGameException, FileNotFoundException, WrongNumberOfPlayersException, URISyntaxException {
         if(!(numberOfPlayer>=2 && numberOfPlayer<=4)) {
             WrongNumberOfPlayersException wrongNumberOfPlayersException = new WrongNumberOfPlayersException();
             user.onException(nickname, wrongNumberOfPlayersException);
@@ -415,7 +416,7 @@ public class LobbyController
      * @see Controller#registerPlayer(ClientInterface user, String nickname)
      * @see Controller#setNumberPlayers(int numberOfPlayer)
      */
-    private void createNewGame(ClientInterface user, String nickname, int numberOfPlayer) throws FileNotFoundException {
+    private void createNewGame(ClientInterface user, String nickname, int numberOfPlayer) throws FileNotFoundException, URISyntaxException {
         State state = new State();
         state.setPlayersNumber(numberOfPlayer);
         Controller controller = new Controller(state, this, delay, numberOfPlayer);

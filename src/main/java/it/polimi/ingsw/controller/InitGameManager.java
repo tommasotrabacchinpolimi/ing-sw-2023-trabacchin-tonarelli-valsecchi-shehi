@@ -6,6 +6,8 @@ import it.polimi.ingsw.utils.Coordinate;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.util.*;
 
 /**
@@ -28,7 +30,7 @@ public class InitGameManager extends GameManager {
     /**
      * Full path to personal goal resources
      */
-    private static final String PERSONAL_GOAL_CONFIGURATION = "./src/main/resources/it.polimi.ingsw/personal.goal.configuration/";
+    private static final String PERSONAL_GOAL_CONFIGURATION = "/it.polimi.ingsw/personal.goal.configuration/";
     /**
      * List of all personal goals available in the game.
      * @see PersonalGoal
@@ -46,7 +48,7 @@ public class InitGameManager extends GameManager {
      * @throws FileNotFoundException if the personal goals configuration files are not found.
      * @see Controller
      */
-    public InitGameManager(Controller controller) throws FileNotFoundException {
+    public InitGameManager(Controller controller) throws FileNotFoundException, URISyntaxException {
         super(controller);
         initPersonalGoals();
         initCommonGoals();
@@ -60,18 +62,10 @@ public class InitGameManager extends GameManager {
      * @throws FileNotFoundException if the personal goal configuration folder cannot be found
      * @see PersonalGoal
      */
-    private void initPersonalGoals() throws FileNotFoundException {
-        File rootFolder = new File(PERSONAL_GOAL_CONFIGURATION);
-        File[] files = rootFolder.listFiles(File::isFile);
+    private void initPersonalGoals() throws FileNotFoundException, URISyntaxException {
         personalGoalsDeck = new ArrayList<>();
-
-        assert files != null;
-
-        for(File file : files) {
-            if(!file.getName().endsWith("map.json")) { //temporary fix
-                personalGoalsDeck.add(new PersonalGoal(file.getName().split("\\.")[0]));
-            }
-
+        for(int i = 1; i <= 12; i++) {
+            personalGoalsDeck.add(new PersonalGoal(PERSONAL_GOAL_CONFIGURATION + "pattern_"+i+".json"));
         }
         Collections.shuffle(personalGoalsDeck);
     }
@@ -158,15 +152,13 @@ public class InitGameManager extends GameManager {
         }
 
         if(getController().getState().getPlayers().size() == getController().getState().getPlayersNumber()) {
-            //getController().getState().setCommonGoal1(commonGoalsDeck.remove(0));
-            //getController().getState().setCommonGoal2(commonGoalsDeck.remove(0));
             getController().getState().setCommonGoal1(commonGoalsDeck.remove(0));
             getController().getState().setCommonGoal2(commonGoalsDeck.remove(0));
             getController().getState().getBoard().refillBoard(getController().getState().getPlayersNumber());
             for(Player rPlayer : getController().getState().getPlayers()) {
                 rPlayer.setPersonalGoal(personalGoalsDeck.remove(0));
             }
-            Collections.rotate(getController().getState().getPlayers(), new Random().nextInt(6));
+            getController().getState().shufflePlayers();
             //if(checkIfNotSuspended()){
                 //System.out.println("state updated");
                 getController().getState().setGameState(GameState.MID);

@@ -1,8 +1,12 @@
 package it.polimi.ingsw.view.gui.customcomponents;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
+import it.polimi.ingsw.controller.JSONExclusionStrategy;
+import it.polimi.ingsw.model.LineCommonGoal;
 import it.polimi.ingsw.model.TileType;
+import it.polimi.ingsw.utils.CommonGoalDeserializer;
 import it.polimi.ingsw.utils.Coordinate;
 import it.polimi.ingsw.view.gui.customcomponents.decorations.MyShelfieComponent;
 import it.polimi.ingsw.view.gui.customcomponents.decorations.MyShelfieDarkShadow;
@@ -15,9 +19,7 @@ import javafx.scene.layout.Pane;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.util.*;
 
@@ -98,11 +100,19 @@ public class PersonalGoalView extends Pane implements MyShelfieComponent {
         Gson gson = new Gson();
 
         try {
-            File personalGoalMapFile = new File(Objects.requireNonNull(getClass().getResource(PERSONAL_GOAL_MAP)).toURI());
-            JsonReader jsonReader = new JsonReader(new FileReader(personalGoalMapFile));
+            //File personalGoalMapFile = new File(Objects.requireNonNull(getClass().getResource(PERSONAL_GOAL_MAP)).toURI());
+            //JsonReader jsonReader = new JsonReader(new FileReader(personalGoalMapFile));
+
+           Map map = new GsonBuilder()
+                    .setExclusionStrategies(new JSONExclusionStrategy())
+                    .create()
+                    .fromJson(
+                            new BufferedReader(new InputStreamReader(Objects.requireNonNull(PersonalGoalView.class.getResourceAsStream(PERSONAL_GOAL_MAP)))),
+                            Map.class);
+
 
             //Map<Image, TileType configuration>
-            Map<String, TileType[][]> personalGoalMap = fromScratchMapToTileType(gson.fromJson(jsonReader, Map.class));
+            Map<String, TileType[][]> personalGoalMap = fromScratchMapToTileType(map);
 
             fileImage = personalGoalMap.keySet()
                     .stream()
@@ -115,7 +125,7 @@ public class PersonalGoalView extends Pane implements MyShelfieComponent {
 
             fileImage += ".png";
 
-        } catch (FileNotFoundException | NoSuchElementException | URISyntaxException e) {
+        } catch (NoSuchElementException e) {
             MyShelfieAlertCreator.displayErrorAlert(
                     "The file containing the configuration of personal goals was not found",
                     "Error in loading personal goal image");
