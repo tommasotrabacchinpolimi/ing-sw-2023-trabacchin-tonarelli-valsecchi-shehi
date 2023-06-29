@@ -2,14 +2,13 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.controller.exceptions.AlreadyInGameException;
 import it.polimi.ingsw.controller.exceptions.AlreadyTakenNicknameException;
-import it.polimi.ingsw.controller.exceptions.WrongChosenTilesFromBoardException;
 import it.polimi.ingsw.controller.exceptions.WrongNumberOfPlayersException;
 import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerState;
 import it.polimi.ingsw.model.State;
-import it.polimi.ingsw.net.*;
-import it.polimi.ingsw.net_alternative.OnServerConnectionLostListener;
+import it.polimi.ingsw.netttt.*;
+import it.polimi.ingsw.net.OnServerConnectionLostListener;
 
 import java.io.FileNotFoundException;
 import java.lang.reflect.Method;
@@ -295,9 +294,9 @@ public class LobbyController
 
         if(viewControllerMap.get(user) != null) {
             viewControllerMap.get(user).onConnectionLost(user);
-            if(!disconnectedButInGame.contains(viewToNicknameMap.get(user))) {
-                disconnectedButInGame.add(viewToNicknameMap.get(user));
-            }
+        }
+        if(!disconnectedButInGame.contains(viewToNicknameMap.get(user))) {
+            disconnectedButInGame.add(viewToNicknameMap.get(user));
         }
         waitingUsers.removeIf(u -> u.equals(user));
     }

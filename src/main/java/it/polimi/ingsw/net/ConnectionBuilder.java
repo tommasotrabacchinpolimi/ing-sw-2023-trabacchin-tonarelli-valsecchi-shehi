@@ -1,44 +1,63 @@
 package it.polimi.ingsw.net;
 
-import com.google.gson.reflect.TypeToken;
+import it.polimi.ingsw.controller.ServerInterface;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
-import java.lang.reflect.Proxy;
 
 /**
+ * The ConnectionBuilder class is responsible for building connections between clients and servers using different protocols,
+ * such as sockets and RMI (Remote Method Invocation).
+ *
  * @author Tommaso Trabacchin
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
  * @author Adem Shehi
- * @version 3.0
- * @since 23/04/2023
  */
-
 public class ConnectionBuilder {
-
-    public static <L extends RemoteInterface, R extends RemoteInterface> SocketConnectionManager<L,R> buildSocketConnection(String host, int portNumber, L localTarget, TypeToken<R> remoteTargetClass) throws IOException {
-        Socket socket = new Socket(host,portNumber);
-        SocketConnectionManager<L,R> socketConnectionManager = new SocketConnectionManager<>();
-        socketConnectionManager.init(socket,localTarget,remoteTargetClass);
-        return socketConnectionManager;
+    /**
+     * Builds a socket connection with the server.
+     *
+     * @param port                        The port number to connect to.
+     * @param host                        The host address of the server.
+     * @param clientDispatcher            An instance of the ClientDispatcher class that handles message dispatching.
+     * @param onClientConnectionLostListener  An instance of the OnClientConnectionLostListener interface to handle connection loss events.
+     * @return The ServerInterface object representing the socket connection.
+     * @throws IOException if an I/O error occurs during the socket connection.
+     */
+    static public ServerInterface buildSocketConnection(int port, String host,  ClientDispatcher clientDispatcher,OnClientConnectionLostListener onClientConnectionLostListener) throws IOException {
+        Socket socket = new Socket(host, port);
+        socket.setSoTimeout(10000);
+        ServerSocketImpl serverSocket = new ServerSocketImpl(socket, clientDispatcher, onClientConnectionLostListener);
+        ClientHeartBeater clientHeartBeater = new ClientHeartBeater(onClientConnectionLostListener, serverSocket, 1000);
+        new Thread(serverSocket).start();
+        new Thread(clientHeartBeater).start();
+        return serverSocket;
     }
 
-    public static <L extends RemoteInterface, R extends RemoteInterface> RmiConnectionManager<L,R> buildRMIConnection(String host, int portNumber, TypeToken<R> remoteTargetClass, TypeToken<L> localTargetClass, L localTarget) throws IOException, NotBoundException, ClassNotFoundException {
-        Registry registry = LocateRegistry.getRegistry(host,2147);
-        RmiReceiver<L,R> rmiReceiver = new RmiReceiver<>(localTarget);
-        RemoteAccepterInterface remoteAccepterInterfaceInterface = (RemoteAccepterInterface) registry.lookup("default");
-        Class<?> localThrowingTargetClass = ClassRewriting.getThrowingClass(localTargetClass.getRawType());
-        RemoteInterface localRemoteObject = (RemoteInterface) Proxy.newProxyInstance(localThrowingTargetClass.getClassLoader(),new Class[]{localThrowingTargetClass},new BaseInvocationHandler(rmiReceiver));
-        UnicastRemoteObject.exportObject(localRemoteObject);
-        RemoteInterface remoteObject = remoteAccepterInterfaceInterface.register(localRemoteObject);
-        RmiConnectionManager<L,R> rmiConnectionManager = new RmiConnectionManager<>();
-        rmiReceiver.setRmiConnectionManager(rmiConnectionManager);
-        rmiConnectionManager.init(rmiReceiver, (Class<R>) remoteTargetClass.getRawType(),localRemoteObject,remoteObject);
-        return rmiConnectionManager;
+    /**
+     * Builds an RMI connection with the server.
+     *
+     * @param port                        The port number to connect to.
+     * @param host                        The host address of the server.
+     * @param clientDispatcher            An instance of the ClientDispatcher class that handles message dispatching.
+     * @param onClientConnectionLostListener  An instance of the OnClientConnectionLostListener interface to handle connection loss events.
+     * @return The ServerInterface object representing the RMI connection.
+     * @throws RemoteException    if a remote communication error occurs during the RMI connection.
+     * @throws NotBoundException  if the RMI object is not bound in the registry.
+     */
+
+    static public ServerInterface buildRmiConnection(int port, String host, ClientDispatcher clientDispatcher, OnClientConnectionLostListener onClientConnectionLostListener) throws RemoteException, NotBoundException {
+        Registry registry = LocateRegistry.getRegistry(host,port);
+        RmiAccepterInterface rmiAccepter = (RmiAccepterInterface) registry.lookup("default");
+        RmiClientInterface rmiClient = new RmiClientImpl(clientDispatcher);
+        ServerInterface serverInterface = new ClientRmiAdapter(rmiAccepter.registerClient(rmiClient), onClientConnectionLostListener);
+        ClientHeartBeater clientHeartBeater = new ClientHeartBeater(onClientConnectionLostListener, serverInterface, 1000);
+        new Thread(clientHeartBeater).start();
+        return serverInterface;
     }
 }

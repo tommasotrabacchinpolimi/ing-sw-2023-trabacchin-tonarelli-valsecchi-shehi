@@ -1,184 +1,72 @@
 package it.polimi.ingsw.net;
 
-import com.google.gson.reflect.TypeToken;
-
 import java.io.IOException;
-import java.lang.reflect.Proxy;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.concurrent.ExecutorService;
-import java.util.function.Supplier;
 
 /**
- *
- * @param <L> the type of the local target object
- * @param <R> the type of the remote object
- *
- * @see RemoteInterface
- *
+ * The {@code SocketAccepter} class is responsible for accepting incoming client connections on a specified port.
+ * Each accepted connection is wrapped in a {@link ClientSocketImpl} instance and starts a new thread for communication.
+ * Additionally, a {@link ServerHeartBeater} thread is started to monitor the client's connection status.
+
  * @author Tommaso Trabacchin
  * @author Melanie Tonarelli
  * @author Emanuele Valsecchi
  * @author Adem Shehi
- * @version 3.0
- * @since 06/04/2023
  */
-public class SocketAccepter<L extends RemoteInterface, R extends RemoteInterface> implements Runnable {
+public class SocketAccepter implements Runnable {
     /**
-     * <p>This fields specifies the port number for connection</p>
+     * Used to properly manage requests from client to server
      */
-    private final int portNumber;
+    private final ServerDispatcher serverDispatcher;
+    /**
+     * Port used for connection
+     */
+    private final int port;
+    /**
+     * To properly manage the loss of connection of the Server
+     */
+    private final OnServerConnectionLostListener onServerConnectionLostListener;
 
     /**
-     * <p>This field is a local target object on which invoke actions</p>
+     * Constructs a {@code SocketAccepter} object with the specified parameters.
      *
-     * @see Dispatcher
+     * @param serverDispatcher             the server dispatcher to handle incoming client messages.
+     * @param port                         the port number to listen for incoming connections.
+     * @param onServerConnectionLostListener the listener to notify when a server connection is lost.
      */
-    private final Object localTarget;
-
-    /**
-     * <p>Represents a generic type {@linkplain RemoteInterface remote object}</p>
-     * <p>Forces clients to create a subclass of this class which enables retrieval the type information
-     *    even at runtime</p>
-     */
-    private final TypeToken<R> remoteTargetClass;
-
-    /**
-     * <p>Represents a generic type {@linkplain RemoteInterface local object}</p>
-     * <p>Forces clients to create a subclass of this class which enables retrieval the type information even at
-     *    runtime</p>
-     */
-    private final TypeToken<L> localTargetClass;
-
-    /**
-     * <p>This field is a reference to an actor that manage and notice if a potential user can play</p>
-     *
-     * @see it.polimi.ingsw.controller.LobbyController
-     */
-    private final UserAccepter<R> userAccepter;
-
-    /**
-     * <p>{@link Supplier} responsible for adapting users to the local target object</p>
-     * <p>Thanks to this supplier an {@linkplain UserAdapterInterface user adapter interface} is generated "lazily"
-     * and asynchronously</p>
-     *
-     * @see UserAdapterInterface
-     */
-    private final Supplier<UserAdapterInterface<R>> userAdapterSupplier;
-
-    /**
-     * Construct a new SocketAccepter with the given parameter
-     *
-     * @param portNumber the {@linkplain #portNumber port number} used for connection
-     * @param userAccepter {@linkplain #userAccepter manager} that decide if a user can play
-     * @param localTarget {@linkplain #localTarget local target} for actions
-     * @param remoteTargetClass represents a generic {@linkplain RemoteInterface remote} type
-     * @param executorService the executor service for asynchronous execution
-     */
-    public SocketAccepter(int portNumber,
-                          UserAccepter<R> userAccepter,
-                          L localTarget,
-                          TypeToken<R> remoteTargetClass,
-                          ExecutorService executorService) {
-        this.portNumber = portNumber;
-        this.localTarget = localTarget;
-        this.remoteTargetClass = remoteTargetClass;
-        this.userAccepter = userAccepter;
-        this.userAdapterSupplier = null;
-        this.localTargetClass = null;
+    public SocketAccepter(ServerDispatcher serverDispatcher, int port, OnServerConnectionLostListener onServerConnectionLostListener) {
+        this.port = port;
+        this.serverDispatcher = serverDispatcher;
+        this.onServerConnectionLostListener = onServerConnectionLostListener;
     }
 
     /**
-     * Construct a new SocketAccepter with the given parameter
-     *
-     * @param portNumber the {@linkplain #portNumber port number} used for connection
-     * @param userAccepter {@linkplain #userAccepter manager} that decide if a user can play
-     * @param localTarget {@linkplain #localTarget local target} for actions
-     * @param remoteTargetClass represents a generic {@linkplain RemoteInterface remote} type
-     * @param localTargetClass represents a generic {@linkplain RemoteInterface remote} type
-     * @param executorService the executor service for asynchronous execution
-     * @param userAdapterSupplier used for adapting users to the local target object
-     */
-    public SocketAccepter(int portNumber,
-                          UserAccepter<R> userAccepter,
-                          Object localTarget,
-                          TypeToken<R> remoteTargetClass,
-                          TypeToken<L> localTargetClass,
-                          ExecutorService executorService,
-                          Supplier<UserAdapterInterface<R>> userAdapterSupplier) {
-        this.portNumber = portNumber;
-        this.localTarget = localTarget;
-        this.remoteTargetClass = remoteTargetClass;
-        this.userAccepter = userAccepter;
-        this.userAdapterSupplier = userAdapterSupplier;
-        this.localTargetClass = localTargetClass;
-    }
-
-    /**
-     * <p>Creates a server socket object that is listening on {@linkplain #portNumber port number}.</p>
-     * <p>More precisely this method:
-     * <ul>
-     *     <li>registers a new {@linkplain User user} to an RMI connection</li>
-     *     <li>setup the {@linkplain #localTarget local target} on which the user will execute action</li>
-     *     <li>setup a controller for the connection loss between {@linkplain User user} and server</li>
-     * </ul>
-     * </p>
-     *
-     * @apiNote A {@link RuntimeException} is thrown if:
-     * <ul>
-     *     <li>error occurs while registering the remote object</li>
-     *     <li>I/O error occur</li>
-     *     <li>class of the remote object could not be found</li>
-     * </ul>
+     * Starts accepting incoming client connections and creates corresponding client socket instances.
+     * Each accepted connection spawns a new thread for communication and a server heartbeater thread.
      */
     @Override
     public void run() {
         try {
-            ServerSocket serverSocket = new ServerSocket(portNumber);
+            System.out.println("SocketAccepter running...");
+            ServerSocket serverSocket = new ServerSocket(port);
+            while (true) {
+                try {
+                    Socket socket = serverSocket.accept();
+                    socket.setSoTimeout(10000);
+                    System.out.println("Client connection accepted...");
 
-            while(true){
-                Socket socket = serverSocket.accept();
-                User<R> user = new User<R>();
+                    ClientSocketImpl clientSocket = new ClientSocketImpl(socket, serverDispatcher, onServerConnectionLostListener);
 
-                if(userAccepter.acceptUser(user)){
-                    // If the user can play, an instance of connection manager is created for that player
-                    SocketConnectionManager<L, R> socketConnectionManager = new SocketConnectionManager<>();
-
-                    if(userAdapterSupplier == null){
-                        // If the supplier is not created yet, a new RMI connection is set up
-                        socketConnectionManager.init(socket,user,(L)localTarget, remoteTargetClass);
-                    } else {
-                        /* If the supplier has been created in the past, the UserAdapterInterface is retrieved from the supplier
-                         * At the UserAdapterInterface instance is connected the user created and the local target
-                         * on which call action is bound.
-                         * A new local target proxy is also created that will handle new calls coming from the new user added.
-                         * In the end, a new RMI connection manager creates a new connection
-                         */
-                        UserAdapterInterface<R> userAdapterInterface = userAdapterSupplier.get();
-                        userAdapterInterface.setUser(user);
-                        userAdapterInterface.setTarget(localTarget);
-
-                        /* Returns a proxy instance for the specified interfaces that dispatches method invocations to
-                         * the specified invocation handler.
-                         */
-                        L newLocalTarget = (L) Proxy.newProxyInstance(localTargetClass.getRawType().getClassLoader(),new Class[]{localTargetClass.getRawType()},userAdapterInterface);
-                        socketConnectionManager.init(socket,user,newLocalTarget, remoteTargetClass);
-                    }
-
-                    user.setConnectionManager(socketConnectionManager);
-                    userAccepter.registerConnectionDownListener(user);
-                }
-                else{
-                    try {
-                        socket.close();
-                    }catch(IOException ignored){
-                        ignored.printStackTrace();
-                    }
+                    ServerHeartBeater serverHeartBeater = new ServerHeartBeater(clientSocket, 1000, onServerConnectionLostListener);
+                    new Thread(clientSocket).start();
+                    new Thread(serverHeartBeater).start();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
         }
     }
 }

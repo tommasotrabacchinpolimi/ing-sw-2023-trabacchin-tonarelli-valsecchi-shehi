@@ -3,9 +3,9 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.controller.ClientInterface;
 import it.polimi.ingsw.controller.ServerInterface;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.net_alternative.ClientDispatcher;
-import it.polimi.ingsw.net_alternative.ConnectionBuilder;
-import it.polimi.ingsw.net_alternative.OnClientConnectionLostListener;
+import it.polimi.ingsw.net.ClientDispatcher;
+import it.polimi.ingsw.net.ConnectionBuilder;
+import it.polimi.ingsw.net.OnClientConnectionLostListener;
 import it.polimi.ingsw.utils.Coordinate;
 import it.polimi.ingsw.utils.Triple;
 
