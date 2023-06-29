@@ -15,6 +15,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The `PointPane` class represents a grid pane used in a graphical user interface (GUI) to display a point pane.
+ * It extends the `GridPane` class and implements the `MyShelfieComponent` interface.
+ * The point pane is a container that holds multiple `PointCell` components to represent individual cells in the point pane.
+ * It provides methods to add and retrieve specific `PointCell` instances within the point pane.
+ */
 abstract class PointPane extends GridPane implements MyShelfieComponent {
 
     private static final String BACKGROUND_IMAGE = "/it.polimi.ingsw/graphical.resources/misc/page_base_lighten.png";

@@ -15,6 +15,21 @@ import java.util.List;
 import static it.polimi.ingsw.utils.color.MyShelfieColor.BONE;
 import static it.polimi.ingsw.utils.color.MyShelfieColor.DARK_LAVA;
 
+/**
+ * <p>
+ * The `PointCell` class represents a layout component used in a graphical user interface (GUI) to display a point cell.
+ * It extends the `StackPane` class and implements the `MyShelfieComponent` interface.
+ * The point cell is a container that can hold decorations and can have a scoring token added to it.
+ * It provides default styling, decorations, and behavior for the point cell.
+ * </p>
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ *
+ *
+ */
 class PointCell extends StackPane implements MyShelfieComponent {
 
     /**
