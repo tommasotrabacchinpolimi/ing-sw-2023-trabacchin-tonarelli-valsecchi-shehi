@@ -201,6 +201,7 @@ public class GUILauncher extends MyShelfieApplication {
                 getMainInterfaceController().firstTimeFillBoard(getGUIModel().getBoard());
                 getMainInterfaceController().firstTimeFillBookshelves(getGUIModel().getBookShelves());
                 getMainInterfaceController().showGoalsOperation();
+                getMainInterfaceController().playersPointGained();
             });
         } else {
             getMainInterfaceController().transferTilesToOpponent(getGUIModel().getBoard(), getOpponentUpdates());
@@ -305,11 +306,12 @@ public class GUILauncher extends MyShelfieApplication {
         if(!isEndGameTokenAssigned) {
             getPlayerAchievedEndGame().ifPresent(nickName -> {
                 getMainInterfaceController().assignEndGameToken(nickName);
+                isEndGameTokenAssigned = true;
             });
-            isEndGameTokenAssigned = true;
         }
     }
 
+    @NotNull
     private Optional<String> getPlayerAchievedEndGame() {
 
         return getGUIModel().getPlayersPoints()

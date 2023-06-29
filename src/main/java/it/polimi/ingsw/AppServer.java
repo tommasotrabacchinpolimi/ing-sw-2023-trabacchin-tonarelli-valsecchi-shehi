@@ -2,9 +2,9 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.controller.ControllerDispatcher;
 import it.polimi.ingsw.controller.LobbyController;
-import it.polimi.ingsw.net_alternative.RmiAccepter;
-import it.polimi.ingsw.net_alternative.ServerDispatcher;
-import it.polimi.ingsw.net_alternative.SocketAccepter;
+import it.polimi.ingsw.net.RmiAccepter;
+import it.polimi.ingsw.net.ServerDispatcher;
+import it.polimi.ingsw.net.SocketAccepter;
 
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;

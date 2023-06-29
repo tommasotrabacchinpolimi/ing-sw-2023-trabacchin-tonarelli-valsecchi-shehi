@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.gui.layout.bookshelf;
 import it.polimi.ingsw.model.TileSubject;
 import it.polimi.ingsw.utils.Coordinate;
 import it.polimi.ingsw.view.gui.customcomponents.bookshelf.OpponentBookshelfView;
+import it.polimi.ingsw.view.gui.customcomponents.commongoal.ScoringTokenView;
 import it.polimi.ingsw.view.gui.customcomponents.pointpane.SquarePointPane;
 import it.polimi.ingsw.view.gui.customcomponents.tileview.TileSubjectView;
 import it.polimi.ingsw.view.gui.customcomponents.tileview.TileViewInOpponent;
@@ -257,5 +258,15 @@ public class SingleOpponentBookShelfController extends BookshelfController {
     //For testing
     public TileSubject[][] getOpponentBookshelf(){
         return opponentBookshelfView.toTileSubjectMatrix();
+    }
+
+    public void forceDisplayCommonGoalScore(List<Integer> playerPoints) {
+        if(playerPoints.get(1) != 0) {
+            getSingleOpponentFirstScoringTokenCell().getChildren().add(new ScoringTokenView(playerPoints.get(1)));
+        }
+
+        if(playerPoints.get(2) != 0) {
+            getSingleOpponentSecondScoringTokenCell().getChildren().add(new ScoringTokenView(playerPoints.get(1)));
+        }
     }
 }

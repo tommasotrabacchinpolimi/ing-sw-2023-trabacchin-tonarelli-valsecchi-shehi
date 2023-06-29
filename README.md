@@ -45,7 +45,7 @@ The structure of the whole system is displayed by different UMLs. In the `uml` d
 1. `handcraftedUML` which contains the initial handcrafted diagrams, such as:
     - [model class diagram](uml/handcraftedUML/handcrafted_model_class_diagram.png);
     - [controller class diagram](uml/handcraftedUML/handcrafted_controller_class_diagram.png);
-    - network sequence diagrams.
+    - [network sequence diagrams](uml/handcraftedUML/sequence-diagrams).
 2. `finalUML` which contains the final diagram, generated from the code by automated tools.
 
 ## Testing
@@ -59,7 +59,7 @@ The tests achieved the following coverage:
 
 
 ## Libraries and Plugins
-| Librery/Plugin | Description                                                                   |
+| Library/Plugin | Description                                                                   |
 |----------------|-------------------------------------------------------------------------------|
 | __Maven__      | A build automation tool used primarily for Java projects.                     |
 | __JavaFx__     | A Java library that is used to develop Desktop applications                   |

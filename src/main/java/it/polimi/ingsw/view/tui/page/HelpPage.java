@@ -22,7 +22,7 @@ public class HelpPage extends Page{
     /**
      * Attribute that represents the {@link PrintStream output stream}.
      */
-    private PrintStream out;
+    private final PrintStream out;
 
     /**
      * Constructs a new HelpPage object.

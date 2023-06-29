@@ -25,7 +25,7 @@ public class ChatPage extends Page{
     /**
      * Attribute that represents the {@link PrintStream output stream}.
      */
-    private PrintStream out;
+    private final PrintStream out;
 
     /**
      * Constructs a new ChatPage object.

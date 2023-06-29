@@ -8,6 +8,7 @@ import it.polimi.ingsw.view.gui.MyShelfieController;
 import it.polimi.ingsw.view.gui.customcomponents.FirstPlayerSeatView;
 import it.polimi.ingsw.view.gui.customcomponents.commongoal.CommonGoalView;
 import it.polimi.ingsw.view.gui.customcomponents.PersonalGoalView;
+import it.polimi.ingsw.view.gui.customcomponents.commongoal.ScoringTokenView;
 import it.polimi.ingsw.view.gui.customcomponents.pointpane.HPointPane;
 import it.polimi.ingsw.view.gui.layout.board.BoardViewController;
 import it.polimi.ingsw.view.gui.layout.bookshelf.PersonalBookshelfController;
@@ -106,14 +107,14 @@ public class GameInterfaceController extends MyShelfieController {
 
     public void addGoalsToGameInterface(Integer[] point) {
 
-        if(getGUILauncher().getGUIModel().getIdCommonGoals() != null) {
+        if(getGUILauncher().getGUIModel().getIdCommonGoals() != null && getGUILauncher().getGUIModel().getCommonGoals() != null && point != null) {
             commonGoals.add(new CommonGoalView(getGUILauncher().getGUIModel().getIdCommonGoals()[0], getGUILauncher().getGUIModel().getCommonGoals()[0], point[0]));
 
             commonGoals.add(new CommonGoalView(getGUILauncher().getGUIModel().getIdCommonGoals()[1], getGUILauncher().getGUIModel().getCommonGoals()[1], point[1]));
         } else {
-            commonGoals.add(new CommonGoalView(null, getGUILauncher().getGUIModel().getCommonGoals()[0], 0));
+            commonGoals.add(new CommonGoalView(null, "", 0));
 
-            commonGoals.add(new CommonGoalView(null, getGUILauncher().getGUIModel().getCommonGoals()[1], 0));
+            commonGoals.add(new CommonGoalView(null, "", 0));
         }
 
         personalGoal = new PersonalGoalView(getGUILauncher().getGUIModel().getPersonalGoal());
@@ -500,11 +501,22 @@ public class GameInterfaceController extends MyShelfieController {
      * @param commonGoalNumber
      * @return
      * @throws NullPointerException in case that the common goal has not been initialized
+     * @throws EmptyStackException in case that all points from the common goal are taken
      */
-    public int getDisplayedCommonGoalScore(int commonGoalNumber) throws NullPointerException{
+    public int getDisplayedCommonGoalScore(int commonGoalNumber) throws NullPointerException, EmptyStackException{
         if(commonGoals.size() == 0 || commonGoals.get(commonGoalNumber) == null)
             throw new NullPointerException();
 
         return commonGoals.get(commonGoalNumber).getTopTokenPoint();
+    }
+
+    public void forceCommonGoalScoreAssigment(List<Integer> playerPoints) {
+        if(playerPoints.get(1) != 0) {
+            personalPointPane.getFirstScoringTokenCell().getChildren().add(new ScoringTokenView(playerPoints.get(1)));
+        }
+
+        if(playerPoints.get(2) != 0) {
+            personalPointPane.getSecondScoringTokenCell().getChildren().add(new ScoringTokenView(playerPoints.get(1)));
+        }
     }
 }

@@ -21,9 +21,6 @@ module it.polimi.ingsw {
     requires annotations;
 
 
-    opens it.polimi.ingsw.net;
-
-
     exports it.polimi.ingsw.controller to java.rmi;
     opens it.polimi.ingsw.controller;
 
@@ -31,12 +28,19 @@ module it.polimi.ingsw {
 
     exports it.polimi.ingsw.utils;
     opens it.polimi.ingsw.utils;
+    exports it.polimi.ingsw.utils.color;
+    opens it.polimi.ingsw.utils.color;
 
     exports it.polimi.ingsw.controller.exceptions;
     opens it.polimi.ingsw.controller.exceptions;
 
     exports it.polimi.ingsw.view.tui;
     exports it.polimi.ingsw.view;
+    exports it.polimi.ingsw.view.tui.page;
+    exports it.polimi.ingsw.view.tui.input;
+    opens it.polimi.ingsw.view.tui;
+    opens it.polimi.ingsw.view.tui.input;
+    opens it.polimi.ingsw.view.tui.page;
 
     exports it.polimi.ingsw.controller.listeners;
     opens it.polimi.ingsw.controller.listeners;
@@ -80,9 +84,6 @@ module it.polimi.ingsw {
     exports it.polimi.ingsw.view.gui.customcomponents.bookshelf to javafx.fxml, javafx.graphics;
     opens it.polimi.ingsw.view.gui.customcomponents.bookshelf to javafx.fxml, javafx.graphics;
 
-    exports it.polimi.ingsw.utils.color;
-    opens it.polimi.ingsw.utils.color;
-
     exports it.polimi.ingsw.view.gui.customcomponents.guitoolkit to javafx.fxml, javafx.graphics;
     opens it.polimi.ingsw.view.gui.customcomponents.guitoolkit to javafx.fxml, javafx.graphics;
 
@@ -98,10 +99,10 @@ module it.polimi.ingsw {
     exports it.polimi.ingsw.view.gui.layout.chatpage to javafx.fxml, javafx.graphics;
     opens it.polimi.ingsw.view.gui.layout.chatpage to javafx.fxml, javafx.graphics;
 
-    opens it.polimi.ingsw.net_alternative;
-    exports it.polimi.ingsw.net_alternative;
-    exports it.polimi.ingsw.net_alternative.servermessages;
-    exports it.polimi.ingsw.net_alternative.clientmessage;
+    opens it.polimi.ingsw.net;
+    exports it.polimi.ingsw.net;
+    exports it.polimi.ingsw.net.servermessages;
+    exports it.polimi.ingsw.net.clientmessage;
     exports it.polimi.ingsw to java.rmi;
     opens it.polimi.ingsw;
     exports it.polimi.ingsw.view.gui.customcomponents.waitingpage to javafx.fxml, javafx.graphics;

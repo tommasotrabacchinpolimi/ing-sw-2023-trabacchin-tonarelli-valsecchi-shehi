@@ -198,4 +198,10 @@ public class OpponentsInterfaceController extends MyShelfieController {
     public void addFirstPlayerSeatToOpponent(String playerNick) {
         getOpponentFirstPlayerSeatCell(playerNick).getChildren().add(new FirstPlayerSeatView());
     }
+
+    public void forceCommonGoalScoreAssignment(String nickName) {
+        getSingleOpponentBookshelfController(nickName).ifPresent(
+                singleOpponentBookShelfController -> singleOpponentBookShelfController.forceDisplayCommonGoalScore(getGUILauncher().getGUIModel().getPlayersPointsByNickname(nickName))
+        );
+    }
 }

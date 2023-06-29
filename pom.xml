@@ -152,7 +152,7 @@
                             <addClasspath>true</addClasspath>
                             <!-- Specifies that all dependencies of our application are found -->
                             <!-- Configures the main class of the application -->
-                            <mainClass>it.polimi.ingsw.view.AppClient</mainClass>
+                            <mainClass>it.polimi.ingsw.AppServer</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

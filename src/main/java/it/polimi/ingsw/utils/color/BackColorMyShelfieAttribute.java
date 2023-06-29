@@ -8,16 +8,6 @@ class BackColorMyShelfieAttribute extends ColorMyShelfieAttribute {
 
     /**
      * * {@inheritDoc}
-     * Constructor for 8-bit color.
-     * @param colorNumber A number (0-255) that represents an 8-bit color.
-     * @throws IllegalArgumentException if the colorNumber is not within the range [0-255].
-     */
-    BackColorMyShelfieAttribute(int colorNumber) {
-        super(colorNumber);
-    }
-
-    /**
-     * * {@inheritDoc}
      * Constructor for true-color.
      * @param r A number (0-255) that represents the red component.
      * @param g A number (0-255) that represents the green component.

@@ -2,12 +2,12 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.controller.exceptions.AlreadyInGameException;
 import it.polimi.ingsw.controller.exceptions.AlreadyTakenNicknameException;
+import it.polimi.ingsw.controller.exceptions.WrongNumberOfPlayersException;
 import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerState;
 import it.polimi.ingsw.model.State;
-import it.polimi.ingsw.net.*;
-import it.polimi.ingsw.net_alternative.OnServerConnectionLostListener;
+import it.polimi.ingsw.net.OnServerConnectionLostListener;
 
 import java.io.FileNotFoundException;
 import java.lang.reflect.Method;
@@ -30,11 +30,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * </p>
  *
  * @see ClientInterface
- * @see UserAccepter
- * @see OnConnectionLostListener
  * @see LobbyController
  * @see Controller
- * @see Dispatcher
  *
  * @author Tommaso Trabacchin
  * @author Melanie Tonarelli
@@ -94,11 +91,8 @@ public class LobbyController
     private final List<String> disconnectedButInGame = new ArrayList<>();
 
     /**
-     * Reference to the {@linkplain Dispatcher dispatcher} that manage the requests coming from the network and
-     * {@linkplain Dispatcher#invoke(Object, Method, Object[]) calls} the appropriate method
+     * Reference to the {@linkplain ControllerDispatcher dispatcher} that manage the requests coming from the network and
      *
-     * @see Dispatcher
-     * @see Dispatcher#invoke(Object proxy, Method method, Object[] args)
      */
     private ControllerDispatcher dispatcher;
 
@@ -109,7 +103,7 @@ public class LobbyController
     }
 
     /**
-     * Binds a {@linkplain Dispatcher dispatcher} instance to the calling object
+     * Binds a {@linkplain ControllerDispatcher dispatcher} instance to the calling object
      *
      * @param dispatcher the dispatcher to be bound
      */
@@ -189,8 +183,12 @@ public class LobbyController
      */
     @Override
     public synchronized void createGame(ClientInterface user, String nickname, int numberOfPlayer)
-            throws AlreadyTakenNicknameException, AlreadyInGameException, FileNotFoundException {
-
+            throws AlreadyTakenNicknameException, AlreadyInGameException, FileNotFoundException, WrongNumberOfPlayersException {
+        if(!(numberOfPlayer>=2 && numberOfPlayer<=4)) {
+            WrongNumberOfPlayersException wrongNumberOfPlayersException = new WrongNumberOfPlayersException();
+            user.onException(nickname, wrongNumberOfPlayersException);
+            throw  wrongNumberOfPlayersException;
+        }
         if(!viewToNicknameMap.containsValue(nickname)){
             createNewGame(user, nickname, numberOfPlayer);
         } else if (user != nicknameToViewMap.get(nickname)) {
@@ -281,7 +279,7 @@ public class LobbyController
      * @see Controller#onConnectionLost(ClientInterface client)
      * @see PlayerState
      * @see Player#setPlayerState(PlayerState playerState)
-     * @see OnConnectionLostListener#onConnectionLost(RemoteInterface)
+     *
      */
     @Override
     public synchronized void onConnectionLost(ClientInterface user) {
@@ -289,9 +287,9 @@ public class LobbyController
 
         if(viewControllerMap.get(user) != null) {
             viewControllerMap.get(user).onConnectionLost(user);
-            if(!disconnectedButInGame.contains(viewToNicknameMap.get(user))) {
-                disconnectedButInGame.add(viewToNicknameMap.get(user));
-            }
+        }
+        if(!disconnectedButInGame.contains(viewToNicknameMap.get(user))) {
+            disconnectedButInGame.add(viewToNicknameMap.get(user));
         }
         waitingUsers.removeIf(u -> u.equals(user));
     }

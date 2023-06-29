@@ -140,7 +140,7 @@ public enum MyShelfieColor {
      * Retrieves the darkened version of color associated to the
      * {@code MyShelfieColor} type
      *
-     * @return the darken color associated with the standard type
+     * @return darken color associated with the standard type
      */
     public Color getDarkenColor(){
         return darkenColor;
@@ -150,7 +150,7 @@ public enum MyShelfieColor {
      * Retrieves the lightened version of color associated to the
      * {@code MyShelfieColor} type
      *
-     * @return the lighten color associated with the standard type
+     * @return lighten color associated with the standard type
      */
     public Color getLightenColor() {
         return lightenColor;
