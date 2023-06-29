@@ -19,6 +19,9 @@ import java.util.Arrays;
  */
 public class TileViewInOpponent implements TileSubjectViewState{
 
+    /**
+     * final value just for quantification of padding
+     */
     private static final double PADDING = 1.4;
 
     /**
@@ -50,6 +53,11 @@ public class TileViewInOpponent implements TileSubjectViewState{
                 "Cannot move tile");
     }
 
+
+    /**
+     * Method to get the padding of the Tile in the opponent bookshelf
+     * @return Padding
+     */
     @Override
     public double getPadding() {
         return PADDING;

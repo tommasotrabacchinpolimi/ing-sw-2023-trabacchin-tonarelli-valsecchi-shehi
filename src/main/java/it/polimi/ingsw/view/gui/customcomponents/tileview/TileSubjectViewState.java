@@ -27,5 +27,9 @@ public interface TileSubjectViewState {
      */
     void reverseStateAction(TileSubjectView tileSubjectView);
 
+    /**
+     *
+     * @return Padding of TileSubjectViewState
+     */
     double getPadding();
 }

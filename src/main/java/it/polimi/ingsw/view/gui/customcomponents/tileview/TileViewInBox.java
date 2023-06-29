@@ -19,6 +19,9 @@ import java.util.Arrays;
  */
 public class TileViewInBox implements TileSubjectViewState {
 
+    /**
+     * final value just for quantification of padding
+     */
     public static final double PADDING = 2.0;
 
     /**
@@ -78,6 +81,12 @@ public class TileViewInBox implements TileSubjectViewState {
         }
     }
 
+
+    /**
+     * Method to get the padding.
+     *
+     * @return The value of the padding.
+     */
     @Override
     public double getPadding() {
         return PADDING;
