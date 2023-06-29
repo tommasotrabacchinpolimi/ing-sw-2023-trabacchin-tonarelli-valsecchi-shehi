@@ -16,13 +16,6 @@ public class MyShelfieCommand {
         _code = code;
     }
 
-    /**
-     * @return Clears the terminal's text, e.g. just like the command-line `clear`.
-     */
-    public static MyShelfieCommand CLEAR_SCREEN() {
-        return new MyShelfieCommand("H\\033[2J\"");
-    }
-
     @Override
     public String toString() {
         return _code;
