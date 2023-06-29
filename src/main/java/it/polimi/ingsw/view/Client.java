@@ -527,6 +527,7 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
     @Override
     public void onPlayersListChanged(List<String> players) {
         synchronized (receiverLock) {
+            System.out.println("player list : " + players);
             viewData.setPlayers(players);
         }
     }
