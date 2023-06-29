@@ -66,6 +66,9 @@ public class CommonGoalView extends StackPane implements MyShelfieComponent {
      */
     private static final String EMPTY_DESCRIPTION = "No description available";
 
+    /**
+     * The default Rotation.
+     */
     private static final double SCORING_TOKEN_ROTATION = -8.0;
 
 
@@ -157,6 +160,9 @@ public class CommonGoalView extends StackPane implements MyShelfieComponent {
         this.scoringTokenBox.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
     }
 
+    /**
+     * Method used to set a prepared CSS style
+     */
     private void setCSS() {
         setStyle("-fx-background-image: url('" + getCommonGoalBackground() + "');" +
                 "-fx-background-repeat: no-repeat;" +
@@ -165,6 +171,12 @@ public class CommonGoalView extends StackPane implements MyShelfieComponent {
                 "-fx-padding: 3.0em 2.1em 3.8em 10.7em;");
     }
 
+    /**
+     * method to get the URL image of a CommonGoal Configuration
+     * <br>
+     * <p>In case of error it will be shown an error message and an empty tile will be shown</p>
+     * @return the URL of the commonGoal chosen
+     */
     private URL getCommonGoalBackground() {
         return getMyShelfieResource(
                 COMMON_GOAL_IMAGE_PATH + commonGoalID + ".jpg",
@@ -173,6 +185,11 @@ public class CommonGoalView extends StackPane implements MyShelfieComponent {
         );
     }
 
+    /**
+     * Adds a top scoring token with the specified value.
+     *
+     * @param topTokenValue the value of the top scoring token to add
+     */
     public void addTopScoringToken(int topTokenValue) {
 
         ScoringTokenView oldScoringTokenView;
@@ -327,9 +344,16 @@ public class CommonGoalView extends StackPane implements MyShelfieComponent {
         }
     }
 
-    public int getTopTokenPoint() {
+    /**
+     * Retrieves the point value of the top scoring token in the `CommonGoalView`.
+     *
+     * @return the point value of the top scoring token
+     * @throws EmptyStackException if there are no scoring tokens available
+     */
+    public int getTopTokenPoint() throws EmptyStackException {
         return scoringTokenViews.peek().getTokenPoint();
     }
+
 
     /**
      * Retrieve the element that has to be customized
