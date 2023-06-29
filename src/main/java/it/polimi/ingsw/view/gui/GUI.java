@@ -117,7 +117,7 @@ public class GUI extends UI {
      * It allows for handling the UI behavior when the connection is no longer available.
      */
     @Override
-    public void onConnectionLost() {
+    public synchronized void onConnectionLost() {
         while (!isGUILauncherSet()) {
             try {
                 this.wait();
