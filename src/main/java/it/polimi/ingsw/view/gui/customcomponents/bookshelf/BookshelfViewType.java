@@ -13,6 +13,12 @@ package it.polimi.ingsw.view.gui.customcomponents.bookshelf;
  *
  * @apiNote The style class for empty cells and the bookshelfImagePaneId are different for each owner of the bookshelf.
  * @apiNote The FILLED_CELL_CLASS style class is the same for all bookshelf view types.
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ *
  */
 enum BookshelfViewType {
     /**

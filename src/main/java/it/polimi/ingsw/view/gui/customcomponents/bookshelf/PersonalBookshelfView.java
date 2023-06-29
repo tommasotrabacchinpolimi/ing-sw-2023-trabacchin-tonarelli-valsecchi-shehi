@@ -14,6 +14,25 @@ import java.util.Map;
 import static it.polimi.ingsw.model.TileType.CAT;
 import static it.polimi.ingsw.utils.color.MyShelfieColor.*;
 
+
+/**
+ * The {@code PersonalBookshelfView} class represents a graphical component that displays the personal bookshelf
+ * of a player in a board game. It extends the {@link BookshelfView} class and provides additional functionalities
+ * specific to the personal bookshelf view.
+ * <p>
+ * The personal bookshelf view is used to visualize the target cells of the personal bookshelf and add tile type hints
+ * to those cells based on the provided personal goal configuration. It allows coloring the target cells with
+ * corresponding colors and hiding the tile type hints.
+ * <p>
+ * The personal bookshelf view is designed for use in a JavaFX GUI application. It utilizes JavaFX layouts, styles,
+ * and CSS properties to render the graphical representation of the bookshelf.
+ * @since 1.0
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ */
 public class PersonalBookshelfView extends BookshelfView {
 
     /**
