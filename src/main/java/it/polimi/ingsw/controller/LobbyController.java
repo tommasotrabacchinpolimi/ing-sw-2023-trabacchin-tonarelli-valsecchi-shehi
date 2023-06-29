@@ -2,6 +2,8 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.controller.exceptions.AlreadyInGameException;
 import it.polimi.ingsw.controller.exceptions.AlreadyTakenNicknameException;
+import it.polimi.ingsw.controller.exceptions.WrongChosenTilesFromBoardException;
+import it.polimi.ingsw.controller.exceptions.WrongNumberOfPlayersException;
 import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerState;
@@ -189,8 +191,12 @@ public class LobbyController
      */
     @Override
     public synchronized void createGame(ClientInterface user, String nickname, int numberOfPlayer)
-            throws AlreadyTakenNicknameException, AlreadyInGameException, FileNotFoundException {
-
+            throws AlreadyTakenNicknameException, AlreadyInGameException, FileNotFoundException, WrongNumberOfPlayersException {
+        if(!(numberOfPlayer>=2 && numberOfPlayer<=4)) {
+            WrongNumberOfPlayersException wrongNumberOfPlayersException = new WrongNumberOfPlayersException();
+            user.onException(nickname, wrongNumberOfPlayersException);
+            throw  wrongNumberOfPlayersException;
+        }
         if(!viewToNicknameMap.containsValue(nickname)){
             createNewGame(user, nickname, numberOfPlayer);
         } else if (user != nicknameToViewMap.get(nickname)) {

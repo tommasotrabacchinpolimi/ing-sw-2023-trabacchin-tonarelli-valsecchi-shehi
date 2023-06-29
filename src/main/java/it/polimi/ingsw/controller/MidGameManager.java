@@ -76,7 +76,6 @@ public class MidGameManager extends GameManager {
             InputCheck.checkActiveTilesInBoard(chosenTiles, bookShelf.getTileSubjectTaken(),board.getBoard());
             bookShelf.addTileSubjectTaken(tiles, chosenColumn);
             board.removeSelectedTileSubject(chosenTiles);
-           // bookShelf.addTileSubjectTaken(tiles, chosenColumn);
             verifyFinalGame(user);
             if (verifyRefillBoard() && getController().getState().getGameState()!=GameState.END) {
                 getController().getState().getBoard().refillBoard(getController().getState().getPlayersNumber());
@@ -84,9 +83,9 @@ public class MidGameManager extends GameManager {
             verifyAdjacentTiles(player);
             verifyPersonalGoal(player);
 
-            //verifyCommonGoal(user);
+            verifyCommonGoal(user);
             //for test only
-            int score1 = getController().getState().getCommonGoal1().removeAvailableScore();
+            /*int score1 = getController().getState().getCommonGoal1().removeAvailableScore();
             System.out.println("score1 = " + score1);
             int score2 = getController().getState().getCommonGoal2().removeAvailableScore();
             System.out.println("score2 = " + score2);
@@ -104,7 +103,7 @@ public class MidGameManager extends GameManager {
             System.out.println("notified2");
             /////////////////////////////////////
 
-            player.getPointPlayer().setScoreEndGame(1);
+            player.getPointPlayer().setScoreEndGame(1);*/
 
             setNextCurrentPlayer();
         }
