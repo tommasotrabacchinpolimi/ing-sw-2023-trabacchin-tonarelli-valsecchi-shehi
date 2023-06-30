@@ -346,7 +346,6 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
      */
     @Override
     public void onStateChanged(GameState gameState) {
-        System.out.println("receiving new state "+ gameState);
         synchronized (receiverLock) {
             try {
                 viewData.setGameState(gameState.toString());
