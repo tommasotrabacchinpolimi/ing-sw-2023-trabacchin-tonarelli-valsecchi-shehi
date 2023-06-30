@@ -11,6 +11,9 @@ package it.polimi.ingsw.utils.color;
  * This class is used to create and manage simple MyShelfie attributes without additional properties or behaviors.
  *
  * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
  * @version 1.0
  * @since 2023-06-28
  */
