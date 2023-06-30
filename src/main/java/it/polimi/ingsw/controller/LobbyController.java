@@ -284,8 +284,6 @@ public class LobbyController
      */
     @Override
     public synchronized void onConnectionLost(ClientInterface user) {
-        System.out.println("connection lost");
-
         if(viewControllerMap.get(user) != null) {
             viewControllerMap.get(user).onConnectionLost(user);
         }
@@ -317,6 +315,7 @@ public class LobbyController
             dispatcher.removeController(user, c);
         }
         viewControllerMap.remove(user);
+        //nicknameToViewMap.remove(viewToNicknameMap.get(user));
         //viewToNicknameMap.remove(user);
     }
 
@@ -362,7 +361,6 @@ public class LobbyController
             controllerViewMap.get(c).add(user);
             viewControllerMap.put(user, c);
             dispatcher.setController(user, c);
-            System.out.println(nickname + " joining " + c);
             c.registerPlayer(user, nickname);
         }
     }
@@ -426,7 +424,6 @@ public class LobbyController
         nicknameToViewMap.put(nickname, user);
         dispatcher.setController(user, controller);
 
-        System.out.println(nickname + " joining " + controller);
         controller.registerPlayer(user, nickname);
 
         list.add(user);
@@ -438,7 +435,6 @@ public class LobbyController
                     ClientInterface u = waitingUsers.remove(0);
                     list.add(u);
                     dispatcher.setController(u, controller);
-                    //System.out.println(nickname + " joining " + controller);
                     controller.registerPlayer(u, viewToNicknameMap.get(u));
                 }
             }

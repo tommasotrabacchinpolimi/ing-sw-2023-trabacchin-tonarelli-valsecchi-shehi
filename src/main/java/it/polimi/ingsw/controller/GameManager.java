@@ -89,11 +89,16 @@ public abstract class GameManager {
      */
     public synchronized void quitGame(ClientInterface view) {
         getController().getState().getPlayerFromView(view).setPlayerState(PlayerState.QUITTED);
+        getController().unregisterPlayer(view);
         //getController().getLobbyController().onQuitGame(view);
-        setNextCurrentPlayer();
+
         if(getController().getState().getPlayers().stream().filter(p->p.getPlayerState()!=PlayerState.QUITTED).count() <= 1) {
             getController().getState().setGameState(GameState.END);
             getController().getLobbyController().onEndGame(getController());
+            getController().unregisterAllPlayer();
+        }
+        else {
+            setNextCurrentPlayer();
         }
     }
 
@@ -142,7 +147,6 @@ public abstract class GameManager {
             p.getBookShelf().setOnBookShelfUpdated(view);
         }
         for(Player p : getController().getState().getPlayers()){
-            //System.out.println("...Register Listeners on "+p.getNickName() + " of "+ getController().getState().getPlayerFromView(oldView).getNickName());
             p.removeOnPlayerStateChangedListener(oldView);
             p.setOnPlayerStateChangedListener(view);
         }

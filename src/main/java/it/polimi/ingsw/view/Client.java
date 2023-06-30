@@ -346,12 +346,9 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
      */
     @Override
     public void onStateChanged(GameState gameState) {
-        System.out.println("waiting state changed");
         synchronized (receiverLock) {
             try {
-                System.out.println("gamestate changed arrived in client " + gameState.toString());
                 viewData.setGameState(gameState.toString());
-                System.out.println("end");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -530,7 +527,6 @@ public class Client implements ClientInterface, LogicInterface, OnClientConnecti
     @Override
     public void onPlayersListChanged(List<String> players) {
         synchronized (receiverLock) {
-            System.out.println("player list : " + players);
             viewData.setPlayers(players);
         }
     }

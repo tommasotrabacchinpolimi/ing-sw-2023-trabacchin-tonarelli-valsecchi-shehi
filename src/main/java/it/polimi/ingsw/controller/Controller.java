@@ -171,6 +171,35 @@ public class Controller implements OnServerConnectionLostListener, ControllerInt
         gameManager.quitGame(view);
     }
 
+    public void unregisterPlayer(ClientInterface view) {
+        getState().removeAchievedCommonGoalListener(view);
+        getState().removeOnAdjacentTilesUpdatedListener(view);
+        getState().removeOnAssignedCommonGoalListener(view);
+        getState().getBoard().removeOnBoardRefilledListener(view);
+        getState().getBoard().removeOnBoardUpdatedListener(view);
+        for(Player player : getState().getPlayers()) {
+            player.getBookShelf().removeOnBookShelfUpdated(view);
+            player.removeOnPlayerStateChangedListener(view);
+            player.getPointPlayer().removeOnPointsUpdatedListener(view);
+            player.removeOnAssignedPersonalGoalListener(view);
+        }
+        getState().removeOnChangedCommonGoalAvailableScoreListener(view);
+        getState().removeOnCurrentPlayerChangedListener(view);
+        getState().removeOnExceptionsListener(view);
+        getState().removeLastPlayerUpdatedListeners(view);
+        getState().removeMessageSentListener(view);
+        getState().removeOnPlayersListChangedListener(view);
+        getState().removeStateChangedListener(view);
+        getState().removeOnWinnerChangedListener(view);
+        getState().removeOnAchievedPersonalGoalListener(view);
+    }
+
+    public void unregisterAllPlayer() {
+        for(Player player : getState().getPlayers()) {
+            unregisterPlayer(player.getVirtualView());
+        }
+    }
+
     /**
      * Sends a message in the chat.
      * @param view The {@linkplain ClientInterface client interface} of the sender.

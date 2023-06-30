@@ -295,9 +295,7 @@ public class BookShelf implements Serializable, OnUpdateNeededListener {
             tileSubjectTaken[row][column] = t;
             --row;
         }
-        System.out.println("starting notifying bookshelves update");
         notifyOnBookShelfUpdated();
-        System.out.println("finished notifying bookshelf update");
     }
 
     /**

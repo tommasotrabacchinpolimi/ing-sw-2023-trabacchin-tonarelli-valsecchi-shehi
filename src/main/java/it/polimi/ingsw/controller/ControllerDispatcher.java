@@ -140,6 +140,6 @@ public class ControllerDispatcher implements LobbyControllerInterface, Controlle
      * @see Controller
      */
     public void removeController(ClientInterface view, Controller controller) {
-        viewToControllerMap.remove(view);
+        viewToControllerMap.remove(view, controller);
     }
 }

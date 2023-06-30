@@ -197,9 +197,7 @@ public class ViewData {
      */
     public void setGameState(String gameState) throws IOException {
         this.gameState = gameState;
-        System.out.println("gamestate changed arrived in view data");
         userInterface.onGameStateChanged();
-        System.out.println("gamestate changed exited from view data");
     }
 
     /**

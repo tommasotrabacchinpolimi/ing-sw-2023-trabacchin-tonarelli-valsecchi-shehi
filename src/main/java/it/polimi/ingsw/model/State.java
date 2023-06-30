@@ -215,7 +215,6 @@ public class State implements Serializable, OnUpdateNeededListener {
         exceptionsListeners = new LinkedList<>();
         onWinnerChangedListeners = new LinkedList<>();
         onPlayersListChangedListeners = new LinkedList<>();
-        System.err.println("a state is being created");
     }
 
     /**
@@ -611,10 +610,8 @@ public class State implements Serializable, OnUpdateNeededListener {
      * @see Player
      */
     public boolean addPlayer(Player player){
-        System.out.println("adding player");
         if(players.stream().anyMatch(p-> p.getNickName().equals(player.getNickName())) || players.size() == playersNumber)
         {
-            System.out.println("player not added");
             return false;
         }
 
@@ -730,9 +727,7 @@ public class State implements Serializable, OnUpdateNeededListener {
     public void checkCommonGoal(Player player){
        List<EntryPatternGoal> result = new ArrayList<>();
         int newScore;
-        System.out.println("checking common goal 1"+commonGoal1);
        result = commonGoal1.rule(player.getBookShelf().toTileTypeMatrix());
-       System.out.println("finished checking commong goal 1");
        if(result != null && player.getPointPlayer().getScoreCommonGoal1() == 0){
            newScore = commonGoal1.removeAvailableScore();
            if(newScore != 0) {
@@ -741,9 +736,7 @@ public class State implements Serializable, OnUpdateNeededListener {
                notifyChangedCommonGoalAvailableScore(commonGoal1.getAvailableScore(), 1);
            }
        }
-        System.out.println("finished common goal 2"+commonGoal2);
        result = commonGoal2.rule(player.getBookShelf().toTileTypeMatrix());
-       System.out.println("finished common goal 2");
        if(result != null && player.getPointPlayer().getScoreCommonGoal2() == 0){
            newScore = commonGoal2.removeAvailableScore();
            if(newScore != 0) {
@@ -882,7 +875,6 @@ public class State implements Serializable, OnUpdateNeededListener {
      */
     private void notifyStateChanged(){
         for(OnStateChangedListener stateChangedListener : stateChangedListeners){
-            System.out.println("game state changed notified");
             stateChangedListener.onStateChanged(this.getGameState());
         }
     }
@@ -904,13 +896,11 @@ public class State implements Serializable, OnUpdateNeededListener {
      * @see OnMessageSentListener
      */
     private void notifyMessageSent() {
-        System.out.println("try messages sent");
         ChatMessage message = messages.get(messages.size()-1);
         List<String> nicknameReceivers = message.getReceivers().stream().map(Player::getNickName).toList();
         for(OnMessageSentListener listener : messageSentListeners){
             listener.onMessageSent(message.getSender().getNickName(), nicknameReceivers, message.getText());
         }
-        System.out.println("messages sent");
     }
 
     /**
@@ -981,7 +971,6 @@ public class State implements Serializable, OnUpdateNeededListener {
         for(Player player : players) {
             list.add(player.getNickName());
         }
-        System.out.println("players list notified " + list);
         for(OnPlayersListChangedListener onPlayersListChangedListener : onPlayersListChangedListeners) {
 
             onPlayersListChangedListener.onPlayersListChanged(list);

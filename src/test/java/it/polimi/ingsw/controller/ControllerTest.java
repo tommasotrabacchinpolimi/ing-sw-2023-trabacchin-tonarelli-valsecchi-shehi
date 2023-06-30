@@ -44,7 +44,6 @@ public class ControllerTest {
 
         ClientInterface firstPlayer = model.getCurrentPlayer().getVirtualView();
         int firstPlayerIndex = clients.indexOf(firstPlayer);
-        System.out.println("first player index = "+firstPlayerIndex);
         Collections.rotate(clients, -firstPlayerIndex);
 
         int currentPlayerIndex = 0;

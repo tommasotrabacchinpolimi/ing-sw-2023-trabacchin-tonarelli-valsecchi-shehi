@@ -4,6 +4,7 @@ import it.polimi.ingsw.view.tui.TUI;
 import it.polimi.ingsw.view.tui.input.chatinput.AskReceiver;
 import it.polimi.ingsw.view.tui.input.chatinput.AskText;
 import it.polimi.ingsw.view.tui.input.draginput.AskCoordinates;
+import it.polimi.ingsw.view.tui.input.setup.AskNickname;
 import it.polimi.ingsw.view.tui.page.*;
 
 import java.io.PrintStream;
@@ -56,8 +57,9 @@ public class InputSelector extends Input{
                 break;
             case "quit":
                 getTUI().getLogicController().quitGame();
-                getTUI().launchUI();
-                return;
+                getTUI().nullPage();
+                getTUI().setCurrentInput(new AskNickname(getTUI(), getOut()));
+                break;
             case "message":
                 if(getTUI().getModel().getPlayers().size() == 2) {
                     getTUI().setCurrentInput(new AskText(getTUI(), getOut(), getTUI().getModel().getPlayers().stream().filter(p -> !p.equals(getTUI().getModel().getThisPlayer())).findFirst().get()));

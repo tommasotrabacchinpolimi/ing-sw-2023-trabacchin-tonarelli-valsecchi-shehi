@@ -82,9 +82,8 @@ public class ChatManager {
         Arrays.stream(receiversNickname)
                 .forEach(rec -> receivers.add(controller.getState().getPlayerFromNick(rec)));
 
-        if(receiversNickname.length != receivers.size()) {
-            System.err.println("Error in receivers creation");
-        }
+        //if(receiversNickname.length != receivers.size()) {
+        //}
 
         Player senderPlayer = controller.getState().getPlayers()
                 .stream()
