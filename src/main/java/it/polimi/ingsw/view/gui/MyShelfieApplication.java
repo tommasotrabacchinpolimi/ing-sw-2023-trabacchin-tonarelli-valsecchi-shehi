@@ -26,16 +26,24 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * <p>This class is used to define some default path and commands allowed
- * by every class that has to deal with the graphical user interface</p>
+ * The GameEngine class represents the engine for a multiplayer game.
+ * It handles game logic, player interactions, and user interface rendering.
  *
- * @author Tommaso Trabacchin
- * @author Melanie Tonarelli
- * @author Emanuele Valsecchi
- * @author Adem Shehi
- * @version 2.0
- * @see Application
- * @since 19/05/2023
+ * <p>This class provides methods for managing the game flow, handling player actions,
+ * and displaying game screens. It also manages the waiting and winning pages
+ * to provide a seamless user experience.</p>
+ *
+ * <p>The GameEngine class serves as the core component of the game system,
+ * coordinating different game elements and ensuring smooth gameplay.</p>
+ *
+ * <p>Usage example:</p>
+ * <pre>{@code
+ * GameEngine engine = new GameEngine();
+ * engine.startGame();
+ * }</pre>
+ *
+ * @since 2023-06-28
+ * @version 1.0
  */
 public abstract class MyShelfieApplication extends Application {
 
@@ -98,9 +106,16 @@ public abstract class MyShelfieApplication extends Application {
      */
     private WindowSizeChangeListener windowSizeChangeListener;
 
+    /**
+     * The waiting page currently being displayed.
+     */
     private WaitingPage waitingPage = null;
 
+    /**
+     * The winning page currently being displayed.
+     */
     private WinningPage winningPage = null;
+
 
     /**
      * This method loads the font in the graphical user interface
@@ -536,25 +551,41 @@ public abstract class MyShelfieApplication extends Application {
         waitingPage = null;
     }
 
+    /**
+     * Checks if a waiting page is currently displayed.
+     *
+     * @return true if a waiting page is displayed, false otherwise.
+     */
     public boolean isInWaiting() {
         return waitingPage != null;
     }
 
+    /**
+     * Displays the winning page with the specified information.
+     *
+     * @param winner              the name of the winner, or null if the game is over without a winner.
+     * @param pointPlayerDisplay  a map containing the points for each player.
+     * @param isThisPlayer        a boolean indicating whether the current player is the winner.
+     */
     public void showWinningPage(String winner, Map<String, Integer> pointPlayerDisplay, boolean isThisPlayer) {
         if (winner == null)
             winningPage = new WinningPage(scene, "The game is over", pointPlayerDisplay);
         else if (isThisPlayer)
             winningPage = new WinningPage(scene, "You are the winner", pointPlayerDisplay);
         else
-            winningPage = new WinningPage(scene, winner + "is the winner", pointPlayerDisplay);
+            winningPage = new WinningPage(scene, winner + " is the winner", pointPlayerDisplay);
     }
 
     protected void onCloseWindowEventAction(EventHandler<WindowEvent> newOnCloseEventHandler){
         this.stage.setOnCloseRequest(newOnCloseEventHandler);
     }
 
+    /**
+     * Hides the winning view by hiding the winning page and setting it to null.
+     */
     protected void hideWinningView() {
         winningPage.hidePage();
         winningPage = null;
     }
+
 }
