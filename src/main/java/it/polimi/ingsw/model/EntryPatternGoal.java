@@ -7,8 +7,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * This class was design to represent a single {@link TileType} entry in a "pattern" for a {@link PersonalGoal PersonalGoal} card.
- * Its usage was then extended to retrieve cards in a {@link BookShelf bookshelf} that satisfy a {@link CommonGoal}
+ * This class was designed to represent a single {@link TileType} entry in a "pattern" for a {@link PersonalGoal PersonalGoal} card.
+ * Its usage was then extended to retrieve cards in a {@link BookShelf bookshelf} that satisfies a {@link CommonGoal}
  *
  * @see PersonalGoal
  * @see TileType

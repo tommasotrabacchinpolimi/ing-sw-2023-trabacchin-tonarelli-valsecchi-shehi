@@ -19,18 +19,39 @@ import javafx.stage.Stage;
  */
 public class WindowSizeChangeListener implements ChangeListener<Number> {
 
+    /**
+     * Final Attribute indicating the proportion to screen
+     */
     private final static double PROPORTION_TO_SCREEN = 0.35;
 
+    /**
+     * The Stage window to listen for size changes.
+     */
     private final Stage stage;
 
+    /**
+     * The minimum size proportion of the screen.
+     */
     private final double minSizeProportion;
 
+    /**
+     * Indicates whether the listener is active or not.
+     */
     private boolean isActive;
 
+    /**
+     * The current height ratio of the stage.
+     */
     private double ratioHeight;
 
+    /**
+     * The current width ratio of the stage.
+     */
     private double ratioWidth;
 
+    /**
+     *  The desired aspect ratio of the stage.
+     */
     private final double aspectRatio;
 
     /**

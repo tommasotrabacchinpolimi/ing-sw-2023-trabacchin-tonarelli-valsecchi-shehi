@@ -41,19 +41,19 @@ Project requirements are available [here](src/main/resources/it.polimi.ingsw/rul
 ## How to run the game
 
 ## UML diagrams
-The structure of the whole system is displayed by different UMLs. In the `uml` directory, there are two subdirectories:
+The structure of the whole system is displayed by different UMLs. In the `deliveries/uml` directory, there are two subdirectories:
 1. `handcraftedUML` which contains the initial handcrafted diagrams, such as:
-    - [model class diagram](uml/handcraftedUML/handcrafted_model_class_diagram.png);
-    - [controller class diagram](uml/handcraftedUML/handcrafted_controller_class_diagram.png);
-    - [network sequence diagrams](uml/handcraftedUML/sequence-diagrams).
+    - [model class diagram](deliveries/uml/handcraftedUML/handcrafted_model_class_diagram.png);
+    - [controller class diagram](deliveries/uml/handcraftedUML/handcrafted_controller_class_diagram.png);
+    - [network sequence diagrams](deliveries/uml/handcraftedUML/sequence-diagrams).
 2. `finalUML` which contains the final diagram, generated from the code by automated tools.
 
 ## Testing
 The tests achieved the following coverage:
 1. Model 
-<img src="test-coverage/model-test.png">
+<img src="deliveries/test-coverage/model-test.png">
 2. Controller
-   <img src="test-coverage/controller-test.png">
+   <img src="deliveries/test-coverage/controller-test.png">
 
 ## JavaDoc
 

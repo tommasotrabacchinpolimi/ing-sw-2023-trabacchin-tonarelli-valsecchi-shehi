@@ -41,7 +41,7 @@ public abstract class CommonGoal implements Serializable {
     private final Stack<Integer> scoringTokens;
 
     /**
-     * Explanation of the Common Goal Card
+     * Description of the Common Goal Card
      *
      * @see CommonGoal
      */
