@@ -52,6 +52,7 @@ where:
 * ```socketPort ``` : Socket port number.
 * ```turnDuration ``` : The maximum duration of a game turn (associated with a single player) in milliseconds.
 * ```timeOut ``` : Duration in milliseconds after which the connection is considered lost.
+
 Please, note that RMI port and socket port have to be different.
 
 ### Client
@@ -63,6 +64,8 @@ where:
 * ``` tui|gui ``` : ``` tui ``` or ```gui ``` depending on which user interface the user wants to use.
 * ```timeOut ``` : Duration in milliseconds after which the connection is considered lost.
 * ``` localIP ``` : Local IP of the machine that host the client.
+
+In order to run the GUI, `openJFX` is required.
 
 ## UML diagrams
 The structure of the whole system is displayed by different UMLs. In the `deliveries/uml` directory, there are two subdirectories:
@@ -78,6 +81,10 @@ The tests achieved the following coverage:
 <img src="deliveries/test-coverage/model-test.png">
 2. Controller
    <img src="deliveries/test-coverage/controller-test.png">
+
+
+## JavaDoc
+The following documentation includes a description of all classes and methods: [javadoc](deliveries/javadoc).
 
 ## Libraries and Plugins
 | Library/Plugin | Description                                                                   |
