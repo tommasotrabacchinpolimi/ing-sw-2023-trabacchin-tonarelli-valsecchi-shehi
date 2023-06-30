@@ -39,6 +39,10 @@ Project requirements are available [here](src/main/resources/it.polimi.ingsw/rul
 | Advanced functionality 4 | ⛔ Persistence                                                            |
 
 ## How to run the game
+Firstly, download the jar from the directory [jar](deliveries/jar).
+# Server
+
+# Client
 
 ## UML diagrams
 The structure of the whole system is displayed by different UMLs. In the `deliveries/uml` directory, there are two subdirectories:
