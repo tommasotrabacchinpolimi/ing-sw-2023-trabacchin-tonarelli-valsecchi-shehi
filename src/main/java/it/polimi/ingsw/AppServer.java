@@ -19,6 +19,15 @@ public class AppServer {
     /**
      * The entry point of the server application.
      *
+     * @apiNote The server should be launched with the following parameters:<ul>
+     *     <li>{@code args[0]} -> Local IP of the machine that host the server</li>
+     *     <li>{@code args[1]} -> RMI port number</li>
+     *     <li>{@code args[2]} -> Socket port number</li>
+     *     <li>{@code args[3]} -> Turn duration in milli-seconds</li>
+     *     <li>{@code args[4]} -> Duration in milli-seconds after which the connection is considered lost</li>
+     * </ul>
+     * <p><b>Please note that RMI port and Socket port have to be different</b></p>
+     *
      * @param args The command-line arguments.
      * @throws RemoteException        if a remote error occurs.
      * @throws AlreadyBoundException  if the RMI object is already bound.
@@ -41,8 +50,10 @@ public class AppServer {
             System.out.println("Parameters are illegal!");
             System.exit(-1);
         }
+
         System.setProperty("java.rmi.server.hostname", args[0]);
         System.setProperty("sun.rmi.transport.connectionTimeout", String.valueOf(timeOutDuration));
+
         LobbyController lobbyController = new LobbyController(turnDuration);
         ControllerDispatcher controllerDispatcher = new ControllerDispatcher(lobbyController);
         ServerDispatcher serverDispatcher = new ServerDispatcher(controllerDispatcher);

@@ -108,6 +108,7 @@ public class GUI extends UI {
         Platform.runLater(() -> {
             guiLauncher.showWaitingToReconnect();
         });
+
         getLogicController().reConnect();
         getLogicController().joinGame(getModel().getThisPlayer());
     }
