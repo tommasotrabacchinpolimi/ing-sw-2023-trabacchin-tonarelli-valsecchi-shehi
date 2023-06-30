@@ -42,6 +42,9 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class GUI extends UI {
 
+    /**
+     * Represents GuiLauncher object.
+     */
     GUILauncher guiLauncher;
 
     /**
@@ -108,6 +111,7 @@ public class GUI extends UI {
         Platform.runLater(() -> {
             guiLauncher.showWaitingToReconnect();
         });
+
         getLogicController().reConnect();
         getLogicController().joinGame(getModel().getThisPlayer());
     }
@@ -145,7 +149,7 @@ public class GUI extends UI {
      */
     @Override
     public synchronized void showWinner() {
-        if(getModel().getGameState().equals("END"))
+        if (getModel().getGameState().equals("END"))
             guiLauncher.showWinningPageOperation();
         // TODO: Implement displaying the winner in GUI
     }
@@ -185,7 +189,7 @@ public class GUI extends UI {
 
                     guiLauncher.hideWaitingView();
 
-                    if(!isGUILauncherSet()) {
+                    if (!isGUILauncherSet()) {
                         System.out.println("in if");
                         guiLauncher.manageMainInterface();
                         System.out.println("out of manager main interface");
@@ -215,10 +219,20 @@ public class GUI extends UI {
         });
     }
 
+    /**
+     * Returns the current value of the flag indicating if the GUI launcher is set.
+     *
+     * @return {@code true} if the GUI launcher is set, {@code false} otherwise.
+     */
     public synchronized boolean isGUILauncherSet() {
         return isGUILauncherSet;
     }
 
+    /**
+     * Sets the flag indicating if the GUI launcher is set.
+     *
+     * @param GUILauncherSet The value to set for the GUI launcher flag.
+     */
     public synchronized void setGUILauncherSet(boolean GUILauncherSet) {
         isGUILauncherSet = GUILauncherSet;
     }

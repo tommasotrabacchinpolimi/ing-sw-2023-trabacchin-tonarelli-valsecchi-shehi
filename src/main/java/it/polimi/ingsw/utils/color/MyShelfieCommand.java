@@ -2,6 +2,10 @@ package it.polimi.ingsw.utils.color;
 
 /**
  * Abstracts ANSI codes with intuitive names. It maps a command (e.g. CLEAR_SCREEN) with a code.
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
  */
 public class MyShelfieCommand {
 

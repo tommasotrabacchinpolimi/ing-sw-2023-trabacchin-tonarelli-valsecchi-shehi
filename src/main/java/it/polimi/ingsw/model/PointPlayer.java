@@ -26,37 +26,52 @@ import java.util.Objects;
 public class PointPlayer implements Serializable, OnUpdateNeededListener {
     @Serial
     private static final long serialVersionUID = 973546426438574L;
+
+
     /**
      * Number of points assigned for the {@linkplain State#getCommonGoal1() first common goal}.
      */
     private int scoreCommonGoal1;
+
+
     /**
      * Number of points assigned for the {@linkplain State#getCommonGoal2() second common goal}
      */
     private int scoreCommonGoal2;
+
+
     /**
      * Number of points assigned to the first player that fills his bookshelf
      */
     private int scoreEndGame;
+
+
     /**
      * Number of points assigned for the personal goal
      * @see PersonalGoal
      */
     private int scorePersonalGoal;
+
+
     /**
      * Number of points assigned for the groups of adjacent tiles of the same type in the player's bookshelf
      */
     private int scoreAdjacentGoal;
+
+
     /**
      * Listener to the point updated
      * @see OnPointsUpdatedListener
      */
     private final List<OnPointsUpdatedListener> onPointsUpdatedListeners;
+
+
     /**
      * Player associated with this points
      * @see Player
      */
     private Player player;
+
 
     /**
      * Constructs a new PointPlayer object with initial scores set to zero.
@@ -70,6 +85,7 @@ public class PointPlayer implements Serializable, OnUpdateNeededListener {
         onPointsUpdatedListeners = new LinkedList<>();
     }
 
+
     /**
      * Returns the score for common goal 1
      * @return the score for common goal 1
@@ -79,6 +95,7 @@ public class PointPlayer implements Serializable, OnUpdateNeededListener {
     public int getScoreCommonGoal1() {
         return scoreCommonGoal1;
     }
+
 
     /**
      * Sets the score for common goal 1 and notifies the listeners of the point update.
@@ -91,6 +108,7 @@ public class PointPlayer implements Serializable, OnUpdateNeededListener {
         notifyOnPointUpdated();
     }
 
+
     /**
      * Returns the score for common goal 2.
      * @return the score for common goal 2
@@ -100,6 +118,7 @@ public class PointPlayer implements Serializable, OnUpdateNeededListener {
     public int getScoreCommonGoal2() {
         return scoreCommonGoal2;
     }
+
 
     /**
      * Sets the score for common goal 2 and notifies the listeners of the point update.
@@ -112,6 +131,7 @@ public class PointPlayer implements Serializable, OnUpdateNeededListener {
         notifyOnPointUpdated();
     }
 
+
     /**
      * Returns the score for end game.
      * @return the score for end game
@@ -120,6 +140,7 @@ public class PointPlayer implements Serializable, OnUpdateNeededListener {
     public int getScoreEndGame() {
         return scoreEndGame;
     }
+
 
     /**
      * Sets the score for end game and notifies the listeners of the point update.
@@ -131,6 +152,7 @@ public class PointPlayer implements Serializable, OnUpdateNeededListener {
         notifyOnPointUpdated();
     }
 
+
     /**
      * Returns the score for personal goal.
      * @return the score for personal goal
@@ -139,6 +161,7 @@ public class PointPlayer implements Serializable, OnUpdateNeededListener {
     public int getScorePersonalGoal() {
         return scorePersonalGoal;
     }
+
 
     /**
      * Sets the score for personal goal and notifies the listeners of the point update.
@@ -149,6 +172,7 @@ public class PointPlayer implements Serializable, OnUpdateNeededListener {
         this.scorePersonalGoal = scorePersonalGoal;
         notifyOnPointUpdated();
     }
+
 
     /**
      * Returns the score for adjacent goal.
@@ -169,6 +193,7 @@ public class PointPlayer implements Serializable, OnUpdateNeededListener {
         notifyOnPointUpdated();
     }
 
+
     /**
      * Method that return the total points granted to the player.
      * @return the total point of the player.
@@ -176,6 +201,7 @@ public class PointPlayer implements Serializable, OnUpdateNeededListener {
     public Integer getTotalScore(){
         return scoreAdjacentGoal + scoreEndGame + scorePersonalGoal + scoreCommonGoal1 + scoreCommonGoal2;
     }
+
 
     /**
      * Returns the player associated with this PointPlayer.
@@ -187,6 +213,7 @@ public class PointPlayer implements Serializable, OnUpdateNeededListener {
         return player;
     }
 
+
     /**
      * Sets the player associated with this PointPlayer.
      * @param player the player to set
@@ -196,6 +223,7 @@ public class PointPlayer implements Serializable, OnUpdateNeededListener {
     public void setPlayer(Player player) {
         this.player = player;
     }
+
 
     /**
      * Notifies the listeners of the point update by invoking the onPointsUpdated method on each listener.
@@ -208,6 +236,7 @@ public class PointPlayer implements Serializable, OnUpdateNeededListener {
             onPointsUpdatedListener.onPointsUpdated(player.getNickName(), scoreAdjacentGoal, scoreCommonGoal1, scoreCommonGoal2, scoreEndGame, scorePersonalGoal);
         }
     }
+
 
     /**
      * Sets the listener for points updated event.

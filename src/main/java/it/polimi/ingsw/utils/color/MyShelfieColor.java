@@ -8,6 +8,11 @@ import org.jetbrains.annotations.NotNull;
  * A set of color designed for MyShelfie application
  *
  * @see Color
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
  */
 public enum MyShelfieColor {
     /**

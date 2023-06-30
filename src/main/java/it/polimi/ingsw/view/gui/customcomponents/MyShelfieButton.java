@@ -15,8 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static it.polimi.ingsw.utils.color.MyShelfieColor.BONE;
-
 /**
+ * The {@code MyShelfieButton} class represents a customized button in the MyShelfie GUI.
+ * It extends the {@code Button} class from JavaFX and implements the {@code MyShelfieComponent} interface.
+ * The class provides various customization options for the button's appearance and behavior.
+ *
  * @version 2.0
  * @since 08/06/2023
  *
