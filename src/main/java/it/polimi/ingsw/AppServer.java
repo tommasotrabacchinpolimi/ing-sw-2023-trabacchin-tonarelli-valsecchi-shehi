@@ -13,6 +13,11 @@ import java.rmi.registry.Registry;
 
 /**
  * The main class for the server application.
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ *
  */
 public class AppServer {
 
