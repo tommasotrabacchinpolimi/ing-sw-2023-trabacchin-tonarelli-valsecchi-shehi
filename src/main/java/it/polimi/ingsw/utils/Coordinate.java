@@ -14,6 +14,11 @@ import java.util.Objects;
  * @see InputCheck
  * @see it.polimi.ingsw.model.EntryPatternGoal
  * @see it.polimi.ingsw.controller.MidGameManager
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
  */
 public class Coordinate implements Serializable {
     @Serial

@@ -8,7 +8,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * InputCheck class as described below
  *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
  */
 public class InputCheck {
     /**
