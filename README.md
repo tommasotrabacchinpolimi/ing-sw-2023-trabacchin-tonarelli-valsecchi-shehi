@@ -39,10 +39,30 @@ Project requirements are available [here](src/main/resources/it.polimi.ingsw/rul
 | Advanced functionality 4 | ⛔ Persistence                                                            |
 
 ## How to run the game
-Firstly, download the jar from the directory [jar](deliveries/jar).
-# Server
+Firstly, download the jar from the following [link](https://drive.google.com/drive/folders/1CzPkN57-Kl8FTOIjUrhLuI9CXQdjTPhN?usp=sharing).
+We weren't able to upload the jars in GitHub because they exceeded the allowed maximum file size. 
+### Server
+To execute Server please run the following command
+```
+java -jar server.jar localIP rmiPort socketPort turnDuration timeOut
+```
+where:
+* ``` localIP ``` : Local IP of the machine that host the server.
+* ```rmiPort ``` : RMI port number.
+* ```socketPort ``` : Socket port number.
+* ```turnDuration ``` : The maximum duration of a game turn (associated with a single player) in milliseconds.
+* ```timeOut ``` : Duration in milliseconds after which the connection is considered lost.
+Please, note that RMI port and socket port have to be different.
 
-# Client
+### Client
+To execute Client please run the following command
+```
+java -jar client.jar tui|gui timeOut localIP
+```
+where:
+* ``` tui|gui ``` : ``` tui ``` or ```gui ``` depending on which user interface the user wants to use.
+* ```timeOut ``` : Duration in milliseconds after which the connection is considered lost.
+* ``` localIP ``` : Local IP of the machine that host the client.
 
 ## UML diagrams
 The structure of the whole system is displayed by different UMLs. In the `deliveries/uml` directory, there are two subdirectories:
@@ -58,9 +78,6 @@ The tests achieved the following coverage:
 <img src="deliveries/test-coverage/model-test.png">
 2. Controller
    <img src="deliveries/test-coverage/controller-test.png">
-
-## JavaDoc
-
 
 ## Libraries and Plugins
 | Library/Plugin | Description                                                                   |
