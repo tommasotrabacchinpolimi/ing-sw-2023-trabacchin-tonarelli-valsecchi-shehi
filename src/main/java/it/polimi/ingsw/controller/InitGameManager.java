@@ -159,15 +159,9 @@ public class InitGameManager extends GameManager {
                 rPlayer.setPersonalGoal(personalGoalsDeck.remove(0));
             }
             getController().getState().shufflePlayers();
-            //if(checkIfNotSuspended()){
-                //System.out.println("state updated");
-                getController().getState().setGameState(GameState.MID);
-                getController().setGameManager(new MidGameManager(getController()));
-                getController().getGameManager().setNextCurrentPlayer();
-            //} else {
-                //getController().getState().setGameState(GameState.SUSPENDED);
-                //getController().setGameManager(new SuspendedGameManager(getController(), GameState.MID));
-            //}
+            getController().getState().setGameState(GameState.MID);
+            getController().setGameManager(new MidGameManager(getController()));
+            getController().getGameManager().setNextCurrentPlayer();
         }
     }
 

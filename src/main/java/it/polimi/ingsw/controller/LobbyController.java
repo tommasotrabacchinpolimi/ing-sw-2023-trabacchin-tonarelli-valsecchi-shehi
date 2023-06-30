@@ -191,25 +191,30 @@ public class LobbyController
             throw  wrongNumberOfPlayersException;
         }
         if(!viewToNicknameMap.containsValue(nickname)){
+            System.out.println("creating new game");
             createNewGame(user, nickname, numberOfPlayer);
         } else if (user != nicknameToViewMap.get(nickname)) {
             if(disconnectedButInGame.contains(nickname)){
+                System.out.println("reconnecting a new player");
                 AlreadyInGameException e = new AlreadyInGameException();
                 user.onException(nickname,e);
                 throw e;
             } else {
                 //metodo nella textclient interface che dice al client che il nome è gia stato preso
                 //notify to view
+                System.out.println("error");
                 AlreadyTakenNicknameException e = new AlreadyTakenNicknameException();
                 user.onException(nickname,e);
                 throw e;
             }
         } else {
             if(viewControllerMap.containsKey(user)){
+                System.out.println("error1");
                 AlreadyInGameException e = new AlreadyInGameException();
                 user.onException(nickname,e);
                 throw e;
             } else{
+                System.out.println("creating new game2");
                 createNewGame(user, nickname, numberOfPlayer);
             }
         }
@@ -317,6 +322,7 @@ public class LobbyController
             dispatcher.removeController(user, c);
         }
         viewControllerMap.remove(user);
+        //nicknameToViewMap.remove(viewToNicknameMap.get(user));
         //viewToNicknameMap.remove(user);
     }
 
@@ -362,7 +368,6 @@ public class LobbyController
             controllerViewMap.get(c).add(user);
             viewControllerMap.put(user, c);
             dispatcher.setController(user, c);
-            System.out.println(nickname + " joining " + c);
             c.registerPlayer(user, nickname);
         }
     }
@@ -426,7 +431,6 @@ public class LobbyController
         nicknameToViewMap.put(nickname, user);
         dispatcher.setController(user, controller);
 
-        System.out.println(nickname + " joining " + controller);
         controller.registerPlayer(user, nickname);
 
         list.add(user);
@@ -438,7 +442,6 @@ public class LobbyController
                     ClientInterface u = waitingUsers.remove(0);
                     list.add(u);
                     dispatcher.setController(u, controller);
-                    //System.out.println(nickname + " joining " + controller);
                     controller.registerPlayer(u, viewToNicknameMap.get(u));
                 }
             }

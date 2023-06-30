@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.tui.input;
 
 import it.polimi.ingsw.view.tui.TUI;
 import it.polimi.ingsw.view.tui.input.setup.AskNickname;
+import it.polimi.ingsw.view.tui.page.HomePage;
 
 import java.io.PrintStream;
 
@@ -35,7 +36,7 @@ public class AskConfirm extends Input{
      */
     @Override
     public void printPrompt() {
-        getOut().println("Press 'enter' to start a new game, 'quit' to exit the app");
+        getOut().println("type 'start' to start a new game, 'quit' to exit the app");
     }
 
     /**
@@ -45,7 +46,9 @@ public class AskConfirm extends Input{
      */
     @Override
     public void readLine(String line) {
-        if(line.equals("")) {
+        if(line.equals("start")) {
+            getTUI().getLogicController().quitGame();
+            getTUI().nullPage();
             getTUI().setCurrentInput(new AskNickname(getTUI(), getOut()));
         }
         else if(line.equals("quit")) {

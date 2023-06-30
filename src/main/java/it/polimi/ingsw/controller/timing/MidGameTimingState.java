@@ -27,7 +27,6 @@ public class MidGameTimingState extends TimingState{
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                System.out.println("timer gone off");
                 timerGoOff();
             }
         };

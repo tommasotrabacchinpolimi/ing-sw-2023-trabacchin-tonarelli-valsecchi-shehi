@@ -78,6 +78,6 @@ public class WinnerPage extends Page{
         out.println();
         printOthersBookShelf(nicknames.get(0), nicknames.get(1), nicknames.get(2), othersBookshelves.get(0), othersBookshelves.get(1), othersBookshelves.get(2));
         printOthersPoint(nicknames.get(0), nicknames.get(1), nicknames.get(2), othersPoints.get(0), othersPoints.get(1), othersPoints.get(2), othersTotalPoints.get(0), othersTotalPoints.get(1), othersTotalPoints.get(2));
-        out.println(colorize("<--- Enter 'quit' to leave this game and start a new one. --->", MyShelfieAttribute.BOLD()));
+        //out.println(colorize("<--- Enter 'quit' to leave this game and 'start' to begin a new one. --->", MyShelfieAttribute.BOLD()));
     }
 }

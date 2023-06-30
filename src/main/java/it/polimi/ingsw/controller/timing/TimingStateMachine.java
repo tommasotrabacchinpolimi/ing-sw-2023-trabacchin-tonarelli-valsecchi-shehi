@@ -34,7 +34,7 @@ public class TimingStateMachine implements OnCurrentPlayerChangedListener, OnSta
     /**
      * Timer to terminate player turn.
      */
-    private Timer timer;
+    private final Timer timer;
     /**
      * Player whose turn has just terminated
      * @see Player

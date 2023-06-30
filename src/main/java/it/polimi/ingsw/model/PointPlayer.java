@@ -267,6 +267,6 @@ public class PointPlayer implements Serializable, OnUpdateNeededListener {
     @Override
     public void onUpdateNeededListener(Player player) {
         onPointsUpdatedListeners.stream()
-                .forEach(v->v.onPointsUpdated(this.player.getNickName(), scoreAdjacentGoal, scoreCommonGoal1, scoreCommonGoal2, scoreEndGame, scorePersonalGoal)/*,()->System.err.println("unable to notify about points updated")*/);
+                .forEach(v->v.onPointsUpdated(this.player.getNickName(), scoreAdjacentGoal, scoreCommonGoal1, scoreCommonGoal2, scoreEndGame, scorePersonalGoal));
     }
 }

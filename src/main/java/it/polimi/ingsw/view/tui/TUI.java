@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.tui;
 
 import it.polimi.ingsw.view.UI;
 import it.polimi.ingsw.view.ViewData;
+import it.polimi.ingsw.view.tui.input.AskConfirm;
 import it.polimi.ingsw.view.tui.input.Input;
 import it.polimi.ingsw.view.tui.input.InputSelector;
 import it.polimi.ingsw.view.tui.input.setup.AskProtocol;
@@ -98,6 +99,13 @@ public class TUI extends UI {
         this.currentInput = new InputSelector(this, printStream);
         this.page = page;
         page.show();
+    }
+
+    /**
+     * Set page to null
+     */
+    public void nullPage() {
+        this.page = null;
     }
 
     /**
@@ -219,10 +227,16 @@ public class TUI extends UI {
         }
         if (getModel().getGameState().equals("END")) {
             this.page = new WinnerPage(this);
+            this.page.show();
+
+            this.setCurrentInput(new AskConfirm(this, this.getPrintStream()));
         }
         else {
-            this.page.show();
+            if(page != null) {
+                this.page.show();
+            }
         }
+
     }
 
     /**
@@ -281,4 +295,6 @@ public class TUI extends UI {
             this.notifyAll();
         }
     }
+
+
 }

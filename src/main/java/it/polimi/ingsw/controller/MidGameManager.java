@@ -82,29 +82,7 @@ public class MidGameManager extends GameManager {
             }
             verifyAdjacentTiles(player);
             verifyPersonalGoal(player);
-
             verifyCommonGoal(user);
-            //for test only
-            int score1 = getController().getState().getCommonGoal1().removeAvailableScore();
-            System.out.println("score1 = " + score1);
-            int score2 = getController().getState().getCommonGoal2().removeAvailableScore();
-            System.out.println("score2 = " + score2);
-
-            if(score1 != 0) {
-                player.getPointPlayer().setScoreCommonGoal1(score1);
-                System.out.println("setted1");
-                getController().getState().notifyChangedCommonGoalAvailableScore(getController().getState().getCommonGoal1().getAvailableScore(), 1);
-            }
-            System.out.println("notified1");
-            if(score2 != 0) {
-                player.getPointPlayer().setScoreCommonGoal2(score2);
-                getController().getState().notifyChangedCommonGoalAvailableScore(getController().getState().getCommonGoal2().getAvailableScore(), 2);
-            }
-            System.out.println("notified2");
-            /////////////////////////////////////
-
-            player.getPointPlayer().setScoreEndGame(1);
-
             setNextCurrentPlayer();
         }
         catch (NotEnoughSpaceInBookShelfException | NoTileTakenException | WrongChosenTilesFromBoardException e){
@@ -115,6 +93,7 @@ public class MidGameManager extends GameManager {
             System.err.println(e.getMessage());
             getController().getState().setLastException(getController().getState().getCurrentPlayer().getNickName(),e);
             getController().getState().setGameState(GameState.END);
+            getController().unregisterAllPlayer();
         }
     }
 
@@ -296,6 +275,7 @@ public class MidGameManager extends GameManager {
                 getController().getState().setGameState(GameState.END);
                 Optional<Player> winner = getController().getState().getPlayers().stream().max(Comparator.comparing(p -> p.getPointPlayer().getTotalScore()));
                 winner.ifPresent(player -> getController().getState().setWinner(player));
+                getController().unregisterAllPlayer();
             }
         }
     }
