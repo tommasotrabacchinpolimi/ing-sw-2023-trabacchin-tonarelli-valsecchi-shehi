@@ -191,30 +191,25 @@ public class LobbyController
             throw  wrongNumberOfPlayersException;
         }
         if(!viewToNicknameMap.containsValue(nickname)){
-            System.out.println("creating new game");
             createNewGame(user, nickname, numberOfPlayer);
         } else if (user != nicknameToViewMap.get(nickname)) {
             if(disconnectedButInGame.contains(nickname)){
-                System.out.println("reconnecting a new player");
                 AlreadyInGameException e = new AlreadyInGameException();
                 user.onException(nickname,e);
                 throw e;
             } else {
                 //metodo nella textclient interface che dice al client che il nome è gia stato preso
                 //notify to view
-                System.out.println("error");
                 AlreadyTakenNicknameException e = new AlreadyTakenNicknameException();
                 user.onException(nickname,e);
                 throw e;
             }
         } else {
             if(viewControllerMap.containsKey(user)){
-                System.out.println("error1");
                 AlreadyInGameException e = new AlreadyInGameException();
                 user.onException(nickname,e);
                 throw e;
             } else{
-                System.out.println("creating new game2");
                 createNewGame(user, nickname, numberOfPlayer);
             }
         }
@@ -289,8 +284,6 @@ public class LobbyController
      */
     @Override
     public synchronized void onConnectionLost(ClientInterface user) {
-        System.out.println("connection lost");
-
         if(viewControllerMap.get(user) != null) {
             viewControllerMap.get(user).onConnectionLost(user);
         }
