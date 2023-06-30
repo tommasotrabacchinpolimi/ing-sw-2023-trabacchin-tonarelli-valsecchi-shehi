@@ -6,6 +6,10 @@ import it.polimi.ingsw.view.ViewData;
 import it.polimi.ingsw.view.gui.customcomponents.guitoolkit.MyShelfieAlertCreator;
 import it.polimi.ingsw.view.gui.layout.maininterface.MainInterfaceController;
 import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -124,6 +128,19 @@ public class GUILauncher extends MyShelfieApplication {
      * Navigates to the main interface.
      */
     public void goToMainInterface() {
+
+        onCloseWindowEventAction(event -> {
+            MyShelfieAlertCreator.displayConfirmationAlert().ifPresent(value -> {
+
+                if(value == ButtonType.OK){
+                    Platform.exit();
+                    System.exit(0);
+                }
+
+                event.consume();
+            });
+        });
+
         changeToFullScreenStage(MAIN_INTERFACE_LAYOUT);
 
         try{

@@ -18,6 +18,9 @@ import java.util.Arrays;
  */
 public class TileViewInBoard implements TileSubjectViewState {
 
+    /**
+     * Padding of TileViewInBoard
+     */
     private static final double PADDING = 2.8;
 
     /**
@@ -53,6 +56,11 @@ public class TileViewInBoard implements TileSubjectViewState {
         // No action is performed to reverse the state in this implementation
     }
 
+    /**
+     * Method to get the padding.
+     *
+     * @return The value of the padding.
+     */
     @Override
     public double getPadding() {
         return PADDING;

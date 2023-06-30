@@ -20,7 +20,6 @@ import java.util.List;
 
 
 /**
- /**
  * Represents a graphical view of a tile subject in the game.
  * This class extends the JavaFX `Pane` class and implements the `MyShelfieComponent` interface.
  * It provides methods to handle the visualization and interaction with a tile subject.
@@ -396,6 +395,9 @@ public class TileSubjectView extends Pane implements MyShelfieComponent {
         }
     }
 
+    /**
+     * method to disable click
+     */
     public void disableClick() {
         disabled = true;
     }

@@ -45,6 +45,9 @@ public class MyShelfiePathTransition implements MyShelfieTransition {
      */
     private final Pane[] destinationPanes;
 
+    /**
+     * The duration type for the path transition.
+     */
     private final MyShelfieTransitionDurationType duration;
 
     /**

@@ -44,6 +44,9 @@ public class ScoringTokenView extends MyShelfieGraphicIcon {
      */
     private final String tokenIcon;
 
+    /**
+     * The Scoring value in terms of point
+     */
     private Integer scoringValue;
 
     /**
@@ -70,6 +73,12 @@ public class ScoringTokenView extends MyShelfieGraphicIcon {
 
         this.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
     }
+
+    /**
+     * Method to get the scoring Value
+     *
+     * @return the scoringValue
+     */
 
     public int getTokenPoint() {
         return scoringValue;

@@ -20,6 +20,13 @@ import java.util.List;
  * It extends the `GridPane` class and implements the `MyShelfieComponent` interface.
  * The point pane is a container that holds multiple `PointCell` components to represent individual cells in the point pane.
  * It provides methods to add and retrieve specific `PointCell` instances within the point pane.
+ *
+ *
+ * @author Tommaso Trabacchin
+ * @author Melanie Tonarelli
+ * @author Emanuele Valsecchi
+ * @author Adem Shehi
+ *
  */
 abstract class PointPane extends GridPane implements MyShelfieComponent {
 
@@ -148,22 +155,46 @@ abstract class PointPane extends GridPane implements MyShelfieComponent {
         throw new NullPointerException();
     }
 
+    /**
+     * Method to get the object representing the first seat inside the board
+     *
+     * @return The object representing the first seat cell
+     */
     public Pane getFirstPlayerSeatCell() {
         return pointCells.get(0);
     }
 
+    /**
+     * Method to get the object representing the first seat inside the board
+     *
+     * @return the object representing End Token Cell
+     */
     public Pane getEndTokenCell() {
         return pointCells.get(1);
     }
 
+
+    /**
+     * Method to get the first scoring token.
+     * @return the object representing the first scoring token.
+     */
     public Pane getFirstScoringTokenCell() {
         return pointCells.get(2);
     }
 
+    /**
+     * Method to get the second scoring token.
+     * @return The object representing the second scoring token.
+     */
     public Pane getSecondScoringTokenCell() {
         return pointCells.get(3);
     }
 
+    /**
+     * Method to graphically insert the first player in the board.
+     *
+     * @param firstPlayerSeat PlayerSeatView representing the first player seat.
+     */
     public void addFirstPlayerSeat(FirstPlayerSeatView firstPlayerSeat) {
         getFirstPlayerSeatCell().getChildren().add(firstPlayerSeat);
     }
