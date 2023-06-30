@@ -90,10 +90,10 @@ public class LoginPageController extends MyShelfieController {
         if (keyEvent.getCode() == KeyCode.ESCAPE) {
             loginInterfaceGrid.requestFocus();
 
-            if(loginNicknameInput.isVisible() && !loginNicknameInput.isDisabled() && loginNicknameInput.getText().isEmpty())
+            if (loginNicknameInput.isVisible() && !loginNicknameInput.isDisabled() && loginNicknameInput.getText().isEmpty())
                 loginNicknameInput.pseudoClassStateChanged(errorClass, false);
 
-            if(loginPlayerNumberInput.isVisible() && !loginPlayerNumberInput.isDisabled() && loginPlayerNumberInput.getText().isEmpty())
+            if (loginPlayerNumberInput.isVisible() && !loginPlayerNumberInput.isDisabled() && loginPlayerNumberInput.getText().isEmpty())
                 loginPlayerNumberInput.pseudoClassStateChanged(errorClass, false);
         }
 
@@ -110,7 +110,7 @@ public class LoginPageController extends MyShelfieController {
 
     @FXML
     private void joinGameSubmitted(InputEvent inputEvent) {
-        if(isButtonActionCalled(inputEvent)){
+        if (isButtonActionCalled(inputEvent)) {
             getNickNameFromField();
 
             getLogicController().joinGame(nickName);
@@ -120,7 +120,7 @@ public class LoginPageController extends MyShelfieController {
 
     @FXML
     private void createGameSubmitted(InputEvent inputEvent) {
-        if(isButtonActionCalled(inputEvent)){
+        if (isButtonActionCalled(inputEvent)) {
             getNickNameFromField();
 
             gameCreationUI();
@@ -129,7 +129,7 @@ public class LoginPageController extends MyShelfieController {
 
     @FXML
     private void playerNumberSubmitted(InputEvent inputEvent) {
-        if(isButtonActionCalled(inputEvent)){
+        if (isButtonActionCalled(inputEvent)) {
             executePlayerNumberSubmitted();
         }
     }
@@ -171,8 +171,8 @@ public class LoginPageController extends MyShelfieController {
         loginNicknameInput.textProperty().addListener(event -> {
             loginNicknameInput.pseudoClassStateChanged(errorClass, verifyNickname());
 
-            loginJoinButton.setDisable(verifyNickname());
-            loginCreateButton.setDisable(verifyNickname());
+            setDisableAfterTransition(loginJoinButton, verifyNickname());
+            setDisableAfterTransition(loginCreateButton, verifyNickname());
         });
     }
 
@@ -204,7 +204,7 @@ public class LoginPageController extends MyShelfieController {
      * @return false if the string inserted is a valid number
      */
     private boolean invalidNumberInput() {
-        if(loginPlayerNumberText.getText().isEmpty())
+        if (loginPlayerNumberText.getText().isEmpty())
             return true;
 
         try {
@@ -233,6 +233,17 @@ public class LoginPageController extends MyShelfieController {
                         entry(loginPlayerNumberText, 1.0),
                         entry(loginPlayerNumberButton, 0.5))
         );
+
+        loginRootPane.requestFocus();
+    }
+
+    public void restoreNickNameInputGUI() {
+        disappearingElements(List.of(loginPlayerNumberButton, loginPlayerNumberText, loginPlayerNumberInput));
+
+        showElements(Map.ofEntries(entry(loginNicknameInput, 1.0),
+                entry(loginWelcomeText, 1.0),
+                entry(loginJoinButton, 0.5),
+                entry(loginCreateButton, 0.5)));
 
         loginRootPane.requestFocus();
     }

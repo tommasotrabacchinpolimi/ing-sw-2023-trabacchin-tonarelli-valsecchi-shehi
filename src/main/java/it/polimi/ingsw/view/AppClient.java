@@ -31,16 +31,25 @@ public class AppClient {
     /**
      * The entry point of the client application.
      *
+     * @apiNote <ul>
+     *     <li>args[0] -> The choice between graphical and textual interface.</li>
+     *     <li>args[1] -> Duration in milli-seconds after which the connection is considered lost</li>
+     *     <li>args[2] -> Local IP of the machine that wants to run the client</li>
+     * </ul>
+     *
      * @param args The command-line arguments.
      * @throws NotBoundException      if the remote object is not bound.
      * @throws IOException           if an I/O error occurs.
      * @throws ClassNotFoundException if a class cannot be found.
      */
     public static void main(String[] args) throws NotBoundException, IOException, ClassNotFoundException {
-        System.setProperty("sun.rmi.transport.tcp.responseTimeout", "10000");
-        if(args.length == 2) {
-            System.setProperty("java.rmi.server.hostname", args[1]);
+
+        System.setProperty("sun.rmi.transport.tcp.responseTimeout", args[1]);
+
+        if(args.length == 3) {
+            System.setProperty("java.rmi.server.hostname", args[2]);
         }
+
         if(args[0].equals("tui"))
             TUISetup();
         else if(args[0].equals("gui"))
